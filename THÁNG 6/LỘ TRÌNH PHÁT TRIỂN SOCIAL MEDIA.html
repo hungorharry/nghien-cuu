@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lộ trình Tiếp thị Truyền thông Xã hội - Chiến lược Hiệu quả tại Việt Nam</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            animation: slideInDown 1s ease-out;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #555;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            font-size: 1.4em;
+            color: #764ba2;
+            margin: 20px 0 15px 0;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            min-width: 320px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .flow-step::after {
+            content: '↓';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+            color: #667eea;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            width: 45%;
+            opacity: 0;
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -35px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -35px;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            border-left: none;
+            border-right: 4px solid #667eea;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-card:hover {
+            transform: scale(1.05);
+        }
+
+        .skill-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .comparison-table {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .explanation-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .explanation-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .why-important {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
+
+        .practical-example {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
+
+        .interactive-stat {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interactive-stat:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+
+        .detailed-explanation {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .platform-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .platform-card:hover {
+            transform: translateX(5px);
+        }
+
+        .cost-breakdown {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        @keyframes slideInDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 50px);
+                margin-left: 50px;
+            }
+            
+            .timeline-item::before {
+                left: -35px !important;
+            }
+            
+            .timeline-content {
+                border-left: 4px solid #667eea !important;
+                border-right: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Phần đầu trang -->
+        <div class="header">
+            <h1>Lộ trình Tiếp thị Truyền thông Xã hội</h1>
+            <p>Chiến lược Hiệu quả và Bài bản tại Thị trường Việt Nam</p>
+        </div>
+
+        <!-- Tổng quan thị trường -->
+        <div class="section">
+            <h2>📊 Tổng quan Thị trường Truyền thông Xã hội Việt Nam</h2>
+            <p>Để hiểu tại sao Tiếp thị Truyền thông Xã hội lại quan trọng đến vậy, chúng ta hãy cùng nhìn vào những con số ấn tượng của thị trường Việt Nam. Với 78.44 triệu người dùng internet và 72.70 triệu người dùng mạng xã hội, Việt Nam đang trở thành một trong những thị trường kỹ thuật số năng động nhất Đông Nam Á.</p>
+            
+            <div class="detailed-explanation">
+                <h3>Tại sao những con số này quan trọng với doanh nghiệp?</h3>
+                <p>Khi 73.3% dân số đang hoạt động trên mạng xã hội, điều này có nghĩa là khách hàng tiềm năng của bạn đang dành thời gian ở đó. Tuy nhiên, điều quan trọng không phải là "có mặt" trên mạng xã hội, mà là làm thế nào để nổi bật trong môi trường cạnh tranh ngày càng khốc liệt này. Người dùng Việt Nam có những đặc điểm riêng biệt: họ ưa thích nội dung ưu tiên di động, yêu thích video ngắn, và đặc biệt coi trọng tính xác thực trong các thương hiệu họ tương tác.</p>
+            </div>
+            
+            <div style="display: flex; justify-content: space-around; margin: 20px 0; flex-wrap: wrap;">
+                <div class="interactive-stat" onclick="giaiThichThongKe('nguoiDung')">78.44 triệu người dùng mạng</div>
+                <div class="interactive-stat" onclick="giaiThichThongKe('mangXaHoi')">72.70 triệu người dùng mạng xã hội</div>
+                <div class="interactive-stat" onclick="giaiThichThongKe('tyLeThapNhap')">73.3% tỷ lệ thâm nhập</div>
+                <div class="interactive-stat" onclick="giaiThichThongKe('diDong')">Văn hóa ưu tiên di động</div>
+            </div>
+
+            <div class="why-important">
+                <h4>💡 Tại sao cần lộ trình bài bản thay vì làm tự phát?</h4>
+                <p>Nhiều doanh nghiệp mắc phải sai lầm khi nghĩ rằng chỉ cần đăng nội dung lên Facebook là đủ. Thực tế, mỗi nền tảng có thuật toán, đối tượng và văn hóa riêng. Một chiến lược hiệu quả cần hiểu sâu về từng nền tảng, biết cách tạo nội dung phù hợp, và quan trọng nhất là đo lường được hiệu quả để tối ưu hóa liên tục.</p>
+            </div>
+        </div>
+
+        <!-- Sơ đồ chiến lược 8 bước -->
+        <div class="section">
+            <h2>🗺️ Lộ trình 8 Bước Xây dựng Chiến lược Mạng Xã hội</h2>
+            <div class="flowchart">
+                <div class="flow-step" onclick="hienThiChiTietBuoc(1)">
+                    <h3>Bước 1: Nghiên cứu & Lập kế hoạch</h3>
+                    <p>Đặt nền móng vững chắc với mục tiêu cụ thể, đo lường được</p>
+                </div>
+                <div class="flow-step" onclick="hienThiChiTietBuoc(2)">
+                    <h3>Bước 2: Lựa chọn Nền tảng</h3>
+                    <p>Facebook, TikTok, Instagram, YouTube, Zalo</p>
+                </div>
+                <div class="flow-step" onclick="hienThiChiTietBuoc(3)">
+                    <h3>Bước 3: Sáng tạo Nội dung</h3>
+                    <p>Kể chuyện, Giá trị, Bản địa hóa</p>
+                </div>
+                <div class="flow-step" onclick="hienThiChiTietBuoc(4)">
+                    <h3>Bước 4: Xây dựng Cộng đồng</h3>
+                    <p>Tăng trưởng tự nhiên & Tương tác cộng đồng</p>
+                </div>
+                <div class="flow-step" onclick="hienThiChiTietBuoc(5)">
+                    <h3>Bước 5: Quảng cáo Trả phí</h3>
+                    <p>Quảng cáo Meta, Quảng cáo TikTok, Quảng cáo Zalo</p>
+                </div>
+                <div class="flow-step" onclick="hienThiChiTietBuoc(6)">
+                    <h3>Bước 6: Tiếp thị Người có Ảnh hưởng</h3>
+                    <p>Người ảnh hưởng cấp nhỏ & Thương mại trực tuyến</p>
+                </div>
+                <div class="flow-step" onclick="hienThiChiTietBuoc(7)">
+                    <h3>Bước 7: Đo lường & Phân tích</h3>
+                    <p>Chỉ số hiệu suất, Phân tích, Đo lường lợi tức đầu tư</p>
+                </div>
+                <div class="flow-step" onclick="hienThiChiTietBuoc(8)">
+                    <h3>Bước 8: Tích hợp Trí tuệ Nhân tạo</h3>
+                    <p>Tạo nội dung, Tự động hóa, Cá nhân hóa</p>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Giải thích logic của lộ trình 8 bước:</h4>
+                <p>Mỗi bước được sắp xếp theo thứ tự ưu tiên và phụ thuộc lẫn nhau. Bạn không thể tạo nội dung hiệu quả nếu chưa hiểu rõ đối tượng mục tiêu (Bước 1). Bạn không nên chạy quảng cáo trả phí nếu chưa có nội dung chất lượng và cộng đồng cơ bản (Bước 3-4). Và bạn không thể tối ưu hóa hiệu quả nếu không đo lường được kết quả (Bước 7). Đây là một quy trình khoa học, không phải nghệ thuật ngẫu hứng.</p>
+            </div>
+        </div>
+
+        <!-- So sánh nền tảng với phân tích sâu -->
+        <div class="section">
+            <h2>⚖️ So sánh Chi tiết các Nền tảng Mạng Xã hội tại Việt Nam</h2>
+            
+            <div class="chart-container">
+                <canvas id="bieudoNenTang"></canvas>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Cách đọc biểu đồ và ý nghĩa thực tế:</h4>
+                <p>Biểu đồ trên cho thấy phân bổ người dùng theo từng nền tảng tại Việt Nam. Facebook vẫn thống trị với 92.7% người dùng internet, nhưng TikTok đang tăng trưởng mạnh mẽ, đặc biệt trong giới trẻ với 85% mức độ phổ biến trong tiếp thị người có ảnh hưởng. Điều này không có nghĩa là bạn nên chỉ tập trung vào Facebook. Thay vào đó, hãy hiểu rằng mỗi nền tảng phục vụ mục đích khác nhau trong hành trình khách hàng.</p>
+            </div>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nền tảng</th>
+                            <th>Đối tượng chính</th>
+                            <th>Thế mạnh</th>
+                            <th>Phù hợp cho mục tiêu</th>
+                            <th>Chi phí quảng cáo ước tính</th>
+                            <th>Độ khó quản lý</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Facebook</strong></td>
+                            <td>Thế hệ Thiên niên kỷ, Gen X, doanh nghiệp B2B</td>
+                            <td>Nhắm mục tiêu chi tiết, hệ sinh thái hoàn chỉnh</td>
+                            <td>Tạo khách hàng tiềm năng, nhận diện thương hiệu, xây dựng cộng đồng</td>
+                            <td>15.000-50.000 VNĐ/lượt nhấp</td>
+                            <td>Trung bình</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TikTok</strong></td>
+                            <td>Gen Z, Thế hệ Thiên niên kỷ trẻ</td>
+                            <td>Tiềm năng lan truyền, nội dung sáng tạo, tiếp cận Gen Z</td>
+                            <td>Nhận diện thương hiệu, tiếp thị xu hướng, khám phá sản phẩm</td>
+                            <td>10.000-30.000 VNĐ/lượt nhấp</td>
+                            <td>Khó (cần theo xu hướng)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Instagram</strong></td>
+                            <td>Gen Z, Thế hệ Thiên niên kỷ quan tâm thẩm mỹ</td>
+                            <td>Kể chuyện bằng hình ảnh, tiếp thị người có ảnh hưởng</td>
+                            <td>Thời trang, làm đẹp, lối sống, sản phẩm trực quan</td>
+                            <td>20.000-60.000 VNĐ/lượt nhấp</td>
+                            <td>Trung bình cao</td>
+                        </tr>
+                        <tr>
+                            <td><strong>YouTube</strong></td>
+                            <td>Đa dạng, tìm kiếm nội dung chuyên sâu</td>
+                            <td>Nội dung dài, tối ưu hóa công cụ tìm kiếm, giáo dục</td>
+                            <td>Uy tín thương hiệu, giáo dục, trình diễn sản phẩm</td>
+                            <td>5.000-25.000 VNĐ/lượt xem</td>
+                            <td>Cao</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zalo</strong></td>
+                            <td>Người dùng Việt Nam mọi lứa tuổi</td>
+                            <td>Tiếp cận địa phương, giao tiếp cá nhân</td>
+                            <td>Chăm sóc khách hàng, tiếp thị địa phương, lòng trung thành</td>
+                            <td>8.000-20.000 VNĐ/lượt nhấp</td>
+                            <td>Thấp</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="practical-example">
+                <h4>🎯 Ví dụ thực tế: Cách chọn nền tảng cho từng loại hình kinh doanh</h4>
+                <p><strong>Quán cà phê địa phương:</strong> Facebook (cộng đồng địa phương) + Zalo (chăm sóc khách hàng) + Instagram (thực đơn trực quan)</p>
+                <p><strong>Thời trang trực tuyến:</strong> Instagram (trưng bày sản phẩm) + TikTok (xu hướng & lan truyền) + Facebook (nhắm mục tiêu lại)</p>
+                <p><strong>Dịch vụ B2B:</strong> Facebook (nhắm mục tiêu doanh nghiệp) + YouTube (dẫn dắt tư duy) + Zalo (hỗ trợ khách hàng)</p>
+                <p><strong>Công ty khởi nghiệp công nghệ:</strong> TikTok (nhận diện thương hiệu) + YouTube (trình diễn sản phẩm) + Facebook (tạo khách hàng tiềm năng)</p>
+            </div>
+        </div>
+
+        <!-- Chiến lược nội dung với ví dụ -->
+        <div class="section">
+            <h2>🎨 Chiến lược Sáng tạo Nội dung cho từng Nền tảng</h2>
+            
+            <div class="skills-grid">
+                <div class="skill-card" style="background: linear-gradient(135deg, #1877f2 0%, #4267B2 100%);">
+                    <h3>Chiến lược Nội dung Facebook</h3>
+                    <p><strong>Loại nội dung:</strong> Kết hợp bài viết văn bản, hình ảnh, video, phát trực tiếp, bình chọn</p>
+                    <p><strong>Tần suất:</strong> 1-2 bài/ngày, đa dạng định dạng</p>
+                    <p><strong>Thực hành tốt nhất:</strong> Tương tác cộng đồng, Nhóm Facebook, chăm sóc khách hàng</p>
+                </div>
+                
+                <div class="skill-card" style="background: linear-gradient(135deg, #ff0050 0%, #000000 100%);">
+                    <h3>Chiến lược Nội dung TikTok</h3>
+                    <p><strong>Loại nội dung:</strong> Video ngắn 15-60 giây, âm thanh xu hướng, thử thách</p>
+                    <p><strong>Tần suất:</strong> 1-3 video/ngày, đăng bài đều đặn</p>
+                    <p><strong>Thực hành tốt nhất:</strong> Theo xu hướng, nội dung chân thực, thu hút nhanh</p>
+                </div>
+
+                <div class="skill-card" style="background: linear-gradient(135deg, #E4405F 0%, #5B51D8 100%);">
+                    <h3>Chiến lược Nội dung Instagram</h3>
+                    <p><strong>Loại nội dung:</strong> Ảnh chất lượng cao, Reels, Stories, IGTV</p>
+                    <p><strong>Tần suất:</strong> 1 bài/ngày + Stories hàng ngày</p>
+                    <p><strong>Thực hành tốt nhất:</strong> Tính nhất quán trực quan, chiến lược hashtag, nội dung do người dùng tạo</p>
+                </div>
+
+                <div class="skill-card" style="background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);">
+                    <h3>Chiến lược Nội dung YouTube</h3>
+                    <p><strong>Loại nội dung:</strong> Video dài, hướng dẫn, vlog, đánh giá sản phẩm</p>
+                    <p><strong>Tần suất:</strong> 1-2 video/tuần, chất lượng hơn số lượng</p>
+                    <p><strong>Thực hành tốt nhất:</strong> Tối ưu hóa SEO, hình thu nhỏ, thương hiệu nhất quán</p>
+                </div>
+
+                <div class="skill-card" style="background: linear-gradient(135deg, #0180C7 0%, #04A9F4 100%);">
+                    <h3>Chiến lược Nội dung Zalo</h3>
+                    <p><strong>Loại nội dung:</strong> Bài viết Tài khoản Chính thức, chăm sóc khách hàng, khuyến mãi</p>
+                    <p><strong>Tần suất:</strong> 3-5 bài/tuần, tập trung vào giá trị</p>
+                    <p><strong>Thực hành tốt nhất:</strong> Sự gần gũi cá nhân, liên quan địa phương, chăm sóc khách hàng</p>
+                </div>
+
+                <div class="skill-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h3>Nội dung hỗ trợ bởi Trí tuệ Nhân tạo</h3>
+                    <p><strong>Công cụ:</strong> ChatGPT, Canva AI, CapCut, Jasper AI</p>
+                    <p><strong>Ứng dụng:</strong> Ý tưởng nội dung, chú thích, hình ảnh, chỉnh sửa video</p>
+                    <p><strong>Thực hành tốt nhất:</strong> Giám sát của con người, tính nhất quán thương hiệu, thích ứng địa phương</p>
+                </div>
+            </div>
+
+            <div class="detailed-explanation">
+                <h3>Nguyên tắc 3G cho nội dung Mạng Xã hội hiệu quả:</h3>
+                <p><strong>Giá trị:</strong> Mỗi nội dung phải mang lại giá trị cụ thể - giải trí, thông tin, hoặc cảm hứng. Người dùng Việt Nam đặc biệt yêu thích nội dung "hữu ích" và có thể áp dụng ngay vào cuộc sống.</p>
+                <p><strong>Giọng điệu:</strong> Phát triển một giọng điệu nhất quán phù hợp với thương hiệu. Tại Việt Nam, tính thân thiện và gần gũi thường được ưa chuộng hơn sự cứng nhắc và trang trọng.</p>
+                <p><strong>Hình ảnh (Trực quan):</strong> Trong văn hóa ưu tiên di động của Việt Nam, nội dung trực quan phải tối ưu cho màn hình điện thoại. Màu sắc sáng, chữ dễ đọc, và video có điểm thu hút mạnh trong 3 giây đầu.</p>
+            </div>
+        </div>
+
+        <!-- Phân tích chi phí cho giáo dục mạng xã hội -->
+        <div class="section">
+            <h2>💰 Phân tích Chi phí Học tập và Công cụ Mạng Xã hội</h2>
+            
+            <div class="chart-container">
+                <canvas id="bieudoChiPhi"></canvas>
+            </div>
+
+            <div class="cost-breakdown">
+                <h4>📚 Chi phí Khóa học và Chứng chỉ:</h4>
+                <p><strong>Chứng chỉ Tiếp thị Nội dung HubSpot:</strong> Miễn phí - Bao gồm chiến lược nội dung, sáng tạo, quảng bá</p>
+                <p><strong>Chứng chỉ Facebook Blueprint:</strong> Miễn phí - Chứng chỉ quảng cáo Facebook chính thức</p>
+                <p><strong>Khóa học Tiếp thị Kỹ thuật số Google:</strong> 950.000-1.200.000 VNĐ/tháng (Coursera) - Tiếp thị kỹ thuật số toàn diện</p>
+                <p><strong>Khóa học Tiếp thị TikTok:</strong> 4.800.000-12.000.000 VNĐ - Chiến lược và quảng cáo chuyên biệt nền tảng</p>
+                <p><strong>Chuyên môn Tiếp thị Mạng Xã hội:</strong> 1.200.000 VNĐ/tháng (Coursera) - Phương pháp đa nền tảng</p>
+            </div>
+
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Loại chi phí</th>
+                            <th>Công cụ/Dịch vụ</th>
+                            <th>Miễn phí</th>
+                            <th>Trả phí cơ bản</th>
+                            <th>Chuyên nghiệp</th>
+                            <th>Phù hợp cho</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Tạo Nội dung</strong></td>
+                            <td>Canva</td>
+                            <td>Miễn phí</td>
+                            <td>290.000 VNĐ/tháng</td>
+                            <td>970.000 VNĐ/tháng (nhóm)</td>
+                            <td>Thiết kế đồ họa, bài đăng mạng xã hội</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chỉnh sửa Video</strong></td>
+                            <td>CapCut</td>
+                            <td>Miễn phí</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>TikTok, Instagram Reels</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phân tích</strong></td>
+                            <td>Công cụ nền tảng gốc</td>
+                            <td>Miễn phí</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>Thông tin cơ bản, tất cả nền tảng</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quản lý</strong></td>
+                            <td>Hootsuite</td>
+                            <td>Miễn phí (hạn chế)</td>
+                            <td>1.200.000 VNĐ/tháng</td>
+                            <td>3.100.000 VNĐ/tháng</td>
+                            <td>Lên lịch đa nền tảng</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nội dung AI</strong></td>
+                            <td>ChatGPT</td>
+                            <td>Miễn phí (hạn chế)</td>
+                            <td>480.000 VNĐ/tháng</td>
+                            <td>-</td>
+                            <td>Ý tưởng nội dung, chú thích</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ảnh Stock</strong></td>
+                            <td>Unsplash/Pexels</td>
+                            <td>Miễn phí</td>
+                            <td>-</td>
+                            <td>Shutterstock 700.000 VNĐ/tháng</td>
+                            <td>Hình ảnh chất lượng cao</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="why-important">
+                <h4>💡 Chiến lược tối ưu chi phí cho Doanh nghiệp vừa và nhỏ:</h4>
+                <p><strong>Giai đoạn khởi đầu (0-3 tháng):</strong> Sử dụng 100% công cụ miễn phí - Canva miễn phí, CapCut, Facebook Creator Studio, phân tích gốc. Tổng chi phí: 0-1.200.000 VNĐ/tháng.</p>
+                <p><strong>Giai đoạn phát triển (3-6 tháng):</strong> Nâng cấp lên Canva Pro, thêm ChatGPT Plus, bộ lên lịch mạng xã hội cơ bản. Tổng chi phí: 1.200.000-2.400.000 VNĐ/tháng.</p>
+                <p><strong>Giai đoạn mở rộng (6+ tháng):</strong> Công cụ chuyên nghiệp, khóa học trả phí, phân tích nâng cao. Tổng chi phí: 4.800.000-12.000.000 VNĐ/tháng.</p>
+                <p><strong>Kỳ vọng lợi tức đầu tư:</strong> Với khoản đầu tư 24.000.000 VNĐ/năm cho công cụ và giáo dục, lợi tức kỳ vọng thông qua tăng tương tác và doanh số là 120.000.000-360.000.000 VNĐ/năm cho doanh nghiệp vừa và nhỏ.</p>
+            </div>
+        </div>
+
+        <!-- Lịch trình học tập -->
+        <div class="section">
+            <h2>📅 Lịch trình Học tập Tiếp thị Mạng Xã hội (3-6 tháng)</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Tháng 1: Nền tảng & Hiểu biết Nền tảng</h3>
+                        <p><strong>Khóa học:</strong> HubSpot Tiếp thị Nội dung + Facebook Blueprint cơ bản</p>
+                        <p><strong>Thực hành:</strong> Thiết lập tài khoản doanh nghiệp trên tất cả nền tảng, phân tích 10 đối thủ cạnh tranh</p>
+                        <p><strong>Sản phẩm:</strong> Báo cáo phân tích đối thủ cạnh tranh và lịch nội dung cơ bản</p>
+                        <p><strong>Chi phí:</strong> 0 VNĐ (tất cả khóa học miễn phí)</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Tháng 2: Tạo Nội dung & Thành thạo Công cụ</h3>
+                        <p><strong>Kỹ năng:</strong> Thiết kế Canva, chỉnh sửa video CapCut, chụp ảnh cơ bản</p>
+                        <p><strong>Thực hành:</strong> Tạo 50+ nội dung trên các nền tảng</p>
+                        <p><strong>Sản phẩm:</strong> Thư viện mẫu nội dung cho thương hiệu</p>
+                        <p><strong>Chi phí:</strong> 290.000 VNĐ/tháng (Canva Pro)</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Tháng 3: Cơ bản Quảng cáo Trả phí</h3>
+                        <p><strong>Khóa học:</strong> Trình quản lý Quảng cáo Facebook + Cơ bản Quảng cáo TikTok</p>
+                        <p><strong>Thực hành:</strong> Thiết lập và chạy chiến dịch thử nghiệm với ngân sách 2.400.000 VNĐ</p>
+                        <p><strong>Sản phẩm:</strong> Báo cáo hiệu suất chiến dịch với khuyến nghị</p>
+                        <p><strong>Chi phí:</strong> 2.400.000 VNĐ (chi tiêu quảng cáo) + 480.000 VNĐ/tháng (ChatGPT Plus)</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Tháng 4-5: Chiến lược Nâng cao & Phân tích</h3>
+                        <p><strong>Tập trung:</strong> Chiến dịch đa nền tảng, tiếp cận người có ảnh hưởng, phân tích nâng cao</p>
+                        <p><strong>Công cụ:</strong> Thêm Hootsuite hoặc Later cho lên lịch</p>
+                        <p><strong>Sản phẩm:</strong> Tài liệu chiến lược mạng xã hội hoàn chỉnh</p>
+                        <p><strong>Chi phí:</strong> 1.200.000 VNĐ/tháng (Hootsuite) + đầu tư khóa học</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Tháng 6: Chuyên môn hóa & Danh mục</h3>
+                        <p><strong>Chọn chuyên môn:</strong> Thương mại điện tử, B2B, Tiếp thị Người có Ảnh hưởng, hoặc Tích hợp AI</p>
+                        <p><strong>Danh mục:</strong> 3-5 nghiên cứu tình huống với kết quả đo lường được</p>
+                        <p><strong>Kết nối:</strong> Tham gia cộng đồng chuyên nghiệp, tham dự sự kiện</p>
+                        <p><strong>Chi phí:</strong> 4.800.000-12.000.000 VNĐ (khóa học chuyên môn hoặc hội thảo)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phân tích & Chỉ số hiệu suất -->
+        <div class="section">
+            <h2>📈 Đo lường Hiệu quả: Chỉ số Hiệu suất và Công cụ Phân tích</h2>
+            
+            <div class="chart-container">
+                <canvas id="bieudoChiSo"></canvas>
+            </div>
+
+            <div class="detailed-explanation">
+                <h3>Hiểu sâu về Chỉ số Hiệu suất theo từng giai đoạn Hành trình Khách hàng:</h3>
+                <p><strong>Chỉ số Giai đoạn Nhận thức:</strong> Tiếp cận, Hiển thị, Đề cập Thương hiệu, Chia sẻ Tiếng nói. Đây là giai đoạn người dùng lần đầu biết đến thương hiệu của bạn.</p>
+                <p><strong>Chỉ số Giai đoạn Cân nhắc:</strong> Tỷ lệ Tương tác, Tỷ lệ Nhấp chuột, Tỷ lệ Xem Video, Lưu lượng Website từ Mạng Xã hội. Giai đoạn người dùng quan tâm và tìm hiểu thêm.</p>
+                <p><strong>Chỉ số Giai đoạn Quyết định:</strong> Tạo Khách hàng Tiềm năng, Tỷ lệ Chuyển đổi, Chi phí mỗi Khách hàng Thu được, Doanh số Thương mại Xã hội. Giai đoạn người dùng quyết định mua hàng.</p>
+                <p><strong>Chỉ số Giai đoạn Trung thành:</strong> Giá trị Vòng đời Khách hàng, Tỷ lệ Mua lại, Tỷ lệ Ủng hộ, Tăng trưởng Cộng đồng. Giai đoạn khách hàng trở thành fan trung thành.</p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card" style="background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);">
+                    <h3>Google Analytics 4</h3>
+                    <p><strong>Miễn phí</strong> - Theo dõi lưu lượng website từ mạng xã hội</p>
+                    <p><strong>Chỉ số chính:</strong> Phiên từ mạng xã hội, phân bổ chuyển đổi, thông tin đối tượng</p>
+                    <p><strong>Thời gian thiết lập:</strong> 2-4 giờ cho theo dõi toàn diện</p>
+                </div>
+                
+                <div class="skill-card" style="background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);">
+                    <h3>Bộ Meta Business</h3>
+                    <p><strong>Miễn phí</strong> - Phân tích Facebook và Instagram</p>
+                    <p><strong>Chỉ số chính:</strong> Tiếp cận, tương tác, hiệu suất quảng cáo, nhân khẩu học đối tượng</p>
+                    <p><strong>Tốt nhất cho:</strong> Tối ưu hóa chiến dịch và thông tin đối tượng</p>
+                </div>
+
+                <div class="skill-card" style="background: linear-gradient(135deg, #ff0050 0%, #ff6b35 100%);">
+                    <h3>Phân tích TikTok</h3>
+                    <p><strong>Miễn phí</strong> - Yêu cầu Tài khoản TikTok Pro</p>
+                    <p><strong>Chỉ số chính:</strong> Lượt xem video, lượt xem hồ sơ, tăng trưởng người theo dõi, hashtag xu hướng</p>
+                    <p><strong>Tốt nhất cho:</strong> Hiệu suất nội dung và phân tích xu hướng</p>
+                </div>
+            </div>
+
+            <div class="practical-example">
+                <h4>🎯 Ví dụ Thiết lập Bảng điều khiển cho Doanh nghiệp Thương mại điện tử:</h4>
+                <p><strong>Theo dõi Hàng ngày:</strong> Tỷ lệ tương tác, tiếp cận, cảm xúc bình luận, thời gian phản hồi chăm sóc khách hàng</p>
+                <p><strong>Đánh giá Hàng tuần:</strong> Lưu lượng đến website, tạo khách hàng tiềm năng, chi phí mỗi lần nhấp, tỷ lệ chuyển đổi</p>
+                <p><strong>Phân tích Hàng tháng:</strong> Lợi tức đầu tư/Chi tiêu quảng cáo, chi phí thu thập khách hàng, giá trị vòng đời, chỉ số nhận thức thương hiệu</p>
+                <p><strong>Chiến lược Theo quý:</strong> Thị phần, phân tích đối thủ cạnh tranh, chất lượng tăng trưởng đối tượng, so sánh hiệu suất nền tảng</p>
+            </div>
+        </div>
+
+        <!-- Cộng đồng & Kết nối -->
+        <div class="section">
+            <h2>🤝 Cộng đồng và Mạng lưới Chuyên nghiệp</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="platform-card">
+                    <h4>Nhóm Facebook Việt Nam</h4>
+                    <p><strong>Nhóm Đại lý Tiếp thị Kỹ thuật số (DMA):</strong> 50K+ thành viên, chia sẻ nghiên cứu tình huống tích cực</p>
+                    <p><strong>UAN Marketing:</strong> Workshop thường xuyên tại TP.HCM, chương trình cố vấn</p>
+                    <p><strong>Cộng đồng Tiếp thị Kỹ thuật số Việt Nam:</strong> 100K+ thành viên, chia sẻ công cụ</p>
+                    <p><strong>Giá trị:</strong> Kết nối, cơ hội việc làm, thông tin ngành, hỗ trợ giải quyết vấn đề</p>
+                </div>
+                
+                <div class="platform-card">
+                    <h4>Phát triển Chuyên nghiệp</h4>
+                    <p><strong>Brands Vietnam:</strong> Cộng đồng tiếp thị & xây dựng thương hiệu, sự kiện và workshop</p>
+                    <p><strong>Marketing Thông Minh:</strong> Tập trung chiến lược kinh doanh, cộng đồng doanh nhân</p>
+                    <p><strong>CYME Creative:</strong> Nhà tiếp thị trẻ, ý tưởng sáng tạo, góc nhìn Gen Z</p>
+                    <p><strong>Hoạt động:</strong> Tham dự sự kiện trực tiếp, tham gia thảo luận, chia sẻ kiến thức</p>
+                </div>
+            </div>
+
+            <div class="why-important">
+                <h4>💡 Chiến lược để tối đa hóa giá trị từ Cộng đồng:</h4>
+                <p><strong>Cho trước khi nhận:</strong> Chia sẻ thông tin có giá trị, giúp trả lời câu hỏi, đóng góp tài nguyên hữu ích trước khi yêu cầu giúp đỡ</p>
+                <p><strong>Xây dựng thương hiệu cá nhân:</strong> Luôn cung cấp bình luận sâu sắc, chia sẻ quan điểm độc đáo, thiết lập chuyên môn trong các lĩnh vực cụ thể</p>
+                <p><strong>Kết nối có chiến lược:</strong> Kết nối với những người ở các cấp độ kinh nghiệm khác nhau - học hỏi từ người cao cấp, cố vấn cho người mới, hợp tác với đồng nghiệp</p>
+                <p><strong>Luôn cập nhật:</strong> Cộng đồng là nguồn thông tin trực tiếp về xu hướng ngành, thay đổi thuật toán, công cụ mới và cơ hội</p>
+            </div>
+        </div>
+
+        <!-- Dự án Danh mục -->
+        <div class="section">
+            <h2>📁 Dự án Danh mục cho Nhà Tiếp thị Mạng Xã hội</h2>
+            
+            <div class="skills-grid">
+                <div class="skill-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <h3>Nghiên cứu Tình huống Chiến dịch Đa Nền tảng</h3>
+                    <p><strong>Phạm vi:</strong> Lập kế hoạch và thực hiện chiến dịch 1 tháng trên 3 nền tảng</p>
+                    <p><strong>Sản phẩm:</strong> Tài liệu chiến lược, lịch nội dung, báo cáo hiệu suất, khuyến nghị tối ưu hóa</p>
+                    <p><strong>Kỹ năng thể hiện:</strong> Tư duy chiến lược, thực thi, phân tích dữ liệu</p>
+                </div>
+                
+                <div class="skill-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h3>Quản lý Chiến dịch Người có Ảnh hưởng</h3>
+                    <p><strong>Phạm vi:</strong> Xác định, đàm phán, quản lý hợp tác với người có ảnh hưởng nhỏ</p>
+                    <p><strong>Sản phẩm:</strong> Nghiên cứu người có ảnh hưởng, bản tóm tắt chiến dịch, phân tích hiệu suất, tính toán lợi tức đầu tư</p>
+                    <p><strong>Kỹ năng thể hiện:</strong> Xây dựng mối quan hệ, quản lý dự án, đo lường lợi tức đầu tư</p>
+                </div>
+
+                <div class="skill-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <h3>Triển khai Thương mại Xã hội</h3>
+                    <p><strong>Phạm vi:</strong> Thiết lập và tối ưu hóa thương mại xã hội trên TikTok Shop hoặc Facebook Shop</p>
+                    <p><strong>Sản phẩm:</strong> Thiết lập cửa hàng, tối ưu hóa sản phẩm, phễu bán hàng, phân tích chuyển đổi</p>
+                    <p><strong>Kỹ năng thể hiện:</strong> Tích hợp thương mại điện tử, tối ưu hóa chuyển đổi, chiến lược bán hàng</p>
+                </div>
+
+                <div class="skill-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <h3>Mô phỏng Quản lý Khủng hoảng</h3>
+                    <p><strong>Phạm vi:</strong> Phát triển kế hoạch ứng phó khủng hoảng và mô phỏng tình huống khủng hoảng</p>
+                    <p><strong>Sản phẩm:</strong> Sách hướng dẫn khủng hoảng, lịch trình ứng phó, kế hoạch giao tiếp với các bên liên quan</p>
+                    <p><strong>Kỹ năng thể hiện:</strong> Tư duy chiến lược, kỹ năng giao tiếp, giải quyết vấn đề dưới áp lực</p>
+                </div>
+            </div>
+
+            <div class="detailed-explanation">
+                <h3>Cách trình bày Dự án Danh mục một cách chuyên nghiệp:</h3>
+                <p><strong>Cấu trúc mỗi nghiên cứu tình huống:</strong> Thách thức/Mục tiêu → Chiến lược → Thực thi → Kết quả → Bài học. Hãy cụ thể về số liệu và tác động.</p>
+                <p><strong>Bao gồm hình ảnh:</strong> Ảnh chụp màn hình chiến dịch, chỉ số trước/sau, ví dụ sáng tạo, ảnh chụp màn hình bảng điều khiển.</p>
+                <p><strong>Thể hiện quá trình tư duy:</strong> Giải thích lý do đưa ra quyết định, các đánh đổi được xem xét, giả thuyết được kiểm tra.</p>
+                <p><strong>Định lượng tác động:</strong> Sử dụng chỉ số cụ thể - "Tăng tương tác 127%" tốt hơn "Cải thiện tương tác đáng kể"</p>
+            </div>
+        </div>
+
+        <!-- Kêu gọi hành động -->
+        <div class="cta-section">
+            <h2>🚀 Sẵn sàng Bắt đầu Hành trình Tiếp thị Mạng Xã hội?</h2>
+            <p>Với lộ trình chi tiết này, bạn có thể phát triển từ người mới bắt đầu thành chuyên gia Tiếp thị Mạng Xã hội trong 3-6 tháng. Thành công đòi hỏi sự kiên trì, thực hành liên tục, và khả năng thích ứng với các xu hướng và công nghệ mới.</p>
+            <p><strong>Bước đầu tiên:</strong> Bắt đầu với Chứng chỉ Tiếp thị Nội dung HubSpot (miễn phí) và thiết lập tài khoản doanh nghiệp trên các nền tảng chính ngay hôm nay!</p>
+        </div>
+    </div>
+
+    <script>
+        // Biểu đồ sử dụng nền tảng
+        const nentangCtx = document.getElementById('bieudoNenTang').getContext('2d');
+        new Chart(nentangCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Facebook', 'TikTok', 'Instagram', 'YouTube', 'Zalo', 'LinkedIn'],
+                datasets: [{
+                    data: [35, 25, 15, 12, 8, 5],
+                    backgroundColor: [
+                        '#1877f2',
+                        '#ff0050',
+                        '#E4405F',
+                        '#FF0000',
+                        '#0180C7',
+                        '#0e76a8'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Phân bổ Thời gian Tiếp thị theo Nền tảng (%)'
+                    }
+                }
+            }
+        });
+
+        // Biểu đồ phân tích chi phí
+        const chiphiCtx = document.getElementById('bieudoChiPhi').getContext('2d');
+        new Chart(chiphiCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Khóa học miễn phí', 'Công cụ cơ bản', 'Công cụ nâng cao', 'Ngân sách Quảng cáo', 'Khóa học Chuyên nghiệp', 'Tổng cộng (6 tháng)'],
+                datasets: [{
+                    label: 'Chi phí (triệu VNĐ)',
+                    data: [0, 1.2, 4.8, 7.2, 9.6, 22.8],
+                    backgroundColor: [
+                        'rgba(67, 233, 123, 0.8)',
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(240, 147, 251, 0.8)',
+                        'rgba(245, 87, 108, 0.8)',
+                        'rgba(79, 172, 254, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(67, 233, 123, 1)',
+                        'rgba(102, 126, 234, 1)',
+                        'rgba(118, 75, 162, 1)',
+                        'rgba(240, 147, 251, 1)',
+                        'rgba(245, 87, 108, 1)',
+                        'rgba(79, 172, 254, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value + ' triệu VNĐ';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Phân tích Chi phí Học Tiếp thị Mạng Xã hội'
+                    }
+                }
+            }
+        });
+
+        // Biểu đồ hiệu suất chỉ số
+        const chisoCtx = document.getElementById('bieudoChiSo').getContext('2d');
+        new Chart(chisoCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Tiếp cận', 'Tương tác', 'Chuyển đổi', 'Lợi tức đầu tư', 'Nhận diện Thương hiệu', 'Hài lòng Khách hàng'],
+                datasets: [{
+                    label: 'Tháng 1-2 (Người mới bắt đầu)',
+                    data: [30, 40, 20, 25, 35, 30],
+                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 2
+                }, {
+                    label: 'Tháng 3-4 (Trung cấp)',
+                    data: [60, 65, 50, 55, 60, 55],
+                    backgroundColor: 'rgba(118, 75, 162, 0.2)',
+                    borderColor: 'rgba(118, 75, 162, 1)',
+                    borderWidth: 2
+                }, {
+                    label: 'Tháng 5-6 (Nâng cao)',
+                    data: [85, 80, 75, 80, 85, 80],
+                    backgroundColor: 'rgba(67, 233, 123, 0.2)',
+                    borderColor: 'rgba(67, 233, 123, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tiến độ Phát triển Chỉ số Hiệu suất theo Thời gian'
+                    }
+                }
+            }
+        });
+
+        // Hàm tương tác
+        function hienThiChiTietBuoc(buoc) {
+            const chiTiet = {
+                1: "BƯỚC 1: NGHIÊN CỨU & LẬP KẾ HOẠCH\n\n" +
+                   "Đây là nền tảng của toàn bộ chiến lược. Bạn cần:\n" +
+                   "• Đặt mục tiêu cụ thể, đo lường được, khả thi, liên quan và có thời hạn\n" +
+                   "• Nghiên cứu đối tượng mục tiêu sâu về nhân khẩu học, tâm lý, điểm đau\n" +
+                   "• Phân tích bối cảnh đối thủ cạnh tranh và tìm khoảng trống\n" +
+                   "• Hiểu đặc điểm độc đáo của thị trường Việt Nam\n\n" +
+                   "Kết quả: Tài liệu chiến lược với mục tiêu rõ ràng và hồ sơ nhân vật mục tiêu.",
+                   
+                2: "BƯỚC 2: LỰA CHỌN NỀN TẢNG\n\n" +
+                   "Không cần có mặt khắp nơi, tập trung vào các nền tảng mà đối tượng của bạn hoạt động tích cực nhất:\n" +
+                   "• Facebook: Tốt nhất cho xây dựng cộng đồng và nhắm mục tiêu chi tiết\n" +
+                   "• TikTok: Thiết yếu cho tiếp cận Gen Z và tiềm năng lan truyền\n" +
+                   "• Instagram: Hoàn hảo cho thương hiệu trực quan và sản phẩm lối sống\n" +
+                   "• YouTube: Lý tưởng cho giáo dục và nội dung dài\n" +
+                   "• Zalo: Quan trọng cho thị trường Việt Nam địa phương\n\n" +
+                   "Khuyến nghị: Bắt đầu với tối đa 2-3 nền tảng để duy trì chất lượng.",
+                   
+                3: "BƯỚC 3: SÁNG TẠO NỘI DUNG\n\n" +
+                   "Nội dung là vua, nhưng bối cảnh là hoàng đế. Nguyên tắc:\n" +
+                   "• Ưu tiên giá trị: Mỗi bài đăng phải cung cấp giá trị (giáo dục, giải trí, cảm hứng)\n" +
+                   "• Kể chuyện: Khán giả Việt Nam yêu thích những câu chuyện chân thực\n" +
+                   "• Bản địa hóa: Thích ứng xu hướng toàn cầu với văn hóa địa phương\n" +
+                   "• Tính nhất quán: Duy trì lịch đăng bài đều đặn\n" +
+                   "• Tối ưu hóa di động: 95% người dùng truy cập qua di động\n\n" +
+                   "Công cụ: Canva, CapCut, ChatGPT cho ý tưởng nội dung.",
+                   
+                4: "BƯỚC 4: XÂY DỰNG CỘNG ĐỒNG\n\n" +
+                   "Cộng đồng > Người theo dõi. Tập trung vào chất lượng tương tác:\n" +
+                   "• Phản hồi bình luận trong vòng 2-4 giờ\n" +
+                   "• Tạo chủ đề trò chuyện và bình chọn\n" +
+                   "• Chia sẻ nội dung do người dùng tạo\n" +
+                   "• Tham gia Nhóm Facebook có liên quan\n" +
+                   "• Tổ chức phiên trực tiếp và hỏi đáp\n\n" +
+                   "Mục tiêu: Xây dựng những người ủng hộ trung thành chủ động quảng bá thương hiệu của bạn.",
+                   
+                5: "BƯỚC 5: QUẢNG CÁO TRẢ PHÍ\n\n" +
+                   "Tiếp cận tự nhiên bị hạn chế, quảng cáo trả phí khuếch đại nội dung tốt nhất của bạn:\n" +
+                   "• Bắt đầu nhỏ: Ngân sách thử nghiệm 120.000-240.000 VNĐ/ngày\n" +
+                   "• Tập trung vào chiến dịch chuyển đổi hơn nhận thức\n" +
+                   "• Sử dụng tự động hóa nền tảng (Advantage+)\n" +
+                   "• Nhắm mục tiêu đối tượng ngách để lợi tức đầu tư tốt hơn\n" +
+                   "• Theo dõi lợi tức chi tiêu quảng cáo cẩn thận\n\n" +
+                   "Kỳ vọng: Lợi tức chi tiêu quảng cáo 2-3 lần trong những tháng đầu, mở rộng chiến dịch thành công.",
+                   
+                6: "BƯỚC 6: TIẾP THỊ NGƯỜI CÓ ẢNH HƯỞNG\n\n" +
+                   "Tận dụng niềm tin và tầm tiếp cận của những tiếng nói có ảnh hưởng:\n" +
+                   "• Người có ảnh hưởng nhỏ (10K-100K) thường có lợi tức đầu tư tốt hơn những người mega\n" +
+                   "• Tính xác thực > tầm tiếp cận: Chọn người có ảnh hưởng phù hợp với giá trị thương hiệu\n" +
+                   "• Thương mại trực tiếp đang có xu hướng mạnh tại Việt Nam\n" +
+                   "• Đo lường vượt ra ngoài chỉ số hình thức: Theo dõi chuyển đổi thực tế\n" +
+                   "• Quan hệ đối tác dài hạn > chiến dịch một lần\n\n" +
+                   "Ngân sách: 20-30% tổng ngân sách tiếp thị cho thương hiệu đã thiết lập.",
+                   
+                7: "BƯỚC 7: ĐO LƯỜNG & PHÂN TÍCH\n\n" +
+                   "Cái gì được đo lường thì được quản lý:\n" +
+                   "• Thiết lập theo dõi phù hợp từ đầu (mã UTM, pixel)\n" +
+                   "• Tập trung vào chỉ số kinh doanh: Doanh thu, khách hàng tiềm năng, thu thập khách hàng\n" +
+                   "• Sử dụng phân tích gốc + Google Analytics\n" +
+                   "• Đánh giá hàng tuần để tối ưu hóa nhanh\n" +
+                   "• Điều chỉnh chiến lược hàng tháng dựa trên dữ liệu\n\n" +
+                   "Công cụ: Google Analytics, thông tin nền tảng, Looker Studio cho bảng điều khiển.",
+                   
+                8: "BƯỚC 8: TÍCH HỢP TRÍ TUỆ NHÂN TẠO\n\n" +
+                   "AI không thay thế nhà tiếp thị, nó giúp họ hiệu quả hơn:\n" +
+                   "• Tạo nội dung: ChatGPT cho ý tưởng, chú thích, chiến lược\n" +
+                   "• Tạo hình ảnh: Canva AI, Midjourney cho đồ họa\n" +
+                   "• Phân tích: Thông tin AI trong công cụ nền tảng\n" +
+                   "• Cá nhân hóa: Nhắm mục tiêu và nội dung được hỗ trợ bởi AI\n" +
+                   "• Chăm sóc khách hàng: Chatbot cho hỗ trợ 24/7\n\n" +
+                   "Chìa khóa: AI xử lý các tác vụ lặp đi lặp lại, con người tập trung vào chiến lược và sáng tạo."
+            };
+            
+            alert(chiTiet[buoc]);
+        }
+
+        function giaiThichThongKe(loai) {
+            const giaiThich = {
+                nguoiDung: "78.44 TRIỆU NGƯỜI DÙNG INTERNET\n\nVượt 79% dân số - một trong những tỷ lệ cao nhất Đông Nam Á. Điều này có nghĩa thị trường kỹ thuật số Việt Nam đã trưởng thành và sẵn sàng cho các chiến lược tiếp thị tinh vi.",
+                mangXaHoi: "72.70 TRIỆU NGƯỜI DÙNG MẠNG XÃ HỘI\n\n92.7% người dùng internet hoạt động trên mạng xã hội. Đây là tỷ lệ thâm nhập cực kỳ cao, cho thấy mạng xã hội không phải xu hướng mà đã trở thành kênh giao tiếp thiết yếu.",
+                tyLeThapNhap: "73.3% TỶ LỆ THÂM NHẬP\n\nGần 3/4 dân số sử dụng mạng xã hội. Điều này tạo cơ hội khổng lồ cho doanh nghiệp nhưng cũng có nghĩa là cạnh tranh cao. Nội dung chất lượng và tương tác chân thực là chìa khóa để nổi bật.",
+                diDong: "VĂN HÓA ƯU TIÊN DI ĐỘNG\n\nNgười dùng Việt Nam chủ yếu truy cập mạng xã hội qua thiết bị di động. Mọi nội dung phải được tối ưu hóa cho trải nghiệm di động: video dọc, tải nhanh, điều hướng thuận tiện cho ngón cái."
+            };
+            
+            alert(giaiThich[loai]);
+        }
+
+        // Timing animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.3}s`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chủ Đề Tháng 5</title>
+    <!-- Tích hợp Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tích hợp Font Inter từ Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icon library (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sử dụng font Inter làm font chữ mặc định */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Màu nền xám nhạt */
+        }
+        /* Hiệu ứng chuyển động cho thẻ chủ đề */
+        .topic-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb; /* Thêm viền nhẹ */
+        }
+        .topic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .card-icon {
+            font-size: 2rem;
+            color: #16a34a; /* Màu xanh lá cây cho tháng 5 */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        
+        <!-- Nút Quay Lại -->
+        <div class="mb-8">
+            <a href="/index/index.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Quay lại Danh Mục Chính
+            </a>
+        </div>
+
+        <!-- Tiêu đề trang -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3">Chủ Đề Tháng 5</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Tổng hợp các kiến thức, chiến lược và phân tích chuyên sâu của tháng 5.</p>
+        </div>
+
+        <!-- Lưới hiển thị các chủ đề -->
+        <div id="topicsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Các thẻ chủ đề sẽ được tạo bằng JavaScript -->
+        </div>
+
+    </div>
+
+    <script>
+        // Danh sách các chủ đề của Tháng 5
+        const topics = [
+            'ai-tim-thay-minh-nhu-nao.html',
+            'bat-dong-san.html',
+            'can-bao-nhieu-tien-mua-nha.html',
+            'quy-trinh-cai-thien-cskh.html',
+            'title-tren-website-nk.html',
+            'xay-dung-san-tmdt.html',
+            'xay-social.html'
+        ];
+        
+        // Ánh xạ từ slug sang tiêu đề hoàn chỉnh cho Tháng 5
+        const titleMap = {
+            'ai-tim-thay-minh-nhu-nao.html': 'AI Định Vị & Tìm Kiếm Khách Hàng Như Thế Nào?',
+            'bat-dong-san.html': 'Phân Tích Thị Trường Bất Động Sản',
+            'can-bao-nhieu-tien-mua-nha.html': 'Cần Bao Nhiêu Tiền Để Mua Nhà? Một Phân Tích Chi Tiết',
+            'quy-trinh-cai-thien-cskh.html': 'Quy Trình Cải Thiện Dịch Vụ Chăm Sóc Khách Hàng',
+            'title-tren-website-nk.html': 'Nghệ Thuật Viết Tiêu Đề Hấp Dẫn Cho Website',
+            'xay-dung-san-tmdt.html': 'Hướng Dẫn Xây Dựng Sàn Thương Mại Điện Tử',
+            'xay-social.html': 'Chiến Lược Xây Dựng Kênh Social Media Từ Con Số 0'
+        };
+
+        // Mảng các icon để trang trí cho Tháng 5
+        const icons = [
+            'fa-solid fa-robot', 
+            'fa-solid fa-building-columns', 
+            'fa-solid fa-sack-dollar', 
+            'fa-solid fa-headset', 
+            'fa-solid fa-heading', 
+            'fa-solid fa-store', 
+            'fa-solid fa-share-nodes'
+        ];
+
+        const topicsGrid = document.getElementById('topicsGrid');
+        const basePath = '/thang-5/'; // Cập nhật đường dẫn cho Tháng 5
+
+        // Hàm lấy tiêu đề từ map
+        function getProperTitle(slug) {
+            return titleMap[slug] || slug.replace('.html', '').replace(/-/g, ' ');
+        }
+
+        // Tạo và hiển thị các thẻ chủ đề
+        topics.forEach((topicSlug, index) => {
+            const topicTitle = getProperTitle(topicSlug);
+            const topicLink = `${basePath}${topicSlug}`;
+            const iconClass = icons[index % icons.length]; // Lấy icon xoay vòng
+
+            const card = document.createElement('div');
+            card.className = 'topic-card bg-white rounded-2xl p-8 flex flex-col text-center items-center';
+            
+            card.innerHTML = `
+                <div class="card-icon mb-4">
+                    <i class="${iconClass}"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 flex-grow mb-6">${topicTitle}</h3>
+                <a href="${topicLink}" class="mt-auto w-full inline-block bg-green-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-300 transform hover:scale-105">
+                    Xem Chi Tiết
+                </a>
+            `;
+            
+            topicsGrid.appendChild(card);
+        });
+
+    </script>
+</body>
+</html>

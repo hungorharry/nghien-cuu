@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Custom styles for a cleaner, more vibrant look */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* Lighter, clean background */
@@ -23,13 +24,13 @@
         .card {
             background-color: #fff;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
-            transition: all 0.3s ease-in-out; /* Smooth transition */
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
             border-radius: 1.25rem; /* Even more rounded corners */
             overflow: hidden;
             border: 1px solid #e2e8f0; /* Subtle border for definition */
         }
         .card:hover {
-            transform: translateY(-10px) scale(1.02); /* Lift higher and scale more */
+            transform: translateY(-10px) scale(1.02); /* Lift higher and scale more on hover */
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
         }
         .btn-primary {
@@ -38,7 +39,7 @@
             padding: 1rem 2.5rem; /* Increased padding for larger buttons */
             border-radius: 0.75rem; /* More rounded button */
             font-weight: 700; /* Bolder text */
-            transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out; /* Smooth transition for button hover */
             box-shadow: 0 5px 20px rgba(79, 70, 229, 0.4); /* Shadow for primary button */
         }
         .btn-primary:hover {
@@ -54,49 +55,45 @@
 </head>
 <body class="p-6 sm:p-10">
     <div class="container mx-auto">
+        <!-- Header Section -->
         <header class="text-center mb-16">
             <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 rounded-3xl header-bg p-8 shadow-2xl">
-                Việc của Hưng Nghiên Cứu Data
+                THEO DÕI TIẾN ĐỘ KẾ HOẠCH
             </h1>
             <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
                 Khám phá tổng quan các kế hoạch, dự án và phân tích dữ liệu quan trọng, được sắp xếp để dễ dàng theo dõi và truy cập.
             </p>
         </header>
 
+        <!-- Main Content Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
+            <!-- Card 1: NHÀ SÁCH PHƯƠNG NAM -->
             <div class="card p-8 flex flex-col items-center justify-between text-center">
                 <div>
-                    <h2 class="text-3xl font-bold text-gradient mb-4">Các Tháng 2025 - 2026</h2>
-                    <p class="text-gray-700 mb-8 leading-relaxed">
-                        Xem tổng quan các hoạt động và mục tiêu chính theo từng tháng trong giai đoạn 2025-2026. Một cái nhìn rõ ràng về tiến độ theo thời gian.
-                    </p>
+                    <h2 class="text-3xl font-bold text-gradient mb-4">NHÀ SÁCH PHƯƠNG NAM</h2>
                 </div>
-                <a href="/cac-thang/cac-thang.html" class="btn-primary w-full md:w-auto">
-                    Xem Lịch Trình
+                <a href="/ke-hoach-theo-doi/phuong-nam/phuong-nam.html" class="btn-primary w-full md:w-auto">
+                    Xem
                 </a>
             </div>
 
+            <!-- Card 2: TRAINING SALE BẰNG AI (Text adjusted) -->
             <div class="card p-8 flex flex-col items-center justify-between text-center">
                 <div>
-                    <h2 class="text-3xl font-bold text-gradient mb-4">Phân Loại Sản Phẩm</h2>
-                    <p class="text-gray-700 mb-8 leading-relaxed">
-                        Truy cập chi tiết về cách phân loại và quản lý các loại sản phẩm khác nhau. Nơi dữ liệu sản phẩm được tổ chức một cách khoa học.
-                    </p>
+                    <h2 class="text-3xl font-bold text-gradient mb-4">TRAINING SALE BẰNG AI</h2>
                 </div>
-                <a href="/phan-loai-san-pham/phan-loai-san-pham.html" class="btn-primary w-full md:w-auto">
-                    Đi tới Phân Loại
+                <a href="/ke-hoach-theo-doi/phuong-nam/phuong-nam.html" class="btn-primary w-full md:w-auto">
+                    Xem
                 </a>
             </div>
 
+            <!-- Card 3: SỰ KIỆN TENNIS & PICKLEBALL -->
             <div class="card p-8 flex flex-col items-center justify-between text-center">
                 <div>
-                    <h2 class="text-3xl font-bold text-gradient mb-4">Kế Hoạch Theo Dõi</h2>
-                    <p class="text-gray-700 mb-8 leading-relaxed">
-                        Xem chi tiết các kế hoạch và tiến độ theo dõi dữ liệu quan trọng. Đảm bảo mọi thứ luôn đi đúng hướng.
-                    </p>
+                    <h2 class="text-3xl font-bold text-gradient mb-4">SỰ KIỆN TENNIS & PICKLEBALL</h2>
                 </div>
-                <a href="#tracking-plan-section" class="btn-primary w-full md:w-auto">
-                    Xem Kế Hoạch
+                <a href="/ke-hoach-theo-doi/phuong-nam/phuong-nam.html" class="btn-primary w-full md:w-auto">
+                    Xem
                 </a>
             </div>
         </div>

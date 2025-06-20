@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Chiến lược Chinh phục Thị trường của HP Poly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Palette: Brilliant Blues (#0A2463, #3E92CC, D8315B, #FFFFFF) -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F7F5;
+        }
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .tech-card, .solution-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .tech-card:hover, .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .acoustic-fence-demo {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .acoustic-fence-demo::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed #3E92CC;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.1); opacity: 0; }
+            100% { transform: scale(0.95); opacity: 0; }
+        }
+        .tab-button.active {
+            border-color: #D8315B;
+            background-color: #D8315B;
+            color: white;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-button.active {
+            background-color: #f0f3f2;
+        }
+        @keyframes director-ai-focus {
+            0%, 100% { clip-path: inset(35% 60% 35% 10%); }
+            50% { clip-path: inset(10% 10% 50% 60%); }
+        }
+        .animate-director-ai-focus {
+            animation: director-ai-focus 4s infinite;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+<!-- Header and Navigation -->
+<header class="bg-[#0A2463] text-white sticky top-0 z-50 shadow-md">
+    <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="#" class="text-xl font-extrabold">HP Poly</a>
+        <div class="hidden md:flex items-center space-x-6 font-semibold">
+            <a href="#overview" class="hover:text-[#3E92CC] transition-colors">Tổng quan</a>
+            <a href="#product-segmentation" class="hover:text-[#3E92CC] transition-colors">Giải pháp</a>
+            <a href="#comparison-center" class="hover:text-[#3E92CC] transition-colors">So sánh</a>
+            <a href="#tech-secrets" class="hover:text-[#3E92CC] transition-colors">Công nghệ</a>
+            <a href="#faq" class="hover:text-[#3E92CC] transition-colors">Hỏi & Đáp</a>
+            <a href="#warranty" class="bg-[#D8315B] px-3 py-1 rounded-full hover:bg-opacity-80 transition-colors">Dịch vụ</a>
+        </div>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="text-center py-20 md:py-32 bg-gradient-to-b from-white to-gray-100">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-[#0A2463] mb-4 text-shadow-sm">Chiến lược Chinh phục Thị trường Toàn diện</h1>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">Từ công nghệ AI độc quyền đến dịch vụ bảo hành tận nơi, khám phá lý do HP Poly là lựa chọn tối ưu cho doanh nghiệp hiện đại.</p>
+        <a href="#overview" class="bg-[#D8315B] text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">Khám phá Lợi thế</a>
+    </div>
+</section>
+
+<main class="container mx-auto px-4 py-8 md:py-16">
+
+    <!-- Overview Section -->
+    <section id="overview" class="text-center mb-16 md:mb-24">
+         <h2 class="text-3xl md:text-4xl font-extrabold text-[#0A2463] mb-4">4 Trụ cột Tạo nên Sự khác biệt</h2>
+         <p class="text-xl text-gray-600 max-w-3xl mx-auto">Không chỉ là sản phẩm, chúng tôi bán <span class="font-bold text-[#D8315B]">Sự An tâm Chuẩn Doanh nghiệp</span> được bảo chứng bởi hai tên tuổi hàng đầu.</p>
+         <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="tech-card items-center text-center"><div class="text-5xl mb-4">🤝</div><div><h3 class="text-xl font-bold text-[#0A2463]">Hệ sinh thái Toàn diện</h3><p class="text-gray-600 mt-2">Phần cứng ưu việt, phần mềm quản lý thông minh Poly Lens.</p></div></div>
+            <div class="tech-card items-center text-center"><div class="text-5xl mb-4">🧠</div><div><h3 class="text-xl font-bold text-[#0A2463]">Công nghệ AI Độc quyền</h3><p class="text-gray-600 mt-2">DirectorAI, Acoustic Fence & NoiseBlockAI cho trải nghiệm vượt trội.</p></div></div>
+            <div class="tech-card items-center text-center"><div class="text-5xl mb-4">🛡️</div><div><h3 class="text-xl font-bold text-[#0A2463]">Bảo mật Cấp cao</h3><p class="text-gray-600 mt-2">HP Sure Start - BIOS tự phục hồi, bảo vệ từ cấp độ phần cứng.</p></div></div>
+            <div class="tech-card items-center text-center"><div class="text-5xl mb-4">🏆</div><div><h3 class="text-xl font-bold text-[#0A2463]">Dịch vụ Tận nơi</h3><p class="text-gray-600 mt-2">Vũ khí tối thượng: Bảo hành tận nơi chuẩn HP, đảm bảo kinh doanh liên tục.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Product Segmentation Section -->
+    <section id="product-segmentation" class="mb-16 md:mb-24">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-[#0A2463]">Định vị Giải pháp HP Poly</h2>
+            <p class="text-lg text-gray-600 mt-2">Đúng công cụ cho đúng không gian làm việc.</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Tier 1: Personal -->
+            <div class="solution-card text-center">
+                <div class="text-5xl mb-4">👤</div>
+                <h3 class="text-2xl font-bold text-[#0A2463]">Không gian Cá nhân</h3>
+                <p class="text-gray-500 font-semibold mb-4">Làm việc từ xa & Văn phòng riêng</p>
+                <p class="text-gray-600 flex-grow">Mang lại âm thanh chuyên nghiệp và sự tập trung tối đa cho từng cá nhân, dù ở bất kỳ đâu.</p>
+                <div class="mt-6 pt-4 border-t">
+                    <p class="font-bold text-gray-700">Sản phẩm chủ lực:</p>
+                    <p class="text-[#3E92CC]">Poly Voyager Series, Poly Blackwire, Poly Sync</p>
+                </div>
+            </div>
+            <!-- Tier 2: Small/Medium Rooms -->
+            <div class="solution-card text-center border-2 border-[#D8315B]">
+                <div class="text-5xl mb-4">👥</div>
+                <h3 class="text-2xl font-bold text-[#0A2463]">Phòng họp Nhỏ & Vừa</h3>
+                <p class="text-gray-500 font-semibold mb-4">Huddle Room & Focus Room (3-8 người)</p>
+                <p class="text-gray-600 flex-grow">Giải pháp All-in-One triển khai nhanh chóng, tích hợp AI thông minh để mọi cuộc họp đều hiệu quả và tự nhiên.</p>
+                <div class="mt-6 pt-4 border-t">
+                    <p class="font-bold text-gray-700">Sản phẩm chủ lực:</p>
+                    <p class="text-[#3E92CC]">Poly Studio R30, Poly Studio V52</p>
+                </div>
+            </div>
+            <!-- Tier 3: Large Rooms -->
+            <div class="solution-card text-center">
+                <div class="text-5xl mb-4">🏛️</div>
+                <h3 class="text-2xl font-bold text-[#0A2463]">Phòng họp Lớn</h3>
+                <p class="text-gray-500 font-semibold mb-4">Boardroom & Hội trường (8+ người)</p>
+                <p class="text-gray-600 flex-grow">Hệ thống module linh hoạt, mang lại chất lượng hình ảnh và âm thanh vượt trội, có khả năng mở rộng cho những không gian phức tạp nhất.</p>
+                <div class="mt-6 pt-4 border-t">
+                    <p class="font-bold text-gray-700">Sản phẩm chủ lực:</p>
+                    <p class="text-[#3E92CC]">Poly Studio E70 Camera, G7500 Codec</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Center Section -->
+    <section id="comparison-center" class="mb-16 md:mb-24">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-[#0A2463]">Trung tâm Đối chiếu Chiến lược</h2>
+            <p class="text-lg text-gray-600 mt-2">Xem HP Poly đối đầu với đối thủ trên từng mặt trận then chốt.</p>
+        </div>
+        <div class="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl">
+            <!-- Tabs -->
+            <div class="mb-6 flex flex-wrap justify-center gap-2 sm:gap-4 border-b border-gray-200 pb-4">
+                <button data-target="tab-video-bars" class="tab-button active text-sm sm:text-base font-semibold py-2 px-4 rounded-full border-2 border-transparent transition-colors duration-300">Thiết bị Phòng họp</button>
+                <button data-target="tab-wireless-headsets" class="tab-button text-sm sm:text-base font-semibold py-2 px-4 rounded-full border-2 border-transparent transition-colors duration-300">Tai nghe Không dây</button>
+                <button data-target="tab-wired-headsets" class="tab-button text-sm sm:text-base font-semibold py-2 px-4 rounded-full border-2 border-transparent transition-colors duration-300">Tai nghe Có dây</button>
+            </div>
+            <!-- Tab Content -->
+            <div id="tab-content-container">
+                <!-- Video Bars Tab -->
+                <div id="tab-video-bars" class="tab-pane">
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[800px] text-left">
+                            <thead><tr class="border-b-2 border-gray-200"><th class="py-3 px-4 text-lg font-bold text-[#0A2463] w-1/3">Tính năng</th><th class="py-3 px-4 text-center text-lg font-bold text-white bg-[#D8315B] w-1/3 rounded-t-lg">HP Poly (V52/R30)</th><th class="py-3 px-4 text-center text-lg font-bold text-gray-500 w-1/3">Đối thủ (Logitech/Khác)</th></tr></thead>
+                            <tbody>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">1. Độ phân giải Camera</td><td class="py-4 px-4 text-center">✨ <span class="font-bold text-lg">20MP (V52)</span> / 4K</td><td class="py-4 px-4 text-center">4K / 8MP tiêu chuẩn</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">2. Công nghệ Camera AI</td><td class="py-4 px-4 text-center">✨ DirectorAI: Theo dõi người nói, chuyển cảnh điện ảnh</td><td class="py-4 px-4 text-center">RightSight: Chủ yếu tự động đóng khung nhóm</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">3. Công nghệ Âm thanh AI</td><td class="py-4 px-4 text-center">✨ Acoustic Fence: Chặn tiếng ồn & giọng nói từ bên ngoài</td><td class="py-4 px-4 text-center">RightSound: Cân bằng giọng nói, khử ồn cơ bản</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">4. Tầm thu âm Micro</td><td class="py-4 px-4 text-center">Lên đến 6m, bao phủ rõ ràng</td><td class="py-4 px-4 text-center">~4-5m, thường cần mic mở rộng</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">5. Quản lý từ xa (Cloud)</td><td class="py-4 px-4 text-center">✨ Poly Lens: Miễn phí, quản lý toàn diện & phân tích</td><td class="py-4 px-4 text-center">Logitech Sync: Có phí cho các tính năng nâng cao</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">6. Bảo mật phần cứng</td><td class="py-4 px-4 text-center">✨ HP Sure Start: BIOS tự phục hồi (khi dùng PC HP)</td><td class="py-4 px-4 text-center">❌ Không có tính năng tương đương</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">7. Cập nhật Tính năng AI</td><td class="py-4 px-4 text-center">✨ Liên tục qua Poly Lens, thiết bị ngày càng thông minh hơn</td><td class="py-4 px-4 text-center">Chủ yếu là các bản vá lỗi</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">8. Lợi ích cho IT</td><td class="py-4 px-4 text-center">Một nền tảng quản lý, giảm thời gian hỗ trợ</td><td class="py-4 px-4 text-center">Quản lý phân mảnh, chi phí ẩn</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">9. Tổng chi phí sở hữu (TCO)</td><td class="py-4 px-4 text-center">Thấp hơn nhờ độ bền và ít cần hỗ trợ</td><td class="py-4 px-4 text-center">Cao hơn do chi phí hỗ trợ & nâng cấp</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">10. Hỗ trợ & Bảo hành</td><td class="py-4 px-4 text-center">✨ Tùy chọn Bảo hành Tận nơi (Onsite) chuẩn HP</td><td class="py-4 px-4 text-center">Bảo hành tại trung tâm, phải gửi thiết bị đi</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Wireless Headsets Tab -->
+                <div id="tab-wireless-headsets" class="tab-pane hidden">
+                    <div class="overflow-x-auto">
+                       <table class="w-full min-w-[800px] text-left">
+                            <thead><tr class="border-b-2 border-gray-200"><th class="py-3 px-4 text-lg font-bold text-[#0A2463] w-1/3">Tính năng</th><th class="py-3 px-4 text-center text-lg font-bold text-white bg-[#D8315B] w-1/3 rounded-t-lg">HP Poly (Voyager Series)</th><th class="py-3 px-4 text-center text-lg font-bold text-gray-500 w-1/3">Đối thủ (Jabra Evolve2)</th></tr></thead>
+                            <tbody>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">1. Công nghệ Micro</td><td class="py-4 px-4 text-center">✨ Acoustic Fence: Tạo "bong bóng" yên tĩnh cho người gọi</td><td class="py-4 px-4 text-center">Công nghệ nhiều mic, lọc ồn tốt</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">2. Chống ồn chủ động (ANC)</td><td class="py-4 px-4 text-center">Có (Focus 2): ANC lai 3 cấp độ, tập trung tối đa</td><td class="py-4 px-4 text-center">Có (Evolve2 75): ANC điều chỉnh được</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">3. Phạm vi không dây</td><td class="py-4 px-4 text-center">✨ <span class="font-bold text-lg">Lên đến 50m</span>: Tự do di chuyển vượt trội</td><td class="py-4 px-4 text-center">Tiêu chuẩn 30m</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">4. Trọng lượng & Thoải mái</td><td class="py-4 px-4 text-center">✨ Nhẹ hơn: Voyager 4320 (162g) nhẹ hơn Evolve2 65 (176g)</td><td class="py-4 px-4 text-center">Thiết kế công thái học tốt</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">5. Thời lượng Pin (Đàm thoại)</td><td class="py-4 px-4 text-center">Cạnh tranh, lên đến 24h</td><td class="py-4 px-4 text-center">Tốt, lên đến 35h (tùy mẫu)</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">6. Kết nối đa điểm</td><td class="py-4 px-4 text-center">✅ Có, chuyển đổi liền mạch giữa PC và điện thoại</td><td class="py-4 px-4 text-center">✅ Có, là tính năng tiêu chuẩn</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">7. Giá trị cho người dùng</td><td class="py-4 px-4 text-center">Tăng năng suất nhờ sự tự do và tập trung</td><td class="py-4 px-4 text-center">Tăng hiệu quả nhờ chất lượng âm thanh</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                 <!-- Wired Headsets Tab -->
+                <div id="tab-wired-headsets" class="tab-pane hidden">
+                    <div class="overflow-x-auto">
+                       <table class="w-full min-w-[800px] text-left">
+                            <thead><tr class="border-b-2 border-gray-200"><th class="py-3 px-4 text-lg font-bold text-[#0A2463] w-1/3">Tính năng</th><th class="py-3 px-4 text-center text-lg font-bold text-white bg-[#D8315B] w-1/3 rounded-t-lg">HP Poly (EncorePro)</th><th class="py-3 px-4 text-center text-lg font-bold text-gray-500 w-1/3">Đối thủ (Tai nghe thường)</th></tr></thead>
+                            <tbody>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">1. Độ bền & Vật liệu</td><td class="py-4 px-4 text-center">✨ Nhôm máy bay, khớp nối hàn laser</td><td class="py-4 px-4 text-center">Chủ yếu bằng nhựa</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">2. Tổng chi phí sở hữu (TCO)</td><td class="py-4 px-4 text-center">✨ Thấp hơn do tỷ lệ hỏng hóc cực thấp</td><td class="py-4 px-4 text-center">Cao hơn do phải thay thế thường xuyên</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">3. An toàn cho người dùng</td><td class="py-4 px-4 text-center">✨ SoundGuard: Chống sốc âm thanh, bảo vệ thính giác</td><td class="py-4 px-4 text-center">❌ Thường không có</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">4. Hiệu suất Micro</td><td class="py-4 px-4 text-center">Khử ồn chuyên dụng, có khấc định vị tối ưu</td><td class="py-4 px-4 text-center">Khử ồn cơ bản</td></tr>
+                                <tr class="border-b"><td class="py-4 px-4 font-semibold">5. Linh hoạt (Contact Center)</td><td class="py-4 px-4 text-center">✅ Đầu nối Quick Disconnect (QD) tiện lợi</td><td class="py-4 px-4 text-center">❌ Không có, phải tháo tai nghe</td></tr>
+                                <tr class="border-b bg-gray-50"><td class="py-4 px-4 font-semibold">6. Chi phí thay thế phụ kiện</td><td class="py-4 px-4 text-center">Dễ dàng thay thế đệm tai, micro...</td><td class="py-4 px-4 text-center">Thường phải thay cả tai nghe</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tech Secrets Section -->
+    <section id="tech-secrets" class="mb-16 md:mb-24">
+         <div class="text-center mb-12"><h2 class="text-3xl md:text-4xl font-extrabold text-[#0A2463]">Vũ khí Bí mật: Công nghệ Làm nên Sự khác biệt</h2><p class="text-lg text-gray-600 mt-2">Những công nghệ độc quyền mà đối thủ không có.</p></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="tech-card text-center">
+                <div><h3 class="text-2xl font-semibold text-[#0A2463] mb-4">Poly DirectorAI</h3><p class="text-gray-600 mb-6">Không chỉ tự động đóng khung, công nghệ AI của chúng tôi theo dõi và chuyển cảnh mượt mà đến người nói, tạo ra trải nghiệm như một chương trình truyền hình chuyên nghiệp.</p><div class="relative w-full h-32 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden mb-6"><span class="text-4xl z-10">🎬</span><div class="absolute top-0 left-0 w-full h-full border-4 border-[#3E92CC] rounded-lg animate-director-ai-focus"></div></div></div>
+                <div class="mt-auto pt-6 border-t border-gray-200"><h4 class="font-semibold text-gray-500">Đối thủ làm gì?</h4><p class="mt-2 text-sm text-gray-600">Công nghệ RightSight của Logitech chủ yếu tập trung vào việc tự động đóng khung toàn bộ nhóm, thiếu khả năng chuyển cảnh mượt mà và tập trung vào người nói như một đạo diễn thực thụ.</p></div>
+            </div>
+            <div class="tech-card text-center">
+                <div><h3 class="text-2xl font-semibold text-[#0A2463] mb-4">Acoustic Fence</h3><p class="text-gray-600 mb-6">Tạo ra một "bong bóng" âm thanh vô hình quanh bạn, chủ động loại bỏ mọi tiếng ồn và giọng nói từ bên ngoài lọt vào cuộc gọi. Đối tác sẽ chỉ nghe thấy bạn.</p><div class="mx-auto acoustic-fence-demo mb-6"><span class="text-5xl">🗣️</span><span class="absolute text-2xl opacity-30" style="top:0; left: 0;">🐶</span><span class="absolute text-2xl opacity-30" style="bottom:5px; right: 0;">☕</span><span class="absolute text-2xl opacity-30" style="top:50%; left: -10px;">👶</span></div></div>
+                <div class="mt-auto pt-6 border-t border-gray-200"><h4 class="font-semibold text-gray-500">Đối thủ làm gì?</h4><p class="mt-2 text-sm text-gray-600">Các công nghệ khử ồn tiêu chuẩn giúp giảm tiếng ồn nền, nhưng thường vẫn để lọt các cuộc nói chuyện của người ngồi gần. Acoustic Fence tạo ra một ranh giới rõ ràng, mang lại sự riêng tư tuyệt đối cho cuộc gọi.</p></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- In-depth FAQ Section -->
+    <section id="faq" class="mb-16 md:mb-24">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-[#0A2463]">Hỏi & Đáp Chuyên sâu cho IT & Lãnh đạo</h2>
+            <p class="text-lg text-gray-600 mt-2">Giải quyết những câu hỏi kỹ thuật và chiến lược quan trọng nhất.</p>
+        </div>
+        <div class="max-w-4xl mx-auto space-y-4">
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden"><button class="accordion-button w-full text-left p-5 font-semibold text-lg text-gray-800 flex justify-between items-center group"><span>1. "Thành thật nhé, thiết bị ngoại vi có thực sự là một rủi ro bảo mật không? Chúng tôi chưa bao giờ bị tấn công qua webcam cả."</span><svg class="h-6 w-6 transition-transform duration-300 transform group-[.active]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button><div class="accordion-content"><p class="px-5 pb-5 text-gray-600"><strong class="text-[#0A2463]">Phản hồi tư vấn:</strong> Tôi hiểu suy nghĩ của anh/chị. Đó là một quan điểm rất thực tế, vì chúng ta thường chỉ lo về những gì đã thấy. Nhưng trong an ninh mạng, hacker luôn tìm con đường ít được để ý nhất. <br><br><strong class="text-[#D8315B]">Cách HP Poly khắc phục:</strong> Chúng tôi không xem đây là một cái camera, mà là một thiết bị IT (endpoint) trên mạng của bạn. Vì vậy, nó được thừa hưởng DNA bảo mật của HP. Những thứ như <strong class="text-[#0A2463]">BIOS tự phục hồi</strong> không phải để cho đẹp, mà để chống lại các mã độc cố gắng chiếm quyền điều khiển thiết bị ngay từ khi khởi động. Hỗ trợ 802.1x đảm bảo chỉ thiết bị đã được xác thực mới được "nói chuyện" với mạng nội bộ. <br><br><strong class="text-[#0A2463]">Phản biện kinh tế:</strong> Việc bỏ qua bảo mật cho thiết bị ngoại vi cũng giống như việc rà soát an ninh cho toàn bộ nhân viên nhưng lại mở toang cửa cho người giao hàng. <strong class="text-red-600">Chi phí để dọn dẹp sau một cuộc tấn công</strong>, dù nhỏ, luôn đắt hơn rất nhiều so với việc đầu tư vào một thiết bị an toàn ngay từ đầu.</p></div></div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden"><button class="accordion-button w-full text-left p-5 font-semibold text-lg text-gray-800 flex justify-between items-center group"><span>2. "Poly Lens miễn phí thì tốt, nhưng 'của rẻ là của ôi'. Liệu nó có đủ tính năng so với bản trả phí của Logitech Sync không?"</span><svg class="h-6 w-6 transition-transform duration-300 transform group-[.active]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button><div class="accordion-content"><p class="px-5 pb-5 text-gray-600"><strong class="text-[#0A2463]">Phản hồi tư vấn:</strong> Đây là một câu hỏi rất xác đáng, vì trong kinh doanh, "miễn phí" thường đi kèm một cái giá ẩn. Sự khác biệt ở đây nằm ở mô hình kinh doanh. <br><br><strong class="text-[#D8315B]">Cách HP Poly khắc phục:</strong> Mô hình của đối thủ là cung cấp bản miễn phí giới hạn, rồi tính phí cho những tính năng mà một đội IT thực sự cần, như tạo mẫu cấu hình hàng loạt hay tích hợp API. Với chúng tôi, những thứ đó là <strong class="text-[#0A2463]">tính năng quản lý cốt lõi, không phải 'món thêm'</strong>. Bạn đã trả tiền cho phần cứng, bạn phải có quyền quản lý nó hiệu quả. Gói Poly+ trả phí của chúng tôi tập trung vào <strong class="text-red-600">dịch vụ</strong> - như bảo hành tận nơi và hỗ trợ ưu tiên, chứ không phải để 'mở khóa' phần mềm. <br><br><strong class="text-[#0A2463]">Phản biện kinh tế:</strong> Với đối thủ, chi phí quản lý là một biến số có thể leo thang khi quy mô của bạn lớn hơn. Với HP Poly, nó là một <strong class="text-green-600">hằng số bằng không</strong>. Điều này giúp bạn dự toán ngân sách IT một cách chính xác, không có chi phí bất ngờ.</p></div></div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden"><button class="accordion-button w-full text-left p-5 font-semibold text-lg text-gray-800 flex justify-between items-center group"><span>3. "Giá thiết bị của các bạn cao hơn đối thủ 20%. Đó là một con số lớn, làm sao tôi giải trình với sếp và phòng tài chính?"</span><svg class="h-6 w-6 transition-transform duration-300 transform group-[.active]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button><div class="accordion-content"><p class="px-5 pb-5 text-gray-600"><strong class="text-[#0A2463]">Phản hồi tư vấn:</strong> Tôi hoàn toàn hiểu, 20% là một con số đáng kể và cần được lý giải rõ ràng. Hãy chuyển cuộc nói chuyện từ "giá mua" (Price) sang <strong class="text-[#D8315B]">"Tổng Chi Phí Sở Hữu" (TCO)</strong>. <br><br><strong class="text-[#0A2463]">Cách HP Poly khắc phục:</strong> Khoản chênh lệch 20% đó sẽ được bù đắp và sinh lời qua việc giảm các chi phí vận hành chìm: <br>• <strong class="text-red-600">Tiền lương trả cho IT</strong> để chạy đi chạy lại sửa lỗi vặt. <br>• <strong class="text-red-600">Thiệt hại kinh doanh</strong> khi một phòng họp quan trọng 'chết' đúng lúc cần họp với khách hàng. <br>• <strong class="text-red-600">Chi phí thay mới</strong> khi một thiết bị rẻ tiền hỏng hóc chỉ sau 2-3 năm. <br>Độ bền, quản lý từ xa và đặc biệt là bảo hành tận nơi của chúng tôi trực tiếp cắt giảm những chi phí này. <br><br><strong class="text-[#0A2463]">Phản biện kinh tế:</strong> Trình bày với phòng tài chính rằng: "Chúng ta không mua một sản phẩm đắt hơn. Chúng ta đang <strong class="text-green-600">trả trước một khoản phí bảo hiểm để chống lại các chi phí vận hành không lường trước</strong> và đảm bảo sự ổn định." Đó là một quyết định tài chính khôn ngoan để bảo vệ hiệu suất làm việc.</p></div></div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden"><button class="accordion-button w-full text-left p-5 font-semibold text-lg text-gray-800 flex justify-between items-center group"><span>4. "Nhân viên của tôi không rành công nghệ. Mấy tính năng AI như DirectorAI nghe phức tạp quá, liệu có làm họ bối rối không?"</span><svg class="h-6 w-6 transition-transform duration-300 transform group-[.active]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button><div class="accordion-content"><p class="px-5 pb-5 text-gray-600"><strong class="text-[#0A2463]">Phản hồi tư vấn:</strong> Đây là một nỗi lo rất thực tế. Công nghệ dù hay đến đâu mà gây khó cho người dùng thì cũng là một thất bại. <br><br><strong class="text-[#D8315B]">Cách HP Poly khắc phục:</strong> Công nghệ AI của chúng tôi được thiết kế để <strong class="text-[#0A2463]">hoạt động một cách tự động và vô hình</strong>. Nhân viên không cần phải 'học' cách dùng nó. *Trước đây:* họ phải loay hoay tìm remote để zoom camera. *Bây giờ:* họ chỉ cần nói chuyện, và camera tự động làm việc đó như một đạo diễn chuyên nghiệp. Họ không cần biết Acoustic Fence là gì, chỉ cần biết họ có thể họp trong quán cafe mà đầu bên kia không nghe thấy tiếng ồn. <br><br><strong class="text-[#0A2463]">Phản biện kinh tế:</strong> Công nghệ này không phải là một tính năng để 'học', mà là một <strong class="text-green-600">trợ lý ảo 'làm hộ'</strong>. Nó giúp nhân viên tiết kiệm thời gian và năng lượng não bộ, để họ có thể tập trung 100% vào nội dung cuộc họp và ra quyết định nhanh hơn, thay vì bận tâm về kỹ thuật.</p></div></div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden"><button class="accordion-button w-full text-left p-5 font-semibold text-lg text-gray-800 flex justify-between items-center group"><span>5. "Chúng tôi đã đầu tư lớn vào hệ thống điều khiển Crestron. Poly có 'chơi' chung được không, hay sẽ bắt chúng tôi phải thay đổi?"</span><svg class="h-6 w-6 transition-transform duration-300 transform group-[.active]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button><div class="accordion-content"><p class="px-5 pb-5 text-gray-600"><strong class="text-[#0A2463]">Phản hồi tư vấn:</strong> Một câu hỏi rất quan trọng. Không ai muốn khoản đầu tư hiện tại của mình trở nên vô giá trị. <br><br><strong class="text-[#D8315B]">Cách HP Poly khắc phục:</strong> Chúng tôi hoàn toàn tôn trọng hệ thống hiện có của bạn. Các thiết bị phòng họp lớn của chúng tôi được xây dựng với tư duy mở, cung cấp một bộ <strong class="text-[#0A2463]">API đầy đủ và được tài liệu hóa rõ ràng</strong>. Điều này cho phép các lập trình viên của bạn hoặc đối tác tích hợp dễ dàng viết driver để điều khiển thiết bị Poly ngay trên màn hình Crestron quen thuộc. <br><br><strong class="text-[#0A2463]">Phản biện kinh tế:</strong> Chúng tôi không bắt bạn phải vào một 'hệ sinh thái khép kín'. Chúng tôi cung cấp một <strong class="text-green-600">giải pháp để nâng cấp, giúp bảo vệ và nâng cao giá trị khoản đầu tư</strong> mà bạn đã bỏ ra cho hệ thống điều khiển, thay vì bắt bạn phải loại bỏ nó.</p></div></div>
+<div class="bg-white rounded-lg shadow-sm overflow-hidden"><button class="accordion-button w-full text-left p-5 font-semibold text-lg text-gray-800 flex justify-between items-center group"><span>6. "Thiết bị tôi mua hôm nay, liệu có thành 'cục gạch' sau 2 năm khi công nghệ thay đổi không?"</span><svg class="h-6 w-6 transition-transform duration-300 transform group-[.active]:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button><div class="accordion-content"><p class="px-5 pb-5 text-gray-600"><strong class="text-[#0A2463]">Phản hồi tư vấn:</strong> Đó là nỗi lo lớn nhất khi đầu tư vào phần cứng. <br><br><strong class="text-[#D8315B]">Cách HP Poly khắc phục:</strong> Phần cứng của chúng tôi được thiết kế với hiệu năng dự phòng. Nhưng giá trị thực sự đến từ phần mềm được cập nhật liên tục qua Poly Lens. Các tính năng AI mới, các bản vá bảo mật, các cải tiến về hiệu suất... đều được <strong class="text-[#0A2463]">cung cấp qua các bản cập nhật miễn phí</strong>. <br><br><strong class="text-[#0A2463]">Phản biện kinh tế:</strong> Đây là sự khác biệt giữa việc mua một <strong class="text-red-600">tài sản tiêu hao</strong> và một <strong class="text-green-600">tài sản có khả năng tăng giá trị</strong>. Thiết bị Poly bạn mua hôm nay sẽ thông minh và hữu ích hơn sau một năm nữa, giúp tối đa hóa và kéo dài vòng đời của khoản đầu tư ban đầu.</p></div></div>
+        </div>
+    </section>
+
+    <!-- Warranty Section -->
+    <section id="warranty" class="bg-gradient-to-r from-[#0A2463] to-[#3E92CC] text-white p-10 md:p-16 rounded-2xl text-center">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-6xl mb-6">🏆</div>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-shadow">Vũ khí Tối thượng: Sự An tâm Tuyệt đối</h2>
+            <p class="text-xl md:text-2xl mt-4 opacity-90">Trong khi đối thủ yêu cầu bạn gửi thiết bị đi bảo hành, chúng tôi mang chuyên gia đến tận nơi. Dịch vụ Bảo hành Tận nơi (Onsite Warranty) chuẩn HP là lời cam kết mạnh mẽ nhất về sự ổn định và liên tục trong hoạt động kinh doanh của bạn. Đây là sự khác biệt về đẳng cấp dịch vụ.</p>
+        </div>
+
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#0A2463] text-white mt-16 md:mt-24">
+    <div class="container mx-auto px-4 py-8 text-center">
+        <p class="font-bold text-lg mb-2">HP Poly - Định hình tương lai của làm việc kết hợp.</p>
+        <p class="text-sm opacity-70">© 2024 HP Development Company, L.P. All rights reserved.</p>
+        <a href="#" class="mt-4 inline-block text-sm font-semibold hover:text-[#3E92CC] transition-colors">Về đầu trang ↑</a>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Tab switching logic
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            const targetId = button.dataset.target;
+            tabPanes.forEach(pane => pane.id === targetId ? pane.classList.remove('hidden') : pane.classList.add('hidden'));
+        });
+    });
+
+    // Accordion (FAQ) Logic
+    const accordionButtons = document.querySelectorAll('.accordion-button');
+    accordionButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const currentlyActive = button.classList.contains('active');
+            // Close all accordions
+            accordionButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.nextElementSibling.style.maxHeight = '0px';
+            });
+            // If the clicked one wasn't active, open it
+            if (!currentlyActive) {
+                button.classList.add('active');
+                const content = button.nextElementSibling;
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

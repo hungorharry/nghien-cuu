@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHÂN TÍCH CHUYÊN SÂU & KIẾN TRÚC GIẢI PHÁP HẠ TẦNG DOANH NGHIỆP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        h1, h2, h3, h4 {
+            font-weight: 800;
+        }
+        .table-header {
+            background-color: #eef2ff;
+            color: #312e81;
+            font-weight: 600;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .badge-dell { background-color: #dbeafe; color: #1e40af; }
+        .badge-hpe { background-color: #d1fae5; color: #065f46; }
+        .badge-lenovo { background-color: #fee2e2; color: #991b1b; }
+        .badge-cisco { background-color: #e0f2fe; color: #0c4a6e; }
+        .badge-available { background-color: #fef9c3; color: #854d0e; }
+        .badge-competitive { background-color: #e0e7ff; color: #3730a3; }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f9fafb;
+        }
+        .benefit-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f0fdf4; /* green-50 */
+            border-left: 4px solid #22c55e; /* green-500 */
+            border-radius: 0.375rem;
+        }
+        .benefit-box strong {
+            color: #15803d; /* green-700 */
+        }
+         .quote-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-left: 4px solid #6366f1;
+            border-radius: 0.375rem;
+        }
+        .quote-box p {
+            font-style: italic;
+            color: #4338ca;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">PHÂN TÍCH CHUYÊN SÂU & KIẾN TRÚC GIẢI PHÁP</h1>
+            <p class="text-2xl text-indigo-600 mt-2 font-semibold">Phân Khúc: Cao Cấp (Enterprise & Mission-Critical)</p>
+        </header>
+
+        <!-- Lời Mở Đầu -->
+        <section class="mb-12">
+            <div class="card p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Lời Mở Đầu: Kiến Tạo Nền Tảng Cho Lợi Thế Cạnh Tranh</h2>
+                <p class="text-gray-700 leading-relaxed text-lg">
+                    Trong bối cảnh kinh doanh số, hạ tầng CNTT không chỉ là công cụ hỗ trợ mà đã trở thành nền tảng cốt lõi cho sự vận hành, đổi mới và cạnh tranh của doanh nghiệp. Các hệ thống ERP, cơ sở dữ liệu quy mô lớn, và các nền tảng ảo hóa dày đặc là những tài sản sống còn, đòi hỏi một nền tảng phần cứng với hiệu năng đỉnh cao, độ tin cậy tuyệt đối và khả năng quản lý thông minh. Báo cáo này tập trung vào việc kiến tạo và so sánh các giải pháp cấp doanh nghiệp, sử dụng những nền tảng máy chủ thế hệ mới nhất từ các thương hiệu hàng đầu.
+                </p>
+            </div>
+        </section>
+
+        <!-- Phần 1: Tổng Quan Thị Trường & Định Vị Thương Hiệu (Mở rộng) -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-500 pb-3 mb-8">Phần 1: Tổng Quan Thị Trường & Định Vị Thương Hiệu</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Dell -->
+                <div class="card p-6 flex flex-col">
+                    <h4 class="text-xl font-bold text-blue-700 mb-3">Dell Technologies</h4>
+                    <p class="font-semibold text-gray-600 mb-4 italic text-sm">"Tăng tốc chuyển đổi số với nền tảng tính toán thông minh và tự động hóa."</p>
+                    <div class="mt-auto">
+                        <p><strong>Chiến lược:</strong> Hiệu năng tối đa, tự động hóa vòng đời.</p>
+                        <p class="mt-2"><strong>USP:</strong> Quản lý thông minh với iDRAC9 & OpenManage.</p>
+                    </div>
+                </div>
+                <!-- HPE -->
+                <div class="card p-6 flex flex-col">
+                    <h4 class="text-xl font-bold text-green-700 mb-3">Hewlett Packard Enterprise</h4>
+                    <p class="font-semibold text-gray-600 mb-4 italic text-sm">"Trải nghiệm đám mây ở mọi nơi, với nền tảng hạ tầng an toàn và thông minh nhất."</p>
+                     <div class="mt-auto">
+                        <p><strong>Chiến lược:</strong> Bảo mật từ gốc, linh hoạt và quản lý bằng AI.</p>
+                        <p class="mt-2"><strong>USP:</strong> Silicon Root of Trust & HPE InfoSight.</p>
+                    </div>
+                </div>
+                <!-- Lenovo -->
+                <div class="card p-6 flex flex-col">
+                    <h4 class="text-xl font-bold text-red-700 mb-3">Lenovo (Data Center)</h4>
+                    <p class="font-semibold text-gray-600 mb-4 italic text-sm">"Cung cấp hạ tầng thông minh hơn cho tất cả mọi người."</p>
+                     <div class="mt-auto">
+                        <p><strong>Chiến lược:</strong> Độ tin cậy hàng đầu & Hiệu suất/Giá thành vượt trội.</p>
+                        <p class="mt-2"><strong>USP:</strong> Dòng ThinkSystem ổn định và quản lý XClarity.</p>
+                    </div>
+                </div>
+                <!-- Cisco -->
+                <div class="card p-6 flex flex-col">
+                    <h4 class="text-xl font-bold text-sky-700 mb-3">Cisco (UCS)</h4>
+                    <p class="font-semibold text-gray-600 mb-4 italic text-sm">"Đơn giản hóa trung tâm dữ liệu với một hệ thống tính toán hợp nhất."</p>
+                     <div class="mt-auto">
+                        <p><strong>Chiến lược:</strong> Tích hợp sâu Mạng-Máy chủ, quản lý bằng chính sách.</p>
+                        <p class="mt-2"><strong>USP:</strong> Kiến trúc hợp nhất & quản lý từ đám mây với Intersight.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phần 2: Danh Mục Sản Phẩm Cạnh Tranh -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-500 pb-3 mb-8">Phần 2: Danh Mục Sản Phẩm Cạnh Tranh</h2>
+             <div class="card p-6">
+                 <h3 class="text-2xl font-semibold text-gray-800 mb-6">Nền tảng Máy Chủ (Building Blocks)</h3>
+                 <div class="overflow-x-auto">
+                     <table>
+                         <thead class="table-header">
+                             <tr><th>Trạng Thái</th><th>Tên Hàng / Mô tả</th><th>Ghi chú vai trò</th><th>Hãng</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td><span class="badge badge-available">⭐ Có sẵn (Nguyên Kim)</span></td>
+                                 <td>MÁY TÍNH CHỦ DELL POWEREDGE R760XS</td>
+                                 <td>Nền tảng thế hệ mới (DDR5), tối ưu cho CSDL và ảo hóa.</td>
+                                 <td><span class="badge badge-dell">DELL</span></td>
+                             </tr>
+                             <tr>
+                                 <td><span class="badge badge-available">⭐ Có sẵn (Nguyên Kim)</span></td>
+                                 <td>MÁY CHỦ HPE PROLIANT DL380 GEN11</td>
+                                 <td>Nền tảng tùy biến cao (DDR5), linh hoạt cho mọi workload.</td>
+                                 <td><span class="badge badge-hpe">HPE</span></td>
+                             </tr>
+                             <tr>
+                                 <td><span class="badge badge-competitive">✅ Cạnh tranh</span></td>
+                                 <td>MÁY CHỦ LENOVO THINKSYSTEM SR650 V3</td>
+                                 <td>Nền tảng đa năng, nổi tiếng về độ tin cậy và tối ưu chi phí.</td>
+                                 <td><span class="badge badge-lenovo">Lenovo</span></td>
+                             </tr>
+                             <tr>
+                                 <td><span class="badge badge-competitive">✅ Cạnh tranh</span></td>
+                                 <td>MÁY CHỦ CISCO UCS C240 M7</td>
+                                 <td>Nền tảng tập trung tích hợp mạng và quản lý đám mây.</td>
+                                 <td><span class="badge badge-cisco">Cisco</span></td>
+                             </tr>
+                         </tbody>
+                     </table>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Phần 3: Danh mục linh kiện có sẵn -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-500 pb-3 mb-8">Phần 3: Danh Mục Linh Kiện & Máy Chủ Có Sẵn (Nguyên Kim)</h2>
+            <div class="card p-6">
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Máy Chủ (Server)</h3>
+                        <div class="overflow-x-auto">
+                             <table>
+                                <thead class="table-header"><tr><th>Model</th><th>Cấu hình cơ bản</th></tr></thead>
+                                <tbody>
+                                    <tr><td>DELL R360</td><td>Xeon E-2434/ 16GB/ 1.2TB SAS</td></tr>
+                                    <tr><td>DELL R550</td><td>Xeon Silver 4310/ 16GB/ 4TB SAS</td></tr>
+                                    <tr><td>DELL R660xs</td><td>Xeon Silver 4510/ 32GB/ 1.2TB SAS</td></tr>
+                                    <tr><td>DELL R760xs</td><td>Xeon Silver 4510/ 16GB/ 4TB SAS</td></tr>
+                                    <tr><td>DELL T550</td><td>Xeon Silver 4310/ 16GB/ 4TB SATA</td></tr>
+                                    <tr><td>HPE DL380 G11</td><td>Xeon Silver 4510/ 32GB</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6">RAM</h3>
+                        <div class="overflow-x-auto">
+                             <table>
+                                <thead class="table-header"><tr><th>Loại</th><th>Dung lượng</th><th>Ghi chú</th></tr></thead>
+                                <tbody>
+                                    <tr><td>DDR5 ECC RDIMM</td><td>16GB</td><td>5600MT/s</td></tr>
+                                    <tr><td>DDR5 ECC UDIMM</td><td>16GB</td><td>5600MT/s</td></tr>
+                                    <tr><td>DDR4 ECC RDIMM</td><td>16GB/32GB</td><td>3200MT/s</td></tr>
+                                    <tr><td>DDR4 ECC UDIMM</td><td>8GB</td><td>3200MT/s</td></tr>
+                                    <tr><td>HPE DDR5 RDIMM</td><td>32GB</td><td>5600MT/s</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6 mt-8">Ổ cứng SSD</h3>
+                        <div class="overflow-x-auto">
+                             <table>
+                                <thead class="table-header"><tr><th>Hãng</th><th>Dung lượng</th><th>Chuẩn</th></tr></thead>
+                                <tbody>
+                                    <tr><td>DELL</td><td>480GB</td><td>SATA RI 2.5"</td></tr>
+                                    <tr><td>HPE</td><td>480GB / 960GB</td><td>SATA RI 2.5"</td></tr>
+                                    <tr><td>Samsung</td><td>480GB-7.68TB</td><td>SATA ENT 2.5"</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6 mt-8">Ổ cứng HDD</h3>
+                        <div class="overflow-x-auto">
+                             <table>
+                                <thead class="table-header"><tr><th>Hãng</th><th>Dung lượng</th><th>Chuẩn/Tốc độ</th></tr></thead>
+                                <tbody>
+                                    <tr><td>DELL/HPE</td><td>1.2TB</td><td>SAS 10K RPM</td></tr>
+                                    <tr><td>DELL/HPE</td><td>2.4TB</td><td>SAS 10K RPM</td></tr>
+                                    <tr><td>DELL</td><td>1TB / 2TB / 4TB</td><td>SATA 7.2K RPM</td></tr>
+                                     <tr><td>SEAGATE</td><td>16TB</td><td>SATA 7.2K RPM</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Phần 4: Tư Vấn Xây Dựng Kiến Trúc Cao Cấp -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-500 pb-3 mb-8">Phần 4: Tư Vấn Xây Dựng Kiến Trúc Cao Cấp</h2>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Scenario 1 -->
+                <div class="card p-8 flex flex-col">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Kịch bản 1: Máy Chủ CSDL & ERP Sống Còn (Hiệu năng tối đa)</h3>
+                    <p class="text-gray-600 mb-4"><strong>Nền tảng đề xuất:</strong> <strong class="text-blue-700">DELL POWEREDGE R760XS</strong></p>
+                    <div class="mt-4 border-t pt-4">
+                        <ul class="ml-6 list-disc space-y-1 text-gray-700 mt-2">
+                            <li><strong>RAM:</strong> 128GB (8 x 16GB DDR5 5600)</li>
+                            <li><strong>Volume 1 (OS/Logs):</strong> 2 x 480GB SSD SATA (RAID 1)</li>
+                            <li><strong>Volume 2 (Data):</strong> 4 x 1.2TB SAS 10K (RAID 10)</li>
+                            <li><strong>Mạng:</strong> Card 10/25GbE SFP+</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-box mt-auto"><strong>Lợi ích:</strong> Tăng tốc hoạt động kinh doanh, kiến trúc hiệu năng cao, nền tảng thế hệ mới.</div>
+                </div>
+                <!-- Scenario 2 -->
+                <div class="card p-8 flex flex-col">
+                    <h3 class="text-xl font-bold text-green-800 mb-4">Kịch bản 2: Nền Tảng Ảo Hóa Hiệu Suất Cao (All-Flash)</h3>
+                    <p class="text-gray-600 mb-4"><strong>Nền tảng đề xuất:</strong> <strong class="text-green-700">HPE PROLIANT DL380 GEN11</strong></p>
+                    <div class="mt-4 border-t pt-4">
+                        <ul class="ml-6 list-disc space-y-1 text-gray-700 mt-2">
+                            <li><strong>RAM:</strong> 256GB (8 x 32GB DDR5 5600)</li>
+                            <li><strong>Boot Device:</strong> Khe M.2 hoặc 2x SSD nhỏ (RAID 1)</li>
+                             <li><strong>Datastore chính:</strong> 8 x 960GB SSD SATA (RAID 6)</li>
+                             <li><strong>Mạng:</strong> 2 x Card Dual-port 10GbE BaseT</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-box mt-auto"><strong>Lợi ích:</strong> Hiệu năng I/O nhất quán, quản lý thông minh với InfoSight, tăng cường bảo mật.</div>
+                </div>
+                <!-- Scenario 3 -->
+                <div class="card p-8 flex flex-col">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Kịch bản 3: Máy Chủ "Workhorse" Tối ưu Chi phí</h3>
+                    <p class="text-gray-600 mb-4"><strong>Nền tảng đề xuất:</strong> <strong class="text-blue-700">DELL POWEREDGE R550</strong></p>
+                    <div class="mt-4 border-t pt-4">
+                        <ul class="ml-6 list-disc space-y-1 text-gray-700 mt-2">
+                            <li><strong>RAM:</strong> 64GB (4 x 16GB DDR4 3200)</li>
+                            <li><strong>Volume 1 (OS):</strong> 2 x 480GB SSD SATA (RAID 1)</li>
+                            <li><strong>Volume 2 (Data):</strong> 4 x 4TB SATA 7.2K (RAID 5)</li>
+                            <li><strong>Mạng:</strong> 2 x 1GbE (Onboard)</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-box mt-auto"><strong>Lợi ích:</strong> Cân bằng hiệu năng/chi phí, dung lượng lưu trữ lớn, đáng tin cậy cho ứng dụng doanh nghiệp.</div>
+                </div>
+                <!-- Scenario 4 -->
+                <div class="card p-8 flex flex-col">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Kịch bản 4: Nền tảng Tower Mạnh mẽ cho Chi nhánh</h3>
+                    <p class="text-gray-600 mb-4"><strong>Nền tảng đề xuất:</strong> <strong class="text-blue-700">DELL POWEREDGE T550</strong></p>
+                    <div class="mt-4 border-t pt-4">
+                        <ul class="ml-6 list-disc space-y-1 text-gray-700 mt-2">
+                             <li><strong>RAM:</strong> 64GB (2 x 32GB DDR4 3200)</li>
+                             <li><strong>Volume 1 (OS):</strong> 2 x 480GB SSD SATA (RAID 1)</li>
+                             <li><strong>Volume 2 (Shared Files/Apps):</strong> 3 x 4TB SATA 7.2K (RAID 5)</li>
+                             <li><strong>Controller:</strong> PERC H755</li>
+                        </ul>
+                    </div>
+                    <div class="benefit-box mt-auto"><strong>Lợi ích:</strong> Hoạt động êm ái, dễ triển khai tại văn phòng, hiệu năng mạnh mẽ thay thế nhiều máy chủ nhỏ.</div>
+                </div>
+                 <!-- Scenario 5 -->
+                <div class="card p-8 flex flex-col col-span-1 lg:col-span-2">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Kịch bản 5: Cụm Ảo hóa Mật độ cao (Sẵn sàng Mở rộng)</h3>
+                    <p class="text-gray-600 mb-4"><strong>Nền tảng đề xuất:</strong> <strong class="text-blue-700">2 x DELL POWEREDGE R660XS</strong></p>
+                    <div class="mt-4 border-t pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="font-semibold">Cấu hình mỗi Node:</p>
+                            <ul class="ml-6 list-disc space-y-1 text-gray-700 mt-2">
+                                 <li><strong>RAM:</strong> 256GB (16 x 16GB DDR5 5600)</li>
+                                 <li><strong>Boot Device:</strong> Dell BOSS-N1 (2 x M.2 SSD RAID 1)</li>
+                                 <li><strong>vSAN/Storage Spaces Direct Cache:</strong> 2 x 960GB SSD SATA</li>
+                                 <li><strong>vSAN/Storage Spaces Direct Capacity:</strong> 4 x 1.92TB SSD SATA</li>
+                                 <li><strong>Mạng:</strong> 2 x 25GbE SFP+</li>
+                            </ul>
+                        </div>
+                        <div class="benefit-box mt-0 md:mt-6"><strong>Lợi ích:</strong> Mật độ VM rất cao, hiệu năng I/O cực lớn với lưu trữ phân tán (HCI-ready), dễ dàng thêm node để mở rộng, tính sẵn sàng cao (HA).</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phần 5: So Sánh Hiệu Quả & Hiệu Suất Trực Tiếp -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-500 pb-3 mb-8">Phần 5: So Sánh Hiệu Quả & Hiệu Suất Trực Tiếp</h2>
+            <div class="card p-6">
+                <div class="overflow-x-auto">
+                    <table>
+                        <thead class="table-header">
+                            <tr>
+                                <th class="w-1/5">Yếu Tố So Sánh</th>
+                                <th class="w-1/5">Dell PowerEdge</th>
+                                <th class="w-1/5">HPE Proliant</th>
+                                <th class="w-1/5">Lenovo ThinkSystem</th>
+                                <th class="w-1/5">Cisco UCS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>CPU Hỗ Trợ</th>
+                                <td>Tập trung Intel Xeon Scalable.</td>
+                                <td>Intel Xeon, có phiên bản cho AMD EPYC (DL385).</td>
+                                <td><strong>Linh hoạt nhất:</strong> Hỗ trợ cả Intel Xeon và AMD EPYC.</td>
+                                <td>Intel Xeon, có phiên bản cho AMD EPYC (C245).</td>
+                            </tr>
+                            <tr>
+                                <th>Quản lý</th>
+                                <td><strong>iDRAC9 & OpenManage:</strong> Rất mạnh mẽ, tự động hóa cao, quen thuộc.</td>
+                                <td><strong>iLO 6 & InfoSight:</strong> Nổi bật với khả năng dự báo lỗi bằng AI.</td>
+                                <td><strong>XClarity Controller 2:</strong> Đơn giản, hiệu quả, rất đáng tin cậy.</td>
+                                <td><strong>Cisco Intersight:</strong> Vượt trội với mô hình quản lý từ đám mây (SaaS).</td>
+                            </tr>
+                            <tr>
+                                <th>Bảo mật Gốc</th>
+                                <td>Secured Component Verification.</td>
+                                <td><strong>Silicon Root of Trust:</strong> Được xem là "tiêu chuẩn vàng".</td>
+                                <td><strong>ThinkShield:</strong> Bảo mật toàn diện từ chuỗi cung ứng.</td>
+                                <td>Cisco Secure Boot, Trust Anchor Module.</td>
+                            </tr>
+                            <tr>
+                                <th>Điểm khác biệt cốt lõi</th>
+                                <td>Tự động hóa thông minh, tối ưu hóa vòng đời, dễ sử dụng.</td>
+                                <td>Bảo mật từ gốc, phân tích và dự báo lỗi bằng AI.</td>
+                                <td><strong>Độ tin cậy và cân bằng:</strong> Hiệu năng, chi phí, tùy chọn cấu hình.</td>
+                                <td><strong>Hạ tầng hợp nhất:</strong> Tích hợp sâu với mạng, trừu tượng hóa phần cứng.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Phần 6: Phân Tích Kỹ Thuật & Lợi Ích Khách Hàng -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-indigo-500 pb-3 mb-8">Phần 6: Phân Tích Kỹ Thuật & Lợi Ích Khách Hàng</h2>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="card p-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Kiến trúc lưu trữ CSDL: Tại sao phải phân tầng?</h3>
+                    <p class="text-gray-600 mb-2"><strong>Phân tích:</strong> CSDL có 3 loại I/O chính (Ghi tuần tự cho Log, Đọc/Ghi ngẫu nhiên cho Data). Tách các loại file này ra các Volume vật lý riêng biệt với cấu hình RAID và loại đĩa phù hợp là <strong>nguyên tắc vàng</strong>. Nó giúp các luồng I/O không tranh chấp nhau, tối đa hóa hiệu năng.</p>
+                    <div class="quote-box"><p>"Một kiến trúc CSDL được thiết kế đúng cách sẽ chạy nhanh hơn gấp nhiều lần... Đây là sự khác biệt giữa một hệ thống <strong>chạy được</strong> và một hệ thống <strong>chạy hiệu quả</strong>."</p></div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Mạng 10GbE: Có phải là quá mức cần thiết?</h3>
+                    <p class="text-gray-600 mb-2"><strong>Phân tích:</strong> Với máy chủ hiện đại, mạng 1GbE là nút thắt cổ chai nghiêm trọng. Các tác vụ như sao lưu, vMotion, đồng bộ dữ liệu sẽ làm bão hòa đường truyền. Mạng 10GbE (hoặc 25GbE) cung cấp băng thông gấp 10-25 lần, đảm bảo các tác vụ nền diễn ra nhanh chóng mà không ảnh hưởng kinh doanh.</p>
+                    <div class="quote-box"><p>"Đầu tư vào mạng 10GbE là đầu tư vào <strong>tính linh hoạt và khả năng phục hồi</strong>. Trong môi trường ảo hóa, đây là yêu cầu <strong>bắt buộc</strong>."</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tổng Kết và Khuyến Nghị (Cập nhật) -->
+        <section>
+            <div class="card p-8 bg-indigo-700 text-white">
+                 <h2 class="text-3xl font-bold mb-4">Tổng Kết và Khuyến Nghị Toàn Diện</h2>
+                 <p class="leading-relaxed text-indigo-100">
+                     Việc lựa chọn một giải pháp máy chủ cao cấp định hình năng lực CNTT của doanh nghiệp trong nhiều năm tới. Mỗi thương hiệu đều có thế mạnh riêng:
+                 </p>
+                 <ul class="list-disc list-inside space-y-2 mt-4 text-indigo-100">
+                     <li><strong>Dell:</strong> Lựa chọn hàng đầu cho sự tự động hóa thông minh và hệ sinh thái quen thuộc.</li>
+                     <li><strong>HPE:</strong> Lý tưởng cho môi trường yêu cầu bảo mật tuyệt đối và vận hành phòng ngừa sự cố bằng AI.</li>
+                     <li><strong>Lenovo:</strong> Cực kỳ cạnh tranh về độ tin cậy, sự linh hoạt và hiệu suất trên giá thành.</li>
+                     <li><strong>Cisco:</strong> Không có đối thủ trong việc xây dựng một trung tâm dữ liệu hợp nhất, quản lý từ đám mây.</li>
+                 </ul>
+                 <p class="mt-6 font-semibold text-white text-lg">
+                    Chúng tôi khuyến nghị một buổi làm việc kỹ thuật chi tiết để phân tích sâu hơn workload của quý doanh nghiệp, từ đó tinh chỉnh kiến trúc và cung cấp một báo giá cạnh tranh nhất để hiện thực hóa các mục tiêu chiến lược.
+                 </p>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>

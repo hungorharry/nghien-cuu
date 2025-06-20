@@ -67,6 +67,7 @@
             'lo-trinh-phat-trien-data-analytics.html',
             'lo-trinh-phat-trien-social-media.html',
             'nghien-cuu-mua-hang-tmdt.html',
+            'nghien-cuu-dien-thoai.html', // Đã thêm
             'quy-trinh-chuan-bi-ai-anh-thiet-noi.html',
             'quy-trinh-test-voice-ai.html',
             'quy-trinh-tuong-tac-voi-ai-voice.html',
@@ -81,6 +82,7 @@
             'lo-trinh-phat-trien-data-analytics.html': 'Lộ Trình Phát Triển Kỹ Năng Data Analytics',
             'lo-trinh-phat-trien-social-media.html': 'Lộ Trình Phát Triển Kênh Social Media',
             'nghien-cuu-mua-hang-tmdt.html': 'Nghiên Cứu Hành Vi Mua Hàng TMĐT',
+            'nghien-cuu-dien-thoai.html': 'Nghiên Cứu Thị Trường Điện Thoại', // Đã thêm
             'quy-trinh-chuan-bi-ai-anh-thiet-noi.html': 'Quy Trình Chuẩn Bị Dữ Liệu cho AI Tạo Ảnh',
             'quy-trinh-test-voice-ai.html': 'Quy Trình Kiểm Thử Giọng Nói AI (Voice AI)',
             'quy-trinh-tuong-tac-voi-ai-voice.html': 'Quy Trình Tương Tác với AI Voice',
@@ -92,11 +94,12 @@
             'fa-solid fa-store', 'fa-solid fa-chart-line', 'fa-solid fa-brain', 
             'fa-solid fa-sitemap', 'fa-solid fa-share-nodes', 'fa-solid fa-cart-shopping', 
             'fa-solid fa-camera-retro', 'fa-solid fa-microphone-lines', 'fa-solid fa-headset',
+            'fa-solid fa-mobile-screen', // Icon mới cho điện thoại
             'fa-brands fa-tiktok'
         ];
 
         const topicsGrid = document.getElementById('topicsGrid');
-        const basePath = '/thang-6/';
+        const basePath = ''; // Cập nhật đường dẫn để liên kết tương đối với thư mục hiện tại của thang-6.html
 
         // **CẬP NHẬT: Hàm lấy tiêu đề từ map**
         function getProperTitle(slug) {

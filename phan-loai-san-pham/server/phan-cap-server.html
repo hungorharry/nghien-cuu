@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài Liệu Tư Vấn Toàn Diện về Giải Pháp Máy Chủ - Nguyên Kim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #2563eb;
+        }
+        .table-header {
+            background-color: #111827;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .combo-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .combo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        .combo-card .content {
+            flex-grow: 1;
+        }
+        .star-rating .star {
+            color: #f59e0b;
+        }
+        .tech-table {
+             width: 100%;
+             text-align: left;
+             font-size: 0.875rem;
+        }
+        .tech-table th, .tech-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .tech-table tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <!-- HEADER -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900">Tài Liệu Tư Vấn Giải Pháp Máy Chủ Toàn Diện</h1>
+            <p class="mt-4 text-lg text-gray-600">Từ tổng quan chiến lược đến chi tiết kỹ thuật</p>
+        </header>
+
+        <!-- SECTION 1: CUSTOMER SEGMENTATION ANALYSIS -->
+        <section id="analysis-chart" class="mb-16">
+            <h2 class="section-title text-3xl font-bold text-gray-800">Phần 1: Phân Tích & Định Vị Khách Hàng</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <p class="text-gray-700">Biểu đồ ma trận dưới đây là công cụ chiến lược giúp đội ngũ bán hàng nhanh chóng xác định hồ sơ khách hàng và định vị gói giải pháp phù hợp nhất. Bằng cách đối chiếu 2 trục: <strong class="text-blue-600">Chi Phí Đầu Tư</strong> và <strong class="text-blue-600">Nhu Cầu Hiệu Năng & Quy Mô</strong>, chúng ta có thể xây dựng kịch bản tư vấn hiệu quả.</p>
+            </div>
+            <!-- Chart and Analysis -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- The Chart -->
+                <div class="lg:col-span-2 relative w-full bg-white p-8 rounded-xl shadow-lg">
+                    <!-- Y-Axis Label -->
+                    <div class="absolute -left-4 top-1/2 -translate-y-1/2 text-center">
+                        <p class="transform -rotate-90 whitespace-nowrap font-bold text-slate-700">
+                            Hiệu Năng & Quy Mô
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l4-4m0 0l4 4m-4-4v18"></path></svg>
+                        </p>
+                    </div>
+                    <!-- Quadrant Grid -->
+                    <div class="grid grid-cols-2 grid-rows-2 gap-4 h-full aspect-w-4 aspect-h-3">
+                        <!-- Top-Left -->
+                        <div class="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center text-center bg-teal-50">
+                            <h4 class="font-bold text-teal-700">Tối ưu Giá/Hiệu năng</h4>
+                            <div class="mt-2 text-sm text-teal-800 border-2 border-teal-500 bg-white p-2 rounded-lg shadow"><strong>Combo 3:</strong> Tăng Tốc Ảo Hóa & CSDL</div>
+                        </div>
+                        <!-- Top-Right -->
+                        <div class="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center text-center bg-indigo-50">
+                            <h4 class="font-bold text-indigo-700">Hiệu năng Tối đa</h4>
+                             <div class="mt-2 text-sm text-indigo-800 border-2 border-indigo-500 bg-white p-2 rounded-lg shadow"><strong>Combo 4:</strong> Private Cloud</div>
+                             <div class="mt-2 text-sm text-red-800 border-2 border-red-500 bg-white p-2 rounded-lg shadow"><strong>Combo 5:</strong> An Ninh & Linh Hoạt</div>
+                        </div>
+                        <!-- Bottom-Left -->
+                        <div class="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center text-center bg-blue-50">
+                            <h4 class="font-bold text-blue-700">Tiết Kiệm & An Toàn</h4>
+                            <div class="mt-2 text-sm text-blue-800 border-2 border-blue-500 bg-white p-2 rounded-lg shadow"><strong>Combo 1:</strong> Khởi Nghiệp Tối Ưu</div>
+                        </div>
+                        <!-- Bottom-Right -->
+                        <div class="border-2 border-dashed rounded-lg p-4 flex flex-col justify-center items-center text-center bg-purple-50">
+                             <h4 class="font-bold text-purple-700">Đầu Tư Tương Lai</h4>
+                            <div class="mt-2 text-sm text-purple-800 border-2 border-purple-500 bg-white p-2 rounded-lg shadow"><strong>Combo 2:</strong> Văn Phòng Hiện Đại</div>
+                        </div>
+                    </div>
+                     <!-- X-Axis Label -->
+                    <div class="absolute -bottom-0 left-1/2 -translate-x-1/2 text-center">
+                        <p class="whitespace-nowrap font-bold text-slate-700">
+                           Chi Phí Đầu Tư
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Analysis Text -->
+                <div class="space-y-4">
+                    <div class="bg-blue-100 p-4 rounded-lg border-l-4 border-blue-500">
+                        <h4 class="font-bold text-blue-800">Góc phần tư "Tiết Kiệm & An Toàn"</h4>
+                        <p class="text-sm text-blue-900 mt-1"><strong>Kịch bản:</strong> Khách hàng mới thành lập, ngân sách eo hẹp. Nỗi đau lớn nhất là dùng PC không ổn định, sợ mất dữ liệu kế toán. <br/><strong>Tư vấn:</strong> Nhấn mạnh sự an toàn (RAID 1) và ổn định (RAM ECC) với chi phí chỉ nhỉnh hơn một chút so với PC. Đây là giải pháp "bảo hiểm" cho dữ liệu sống còn của công ty.</p>
+                    </div>
+                     <div class="bg-purple-100 p-4 rounded-lg border-l-4 border-purple-500">
+                        <h4 class="font-bold text-purple-800">Góc phần tư "Đầu Tư Tương Lai"</h4>
+                        <p class="text-sm text-purple-900 mt-1"><strong>Kịch bản:</strong> SMB đã ổn định, bắt đầu cảm thấy "chậm" và muốn một nền tảng vững chắc cho 5 năm tới. Họ sẵn sàng chi trả cho công nghệ mới. <br/><strong>Tư vấn:</strong> Tập trung vào lợi ích dài hạn của DDR5, SSD. Đây không phải là chi phí, mà là một khoản "đầu tư" thông minh để giải quyết triệt để vấn đề hiệu năng.</p>
+                    </div>
+                     <div class="bg-teal-100 p-4 rounded-lg border-l-4 border-teal-500">
+                        <h4 class="font-bold text-teal-800">Góc phần tư "Tối ưu Giá/Hiệu năng"</h4>
+                        <p class="text-sm text-teal-900 mt-1"><strong>Kịch bản:</strong> Doanh nghiệp tầm trung, nhạy cảm về giá nhưng cần hiệu năng thực sự cho ảo hóa, ERP. <br/><strong>Tư vấn:</strong> Đây là "món hời". Đưa ra các cấu hình có hiệu năng cao (PERC H755, nhiều ổ cứng) nhưng trên nền tảng giá tốt (DDR4). Khẳng định đây là lựa chọn "giá trị/hiệu năng" tốt nhất thị trường.</p>
+                    </div>
+                     <div class="bg-indigo-100 p-4 rounded-lg border-l-4 border-indigo-500">
+                        <h4 class="font-bold text-indigo-800">Góc phần tư "Hiệu năng Tối đa"</h4>
+                        <p class="text-sm text-indigo-900 mt-1"><strong>Kịch bản:</strong> Doanh nghiệp lớn, yêu cầu khắt khe về mật độ VM, an ninh, khả năng mở rộng. Chi phí không phải vấn đề hàng đầu. <br/><strong>Tư vấn:</strong> Chuyển cuộc nói chuyện sang TCO, CapEx/OpEx, an ninh (Silicon Root of Trust), và các kiến trúc phức tạp (HA, vSAN, Tri-Mode). Đây là lúc bán giải pháp hạ tầng toàn diện.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: SOLUTION PACKAGES -->
+        <section id="solution-packages" class="mb-16">
+            <h2 class="section-title text-3xl font-bold text-gray-800">Phần 2: Chi Tiết Các Gói Giải Pháp</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Combo Cards -->
+                <div class="combo-card border-t-8 border-blue-500"><div class="p-6"><h3 class="text-xl font-bold text-blue-800">Combo 1: "Khởi Nghiệp Tối Ưu"</h3><p class="text-sm font-medium text-blue-600">An toàn & Tiết kiệm</p><p class="mt-2 text-gray-600 text-sm"><strong>Mục tiêu:</strong> Thay thế PC, bảo vệ dữ liệu kế toán/bán hàng với chi phí thấp nhất.</p></div><div class="px-6 pb-6"><table class="w-full text-sm"><tbody><tr class="border-t"><td class="py-2 pr-2 font-semibold">Máy Chủ</td><td class="py-2">DELL T150: Nền tảng chuyên dụng, giá tốt nhất.</td></tr><tr class="border-t bg-gray-50"><td class="py-2 pr-2 font-semibold">Bộ Nhớ</td><td class="py-2">1x 8GB ECC UDIMM: RAM tự sửa lỗi chống hỏng dữ liệu.</td></tr><tr class="border-t"><td class="py-2 pr-2 font-semibold">Lưu Trữ</td><td class="py-2">2x 1TB HDD (RAID 1): Dữ liệu an toàn tuyệt đối khi 1 ổ hỏng.</td></tr></tbody></table><div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-bold text-sm text-green-800">💡 Upsell:</p><p class="text-xs text-green-700 mt-1">Thay 1 HDD bằng 1 <strong>SSD 480GB</strong> để cài HĐH. "Tốc độ sẽ nhanh hơn 5 lần."</p></div></div></div>
+                <div class="combo-card border-t-8 border-purple-500"><div class="p-6"><h3 class="text-xl font-bold text-purple-800">Combo 2: "Văn Phòng Hiện Đại"</h3><p class="text-sm font-medium text-purple-600">Hiệu năng & An toàn Vượt trội</p><p class="mt-2 text-gray-600 text-sm"><strong>Mục tiêu:</strong> Giải quyết triệt để "chậm", nền tảng vững chắc cho 5 năm.</p></div><div class="px-6 pb-6"><table class="w-full text-sm"><tbody><tr class="border-t"><td class="py-2 pr-2 font-semibold">Máy Chủ</td><td class="py-2">DELL T360: Nền tảng DDR5 mới nhất, có PERC H755.</td></tr><tr class="border-t bg-gray-50"><td class="py-2 pr-2 font-semibold">Bộ Nhớ</td><td class="py-2">1x 16GB DDR5 ECC: Đảm bảo đa nhiệm mượt mà.</td></tr><tr class="border-t"><td class="py-2 pr-2 font-semibold">Lưu Trữ</td><td class="py-2">Lai: 2x 480GB SSD (OS) + 2x 2TB HDD (Data).</td></tr></tbody></table><div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-bold text-sm text-green-800">💡 Upsell:</p><p class="text-xs text-green-700 mt-1">Nâng lên <strong>32GB RAM</strong>. Nâng ổ dữ liệu lên <strong>4TB</strong>.</p></div></div></div>
+                <div class="combo-card border-t-8 border-teal-500"><div class="p-6"><h3 class="text-xl font-bold text-teal-800">Combo 3: "Tăng Tốc Ảo Hóa & CSDL"</h3><p class="text-sm font-medium text-teal-600">Cân Bằng Giá & Hiệu Năng</p><p class="mt-2 text-gray-600 text-sm"><strong>Mục tiêu:</strong> Chạy 5-15 máy chủ ảo, CSDL SQL, ERP mượt mà.</p></div><div class="px-6 pb-6"><table class="w-full text-sm"><tbody><tr class="border-t"><td class="py-2 pr-2 font-semibold">Máy Chủ</td><td class="py-2">DELL R550: Lựa chọn "giá trị/hiệu năng" tốt nhất.</td></tr><tr class="border-t bg-gray-50"><td class="py-2 pr-2 font-semibold">Bộ Nhớ</td><td class="py-2">2x 16GB DDR4 (Tổng 32GB): Lý tưởng cho 5-10 máy ảo.</td></tr><tr class="border-t"><td class="py-2 pr-2 font-semibold">Lưu Trữ</td><td class="py-2">Phân tầng: 2x 960GB SSD (RAID 1) + 4x 1.2TB SAS (RAID 6).</td></tr></tbody></table><div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-bold text-sm text-green-800">💡 Upsell:</p><p class="text-xs text-green-700 mt-1">Nâng nền tảng lên <strong>DELL R760XS</strong> (DDR5). Nâng RAM lên <strong>128GB</strong>.</p></div></div></div>
+                <div class="combo-card border-t-8 border-indigo-500"><div class="p-6"><h3 class="text-xl font-bold text-indigo-800">Combo 4: "Private Cloud Tối Ưu"</h3><p class="text-sm font-medium text-indigo-600">Mật Độ & Hiệu Quả</p><p class="mt-2 text-gray-600 text-sm"><strong>Mục tiêu:</strong> Cụm ảo hóa mật độ cao, giảm chi phí vận hành (TCO).</p></div><div class="px-6 pb-6"><table class="w-full text-sm"><tbody><tr class="border-t"><td class="py-2 pr-2 font-semibold">Máy Chủ</td><td class="py-2">2x DELL R760XS (tối thiểu cho HA): Tăng 20% mật độ VM.</td></tr><tr class="border-t bg-gray-50"><td class="py-2 pr-2 font-semibold">Bộ Nhớ</td><td class="py-2">8x 32GB DDR5/máy (256GB/máy): Tối đa hóa số lượng VM.</td></tr><tr class="border-t"><td class="py-2 pr-2 font-semibold">Lưu Trữ</td><td class="py-2">All-Flash: 8x 1.92TB SSD/máy (RAID 6) cho IOPS cực cao.</td></tr><tr class="border-t bg-gray-50"><td class="py-2 pr-2 font-semibold">Mạng</td><td class="py-2">25GbE/máy: Bắt buộc cho vMotion & vSAN.</td></tr></tbody></table><div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-bold text-sm text-green-800">💡 Upsell:</p><p class="text-xs text-green-700 mt-1">Mở rộng cụm lên 3-4 node. Dùng SSD dung lượng cao hơn (<strong>7.68TB</strong>).</p></div></div></div>
+                <div class="combo-card border-t-8 border-red-500 lg:col-span-2"><div class="p-6"><h3 class="text-xl font-bold text-red-800">Combo 5: "Hạ Tầng An Ninh & Linh Hoạt Tuyệt Đối"</h3><p class="text-sm font-medium text-red-600">Sẵn Sàng Cho Mọi Thử Thách</p><p class="mt-2 text-gray-600 text-sm"><strong>Mục tiêu:</strong> Nền tảng linh hoạt cho workload hỗn hợp (CSDL, AI/ML), yêu cầu an ninh và khả năng mở rộng cao nhất.</p></div><div class="px-6 pb-6"><table class="w-full text-sm"><tbody><tr class="border-t"><td class="py-2 pr-2 font-semibold">Máy Chủ</td><td class="py-2">HPE ProLiant DL380 Gen11: Linh hoạt nhất, bảo mật từ gốc (Silicon Root of Trust).</td></tr><tr class="border-t bg-gray-50"><td class="py-2 pr-2 font-semibold">Bộ Nhớ</td><td class="py-2">4x 32GB HPE Smart RAM (128GB): Tích hợp sâu iLO, dự báo lỗi.</td></tr><tr class="border-t"><td class="py-2 pr-2 font-semibold">Lưu Trữ</td><td class="py-2"><strong>Kiến trúc Tri-Mode:</strong> Controller quản lý cả mảng SAS (RAID 10) cho CSDL và mảng SSD (RAID 5) cho VMs.</td></tr><tr class="border-t bg-gray-50"><td class="py-2 pr-2 font-semibold">RAID</td><td class="py-2">HPE Smart Array MR408i-O: "Bộ não" cho phép kiến trúc lưu trữ lai phức tạp.</td></tr></tbody></table><div class="mt-4 p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg"><p class="font-bold text-sm text-green-800">💡 Upsell:</p><p class="text-xs text-green-700 mt-1">Trang bị ổ <strong>NVMe U.2/U.3</strong> để khai thác tối đa hiệu năng. Sử dụng <strong>HPE OneView</strong> để quản lý tập trung.</p></div></div></div>
+            </div>
+        </section>
+
+
+        <!-- SECTION 3: PRODUCT HIERARCHY -->
+        <section id="product-hierarchy" class="mb-16">
+            <h2 class="section-title text-3xl font-bold text-gray-800">Phần 3: Bản Đồ Phân Cấp Linh Kiện (Danh Sách Chi Tiết)</h2>
+             <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <p class="text-gray-700">Sử dụng bản đồ này như một tài liệu tham khảo chuyên sâu để xây dựng các cấu hình tùy chỉnh, trả lời các câu hỏi kỹ thuật từ khách hàng và thể hiện sự am hiểu toàn diện về sản phẩm của Nguyên Kim. Danh sách dưới đây là các sản phẩm hiện có trong kho.</p>
+                 <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm mt-4 star-rating">
+                    <div class="flex items-center"><span class="star">⭐</span><span class="ml-2">Cơ bản/Legacy</span></div>
+                    <div class="flex items-center"><span class="star">⭐⭐</span><span class="ml-2">Phổ thông</span></div>
+                    <div class="flex items-center"><span class="star">⭐⭐⭐</span><span class="ml-2">Tầm trung</span></div>
+                    <div class="flex items-center"><span class="star">⭐⭐⭐⭐</span><span class="ml-2">Hiệu năng cao</span></div>
+                    <div class="flex items-center"><span class="star">⭐⭐⭐⭐⭐</span><span class="ml-2">Cao cấp nhất</span></div>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <!-- Server Platforms -->
+                 <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">A. Máy Chủ Nguyên Bộ (Platforms)</h4>
+                    <table class="tech-table">
+                        <thead><tr><th>Phân Cấp</th><th>Hãng</th><th>Sản phẩm</th><th>Ghi Chú</th></tr></thead>
+                        <tbody>
+                            <tr><td class="star-rating">⭐⭐</td><td>DELL</td><td>POWEREDGE T150</td><td>E-2314/E-2324G, 8GB, 2TB. Vua về giá cho SMB.</td></tr>
+                            <tr><td class="star-rating">⭐⭐</td><td>HPE</td><td>PROLIANT ML30 GEN10+</td><td>E-2314, 16GB. Đối trọng của T150.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL</td><td>POWEREDGE R260</td><td>Xeon E-2434, 16GB, 2TB. Dạng rack 1U cho SMB.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL</td><td>POWEREDGE R360</td><td>Xeon E-2434, 16GB, 1.2TB SAS, PERC H355. Mạnh hơn R260.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL</td><td>POWEREDGE T360</td><td>Xeon E-2436, 16GB DDR5, 2TB, PERC H755. Đầu tư cho tương lai.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL</td><td>POWEREDGE R450</td><td>Xeon Silver 4310, 16GB, 4TB SAS, PERC H755. "Món hời" chiến lược.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL</td><td>POWEREDGE R550</td><td>Xeon Silver 4310, 16GB, 2TB/4TB SAS, PERC H755. Lựa chọn ảo hóa giá tốt.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL</td><td>POWEREDGE T550</td><td>Xeon Silver 4310, 16GB, 4TB SATA, PERC H755. Phiên bản Tower của R550.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐⭐</td><td>DELL</td><td>POWEREDGE R660XS</td><td>Xeon S4510, 32GB, 1.2TB SAS, PERC H755. Ngôi sao TCO.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐⭐</td><td>DELL</td><td>POWEREDGE R760XS</td><td>Xeon Silver 4510, 16GB, 4TB SAS, PERC H755. Tối ưu cho ảo hóa.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐⭐⭐</td><td>HPE</td><td>PROLIANT DL360/DL380 GEN11</td><td>Xeon S4510/S4514Y, 32GB, MR408i-O/MR416i-O. Linh hoạt & an ninh tối đa.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Components -->
+                <h3 class="text-2xl font-bold pt-4">B. Linh Kiện & Tùy Chọn (Options)</h3>
+                <!-- RAM -->
+                <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">B.1. Bộ Nhớ (RAM)</h4>
+                    <table class="tech-table">
+                        <thead><tr><th>Phân Cấp</th><th>Hãng</th><th>Sản phẩm</th><th>Công nghệ</th></tr></thead>
+                        <tbody>
+                            <tr><td class="star-rating">⭐⭐⭐⭐⭐</td><td>DELL/HPE/SAMSUNG/KINGSTON</td><td>32GB/16GB 5600MT/s</td><td>DDR5 ECC RDIMM/UDIMM</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL/HPE/SAMSUNG</td><td>64GB/32GB/16GB 3200MT/s</td><td>DDR4 ECC RDIMM/UDIMM</td></tr>
+                            <tr><td class="star-rating">⭐⭐</td><td>DELL</td><td>8GB 3200MT/s</td><td>DDR4 ECC UDIMM</td></tr>
+                            <tr><td class="star-rating">⭐</td><td>HP/IBM</td><td>4GB/2GB/512MB</td><td>DDR3/DDR2 ECC</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Storage -->
+                 <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">B.2. Lưu Trữ (Storage Drives)</h4>
+                    <table class="tech-table">
+                        <thead><tr><th>Phân Cấp</th><th>Hãng</th><th>Sản phẩm</th><th>Loại & Vai trò</th></tr></thead>
+                        <tbody>
+                            <tr><td class="star-rating">⭐⭐⭐⭐⭐</td><td>HPE</td><td>3PAR StoreServ M6710 920GB SSD</td><td><strong>SSD SAS Enterprise:</strong> Cho hệ thống SAN cao cấp.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐⭐</td><td>SAMSUNG/DELL/HPE</td><td>480GB / 960GB / 1.92TB / 7.68TB SSD</td><td><strong>SSD SATA:</strong> Tốc độ cao cho HĐH, ứng dụng, VM nóng.</td></tr>
+                            <tr><td class="star-rating">⭐⭐⭐</td><td>DELL/HPE</td><td>1.2TB / 1.8TB / 2.4TB / 600GB 10K SAS</td><td><strong>HDD SAS 10K:</strong> Cân bằng cho CSDL, ứng dụng cần IOPS tốt.</td></tr>
+                             <tr><td class="star-rating">⭐⭐</td><td>DELL/HPE/SEAGATE</td><td>1TB -> 16TB 7.2K SATA/SAS</td><td><strong>HDD 7.2K:</strong> Tối ưu chi phí/GB cho lưu file, backup, archive.</td></tr>
+                             <tr><td class="star-rating">⭐</td><td>HP</td><td>Băng từ Ultrium 400GB</td><td><strong>Tape:</strong> Sao lưu offline an toàn, chi phí thấp.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Controllers -->
+                 <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">B.3. Bộ Điều Khiển Lưu Trữ (Controllers)</h4>
+                    <table class="tech-table">
+                        <thead><tr><th>Phân Cấp</th><th>Hãng</th><th>Sản phẩm</th><th>Vai trò</th></tr></thead>
+                        <tbody>
+                             <tr><td class="star-rating">⭐⭐⭐⭐⭐</td><td>DELL</td><td>PERC H755</td><td>Cao cấp, 8GB NV Cache. Bắt buộc cho ảo hóa, CSDL, RAID SSD.</td></tr>
+                             <tr><td class="star-rating">⭐⭐⭐⭐⭐</td><td>HPE</td><td>Smart Array MR408i-O / MR416i-O</td><td>Cao cấp, hỗ trợ Tri-Mode (SAS/SATA/NVMe).</td></tr>
+                             <tr><td class="star-rating">⭐⭐⭐</td><td>DELL</td><td>PERC H355</td><td>Tầm trung, RAID cứng cho SMB.</td></tr>
+                             <tr><td class="star-rating">⭐⭐</td><td>HPE</td><td>H241 Smart Host Bus Adapter</td><td>Card HBA, kết nối thiết bị lưu trữ ngoài (JBOD, Tape).</td></tr>
+                             <tr><td class="star-rating">⭐</td><td>DELL</td><td>Embedded SATA (S150/S160)</td><td>RAID mềm, chỉ dùng cho nhu cầu cơ bản nhất.</td></tr>
+                             <tr><td class="star-rating">⭐</td><td>IBM/LENOVO</td><td>Server RAID 7K Adapter</td><td>RAID Controller cho máy chủ IBM cũ.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <!-- Networking -->
+                 <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">B.4. Kết Nối Mạng (Networking)</h4>
+                    <table class="tech-table">
+                        <thead><tr><th>Phân Cấp</th><th>Hãng</th><th>Sản phẩm</th><th>Tốc độ & Vai trò</th></tr></thead>
+                        <tbody>
+                             <tr><td class="star-rating">⭐⭐⭐⭐</td><td>HPE/DELL</td><td>QL41132 / BC57414</td><td>10GbE / 25GbE. Bắt buộc cho cụm HA, vMotion, iSCSI.</td></tr>
+                             <tr><td class="star-rating">⭐⭐⭐</td><td>HPE</td><td>X132 / X121 SFP</td><td>Module quang 10G/1G. Kết nối switch quang.</td></tr>
+                             <tr><td class="star-rating">⭐⭐</td><td>INTEL</td><td>I350-T4</td><td>4-port 1GbE. Tăng cổng, tạo dự phòng (NIC Teaming).</td></tr>
+                              <tr><td class="star-rating">⭐</td><td>HP</td><td>NC375T Quad Port</td><td>1GbE. Dùng cho máy chủ HP thế hệ cũ.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <!-- Power & Chassis -->
+                 <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">B.5. Nguồn & Phụ Kiện Khung Máy (Power & Chassis)</h4>
+                    <table class="tech-table">
+                        <thead><tr><th>Loại</th><th>Hãng</th><th>Sản phẩm</th></tr></thead>
+                        <tbody>
+                             <tr><td>Nguồn Enterprise</td><td>DELL/HPE</td><td>800W / 1400W Flex Slot Platinum Hot Plug</td></tr>
+                             <tr><td>Nguồn SMB</td><td>DELL</td><td>300W / 495W / 600W</td></tr>
+                             <tr><td>Ray Kit</td><td>DELL/HPE/INTEL</td><td>Ray 2U / AXXELVRAIL</td></tr>
+                             <tr><td>Khay ổ cứng</td><td>DELL/HPE</td><td>Khay 2.5in / 3.5in / Khay chuyển đổi</td></tr>
+                             <tr><td>Phụ kiện khác</td><td>HP/DELL/IBM/LENOVO</td><td>Bezel, DVD, Cáp, Keyboard...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- NEW SECTION FOR LENOVO/IBM -->
+                <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">B.6. Linh Kiện Legacy & Đa Nền Tảng (IBM/Lenovo)</h4>
+                     <div class="p-4 text-sm bg-yellow-50 border-l-4 border-yellow-400">
+                        <strong>Lưu ý:</strong> Đây là các linh kiện chuyên dụng để duy trì, sửa chữa hoặc nâng cấp các hệ thống máy chủ IBM/Lenovo thế hệ cũ. Cần kiểm tra kỹ mã part number và model máy chủ của khách hàng trước khi tư vấn.
+                    </div>
+                    <table class="tech-table">
+                        <thead><tr><th>Loại</th><th>Sản phẩm</th><th>Ghi chú</th></tr></thead>
+                        <tbody>
+                            <tr><td>RAM</td><td>RAM IBM 2GB/4GB PC3-10600R/12800</td><td>DDR3 cho server X-Series</td></tr>
+                            <tr><td>RAM</td><td>RAM 2GB PC5300 ECC</td><td>DDR2 cho server IBM X3610</td></tr>
+                            <tr><td>RAM</td><td>Lenovo 4GB DDR4 2400MHz UDIMM</td><td>DDR4 cho máy trạm/server entry Lenovo</td></tr>
+                            <tr><td>RAID Controller</td><td>IBM SERVER RAID 7K ADAPTER OPTION</td><td>Card RAID cho máy chủ IBM cũ</td></tr>
+                            <tr><td>Ổ đĩa quang</td><td>Ổ DVD LNV IBM UTRASLIM 9.5mm SATA</td><td>Cho server X3650M5 và tương đương</td></tr>
+                            <tr><td>Phụ kiện</td><td>Dây nguồn, Bàn phím, Cáp USB</td><td>Phụ kiện đặc thù cho hệ sinh thái IBM/Lenovo</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <!-- NEW SECTION FOR COMBINATION RULES -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <h4 class="table-header p-3 text-lg font-semibold">B.7. Nguyên Tắc Kết Hợp Máy Chủ & Phụ Kiện (Kịch bản Tư vấn)</h4>
+                    <div class="p-4 text-sm text-gray-700">Việc bán kèm phụ kiện không chỉ gia tăng giá trị đơn hàng mà còn thể hiện sự chuyên nghiệp và quan tâm đến nhu cầu thực tế của khách hàng. Dưới đây là các nguyên tắc và kịch bản tư vấn cốt lõi.</div>
+                    <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-sky-50 p-4 rounded-lg border-l-4 border-sky-500">
+                            <h5 class="font-bold text-sky-800">Kịch bản 1: Mua Máy Chủ Mới</h5>
+                            <ul class="list-disc list-inside text-sm text-sky-900 mt-2 space-y-1">
+                                <li><strong>Bắt buộc:</strong> Máy chủ dạng Rack (R-series) phải đi kèm <strong>Ray Kit</strong>. Tất cả máy chủ phải có <strong>Dây nguồn</strong>.</li>
+                                <li><strong>Rất nên bán kèm (Upsell):</strong>
+                                    <ul class="list-disc list-inside ml-4">
+                                        <li><strong>Nguồn dự phòng (Redundant PSU)</strong> cho các dòng từ R450/T550 trở lên.</li>
+                                        <li><strong>Khay (Caddy/Tray)</strong> nếu khách mua thêm ổ cứng rời để tự lắp.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-sky-50 p-4 rounded-lg border-l-4 border-sky-500">
+                            <h5 class="font-bold text-sky-800">Kịch bản 2: Nâng Cấp Lưu Trữ</h5>
+                             <ul class="list-disc list-inside text-sm text-sky-900 mt-2 space-y-1">
+                                <li><strong>Quy tắc 1:1:</strong> 1 Ổ cứng/SSD rời LUÔN đi kèm 1 <strong>Khay (Caddy/Tray)</strong> tương ứng (2.5" hoặc 3.5").</li>
+                                <li><strong>Kiểm tra tương thích:</strong> "Ổ cứng này có đúng chuẩn SAS/SATA mà controller của anh/chị hỗ trợ không ạ?"</li>
+                                 <li><strong>Tư vấn mục đích:</strong> "Để tăng tốc HĐH, anh/chị nên dùng SSD. Để tăng dung lượng lưu trữ, HDD 7.2K là lựa chọn tối ưu chi phí."</li>
+                            </ul>
+                        </div>
+                        <div class="bg-sky-50 p-4 rounded-lg border-l-4 border-sky-500">
+                            <h5 class="font-bold text-sky-800">Kịch bản 3: Nâng Cấp Bộ Nhớ (RAM)</h5>
+                             <ul class="list-disc list-inside text-sm text-sky-900 mt-2 space-y-1">
+                                 <li><strong>Không thể trộn lẫn:</strong> DDR4 và DDR5.</li>
+                                 <li><strong>Kiểm tra loại:</strong> Xác định rõ máy chủ khách hàng dùng <strong>UDIMM</strong> (dòng Entry) hay <strong>RDIMM</strong> (dòng Enterprise). Cắm sai sẽ không chạy.</li>
+                                 <li><strong>Tư vấn đồng bộ:</strong> "Để đảm bảo tính tương thích và hiệu năng tốt nhất, anh/chị nên sử dụng RAM cùng loại và cùng bus với RAM hiện có."</li>
+                            </ul>
+                        </div>
+                         <div class="bg-sky-50 p-4 rounded-lg border-l-4 border-sky-500">
+                            <h5 class="font-bold text-sky-800">Kịch bản 4: Hỗ Trợ Đa Nền Tảng</h5>
+                            <ul class="list-disc list-inside text-sm text-sky-900 mt-2 space-y-1">
+                                <li><strong>Khẳng định năng lực:</strong> "Bên em có sẵn linh kiện cho cả các dòng máy chủ IBM, Lenovo cũ. Anh/chị chỉ cần cung cấp model máy chủ, em sẽ kiểm tra chính xác part number tương thích."</li>
+                                <li><strong>Quản lý kỳ vọng:</strong> Với hệ thống cũ, tư vấn thêm về giới hạn hiệu năng sau khi nâng cấp để khách hàng nắm rõ.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: PRACTICAL COMBOS -->
+        <section id="suggested-combos" class="mb-16">
+            <h2 class="section-title text-3xl font-bold text-gray-800">Phần 4: Các Gói Giải Pháp Thực Tế</h2>
+             <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <p class="text-gray-700">Dưới đây là các gói giải pháp được xây dựng hoàn toàn từ linh kiện có sẵn, giúp giải quyết các bài toán kinh doanh cụ thể. Đây là những gợi ý mạnh mẽ để chào hàng, thể hiện sự am hiểu sản phẩm và nhu cầu khách hàng.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <!-- Combo 1: Small Office -->
+                <div class="combo-card border-t-8 border-green-500">
+                    <div class="p-6 content">
+                        <h3 class="text-xl font-bold text-green-800">Gói "Văn Phòng Nhỏ Tăng Tốc"</h3>
+                        <p class="mt-2 text-gray-600 text-sm"><strong>Đối tượng:</strong> Văn phòng nhỏ (~15 người) cần hiệu năng tốt hơn mức cơ bản, xử lý đa nhiệm mượt mà.</p>
+                        <table class="w-full text-sm mt-4">
+                            <thead class="bg-gray-100"><tr class="text-left"><th class="p-2">Hạng mục</th><th class="p-2">Sản phẩm</th></tr></thead>
+                            <tbody>
+                                <tr class="border-t"><td class="p-2 font-semibold">Máy Chủ</td><td class="p-2">DELL POWEREDGE T150 E-2314</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Bộ Nhớ</td><td class="p-2">2x 8GB DELL 3200MHz ECC UDIMM (Tổng 16GB)</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Lưu trữ OS</td><td class="p-2">1x 480GB DELL SSD S4510</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Lưu trữ Data</td><td class="p-2">1x 1TB DELL 7.2K SATA HDD</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-6 mt-auto">
+                        <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg">
+                            <p class="font-bold text-sm text-green-800">Kịch bản tư vấn:</p>
+                            <p class="text-xs text-green-700 mt-1">"Với cấu hình này, việc khởi động máy chủ và mở các file kế toán, bán hàng sẽ nhanh hơn hẳn nhờ ổ SSD, đồng thời 16GB RAM đảm bảo nhiều nhân viên làm việc cùng lúc không bị giật, lag."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Combo 2: Virtualization Gateway -->
+                <div class="combo-card border-t-8 border-cyan-500">
+                    <div class="p-6 content">
+                        <h3 class="text-xl font-bold text-cyan-800">Gói "Cửa Ngõ Ảo Hóa"</h3>
+                        <p class="mt-2 text-gray-600 text-sm"><strong>Đối tượng:</strong> SMB muốn bắt đầu ảo hóa (2-4 máy ảo) để hợp nhất server, tiết kiệm chi phí.</p>
+                        <table class="w-full text-sm mt-4">
+                            <thead class="bg-gray-100"><tr class="text-left"><th class="p-2">Hạng mục</th><th class="p-2">Sản phẩm</th></tr></thead>
+                            <tbody>
+                                <tr class="border-t"><td class="p-2 font-semibold">Máy Chủ</td><td class="p-2">DELL POWEREDGE R360 (8x2.5")</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Bộ Nhớ</td><td class="p-2">2x 16GB DELL 5600MT/s ECC UDIMM (Tổng 32GB)</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Lưu trữ VMs</td><td class="p-2">2x 480GB DELL SSD S4510 (RAID 1)</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Lưu trữ Data</td><td class="p-2">3x 1.2TB DELL 10K SAS HDD (RAID 5)</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Phụ kiện</td><td class="p-2">5x Khay đỡ ổ cứng Dell 2.5"</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-6 mt-auto">
+                        <div class="p-3 bg-cyan-50 border-l-4 border-cyan-500 rounded-r-lg">
+                            <p class="font-bold text-sm text-cyan-800">Kịch bản tư vấn:</p>
+                            <p class="text-xs text-cyan-700 mt-1">"Giải pháp này giúp công ty mình gom 3-4 máy chủ vật lý thành một, dễ quản lý và tiết kiệm điện. Các máy ảo chạy trên SSD sẽ rất nhanh, còn dữ liệu được bảo vệ an toàn trên các ổ SAS hiệu năng cao."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Combo 3: Central Storage -->
+                <div class="combo-card border-t-8 border-amber-500">
+                    <div class="p-6 content">
+                        <h3 class="text-xl font-bold text-amber-800">Gói "Kho Dữ Liệu Tập Trung"</h3>
+                        <p class="mt-2 text-gray-600 text-sm"><strong>Đối tượng:</strong> Doanh nghiệp cần một máy chủ file/backup dung lượng lớn, an toàn và chi phí hợp lý.</p>
+                        <table class="w-full text-sm mt-4">
+                            <thead class="bg-gray-100"><tr class="text-left"><th class="p-2">Hạng mục</th><th class="p-2">Sản phẩm</th></tr></thead>
+                            <tbody>
+                                <tr class="border-t"><td class="p-2 font-semibold">Máy Chủ</td><td class="p-2">DELL POWEREDGE R550 (8x3.5")</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Bộ Nhớ</td><td class="p-2">1x 16GB DELL 3200 ECC RDIMM</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Lưu trữ OS</td><td class="p-2">2x 500GB DELL 7.2K SATA HDD (RAID 1)</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Lưu trữ Data</td><td class="p-2">6x 4TB DELL 7.2K SATA HDD (RAID 6)</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Phụ kiện</td><td class="p-2">8x Khay gắn ổ cứng Dell 3.5"</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-6 mt-auto">
+                        <div class="p-3 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg">
+                            <p class="font-bold text-sm text-amber-800">Kịch bản tư vấn:</p>
+                            <p class="text-xs text-amber-700 mt-1">"Với cấu hình này, công ty sẽ có một kho lưu trữ chung 16TB, cho phép hỏng đồng thời 2 ổ cứng mà dữ liệu vẫn an toàn tuyệt đối nhờ RAID 6. Controller PERC H755 cao cấp sẽ đảm bảo hiệu năng ổn định."</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Combo 4: DB Performance -->
+                <div class="combo-card border-t-8 border-rose-500">
+                    <div class="p-6 content">
+                        <h3 class="text-xl font-bold text-rose-800">Gói "Tăng Cường CSDL HPE"</h3>
+                        <p class="mt-2 text-gray-600 text-sm"><strong>Đối tượng:</strong> Doanh nghiệp chạy CSDL quan trọng, cần hiệu năng ghi và truy xuất cao, ưu tiên hệ sinh thái HPE.</p>
+                        <table class="w-full text-sm mt-4">
+                            <thead class="bg-gray-100"><tr class="text-left"><th class="p-2">Hạng mục</th><th class="p-2">Sản phẩm</th></tr></thead>
+                            <tbody>
+                                <tr class="border-t"><td class="p-2 font-semibold">Máy Chủ</td><td class="p-2">HPE PROLIANT DL380 GEN11</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Bộ Nhớ</td><td class="p-2">2x 32GB HPE PC5-5600B-R (Tổng 64GB)</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Lưu trữ OS</td><td class="p-2">2x 480GB HPE SATA RI SSD (RAID 1)</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Lưu trữ CSDL</td><td class="p-2">4x 1.2TB HPE SAS 10K HDD (RAID 10)</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Mạng</td><td class="p-2">1x HPE 10GbE 2P BaseT Adapter</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-6 mt-auto">
+                        <div class="p-3 bg-rose-50 border-l-4 border-rose-500 rounded-r-lg">
+                            <p class="font-bold text-sm text-rose-800">Kịch bản tư vấn:</p>
+                            <p class="text-xs text-rose-700 mt-1">"Để tối ưu cho CSDL, em đề xuất dùng RAID 10 trên các ổ SAS 10K cho tốc độ ghi vượt trội. RAM Smart của HPE cùng card mạng 10GbE sẽ đảm bảo hệ thống chạy mượt mà, đáp ứng nhanh mọi truy vấn."</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Combo 5: Legacy Support -->
+                <div class="combo-card border-t-8 border-slate-500">
+                    <div class="p-6 content">
+                        <h3 class="text-xl font-bold text-slate-800">Gói "Duy Trì Hệ Thống Cũ"</h3>
+                        <p class="mt-2 text-gray-600 text-sm"><strong>Đối tượng:</strong> Khách hàng đang dùng máy chủ IBM/Lenovo thế hệ cũ (vd: X3400/X3500) cần nâng cấp nhẹ để kéo dài vòng đời.</p>
+                        <table class="w-full text-sm mt-4">
+                            <thead class="bg-gray-100"><tr class="text-left"><th class="p-2">Hạng mục</th><th class="p-2">Sản phẩm</th></tr></thead>
+                            <tbody>
+                                <tr class="border-t"><td class="p-2 font-semibold">Nâng cấp RAM</td><td class="p-2">RAM IBM 4GB(2x2G) PC3/10600 DDR3</td></tr>
+                                <tr class="border-t bg-gray-50"><td class="p-2 font-semibold">Phụ kiện</td><td class="p-2">Dây nguồn IBM Europe C13 to CEE7-VII</td></tr>
+                                <tr class="border-t"><td class="p-2 font-semibold">Thiết bị nhập</td><td class="p-2">Bàn phím IBM USB - 00AM600</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-6 mt-auto">
+                        <div class="p-3 bg-slate-50 border-l-4 border-slate-500 rounded-r-lg">
+                            <p class="font-bold text-sm text-slate-800">Kịch bản tư vấn:</p>
+                            <p class="text-xs text-slate-700 mt-1">"Bên em vẫn có sẵn linh kiện để hỗ trợ các dòng máy chủ cũ của IBM. Với gói nâng cấp RAM này, máy chủ của anh/chị sẽ xử lý các tác vụ hiện tại mượt mà hơn, giúp mình có thêm thời gian trước khi cần đầu tư hệ thống mới."</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

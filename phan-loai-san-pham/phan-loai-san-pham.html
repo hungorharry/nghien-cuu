@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân Loại Sản Phẩm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Lighter background */
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .card {
+            background-color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* More pronounced shadow */
+            transition: all 0.3s ease-in-out; /* Smooth transition for all properties */
+            border-radius: 1rem; /* More rounded corners */
+            overflow: hidden; /* Ensures content stays within rounded corners */
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.01); /* Lift and slightly scale up */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+        }
+        .btn-primary {
+            background-image: linear-gradient(to right, #6366f1, #4f46e5); /* Gradient indigo */
+            color: white;
+            padding: 0.85rem 2rem; /* Slightly more padding */
+            border-radius: 0.75rem; /* More rounded button */
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4); /* Shadow for primary button */
+        }
+        .btn-primary:hover {
+            background-image: linear-gradient(to right, #4f46e5, #4338ca); /* Darker gradient on hover */
+            box-shadow: 0 6px 20px rgba(67, 56, 202, 0.5); /* Stronger shadow on hover */
+        }
+        .btn-secondary {
+            background-color: #e0e7ff; /* Light indigo */
+            color: #4f46e5; /* Indigo */
+            padding: 0.85rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .btn-secondary:hover {
+            background-color: #c7d2fe; /* Lighter indigo */
+        }
+        .header-gradient {
+            background-image: linear-gradient(to right, #e0e7ff, #c7d2fe); /* Subtle gradient for header background */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="container mx-auto">
+        <header class="text-center mb-16">
+            <h1 class="text-5xl sm:text-6xl font-extrabold text-gray-800 mb-6 rounded-2xl header-gradient p-6 shadow-xl">
+                PHÂN LOẠI SẢN PHẨM
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Khám phá tổng quan phân tích dữ liệu quan trọng và các danh mục sản phẩm chi tiết.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="card p-8 flex flex-col items-center justify-center text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">SERVER HP DELL NKC</h2>
+                <p class="text-gray-600 mb-8">
+                    Truy cập thông tin chi tiết về máy chủ HP và Dell, bao gồm thông số kỹ thuật, hiệu suất và phân loại.
+                </p>
+                <a href="/phan-loai-san-pham/server/server.html" class="btn-primary">
+                    Xem Chi Tiết
+                </a>
+            </div>
+
+            <div class="card p-8 flex flex-col items-center justify-center text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">HP POLY NKC</h2>
+                <p class="text-gray-600 mb-8">
+                    Khám phá các sản phẩm HP Poly, từ thiết bị hội nghị đến giải pháp âm thanh và video.
+                </p>
+                <a href="/phan-loai-san-pham/hp-poly/hp-poly.html" class="btn-primary">
+                    Xem Chi Tiết
+                </a>
+            </div>
+
+            <div class="card p-8 flex flex-col items-center justify-center text-center">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">DỮ LIỆU KHÁC</h2>
+                <p class="text-gray-600 mb-8">
+                    Phân tích các dữ liệu khác, giúp bạn có cái nhìn tổng quan về các danh mục còn lại.
+                </p>
+                <a href="#" class="btn-primary">
+                    Xem Chi Tiết
+                </a>
+            </div>
+        </div>
+
+        <footer class="text-center text-gray-500 mt-16 text-sm">
+            &copy; 2025 Hưng Nghiên Cứu Data. Mọi quyền được bảo lưu.
+        </footer>
+    </div>
+</body>
+</html>

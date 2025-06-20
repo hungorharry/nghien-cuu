@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So Sánh Thiết Bị Hội Nghị | Nguyên Kim Computer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --dark-bg: #0B1120;
+            --dark-card: #11192C;
+            --accent-blue: #2563EB;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #E0E2E7;
+        }
+        .section-title {
+            @apply text-3xl md:text-5xl font-bold text-white mb-6 text-center; /* Increased bottom margin */
+        }
+        .section-subtitle {
+             @apply text-slate-400 text-center max-w-3xl mx-auto mb-16;
+        }
+        .product-card {
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .product-card:hover, .product-card.active {
+            transform: translateY(-8px) scale(1.03);
+            background-color: var(--dark-card);
+            border-color: var(--accent-blue);
+        }
+        .product-card.active {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .detail-pane {
+            display: none;
+        }
+        .detail-pane.active {
+            display: block;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+         .comparison-table th {
+            font-weight: 600;
+            color: #94a3b8; /* slate-400 */
+         }
+         .comparison-table td {
+            color: white;
+         }
+        .comparison-table tr:last-child th, .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        .star-rating {
+            color: #f59e0b; /* amber-500 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-black/30 backdrop-blur-lg border-b border-slate-300/10">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-widest text-white">Nguyên Kim Computer</a>
+            <a href="#contact" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors text-sm shadow-lg shadow-blue-500/20">Tư Vấn Giải Pháp 
+</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="text-center py-20 md:py-32 px-6 relative overflow-hidden">
+            <div class="absolute inset-0 bg-grid-slate-700/10 [mask-image:linear-gradient(to_bottom,white_20%,transparent_100%)]"></div>
+            <div class="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[150%] h-[150%] bg-radial-gradient from-blue-600/20 to-transparent blur-3xl -z-10"></div>
+
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-6">
+                Chọn Dòng Poly Cao Cấp Phù Hợp Nhất
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-300 mb-10">
+                So sánh chi tiết các dòng sản phẩm cao cấp HP Poly để tìm ra giải pháp hoàn hảo cho từng loại phòng họp và nhu cầu doanh nghiệp.
+            </p>
+             <img src="https://www.poly.com/content/dam/www/products/video/studio/studio-x-series/poly-studio-x-family-devices-on-table-16-9-800x450.jpg" 
+                 alt="Dòng sản phẩm hội nghị cao cấp HP Poly Studio X series" 
+                 class="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl shadow-blue-500/30 mt-12"
+                 onerror="this.onerror=null;this.src='https://placehold.co/1200x600/0B1120/E0E2E7?text=Poly+Studio+Family';">
+        </section>
+
+        <!-- Interactive Comparison Hub -->
+        <section id="comparison-hub" class="py-24 px-6">
+            <div class="container mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">Lựa Chọn Dòng Poly Phù Hợp</h2>
+                    <p class="section-subtitle">Mỗi dòng Poly cao cấp được thiết kế cho nhu cầu cụ thể. So sánh để tìm ra lựa chọn tối ưu cho phòng họp của bạn.</p>
+                </div>
+
+                <!-- Product Selection Cards -->
+                <div id="product-selector" class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 mb-8">
+                    <div class="product-card active rounded-2xl p-6 text-center" data-target="poly-x70">
+                        <img src="https://www.poly.com/content/dam/www/products/video/studio/studio-x70/poly-studio-x70-front-1-1-callout-1-800x800.png" alt="Poly Studio X70" class="h-16 md:h-20 mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/100/11192C/FFFFFF?text=X70';">
+                        <h3 class="font-bold text-white text-lg">Poly Studio X70</h3>
+                        <p class="text-sm text-blue-400 font-medium">Khuyến Nghị Hàng Đầu</p>
+                    </div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="poly-x52">
+                        <img src="https://www.poly.com/content/dam/www/products/video/studio/studio-x52/poly-studio-x52-in-use-1-16-9-800x450.jpg" alt="Poly Studio X52" class="h-16 md:h-20 mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/100/11192C/FFFFFF?text=X52';">
+                        <h3 class="font-bold text-white text-lg">Poly Studio X52</h3>
+                         <p class="text-sm text-slate-400">Cân Bằng Tối Ưu</p>
+                    </div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="hp-mini">
+                         <img src="https://www.hp.com/content/dam/sites/worldwide/solutions/poly/video-conferencing-systems/hp-mini-conference-pc-with-microsoft-teams-rooms/hp-mini-conference-pc-with-microsoft-teams-rooms-front-view-keyboard.png" alt="HP Mini IP Conf wMTR" class="h-16 md:h-20 mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/100/11192C/FFFFFF?text=MTR';">
+                        <h3 class="font-bold text-white text-lg">HP Mini IP Conf wMTR</h3>
+                        <p class="text-sm text-slate-400">All-in-One Complete</p>
+                    </div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="poly-v52">
+                        <img src="https://www.poly.com/content/dam/www/products/video/g7500/g7500-eagleeye-iv-12x-mic-array-pdp-1-800x800.png" alt="Poly V52 UVB" class="h-16 md:h-20 mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/100/11192C/FFFFFF?text=V52';">
+                        <h3 class="font-bold text-white text-lg">Poly V52 UVB</h3>
+                        <p class="text-sm text-slate-400">Phòng Họp Khổng Lồ</p>
+                    </div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="poly-tc10">
+                        <img src="https://www.poly.com/content/dam/www/products/video/tc-series/tc10/poly-tc10-on-table-16-9-800x450.jpg" alt="Poly TC10" class="h-16 md:h-20 mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/100/11192C/FFFFFF?text=TC10';">
+                        <h3 class="font-bold text-white text-lg">Poly TC10</h3>
+                        <p class="text-sm text-slate-400">Điều Khiển Trung Tâm</p>
+                    </div>
+                </div>
+
+                <!-- Details Panes -->
+                <div class="relative bg-dark-card rounded-2xl border border-border-color p-8 md:p-12 min-h-[350px]">
+                    <div id="detail-poly-x70" class="detail-pane active">
+                        <h3 class="text-2xl font-bold text-white mb-2">Poly Studio X70: Chuẩn Mực Enterprise</h3>
+                        <p class="text-slate-400 mb-6">Camera kép 4K 20MP, FOV ngang 120°, zoom 7x với DirectorAI tiên tiến - giải pháp hoàn hảo cho phòng họp lớn 15-30 người.</p>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="space-y-2 bg-slate-800/50 p-4 rounded-lg"><p class="flex items-center text-green-400 font-semibold"><i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>Camera Kép 4K 20MP</p></div>
+                            <div class="space-y-2 bg-slate-800/50 p-4 rounded-lg"><p class="flex items-center text-green-400 font-semibold"><i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>FOV Siêu Rộng 120°</p></div>
+                            <div class="space-y-2 bg-slate-800/50 p-4 rounded-lg"><p class="flex items-center text-green-400 font-semibold"><i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>DirectorAI + NoiseBlockAI</p></div>
+                        </div>
+                    </div>
+                     <div id="detail-poly-x52" class="detail-pane">
+                        <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio X70 vs. Poly Studio X52</h3>
+                        <table class="comparison-table">
+                            <thead><tr><th>Tiêu Chí</th><th>Poly Studio X70</th><th>Poly Studio X52</th></tr></thead>
+                            <tbody>
+                                <tr><th>Camera</th><td>Kép 4K 20MP</td><td>Đơn 20MP</td></tr>
+                                <tr><th>FOV</th><td>120° siêu rộng</td><td>95° tiêu chuẩn</td></tr>
+                                <tr><th>Zoom</th><td>7x quang học</td><td>5x số</td></tr>
+                                <tr><th>Phòng phù hợp</th><td>15-30 người</td><td>8-15 người</td></tr>
+                                <tr><th>Chi phí</th><td>128.000.000 VND</td><td>74.315.000-127.089.000 VND</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div id="detail-hp-mini" class="detail-pane">
+                        <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio X70 vs. HP Mini IP Conf wMTR</h3>
+                        <table class="comparison-table">
+                            <thead><tr><th>Tiêu Chí</th><th>Poly Studio X70</th><th>HP Mini IP Conf wMTR</th></tr></thead>
+                            <tbody>
+                                <tr><th>Thiết kế</th><td>Video bar chuyên dụng</td><td>All-in-one với PC i7-13700T</td></tr>
+                                <tr><th>Tích hợp</th><td>Cần thiết bị ngoài</td><td>Tích hợp hoàn toàn MTR</td></tr>
+                                <tr><th>Linh hoạt</th><td>Đa platform</td><td>Chuyên Microsoft Teams Rooms</td></tr>
+                                <tr><th>Setup</th><td>Trung bình</td><td>Phức tạp, cần chuyên gia</td></tr>
+                                <tr><th>Chi phí</th><td>128.000.000 VND</td><td>Liên hệ báo giá cao hơn</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div id="detail-poly-v52" class="detail-pane">
+                        <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio X70 vs. Poly V52 UVB</h3>
+                        <table class="comparison-table">
+                           <thead><tr><th>Tiêu Chí</th><th>Poly Studio X70</th><th>Poly V52 UVB</th></tr></thead>
+                            <tbody>
+                                <tr><th>Quy mô phòng</th><td>Lớn (15-30 người)</td><td>Khổng lồ (30+ người)</td></tr>
+                                <tr><th>Camera system</th><td>Tích hợp video bar</td><td>Camera rời chuyên nghiệp</td></tr>
+                                <tr><th>Audio system</th><td>Tích hợp</td><td>Audio riêng biệt cao cấp</td></tr>
+                                <tr><th>Triển khai</th><td>Đơn giản hơn</td><td>Cần chuyên gia AV</td></tr>
+                                <tr><th>Chi phí</th><td>128.000.000 VND</td><td>Cao hơn đáng kể</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div id="detail-poly-tc10" class="detail-pane">
+                        <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio X70 vs. Poly TC10</h3>
+                        <table class="comparison-table">
+                           <thead><tr><th>Tiêu Chí</th><th>Poly Studio X70</th><th>Poly TC10 Touch Controller</th></tr></thead>
+                            <tbody>
+                                <tr><th>Chức năng</th><td>Video conference complete</td><td>Thiết bị điều khiển trung tâm</td></tr>
+                                <tr><th>Standalone</th><td>Độc lập hoàn toàn</td><td>Cần kết hợp hệ thống khác</td></tr>
+                                <tr><th>Use case</th><td>Phòng họp hoàn chỉnh</td><td>Điều khiển hệ thống phức tạp</td></tr>
+                                <tr><th>Target</th><td>SMB đến Enterprise</td><td>Enterprise với AV chuyên nghiệp</td></tr>
+                                <tr><th>Chi phí</th><td>128.000.000 VND</td><td>Thấp hơn nhưng cần hệ thống</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tech Matrix Section -->
+        <section class="py-24 px-6">
+            <div class="container mx-auto">
+                <div class="text-center mb-16 max-w-3xl mx-auto">
+                    <h2 class="section-title">Ma Trận Lựa Chọn Dòng Poly Cao Cấp</h2>
+                    <p class="section-subtitle">Bảng so sánh toàn diện giúp bạn chọn được dòng Poly phù hợp nhất với nhu cầu và ngân sách.</p>
+                </div>
+                <div class="bg-dark-card border border-border-color rounded-2xl p-8 overflow-x-auto">
+                    <table class="w-full min-w-[1200px]">
+                        <thead>
+                            <tr class="border-b border-border-color">
+                                <th class="p-4 font-semibold text-slate-300 text-left">Đặc Tính</th>
+                                <th class="p-4 font-semibold text-blue-400 text-center">Poly Studio X70</th>
+                                <th class="p-4 font-semibold text-slate-400 text-center">Poly Studio X52</th>
+                                <th class="p-4 font-semibold text-slate-400 text-center">HP Mini IP Conf wMTR</th>
+                                <th class="p-4 font-semibold text-slate-400 text-center">Poly V52 UVB</th>
+                                <th class="p-4 font-semibold text-slate-400 text-center">Poly TC10</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-border-color">
+                                <td class="p-4 font-semibold">Camera</td>
+                                <td class="p-4 text-center">Kép 4K 20MP</td>
+                                <td class="p-4 text-center">Đơn 20MP</td>
+                                <td class="p-4 text-center">Tích hợp MTR</td>
+                                <td class="p-4 text-center">Chuyên nghiệp rời</td>
+                                <td class="p-4 text-center">Không có</td>
+                            </tr>
+                            <tr class="border-b border-border-color">
+                                <td class="p-4 font-semibold">FOV</td>
+                                <td class="p-4 text-center">120° siêu rộng</td>
+                                <td class="p-4 text-center">95° tiêu chuẩn</td>
+                                <td class="p-4 text-center">Tiêu chuẩn</td>
+                                <td class="p-4 text-center">Có thể điều chỉnh</td>
+                                <td class="p-4 text-center">N/A</td>
+                            </tr>
+                             <tr class="border-b border-border-color">
+                                <td class="p-4 font-semibold">AI Features</td>
+                                <td class="p-4 text-center">DirectorAI + NoiseBlockAI</td>
+                                <td class="p-4 text-center">DirectorAI + NoiseBlockAI</td>
+                                <td class="p-4 text-center">Cơ bản</td>
+                                <td class="p-4 text-center">Tùy chọn</td>
+                                <td class="p-4 text-center">N/A</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Phòng phù hợp</td>
+                                <td class="p-4 text-center">15-30 người</td>
+                                <td class="p-4 text-center">8-15 người</td>
+                                <td class="p-4 text-center">10-20 người</td>
+                                <td class="p-4 text-center">30+ người</td>
+                                <td class="p-4 text-center">Mọi quy mô</td>
+                            </tr>
+                             <tr class="border-b border-border-color">
+                                <td class="p-4 font-semibold">Độ phức tạp setup</td>
+                                <td class="p-4 text-center">Trung bình</td>
+                                <td class="p-4 text-center">Đơn giản</td>
+                                <td class="p-4 text-center">Phức tạp</td>
+                                <td class="p-4 text-center">Rất phức tạp</td>
+                                <td class="p-4 text-center">Cần tích hợp</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Platform support</td>
+                                <td class="p-4 text-center">Universal</td>
+                                <td class="p-4 text-center">Universal</td>
+                                <td class="p-4 text-center">Teams chuyên biệt</td>
+                                <td class="p-4 text-center">Universal</td>
+                                <td class="p-4 text-center">Universal</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+         <!-- Accessories Section -->
+        <section class="py-24 px-6">
+             <div class="container mx-auto">
+                <h2 class="section-title">🔧 Phụ Kiện Thiết Yếu Cho Từng Dòng</h2>
+                 <p class="section-subtitle">Tối ưu hóa hệ thống của bạn với các phụ kiện được đề xuất cho từng dòng sản phẩm.</p>
+                <div class="space-y-12 mt-10">
+                     <!-- X70 Accessories -->
+                     <div class="bg-dark-card border border-border-color rounded-2xl p-8">
+                        <h3 class="text-xl font-bold text-white mb-6">Phụ Kiện Nâng Cao Trải Nghiệm Studio X70</h3>
+                        <div class="overflow-x-auto">
+                             <table class="w-full min-w-[700px] comparison-table">
+                                <thead><tr><th>Phụ Kiện</th><th>Mô Tả</th><th>Giá (VND)</th><th>Mức Độ Cần Thiết</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Premium Wall Mount</td><td>Giá treo tường cao cấp</td><td>2.545.000</td><td class="star-rating">⭐⭐⭐</td></tr>
+                                    <tr><td>TV Mount Bracket</td><td>Giá gắn TV/monitor</td><td>1.527.000</td><td class="star-rating">⭐⭐⭐</td></tr>
+                                    <tr><td>Extension Microphone</td><td>Micro mở rộng</td><td>8.635.000</td><td class="star-rating">⭐⭐⭐</td></tr>
+                                    <tr><td>Cable Management Kit</td><td>Bộ quản lý cáp</td><td>1.018.000</td><td class="star-rating">⭐⭐</td></tr>
+                                </tbody>
+                             </table>
+                        </div>
+                        <div class="mt-6 bg-slate-800/50 p-4 rounded-lg"><strong>Gói Khuyến Nghị:</strong> Premium Mount + Cable Management + Remote | <strong>Giá gói: 4.200.000 VND</strong> (tiết kiệm 13%)</div>
+                    </div>
+                     <!-- X52 Accessories -->
+                      <div class="bg-dark-card border border-border-color rounded-2xl p-8">
+                        <h3 class="text-xl font-bold text-white mb-6">Phụ Kiện Tối Ưu Cho Studio X52</h3>
+                        <div class="overflow-x-auto">
+                             <table class="w-full min-w-[700px] comparison-table">
+                                <thead><tr><th>Phụ Kiện</th><th>Mô Tả</th><th>Giá (VND)</th><th>Mức Độ Cần Thiết</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Standard Wall Mount</td><td>Giá treo tường tiêu chuẩn</td><td>1.527.000</td><td class="star-rating">⭐⭐⭐</td></tr>
+                                    <tr><td>Monitor Mount Clamp</td><td>Kẹp gắn monitor</td><td>764.000</td><td class="star-rating">⭐⭐⭐</td></tr>
+                                    <tr><td>Table Microphone</td><td>Micro để bàn mở rộng</td><td>3.563.000</td><td class="star-rating">⭐⭐</td></tr>
+                                </tbody>
+                             </table>
+                        </div>
+                        <div class="mt-6 bg-slate-800/50 p-4 rounded-lg"><strong>Gói Khuyến Nghị:</strong> Standard Mount + Basic Cable + Table Mic | <strong>Giá gói: 4.800.000 VND</strong> (tiết kiệm 14%)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TCO Chart Section -->
+        <section class="py-24 px-6">
+             <div class="container mx-auto">
+                <div class="text-center mb-16 max-w-3xl mx-auto">
+                    <h2 class="section-title">So Sánh Chi Phí Hoàn Chỉnh Các Dòng Poly</h2>
+                    <p class="section-subtitle">Phân tích chi phí thực tế bao gồm thiết bị chính và phụ kiện thiết yếu để có hệ thống hoạt động hoàn chỉnh.</p>
+                </div>
+                <div class="bg-dark-card border border-border-color rounded-2xl p-8">
+                    <div class="h-96">
+                         <canvas id="tcoChart"></canvas>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+         <!-- Recommendations by Room Type -->
+        <section class="py-24 px-6">
+            <div class="container mx-auto ">
+                <h2 class="section-title">Chọn Dòng Poly Theo Nhu Cầu Cụ Thể</h2>
+                <p class="section-subtitle ">Mỗi dòng Poly được tối ưu cho các kịch bản sử dụng khác nhau. Tìm hiểu dòng nào phù hợp với bạn.</p>
+                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+                     <div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+                        <i data-lucide="users" class="w-10 h-10 mb-4 text-blue-400"></i>
+                        <h3 class="font-bold text-xl text-white mb-2">Phòng Họp Lớn (15-30 người)</h3>
+                        <p class="text-slate-400">Poly Studio X70 là lựa chọn hoàn hảo với camera kép 4K, FOV 120° và DirectorAI. Lý tưởng cho board room và không gian quan trọng.</p>
+                         <p class="mt-4 font-semibold text-white">Khuyến nghị: Poly Studio X70 + Gói phụ kiện.</p>
+                     </div>
+                     <div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+                        <i data-lucide="building" class="w-10 h-10 mb-4 text-blue-400"></i>
+                        <h3 class="font-bold text-xl text-white mb-2">Phòng Họp Trung Bình (8-15 người)</h3>
+                        <p class="text-slate-400">Poly Studio X52 mang lại hiệu suất tuyệt vời với giá cả hợp lý hơn. Lựa chọn cân bằng nhất.</p>
+                         <p class="mt-4 font-semibold text-white">Khuyến nghị: Poly Studio X52 + Gói phụ kiện.</p>
+                     </div>
+                     <div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+                        <i data-lucide="monitor" class="w-10 h-10 mb-4 text-blue-400"></i>
+                        <h3 class="font-bold text-xl text-white mb-2">Microsoft Teams Rooms Chuyên Biệt</h3>
+                        <p class="text-slate-400">HP Mini IP Conf wMTR tích hợp hoàn toàn với MTR. Giải pháp All-in-one cho doanh nghiệp 100% Microsoft ecosystem.</p>
+                        <p class="mt-4 font-semibold text-white">Khuyến nghị: HP Mini IP Conf wMTR + Gói MTR.</p>
+                     </div>
+                 </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+    
+        // Interactive Hub Logic
+        const selector = document.getElementById('product-selector');
+        if (selector) {
+            const productCards = selector.querySelectorAll('.product-card');
+            selector.addEventListener('click', (e) => {
+                const card = e.target.closest('.product-card');
+                if (!card) return;
+
+                const targetId = card.dataset.target;
+                if (!targetId) return;
+                
+                productCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                
+                document.querySelectorAll('.detail-pane').forEach(p => {
+                    p.classList.remove('active');
+                });
+                const targetPane = document.getElementById(`detail-${targetId}`);
+                if(targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        }
+
+
+        // TCO Chart
+        const tcoCtx = document.getElementById('tcoChart');
+        if (tcoCtx) {
+            new Chart(tcoCtx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['TC10', 'X52', 'X70', 'HP Mini MTR', 'V52 UVB'],
+                    datasets: [{
+                        label: 'Chi phí hoàn chỉnh (VND)',
+                        data: [23000000, 104800000, 132200000, 197500000, 320000000],
+                        backgroundColor: '#2563EB',
+                        borderColor: '#3b82f6',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#020617',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#cbd5e1',
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                font: { family: "'Inter', sans-serif" },
+                                callback: function(value) {
+                                    return (value / 1000000) + ' Tr';
+                                }
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                        },
+                        y: {
+                            ticks: { color: '#e2e8f0', font: { family: "'Inter', sans-serif", weight: '600', size: 14 } },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

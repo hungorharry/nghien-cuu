@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ đồ Kế hoạch Chiến dịch "Back To School"</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .flow-connector {
+            position: relative;
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .flow-connector::after {
+            content: '\f063'; /* Font Awesome down arrow */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #9ca3af; /* gray-400 */
+            font-size: 1.5rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e40af; /* blue-800 */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card ul {
+            list-style-position: inside;
+            margin-top: 1rem;
+        }
+        .card li {
+            margin-bottom: 0.5rem;
+            color: #374151; /* gray-700 */
+        }
+        .decision-card {
+            border-left: 5px solid #10b981; /* emerald-500 */
+            background-color: #f0fdf4; /* emerald-50 */
+        }
+        .rejected-card {
+            border-left: 5px solid #ef4444; /* red-500 */
+            background-color: #fef2f2; /* red-50 */
+            text-decoration: line-through;
+        }
+        .highlight-card {
+            border-left: 5px solid #f97316; /* orange-500 */
+            background-color: #fff7ed; /* orange-50 */
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .product-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            background-color: #f9fafb; /* gray-50 */
+            cursor: pointer; /* Indicate clickable */
+            transition: all 0.2s ease-in-out;
+        }
+        .product-card:hover {
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        .product-card h4 {
+            font-weight: 600;
+            color: #111827;
+        }
+        .product-card p {
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+        .scenario-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+        .scenario-card h4 {
+            font-weight: 600;
+            color: #1d4ed8;
+        }
+        .scenario-card .recommendation {
+            border-top: 1px dashed #cbd5e1;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative; /* For close button positioning */
+        }
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280; /* gray-500 */
+        }
+        .modal-close-btn:hover {
+            color: #111827; /* gray-900 */
+        }
+
+        /* Styles for the collapsible plan section */
+        details.plan-details-section summary {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 1rem 0;
+            color: #1e40af; /* blue-800 */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        details.plan-details-section summary::-webkit-details-marker {
+            display: none;
+        }
+        details.plan-details-section summary::before {
+            content: '\f067'; /* Plus icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+        details.plan-details-section[open] summary::before {
+            content: '\f068'; /* Minus icon */
+            transform: rotate(180deg);
+        }
+        .plan-content h3 {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #2563eb; /* blue-700 */
+        }
+        .plan-content ul {
+            list-style-type: disc;
+            margin-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .plan-content p {
+            margin-bottom: 1rem;
+        }
+        .plan-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        .plan-content th, .plan-content td {
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .plan-content th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 sm:p-6 lg:p-8">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Kế hoạch Chiến dịch "Back To School"</h1>
+        <p class="text-center text-gray-500 mb-8">Từ ý tưởng, thảo luận, ra quyết định đến kế hoạch hành động chi tiết.</p>
+
+        <!-- Collapsible Detailed Plan Section -->
+        <details class="plan-details-section card mb-8">
+            <summary><i class="fas fa-file-alt"></i> KẾ HOẠCH TRIỂN KHAI TẠI BOOTH (PHIÊN BẢN ĐÃ ĐIỀU CHỈNH - Chi tiết)</summary>
+            <div class="plan-content pt-4 border-t border-gray-200 mt-4">
+                <h3>I. MỤC TIÊU CHƯƠNG TRÌNH</h3>
+                <ul>
+                    <li>Thu hút khách hàng đến gian hàng bằng trải nghiệm quà tặng công nghệ (in sticker/ảnh miễn phí).</li>
+                    <li>Giới thiệu và tạo ấn tượng về công cụ AI tư vấn laptop như một điểm nhấn công nghệ độc đáo.</li>
+                    <li>Thu thập dữ liệu khách hàng tiềm năng (email, nhu cầu sử dụng) một cách tự nhiên thông qua luồng tư vấn của AI.</li>
+                    <li>Tăng nhận diện thương hiệu và tạo cơ hội chuyển đổi bán hàng trực tiếp hoặc sau sự kiện.</li>
+                </ul>
+
+                <h3>II. ĐỐI TƯỢNG MỤC TIÊU</h3>
+                <ul>
+                    <li>Học sinh cấp 1, cấp 2, cấp 3.</li>
+                    <li>Sinh viên các trường Đại học, Cao đẳng.</li>
+                    <li>Phụ huynh đi mua sắm cùng con em.</li>
+                </ul>
+
+                <h3>III. NỘI DUNG & LUỒNG TRẢI NGHIỆM KHÁCH HÀNG (Quan trọng nhất)</h3>
+                <h4>1. Khu vực Booth:</h4>
+                <ul>
+                    <li>Trưng bày sản phẩm chính: 8 mẫu laptop được đặt an toàn trong tủ kính có khóa. Mỗi máy có bảng thông số rõ ràng.</li>
+                    <li>Khu vực "Mồi" thu hút: Bố trí Máy in sticker mini (H11/L8) và Máy in ảnh (Z1) ở vị trí dễ thấy phía trước booth để demo và làm quà tặng.</li>
+                    <li>Điểm nhấn truyền thông: Standee/Wobbler với thông điệp mời gọi rõ ràng: "Nhận Sticker Cá Tính Miễn Phí & Trải Nghiệm AI Chọn Laptop Đúng Chuẩn!"</li>
+                    <li>Mã QR: Đặt tại nhiều điểm để khách hàng dễ dàng quét và truy cập công cụ AI.</li>
+                </ul>
+                <h4>2. Luồng Trải Nghiệm Khách Hàng (Đơn giản & Nhanh gọn):</h4>
+                <h5>Bước 1: Tiếp cận & Thu hút bằng Quà tặng (The Hook)</h5>
+                <ul>
+                    <li>Nhân viên chủ động mời khách: "Dạ em chào anh/chị, Chính Nhân đang có chương trình Back To School, mời anh/chị ghé nhận một tấm sticker/ảnh in lấy liền miễn phí ạ!"</li>
+                    <li>Nhân viên sử dụng template có sẵn, chỉ cần nhập tên khách hàng và in tặng. Thời gian < 1 phút, đảm bảo luồng khách thông suốt.</li>
+                </ul>
+                <h5>Bước 2: Giới thiệu Công cụ Tư vấn AI (The Pivot)</h5>
+                <ul>
+                    <li>Trong lúc khách đang hào hứng với món quà, nhân viên khéo léo chuyển hướng: "Nhân đây, anh/chị hãy thử ngay công cụ AI này để tìm chiếc laptop phù hợp nhất với nhu cầu học tập/công việc của mình chỉ trong 2 phút nhé!"</li>
+                    <li>Hướng dẫn khách quét mã QR để bắt đầu.</li>
+                </ul>
+                <h5>Bước 3: Tương tác AI & Thu thập Data (The Core Action)</h5>
+                <ul>
+                    <li>Khách hàng tương tác với Chatbot AI trên điện thoại.</li>
+                    <li>AI sẽ hỏi các câu hỏi định hướng (VD: "Bạn là sinh viên năm mấy?", "Nhu cầu chính của bạn là học tập, thiết kế hay chơi game?").</li>
+                    <li>AI phân tích và gợi ý 1-2 mẫu laptop phù hợp nhất trong 8 mẫu trưng bày.</li>
+                    <li>Call-to-Action quan trọng: Màn hình cuối của AI hiển thị: "Hãy nhập email để nhận ngay thông tin chi tiết, hình ảnh sản phẩm và Voucher giảm giá độc quyền nhé!"</li>
+                </ul>
+                <h5>Bước 4: Tự động hóa & Chăm sóc</h5>
+                <ul>
+                    <li>Hệ thống tự động gửi email chứa thông tin sản phẩm và mã khuyến mãi cho khách.</li>
+                    <li>Nhân viên tại booth có thể tư vấn sâu hơn về mẫu laptop mà AI vừa gợi ý.</li>
+                </ul>
+
+                <h3>IV. HỆ THỐNG CẦN CHUẨN BỊ</h3>
+                <ul>
+                    <li>Nền tảng AI Tư vấn: Một trang web (chatbot) đã được "training" dữ liệu của 8 mẫu laptop và các kịch bản tư vấn.</li>
+                    <li>Hệ thống Email Marketing tự động: Tích hợp với nền tảng AI để gửi email ngay khi khách hàng nhập thông tin.</li>
+                    <li>Database (Google Sheet/CRM): Tự động tổng hợp danh sách khách hàng tiềm năng (Tên, Email, Sản phẩm được gợi ý) từ công cụ AI.</li>
+                    <li>Mã QR Code: Dẫn đến trang web AI tư vấn.</li>
+                    <li>Thiết bị Demo: Sử dụng điện thoại của nhân viên hoặc trang bị 1-2 máy tính bảng tại booth.</li>
+                </ul>
+
+                <h3>V. QUÀ TẶNG & KHUYẾN MÃI</h3>
+                <ul>
+                    <li>Quà Tặng Trải Nghiệm (Tại chỗ): Sticker/Ảnh in lấy liền từ các máy in mini (H11, L8, Z1).</li>
+                    <li>Ưu Đãi Chuyển Đổi (Gửi qua Email): Voucher giảm giá/Mã khuyến mãi độc quyền dành cho khách hàng đã hoàn thành trải nghiệm AI và để lại email.</li>
+                </ul>
+
+                <h3>VI. TRUYỀN THÔNG</h3>
+                <ul>
+                    <li>PR trước chương trình trên các kênh MXH (Tiktok, Facebook) về hoạt động "Trải nghiệm AI chọn laptop, nhận quà chất".</li>
+                    <li>Kêu gọi follow để cập nhật các hoạt động và khuyến mãi.</li>
+                    <li>Phát tờ rơi giới thiệu về booth, nhấn mạnh 2 hoạt động chính: Nhận sticker miễn phí và Trải nghiệm AI.</li>
+                    <li>Đăng Story/Reels hình ảnh khách hàng đang hào hứng tương tác với AI và khoe quà tặng sticker.</li>
+                </ul>
+
+                <h3>VII. NHÂN SỰ & PHÂN CÔNG</h3>
+                <ul>
+                    <li>Quản lý chương trình (1 người): Theo dõi tổng thể, đảm bảo luồng hoạt động, xử lý tình huống.</li>
+                    <li>Nhân viên Demo Quà tặng (1 người): Chuyên trách việc mời khách, demo máy in sticker/ảnh và tặng quà. Giúp giữ chân khách và tạo không khí sôi động.</li>
+                    <li>Tư vấn viên & Hướng dẫn AI (1-2 người): Hướng dẫn khách sử dụng công cụ AI, giải đáp thắc mắc và tư vấn sâu hơn về sản phẩm laptop sau khi AI đã gợi ý.</li>
+                </ul>
+
+                <h3>VIII. GIAI ĐOẠN</h3>
+                <ul>
+                    <li>Chuẩn bị (Đến 20/06):
+                        <ul>
+                            <li>Xây dựng và training chatbot AI.</li>
+                            <li>Thiết kế booth, standee, template in sticker.</li>
+                            <li>Thiết lập hệ thống email tự động.</li>
+                            <li>Chuẩn bị quà tặng, máy móc.</li>
+                        </ul>
+                    </li>
+                    <li>Diễn ra (Tháng 7 - Tháng 9):
+                        <ul>
+                            <li>Triển khai hoạt động liên tục, tập trung nhân sự vào các khung giờ cao điểm (10h – 12h, 18h – 20h).</li>
+                        </ul>
+                    </li>
+                    <li>Tổng kết (Hàng tuần/cuối kỳ):
+                        <ul>
+                            <li>Tổng hợp data khách hàng tiềm năng.</li>
+                            <li>Đo lường hiệu quả (số lượt tương tác, số email thu thập được).</li>
+                            <li>Đội ngũ sale chủ động liên hệ chăm sóc các khách hàng tiềm năng.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </details>
+        <div class="flow-connector"></div>
+
+        <!-- Mục tiêu & Yêu cầu Ban đầu (Existing content) -->
+        <div class="card bg-blue-100 border-blue-300">
+            <h2 class="card-title text-blue-900"><i class="fas fa-flag-checkered"></i> MỤC TIÊU & YÊU CẦU BAN ĐẦU (Email từ Mr. ThietPN)</h2>
+            <ul class="list-disc">
+                <li><strong>Chương trình:</strong> Bán hàng tại PNC với 8 sản phẩm laptop chiến lược.</li>
+                <li><strong>Nhiệm vụ chính (Mr. Bảo):</strong>
+                    <ul class="list-circle ml-6 mt-2">
+                        <li>Dùng AI tạo kịch bản tư vấn laptop cho các nhóm: Phụ huynh + HS Cấp 1, HS Cấp 2, HS Cấp 3, Sinh viên.</li>
+                        <li>Phân tích xu hướng tiêu dùng sản phẩm SMC để chọn hàng bán kèm.</li>
+                    </ul>
+                </li>
+                <li><strong>Mục đích AI:</strong> Training team sale (Chính Nhân & PNC), thu hút sự tò mò của học sinh, sinh viên.</li>
+                <li><strong>Hỗ trợ:</strong> Sales CN & SMC</li>
+                <li><strong>Lưu ý:</strong> Giờ cao điểm tại PNC (10-12h, 18-20h).</li>
+            </ul>
+        </div>
+        <div class="flow-connector"></div>
+
+        <!-- Diễn biến Cuộc họp & Quyết định -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-users"></i> DIỄN BIẾN CUỘC HỌP & QUYẾT ĐỊNH</h2>
+            <div class="space-y-6 mt-4">
+                <!-- Giai đoạn 1 -->
+                <div class="card decision-card">
+                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-lightbulb"></i> Giai đoạn 1: Thảo luận Danh mục sản phẩm</h3>
+                    <ul class="list-disc">
+                        <li><strong>Đồng thuận:</strong> Máy in sticker/ảnh có tiềm năng làm sản phẩm "mồi" thu hút, tạo trải nghiệm.</li>
+                        <li class="rejected-card p-2 rounded-md"><strong>Loại bỏ:</strong> Xe trượt điện do không phù hợp không gian nhà sách và rủi ro an toàn.</li>
+                    </ul>
+                </div>
+                <!-- Giai đoạn 2 -->
+                <div class="card decision-card">
+                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-money-bill-wave"></i> Giai đoạn 2: Xây dựng Kế hoạch & Ngân sách</h3>
+                    <ul class="list-disc">
+                        <li><strong>Điểm nhấn:</strong> Dùng AI tư vấn laptop như một công cụ công nghệ để thu thập data khách hàng tiềm năng.</li>
+                        <li><strong>Quyết định ngân sách:</strong> Trình ngân sách <strong>203 triệu VNĐ</strong> cho 2 tháng dưới dạng một chiến dịch truyền thông tổng thể để tăng tính thuyết phục với nhãn hàng.</li>
+                    </ul>
+                </div>
+                <!-- Giai đoạn 3 -->
+                <div class="card decision-card">
+                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-magic"></i> Giai đoạn 3: Tối ưu Trải nghiệm Khách hàng</h3>
+                    <ul class="list-disc">
+                        <li><strong>Vấn đề:</strong> Khách tự thiết kế sticker/ảnh sẽ gây ùn tắc, tốn thời gian.</li>
+                        <li><strong>Giải pháp:</strong> Nhân viên sẽ demo bằng các template có sẵn. Chỉ cần nhập tên khách hàng, in và tặng. Đảm bảo luồng khách thông suốt (~1 phút/khách).</li>
+                    </ul>
+                </div>
+                <!-- Giai đoạn 4 -->
+                <div class="card decision-card">
+                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-handshake"></i> Giai đoạn 4: Thảo luận với Đối tác (PNC)</h3>
+                    <ul class="list-disc">
+                        <li><strong>Quan ngại từ PNC:</strong> Vấn đề an ninh cho các sản phẩm giá trị cao như laptop.</li>
+                        <li><strong>Giải pháp:</strong> Laptop trưng bày sẽ được đặt trong <strong>tủ kính có khóa</strong> để đảm bảo an toàn.</li>
+                    </ul>
+                </div>
+                <!-- Giai đoạn 5 -->
+                <div class="card decision-card">
+                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-tasks"></i> Giai đoạn 5: Chốt Kế hoạch & Giao việc</h3>
+                    <ul class="list-disc">
+                        <li>Tổng kết các quyết định về sản phẩm, quy trình AI, phương án demo và ngân sách.</li>
+                        <li>Phân công nhiệm vụ cụ thể cho các đội ngũ liên quan.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="flow-connector"></div>
+
+        <!-- Luồng Trải Nghiệm Khách Hàng -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-map-signs"></i> LUỒNG TRẢI NGHIỆM KHÁCH HÀNG TẠI ĐIỂM BÁN</h2>
+            <div class="relative mt-6">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-blue-300 hidden md:block"></div>
+                <div class="space-y-8 md:space-y-12">
+                    <!-- Step 1 -->
+                    <div class="md:flex items-center w-full">
+                        <div class="md:w-1/2 text-center md:text-right md:pr-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 1: Tiếp cận & Thu hút</p><p class="text-gray-600">NV chào và giới thiệu sản phẩm phụ trợ độc đáo (máy in sticker, máy in ảnh).</p></div></div>
+                        <div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">1</div>
+                        <div class="md:w-1/2"></div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="md:flex items-center w-full"><div class="md:w-1/2"></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">2</div><div class="md:w-1/2 text-center md:text-left md:pl-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 2: Giới thiệu Công cụ AI</p><p class="text-gray-600">"Anh/chị hãy thử công cụ này để tìm chiếc laptop phù hợp nhất nhé!"</p></div></div></div>
+                    <!-- Step 3 -->
+                    <div class="md:flex items-center w-full"><div class="md:w-1/2 text-center md:text-right md:pr-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 3: Tương tác & Trải nghiệm</p><p class="text-gray-600">Khách hàng dùng AI tư vấn, nhận quà tặng từ máy in.</p></div></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">3</div><div class="md:w-1/2"></div></div>
+                    <!-- Step 4 -->
+                    <div class="md:flex items-center w-full"><div class="md:w-1/2"></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">4</div><div class="md:w-1/2 text-center md:text-left md:pl-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 4: Tự động hóa & Chuyển đổi</p><p class="text-gray-600">Hệ thống gửi email thông tin SP, khuyến mãi và link mua hàng.</p></div></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="flow-connector"></div>
+        
+        <!-- Chiến lược Sản phẩm & Phân tích Thị trường -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-shopping-cart"></i> CHIẾN LƯỢC SẢN PHẨM & PHÂN TÍCH THỊ TRƯỜNG</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
+                <!-- Laptop Products -->
+                <div class="col-span-1 lg:col-span-2 card highlight-card">
+                    <h3 class="font-bold text-lg text-orange-800"><i class="fas fa-laptop"></i> Danh mục Laptop Trưng bày (8 sản phẩm)</h3>
+                    <div id="laptop-grid" class="product-grid mt-2">
+                        <!-- Laptop cards will be populated here by JavaScript -->
+                    </div>
+                </div>
+                <!-- SMC Products -->
+                <div class="col-span-1 lg:col-span-2 card">
+                    <h3 class="font-bold text-lg text-gray-800"><i class="fas fa-box-open"></i> Danh mục Sản phẩm SMC được lựa chọn</h3>
+                    <div id="smc-product-grid" class="product-grid mt-2">
+                        <!-- SMC product cards will be populated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flow-connector"></div>
+        
+        <!-- Phân công & Địa điểm triển khai -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-users-viewfinder"></i> PHÂN CÔNG & ĐỊA ĐIỂM TRIỂN KHAI</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <!-- Team List -->
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-user-friends"></i> Danh sách nhân viên tham gia</h3>
+                    <div class="overflow-x-auto rounded-lg border">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
+                                <tr><th scope="col" class="px-6 py-3">STT</th><th scope="col" class="px-6 py-3">Họ và Tên</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">1</td><td class="px-6 py-4">Nguyễn Quốc Hưng</td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">2</td><td class="px-6 py-4">Trần Hoàng Lan Viên</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">3</td><td class="px-6 py-4">Trần Bảo Trân</td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">4</td><td class="px-6 py-4">Đặng Thành Lộc</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">5</td><td class="px-6 py-4">Nguyễn Thị Như Minh</td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">6</td><td class="px-6 py-4">Đỗ Trung Tín</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">7</td><td class="px-6 py-4">Nguyễn Phương Tuyền</td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">8</td><td class="px-6 py-4">Lê Đức Minh</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">9</td><td class="px-6 py-4">Lê Nguyễn Hữu Dương</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">10</td><td class="px-6 py-4">Nguyễn Thị Bảo Hà</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Location List -->
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-map-marked-alt"></i> Danh sách nhà sách Phương Nam</h3>
+                    <div class="overflow-x-auto rounded-lg border">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
+                                <tr><th scope="col" class="px-6 py-3">Tên Nhà Sách</th><th scope="col" class="px-6 py-3">Địa chỉ</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Booklook Vạn Hạnh Mall</td><td class="px-6 py-4">Tầng 3, 11 Sư Vạn Hạnh, P.12, Q.10</td></tr>
+                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Crescent Mall</td><td class="px-6 py-4">Tầng 3, 101 Tôn Dật Tiên, P.Tân Phú, Q.7</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Nguyễn Oanh</td><td class="px-6 py-4">03 Nguyễn Oanh, P.10, Q.Gò Vấp</td></tr>
+                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Estella</td><td class="px-6 py-4">Tầng 4, 88 Song Hành, P.An Phú, Q.2</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Phú Thọ</td><td class="px-6 py-4">940 Đường 3/2, P.15, Q.11</td></tr>
+                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Saigon Centre</td><td class="px-6 py-4">Tầng 4, 65 Lê Lợi, Q.1</td></tr>
+                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Nguyễn Trãi</td><td class="px-6 py-4">212 Nguyễn Trãi, P.PNL, Q.1</td></tr>
+                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Vincom Đồng Khởi</td><td class="px-6 py-4">Tầng B2, 72 Lê Thánh Tôn, P.Bến Nghé, Q.1</td></tr>
+                                <tr class="bg-white"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Vivo City</td><td class="px-6 py-4">Tầng 3, 1058 Đại Lộ Nguyễn Văn Linh, P.Tân Phong, Q.7</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flow-connector"></div>
+        
+        <!-- Kịch bản Tư vấn Laptop -->
+        <div class="card">
+            <h2 class="card-title"><i class="fas fa-comments"></i> KỊCH BẢN TƯ VẤN LAPTOP (Gợi ý cho AI & Sales)</h2>
+            <div class="mt-4">
+                <p class="text-gray-700 bg-gray-100 p-4 rounded-lg"><i class="fas fa-info-circle mr-2 text-blue-600"></i>Nội dung tư vấn chi tiết cho từng đối tượng khách hàng sẽ tham khảo theo tài liệu Marketing đã được phân tích và biên soạn sẵn.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- General Detail Modal -->
+    <div id="detail-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="close-modal-btn">&times;</button>
+            <h3 id="modal-item-name" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+            <p id="modal-item-type" class="text-gray-500 text-sm mb-4"></p>
+            <div class="mb-4">
+                <p class="text-gray-600 font-semibold mb-1">Chi tiết:</p>
+                <p id="modal-item-details" class="text-gray-700 text-lg"></p>
+            </div>
+            <div>
+                <p class="text-gray-600 font-semibold mb-1" id="modal-target-label">Phân khúc khách hàng nhắm tới:</p>
+                <p id="modal-item-target" class="text-gray-700 text-lg"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for laptops
+        const laptopData = [
+            {
+                name: "ASUS P1403CVA-S60618W",
+                type: "Laptop",
+                details: "CPU: Intel Core i3-1315U, RAM: 8GB DDR5, SSD: 256GB NVMe, OS: Windows 11",
+                target: "Học sinh cấp 1-2, cấp 3 có nhu cầu học tập, duyệt web, xem phim cơ bản. Phù hợp cho việc học online và làm bài tập."
+            },
+            {
+                name: "DELL INSPIRON 3520",
+                type: "Laptop",
+                details: "CPU: Intel Core i5-1235U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
+                target: "Học sinh cấp 3, sinh viên các ngành kinh tế, xã hội. Hỗ trợ tốt cho công việc văn phòng, đa nhiệm nhẹ."
+            },
+            {
+                name: "DELL INSPIRON 3530",
+                type: "Laptop",
+                details: "CPU: Intel Core i7-1355U, RAM: 16GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
+                target: "Sinh viên các ngành có nhu cầu xử lý dữ liệu, lập trình cơ bản, hoặc người dùng văn phòng chuyên nghiệp cần hiệu suất cao."
+            },
+            {
+                name: "DELL INS15 3530",
+                type: "Laptop",
+                details: "CPU: Intel Core i3-1305U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
+                target: "Học sinh cấp 2-3, sinh viên mới nhập học. Đáp ứng tốt nhu cầu học tập, giải trí nhẹ nhàng."
+            },
+            {
+                name: "HP 15-FD0235TU",
+                type: "Laptop",
+                details: "CPU: Intel Core i5-1334U, RAM: 16GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
+                target: "Sinh viên, nhân viên văn phòng cần sự cân bằng giữa hiệu năng và tính di động. Tối ưu cho làm việc đa nhiệm và học tập."
+            },
+            {
+                name: "HP 250 G9",
+                type: "Laptop",
+                details: "CPU: Intel Core i5-1235U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
+                target: "Doanh nghiệp nhỏ, sinh viên cần một chiếc laptop bền bỉ, đáng tin cậy cho công việc hàng ngày và học tập."
+            },
+            {
+                name: "HP 250RG9",
+                type: "Laptop",
+                details: "CPU: Intel Core i3-1315U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
+                target: "Học sinh, sinh viên với ngân sách hạn chế nhưng vẫn muốn có hiệu năng ổn định cho việc học và giải trí."
+            },
+            {
+                name: "LENOVO LOQ 15IRX9",
+                type: "Laptop",
+                details: "CPU: Intel Core i7-13650HX, RAM: 24GB DDR5, SSD: 512GB NVMe, GPU: NVIDIA RTX 4050, OS: Windows 11",
+                target: "Sinh viên các ngành kỹ thuật, đồ họa, kiến trúc, hoặc game thủ. Phù hợp cho các tác vụ nặng như render, thiết kế 3D, và chơi game cấu hình cao."
+            }
+        ];
+
+        // Data for SMC products
+        const smcProductData = [
+            {
+                name: "Máy ảnh & In ảnh",
+                type: "Sản phẩm SMC",
+                details: "Instax Z1, Máy in nhiệt L8, MT800",
+                target: "Thu hút khách hàng bằng trải nghiệm quà tặng công nghệ, tạo sticker/ảnh miễn phí ngay tại chỗ."
+            },
+            {
+                name: "Máy in nhãn",
+                type: "Sản phẩm SMC",
+                details: "Hộp Phấn H11",
+                target: "Dùng làm quà tặng nhỏ, cá nhân hóa cho khách hàng tham gia, tăng tính tương tác."
+            },
+            {
+                name: "Máy chiếu Mini",
+                type: "Sản phẩm SMC",
+                details: "Wanbo Mini Pro",
+                target: "Trình chiếu các nội dung quảng cáo, video giới thiệu sản phẩm hoặc hoạt động tương tác tại booth."
+            }
+        ];
+
+        // Get the containers for product cards
+        const laptopGrid = document.getElementById('laptop-grid');
+        const smcProductGrid = document.getElementById('smc-product-grid');
+
+        // Get modal elements
+        const detailModal = document.getElementById('detail-modal');
+        const modalItemName = document.getElementById('modal-item-name');
+        const modalItemType = document.getElementById('modal-item-type');
+        const modalItemDetails = document.getElementById('modal-item-details');
+        const modalItemTarget = document.getElementById('modal-item-target');
+        const modalTargetLabel = document.getElementById('modal-target-label');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        // Function to open modal
+        function openModal(item) {
+            modalItemName.textContent = item.name;
+            modalItemType.textContent = item.type;
+            modalItemDetails.textContent = item.details;
+            modalItemTarget.textContent = item.target;
+
+            // Adjust label based on item type
+            if (item.type === "Laptop") {
+                modalTargetLabel.textContent = "Phân khúc khách hàng nhắm tới:";
+            } else {
+                modalTargetLabel.textContent = "Mục đích sử dụng/Lợi ích:";
+            }
+            
+            detailModal.classList.add('show');
+        }
+
+        // Function to close modal
+        function closeModal() {
+            detailModal.classList.remove('show');
+        }
+
+        // Populate laptop cards dynamically
+        laptopData.forEach((laptop, index) => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card bg-blue-50 border-blue-200'; // Specific color for laptops
+            productCard.innerHTML = `
+                <h4><i class="fas fa-laptop mr-2"></i>${laptop.name}</h4>
+                <p>${laptop.details.split(',')[0]}</p> <!-- Show only CPU in summary -->
+            `;
+            productCard.addEventListener('click', () => {
+                openModal(laptop);
+            });
+            laptopGrid.appendChild(productCard);
+        });
+
+        // Populate SMC product cards dynamically
+        smcProductData.forEach((product, index) => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card bg-green-50 border-green-200'; // Specific color for SMC products
+            // Determine icon based on product name
+            let iconClass = '';
+            if (product.name.includes('Máy ảnh') || product.name.includes('In ảnh')) {
+                iconClass = 'fa-camera-retro';
+            } else if (product.name.includes('Máy in nhãn')) {
+                iconClass = 'fa-tag';
+            } else if (product.name.includes('Máy chiếu')) {
+                iconClass = 'fa-film';
+            }
+            productCard.innerHTML = `
+                <h4><i class="fas ${iconClass} mr-2"></i>${product.name}</h4>
+                <p>${product.details}</p>
+            `;
+            productCard.addEventListener('click', () => {
+                openModal(product);
+            });
+            smcProductGrid.appendChild(productCard);
+        });
+
+        // Add event listener to close modal button
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside of it
+        detailModal.addEventListener('click', (event) => {
+            if (event.target === detailModal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sản Phẩm Server</title>
+        <!-- Tích hợp Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Tích hợp Font Inter từ Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <!-- Icon library (Font Awesome) -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            /* Sử dụng font Inter làm font chữ mặc định */
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #f8f9fa; /* Màu nền xám nhạt */
+            }
+            /* Hiệu ứng chuyển động cho thẻ chủ đề */
+            .product-card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border: 1px solid #e5e7eb; /* Thêm viền nhẹ */
+            }
+            .product-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            }
+            .card-icon {
+                font-size: 2rem;
+                color: #ef4444; /* Màu đỏ cho icon server */
+            }
+        </style>
+    </head>
+    <body class="text-gray-800">
+
+        <div class="container mx-auto px-4 py-8 md:py-16">
+            
+            <!-- Nút Quay Lại -->
+            <div class="mb-8">
+                <a href="/phan-loai-san-pham/phan-loai-san-pham.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Quay lại Danh Mục Chính
+                </a>
+            </div>
+
+            <!-- Tiêu đề trang -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3">Sản Phẩm Server</h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Khám phá các loại máy chủ và giải pháp server phù hợp với nhu cầu của bạn.</p>
+            </div>
+
+            <!-- Lưới hiển thị các sản phẩm server -->
+            <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Các thẻ sản phẩm sẽ được tạo bằng JavaScript -->
+            </div>
+
+        </div>
+
+        <script>
+            // Danh sách các sản phẩm server
+            const products = [
+                'cao-cap.html',
+                'dac-biet-cao-cap.html',
+                'lua-chon-may-chu-thong-minh.html',
+                'phan-cap-server.html',
+                'pho-thong.html',
+                'tam-trung.html'
+            ];
+            
+            // Ánh xạ từ slug sang tiêu đề hoàn chỉnh
+            const titleMap = {
+                'cao-cap.html': 'Server Cao Cấp',
+                'dac-biet-cao-cap.html': 'Server Đặc Biệt Cao Cấp',
+                'lua-chon-may-chu-thong-minh.html': 'Lựa Chọn Máy Chủ Thông Minh',
+                'phan-cap-server.html': 'Phân Cấp Server',
+                'pho-thong.html': 'Server Phổ Thông',
+                'tam-trung.html': 'Server Tầm Trung'
+            };
+
+            // Mảng các icon để trang trí
+            const icons = [
+                'fa-solid fa-server', 
+                'fa-solid fa-cloud', 
+                'fa-solid fa-lightbulb', 
+                'fa-solid fa-network-wired', 
+                'fa-solid fa-cubes', 
+                'fa-solid fa-memory'
+            ];
+
+            const productsGrid = document.getElementById('productsGrid');
+            const basePath = ''; // Cập nhật đường dẫn để liên kết tương đối với thư mục hiện tại của server.html
+
+            // Hàm lấy tiêu đề từ map
+            function getProperTitle(slug) {
+                return titleMap[slug] || slug.replace('.html', '').replace(/-/g, ' ');
+            }
+
+            // Tạo và hiển thị các thẻ sản phẩm
+            products.forEach((productSlug, index) => {
+                const productTitle = getProperTitle(productSlug); 
+                const productLink = `${basePath}${productSlug}`;
+                const iconClass = icons[index % icons.length]; // Lấy icon xoay vòng
+
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-2xl p-8 flex flex-col text-center items-center';
+                
+                card.innerHTML = `
+                    <div class="card-icon mb-4">
+                        <i class="${iconClass}"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 flex-grow mb-6">${productTitle}</h3>
+                    <a href="${productLink}" class="mt-auto w-full inline-block bg-red-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-300 transform hover:scale-105">
+                        Xem Chi Tiết
+                    </a>
+                `;
+                
+                productsGrid.appendChild(card);
+            });
+
+        </script>
+    </body>
+    </html>

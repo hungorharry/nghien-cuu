@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Chiến Lược Công Nghệ cho Nhà Sách Phương Nam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .kpi-card h3 {
+            color: #00A5E3;
+        }
+        .section-title {
+            color: #0d244f;
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-[#00A5E3] mb-2">Mở Khóa Thị Trường Bán Lẻ Công Nghệ</h1>
+            <p class="text-xl md:text-2xl font-light text-gray-600">Chiến Lược Tích Hợp Sản Phẩm tại Nhà Sách Phương Nam</p>
+        </header>
+
+        <main class="space-y-16">
+
+            <section id="customer-portrait">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold section-title">Giải Mã Chân Dung Khách Hàng Phương Nam</h2>
+                    <p class="max-w-3xl mx-auto mt-2 text-lg">Họ không chỉ mua sách. Họ là những "Người Tìm Kiếm Phong Cách Sống Sáng Tạo", một điểm giao thoa hoàn hảo cho các sản phẩm công nghệ độc đáo.</p>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-12">
+                    <h3 class="text-xl font-bold text-center mb-4 section-title">Phân Bổ Tỷ Trọng Khách Hàng</h3>
+                    <div class="chart-container mx-auto max-w-sm">
+                        <canvas id="customerDemographicsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h4 class="font-bold text-lg text-[#FF5768]">45% - Học sinh & Sinh viên (8-22t)</h4>
+                        <p class="mt-2 font-semibold">Điều họ muốn:</p>
+                        <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                            <li>Thể hiện cá tính, tạo sự khác biệt với bạn bè.</li>
+                            <li>Lưu giữ kỷ niệm một cách sáng tạo, hữu hình.</li>
+                            <li>Sản phẩm công nghệ hợp túi tiền, theo kịp xu hướng.</li>
+                            <li>Công cụ để trang trí sổ tay, góc học tập (trào lưu Bullet Journal).</li>
+                        </ul>
+                        <p class="mt-3 font-semibold text-[#FF5768]">SMC đáp ứng thế nào:</p>
+                           <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                            <li><strong>Instax Mini 12 & Máy in nhiệt:</strong> Cung cấp ảnh lấy liền để dán vào sổ, trang trí. Biến kỷ niệm số thành vật thể hữu hình, đậm chất cá nhân.</li>
+                            <li><strong>Mibro Watch T1 & X1:</strong> Phụ kiện công nghệ giá rẻ, giúp họ không bị "lỗi thời" mà không cần chi tiêu quá nhiều.</li>
+                            <li><strong>Máy in nhãn H11:</strong> In tiêu đề, sticker tùy chỉnh cho sổ BuJo, cá nhân hóa đồ dùng.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h4 class="font-bold text-lg text-[#00A5E3]">30% - Gia đình trẻ (25-40t)</h4>
+                        <p class="mt-2 font-semibold">Điều họ muốn:</p>
+                        <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                            <li>Sản phẩm và hoạt động gắn kết các thành viên.</li>
+                            <li>Giải trí tại nhà, an toàn và bổ ích cho trẻ em.</li>
+                            <li>Thiết bị công nghệ hữu ích, nâng cao chất lượng cuộc sống.</li>
+                            <li>Lưu giữ những khoảnh khắc trưởng thành của con cái.</li>
+                        </ul>
+                        <p class="mt-3 font-semibold text-[#00A5E3]">SMC đáp ứng thế nào:</p>
+                           <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                            <li><strong>Máy chiếu Wanbo T2 Max:</strong> Tạo ra "rạp phim tại nhà", giúp cả gia đình cùng xem phim, thay thế cho việc mỗi người dùng một màn hình riêng.</li>
+                            <li><strong>Instax Mini 12:</strong> Giúp bố mẹ và con cái cùng nhau chụp ảnh và tạo ra các album kỷ niệm hữu hình, một hoạt động sáng tạo chung.</li>
+                             <li><strong>Máy in nhãn H11:</strong> Dán nhãn đồ dùng học tập, hộp đựng thực phẩm một cách thẩm mỹ.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h4 class="font-bold text-lg text-[#FFBF65]">20% - Nhân viên văn phòng (23-40t)</h4>
+                       <p class="mt-2 font-semibold">Điều họ muốn:</p>
+                        <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                            <li>Sản phẩm chất lượng cao, thiết kế tinh tế để "tự thưởng" cho bản thân.</li>
+                            <li>Công cụ giúp giải tỏa căng thẳng sau giờ làm (work-life balance).</li>
+                            <li>Phụ kiện thể hiện phong cách cá nhân, chuyên nghiệp.</li>
+                            <li>Quà tặng độc đáo, ý nghĩa cho đồng nghiệp và bạn bè.</li>
+                        </ul>
+                           <p class="mt-3 font-semibold text-[#FFBF65]">SMC đáp ứng thế nào:</p>
+                           <ul class="list-disc list-inside text-sm space-y-1 mt-1">
+                            <li><strong>Mibro Watch T1 & X1:</strong> Phụ kiện thời trang công nghệ, theo dõi sức khỏe, nhắc nhở vận động, hỗ trợ cân bằng cuộc sống.</li>
+                            <li><strong>Máy chiếu Wanbo T2 Max:</strong> Mang lại trải nghiệm giải trí chất lượng cao ngay tại nhà sau một ngày làm việc căng thẳng.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="product-strategy">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold section-title">Lựa Chọn Sản Phẩm Chiến Lược</h2>
+                    <p class="max-w-3xl mx-auto mt-2 text-lg">Không phải tất cả sản phẩm công nghệ đều phù hợp. Chúng tôi chọn lọc dựa trên 3 trụ cột: Sáng tạo, Phong cách sống và Giải trí.</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                           <h3 class="text-xl font-bold text-center mb-4 section-title">Ma Trận Tương Thích Sản Phẩm</h3>
+                        <div class="chart-container mx-auto max-w-md">
+                            <canvas id="productSuitabilityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="p-5 bg-green-50 border-l-4 border-green-500 rounded-r-lg">
+                            <h4 class="font-bold text-lg text-green-800">✅ Đề xuất: 3 Nhóm sản phẩm "Vàng"</h4>
+                            <ul class="list-disc list-inside mt-2 space-y-1 text-green-700">
+                                <li><strong>Ký Ức & Sáng Tạo:</strong> Máy ảnh Instax, máy in mini.</li>
+                                <li><strong>Công Cụ Cá Nhân Hóa:</strong> Máy in nhãn H11.</li>
+                                <li><strong>Giải Trí Tại Gia Hiện Đại:</strong> Máy chiếu mini Wanbo.</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                             <h4 class="font-bold text-lg text-red-800">❌ Không đề xuất</h4>
+                             <ul class="list-disc list-inside mt-2 space-y-1 text-red-700">
+                                 <li><strong>Công Nghệ Đeo Tiếp Cận:</strong> Đồng hồ Mibro Watch.</li>
+                                 <li><strong>Xe trượt điện:</strong> Rào cản giá quá lớn, hậu cần phức tạp.</li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="product-showcase">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold section-title">Danh mục Sản phẩm Sàng lọc</h2>
+                    <p class="max-w-3xl mx-auto mt-2 text-lg">Trực quan hóa các sản phẩm được đề xuất và loại trừ, dựa trên sự tương thích với hệ sinh thái Phương Nam.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <!-- Recommended Products -->
+                    <div class="bg-white rounded-lg shadow-lg border-2 border-green-400 flex flex-col transition-transform transform hover:scale-105">
+                        <div class="p-4 bg-green-50 rounded-t-lg text-center">
+                            <h4 class="font-bold text-lg text-green-800">✅ Đề Xuất</h4>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col items-center text-center">
+                            <div class="text-6xl mb-4">📷</div>
+                            <h5 class="font-bold text-lg section-title">Instax Mini 12 & Máy in nhiệt</h5>
+                            <p class="mt-2 text-sm text-gray-600">Phục vụ trào lưu "Bullet Journal", tạo cơ hội bán chéo với văn phòng phẩm.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg border-2 border-green-400 flex flex-col transition-transform transform hover:scale-105">
+                        <div class="p-4 bg-green-50 rounded-t-lg text-center">
+                            <h4 class="font-bold text-lg text-green-800">✅ Đề Xuất</h4>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col items-center text-center">
+                            <div class="text-6xl mb-4">📽️</div>
+                            <h5 class="font-bold text-lg section-title">Máy chiếu Wanbo T2 Max</h5>
+                            <p class="mt-2 text-sm text-gray-600">Kế thừa di sản "Phương Nam Phim", tạo hiệu ứng "wow" tại điểm bán.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg border-2 border-green-400 flex flex-col transition-transform transform hover:scale-105">
+                           <div class="p-4 bg-green-50 rounded-t-lg text-center">
+                               <h4 class="font-bold text-lg text-green-800">✅ Đề Xuất</h4>
+                           </div>
+                           <div class="p-6 flex-grow flex flex-col items-center text-center">
+                               <div class="text-6xl mb-4">🏷️</div>
+                               <h5 class="font-bold text-lg section-title">Máy in nhãn H11</h5>
+                               <p class="mt-2 text-sm text-gray-600">Tái định vị thành công cụ cá nhân hóa, phục vụ trào lưu Bullet Journal & DIY.</p>
+                           </div>
+                    </div>
+                    <!-- Not Recommended Products -->
+                    <div class="bg-white rounded-lg shadow-lg border-2 border-red-400 flex flex-col opacity-80 transition-transform transform hover:scale-105">
+                        <div class="p-4 bg-red-50 rounded-t-lg text-center">
+                            <h4 class="font-bold text-lg text-red-800">❌ Không Phù Hợp</h4>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col items-center text-center">
+                            <div class="text-6xl mb-4">⌚</div>
+                            <h5 class="font-bold text-lg section-title">Mibro Watch T1 & X1</h5>
+                            <p class="mt-2 text-sm text-gray-600">Mức giá đột phá, cạnh tranh với đồng hồ thời trang, dễ mua ngẫu hứng, nhưng không phù hợp với chiến lược.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg border-2 border-red-400 flex flex-col opacity-80 transition-transform transform hover:scale-105">
+                        <div class="p-4 bg-red-50 rounded-t-lg text-center">
+                            <h4 class="font-bold text-lg text-red-800">❌ Không Phù Hợp</h4>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col items-center text-center">
+                            <div class="text-6xl mb-4">🛴</div>
+                            <h5 class="font-bold text-lg section-title">Xe trượt điện</h5>
+                            <p class="mt-2 text-sm text-gray-600">Rào cản giá quá lớn và hậu cần phức tạp.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="kpis">
+                   <div class="text-center mb-8">
+                       <h2 class="text-3xl font-bold section-title">Đo Lường Thành Công</h2>
+                       <p class="max-w-3xl mx-auto mt-2 text-lg">Chúng ta sẽ đánh giá hiệu quả qua các chỉ số hiệu suất chính (KPIs) đa chiều.</p>
+                   </div>
+                   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                       <div class="bg-white rounded-lg shadow-lg p-6 text-center kpi-card">
+                           <span class="text-5xl">💰</span>
+                           <h3 class="text-xl font-bold mt-4">Tài Chính</h3>
+                           <p class="mt-2">Doanh thu, Giá trị giao dịch trung bình (ATV), và Tỷ suất hoàn vốn (ROI).</p>
+                       </div>
+                         <div class="bg-white rounded-lg shadow-lg p-6 text-center kpi-card">
+                           <span class="text-5xl">🤝</span>
+                           <h3 class="text-xl font-bold mt-4">Tương Tác</h3>
+                           <p class="mt-2">Lưu lượng khách, Thời gian dừng chân, và Tỷ lệ chuyển đổi.</p>
+                       </div>
+                       <div class="bg-white rounded-lg shadow-lg p-6 text-center kpi-card md:col-span-2 lg:col-span-1">
+                           <span class="text-5xl">📣</span>
+                           <h3 class="text-xl font-bold mt-4">Thương Hiệu</h3>
+                           <p class="mt-2">Lượt đề cập trên MXH, Nội dung do người dùng tạo (UGC), và Điểm hài lòng.</p>
+                       </div>
+                   </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        const chartColors = {
+            blue: '#00A5E3',
+            lime: '#8DD7BF',
+            pink: '#FF96C5',
+            red: '#FF5768',
+            orange: '#FFBF65',
+            darkBlue: '#0d244f'
+        };
+
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            family: "'Be Vietnam Pro', sans-serif",
+                            size: 12
+                        },
+                        boxWidth: 20,
+                        padding: 20
+                    }
+                },
+                tooltip: {
+                    bodyFont: {
+                       family: "'Be Vietnam Pro', sans-serif",
+                    },
+                    titleFont: {
+                        family: "'Be Vietnam Pro', sans-serif",
+                    },
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const processLongLabels = (label, maxLength = 16) => {
+            if (label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const ctxDemographics = document.getElementById('customerDemographicsChart');
+        if (ctxDemographics) {
+            new Chart(ctxDemographics, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Học sinh, Sinh viên', 'Gia đình trẻ', 'Nhân viên văn phòng', 'Khác'],
+                    datasets: [{
+                        label: 'Phân Bổ Khách Hàng',
+                        data: [45, 30, 20, 5],
+                        backgroundColor: [
+                            chartColors.red,
+                            chartColors.blue,
+                            chartColors.orange,
+                            '#e5e7eb'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 4,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    cutout: '60%',
+                }
+            });
+        }
+        
+        const ctxSuitability = document.getElementById('productSuitabilityChart');
+        if (ctxSuitability) {
+            new Chart(ctxSuitability, {
+                type: 'radar',
+                data: {
+                    // Removed 'Công Nghệ Đeo' from labels as it's no longer recommended.
+                    labels: ['Sáng tạo', 'Phong cách sống', 'Giải trí', 'Giá tiếp cận', 'Quà tặng'], 
+                    datasets: [
+                        {
+                            label: 'Ký Ức & Sáng Tạo',
+                            data: [9, 8, 7, 7, 9],
+                            backgroundColor: 'rgba(255, 87, 104, 0.2)',
+                            borderColor: chartColors.red,
+                            pointBackgroundColor: chartColors.red,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: chartColors.red
+                        },
+                        // Removed 'Công Nghệ Đeo' dataset
+                        {
+                            label: 'Giải Trí Tại Gia',
+                            data: [6, 7, 10, 6, 6],
+                            backgroundColor: 'rgba(255, 191, 101, 0.2)',
+                            borderColor: chartColors.orange,
+                            pointBackgroundColor: chartColors.orange,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: chartColors.orange
+                        }
+                    ]
+                },
+                options: {
+                    ...defaultChartOptions,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: '#e5e7eb'
+                            },
+                            grid: {
+                                color: '#e5e7eb'
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 13,
+                                    family: "'Be Vietnam Pro', sans-serif"
+                                }
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                stepSize: 2
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

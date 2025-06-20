@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So Sánh Dòng Sản Phẩm Trung Cấp HP Poly SMB | Nguyên Kim Computer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --dark-bg: #0B1120;
+            --dark-card: #11192C;
+            --accent-blue: #2563EB;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: #E0E2E7;
+        }
+        .section-header {
+            @apply text-center mb-16;
+        }
+        .section-title {
+            @apply text-3xl md:text-5xl font-bold text-white mb-4;
+        }
+        .section-subtitle {
+             @apply text-slate-400 max-w-3xl mx-auto;
+        }
+        .product-card {
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .product-card:hover, .product-card.active {
+            transform: translateY(-8px) scale(1.03);
+            background-color: var(--dark-card);
+            border-color: var(--accent-blue);
+        }
+        .product-card.active {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .detail-pane {
+            display: none;
+        }
+        .detail-pane.active {
+            display: block;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+         .comparison-table th {
+            font-weight: 600;
+            color: #94a3b8; /* slate-400 */
+         }
+         .comparison-table td {
+            color: white;
+         }
+        .comparison-table tr:last-child th, .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        .star-rating {
+            color: #f59e0b; /* amber-500 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-black/30 backdrop-blur-lg border-b border-slate-300/10">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-widest text-white">Nguyên Kim Computer</a>
+            <a href="#packages" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors text-sm shadow-lg shadow-blue-500/20">Tư Vấn Giải Pháp SMB</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="text-center py-20 md:py-32 px-6 relative overflow-hidden">
+            <div class="absolute inset-0 bg-grid-slate-700/10 [mask-image:linear-gradient(to_bottom,white_20%,transparent_100%)]"></div>
+            <div class="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[150%] h-[150%] bg-radial-gradient from-blue-600/20 to-transparent blur-3xl -z-10"></div>
+
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-6">
+                Chọn Dòng Poly SMB Phù Hợp Nhất
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-300 mb-10">
+                So sánh chi tiết các dòng sản phẩm trung cấp HP Poly để tìm ra giải pháp hoàn hảo cho doanh nghiệp vừa và nhỏ với ngân sách hợp lý.
+            </p>
+             <img src="https://www.poly.com/content/dam/www/products/video/studio/studio-r30/poly-studio-r30-lifestyle-2-16-9-800x450.jpg" 
+                 alt="Dòng sản phẩm hội nghị trung cấp HP Poly cho SMB" 
+                 class="w-full max-w-4xl mx-auto rounded-2xl shadow-2xl shadow-blue-500/30 mt-12"
+                 onerror="this.onerror=null;this.src='https://placehold.co/1200x600/0B1120/E0E2E7?text=Poly+SMB+Solutions';">
+        </section>
+
+        <!-- Interactive Comparison Hub -->
+        <section id="comparison-hub" class="py-24 px-6">
+            <div class="container mx-auto">
+                <div class="section-header">
+                    <h2 class="section-title">Lựa Chọn Dòng Poly SMB Phù Hợp</h2>
+                    <p class="section-subtitle">Mỗi dòng Poly trung cấp được thiết kế để mang công nghệ AI cao cấp đến với doanh nghiệp vừa và nhỏ. So sánh để tìm ra lựa chọn tối ưu.</p>
+                </div>
+
+                <!-- Product Selection Cards -->
+                <div id="product-selector" class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 mb-8 m-10">
+                    <div class="product-card active rounded-2xl p-6 text-center" data-target="poly-r30"><h3 class="font-bold text-white text-lg">Poly Studio R30</h3><p class="text-sm text-blue-400 font-medium">Khuyến Nghị SMB Hàng Đầu</p></div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="poly-sync60"><h3 class="font-bold text-white text-lg">Poly Sync 60</h3><p class="text-sm text-slate-400">Di Động Linh Hoạt</p></div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="poly-mic"><h3 class="font-bold text-white text-lg">Poly Studio USB Table Mic</h3><p class="text-sm text-slate-400">Mở Rộng Âm Thanh</p></div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="poly-sync20"><h3 class="font-bold text-white text-lg">Poly Sync 20</h3><p class="text-sm text-slate-400">Cơ Bản Tiết Kiệm</p></div>
+                    <div class="product-card rounded-2xl p-6 text-center" data-target="poly-bw3220"><h3 class="font-bold text-white text-lg">Poly BW 3220</h3><p class="text-sm text-slate-400">Cá Nhân Chất Lượng</p></div>
+                </div>
+
+                <!-- Details Panes -->
+                <div class="relative bg-dark-card rounded-2xl border border-border-color p-8 md:p-12 min-h-[350px]">
+<div id="detail-poly-r30" class="detail-pane active">
+  <h3 class="text-2xl font-bold text-white mb-2">Poly Studio R30: AI Doanh Nghiệp Dành Cho Doanh Nghiệp Vừa & Nhỏ</h3>
+  <p class="text-slate-400 mb-6">Video bar 4K tích hợp DirectorAI và NoiseBlockAI, mang công nghệ họp trực tuyến cao cấp đến phòng họp nhỏ (4–8 người) với chi phí hợp lý.</p>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="space-y-2 bg-slate-800/50 p-4 rounded-lg">
+      <p class="flex items-center text-green-400 font-semibold">
+        <i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>DirectorAI chuẩn doanh nghiệp lớn
+      </p>
+    </div>
+    <div class="space-y-2 bg-slate-800/50 p-4 rounded-lg">
+      <p class="flex items-center text-green-400 font-semibold">
+        <i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>NoiseBlockAI + Hàng rào âm học
+      </p>
+    </div>
+    <div class="space-y-2 bg-slate-800/50 p-4 rounded-lg">
+      <p class="flex items-center text-green-400 font-semibold">
+        <i data-lucide="check-circle" class="w-5 h-5 mr-3"></i>Cắm là chạy – Thiết lập siêu dễ
+      </p>
+    </div>
+  </div>
+</div>
+
+<div id="detail-poly-sync60" class="detail-pane">
+  <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio R30 và Poly Sync 60</h3>
+  <table class="comparison-table">
+    <thead>
+      <tr><th>Tiêu chí</th><th>Poly Studio R30</th><th>Poly Sync 60</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>Loại thiết bị</th><td>Video bar tích hợp</td><td>Loa họp di động</td></tr>
+      <tr><th>Khả năng video</th><td>Camera 4K + AI</td><td>Không có camera</td></tr>
+      <tr><th>Ứng dụng</th><td>Phòng họp cố định</td><td>Họp di động, linh hoạt</td></tr>
+      <tr><th>Số người</th><td>4–8 người</td><td>4–8 người</td></tr>
+      <tr><th>Chi phí</th><td>14.252.000 VND</td><td>7.635.000 VND</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="detail-poly-mic" class="detail-pane">
+  <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio R30 và Micro USB Để Bàn Poly</h3>
+  <table class="comparison-table">
+    <thead>
+      <tr><th>Tiêu chí</th><th>Poly Studio R30</th><th>Poly USB Table Mic</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>Chức năng</th><td>Giải pháp tất cả trong một</td><td>Micro mở rộng</td></tr>
+      <tr><th>Camera</th><td>Tích hợp 4K</td><td>Không có</td></tr>
+      <tr><th>Độc lập</th><td>Hoạt động độc lập</td><td>Cần kết hợp thiết bị khác</td></tr>
+      <tr><th>Cách thiết lập</th><td>Cắm là chạy</td><td>Phụ kiện cho hệ thống có sẵn</td></tr>
+      <tr><th>Chi phí</th><td>14.252.000 VND</td><td>3.563.000 VND</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="detail-poly-sync20" class="detail-pane">
+  <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio R30 và Poly Sync 20</h3>
+  <table class="comparison-table">
+    <thead>
+      <tr><th>Tiêu chí</th><th>Poly Studio R30</th><th>Poly Sync 20</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>Khả năng video</th><td>Camera 4K + AI</td><td>Chỉ âm thanh</td></tr>
+      <tr><th>Quy mô phòng họp</th><td>4–8 người</td><td>2–4 người</td></tr>
+      <tr><th>Tính năng AI</th><td>DirectorAI + NoiseBlockAI</td><td>Chất lượng âm cơ bản</td></tr>
+      <tr><th>Tính di động</th><td>Gắn cố định bàn</td><td>Siêu nhỏ gọn, di động</td></tr>
+      <tr><th>Chi phí</th><td>14.252.000 VND</td><td>2.545.000 VND</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="detail-poly-bw3220" class="detail-pane">
+  <h3 class="text-2xl font-bold text-white mb-6">So Sánh: Poly Studio R30 và Tai Nghe BW 3220</h3>
+  <table class="comparison-table">
+    <thead>
+      <tr><th>Tiêu chí</th><th>Poly Studio R30</th><th>Poly BW 3220</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>Loại thiết bị</th><td>Thiết bị phòng họp</td><td>Thiết bị cá nhân</td></tr>
+      <tr><th>Mục tiêu sử dụng</th><td>Họp nhóm</td><td>Gọi cá nhân</td></tr>
+      <tr><th>Người dùng</th><td>Nhiều người</td><td>Một người</td></tr>
+      <tr><th>Khả năng video</th><td>Hội nghị 4K</td><td>Chỉ âm thanh</td></tr>
+      <tr><th>Chi phí</th><td>14.252.000 VND</td><td>1.527.000 VND</td></tr>
+    </tbody>
+  </table>
+</div>                </div>
+            </div>
+        </section>
+        
+        <!-- Tech Matrix Section -->
+        <section class="py-24 px-6">
+            <div class="container mx-auto">
+                <div class="section-header">
+                    <h2 class="section-title">Ma Trận Lựa Chọn Dòng Poly SMB</h2>
+                    <p class="section-subtitle">Bảng so sánh toàn diện giúp SMB chọn được dòng Poly phù hợp nhất với nhu cầu và ngân sách.</p>
+                </div>
+                <div class="bg-dark-card border border-border-color rounded-2xl p-8 overflow-x-auto m-10">
+                    <table class="w-full min-w-[1200px]">
+                        <thead>
+                            <tr class="border-b border-border-color"><th class="p-4 font-semibold text-slate-300 text-left">Đặc Tính</th><th class="p-4 font-semibold text-blue-400 text-center">Poly Studio R30</th><th class="p-4 font-semibold text-slate-400 text-center">Poly Sync 60</th><th class="p-4 font-semibold text-slate-400 text-center">Table Microphone</th><th class="p-4 font-semibold text-slate-400 text-center">Poly Sync 20</th><th class="p-4 font-semibold text-slate-400 text-center">BW 3220 Headset</th></tr>
+                        </thead>
+                        <tbody>
+<tr class="border-b border-border-color">
+  <td>Video</td>
+  <td class="text-center">Camera 4K + AI</td>
+  <td class="text-center">Không có</td>
+  <td class="text-center">Không có</td>
+  <td class="text-center">Không có</td>
+  <td class="text-center">Không có</td>
+</tr>
+<tr class="border-b border-border-color">
+  <td>Âm thanh AI</td>
+  <td class="text-center">DirectorAI + NoiseBlockAI</td>
+  <td class="text-center">Độ rõ âm thanh (Acoustic Clarity)</td>
+  <td class="text-center">Mic thu âm đa hướng</td>
+  <td class="text-center">Độ rõ âm thanh (Acoustic Clarity)</td>
+  <td class="text-center">Âm thanh chất lượng HD</td>
+</tr>
+<tr class="border-b border-border-color">
+  <td>Quy mô phòng họp</td>
+  <td class="text-center">4-8 người</td>
+  <td class="text-center">4-8 người</td>
+  <td class="text-center">3-6 người</td>
+  <td class="text-center">2-4 người</td>
+  <td class="text-center">1 người</td>
+</tr>
+<tr>
+  <td>Ứng dụng</td>
+  <td class="text-center">Phòng họp cố định</td>
+  <td class="text-center">Họp linh hoạt</td>
+  <td class="text-center">Mở rộng hệ thống hiện có</td>
+  <td class="text-center">Nhóm họp nhỏ</td>
+  <td class="text-center">Gọi cá nhân</td>
+</tr>                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+         <!-- Accessories Section -->
+        <section class="py-24 px-6">
+             <div class="container mx-auto">
+                <div class="section-header">
+                    <h2 class="section-title">🔧 Phụ Kiện Thiết Yếu Cho Từng Dòng SMB</h2>
+                    <p class="section-subtitle">Tối ưu hóa hệ thống của bạn với các phụ kiện được đề xuất cho từng dòng sản phẩm.</p>
+                </div>
+                <div class="space-y-12 m-10">
+<div class="bg-dark-card border border-border-color rounded-2xl p-8">
+  <h3 class="text-xl font-bold text-white mb-6">Phụ Kiện Nâng Cao Cho Studio R30 SMB</h3>
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[700px] comparison-table">
+      <thead>
+        <tr>
+          <th>Phụ Kiện</th>
+          <th>Mô Tả</th>
+          <th>Giá (VND)</th>
+          <th>Mức Độ Cần Thiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Kẹp Gắn Màn Hình</td>
+          <td>Kẹp gắn màn hình đơn giản</td>
+          <td>764.000</td>
+          <td class="star-rating">⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Bộ Treo Tường</td>
+          <td>Bộ gắn cố định lên tường</td>
+          <td>1.018.000</td>
+          <td class="star-rating">⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Cáp USB Nối Dài</td>
+          <td>Cáp USB-C dài 3 mét</td>
+          <td>382.000</td>
+          <td class="star-rating">⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Chân Đế Để Bàn</td>
+          <td>Chân đế điều chỉnh để bàn</td>
+          <td>636.000</td>
+          <td class="star-rating">⭐⭐</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mt-6 bg-slate-800/50 p-4 rounded-lg">
+    <strong>Gói Khuyến Nghị:</strong> Kẹp Gắn Màn Hình + Cáp USB Nối Dài + Chân Đế Để Bàn |
+    <strong>Giá gói: 1.500.000 VND</strong> (tiết kiệm 16%)
+  </div>
+</div>
+
+<div class="bg-dark-card border border-border-color rounded-2xl p-8 mt-10">
+  <h3 class="text-xl font-bold text-white mb-6">Phụ Kiện Tối Ưu Cho Sync 60</h3>
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[700px] comparison-table">
+      <thead>
+        <tr>
+          <th>Phụ Kiện</th>
+          <th>Mô Tả</th>
+          <th>Giá (VND)</th>
+          <th>Mức Độ Cần Thiết</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Adapter USB BT700</td>
+          <td>Adapter Bluetooth chuyên dụng</td>
+          <td>1.273.000</td>
+          <td class="star-rating">⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Hộp Đựng Du Lịch</td>
+          <td>Túi bảo vệ cho thiết bị khi di chuyển</td>
+          <td>764.000</td>
+          <td class="star-rating">⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>Đế Sạc</td>
+          <td>Chân đế sạc cố định trên bàn</td>
+          <td>1.018.000</td>
+          <td class="star-rating">⭐⭐</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mt-6 bg-slate-800/50 p-4 rounded-lg">
+    <strong>Gói Khuyến Nghị:</strong> Adapter BT700 + Hộp Đựng Du Lịch + Đế Sạc |
+    <strong>Giá gói: 2.700.000 VND</strong> (tiết kiệm 12%)
+  </div>
+</div>                </div>
+            </div>
+        </section>
+
+        <!-- TCO Chart Section -->
+        <section class="py-24 px-6">
+             <div class="container mx-auto">
+                <div class="section-header">
+                    <h2 class="section-title">So Sánh Chi Phí Hoàn Chỉnh Các Dòng Poly SMB</h2>
+                    <p class="section-subtitle">Phân tích chi phí thực tế bao gồm thiết bị chính và phụ kiện thiết yếu để có hệ thống hoạt động hoàn chỉnh cho SMB.</p>
+                </div>
+                <div class="bg-dark-card border border-border-color rounded-2xl p-8 m-10">
+                    <div class="h-96">
+                         <canvas id="tcoChart"></canvas>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+         <!-- Recommendations by Business Type -->
+        <section class="py-24 px-6" id="packages">
+            <div class="container mx-auto">
+                <div class="section-header">
+                    <h2 class="section-title">Chọn Dòng Poly SMB Theo Nhu Cầu Cụ Thể</h2>
+                    <p class="section-subtitle">Mỗi dòng Poly SMB được tối ưu cho các kịch bản sử dụng khác nhau của doanh nghiệp vừa và nhỏ.</p>
+                </div>
+                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 m-10">
+<div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+  <i data-lucide="users" class="w-10 h-10 mb-4 text-blue-400"></i>
+  <h3 class="font-bold text-xl text-white mb-2">Công Ty Khởi Nghiệp 10–30 Người (Phòng Họp Chính)</h3>
+  <p class="text-slate-400">Poly Studio R30 mang công nghệ AI cao cấp đến phòng họp chính với chi phí hợp lý. DirectorAI và NoiseBlockAI đảm bảo chất lượng cuộc họp chuyên nghiệp như các doanh nghiệp lớn.</p>
+  <p class="mt-4 font-semibold text-white">Gợi ý: Poly Studio R30 + Bộ Phụ Kiện.</p>
+</div>
+
+<div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+  <i data-lucide="briefcase" class="w-10 h-10 mb-4 text-blue-400"></i>
+  <h3 class="font-bold text-xl text-white mb-2">Đội Ngũ Tư Vấn/Bán Hàng (Họp Linh Hoạt)</h3>
+  <p class="text-slate-400">Poly Sync 60 lý tưởng cho đội nhóm cần họp tại nhiều địa điểm khác nhau. Thời lượng pin 20 giờ, âm thanh chất lượng cao, dễ dàng mang theo giữa các phòng họp.</p>
+  <p class="mt-4 font-semibold text-white">Gợi ý: Poly Sync 60 + Bộ Di Động.</p>
+</div>
+
+<div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+  <i data-lucide="plus" class="w-10 h-10 mb-4 text-blue-400"></i>
+  <h3 class="font-bold text-xl text-white mb-2">Mở Rộng Hệ Thống Hiện Có</h3>
+  <p class="text-slate-400">Micro để bàn là giải pháp kinh tế để nâng cấp âm thanh cho hệ thống camera hoặc TV hiện có. Micro thu 360° cho chất lượng thu âm rõ ràng, sắc nét.</p>
+  <p class="mt-4 font-semibold text-white">Gợi ý: Micro Để Bàn + Bộ Trung Tâm Kết Nối.</p>
+</div>
+
+<div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+  <i data-lucide="coffee" class="w-10 h-10 mb-4 text-blue-400"></i>
+  <h3 class="font-bold text-xl text-white mb-2">Phòng Nhỏ & Cuộc Họp Nhanh</h3>
+  <p class="text-slate-400">Poly Sync 20 nhỏ gọn, phù hợp cho các cuộc họp nhanh từ 2–4 người. Hoàn hảo cho brainstorming, họp đứng hoặc khu vực uống cà phê.</p>
+  <p class="mt-4 font-semibold text-white">Gợi ý: Poly Sync 20 + Bộ Di Động.</p>
+</div>
+
+<div class="bg-dark-card border border-border-color p-8 rounded-2xl">
+  <i data-lucide="headphones" class="w-10 h-10 mb-4 text-blue-400"></i>
+  <h3 class="font-bold text-xl text-white mb-2">Làm Việc Từ Xa & Cá Nhân</h3>
+  <p class="text-slate-400">Tai nghe BW 3220 mang đến trải nghiệm âm thanh chất lượng từ Poly cho nhân viên cá nhân. Kết nối USB-C hiện đại, đeo thoải mái cả ngày và giá hợp lý.</p>
+  <p class="mt-4 font-semibold text-white">Gợi ý: BW 3220 + Bộ Chuyên Nghiệp.</p>
+</div>                 </div>
+            </div>
+        </section>
+
+        <!-- Quick Selector Tool -->
+        <section class="py-24 px-6">
+            <div class="container mx-auto">
+                <div class="section-header">
+                    <h2 class="section-title">🔍 Công Cụ Chọn Nhanh Gói Poly SMB</h2>
+                    <p class="section-subtitle">Trả lời 4 câu hỏi để tìm package Poly phù hợp nhất cho doanh nghiệp của bạn.</p>
+                </div>
+                <div class="bg-dark-card border border-border-color rounded-2xl p-8 grid md:grid-cols-2 lg:grid-cols-4 gap-8 m-10">
+                    <div><h4 class="font-bold text-blue-400 mb-2">1. Quy mô phòng họp chính?</h4><ul class="text-sm space-y-2"><li>8-15 người → <span class="text-white">Studio X52</span></li><li>15-30 người → <span class="text-white">Studio X70</span></li><li>30+ người → <span class="text-white">V52 Ultimate</span></li></ul></div>
+                    <div><h4 class="font-bold text-blue-400 mb-2">2. Ngân sách hoàn chỉnh?</h4><ul class="text-sm space-y-2"><li>Dưới 100 triệu → <span class="text-white">Studio X52</span></li><li>100-200 triệu → <span class="text-white">Studio X70 / MTR</span></li><li>Trên 200 triệu → <span class="text-white">V52 Ultimate</span></li></ul></div>
+                    <div><h4 class="font-bold text-blue-400 mb-2">3. Nền tảng chính sử dụng?</h4><ul class="text-sm space-y-2"><li>Chỉ Microsoft Teams → <span class="text-white">MTR Enterprise</span></li><li>Đa nền tảng → <span class="text-white">Studio X70/X52</span></li><li>Enterprise phức tạp → <span class="text-white">V52 + TC10</span></li></ul></div>
+                    <div><h4 class="font-bold text-blue-400 mb-2">4. Cần lắp đặt chuyên nghiệp?</h4><ul class="text-sm space-y-2"><li>Tự setup → <span class="text-white">X52/X70 + Basic Kit</span></li><li>Cần hỗ trợ → <span class="text-white">Gói Complete</span></li><li>Hệ thống phức tạp → <span class="text-white">Dịch vụ chuyên nghiệp</span></li></ul></div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+    
+        // Interactive Hub Logic
+        const selector = document.getElementById('product-selector');
+        if (selector) {
+            const productCards = selector.querySelectorAll('.product-card');
+            selector.addEventListener('click', (e) => {
+                const card = e.target.closest('.product-card');
+                if (!card) return;
+
+                const targetId = card.dataset.target;
+                if (!targetId) return;
+                
+                productCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                
+                document.querySelectorAll('.detail-pane').forEach(p => {
+                    p.classList.remove('active');
+                });
+                const targetPane = document.getElementById(`detail-${targetId}`);
+                if(targetPane) {
+                    targetPane.classList.add('active');
+                }
+            });
+        }
+
+
+        // TCO Chart
+        const tcoCtx = document.getElementById('tcoChart');
+        if (tcoCtx) {
+            new Chart(tcoCtx.getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['BW 3220', 'Sync 20', 'Table Mic', 'Sync 60', 'Studio R30'],
+                    datasets: [{
+                        label: 'Chi phí hoàn chỉnh (VND)',
+                        data: [2527000, 3745000, 4863000, 10335000, 15752000],
+                        backgroundColor: '#2563EB',
+                        borderColor: '#3b82f6',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#020617',
+                            titleColor: '#f8fafc',
+                            bodyColor: '#cbd5e1',
+                            padding: 12,
+                            callbacks: {
+                                label: function(context) {
+                                    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#94a3b8',
+                                font: { family: "'Inter', sans-serif" },
+                                callback: function(value) {
+                                    return (value / 1000000) + ' Tr';
+                                }
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                        },
+                        y: {
+                            ticks: { color: '#e2e8f0', font: { family: "'Inter', sans-serif", weight: '600', size: 14 } },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -88,8 +88,8 @@
             <h2 class="text-2xl font-semibold mb-4 text-gray-800">Thông tin địa điểm của bạn:</h2>
             <ul class="list-disc list-inside text-gray-700">
                 <li>Nhà bạn (Hưng): <span class="font-medium">Xuân Thới Thượng, Hóc Môn</span></li>
-                <li>Nhà bạn bè 1 (Khang): <span class="font-medium">Lạc Long Quân, Âu Cơ, TP.HCM</span></li>
-                <li>Nhà bạn bè 2 (An): <span class="font-medium">Công viên Phú Lâm, Bình Tân</span></li>
+                <li>Nhà bạn bè 1 (Khang): <span class="font-medium">Công viên Phú Lâm, Bình Tân</span></li>
+                <li>Nhà bạn bè 2 (An): <span class="font-medium">Lạc Long Quân, Âu Cơ, TP.HCM</span></li>
                 <li>Bạn bè 3 (Thiết): <span class="font-medium">245B Trần Quang Khải, Quận 1</span></li>
             </ul>
         </div>
@@ -171,23 +171,25 @@
                 { name: "Nhà sách Trần Quang Khải", address: "245b Trần Quang Khải, Quận 1, Thành phố Hồ Chí Minh", district: "Quận 1" }
             ];
 
+            // Updated origins based on user request
             const origins = [
                 { name: "Hưng", location: "Xuân Thới Thượng, Hóc Môn", key: "distFromHưngHome" },
-                { name: "Khang", location: "Lạc Long Quân, Âu Cơ, TP.HCM", key: "distFromKhangHome" },
-                { name: "An", location: "Công viên Phú Lâm, Bình Tân", key: "distFromAnHome" },
+                { name: "Khang", location: "Công viên Phú Lâm, Bình Tân", key: "distFromKhangHome" }, // Updated Khang's location
+                { name: "An", location: "Lạc Long Quân, Âu Cơ, TP.HCM", key: "distFromAnHome" },       // Updated An's location
                 { name: "Thiết", location: "Trần Quang Khải, Quận 1", key: "distFromThiếtHome" } // Corresponds to Thiết's home/office
             ];
 
             // Estimated distances in KM by district (simplified estimations for demonstration)
+            // Updated keys to match the new origins locations
             const estimatedDistances = {
                 "Xuân Thới Thượng, Hóc Môn": { // Hưng's home
-                    "Quận 10": 22, "Quận 7": 32, "Gò Vấp": 18, "Quận 2": 28, "Quận 11": 19, "Quận 1": 24,
+                    "Quận 10": 22, "Quận 7": 32, "Gò Vấp": 18, "Quận 2": 28, "Quận 11": 19, "Quận 1": 24, "Bình Tân": 20
                 },
-                "Lạc Long Quân, Âu Cơ, TP.HCM": { // Khang's home
-                    "Quận 10": 4, "Quận 7": 12, "Gò Vấp": 6, "Quận 2": 10, "Quận 11": 2, "Quận 1": 7,
+                "Công viên Phú Lâm, Bình Tân": { // Khang's new home (originally An's)
+                    "Quận 10": 7, "Quận 7": 15, "Gò Vấp": 10, "Quận 2": 18, "Quận 11": 3, "Quận 1": 9, "Bình Tân": 1
                 },
-                "Công viên Phú Lâm, Bình Tân": { // An's home
-                    "Quận 10": 7, "Quận 7": 15, "Gò Vấp": 10, "Quận 2": 18, "Quận 11": 3, "Quận 1": 9,
+                "Lạc Long Quân, Âu Cơ, TP.HCM": { // An's new home (originally Khang's)
+                    "Quận 10": 4, "Quận 7": 12, "Gò Vấp": 6, "Quận 2": 10, "Quận 11": 2, "Quận 1": 7, "Bình Tân": 5
                 },
                 "Trần Quang Khải, Quận 1": { // Thiết's home/Hưng, Khang, An's office start point
                     "Quận 10": 3,   // Bookcity Vạn Hạnh Mall
@@ -196,6 +198,7 @@
                     "Quận 2": 5,    // Estella
                     "Quận 11": 4,   // Phú Thọ
                     "Quận 1": 0.5,  // Saigon Centre, Nguyễn Trãi, Vincom, Trần Quang Khải itself
+                    "Bình Tân": 10
                 }
             };
 
@@ -204,8 +207,8 @@
             // Calculate distances for each bookstore from all origins (homes)
             bookstores.forEach(bookstore => {
                 let distFromHưngHome = estimatedDistances[origins[0].location][bookstore.district] || 999;
-                let distFromKhangHome = estimatedDistances[origins[1].location][bookstore.district] || 999;
-                let distFromAnHome = estimatedDistances[origins[2].location][bookstore.district] || 999;
+                let distFromKhangHome = estimatedDistances[origins[1].location][bookstore.district] || 999; // Using Khang's new location
+                let distFromAnHome = estimatedDistances[origins[2].location][bookstore.district] || 999;     // Using An's new location
                 let distFromThiếtHome = estimatedDistances[origins[3].location][bookstore.district] || 999; // Thiết's home distance
 
                 results.push({
@@ -284,8 +287,8 @@
 
             // Render chart for each origin (home distances)
             renderChart(results, 'Khoảng cách từ Nhà bạn (Hưng)', 'distFromHưngHome');
-            renderChart(results, 'Khoảng cách từ Nhà bạn bè 1 (Khang)', 'distFromKhangHome');
-            renderChart(results, 'Khoảng cách từ Nhà bạn bè 2 (An)', 'distFromAnHome');
+            renderChart(results, 'Khoảng cách từ Nhà bạn bè 1 (Khang)', 'distFromKhangHome'); // Khang's new chart
+            renderChart(results, 'Khoảng cách từ Nhà bạn bè 2 (An)', 'distFromAnHome');       // An's new chart
             renderChart(results, 'Khoảng cách từ Bạn bè 3 (Thiết)', 'distFromThiếtHome');
 
 
@@ -372,21 +375,21 @@
                             if (currentDistance > 24) { // Hưng's 24km rule
                                 shouldAttend = false;
                             }
-                        } else if (person === 'Khang') {
+                        } else if (person === 'Khang') { // Khang's logic with new origin
                             if (startsFromThiếtsPlace) {
                                 currentDistance = estimatedDistances["Trần Quang Khải, Quận 1"][bookstoreInfo.district] || 999;
                                 originLocation = "Thiết's Office (Q1)";
                             } else {
-                                currentDistance = bookstoreInfo.distFromKhangHome;
-                                originLocation = "Nhà Khang";
+                                currentDistance = bookstoreInfo.distFromKhangHome; // Use distFromKhangHome (now Công viên Phú Lâm, Bình Tân)
+                                originLocation = "Nhà Khang (Bình Tân)";
                             }
-                        } else if (person === 'An') {
+                        } else if (person === 'An') { // An's logic with new origin
                             if (startsFromThiếtsPlace) {
                                 currentDistance = estimatedDistances["Trần Quang Khải, Quận 1"][bookstoreInfo.district] || 999;
                                 originLocation = "Thiết's Office (Q1)";
                             } else {
-                                currentDistance = bookstoreInfo.distFromAnHome;
-                                originLocation = "Nhà An";
+                                currentDistance = bookstoreInfo.distFromAnHome; // Use distFromAnHome (now Lạc Long Quân, Âu Cơ, TP.HCM)
+                                originLocation = "Nhà An (Q11)";
                             }
                         } else if (person === 'Thiết') { // Thiết always starts from his place (Trần Quang Khải, Q1)
                             currentDistance = bookstoreInfo.distFromThiếtHome;

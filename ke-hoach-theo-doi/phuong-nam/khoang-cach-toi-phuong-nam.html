@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So sánh khoảng cách đến nhà sách</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better Vietnamese display and general aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 1rem; /* More rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Softer shadow */
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .chart-bar {
+            background-color: #2563eb; /* Blue for bars */
+            height: 25px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            color: #fff;
+            font-weight: 500;
+            transition: width 0.5s ease-out; /* Smooth transition for bar width */
+            overflow: hidden; /* Hide overflow text if bar is too small */
+        }
+        .chart-label {
+            width: 180px; /* Increased width for labels to prevent overflow */
+            flex-shrink: 0;
+            text-align: right;
+            padding-right: 1rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        .distance-value {
+            min-width: 70px; /* Ensure space for distance text */
+            text-align: right;
+            font-weight: 600;
+            color: #2563eb;
+        }
+        .table-header {
+            background-color: #e2e8f0; /* Light gray for table header */
+            color: #2d3748;
+        }
+        .table-row:nth-child(even) {
+            background-color: #f7fafc; /* Alternate row background */
+        }
+        .schedule-distance {
+            font-size: 0.875rem; /* text-sm */
+            color: #4a5568; /* gray-700 */
+            margin-top: 0.25rem;
+            display: block;
+        }
+        .schedule-attendees {
+            font-weight: 500;
+            color: #2b6cb0; /* blue-700 */
+        }
+        .cost-info {
+            font-size: 0.875rem; /* text-sm */
+            color: #6b7280; /* gray-500 */
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="container">
+        <h1 class="text-3xl sm:text-4xl font-bold text-center mb-6 text-indigo-700">So sánh khoảng cách đến nhà sách</h1>
+        <p class="text-center text-gray-600 mb-8">
+            <span class="font-semibold text-red-600">Lưu ý quan trọng:</span> Các khoảng cách dưới đây chỉ là <strong class="text-red-700">ước tính</strong> dựa trên vị trí quận/huyện và không phải là số liệu chính xác từ bản đồ.
+        </p>
+
+        <div class="card">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Thông tin địa điểm của bạn:</h2>
+            <ul class="list-disc list-inside text-gray-700">
+                <li>Nhà bạn (Hưng): <span class="font-medium">Xuân Thới Thượng, Hóc Môn</span></li>
+                <li>Nhà bạn bè 1 (Khang): <span class="font-medium">Lạc Long Quân, Âu Cơ, TP.HCM</span></li>
+                <li>Nhà bạn bè 2 (An): <span class="font-medium">Công viên Phú Lâm, Bình Tân</span></li>
+                <li>Bạn bè 3 (Thiết): <span class="font-medium">245B Trần Quang Khải, Quận 1</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Nhà sách gần nhất và xếp hạng:</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-sm">
+                    <thead>
+                        <tr class="table-header text-left">
+                            <th class="py-3 px-4 font-semibold text-sm rounded-tl-lg">Hạng</th>
+                            <th class="py-3 px-4 font-semibold text-sm">Nhà sách</th>
+                            <th class="py-3 px-4 font-semibold text-sm">Quận</th>
+                            <th class="py-3 px-4 font-semibold text-sm">Khoảng cách từ Hưng (km)</th>
+                            <th class="py-3 px-4 font-semibold text-sm">Khoảng cách từ Khang (km)</th>
+                            <th class="py-3 px-4 font-semibold text-sm">Khoảng cách từ An (km)</th>
+                            <th class="py-3 px-4 font-semibold text-sm rounded-tr-lg">Khoảng cách từ Thiết (km)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookstore-list">
+                        <!-- Data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Biểu đồ so sánh khoảng cách:</h2>
+            <p class="text-sm text-gray-500 mb-4 text-center">Chiều dài thanh biểu thị khoảng cách (km). Các biểu đồ được sắp xếp riêng lẻ theo khoảng cách từ từng vị trí.</p>
+            <div id="charts-wrapper" class="space-y-8">
+                <!-- Individual charts will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="card mt-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Lịch trình đến nhà sách trong tuần (Thứ 2 - Chủ Nhật):</h2>
+            <p class="text-gray-600 mb-4">
+                <span class="font-semibold">Lưu ý về điểm xuất phát:</span>
+                <ul>
+                    <li>Trong giờ làm việc của Thiết (T2-T6: 8h-17h45, T7: 8h-16h): Hưng, Khang, An sẽ xuất phát từ địa điểm của Thiết (245B Trần Quang Khải, Q1).</li>
+                    <li>Ngoài giờ làm việc của Thiết (và Chủ Nhật): Các bạn sẽ xuất phát từ nhà riêng.</li>
+                    <li>Quy tắc tham gia của Hưng: Hưng sẽ không tham gia nếu khoảng cách di chuyển của Hưng lớn hơn 24km.</li>
+                </ul>
+                <span class="font-semibold mt-2 block">Chi phí ước tính:</span> (Xăng: 4.000 VND/km; Ăn: 50.000 VND/người/buổi)
+            </p>
+            <ul id="schedule-list" class="bg-gray-50 border border-gray-200 rounded-lg divide-y divide-gray-200">
+                <!-- Schedule items will be inserted here by JavaScript -->
+            </ul>
+
+            <h2 class="text-2xl font-semibold mb-4 mt-8 text-gray-800">Tổng chi phí dự kiến cho 2 tháng (Tháng 7 - Tháng 9):</h2>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-800">
+                <p class="text-lg font-semibold mb-2">Tổng chi phí ước tính dựa trên lịch trình và các khoản mục đã cung cấp:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li><span class="font-medium">Tổng chi phí xăng cho 2 tháng:</span> 4.368.000 VND</li>
+                    <li><span class="font-medium">Tổng chi phí ăn cho 2 tháng:</span> 6.400.000 VND</li>
+                    <li><span class="font-bold text-xl text-blue-900">Tổng chi phí chung cho 2 tháng (Xăng + Ăn):</span> <span class="font-bold text-xl text-blue-900">10.768.000 VND</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cost constants
+            const FUEL_COST_PER_KM = 4000; // VND per km for motorcycle (updated from 2000 to 4000)
+            const FOOD_COST_PER_PERSON_PER_MEETING = 50000; // VND per person per meeting (example)
+
+            // Define the data for bookstores and origins
+            const bookstores = [
+                { name: "Bookcity Vạn Hạnh Mall", address: "Tầng 3, TTM Vạn Hạnh Mall, 11 Sư Vạn Hạnh, Phường 12, Quận 10, Thành phố Hồ Chí Minh", district: "Quận 10" },
+                { name: "Nhà sách Crescent Mall", address: "Tầng 3, ĐQT bằng 3F-508, 59 - 374 18 m2, TTM Crescent Mall Phú Mỹ Hưng, 101 Tôn Dật Tiên, Phường Tân Phú, Quận 7, Thành phố Hồ Chí Minh", district: "Quận 7" },
+                { name: "Nhà sách Nguyễn Oanh", address: "03 Nguyễn Oanh, Phường 10, Quận Gò Vấp, Thành phố Hồ Chí Minh", district: "Gò Vấp" },
+                { name: "Nhà sách Estella", address: "Tầng 4, Trung tâm mua sắm Estella Place, SỐ 88 Đường Song Hành, Phường An Phú, Quận 2, Thành phố Hồ Chí Minh", district: "Quận 2" },
+                { name: "Nhà sách Phú Thọ", address: "940 Đường 3/2, Phường 15, Quận 11, Thành phố Hồ Chí Minh", district: "Quận 11" },
+                { name: "Nhà sách Saigon Centre Lê Lợi", address: "Tầng 4, 65 Lê Lợi, Quận 1, Thành phố Hồ Chí Minh", district: "Quận 1" },
+                { name: "Nhà sách Nguyễn Trãi", address: "212 Nguyễn Trãi, P.Phạm Ngũ Lão, Q1, TP HCM", district: "Quận 1" },
+                { name: "Nhà sách Vincom Đồng Khởi", address: "Tầng B2, TTM Vincom, 72 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh", district: "Quận 1" },
+                { name: "Nhà sách Vivo City", address: "Tầng 3, TTM Vivo City, 1058 Đại Lộ Nguyễn Văn Linh, Phường Tân Phong, Quận 7, Thành phố Hồ Chí Minh", district: "Quận 7" },
+                { name: "Nhà sách Trần Quang Khải", address: "245b Trần Quang Khải, Quận 1, Thành phố Hồ Chí Minh", district: "Quận 1" }
+            ];
+
+            const origins = [
+                { name: "Hưng", location: "Xuân Thới Thượng, Hóc Môn", key: "distFromHưngHome" },
+                { name: "Khang", location: "Lạc Long Quân, Âu Cơ, TP.HCM", key: "distFromKhangHome" },
+                { name: "An", location: "Công viên Phú Lâm, Bình Tân", key: "distFromAnHome" },
+                { name: "Thiết", location: "Trần Quang Khải, Quận 1", key: "distFromThiếtHome" } // Corresponds to Thiết's home/office
+            ];
+
+            // Estimated distances in KM by district (simplified estimations for demonstration)
+            const estimatedDistances = {
+                "Xuân Thới Thượng, Hóc Môn": { // Hưng's home
+                    "Quận 10": 22, "Quận 7": 32, "Gò Vấp": 18, "Quận 2": 28, "Quận 11": 19, "Quận 1": 24,
+                },
+                "Lạc Long Quân, Âu Cơ, TP.HCM": { // Khang's home
+                    "Quận 10": 4, "Quận 7": 12, "Gò Vấp": 6, "Quận 2": 10, "Quận 11": 2, "Quận 1": 7,
+                },
+                "Công viên Phú Lâm, Bình Tân": { // An's home
+                    "Quận 10": 7, "Quận 7": 15, "Gò Vấp": 10, "Quận 2": 18, "Quận 11": 3, "Quận 1": 9,
+                },
+                "Trần Quang Khải, Quận 1": { // Thiết's home/Hưng, Khang, An's office start point
+                    "Quận 10": 3,   // Bookcity Vạn Hạnh Mall
+                    "Quận 7": 9,    // Crescent Mall, Vivo City
+                    "Gò Vấp": 8,    // Nguyễn Oanh
+                    "Quận 2": 5,    // Estella
+                    "Quận 11": 4,   // Phú Thọ
+                    "Quận 1": 0.5,  // Saigon Centre, Nguyễn Trãi, Vincom, Trần Quang Khải itself
+                }
+            };
+
+            let results = [];
+
+            // Calculate distances for each bookstore from all origins (homes)
+            bookstores.forEach(bookstore => {
+                let distFromHưngHome = estimatedDistances[origins[0].location][bookstore.district] || 999;
+                let distFromKhangHome = estimatedDistances[origins[1].location][bookstore.district] || 999;
+                let distFromAnHome = estimatedDistances[origins[2].location][bookstore.district] || 999;
+                let distFromThiếtHome = estimatedDistances[origins[3].location][bookstore.district] || 999; // Thiết's home distance
+
+                results.push({
+                    name: bookstore.name,
+                    address: bookstore.address,
+                    district: bookstore.district,
+                    distFromHưngHome: distFromHưngHome,
+                    distFromKhangHome: distFromKhangHome,
+                    distFromAnHome: distFromAnHome,
+                    distFromThiếtHome: distFromThiếtHome, // Use Thiết's distance
+                    // minDistance is not used in table display but kept for potential future sorting
+                    minDistance: Math.min(distFromHưngHome, distFromKhangHome, distFromAnHome, distFromThiếtHome)
+                });
+            });
+
+            // Sort results by the minimum distance in ascending order (for the main table's "Hạng")
+            results.sort((a, b) => a.minDistance - b.minDistance);
+
+            const bookstoreList = document.getElementById('bookstore-list');
+            bookstoreList.innerHTML = ''; // Clear previous content
+
+            // Populate the main table
+            results.forEach((bookstore, index) => {
+                const row = document.createElement('tr');
+                row.className = 'table-row';
+                row.innerHTML = `
+                    <td class="py-3 px-4 text-sm">${index + 1}</td>
+                    <td class="py-3 px-4 text-sm font-medium text-blue-700">${bookstore.name}</td>
+                    <td class="py-3 px-4 text-sm text-gray-600">${bookstore.district}</td>
+                    <td class="py-3 px-4 text-sm text-gray-800">${bookstore.distFromHưngHome} km</td>
+                    <td class="py-3 px-4 text-sm text-gray-800">${bookstore.distFromKhangHome} km</td>
+                    <td class="py-3 px-4 text-sm text-gray-800">${bookstore.distFromAnHome} km</td>
+                    <td class="py-3 px-4 text-sm text-gray-800">${bookstore.distFromThiếtHome} km</td>
+                `;
+                bookstoreList.appendChild(row);
+            });
+
+            // --- Chart Generation for each person ---
+            const chartsWrapper = document.getElementById('charts-wrapper');
+            chartsWrapper.innerHTML = ''; // Clear previous charts
+
+            function renderChart(data, title, distanceKey) {
+                const chartDiv = document.createElement('div');
+                chartDiv.className = 'mb-6 p-4 bg-gray-50 rounded-lg shadow-sm'; // Styling for individual chart sections
+                chartDiv.innerHTML = `<h3 class="text-xl font-semibold mb-3 text-gray-700">${title}</h3>`;
+                
+                const validDistances = data.filter(b => b[distanceKey] !== 999).map(b => b[distanceKey]);
+                const maxDist = validDistances.length > 0 ? Math.max(...validDistances) : 1;
+
+                // Sort data for chart to display shortest distance first
+                const sortedData = [...data].sort((a, b) => {
+                    const distA = a[distanceKey] === 999 ? Infinity : a[distanceKey];
+                    const distB = b[distanceKey] === 999 ? Infinity : b[distanceKey];
+                    return distA - distB;
+                });
+
+                sortedData.forEach(bookstore => {
+                    const barWrapper = document.createElement('div');
+                    barWrapper.className = 'flex items-center space-x-2 mb-2';
+                    const distanceValue = bookstore[distanceKey];
+                    const barText = distanceValue === 999 ? 'Không xác định' : `${distanceValue} km`;
+                    const barWidthPercentage = distanceValue === 999 ? 0 : (distanceValue / maxDist) * 95; // Max 95% to leave room for label
+
+                    barWrapper.innerHTML = `
+                        <div class="chart-label">${bookstore.name}</div>
+                        <div class="flex-grow">
+                            <div class="chart-bar" style="width: ${barWidthPercentage}%;">
+                                <span class="ml-2 whitespace-nowrap">${barText}</span>
+                            </div>
+                        </div>
+                    `;
+                    chartDiv.appendChild(barWrapper);
+                });
+                chartsWrapper.appendChild(chartDiv);
+            }
+
+            // Render chart for each origin (home distances)
+            renderChart(results, 'Khoảng cách từ Nhà bạn (Hưng)', 'distFromHưngHome');
+            renderChart(results, 'Khoảng cách từ Nhà bạn bè 1 (Khang)', 'distFromKhangHome');
+            renderChart(results, 'Khoảng cách từ Nhà bạn bè 2 (An)', 'distFromAnHome');
+            renderChart(results, 'Khoảng cách từ Bạn bè 3 (Thiết)', 'distFromThiếtHome');
+
+
+            // --- Schedule Generation ---
+            // Data for schedule. Note: These are the *intended* distances from user's last prompt.
+            // The logic below will determine the actual start point (home vs Thiết's office)
+            // and then use the `estimatedDistances` to get the travel distance.
+            const scheduleData = [
+                { day: "Thứ 2", isWeekday: true, time: "10h - 12h", bookstoreShort: "Crescent mall", originalAttendees: ["Hưng", "Khang"] },
+                { day: "Thứ 3", isWeekday: true, time: "10h - 12h", bookstoreShort: "Estella", originalAttendees: ["Khang", "An"] },
+                { day: "Thứ 4", isWeekday: true, time: "10h - 12h", bookstoreShort: "Phú Thọ", originalAttendees: ["Hưng", "Khang"] },
+                { day: "Thứ 5", isWeekday: true, time: "18h - 20h", bookstoreShort: "SG LÊ Lợi", originalAttendees: ["An", "Khang", "Hưng"] },
+                { day: "Thứ 6", isWeekday: true, time: "10h - 12h", bookstoreShort: "Vico", originalAttendees: ["Hưng", "Khang"] },
+                { day: "Thứ 7", isWeekday: true, time: "2 ca", bookstoreShort: "Vạn Hạnh", originalAttendees: ["Hưng", "Khang", "An"] },
+                { day: "Chủ Nhật", isWeekday: false, time: "18h - 20h", bookstoreShort: "Nhà sách Nguyễn Oanh", originalAttendees: ["Hưng", "Khang"] },
+            ];
+
+            // Mapping short names to full names from 'bookstores' array for easier lookup
+            const bookstoreMap = {
+                "Crescent mall": "Nhà sách Crescent Mall",
+                "Estella": "Nhà sách Estella",
+                "Phú Thọ": "Nhà sách Phú Thọ",
+                "SG LÊ Lợi": "Nhà sách Saigon Centre Lê Lợi",
+                "Vico": "Nhà sách Vincom Đồng Khởi",
+                "Vạn Hạnh": "Bookcity Vạn Hạnh Mall",
+                "Nhà sách Nguyễn Oanh": "Nhà sách Nguyễn Oanh",
+                "Trần Quang Khải": "Nhà sách Trần Quang Khải"
+            };
+
+            const scheduleList = document.getElementById('schedule-list');
+            scheduleList.innerHTML = ''; // Clear existing list
+
+            // Function to check if a time string falls within Thiết's working hours
+            function isDuringThiếtWorkingHours(day, timeStr) {
+                // "2 ca" is flexible, not strictly within Thiết's working hours for the office rule
+                if (timeStr.includes("2 ca")) return false; 
+
+                const [startTimeStr] = timeStr.split(' - ').map(t => t.trim());
+                let startHour = parseInt(startTimeStr.split('h')[0], 10);
+                let startMinute = parseInt(startTimeStr.split('h')[1] || '0', 10);
+                
+                // Convert to minutes for easier comparison
+                const meetingStartInMinutes = startHour * 60 + startMinute;
+
+                // Thiết's working hours:
+                // Weekdays (Thứ 2 - Thứ 6): 8h-17h45 (480 min - 1065 min)
+                // Saturday (Thứ 7): 8h-16h (480 min - 960 min)
+                const officeStartHour = 8 * 60; // 8:00
+                
+                if (["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6"].includes(day)) {
+                    const officeEndHour = 17 * 60 + 45; // 17:45
+                    // Check if meeting starts within office hours
+                    return meetingStartInMinutes >= officeStartHour && meetingStartInMinutes < officeEndHour;
+                } else if (day === "Thứ 7") {
+                    const officeEndHour = 16 * 60; // 16:00
+                    return meetingStartInMinutes >= officeStartHour && meetingStartInMinutes < officeEndHour;
+                }
+                return false; // Sunday or outside defined weekdays/hours
+            }
+
+            scheduleData.forEach(item => {
+                const fullBookstoreName = bookstoreMap[item.bookstoreShort] || item.bookstoreShort;
+                const bookstoreInfo = results.find(b => b.name === fullBookstoreName);
+
+                if (bookstoreInfo) {
+                    let attendingMembers = [];
+                    let distancesHtml = '';
+                    let totalTripDistance = 0;
+                    const startsFromThiếtsPlace = isDuringThiếtWorkingHours(item.day, item.time);
+
+                    item.originalAttendees.forEach(person => {
+                        let currentDistance = 0;
+                        let shouldAttend = true;
+                        let originLocation = "";
+
+                        if (person === 'Hưng') {
+                            if (startsFromThiếtsPlace) {
+                                currentDistance = estimatedDistances["Trần Quang Khải, Quận 1"][bookstoreInfo.district] || 999;
+                                originLocation = "Thiết's Office (Q1)";
+                            } else {
+                                currentDistance = bookstoreInfo.distFromHưngHome;
+                                originLocation = "Nhà Hưng";
+                            }
+                            if (currentDistance > 24) { // Hưng's 24km rule
+                                shouldAttend = false;
+                            }
+                        } else if (person === 'Khang') {
+                            if (startsFromThiếtsPlace) {
+                                currentDistance = estimatedDistances["Trần Quang Khải, Quận 1"][bookstoreInfo.district] || 999;
+                                originLocation = "Thiết's Office (Q1)";
+                            } else {
+                                currentDistance = bookstoreInfo.distFromKhangHome;
+                                originLocation = "Nhà Khang";
+                            }
+                        } else if (person === 'An') {
+                            if (startsFromThiếtsPlace) {
+                                currentDistance = estimatedDistances["Trần Quang Khải, Quận 1"][bookstoreInfo.district] || 999;
+                                originLocation = "Thiết's Office (Q1)";
+                            } else {
+                                currentDistance = bookstoreInfo.distFromAnHome;
+                                originLocation = "Nhà An";
+                            }
+                        } else if (person === 'Thiết') { // Thiết always starts from his place (Trần Quang Khải, Q1)
+                            currentDistance = bookstoreInfo.distFromThiếtHome;
+                            originLocation = "Nhà Thiết (Q1)";
+                        }
+
+                        if (shouldAttend && currentDistance !== 999) { // 999 means unknown/not possible
+                            attendingMembers.push({ name: person, distance: currentDistance, origin: originLocation });
+                            totalTripDistance += currentDistance;
+                        }
+                    });
+
+                    // Sort attendees for consistent display
+                    attendingMembers.sort((a, b) => {
+                        const order = {'Hưng': 1, 'Khang': 2, 'An': 3, 'Thiết': 4};
+                        return order[a.name] - order[b.name];
+                    });
+
+                    attendingMembers.forEach(member => {
+                        distancesHtml += `<span class="schedule-distance">- ${member.name} (Từ ${member.origin}): ${member.distance} km</span>`;
+                    });
+
+                    if (attendingMembers.length > 0) {
+                        const totalFoodCost = attendingMembers.length * FOOD_COST_PER_PERSON_PER_MEETING;
+                        const totalFuelCost = totalTripDistance * FUEL_COST_PER_KM;
+
+                        const listItem = document.createElement('li');
+                        listItem.className = 'py-3 px-4 border-b border-gray-200 last:border-b-0 flex flex-col sm:flex-row justify-between items-start sm:items-center';
+                        
+                        listItem.innerHTML = `
+                            <div>
+                                <span class="font-semibold text-gray-800">${item.day}:</span> <span class="text-blue-700 font-medium">${bookstoreInfo.name}</span>
+                                <span class="block text-sm text-gray-600">(${item.time}) - Tham gia: <span class="schedule-attendees">${attendingMembers.map(m => m.name).join(' ')}</span></span>
+                                ${distancesHtml}
+                                <div class="cost-info mt-2">
+                                    <span class="font-semibold">Tổng quãng đường nhóm:</span> ${totalTripDistance.toLocaleString('vi-VN')} km<br>
+                                    <span class="font-semibold">Ước tính tổng chi phí xăng:</span> ${totalFuelCost.toLocaleString('vi-VN')} VND<br>
+                                    <span class="font-semibold">Ước tính tổng chi phí ăn:</span> ${totalFoodCost.toLocaleString('vi-VN')} VND
+                                </div>
+                            </div>
+                        `;
+                        scheduleList.appendChild(listItem);
+                    } else {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'py-3 px-4 border-b border-gray-200 last:border-b-0 flex flex-col sm:flex-row justify-between items-start sm:items-center text-gray-500';
+                        listItem.innerHTML = `
+                            <div>
+                                <span class="font-semibold text-gray-800">${item.day}:</span> <span class="text-blue-700 font-medium">${bookstoreInfo.name}</span>
+                                <span class="block text-sm text-gray-600">(${item.time}) - <span class="font-medium text-red-500">Không có ai tham gia</span></span>
+                            </div>
+                        `;
+                        scheduleList.appendChild(listItem);
+                    }
+
+                } else {
+                    console.warn(`Bookstore not found for schedule item: ${item.bookstoreShort}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

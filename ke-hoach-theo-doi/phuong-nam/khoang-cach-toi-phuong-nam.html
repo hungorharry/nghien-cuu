@@ -90,6 +90,23 @@
             font-weight: 600;
             color: #1a202c;
         }
+        .suggestion-table th, .suggestion-table td, .schedule-summary-table th, .schedule-summary-table td {
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .suggestion-table thead th, .schedule-summary-table thead th {
+            background-color: #e2e8f0;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        .suggestion-table tbody tr:nth-child(odd), .schedule-summary-table tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+        .suggestion-table tbody tr:nth-child(even), .schedule-summary-table tbody tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
     </style>
 </head>
 <body class="p-4 sm:p-8">
@@ -139,8 +156,9 @@
             </div>
         </div>
 
+        <!-- New section for daily schedule table -->
         <div class="card mt-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Lịch trình đến nhà sách trong tuần (Thứ 2 - Chủ Nhật):</h2>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Tổng hợp Lịch trình và Chi phí Hàng ngày:</h2>
             <p class="text-gray-600 mb-4">
                 <span class="font-semibold">Lưu ý về điểm xuất phát:</span>
                 <ul>
@@ -150,11 +168,26 @@
                 </ul>
                 <span class="font-semibold mt-2 block">Chi phí ước tính:</span> (Xăng: 4.000 VND/km; Ăn: 50.000 VND/người/buổi)
             </p>
-            <ul id="schedule-list" class="bg-gray-50 border border-gray-200 rounded-lg divide-y divide-gray-200">
-                <!-- Schedule items will be inserted here by JavaScript -->
-            </ul>
+            <div class="overflow-x-auto">
+                <table class="min-w-full schedule-summary-table rounded-lg overflow-hidden shadow-sm">
+                    <thead>
+                        <tr>
+                            <th>Ngày & Thời gian</th>
+                            <th>Nhà sách</th>
+                            <th>Thành viên tham gia & Chi phí cá nhân</th>
+                            <th>Tổng quãng đường nhóm (Km)</th>
+                            <th>Tổng chi phí nhóm (VND)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="daily-schedule-table">
+                        <!-- Daily schedule data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <h2 class="text-2xl font-semibold mb-4 mt-8 text-gray-800">Tổng chi phí dự kiến cho 2 tháng (Tháng 7 - Tháng 9):</h2>
+        <div class="card mt-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Tổng chi phí dự kiến cho 2 tháng (Tháng 7 - Tháng 9):</h2>
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-800">
                 <p class="text-lg font-semibold mb-2">Tổng chi phí ước tính dựa trên lịch trình và các khoản mục đã cung cấp:</p>
                 <ul class="list-disc list-inside space-y-1">
@@ -166,7 +199,7 @@
 
             <!-- New section for individual totals -->
             <div class="card mt-8">
-                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Tổng chi phí cá nhân dự kiến cho 2 tháng:</h2>
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Tổng chi phí cá nhân dự kiến cho 2 tháng (x 8 lần):</h2>
                 <div id="individual-total-costs" class="bg-green-50 border border-green-200 rounded-lg p-4 text-green-800">
                     <!-- Individual totals will be inserted here by JavaScript -->
                 </div>
@@ -315,17 +348,20 @@
             renderChart(results, 'Khoảng cách từ Bạn bè 3 (Thiết)', 'distFromThiếtHome');
 
 
-            // --- Schedule Generation ---
-            // Data for schedule. Note: These are the *intended* distances from user's last prompt.
-            // The logic below will determine the actual start point (home vs Thiết's office)
-            // and then use the `estimatedDistances` to get the travel distance.
+            // --- Daily Schedule Table Generation ---
+            const dailyScheduleTable = document.getElementById('daily-schedule-table');
+            dailyScheduleTable.innerHTML = ''; // Clear existing table content
+
+            // Data for schedule (UPDATED for proposed changes)
             const scheduleData = [
                 { day: "Thứ 2", isWeekday: true, time: "10h - 12h", bookstoreShort: "Crescent mall", originalAttendees: ["Hưng", "Khang"] },
                 { day: "Thứ 3", isWeekday: true, time: "10h - 12h", bookstoreShort: "Estella", originalAttendees: ["Khang", "An"] },
                 { day: "Thứ 4", isWeekday: true, time: "10h - 12h", bookstoreShort: "Phú Thọ", originalAttendees: ["Hưng", "Khang"] },
-                { day: "Thứ 5", isWeekday: true, time: "18h - 20h", bookstoreShort: "SG LÊ Lợi", originalAttendees: ["An", "Khang", "Hưng"] },
+                // Proposed change for Thứ 5
+                { day: "Thứ 5", isWeekday: true, time: "18h - 20h", bookstoreShort: "Vạn Hạnh", originalAttendees: ["An", "Khang", "Hưng"] },
                 { day: "Thứ 6", isWeekday: true, time: "10h - 12h", bookstoreShort: "Vico", originalAttendees: ["Hưng", "Khang"] },
                 { day: "Thứ 7", isWeekday: true, time: "2 ca", bookstoreShort: "Vạn Hạnh", originalAttendees: ["Hưng", "Khang", "An"] },
+                // Chủ Nhật remains unchanged
                 { day: "Chủ Nhật", isWeekday: false, time: "18h - 20h", bookstoreShort: "Nhà sách Nguyễn Oanh", originalAttendees: ["Hưng", "Khang"] },
             ];
 
@@ -336,40 +372,28 @@
                 "Phú Thọ": "Nhà sách Phú Thọ",
                 "SG LÊ Lợi": "Nhà sách Saigon Centre Lê Lợi",
                 "Vico": "Nhà sách Vincom Đồng Khởi",
-                "Vạn Hạnh": "Bookcity Vạn Hạnh Mall",
+                "Vạn Hạnh": "Bookcity Vạn Hạnh Mall", // Corrected to full name
                 "Nhà sách Nguyễn Oanh": "Nhà sách Nguyễn Oanh",
                 "Trần Quang Khải": "Nhà sách Trần Quang Khải"
             };
 
-            const scheduleList = document.getElementById('schedule-list');
-            scheduleList.innerHTML = ''; // Clear existing list
-
             // Function to check if a time string falls within Thiết's working hours
             function isDuringThiếtWorkingHours(day, timeStr) {
-                // "2 ca" is flexible, not strictly within Thiết's working hours for the office rule
                 if (timeStr.includes("2 ca")) return false; 
-
                 const [startTimeStr] = timeStr.split(' - ').map(t => t.trim());
                 let startHour = parseInt(startTimeStr.split('h')[0], 10);
                 let startMinute = parseInt(startTimeStr.split('h')[1] || '0', 10);
-                
-                // Convert to minutes for easier comparison
                 const meetingStartInMinutes = startHour * 60 + startMinute;
-
-                // Thiết's working hours:
-                // Weekdays (Thứ 2 - Thứ 6): 8h-17h45 (480 min - 1065 min)
-                // Saturday (Thứ 7): 8h-16h (480 min - 960 min)
                 const officeStartHour = 8 * 60; // 8:00
                 
                 if (["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6"].includes(day)) {
                     const officeEndHour = 17 * 60 + 45; // 17:45
-                    // Check if meeting starts within office hours
                     return meetingStartInMinutes >= officeStartHour && meetingStartInMinutes < officeEndHour;
                 } else if (day === "Thứ 7") {
                     const officeEndHour = 16 * 60; // 16:00
                     return meetingStartInMinutes >= officeStartHour && meetingStartInMinutes < officeEndHour;
                 }
-                return false; // Sunday or outside defined weekdays/hours
+                return false;
             }
 
             // Initialize total costs for each person over 2 months (for the final summary)
@@ -380,18 +404,15 @@
                 "Thiết": { fuel: 0, food: 0 }
             };
 
-            // Loop for schedule generation and individual cost calculation
             scheduleData.forEach(item => {
                 const fullBookstoreName = bookstoreMap[item.bookstoreShort] || item.bookstoreShort;
                 const bookstoreInfo = results.find(b => b.name === fullBookstoreName);
 
                 if (bookstoreInfo) {
                     let attendingMembers = [];
-                    let distancesHtml = '';
                     let totalTripDistance = 0;
                     const startsFromThiếtsPlace = isDuringThiếtWorkingHours(item.day, item.time);
-                    let dailyIndividualCostsHtml = '';
-
+                    
                     item.originalAttendees.forEach(person => {
                         let currentDistance = 0;
                         let shouldAttend = true;
@@ -408,98 +429,84 @@
                             if (currentDistance > 24) { // Hưng's 24km rule
                                 shouldAttend = false;
                             }
-                        } else if (person === 'Khang') { // Khang's logic with new origin
+                        } else if (person === 'Khang') {
                             if (startsFromThiếtsPlace) {
                                 currentDistance = estimatedDistances["Trần Quang Khải, Quận 1"][bookstoreInfo.district] || 999;
                                 originLocation = "Thiết's Office (Q1)";
                             } else {
-                                currentDistance = bookstoreInfo.distFromKhangHome; // Use distFromKhangHome (now Công viên Phú Lâm, Bình Tân)
+                                currentDistance = bookstoreInfo.distFromKhangHome;
                                 originLocation = "Nhà Khang (Bình Tân)";
                             }
-                        } else if (person === 'An') { // An's logic with new origin
+                        } else if (person === 'An') {
                             if (startsFromThiếtsPlace) {
                                 currentDistance = estimatedDistances["Trần Quang Khải, Quận 1"][bookstoreInfo.district] || 999;
                                 originLocation = "Thiết's Office (Q1)";
                             } else {
-                                currentDistance = bookstoreInfo.distFromAnHome; // Use distFromAnHome (now Lạc Long Quân, Âu Cơ, TP.HCM)
+                                currentDistance = bookstoreInfo.distFromAnHome;
                                 originLocation = "Nhà An (Q11)";
                             }
-                        } else if (person === 'Thiết') { // Thiết always starts from his place (Trần Quang Khải, Q1)
+                        } else if (person === 'Thiết') {
                             currentDistance = bookstoreInfo.distFromThiếtHome;
                             originLocation = "Nhà Thiết (Q1)";
                         }
 
-                        if (shouldAttend && currentDistance !== 999) { // 999 means unknown/not possible
+                        if (shouldAttend && currentDistance !== 999) {
                             const fuelCost = currentDistance * FUEL_COST_PER_KM;
                             const foodCost = FOOD_COST_PER_PERSON_PER_MEETING;
                             attendingMembers.push({ name: person, distance: currentDistance, origin: originLocation, fuelCost: fuelCost, foodCost: foodCost });
                             totalTripDistance += currentDistance;
 
-                            // Add to individual totals for the 2-month summary
                             individualTotalCostsFor2Months[person].fuel += fuelCost;
                             individualTotalCostsFor2Months[person].food += foodCost;
                         }
                     });
 
-                    // Sort attendees for consistent display
                     attendingMembers.sort((a, b) => {
                         const order = {'Hưng': 1, 'Khang': 2, 'An': 3, 'Thiết': 4};
                         return order[a.name] - order[b.name];
                     });
 
+                    // Construct HTML for individual members and their costs
+                    let individualDetailsHtml = '';
                     attendingMembers.forEach(member => {
-                        distancesHtml += `
-                            <span class="schedule-distance">- ${member.name} (Từ ${member.origin}): ${member.distance} km
-                                <div class="individual-cost-info">
-                                    Chi phí xăng: ${member.fuelCost.toLocaleString('vi-VN')} VND, Chi phí ăn: ${member.foodCost.toLocaleString('vi-VN')} VND
-                                </div>
-                            </span>`;
-                        dailyIndividualCostsHtml += `
-                            <div class="daily-individual-total">
-                                Tổng chi phí của ${member.name} trong buổi này: ${(member.fuelCost + member.foodCost).toLocaleString('vi-VN')} VND
+                        individualDetailsHtml += `
+                            <div class="mb-1">
+                                <span class="font-medium">${member.name}:</span>
+                                Từ ${member.origin}, ${member.distance} km<br>
+                                Chi phí xăng: ${member.fuelCost.toLocaleString('vi-VN')} VND, Ăn: ${member.foodCost.toLocaleString('vi-VN')} VND<br>
+                                <strong class="text-blue-700">Tổng: ${(member.fuelCost + member.foodCost).toLocaleString('vi-VN')} VND</strong>
                             </div>
                         `;
                     });
 
-                    if (attendingMembers.length > 0) {
-                        const totalFoodCost = attendingMembers.length * FOOD_COST_PER_PERSON_PER_MEETING;
-                        const totalFuelCost = totalTripDistance * FUEL_COST_PER_KM;
+                    const totalFoodCostGroup = attendingMembers.length * FOOD_COST_PER_PERSON_PER_MEETING;
+                    const totalFuelCostGroup = totalTripDistance * FUEL_COST_PER_KM;
 
-                        const listItem = document.createElement('li');
-                        listItem.className = 'py-3 px-4 border-b border-gray-200 last:border-b-0 flex flex-col sm:flex-row justify-between items-start sm:items-center';
-                        
-                        listItem.innerHTML = `
-                            <div>
-                                <span class="font-semibold text-gray-800">${item.day}:</span> <span class="text-blue-700 font-medium">${bookstoreInfo.name}</span>
-                                <span class="block text-sm text-gray-600">(${item.time}) - Tham gia: <span class="schedule-attendees">${attendingMembers.map(m => m.name).join(' ')}</span></span>
-                                ${distancesHtml}
-                                ${dailyIndividualCostsHtml} <!-- Insert daily individual totals here -->
-                                <div class="cost-info mt-2">
-                                    <span class="font-semibold">Tổng quãng đường nhóm:</span> ${totalTripDistance.toLocaleString('vi-VN')} km<br>
-                                    <span class="font-semibold">Ước tính tổng chi phí xăng nhóm:</span> ${totalFuelCost.toLocaleString('vi-VN')} VND<br>
-                                    <span class="font-semibold">Ước tính tổng chi phí ăn nhóm:</span> ${totalFoodCost.toLocaleString('vi-VN')} VND
-                                </div>
-                            </div>
-                        `;
-                        scheduleList.appendChild(listItem);
-                    } else {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'py-3 px-4 border-b border-gray-200 last:border-b-0 flex flex-col sm:flex-row justify-between items-start sm:items-center text-gray-500';
-                        listItem.innerHTML = `
-                            <div>
-                                <span class="font-semibold text-gray-800">${item.day}:</span> <span class="text-blue-700 font-medium">${bookstoreInfo.name}</span>
-                                <span class="block text-sm text-gray-600">(${item.time}) - <span class="font-medium text-red-500">Không có ai tham gia</span></span>
-                            </div>
-                        `;
-                        scheduleList.appendChild(listItem);
-                    }
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <strong class="text-gray-800">${item.day}</strong><br>
+                            <span class="text-sm text-gray-600">(${item.time})</span>
+                        </td>
+                        <td><strong class="text-blue-700">${bookstoreInfo.name}</strong></td>
+                        <td>
+                            ${attendingMembers.length > 0 ? individualDetailsHtml : '<span class="text-red-500">Không có ai tham gia</span>'}
+                        </td>
+                        <td>${totalTripDistance.toLocaleString('vi-VN')}</td>
+                        <td>
+                            Xăng: ${totalFuelCostGroup.toLocaleString('vi-VN')} VND<br>
+                            Ăn: ${totalFoodCostGroup.toLocaleString('vi-VN')} VND<br>
+                            <strong class="text-indigo-700">Tổng nhóm: ${(totalFuelCostGroup + totalFoodCostGroup).toLocaleString('vi-VN')} VND</strong>
+                        </td>
+                    `;
+                    dailyScheduleTable.appendChild(row);
 
                 } else {
                     console.warn(`Bookstore not found for schedule item: ${item.bookstoreShort}`);
                 }
             });
 
-            // Display individual total costs for 2 months
+            // Display individual total costs for 2 months (x 8 times)
             const individualTotalCostsDiv = document.getElementById('individual-total-costs');
             let individualTotalsHtml = `<ul class="list-disc list-inside space-y-1">`;
             for (const person in individualTotalCostsFor2Months) {

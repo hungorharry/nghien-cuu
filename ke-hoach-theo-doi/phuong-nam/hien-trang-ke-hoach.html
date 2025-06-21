@@ -175,16 +175,16 @@
         details.plan-details-section summary::-webkit-details-marker {
             display: none;
         }
+        details.plan-details-section[open] summary::before {
+            content: '\f068'; /* Minus icon */
+            transform: rotate(180deg);
+        }
         details.plan-details-section summary::before {
             content: '\f067'; /* Plus icon */
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             margin-right: 0.5rem;
             transition: transform 0.2s ease;
-        }
-        details.plan-details-section[open] summary::before {
-            content: '\f068'; /* Minus icon */
-            transform: rotate(180deg);
         }
         .plan-content h3 {
             font-weight: 600;
@@ -222,8 +222,7 @@
         <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Kế hoạch Chiến dịch "Back To School"</h1>
         <p class="text-center text-gray-500 mb-8">Từ ý tưởng, thảo luận, ra quyết định đến kế hoạch hành động chi tiết.</p>
 
-        <!-- Collapsible Detailed Plan Section -->
-        <details class="plan-details-section card mb-8">
+        <details class="plan-details-section card mb-8" open>
             <summary><i class="fas fa-file-alt"></i> KẾ HOẠCH TRIỂN KHAI TẠI BOOTH (PHIÊN BẢN ĐÃ ĐIỀU CHỈNH - Chi tiết)</summary>
             <div class="plan-content pt-4 border-t border-gray-200 mt-4">
                 <h3>I. MỤC TIÊU CHƯƠNG TRÌNH</h3>
@@ -245,7 +244,7 @@
                 <h4>1. Khu vực Booth:</h4>
                 <ul>
                     <li>Trưng bày sản phẩm chính: 8 mẫu laptop được đặt an toàn trong tủ kính có khóa. Mỗi máy có bảng thông số rõ ràng.</li>
-                    <li>Khu vực "Mồi" thu hút: Bố trí Máy in sticker mini (H11/L8) và Máy in ảnh (Z1) ở vị trí dễ thấy phía trước booth để demo và làm quà tặng.</li>
+                    <li>Khu vực "Mồi" thu hút: Bố trí Máy in sticker mini (H11) và Máy ảnh & In ảnh (Z1) và Máy chiếu mini (Wanbo Dali 1) ở vị trí dễ thấy phía trước booth để demo và làm quà tặng.</li>
                     <li>Điểm nhấn truyền thông: Standee/Wobbler với thông điệp mời gọi rõ ràng: "Nhận Sticker Cá Tính Miễn Phí & Trải Nghiệm AI Chọn Laptop Đúng Chuẩn!"</li>
                     <li>Mã QR: Đặt tại nhiều điểm để khách hàng dễ dàng quét và truy cập công cụ AI.</li>
                 </ul>
@@ -284,7 +283,7 @@
 
                 <h3>V. QUÀ TẶNG & KHUYẾN MÃI</h3>
                 <ul>
-                    <li>Quà Tặng Trải Nghiệm (Tại chỗ): Sticker/Ảnh in lấy liền từ các máy in mini (H11, L8, Z1).</li>
+                    <li>Quà Tặng Trải Nghiệm (Tại chỗ): Sticker/Ảnh in lấy liền từ các máy in mini (H11, Z1) và trải nghiệm máy chiếu Wanbo Dali 1.</li>
                     <li>Ưu Đãi Chuyển Đổi (Gửi qua Email): Voucher giảm giá/Mã khuyến mãi độc quyền dành cho khách hàng đã hoàn thành trải nghiệm AI và để lại email.</li>
                 </ul>
 
@@ -326,11 +325,37 @@
                         </ul>
                     </li>
                 </ul>
+
+                <h3>IX. DỰ KIẾN CHI PHÍ (TÍNH THEO NGÀY / 1 NHÂN VIÊN)</h3>
+                <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Giờ làm 18-20h</th>
+                                <th scope="col" class="px-6 py-3">Tính giờ công Blog cá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b">
+                                <td class="px-6 py-4 font-medium text-gray-900">Giờ xe</td>
+                                <td class="px-6 py-4">10.000 / ngày</td>
+                            </tr>
+                            <tr class="bg-gray-50 border-b">
+                                <td class="px-6 py-4 font-medium text-gray-900">Ăn tối</td>
+                                <td class="px-6 py-4">50.000 / 1 bữa / ngày</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="px-6 py-4 font-medium text-gray-900">Xăng</td>
+                                <td class="px-6 py-4">30.000 / ngày <br>(chỉ áp dụng site lại quận 7)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Tổng chi phí dự kiến cho 2 tháng (Tháng 7 & 8) là 203.000.000 VNĐ (bao gồm cả ngân sách truyền thông).</p>
             </div>
         </details>
         <div class="flow-connector"></div>
 
-        <!-- Mục tiêu & Yêu cầu Ban đầu (Existing content) -->
         <div class="card bg-blue-100 border-blue-300">
             <h2 class="card-title text-blue-900"><i class="fas fa-flag-checkered"></i> MỤC TIÊU & YÊU CẦU BAN ĐẦU (Email từ Mr. ThietPN)</h2>
             <ul class="list-disc">
@@ -348,11 +373,9 @@
         </div>
         <div class="flow-connector"></div>
 
-        <!-- Diễn biến Cuộc họp & Quyết định -->
         <div class="card">
             <h2 class="card-title"><i class="fas fa-users"></i> DIỄN BIẾN CUỘC HỌP & QUYẾT ĐỊNH</h2>
             <div class="space-y-6 mt-4">
-                <!-- Giai đoạn 1 -->
                 <div class="card decision-card">
                     <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-lightbulb"></i> Giai đoạn 1: Thảo luận Danh mục sản phẩm</h3>
                     <ul class="list-disc">
@@ -360,7 +383,6 @@
                         <li class="rejected-card p-2 rounded-md"><strong>Loại bỏ:</strong> Xe trượt điện do không phù hợp không gian nhà sách và rủi ro an toàn.</li>
                     </ul>
                 </div>
-                <!-- Giai đoạn 2 -->
                 <div class="card decision-card">
                     <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-money-bill-wave"></i> Giai đoạn 2: Xây dựng Kế hoạch & Ngân sách</h3>
                     <ul class="list-disc">
@@ -368,7 +390,6 @@
                         <li><strong>Quyết định ngân sách:</strong> Trình ngân sách <strong>203 triệu VNĐ</strong> cho 2 tháng dưới dạng một chiến dịch truyền thông tổng thể để tăng tính thuyết phục với nhãn hàng.</li>
                     </ul>
                 </div>
-                <!-- Giai đoạn 3 -->
                 <div class="card decision-card">
                     <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-magic"></i> Giai đoạn 3: Tối ưu Trải nghiệm Khách hàng</h3>
                     <ul class="list-disc">
@@ -376,7 +397,6 @@
                         <li><strong>Giải pháp:</strong> Nhân viên sẽ demo bằng các template có sẵn. Chỉ cần nhập tên khách hàng, in và tặng. Đảm bảo luồng khách thông suốt (~1 phút/khách).</li>
                     </ul>
                 </div>
-                <!-- Giai đoạn 4 -->
                 <div class="card decision-card">
                     <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-handshake"></i> Giai đoạn 4: Thảo luận với Đối tác (PNC)</h3>
                     <ul class="list-disc">
@@ -384,7 +404,6 @@
                         <li><strong>Giải pháp:</strong> Laptop trưng bày sẽ được đặt trong <strong>tủ kính có khóa</strong> để đảm bảo an toàn.</li>
                     </ul>
                 </div>
-                <!-- Giai đoạn 5 -->
                 <div class="card decision-card">
                     <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-tasks"></i> Giai đoạn 5: Chốt Kế hoạch & Giao việc</h3>
                     <ul class="list-disc">
@@ -396,126 +415,273 @@
         </div>
         <div class="flow-connector"></div>
 
-        <!-- Luồng Trải Nghiệm Khách Hàng -->
         <div class="card">
             <h2 class="card-title"><i class="fas fa-map-signs"></i> LUỒNG TRẢI NGHIỆM KHÁCH HÀNG TẠI ĐIỂM BÁN</h2>
             <div class="relative mt-6">
-                <!-- Timeline Line -->
                 <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-blue-300 hidden md:block"></div>
                 <div class="space-y-8 md:space-y-12">
-                    <!-- Step 1 -->
                     <div class="md:flex items-center w-full">
                         <div class="md:w-1/2 text-center md:text-right md:pr-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 1: Tiếp cận & Thu hút</p><p class="text-gray-600">NV chào và giới thiệu sản phẩm phụ trợ độc đáo (máy in sticker, máy in ảnh).</p></div></div>
                         <div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">1</div>
                         <div class="md:w-1/2"></div>
                     </div>
-                    <!-- Step 2 -->
                     <div class="md:flex items-center w-full"><div class="md:w-1/2"></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">2</div><div class="md:w-1/2 text-center md:text-left md:pl-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 2: Giới thiệu Công cụ AI</p><p class="text-gray-600">"Anh/chị hãy thử công cụ này để tìm chiếc laptop phù hợp nhất nhé!"</p></div></div></div>
-                    <!-- Step 3 -->
                     <div class="md:flex items-center w-full"><div class="md:w-1/2 text-center md:text-right md:pr-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 3: Tương tác & Trải nghiệm</p><p class="text-gray-600">Khách hàng dùng AI tư vấn, nhận quà tặng từ máy in.</p></div></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">3</div><div class="md:w-1/2"></div></div>
-                    <!-- Step 4 -->
                     <div class="md:flex items-center w-full"><div class="md:w-1/2"></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">4</div><div class="md:w-1/2 text-center md:text-left md:pl-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 4: Tự động hóa & Chuyển đổi</p><p class="text-gray-600">Hệ thống gửi email thông tin SP, khuyến mãi và link mua hàng.</p></div></div></div>
                 </div>
             </div>
         </div>
         <div class="flow-connector"></div>
         
-        <!-- Chiến lược Sản phẩm & Phân tích Thị trường -->
         <div class="card">
             <h2 class="card-title"><i class="fas fa-shopping-cart"></i> CHIẾN LƯỢC SẢN PHẨM & PHÂN TÍCH THỊ TRƯỜNG</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
-                <!-- Laptop Products -->
                 <div class="col-span-1 lg:col-span-2 card highlight-card">
                     <h3 class="font-bold text-lg text-orange-800"><i class="fas fa-laptop"></i> Danh mục Laptop Trưng bày (8 sản phẩm)</h3>
                     <div id="laptop-grid" class="product-grid mt-2">
-                        <!-- Laptop cards will be populated here by JavaScript -->
-                    </div>
+                        </div>
                 </div>
-                <!-- SMC Products -->
                 <div class="col-span-1 lg:col-span-2 card">
                     <h3 class="font-bold text-lg text-gray-800"><i class="fas fa-box-open"></i> Danh mục Sản phẩm SMC được lựa chọn</h3>
                     <div id="smc-product-grid" class="product-grid mt-2">
-                        <!-- SMC product cards will be populated here by JavaScript -->
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
         <div class="flow-connector"></div>
         
-        <!-- Phân công & Địa điểm triển khai -->
         <div class="card">
             <h2 class="card-title"><i class="fas fa-users-viewfinder"></i> PHÂN CÔNG & ĐỊA ĐIỂM TRIỂN KHAI</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <!-- Team List -->
+            <div class="grid grid-cols-1 gap-6 mt-4">
                 <div>
                     <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-user-friends"></i> Danh sách nhân viên tham gia</h3>
                     <div class="overflow-x-auto rounded-lg border">
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
-                                <tr><th scope="col" class="px-6 py-3">STT</th><th scope="col" class="px-6 py-3">Họ và Tên</th></tr>
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">STT</th>
+                                    <th scope="col" class="px-6 py-3">Họ và Tên</th>
+                                    <th scope="col" class="px-6 py-3">Thiết bị làm việc</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">1</td><td class="px-6 py-4">Nguyễn Quốc Hưng</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">1</td>
+                                    <td class="px-6 py-4">Nguyễn Quốc Hưng (SMB)</td>
+                                    <td class="px-6 py-4">có laptop cá nhân</td>
                                 </tr>
                                 <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">2</td><td class="px-6 py-4">Trần Hoàng Lan Viên</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">2</td>
+                                    <td class="px-6 py-4">Trần Hoàng Lan Viên (BUZ)</td>
+                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
                                 </tr>
                                 <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">3</td><td class="px-6 py-4">Trần Bảo Trân</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">3</td>
+                                    <td class="px-6 py-4">Lê Nguyễn Hữu Dương (BUZ)</td>
+                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
                                 </tr>
                                 <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">4</td><td class="px-6 py-4">Đặng Thành Lộc</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">4</td>
+                                    <td class="px-6 py-4">Nguyễn Phương Tuyền (DNDA)</td>
+                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
                                 </tr>
                                 <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">5</td><td class="px-6 py-4">Nguyễn Thị Như Minh</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">5</td>
+                                    <td class="px-6 py-4">Lê Đức Minh (BMD)</td>
+                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
                                 </tr>
                                 <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">6</td><td class="px-6 py-4">Đỗ Trung Tín</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">6</td>
+                                    <td class="px-6 py-4">Nguyễn Thị Bảo Hà (BMD)</td>
+                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
                                 </tr>
                                 <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">7</td><td class="px-6 py-4">Nguyễn Phương Tuyền</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">7</td>
+                                    <td class="px-6 py-4">Đặng Thành Lộc (SROL)</td>
+                                    <td class="px-6 py-4">có laptop</td>
                                 </tr>
                                 <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">8</td><td class="px-6 py-4">Lê Đức Minh</td>
+                                    <td class="px-6 py-4 font-medium text-gray-900">8</td>
+                                    <td class="px-6 py-4">Nguyễn Thị Như Minh (SROL)</td>
+                                    <td class="px-6 py-4">có laptop</td>
                                 </tr>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">9</td><td class="px-6 py-4">Lê Nguyễn Hữu Dương</td>
-                                </tr>
-                                <tr class="bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900">10</td><td class="px-6 py-4">Nguyễn Thị Bảo Hà</td>
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-medium text-gray-900">9</td>
+                                    <td class="px-6 py-4">Đỗ Trung Tín (SROL)</td>
+                                    <td class="px-6 py-4">có laptop</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                    <p class="text-sm text-gray-600 mt-2">Lưu ý: PNC sẽ cấp đủ laptop cho nhân sự của họ nếu cần.</p>
                 </div>
-                <!-- Location List -->
-                <div>
+                <div class="mt-8">
                     <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-map-marked-alt"></i> Danh sách nhà sách Phương Nam</h3>
                     <div class="overflow-x-auto rounded-lg border">
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
-                                <tr><th scope="col" class="px-6 py-3">Tên Nhà Sách</th><th scope="col" class="px-6 py-3">Địa chỉ</th></tr>
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">STT</th>
+                                    <th scope="col" class="px-6 py-3">Quận / TP Tỉnh</th>
+                                    <th scope="col" class="px-6 py-3">Tên Nhà Sách</th>
+                                    <th scope="col" class="px-6 py-3">Địa chỉ</th>
+                                    <th scope="col" class="px-6 py-3">Hưng SMB</th>
+                                    <th scope="col" class="px-6 py-3">Viên BUZ</th>
+                                    <th scope="col" class="px-6 py-3">Dương BUZ2</th>
+                                    <th scope="col" class="px-6 py-3">Tuyền DNDA</th>
+                                    <th scope="col" class="px-6 py-3">Minh BMD</th>
+                                    <th scope="col" class="px-6 py-3">Hà BMD</th>
+                                    <th scope="col" class="px-6 py-3">Lộc SR</th>
+                                    <th scope="col" class="px-6 py-3">Như Minh SR</th>
+                                    <th scope="col" class="px-6 py-3">Tín SR</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Booklook Vạn Hạnh Mall</td><td class="px-6 py-4">Tầng 3, 11 Sư Vạn Hạnh, P.12, Q.10</td></tr>
-                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Crescent Mall</td><td class="px-6 py-4">Tầng 3, 101 Tôn Dật Tiên, P.Tân Phú, Q.7</td></tr>
-                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Nguyễn Oanh</td><td class="px-6 py-4">03 Nguyễn Oanh, P.10, Q.Gò Vấp</td></tr>
-                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Estella</td><td class="px-6 py-4">Tầng 4, 88 Song Hành, P.An Phú, Q.2</td></tr>
-                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Phú Thọ</td><td class="px-6 py-4">940 Đường 3/2, P.15, Q.11</td></tr>
-                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Saigon Centre</td><td class="px-6 py-4">Tầng 4, 65 Lê Lợi, Q.1</td></tr>
-                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Nguyễn Trãi</td><td class="px-6 py-4">212 Nguyễn Trãi, P.PNL, Q.1</td></tr>
-                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Vincom Đồng Khởi</td><td class="px-6 py-4">Tầng B2, 72 Lê Thánh Tôn, P.Bến Nghé, Q.1</td></tr>
-                                <tr class="bg-white"><td class="px-6 py-4 font-medium text-gray-900">Nhà sách Vivo City</td><td class="px-6 py-4">Tầng 3, 1058 Đại Lộ Nguyễn Văn Linh, P.Tân Phong, Q.7</td></tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">1</td>
+                                    <td class="px-6 py-4">Quận 10</td>
+                                    <td class="px-6 py-4">Bookcity Vạn Hạnh Mall</td>
+                                    <td class="px-6 py-4">Tầng 3,TTM Vạn Hạnh Mall, 11 Sư Vạn Hạnh, Phường 12, Quận 10, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">2</td>
+                                    <td class="px-6 py-4">Quận 7</td>
+                                    <td class="px-6 py-4">Nhà sách Crescent Mall</td>
+                                    <td class="px-6 py-4">Tầng 3, ĐQT bằng 3F-508, 59 - 374 18 m2, TTM Crescent Mall Phú Mỹ Hưng, 101 Tôn Dật Tiên, Phường Tân Phú, Quận 7, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">3</td>
+                                    <td class="px-6 py-4">Gò Vấp</td>
+                                    <td class="px-6 py-4">Nhà sách Nguyễn Oanh</td>
+                                    <td class="px-6 py-4">03 Nguyễn Oanh, Phường 10, Quận Gò Vấp, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">4</td>
+                                    <td class="px-6 py-4">Bình Thạnh</td>
+                                    <td class="px-6 py-4">Nhà sách Estella</td>
+                                    <td class="px-6 py-4">Tầng 4, Trung tâm mua sắm Estella Place, SỐ 88 Đường Song Hành, Phường An Phú, Quận 2, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">5</td>
+                                    <td class="px-6 py-4">Quận 11</td>
+                                    <td class="px-6 py-4">Nhà sách Phú Thọ</td>
+                                    <td class="px-6 py-4">940 Đường 3/2, Phường 15, Quận 11, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">6</td>
+                                    <td class="px-6 py-4">Quận 1</td>
+                                    <td class="px-6 py-4">Nhà sách Saigon Centre Lê Lợi</td>
+                                    <td class="px-6 py-4">Tầng 4, 65 Lê Lợi, Quận 1, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">7</td>
+                                    <td class="px-6 py-4">Quận 1</td>
+                                    <td class="px-6 py-4">Nhà sách Nguyễn Trãi</td>
+                                    <td class="px-6 py-4">212 Nguyễn Trãi, P.Phạm Ngũ Lão, Q1, TP HCM</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
+                                <tr class="bg-gray-50 border-b">
+                                    <td class="px-6 py-4 font-medium text-gray-900">8</td>
+                                    <td class="px-6 py-4">Quận 1</td>
+                                    <td class="px-6 py-4">Nhà sách Vincom Đồng Khởi</td>
+                                    <td class="px-6 py-4">Tầng B2, TTM Vincom, 72 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
+                                <tr class="bg-white">
+                                    <td class="px-6 py-4 font-medium text-gray-900">9</td>
+                                    <td class="px-6 py-4">Quận 7</td>
+                                    <td class="px-6 py-4">Nhà sách Vivo City</td>
+                                    <td class="px-6 py-4">Tầng 3, TTM Vivo City, 1058 Đại Lộ Nguyễn Văn Linh, Phường Tân Phong, Quận 7, Thành phố Hồ Chí Minh</td>
+                                    <td class="px-6 py-4">X</td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                    <td class="px-6 py-4"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
+                    <p class="text-sm text-gray-600 mt-2">Lưu ý: Với 2 địa điểm Quận 7 (Crescent Mall, Phú Mỹ Hưng) và PN Vincom, do xa nên sẽ áp dụng giờ luân phiên cho 4 bạn nam (Tín, Lộc, Dương, Minh BMD) và nữ (Như Minh SR) để đảm bảo cân bằng công việc. </p>
+                    <p class="text-sm text-gray-600 mt-1">Giờ làm việc: Crescent Mall (10h-12h, 19h-20h), PN Vincom (10h-12h, 19h-20h).</p>
                 </div>
             </div>
         </div>
         <div class="flow-connector"></div>
         
-        <!-- Kịch bản Tư vấn Laptop -->
         <div class="card">
             <h2 class="card-title"><i class="fas fa-comments"></i> KỊCH BẢN TƯ VẤN LAPTOP (Gợi ý cho AI & Sales)</h2>
             <div class="mt-4">
@@ -524,7 +690,6 @@
         </div>
     </div>
 
-    <!-- General Detail Modal -->
     <div id="detail-modal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" id="close-modal-btn">&times;</button>
@@ -542,7 +707,7 @@
     </div>
 
     <script>
-        // Data for laptops
+        // Data for laptops (extracted from image)
         const laptopData = [
             {
                 name: "ASUS P1403CVA-S60618W",
@@ -594,24 +759,30 @@
             }
         ];
 
-        // Data for SMC products
+        // Data for SMC products (extracted and updated)
         const smcProductData = [
             {
-                name: "Máy ảnh & In ảnh",
+                name: "Máy ảnh & In ảnh (Instax Z1)",
                 type: "Sản phẩm SMC",
-                details: "Instax Z1, Máy in nhiệt L8, MT800",
-                target: "Thu hút khách hàng bằng trải nghiệm quà tặng công nghệ, tạo sticker/ảnh miễn phí ngay tại chỗ."
+                details: "Model: Instax Z1. Dùng để in ảnh lấy liền.",
+                target: "Thu hút khách hàng bằng trải nghiệm quà tặng công nghệ, tạo ảnh miễn phí ngay tại chỗ."
             },
             {
-                name: "Máy in nhãn",
+                name: "Máy in nhãn (H11)",
                 type: "Sản phẩm SMC",
-                details: "Hộp Phấn H11",
+                details: "Model: Hộp Phấn H11. Dùng để in nhãn.",
                 target: "Dùng làm quà tặng nhỏ, cá nhân hóa cho khách hàng tham gia, tăng tính tương tác."
             },
             {
-                name: "Máy chiếu Mini",
+                name: "Máy chiếu Mini (Wanbo Dali 1)", // Updated from L8 to Wanbo Dali 1
                 type: "Sản phẩm SMC",
-                details: "Wanbo Mini Pro",
+                details: "Model: Wanbo Dali 1. Dùng để trình chiếu nội dung.", // Updated details
+                target: "Trình chiếu các nội dung quảng cáo, video giới thiệu sản phẩm hoặc hoạt động tương tác tại booth."
+            },
+            {
+                name: "Máy chiếu Mini (Wanbo Mini Pro)",
+                type: "Sản phẩm SMC",
+                details: "Model: Wanbo Mini Pro. Dùng để trình chiếu nội dung.",
                 target: "Trình chiếu các nội dung quảng cáo, video giới thiệu sản phẩm hoặc hoạt động tương tác tại booth."
             }
         ];
@@ -675,8 +846,10 @@
                 iconClass = 'fa-camera-retro';
             } else if (product.name.includes('Máy in nhãn')) {
                 iconClass = 'fa-tag';
-            } else if (product.name.includes('Máy chiếu')) {
+            } else if (product.name.includes('Máy chiếu') || product.name.includes('Wanbo Dali 1')) { // Added Wanbo Dali 1
                 iconClass = 'fa-film';
+            } else {
+                iconClass = 'fa-cube'; // Default icon
             }
             productCard.innerHTML = `
                 <h4><i class="fas ${iconClass} mr-2"></i>${product.name}</h4>

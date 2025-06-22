@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần 3: Khám phá Công cụ Phân tích</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f7f8fc;
+            line-height: 1.6;
+        }
+        .lesson-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .lesson-content.active {
+            display: block;
+        }
+        .catalog-btn {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            flex-shrink: 0; 
+        }
+        .catalog-btn.active {
+            background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            transform: translateY(-2px);
+        }
+        .catalog-btn:not(.active):hover {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+        .takeaway-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+        }
+        .info-box {
+            background-color: #eef2ff;
+            border-left: 4px solid #4f46e5;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #f9fafb;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto; 
+        }
+        .mermaid {
+            transform: scale(1.15); /* Kích thước vừa phải cho tất cả flowchart */
+            transform-origin: center;
+        }
+        #catalog-buttons {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 0.75rem; 
+        }
+        @media (max-width: 1023px) {
+            #catalog-buttons {
+                flex-direction: column; 
+            }
+            .catalog-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- Header / Catalog -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">
+                    Phần 3: Khám phá Công cụ Phân tích
+                </h1>
+                <button id="toggle-catalog-btn" class="p-2 rounded-md hover:bg-gray-100 lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+            <nav id="catalog-nav" class="hidden lg:flex">
+                 <div id="catalog-buttons">
+                     <button data-target="lesson0" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100 active">🚀 Tổng quan Phần 3</button>
+                     <button data-target="lesson1" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">1. Làm chủ Bảng tính</button>
+                     <button data-target="lesson2" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">2. Bắt đầu với SQL</button>
+                     <button data-target="lesson3" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">3. Trực quan hóa Dữ liệu</button>
+                     <button data-target="lesson4" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">4. Ví dụ Minh họa</button>
+                     <button data-target="lesson5" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">5. Từ vựng Phần 3</button>
+                 </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Lesson 0: Tóm tắt & Logic -->
+        <section id="lesson0" class="lesson-content active">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Chào mừng trở lại Phần 3!
+                </h2>
+                <p class="mb-4">Trong các video tiếp theo, bạn sẽ tiếp tục khám phá các công cụ phân tích dữ liệu mà chúng ta đã thảo luận trước đây và bạn sẽ có cơ hội thấy chúng hoạt động thực tế. Điều này sẽ cho bạn một bức tranh rõ ràng hơn về cách sử dụng các công cụ này.</p>
+                <ul class="list-disc list-inside space-y-2 mb-4">
+                    <li>Chúng ta sẽ bắt đầu với <strong>Bảng tính</strong>, tìm hiểu các tính năng và chức năng cơ bản của chúng.</li>
+                    <li>Tiếp theo, chúng ta sẽ xem <strong>SQL</strong> hoạt động. Bạn sẽ học cách SQL giúp các nhà phân tích lấy một lượng lớn dữ liệu trong vài giây để trả lời các câu hỏi kinh doanh nhanh chóng.</li>
+                    <li>Cuối cùng, chúng ta sẽ nói về <strong>Trực quan hóa Dữ liệu</strong>, món "tráng miệng" của bữa ăn phân tích dữ liệu, giúp bạn trình bày kết quả một cách hấp dẫn.</li>
+                </ul>
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Mục tiêu Phần 3
+                    </h4>
+                    <p class="mt-2">Mục tiêu của phần này là giúp bạn làm quen và tự tin sử dụng các công cụ phân tích cốt lõi, tạo nền tảng vững chắc cho các phần tiếp theo của chương trình.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 1: Spreadsheets -->
+        <section id="lesson1" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 1: Làm chủ Bảng tính (Spreadsheets)</h2>
+                
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Dùng để làm gì?</h3>
+                <p class="mb-4">Bảng tính (như Google Sheets, Microsoft Excel) là công cụ cơ bản nhất, giống như một "quyển sổ ghi chép kỹ thuật số thông minh". Nó dùng để <strong>nhập liệu, lưu trữ, tổ chức, và thực hiện các phép tính toán, phân tích cơ bản</strong> trên các bộ dữ liệu có quy mô nhỏ đến trung bình.</p>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Thực hiện thế nào và ra sao?</h3>
+                <p class="mb-2">Dữ liệu được tổ chức vào các <strong>ô (cells)</strong>, nằm trên các <strong>hàng (rows)</strong> và <strong>cột (columns)</strong>. Mỗi cột đại diện cho một <strong>thuộc tính</strong> (attribute) như "Tên sản phẩm", "Giá bán". Mỗi hàng là một <strong>quan sát</strong> (observation), chứa toàn bộ thông tin của một đối tượng cụ thể.</p>
+                <p class="mb-4">Sức mạnh của nó nằm ở <strong>công thức (formulas)</strong> và <strong>hàm (functions)</strong>.
+                    <ul class="list-disc list-inside ml-4 mt-2">
+                         <li><strong>Công thức:</strong> Là lệnh bạn tự viết để tính toán. Ví dụ: <code>=C2*D2</code> để tính thành tiền.</li>
+                         <li><strong>Hàm:</strong> Là các lệnh được tích hợp sẵn để thực hiện tác vụ phức tạp hơn. Ví dụ: <code>=SUM(E2:E100)</code> để tính tổng doanh thu.</li>
+                    </ul>
+                </p>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Tại sao chúng ta cần làm như vậy? (Mục đích)</h3>
+                 <ul class="list-disc list-inside space-y-2 mb-4">
+                    <li><strong>Tính trực quan và dễ tiếp cận:</strong> Bất kỳ ai cũng có thể bắt đầu sử dụng bảng tính mà không cần kiến thức lập trình. Nó cho phép bạn "nhìn" thấy dữ liệu của mình ngay lập tức.</li>
+                    <li><strong>Nền tảng cho các bước sau:</strong> Đây là nơi lý tưởng để thực hiện các bước làm sạch dữ liệu ban đầu (Process), sắp xếp (Sort), và thực hiện các phân tích thăm dò nhanh chóng trước khi chuyển sang các công cụ phức tạp hơn.</li>
+                    <li><strong>Mục đích chính:</strong> Để nhanh chóng tổ chức dữ liệu lộn xộn, tìm ra các insight cơ bản, và tạo các biểu đồ đơn giản để báo cáo nhanh.</li>
+                </ul>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Tính hữu dụng của dữ liệu phụ thuộc rất nhiều vào cấu trúc của nó. Bảng tính giúp bạn cấu trúc dữ liệu một cách có ý nghĩa để có thể nhận ra các mẫu, nhóm thông tin và dễ dàng tìm thấy những gì bạn cần.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 2: SQL -->
+        <section id="lesson2" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 2: Bắt đầu với SQL</h2>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Dùng để làm gì?</h3>
+                <p class="mb-4">SQL là một <strong>ngôn ngữ</strong> chuyên dụng để bạn "nói chuyện" (giao tiếp) với các <strong>cơ sở dữ liệu (databases)</strong>. Khi dữ liệu trở nên quá lớn (hàng triệu, hàng tỷ dòng) mà bảng tính không thể xử lý nổi, chúng ta cần cơ sở dữ liệu để lưu trữ. SQL chính là công cụ để lấy dữ liệu ra khỏi "kho chứa" khổng lồ đó.</p>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Thực hiện thế nào và ra sao?</h3>
+                <p class="mb-2">Bạn sẽ viết các câu <strong>truy vấn (queries)</strong>, là những yêu cầu có cấu trúc rõ ràng. Cấu trúc cơ bản nhất mà bạn cần nhớ là:</p>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph TD
+                        A[SELECT<br>Chọn cột bạn muốn] --> B[FROM<br>Từ bảng nào];
+                        B --> C[WHERE<br>Với điều kiện lọc là gì];
+                    </div>
+                </div>
+                <p class="mt-4">Hãy tưởng tượng bạn đang ra lệnh cho một người quản lý thư viện khổng lồ: "Hãy lấy cho tôi (<code>SELECT</code>) tên tác giả và năm xuất bản (<code>ten_cot</code>) từ kệ sách Lịch sử (<code>ten_bang</code>) với điều kiện là sách được viết sau năm 1990 (<code>dieu_kien</code>)".</p>
+
+                <h3 class="text-xl font-semibold mb-3 mt-6 text-purple-600">Tại sao chúng ta cần làm như vậy? (Mục đích)</h3>
+                 <ul class="list-disc list-inside space-y-2 mb-4">
+                    <li><strong>Hiệu suất với dữ liệu lớn:</strong> SQL được tối ưu để xử lý hàng triệu bản ghi chỉ trong vài giây, điều mà Excel không thể làm được.</li>
+                    <li><strong>Tính chính xác và cụ thể:</strong> SQL cho phép bạn lấy ra chính xác những mẩu thông tin bạn cần, thay vì phải tải về toàn bộ dữ liệu. Điều này rất quan trọng để tiết kiệm thời gian và tài nguyên máy tính.</li>
+                    <li><strong>Mục đích chính:</strong> Để làm việc với các hệ thống dữ liệu lớn của doanh nghiệp (như dữ liệu giao dịch của một ngân hàng, dữ liệu người dùng của một mạng xã hội), trích xuất các bộ dữ liệu con phục vụ cho một bài toán phân tích cụ thể.</li>
+                </ul>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Mặc dù có nhiều loại cơ sở dữ liệu khác nhau, SQL về cơ bản hoạt động giống nhau ở mỗi nơi. Việc sử dụng chữ hoa, thụt đầu dòng và chú thích (comment) sẽ giúp câu lệnh của bạn dễ đọc và dễ gỡ lỗi hơn rất nhiều.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Lesson 3: Visualization -->
+        <section id="lesson3" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 3: Trực quan hóa Dữ liệu (Data Visualization)</h2>
+                
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Dùng để làm gì?</h3>
+                <p class="mb-4">Đây là quá trình biến dữ liệu khô khan (các con số, bảng biểu) thành các <strong>hình ảnh</strong> (biểu đồ, đồ thị, bản đồ) để truyền tải thông tin một cách nhanh chóng và hiệu quả. Nó là "món tráng miệng" sau khi bạn đã phân tích xong, giúp mọi người "thưởng thức" kết quả của bạn.</p>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Thực hiện thế nào và ra sao?</h3>
+                <p class="mb-2">Quy trình gồm 3 bước:</p>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph TD
+                        A["Bước 1: Khám phá Dữ liệu<br>Tìm 'câu chuyện' và insight"] --> B["Bước 2: Lên kế hoạch Trực quan hóa<br>Chọn loại biểu đồ phù hợp"];
+                        B --> C["Bước 3: Tạo Trực quan hóa<br>Dùng công cụ (Tableau, Power BI,...)"];
+                    </div>
+                </div>
+                 <p class="mt-4">Ví dụ, để thể hiện xu hướng theo thời gian, bạn dùng biểu đồ đường. Để so sánh các hạng mục, bạn dùng biểu đồ cột. Để thể hiện tỷ lệ, bạn dùng biểu đồ tròn.</p>
+                
+                <h3 class="text-xl font-semibold mb-3 mt-6 text-purple-600">Tại sao chúng ta cần làm như vậy? (Mục đích)</h3>
+                 <ul class="list-disc list-inside space-y-2 mb-4">
+                     <li><strong>Tác động đến não bộ:</strong> Con người xử lý thông tin hình ảnh nhanh hơn văn bản. Một biểu đồ tốt có thể truyền tải ý chính trong vài giây.</li>
+                     <li><strong>Kể chuyện hiệu quả:</strong> Như Lilah chia sẻ, hình ảnh kể một câu chuyện. Trực quan hóa giúp bạn thuyết phục các bên liên quan (ngay cả những người không có chuyên môn về dữ liệu) một cách thuyết phục nhất.</li>
+                     <li><strong>Mục đích chính:</strong> Để truyền đạt insight một cách rõ ràng, giúp người khác đưa ra quyết định dựa trên kết quả phân tích của bạn, và làm cho báo cáo của bạn trở nên chuyên nghiệp và hấp dẫn hơn.</li>
+                 </ul>
+                 
+                 <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Lý do chính để tạo trực quan hóa là để làm cho dữ liệu dễ tiêu hóa hơn cho khán giả của bạn. Bạn sẽ thành công hơn trong việc thuyết phục các bên liên quan bằng hình ảnh thay vì chỉ bằng lời nói và con số. Một trực quan hóa tốt giúp thể hiện các xu hướng và mẫu một cách nhanh chóng và rõ ràng.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 4: Example -->
+        <section id="lesson4" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                    Ví dụ Minh họa: Phân tích Hiệu quả Marketing cho Quán Cà phê
+                </h2>
+                <p class="mb-4">Hãy xem cách các công cụ này kết hợp với nhau trong một kịch bản thực tế.</p>
+                <div class="info-box p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                         Bối cảnh kinh doanh
+                    </h4>
+                    <p class="mt-2">Một quán cà phê muốn biết kênh marketing nào (Quảng cáo Facebook, Thuê người ảnh hưởng trên Instagram, Phát tờ rơi) mang lại hiệu quả cao nhất để phân bổ ngân sách cho tháng tới.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">Bước 1: Dùng Bảng tính để Thu thập & Tổ chức Dữ liệu ban đầu</h4>
+                        <p class="mt-2 text-gray-600">Nhà phân tích tạo một file Google Sheets để ghi lại dữ liệu hàng tuần:</p>
+                         <div class="overflow-x-auto mt-2">
+                             <table class="min-w-full text-sm text-left">
+                                 <thead class="bg-gray-200">
+                                     <tr>
+                                         <th class="p-2">Tuần</th>
+                                         <th class="p-2">Kênh Marketing</th>
+                                         <th class="p-2">Chi phí (VNĐ)</th>
+                                         <th class="p-2">Doanh thu từ kênh (VNĐ)</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr><td class="p-2 border-t">1</td><td class="p-2 border-t">Facebook Ads</td><td class="p-2 border-t">2,000,000</td><td class="p-2 border-t">8,000,000</td></tr>
+                                     <tr><td class="p-2 border-t">1</td><td class="p-2 border-t">Instagram Influencer</td><td class="p-2 border-t">5,000,000</td><td class="p-2 border-t">15,000,000</td></tr>
+                                     <tr><td class="p-2 border-t">1</td><td class="p-2 border-t">Phát tờ rơi</td><td class="p-2 border-t">500,000</td><td class="p-2 border-t">1,000,000</td></tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                         <p class="mt-2 text-gray-600">Trong bảng tính, họ dùng công thức để tính cột ROI (Return on Investment): <code>=(Doanh_thu - Chi_phi) / Chi_phi</code></p>
+                    </div>
+                    
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">Bước 2: Dùng SQL để Truy vấn Dữ liệu (Khi dữ liệu lớn)</h4>
+                        <p class="mt-2 text-gray-600">Giả sử dữ liệu của quán được lưu trong một cơ sở dữ liệu lớn. Để tìm ra kênh marketing nào có ROI cao nhất, nhà phân tích viết một câu truy vấn SQL:</p>
+                        <div class="bg-gray-800 text-white p-4 rounded-lg mt-2 font-mono text-sm">
+                            <span class="text-pink-400">SELECT</span><br>
+                            &nbsp;&nbsp;kenh_marketing,<br>
+                            &nbsp;&nbsp;<span class="text-cyan-400">AVG</span>((doanh_thu - chi_phi) / chi_phi) <span class="text-pink-400">AS</span> roi_trung_binh<br>
+                            <span class="text-pink-400">FROM</span><br>
+                            &nbsp;&nbsp;bang_hieu_qua_marketing<br>
+                            <span class="text-pink-400">GROUP BY</span><br>
+                            &nbsp;&nbsp;kenh_marketing<br>
+                            <span class="text-pink-400">ORDER BY</span><br>
+                            &nbsp;&nbsp;roi_trung_binh <span class="text-pink-400">DESC</span>;
+                        </div>
+                    </div>
+                    
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">Bước 3: Dùng Trực quan hóa để Trình bày Kết quả</h4>
+                        <p class="mt-2 text-gray-600">Sau khi có kết quả từ SQL, nhà phân tích tạo một biểu đồ cột đơn giản trên Tableau để trình bày cho chủ quán:</p>
+                         <div class="flowchart-container mt-2">
+                             <div class="mermaid">
+                                 graph TD
+                                     subgraph Hiệu quả Marketing theo Kênh
+                                         A[Facebook Ads: 300% ROI]
+                                         B[Instagram Influencer: 200% ROI]
+                                         C[Phát tờ rơi: 100% ROI]
+                                     end
+                             </div>
+                         </div>
+                         <p class="mt-2"><strong>Kết luận:</strong> "Dựa trên biểu đồ, Facebook Ads đang mang lại lợi nhuận trên đầu tư cao nhất. Chúng ta nên cân nhắc tăng ngân sách cho Facebook và giảm hoặc thay đổi cách tiếp cận với phát tờ rơi."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 5: Vocabulary -->
+        <section id="lesson5" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    Từ vựng cần ghi nhớ (Phần 3)
+                </h2>
+                <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
+                    <div><strong class="font-semibold text-purple-700">Spreadsheet (Bảng tính):</strong> Một trang tính kỹ thuật số để lưu trữ, tổ chức và tính toán dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">Formula (Công thức):</strong> Một tập hợp các chỉ dẫn để thực hiện một phép tính cụ thể trong bảng tính.</div>
+                    <div><strong class="font-semibold text-purple-700">Function (Hàm):</strong> Một lệnh được định sẵn để tự động thực hiện một tác vụ.</div>
+                    <div><strong class="font-semibold text-purple-700">Query Language (Ngôn ngữ truy vấn):</strong> Ngôn ngữ lập trình dùng để giao tiếp với cơ sở dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">SQL (Structured Query Language):</strong> Ngôn ngữ truy vấn có cấu trúc, phổ biến nhất để làm việc với cơ sở dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">Query (Truy vấn):</strong> Một yêu cầu để lấy dữ liệu hoặc thông tin từ cơ sở dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">Database (Cơ sở dữ liệu):</strong> Một bộ sưu tập dữ liệu có cấu trúc được lưu trữ trong một hệ thống máy tính.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Visualization (Trực quan hóa dữ liệu):</strong> Sự biểu diễn thông tin bằng đồ họa.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: {
+                'primaryColor': '#f9fafb',
+                'primaryTextColor': '#374151',
+                'primaryBorderColor': '#e5e7eb',
+                'lineColor': '#6b7280',
+                'secondaryColor': '#dbeafe',
+                'tertiaryColor': '#eef2ff'
+            }});
+            
+            const catalogButtonsContainer = document.getElementById('catalog-buttons');
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            const catalogNav = document.getElementById('catalog-nav');
+            const toggleBtn = document.getElementById('toggle-catalog-btn');
+
+            const showLesson = (targetId) => {
+                lessonContents.forEach(content => content.classList.remove('active'));
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    
+                    const diagramsToRender = targetContent.querySelectorAll('.mermaid');
+                    if (diagramsToRender.length > 0) {
+                        mermaid.run({
+                            nodes: diagramsToRender,
+                        });
+                    }
+                }
+            };
+            
+            const updateActiveButton = (targetId) => {
+                 catalogButtonsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                 const targetButton = catalogButtonsContainer.querySelector(`[data-target="${targetId}"]`);
+                 if (targetButton) {
+                     targetButton.classList.add('active');
+                 }
+            };
+            
+            catalogButtonsContainer.addEventListener('click', function (e) {
+                const button = e.target.closest('button[data-target]');
+                if (button) {
+                    const targetId = button.getAttribute('data-target');
+                    updateActiveButton(targetId);
+                    showLesson(targetId);
+                    if (window.innerWidth < 1024) {
+                        catalogNav.classList.add('hidden');
+                    }
+                }
+            });
+            
+            toggleBtn.addEventListener('click', () => {
+                catalogNav.classList.toggle('hidden');
+            });
+            
+            const adjustNav = () => {
+                if (window.innerWidth >= 1024) {
+                    catalogNav.classList.remove('hidden');
+                } else {
+                    catalogNav.classList.add('hidden');
+                }
+            };
+            
+            window.addEventListener('resize', adjustNav);
+            
+            const initialLessonId = 'lesson0';
+            updateActiveButton(initialLessonId);
+            showLesson(initialLessonId); 
+            adjustNav();
+        });
+    </script>
+</body>
+</html>

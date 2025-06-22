@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần 4: Cơ hội và Trách nhiệm trong Kinh doanh</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f7f8fc;
+            line-height: 1.6;
+        }
+        .lesson-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .lesson-content.active {
+            display: block;
+        }
+        .catalog-btn {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            flex-shrink: 0; 
+        }
+        .catalog-btn.active {
+            background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            transform: translateY(-2px);
+        }
+        .catalog-btn:not(.active):hover {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+        .takeaway-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+        }
+        .info-box {
+            background-color: #eef2ff;
+            border-left: 4px solid #4f46e5;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #f9fafb;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto; 
+        }
+        .mermaid {
+            transform: scale(1.15); /* Kích thước vừa phải cho tất cả flowchart */
+            transform-origin: center;
+        }
+        #catalog-buttons {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 0.75rem; 
+        }
+        @media (max-width: 1023px) {
+            #catalog-buttons {
+                flex-direction: column; 
+            }
+            .catalog-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- Header / Catalog -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">
+                    Phần 4: Cơ hội và Trách nhiệm trong Kinh doanh
+                </h1>
+                <button id="toggle-catalog-btn" class="p-2 rounded-md hover:bg-gray-100 lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+            <nav id="catalog-nav" class="hidden lg:flex">
+                 <div id="catalog-buttons">
+                     <button data-target="lesson0" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100 active">🚀 Tổng quan Phần 4</button>
+                     <button data-target="lesson1" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">1. Nhiệm vụ Kinh doanh</button>
+                     <button data-target="lesson2" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">2. Công bằng & Đạo đức</button>
+                     <button data-target="lesson3" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">3. Con đường Sự nghiệp</button>
+                     <button data-target="lesson4" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">4. Ví dụ Cơm Tấm</button>
+                     <button data-target="lesson5" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">5. Từ vựng Phần 4</button>
+                 </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Lesson 0: Tóm tắt & Logic -->
+        <section id="lesson0" class="lesson-content active">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    Bắt đầu với Kinh doanh
+                </h2>
+                <p class="mb-4">Chào mừng trở lại! Bây giờ là lúc để chúng ta đi vào thực tế kinh doanh. Chúng ta sẽ bắt đầu nói về những cách thực tế mà các doanh nghiệp đang sử dụng dữ liệu và những cơ hội mà nó có thể tạo ra cho bạn. Phần này sẽ chuyển trọng tâm từ "làm thế nào" sang "tại sao" và "ở đâu" trong thế giới phân tích dữ liệu.</p>
+                <ul class="list-disc list-inside space-y-2 mb-4">
+                    <li>Chúng ta sẽ thảo luận về các loại vai trò mà nhà phân tích dữ liệu đảm nhận trong các ngành khác nhau.</li>
+                    <li>Tìm hiểu các nhiệm vụ mà các vai trò này yêu cầu, và tầm quan trọng của sự công bằng và tránh thiên vị khi phân tích dữ liệu cho các nhiệm vụ kinh doanh.</li>
+                    <li>Chúng ta cũng sẽ nói về các cơ hội bạn có thể khai thác và chương trình này sẽ đóng góp như thế nào vào thành công trong tương lai của bạn trong vai trò nhà phân tích dữ liệu.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Lesson 1: Business Tasks -->
+        <section id="lesson1" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 1: Nhiệm vụ Kinh doanh & Vai trò của Nhà phân tích</h2>
+                <p class="mb-4">Các nhà phân tích dữ liệu giải quyết các <strong>nhiệm vụ kinh doanh (business tasks)</strong> — những câu hỏi hoặc vấn đề mà phân tích dữ liệu giúp trả lời cho doanh nghiệp. Đây là nơi bạn sẽ tập trung nỗ lực của mình.</p>
+                
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Ví dụ về ứng dụng dữ liệu trong các ngành:</h3>
+                <ul class="list-disc list-inside space-y-3 mb-6">
+                    <li><strong>Marketing (Coca-Cola):</strong> Sử dụng dữ liệu từ máy bán hàng tự động thông minh để khám phá các sự kết hợp hương vị mới mà khách hàng yêu thích, từ đó tạo ra sản phẩm mới.</li>
+                    <li><strong>Công nghệ (Google):</strong> Phân tích dữ liệu để xác định độ tin cậy và chính xác của một trang web, đảm bảo bạn nhận được kết quả tìm kiếm hữu ích nhất.</li>
+                    <li><strong>Giải trí (Sở thú thành phố):</strong> Sử dụng dữ liệu thời tiết trong nhiều năm để dự đoán số lượng khách tham quan hàng ngày, từ đó tối ưu hóa việc phân bổ nhân sự và cải thiện trải nghiệm cho cả khách và động vật.</li>
+                    <li><strong>Chăm sóc sức khỏe (Bệnh viện):</strong> Phân tích dữ liệu về lưu lượng bệnh nhân hàng ngày để dự đoán giờ cao điểm, từ đó bố trí đủ số lượng bác sĩ và giảm thời gian chờ đợi của bệnh nhân.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Giải mã các Chức danh công việc</h3>
+                <p class="mb-4">Thế giới dữ liệu có nhiều vai trò khác nhau. Mặc dù các công ty đôi khi làm mờ ranh giới, nhưng đây là một số khác biệt chính:</p>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                         <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-2 px-4 border-b">Chức danh</th>
+                                <th class="py-2 px-4 border-b">Trọng tâm Giải quyết vấn đề</th>
+                                <th class="py-2 px-4 border-b">Trọng tâm Phân tích</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td class="py-2 px-4 border-b font-semibold">Data Analyst</td>
+                                <td class="py-2 px-4 border-b text-left">Sử dụng các công cụ và phương pháp hiện có để giải quyết vấn đề với các loại dữ liệu hiện có.</td>
+                                <td class="py-2 px-4 border-b text-left">Phân tích dữ liệu đã thu thập để giúp các bên liên quan đưa ra quyết định tốt hơn.</td>
+                            </tr>
+                             <tr class="text-center">
+                                <td class="py-2 px-4 border-b font-semibold">Data Scientist</td>
+                                <td class="py-2 px-4 border-b text-left">Phát minh ra các công cụ và mô hình mới, đặt câu hỏi mở và thu thập các loại dữ liệu mới.</td>
+                                <td class="py-2 px-4 border-b text-left">Phân tích và diễn giải dữ liệu phức tạp để đưa ra dự đoán kinh doanh.</td>
+                            </tr>
+                             <tr class="text-center">
+                                <td class="py-2 px-4 border-b font-semibold">Business Analyst</td>
+                                <td class="py-2 px-4 border-b text-left">Tập trung vào việc cải thiện quy trình, sản phẩm hoặc dịch vụ kinh doanh.</td>
+                                <td class="py-2 px-4 border-b text-left">Phân tích dữ liệu để cải thiện hoạt động kinh doanh, hiệu quả hoặc lợi nhuận.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Khi tìm việc, hãy đọc kỹ mô tả công việc. Các công ty có thể sử dụng các chức danh khác nhau cho cùng một loại công việc. Kỹ năng cốt lõi bạn học được trong chương trình này sẽ có giá trị trong bất kỳ ngành nào đưa ra quyết định dựa trên dữ liệu.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 2: Fairness & Ethics -->
+        <section id="lesson2" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 2: Công bằng & Đạo đức Dữ liệu</h2>
+                <p class="mb-4">Một trong những trách nhiệm quan trọng nhất của nhà phân tích dữ liệu là đảm bảo phân tích của họ <strong>công bằng (fair)</strong>. Điều này có nghĩa là đảm bảo phân tích không tạo ra hoặc củng cố sự <strong>thiên vị (bias)</strong>.</p>
+                
+                 <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Ví dụ về sự thiếu công bằng
+                    </h4>
+                    <p class="mt-2">Một công ty chủ yếu là nam giới phân tích dữ liệu hiệu suất và thấy rằng chỉ có nam giới thành công. Họ kết luận nên thuê thêm nam giới. Đây là một kết luận <strong>không công bằng</strong> vì nó bỏ qua các yếu tố xã hội phức tạp, như môi trường làm việc độc hại có thể cản trở sự thành công của các giới tính khác. Một nhà phân tích có đạo đức sẽ kết luận rằng văn hóa công ty đang là rào cản và cần được giải quyết.</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Làm thế nào để đảm bảo sự công bằng?</h3>
+                <ul class="list-disc list-inside space-y-3 mb-6">
+                    <li><strong>Xem xét tất cả dữ liệu có sẵn:</strong> Không bỏ qua dữ liệu không phù hợp với kỳ vọng của bạn.</li>
+                    <li><strong>Xác định các yếu tố xung quanh:</strong> Bối cảnh là chìa khóa. Ví dụ, khi lập kế hoạch nghỉ phép cho nhân viên, đừng chỉ dựa vào ngày lễ quốc gia mà hãy xem xét các ngày lễ quan trọng khác của các nền văn hóa khác nhau trong đội ngũ.</li>
+                    <li><strong>Sử dụng dữ liệu tự báo cáo (Self-reported data):</strong> Cho phép mọi người tự cung cấp thông tin về bản thân (ví dụ: qua khảo sát) để tránh thiên vị từ người quan sát.</li>
+                    <li><strong>Sử dụng Oversampling hiệu quả:</strong> Tăng kích thước mẫu của các nhóm thiểu số để đảm bảo họ được đại diện một cách công bằng trong phân tích.</li>
+                    <li><strong>Suy nghĩ về sự công bằng từ đầu đến cuối:</strong> Sự công bằng phải được xem xét trong mọi giai đoạn, từ thu thập, xử lý đến khi trình bày kết quả.</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Đạo đức Dữ liệu (Data Ethics)</h3>
+                <div class="info-box p-4 rounded-lg">
+                     <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Chia sẻ từ Alex (Nhóm AI có đạo đức tại Google)
+                    </h4>
+                    <p class="mt-2">"Khi nói về đạo đức dữ liệu, chúng ta nghĩ về cách sử dụng dữ liệu một cách tốt đẹp và đúng đắn. Dữ liệu đến từ con người, vì vậy cuối cùng, <strong>dữ liệu là con người</strong>. Bạn có trách nhiệm với những người được đại diện trong dữ liệu đó. Chúng ta cần có cơ chế để người dùng có thể đồng ý cung cấp dữ liệu và yêu cầu thu hồi hoặc xóa nó."</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Lesson 3: Career Path -->
+        <section id="lesson3" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 3: Con đường Sự nghiệp & Phỏng vấn</h2>
+                <p class="mb-4">Làm thế nào để bạn biết một công việc có phù hợp với mình và mục tiêu nghề nghiệp của bạn không? Đây là một số yếu tố quan trọng cần xem xét khi tìm kiếm công việc mơ ước của bạn.</p>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Các yếu tố cần cân nhắc khi tìm việc</h3>
+                 <ul class="list-disc list-inside space-y-2 mb-4">
+                    <li><strong>Ngành (Industry):</strong> Bạn hứng thú với lĩnh vực nào? Y tế, tài chính, công nghệ? Sở thích sẽ giúp bạn có động lực và nổi bật trong các cuộc phỏng vấn.</li>
+                    <li><strong>Địa điểm & Di chuyển (Location & Travel):</strong> Bạn muốn làm việc tại địa phương hay sẵn sàng di chuyển? Bạn thích làm việc từ xa hay tại văn phòng?</li>
+                    <li><strong>Văn hóa Công ty (Company Culture):</strong> Bạn làm việc tốt nhất trong môi trường đội nhóm hay một mình? Bạn có phù hợp với giá trị của công ty không?</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Lời khuyên phỏng vấn từ Samah (Nhà tuyển dụng Google)</h3>
+                <div class="info-box p-4 rounded-lg">
+                     <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Chuẩn bị câu chuyện:</strong> Hãy nghĩ về một lần bạn đã sử dụng dữ liệu để giải quyết một vấn đề, dù là trong công việc hay dự án cá nhân.</li>
+                        <li><strong>Mở rộng mạng lưới chuyên nghiệp:</strong> Tăng cường sự hiện diện trực tuyến của bạn (ví dụ: LinkedIn, GitHub), tham gia các buổi gặp mặt địa phương.</li>
+                        <li><strong>Chuẩn bị câu hỏi cho người phỏng vấn:</strong> Đặt những câu hỏi sâu sắc giúp bạn hiểu rõ hơn về đội nhóm và công việc.</li>
+                         <li><strong>Đối mặt với Case Study:</strong> Khi được giao một vấn đề kinh doanh và bộ dữ liệu mẫu, hãy tập trung vào việc phân tích dữ liệu để đưa ra giải pháp liên quan. Người phỏng vấn thường muốn xem quá trình suy nghĩ của bạn hơn là một câu trả lời đúng duy nhất.</li>
+                         <li><strong>Chủ động tiếp cận:</strong> Đừng chỉ nộp đơn trực tuyến. Hãy thử tìm kiếm nhà tuyển dụng hoặc người quản lý tuyển dụng trên mạng và liên hệ trực tiếp. Điều đó thể hiện sự nhiệt tình của bạn.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Lesson 4: Real-world example -->
+        <section id="lesson4" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    Ví dụ Gần gũi: Mở chi nhánh Cơm Tấm mới ở TP.HCM
+                </h2>
+                <p class="mb-4">Hãy cùng áp dụng các khái niệm của Phần 4 vào một kịch bản quen thuộc: một chuỗi cơm tấm nổi tiếng muốn mở rộng kinh doanh.</p>
+                <div class="info-box p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                         Bối cảnh & Nhiệm vụ kinh doanh
+                    </h4>
+                    <p class="mt-2"><strong>Bối cảnh:</strong> Chuỗi "Cơm Tấm Cali" có 5 chi nhánh thành công ở các quận trung tâm TP.HCM. Họ muốn mở thêm một chi nhánh mới để tiếp cận nhiều khách hàng hơn.</p>
+                    <p class="mt-2"><strong>Nhiệm vụ kinh doanh (Business Task):</strong> Xác định quận nào trong TP.HCM là địa điểm tiềm năng nhất để mở chi nhánh tiếp theo, dựa trên dữ liệu, nhằm tối đa hóa lợi nhuận.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">Vai trò của Nhà phân tích Dữ liệu</h4>
+                        <p class="mt-2 text-gray-600">Bạn, trong vai trò một nhà phân tích dữ liệu cho "Cơm Tấm Cali", được giao nhiệm vụ này. Bạn cần kết hợp kỹ năng phân tích với sự hiểu biết về ngành F&B để đưa ra đề xuất có giá trị.</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">Ứng dụng Phân tích & Xem xét sự Công bằng</h4>
+                        <p class="mt-2 text-gray-600"><strong>1. Phân biệt Vấn đề, Câu hỏi, Nhiệm vụ:</strong></p>
+                        <ul class="list-disc list-inside mt-2 ml-4 text-gray-600">
+                            <li><strong>Vấn đề:</strong> Cần mở rộng kinh doanh nhưng không biết địa điểm nào tốt nhất.</li>
+                            <li><strong>Câu hỏi:</strong> Quận nào có nhiều khách hàng tiềm năng? Mức độ cạnh tranh ra sao? Chi phí mặt bằng thế nào?</li>
+                            <li><strong>Nhiệm vụ:</strong> Phân tích dữ liệu để đề xuất 3 quận hàng đầu cho việc mở chi nhánh mới.</li>
+                        </ul>
+                        <p class="mt-4 text-gray-600"><strong>2. Xem xét sự Công bằng và Thiên vị (Bias):</strong></p>
+                         <p class="mt-1 text-gray-600">Một sai lầm phổ biến là chỉ phân tích dữ liệu từ các chi nhánh hiện tại (chủ yếu ở quận trung tâm). Điều này có thể dẫn đến kết luận sai lầm rằng "chỉ khách hàng ở trung tâm mới thích cơm tấm của chúng ta", và bỏ qua tiềm năng ở các quận ven.</p>
+                        <ul class="list-disc list-inside mt-2 ml-4 text-gray-600">
+                             <li><strong>Cách làm đúng:</strong> Nhà phân tích phải chủ động tìm kiếm dữ liệu từ các nguồn khác như dữ liệu giao hàng của GrabFood/ShopeeFood để xem đơn hàng online đến từ những quận nào.</li>
+                             <li><strong>Sử dụng Self-reporting:</strong> Tạo khảo sát online hỏi khách hàng "Bạn thường sống và làm việc ở đâu?" để có cái nhìn chính xác hơn về địa bàn của khách hàng, thay vì chỉ dựa vào địa chỉ chi nhánh họ đến ăn.</li>
+                        </ul>
+                    </div>
+                     
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">Kết quả & Ra quyết định có Đạo đức</h4>
+                        <p class="mt-2 text-gray-600"><strong>Phân tích cho thấy:</strong> Quận Gò Vấp có số lượng đơn hàng online rất cao, nhưng chưa có chi nhánh nào. Dân số ở đây đông, nhiều khu văn phòng và trường đại học, nhưng mật độ các quán cơm tấm thương hiệu lớn lại thấp.</p>
+                        <p class="mt-2 text-gray-600"><strong>Đề xuất dựa trên dữ liệu:</strong> Mở chi nhánh mới tại quận Gò Vấp. Kèm theo đó là các chiến lược marketing phù hợp với đối tượng sinh viên và nhân viên văn phòng tại khu vực này.</p>
+                         <p class="mt-2 text-gray-600"><strong>Quyết định có đạo đức (Ethical Decision):</strong> Công ty quyết định đầu tư vào Gò Vấp, không chỉ vì lợi nhuận mà còn để phục vụ một lượng lớn khách hàng trung thành đã ủng hộ qua các ứng dụng giao hàng, đồng thời tạo công ăn việc làm cho người dân tại địa phương.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 5: Vocabulary -->
+        <section id="lesson5" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    Từ vựng cần ghi nhớ (Phần 4)
+                </h2>
+                <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
+                    <div><strong class="font-semibold text-purple-700">Business Task (Nhiệm vụ Kinh doanh):</strong> Câu hỏi hoặc vấn đề mà phân tích dữ liệu giải quyết cho một doanh nghiệp.</div>
+                    <div><strong class="font-semibold text-purple-700">Fairness (Sự công bằng):</strong> Một chất lượng của phân tích dữ liệu không tạo ra hoặc củng cố sự thiên vị.</div>
+                    <div><strong class="font-semibold text-purple-700">Oversampling:</strong> Quá trình tăng kích thước mẫu của các nhóm không chiếm ưu thế trong dân số để thể hiện họ một cách công bằng hơn.</div>
+                    <div><strong class="font-semibold text-purple-700">Self-reporting (Tự báo cáo):</strong> Một kỹ thuật thu thập dữ liệu trong đó người tham gia cung cấp thông tin về chính họ.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: {
+                'primaryColor': '#f9fafb',
+                'primaryTextColor': '#374151',
+                'primaryBorderColor': '#e5e7eb',
+                'lineColor': '#6b7280',
+                'secondaryColor': '#dbeafe',
+                'tertiaryColor': '#eef2ff'
+            }});
+            
+            const catalogButtonsContainer = document.getElementById('catalog-buttons');
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            const catalogNav = document.getElementById('catalog-nav');
+            const toggleBtn = document.getElementById('toggle-catalog-btn');
+
+            const showLesson = (targetId) => {
+                lessonContents.forEach(content => content.classList.remove('active'));
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    
+                    const diagramsToRender = targetContent.querySelectorAll('.mermaid');
+                    if (diagramsToRender.length > 0) {
+                        mermaid.run({
+                            nodes: diagramsToRender,
+                        });
+                    }
+                }
+            };
+            
+            const updateActiveButton = (targetId) => {
+                 catalogButtonsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                 const targetButton = catalogButtonsContainer.querySelector(`[data-target="${targetId}"]`);
+                 if (targetButton) {
+                     targetButton.classList.add('active');
+                 }
+            };
+            
+            catalogButtonsContainer.addEventListener('click', function (e) {
+                const button = e.target.closest('button[data-target]');
+                if (button) {
+                    const targetId = button.getAttribute('data-target');
+                    updateActiveButton(targetId);
+                    showLesson(targetId);
+                    if (window.innerWidth < 1024) {
+                        catalogNav.classList.add('hidden');
+                    }
+                }
+            });
+            
+            toggleBtn.addEventListener('click', () => {
+                catalogNav.classList.toggle('hidden');
+            });
+            
+            const adjustNav = () => {
+                if (window.innerWidth >= 1024) {
+                    catalogNav.classList.remove('hidden');
+                } else {
+                    catalogNav.classList.add('hidden');
+                }
+            };
+            
+            window.addEventListener('resize', adjustNav);
+            
+            const initialLessonId = 'lesson0';
+            updateActiveButton(initialLessonId);
+            showLesson(initialLessonId); 
+            adjustNav();
+        });
+    </script>
+</body>
+</html>

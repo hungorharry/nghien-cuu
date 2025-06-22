@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khóa học Nền tảng Phân tích Dữ liệu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f7f8fc;
+            line-height: 1.6;
+        }
+        .lesson-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .lesson-content.active {
+            display: block;
+        }
+        .catalog-btn {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            flex-shrink: 0; 
+        }
+        .catalog-btn.active {
+            background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            transform: translateY(-2px);
+        }
+        .catalog-btn:not(.active):hover {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+        .takeaway-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+        }
+        .info-box {
+            background-color: #eef2ff;
+            border-left: 4px solid #4f46e5;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #f9fafb;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto; 
+        }
+        .mermaid {
+            transform: scale(1.1);
+            transform-origin: center;
+        }
+        #catalog-buttons {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 0.75rem; 
+        }
+        @media (max-width: 1023px) {
+            #catalog-buttons {
+                flex-direction: column; 
+            }
+            .catalog-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- Header / Catalog -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">
+                    Nền tảng Phân tích Dữ liệu
+                </h1>
+                <button id="toggle-catalog-btn" class="p-2 rounded-md hover:bg-gray-100 lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+            <nav id="catalog-nav" class="hidden lg:flex">
+                 <div id="catalog-buttons">
+                     <button data-target="lesson0" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100 active">🚀 Tổng quan</button>
+                     <button data-target="lesson1" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">Phần 1: Nền tảng</button>
+                     <button data-target="lesson2" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">Phần 2: Vòng đời & Quy trình</button>
+                     <button data-target="lesson3" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">Phần 3: Công cụ</button>
+                     <button data-target="lesson4" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">Phần 4: Kinh doanh</button>
+                     <button data-target="lesson5" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">🔥 Ví dụ Thực tế</button>
+                     <button data-target="lesson6" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">Từ vựng</button>
+                 </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Lesson 0: Tổng quan -->
+        <section id="lesson0" class="lesson-content active">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    Chào mừng đến với Khóa học Nền tảng Phân tích Dữ liệu!
+                </h2>
+                <p class="mb-4">Khóa học này sẽ cung cấp cho bạn một cái nhìn toàn diện về thế giới phân tích dữ liệu, từ những khái niệm cơ bản nhất đến việc áp dụng vào các bài toán kinh doanh thực tế. Chúng ta sẽ cùng nhau đi qua một lộ trình học tập logic, giúp bạn xây dựng nền tảng vững chắc để trở thành một nhà phân tích dữ liệu chuyên nghiệp.</p>
+                <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Giới thiệu bởi Tony (Program Manager tại Google)
+                    </h4>
+                    <p class="mt-2">Các công ty trong mọi ngành nghề đều cần các nhà phân tích dữ liệu để giúp họ cải thiện quy trình, xác định cơ hội và xu hướng, và đưa ra các quyết định sáng suốt. Khóa học này sẽ trang bị cho bạn những kỹ năng cần thiết để bắt đầu sự nghiệp trong lĩnh vực thú vị này.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phần 1: Nền tảng -->
+        <section id="lesson1" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Phần 1: Nền tảng - Tư duy và Kỹ năng</h2>
+                <p class="mb-4">Phần này xây dựng nền móng tư duy cho một nhà phân tích, tập trung vào các kỹ năng cốt lõi và cách tiếp cận vấn đề một cách có hệ thống.</p>
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Năm kỹ năng phân tích thiết yếu:</h3>
+                <ul class="list-disc list-inside space-y-2 mb-4">
+                    <li><strong>Sự tò mò (Curiosity):</strong> Luôn đặt câu hỏi "Tại sao?".</li>
+                    <li><strong>Hiểu bối cảnh (Understanding Context):</strong> Đặt thông tin vào bức tranh toàn cảnh.</li>
+                    <li><strong>Tư duy kỹ thuật (Technical Mindset):</strong> Chia nhỏ vấn đề thành các bước logic.</li>
+                    <li><strong>Thiết kế dữ liệu (Data Design):</strong> Tổ chức thông tin một cách có cấu trúc.</li>
+                    <li><strong>Chiến lược dữ liệu (Data Strategy):</strong> Quản lý con người, quy trình và công cụ.</li>
+                </ul>
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Năm khía cạnh của Tư duy Phân tích:</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong>Trực quan hóa (Visualization):</strong> Biểu diễn thông tin bằng đồ họa.</li>
+                    <li><strong>Chiến lược (Strategy):</strong> Có mục tiêu và kế hoạch rõ ràng.</li>
+                    <li><strong>Định hướng vấn đề (Problem-orientation):</strong> Luôn lấy vấn đề làm trung tâm.</li>
+                    <li><strong>Tương quan (Correlation):</strong> Tìm kiếm mối quan hệ giữa các dữ liệu.</li>
+                    <li><strong>Tư duy tổng thể & chi tiết:</strong> Nhìn cả bức tranh lớn và các chi tiết nhỏ.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Phần 2: Vòng đời & Quy trình -->
+        <section id="lesson2" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Phần 2: Vòng đời & Quy trình Dữ liệu</h2>
+                <p class="mb-4">Phần này phân biệt hai khái niệm quan trọng và đặt nền móng cho cách tiếp cận một dự án phân tích dữ liệu một cách chuyên nghiệp.</p>
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Vòng đời Dữ liệu (Data Life Cycle)</h3>
+                <p class="mb-4">Mô tả quá trình quản lý dữ liệu từ khi sinh ra đến khi bị hủy bỏ.</p>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                      graph TD
+                           A[1. Plan<br>Lên kế hoạch] --> B[2. Capture<br>Thu thập];
+                           B --> C[3. Manage<br>Quản lý];
+                           C --> D[4. Analyze<br>Phân tích];
+                           D --> E[5. Archive<br>Lưu trữ];
+                           E --> F[6. Destroy<br>Hủy bỏ];
+                   </div>
+               </div>
+               <h3 class="text-xl font-semibold mb-3 mt-6 text-purple-600">Quy trình Phân tích Dữ liệu</h3>
+               <p class="mb-4">Các bước cụ thể để biến dữ liệu thô thành hành động có giá trị.</p>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph LR
+                        subgraph "6 Giai đoạn Phân tích"
+                            A(1. Ask<br>Đặt câu hỏi) --> B(2. Prepare<br>Chuẩn bị);
+                            B --> C(3. Process<br>Xử lý);
+                            C --> D(4. Analyze<br>Phân tích);
+                            D --> E(5. Share<br>Chia sẻ);
+                            E --> F(6. Act<br>Hành động);
+                            F -.-> A;
+                        end
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phần 3: Công cụ -->
+        <section id="lesson3" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Phần 3: Khám phá Công cụ Phân tích</h2>
+                <p class="mb-4">Để thực hiện quy trình phân tích, nhà phân tích cần một bộ công cụ mạnh mẽ.</p>
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Các công cụ chính:</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="info-box p-4 rounded-lg"><strong>Bảng tính (Spreadsheets):</strong> Dùng cho dữ liệu nhỏ, phân tích nhanh, tổ chức và tính toán cơ bản. (Ví dụ: Google Sheets, Excel)</div>
+                    <div class="info-box p-4 rounded-lg"><strong>SQL & Cơ sở dữ liệu:</strong> Dùng cho dữ liệu lớn, truy vấn và trích xuất thông tin cụ thể một cách hiệu quả. (Ví dụ: BigQuery, MySQL)</div>
+                    <div class="info-box p-4 rounded-lg"><strong>Trực quan hóa (Visualization):</strong> Dùng để kể chuyện bằng dữ liệu, trình bày insight một cách dễ hiểu. (Ví dụ: Tableau, Looker)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phần 4: Kinh doanh -->
+        <section id="lesson4" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Phần 4: Cơ hội và Trách nhiệm trong Kinh doanh</h2>
+                <p class="mb-4">Phần này kết nối các kỹ năng phân tích với thế giới thực, tập trung vào vai trò của nhà phân tích trong các ngành, các nhiệm vụ kinh doanh và trách nhiệm đạo đức.</p>
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Các chủ đề chính:</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong>Nhiệm vụ kinh doanh (Business Task):</strong> Hiểu cách các vấn đề kinh doanh được chuyển thành các câu hỏi phân tích.</li>
+                    <li><strong>Công bằng & Đạo đức (Fairness & Ethics):</strong> Nhận thức về thiên vị (bias) trong dữ liệu và trách nhiệm của nhà phân tích là đảm bảo phân tích công bằng, không gây hại.</li>
+                    <li><strong>Con đường sự nghiệp:</strong> Khám phá các vai trò khác nhau (Data Analyst, Business Analyst, Data Scientist) và chuẩn bị cho quá trình tìm việc, phỏng vấn.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Ví dụ Thực tế -->
+        <section id="lesson5" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    Ví dụ Siêu thực tế: Tối ưu hóa Giao hàng cho GrabFood
+                </h2>
+                <p class="mb-4">Hãy cùng áp dụng tất cả các kiến thức đã học để giải quyết một bài toán kinh doanh thực tế tại Việt Nam.</p>
+                <div class="info-box p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                         Bối cảnh & Nhiệm vụ kinh doanh
+                    </h4>
+                    <p class="mt-2"><strong>Bối cảnh:</strong> GrabFood nhận thấy số lượng khiếu nại về thời gian giao hàng tăng 30% tại Quận 1, TP.HCM trong giờ cao điểm ăn trưa (11:30 - 13:00).</p>
+                    <p class="mt-2"><strong>Nhiệm vụ kinh doanh (Business Task):</strong> Phân tích dữ liệu giao hàng để tìm ra nguyên nhân gốc rễ của việc giao hàng chậm và đề xuất giải pháp nhằm giảm 50% số lượng khiếu nại trong tháng tới.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">1. Ask (Đặt câu hỏi)</h4>
+                        <p class="mt-2 text-gray-600"><em>(Kiến thức từ Phần 1: Tư duy & Kỹ năng)</em></p>
+                        <ul class="list-disc list-inside mt-2 ml-4 text-gray-600">
+                            <li>Việc giao hàng chậm xảy ra ở những tuyến đường/khu vực cụ thể nào trong Quận 1?</li>
+                            <li>Có phải do thiếu tài xế trong giờ cao điểm? Hay do thời gian chuẩn bị món ăn của nhà hàng lâu?</li>
+                            <li>Tình hình giao thông (kẹt xe) ảnh hưởng như thế nào?</li>
+                        </ul>
+                    </div>
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">2 & 3. Prepare & Process (Chuẩn bị & Xử lý)</h4>
+                        <p class="mt-2 text-gray-600"><em>(Kiến thức từ Phần 2 & 3: Vòng đời Dữ liệu & Công cụ)</em></p>
+                        <ul class="list-disc list-inside mt-2 ml-4 text-gray-600">
+                            <li><strong>Capture:</strong> Dữ liệu được lấy từ cơ sở dữ liệu nội bộ của Grab, bao gồm: thời gian đặt hàng, thời gian nhà hàng xác nhận, thời gian tài xế nhận hàng, thời gian giao hàng thành công, tọa độ GPS của tài xế.</li>
+                             <li><strong>Manage & Process:</strong> Dữ liệu được làm sạch để loại bỏ các đơn hàng bị hủy hoặc các điểm dữ liệu GPS bất thường (ví dụ: tài xế quên tắt ứng dụng).</li>
+                        </ul>
+                    </div>
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">4. Analyze (Phân tích)</h4>
+                         <p class="mt-2 text-gray-600"><em>(Kiến thức từ Phần 3: Công cụ)</em></p>
+                        <ul class="list-disc list-inside mt-2 ml-4 text-gray-600">
+                            <li><strong>Sử dụng SQL:</strong> Nhà phân tích viết một câu truy vấn để tính thời gian chờ trung bình tại nhà hàng và thời gian di chuyển trung bình của tài xế cho các đơn hàng trong giờ cao điểm ở Quận 1.</li>
+                             <li><strong>Kết quả phân tích:</strong> Thời gian di chuyển của tài xế không tăng đột biến, nhưng thời gian chờ tại một số nhà hàng (đặc biệt là các quán cơm văn phòng) tăng vọt từ 5 phút lên 20 phút trong khung giờ 11:45 - 12:30.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">5. Share (Chia sẻ)</h4>
+                         <p class="mt-2 text-gray-600"><em>(Kiến thức từ Phần 3 & 4: Trực quan hóa & Kinh doanh)</em></p>
+                        <ul class="list-disc list-inside mt-2 ml-4 text-gray-600">
+                             <li><strong>Trực quan hóa:</strong> Tạo một biểu đồ đường trên Tableau cho thấy thời gian chờ tại nhà hàng tăng vọt vào giờ cao điểm, và một bản đồ hiển thị các "điểm nóng" là những quán cơm văn phòng cụ thể.</li>
+                             <li><strong>Trình bày:</strong> "Nguyên nhân gốc rễ của việc giao hàng chậm không phải do thiếu tài xế hay kẹt xe, mà do các nhà hàng đối tác quá tải trong việc chuẩn bị đơn hàng vào giờ ăn trưa."</li>
+                        </ul>
+                    </div>
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">6. Act (Hành động)</h4>
+                         <p class="mt-2 text-gray-600"><em>(Kiến thức từ Phần 4: Công bằng & Đạo đức)</em></p>
+                        <ul class="list-disc list-inside mt-2 ml-4 text-gray-600">
+                             <li><strong>Giải pháp đề xuất:</strong> Thay vì phạt nhà hàng (một quyết định có thể không công bằng vì họ cũng đang cố gắng), GrabFood đề xuất một giải pháp hợp tác: giới thiệu tính năng "Đặt trước" (Pre-order) cho các khu văn phòng. Khách hàng có thể đặt món từ 10:00 sáng và nhà hàng sẽ chuẩn bị sẵn để tài xế đến lấy vào đúng giờ cao điểm.</li>
+                             <li><strong>Quyết định có đạo đức:</strong> Giải pháp này không chỉ giúp khách hàng nhận đồ ăn nhanh hơn, mà còn giúp nhà hàng giảm áp lực và tài xế không phải chờ đợi lâu. Đây là một quyết định mang lại lợi ích cho tất cả các bên trong hệ sinh thái.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 6: Vocabulary -->
+        <section id="lesson6" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    Từ vựng cần ghi nhớ (Tổng hợp)
+                </h2>
+                <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
+                    <div><strong class="font-semibold text-purple-700">Data (Dữ liệu):</strong> Một tập hợp các sự kiện.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Analysis:</strong> Quá trình thu thập, chuyển đổi, và tổ chức dữ liệu để rút ra kết luận.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Life Cycle (Vòng đời Dữ liệu):</strong> Các giai đoạn mà dữ liệu trải qua, từ lập kế hoạch đến hủy bỏ.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Analysis Process (Quy trình Phân tích Dữ liệu):</strong> 6 bước để biến dữ liệu thành hành động (Ask, Prepare, Process, Analyze, Share, Act).</div>
+                    <div><strong class="font-semibold text-purple-700">Business Task (Nhiệm vụ Kinh doanh):</strong> Câu hỏi hoặc vấn đề mà phân tích dữ liệu giải quyết cho một doanh nghiệp.</div>
+                    <div><strong class="font-semibold text-purple-700">Fairness (Sự công bằng):</strong> Một chất lượng của phân tích dữ liệu không tạo ra hoặc củng cố sự thiên vị.</div>
+                    <div><strong class="font-semibold text-purple-700">SQL (Structured Query Language):</strong> Ngôn ngữ truy vấn có cấu trúc, dùng để giao tiếp với cơ sở dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Visualization (Trực quan hóa dữ liệu):</strong> Sự biểu diễn thông tin bằng đồ họa.</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: {
+                'primaryColor': '#f9fafb',
+                'primaryTextColor': '#374151',
+                'primaryBorderColor': '#e5e7eb',
+                'lineColor': '#6b7280',
+                'secondaryColor': '#dbeafe',
+                'tertiaryColor': '#eef2ff'
+            }});
+            
+            const catalogButtonsContainer = document.getElementById('catalog-buttons');
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            const catalogNav = document.getElementById('catalog-nav');
+            const toggleBtn = document.getElementById('toggle-catalog-btn');
+
+            const showLesson = (targetId) => {
+                lessonContents.forEach(content => content.classList.remove('active'));
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    
+                    const diagramsToRender = targetContent.querySelectorAll('.mermaid');
+                    if (diagramsToRender.length > 0) {
+                        mermaid.run({
+                            nodes: diagramsToRender,
+                        });
+                    }
+                }
+            };
+            
+            const updateActiveButton = (targetId) => {
+                 catalogButtonsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                 const targetButton = catalogButtonsContainer.querySelector(`[data-target="${targetId}"]`);
+                 if (targetButton) {
+                     targetButton.classList.add('active');
+                 }
+            };
+            
+            catalogButtonsContainer.addEventListener('click', function (e) {
+                const button = e.target.closest('button[data-target]');
+                if (button) {
+                    const targetId = button.getAttribute('data-target');
+                    updateActiveButton(targetId);
+                    showLesson(targetId);
+                    if (window.innerWidth < 1024) {
+                        catalogNav.classList.add('hidden');
+                    }
+                }
+            });
+            
+            toggleBtn.addEventListener('click', () => {
+                catalogNav.classList.toggle('hidden');
+            });
+            
+            const adjustNav = () => {
+                if (window.innerWidth >= 1024) {
+                    catalogNav.classList.remove('hidden');
+                } else {
+                    catalogNav.classList.add('hidden');
+                }
+            };
+            
+            window.addEventListener('resize', adjustNav);
+            
+            const initialLessonId = 'lesson0';
+            updateActiveButton(initialLessonId);
+            showLesson(initialLessonId); 
+            adjustNav();
+        });
+    </script>
+</body>
+</html>

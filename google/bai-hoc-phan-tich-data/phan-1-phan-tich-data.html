@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phần 1: Nền tảng Phân tích Dữ liệu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f7f8fc;
+            line-height: 1.6;
+        }
+        .lesson-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .lesson-content.active {
+            display: block;
+        }
+        .catalog-btn {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+            white-space: nowrap; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            flex-shrink: 0; 
+        }
+        .catalog-btn.active {
+            background-image: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            transform: translateY(-2px);
+        }
+        .catalog-btn:not(.active):hover {
+            background-color: #eef2ff;
+            color: #4f46e5;
+        }
+        .takeaway-box {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+        }
+        .info-box {
+            background-color: #eef2ff;
+            border-left: 4px solid #4f46e5;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .flowchart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background-color: #f9fafb;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto; 
+        }
+        .mermaid {
+            transform: scale(1.15); /* Kích thước vừa phải cho tất cả flowchart */
+            transform-origin: center;
+        }
+        .large-flowchart .mermaid {
+            transform: scale(1.4);
+        }
+        #catalog-buttons {
+            display: flex;
+            flex-wrap: wrap; 
+            gap: 0.75rem; 
+        }
+        @media (max-width: 1023px) {
+            #catalog-buttons {
+                flex-direction: column; 
+            }
+            .catalog-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- Header / Catalog -->
+    <header class="bg-white shadow-sm sticky top-0 z-50 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">
+                    Phần 1: Nền tảng Phân tích Dữ liệu
+                </h1>
+                <button id="toggle-catalog-btn" class="p-2 rounded-md hover:bg-gray-100 lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+            <nav id="catalog-nav" class="hidden lg:flex">
+                 <div id="catalog-buttons">
+                     <button data-target="lesson0" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100 active">🚀 Tổng quan</button>
+                     <button data-target="lesson1" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">1. Dữ liệu là gì?</button>
+                     <button data-target="lesson2" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">2. Kỹ năng PT</button>
+                     <button data-target="lesson3" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">3. Tư duy PT</button>
+                     <button data-target="lesson4" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">4. Quy trình PT</button>
+                     <button data-target="lesson5" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">5. Ra quyết định</button>
+                     <button data-target="lesson6" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">6. Hệ sinh thái</button>
+                     <button data-target="lesson7" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">7. Từ vựng</button>
+                     <button data-target="lesson8" class="catalog-btn text-left px-4 py-2 rounded-lg bg-gray-100">8. Ví dụ Thực tế</button>
+                 </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-8">
+
+        <!-- Lesson 0: Tóm tắt & Logic -->
+        <section id="lesson0" class="lesson-content active">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V7.618a1 1 0 011.447-.894L9 9m0 11l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 16.382V7.618a1 1 0 00-.553-.894L15 4m-6 3l6-3m0 0l6 3m-6-3v10" /></svg>
+                    Tổng quan & Logic các bài học
+                </h2>
+                <p class="mb-4">Chào mừng bạn đến với chặng đầu tiên trên hành trình trở thành nhà phân tích dữ liệu! Phần này sẽ xây dựng cho bạn một nền tảng vững chắc. Chúng ta sẽ cùng nhau khám phá một lộ trình logic, đi từ những khái niệm cơ bản nhất đến cách áp dụng chúng vào thực tế.</p>
+                 <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Giới thiệu bởi Tony (Program Manager tại Google)
+                    </h4>
+                    <p class="mt-2">Các công ty trong thương mại điện tử, giải trí, chăm sóc sức khỏe, sản xuất, marketing, tài chính, công nghệ và hàng trăm ngành công nghiệp khác đều có điểm chung: Họ đều sử dụng dữ liệu. Các tổ chức thuộc mọi loại hình đều cần các nhà phân tích dữ liệu để giúp họ cải thiện quy trình, xác định cơ hội và xu hướng, ra mắt sản phẩm mới, cung cấp dịch vụ khách hàng tuyệt vời và đưa ra các quyết định sáng suốt.</p>
+                     <p class="mt-2">Chào mừng bạn đến với Chứng chỉ Phân tích Dữ liệu của Google. Có rất nhiều lý do tuyệt vời để đạt được chứng chỉ này. Có thể bạn đang nghĩ đến việc bắt đầu sự nghiệp trong thế giới phân tích dữ liệu thú vị. Hoặc có thể bạn chỉ đơn giản là bị cuốn hút bởi sức mạnh của dữ liệu như tôi vậy. Bất kể điều gì đưa bạn đến đây, bạn đang ở đúng nơi để bắt đầu sự nghiệp và học các kỹ năng phân tích dữ liệu phù hợp với ngành.</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Lộ trình học tập của chúng ta:</h3>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph TD
+                        A["<b>Bài 1: Dữ liệu là gì?</b><br>Khám phá khái niệm cốt lõi"] --> B["<b>Bài 2: Kỹ năng Phân tích</b><br>Trang bị 5 kỹ năng thiết yếu"];
+                        B --> C["<b>Bài 3: Tư duy Phân tích</b><br>Rèn luyện 5 khía cạnh tư duy"];
+                        C --> D["<b>Bài 4: Quy trình Phân tích</b><br>Học quy trình 6 bước chuẩn"];
+                        D --> E["<b>Bài 5: Ra quyết định</b><br>Ứng dụng dữ liệu"];
+                        E --> F["<b>Bài 6: Hệ sinh thái</b><br>Hiểu bối cảnh rộng lớn"];
+                    </div>
+                </div>
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Mỗi bài học đều xây dựng dựa trên bài học trước. Hãy nắm vững khái niệm của bài học hiện tại trước khi chuyển sang bài tiếp theo để có trải nghiệm học tập tốt nhất. Logic ở đây là: <strong>Hiểu -> Trang bị -> Suy nghĩ -> Hành động -> Áp dụng -> Nhìn tổng thể.</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 1: Giới thiệu chung -->
+        <section id="lesson1" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 1: Dữ liệu là gì?</h2>
+                <p class="mb-4">Mọi thứ bắt đầu với "dữ liệu". Đây là nền tảng của mọi phân tích. Hiểu được dữ liệu là gì và vai trò của nó sẽ mở ra cánh cửa vào thế giới phân tích.</p>
+                <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Dữ liệu và Phân tích Dữ liệu là gì?
+                    </h4>
+                     <p class="mt-2">Dữ liệu là một tập hợp các sự kiện. Tập hợp này có thể bao gồm số, hình ảnh, video, từ ngữ, đo lường, quan sát, và nhiều hơn nữa. Khi bạn có dữ liệu, phân tích (analytics) sẽ đưa nó vào hoạt động thông qua quá trình phân tích (analysis).</p>
+                     <p class="mt-2 font-semibold">Phân tích dữ liệu (Data analysis) là quá trình thu thập, chuyển đổi và tổ chức dữ liệu để rút ra kết luận, đưa ra dự đoán và thúc đẩy ra quyết định dựa trên thông tin.</p>
+                     <p class="mt-2">Quá trình phân tích này, hay còn gọi là analytics, có thể cung cấp thông tin mới trong suốt vòng đời của dữ liệu. Dữ liệu ở khắp mọi nơi. Bạn sử dụng và tạo ra dữ liệu mỗi ngày.</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Bạn và Dữ liệu trong đời sống</h3>
+                 <div class="flowchart-container">
+                     <div class="mermaid">
+                       graph TD
+                            A(Bạn)
+                            subgraph "Hành động Tạo Dữ liệu"
+                                direction LR
+                                B[Tìm kiếm Google]
+                                C[Xem Netflix]
+                                D[Đăng MXH]
+                            end
+                            subgraph "Hành động Sử dụng Dữ liệu"
+                                direction LR
+                                E[Đọc đánh giá sản phẩm]
+                                F[Xem dữ liệu Fitness]
+                            end
+                            A --> B
+                            A --> C
+                            A --> D
+                            E --> A
+                            F --> A
+                    </div>
+                </div>
+                 <div class="info-box p-4 rounded-lg mb-4 mt-6">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Sức mạnh của Dữ liệu
+                    </h4>
+                     <p class="mt-2">Thế giới kỹ thuật số và hàng triệu thiết bị thông minh đã tạo ra lượng dữ liệu đáng kinh ngạc. Tại Google, chúng tôi xử lý hơn 40.000 tìm kiếm mỗi giây (3.5 tỷ/ngày, 1.2 nghìn tỷ/năm). YouTube có gần 2 tỷ người dùng - nếu là một quốc gia, sẽ là lớn nhất thế giới.</p>
+                     <p class="mt-2">Tạp chí The Economist gần đây gọi dữ liệu là tài nguyên quý giá nhất thế giới. Đó là lý do tại sao các nhà phân tích dữ liệu rất được các tổ chức coi trọng.</p>
+                </div>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2"><strong>Dữ liệu không chỉ là con số.</strong> Nó là bất kỳ tập hợp sự kiện nào. Phân tích dữ liệu (Data Analysis) là quá trình biến những sự kiện rời rạc đó thành những câu chuyện có ý nghĩa để ra quyết định. Data Analytics là lĩnh vực rộng hơn, bao gồm cả việc quản lý và sử dụng dữ liệu.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 2: Kỹ năng Phân tích -->
+        <section id="lesson2" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 2: Năm kỹ năng phân tích thiết yếu</h2>
+                <p class="mb-4">Khi đã biết dữ liệu là gì, chúng ta cần trang bị những kỹ năng cần thiết để "nói chuyện" với nó. Đây là 5 công cụ cốt lõi trong hành trang của một nhà phân tích.</p>
+                <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Định nghĩa Kỹ năng Phân tích
+                    </h4>
+                    <p class="mt-2 font-semibold">Kỹ năng phân tích (Analytical skills) là những phẩm chất và đặc điểm liên quan đến việc giải quyết vấn đề bằng cách sử dụng các sự kiện (facts).</p>
+                    <p class="mt-2">Bạn có thể đã có những kỹ năng này mà không hề hay biết! Chúng ta sẽ tập trung vào 5 điểm thiết yếu.</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Các kỹ năng cốt lõi:</h3>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph TD
+                        A[1. Sự tò mò<br>Curiosity] --> B[2. Hiểu bối cảnh<br>Understanding context];
+                        B --> C[3. Tư duy kỹ thuật<br>Technical mindset];
+                        C --> D[4. Thiết kế dữ liệu<br>Data design];
+                        D --> E[5. Chiến lược dữ liệu<br>Data strategy];
+
+                        classDef primary fill:#eef2ff,stroke:#4f46e5,stroke-width:2px;
+                        class A,B,C,D,E primary;
+                    </div>
+                </div>
+                <ul class="list-disc list-inside ml-4 mt-4">
+                    <li><strong>Curiosity (Sự tò mò):</strong> Muốn học hỏi điều gì đó. Tìm kiếm thử thách và kinh nghiệm mới. (Việc bạn ở đây chứng tỏ bạn có điều này!)</li>
+                    <li><strong>Understanding context (Hiểu bối cảnh):</strong> Điều kiện hoặc môi trường mà một sự việc tồn tại hoặc xảy ra. Giúp đặt thông tin vào đúng vị trí để hiểu toàn bộ bức tranh. (Ví dụ: Sắp xếp danh sách mua sắm, nhận ra lá bài Joker không thuộc bộ đang chơi).</li>
+                    <li><strong>Technical mindset (Tư duy kỹ thuật):</strong> Khả năng chia nhỏ vấn đề thành các bước nhỏ hơn và xử lý chúng một cách có trật tự, logic. (Ví dụ: Các bước thanh toán hóa đơn).</li>
+                    <li><strong>Data design (Thiết kế dữ liệu):</strong> Cách tổ chức thông tin. Thường liên quan đến cơ sở dữ liệu, nhưng có thể áp dụng trong đời sống (Ví dụ: Tổ chức danh bạ điện thoại).</li>
+                    <li><strong>Data strategy (Chiến lược dữ liệu):</strong> Quản lý con người, quy trình và công cụ được sử dụng trong phân tích dữ liệu. Đảm bảo mọi thứ phù hợp để đạt được mục tiêu. (Ví dụ: Đọc hướng dẫn sử dụng máy cắt cỏ, dọn dẹp sân, kiểm tra máy).</li>
+                </ul>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Các kỹ năng này không phải là lý thuyết suông, mà là những khả năng bạn đã và đang sử dụng hàng ngày. Hãy nhận diện và rèn luyện chúng một cách có chủ đích. Bạn đã là một nhà tư duy phân tích hơn bạn nghĩ!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 3: Tư duy Phân tích -->
+        <section id="lesson3" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 3: Các khía cạnh của Tư duy Phân tích</h2>
+                <p class="mb-4">Có kỹ năng là chưa đủ, bạn cần một phương pháp suy nghĩ đúng đắn. Tư duy phân tích là cách bạn tiếp cận vấn đề, là kim chỉ nam cho mọi hành động.</p>
+                 <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Định nghĩa Tư duy Phân tích
+                    </h4>
+                    <p class="mt-2 font-semibold">Tư duy phân tích (Analytical thinking) liên quan đến việc xác định và định nghĩa một vấn đề, sau đó giải quyết nó bằng cách sử dụng dữ liệu một cách có tổ chức, theo từng bước.</p>
+                    <p class="mt-2">Có 5 khía cạnh chính của tư duy phân tích.</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Năm khía cạnh của Tư duy Phân tích:</h3>
+                 <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph TD
+                        A[1. Trực quan hóa<br>Visualization] --> B[2. Tính chiến lược<br>Strategy];
+                        B --> C[3. Hướng vấn đề<br>Problem-orientation];
+                        C --> D[4. Nhận diện tương quan<br>Correlation];
+                        D --> E[5. Tư duy Bức tranh lớn & Chi tiết<br>Big-picture & Detail-oriented];
+
+                        classDef primary fill:#eef2ff,stroke:#4f46e5,stroke-width:2px;
+                        class A,B,C,D,E primary;
+                    </div>
+                </div>
+                <ul class="list-disc list-inside ml-4 mt-4">
+                    <li><strong>Visualization (Trực quan hóa):</strong> Biểu diễn thông tin bằng đồ họa (biểu đồ, bản đồ). Giúp hiểu và giải thích thông tin hiệu quả hơn (ví dụ: xem ảnh Grand Canyon thay vì chỉ đọc mô tả).</li>
+                    <li><strong>Strategy (Tính chiến lược):</strong> Giữ sự tập trung và đi đúng hướng với lượng dữ liệu lớn. Xác định mục tiêu và cách đạt được nó.</li>
+                    <li><strong>Problem-orientation (Hướng vấn đề):</strong> Tiếp cận để xác định, mô tả và giải quyết vấn đề. Luôn đặt vấn đề lên hàng đầu (ví dụ: vấn đề thiếu hàng trong kho). Bao gồm việc đặt nhiều câu hỏi để cải thiện giao tiếp và tiết kiệm thời gian (ví dụ: khảo sát khách hàng).</li>
+                     <li class="font-bold text-red-600">Lưu ý quan trọng: Correlation does not equal causation (Tương quan không có nghĩa là nhân quả).</li>
+                    <li><strong>Big-picture and detail-oriented thinking (Tư duy Bức tranh lớn và Chi tiết):</strong> Khả năng nhìn thấy toàn bộ bức tranh (như một bức ghép hoàn chỉnh) và cả các chi tiết cấu thành (như từng mảnh ghép). Giúp nhìn thấy cơ hội và đồng thời thực hiện kế hoạch hiệu quả.</li>
+                </ul>
+
+                 <h3 class="text-xl font-semibold mb-2 mt-6 text-purple-600">Kỹ thuật: 5 Câu hỏi Tại sao (The Five Whys)</h3>
+                <p class="mb-4">Đây là một kỹ thuật tư duy giúp bạn đào sâu xuống tận cùng của vấn đề (Root Cause), thay vì chỉ giải quyết triệu chứng bề mặt.</p>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph TD
+                        A["<b>Vấn đề:</b><br>Không thể làm bánh việt quất"] -- Tại sao? 1 --> B["Lý do 1:<br>Cửa hàng hết việt quất"];
+                        B -- Tại sao? 2 --> C["Lý do 2:<br>Bụi việt quất không đủ quả"];
+                        C -- Tại sao? 3 --> D["Lý do 3:<br>Chim đã ăn hết quả"];
+                        D -- Tại sao? 4 --> E["Lý do 4:<br>Chim ăn việt quất vì<br>cây dâu tằm không có quả"];
+                        E -- Tại sao? 5 --> F["<b>Nguyên nhân gốc rễ:</b><br>Sương giá muộn làm hỏng cây dâu tằm"];
+                    </div>
+                </div>
+                <p class="mt-4">Ví dụ khác: Cải thiện Dịch vụ khách hàng (Vấn đề: Khách hàng phàn nàn về giao hàng kém -> Sản phẩm bị hỏng -> Không đóng gói đúng cách -> Người đóng gói chưa được đào tạo đầy đủ -> HR đang cập nhật chương trình đào tạo và dùng hướng dẫn sơ sài).</p>
+                <p class="mt-2">Ví dụ khác: Kiểm soát chất lượng (Vấn đề: Tăng số lượng lỗi bơm nước -> Máy không được hiệu chuẩn đúng -> Hiệu chuẩn sai trong bảo trì cuối cùng -> Phương pháp hiệu chuẩn không phù hợp -> Lắp phần mềm mới không cung cấp thông tin hiệu chuẩn cho kỹ sư).</p>
+
+                 <h3 class="text-xl font-semibold mb-2 mt-6 text-purple-600">Kỹ thuật: Phân tích Khoảng trống (Gap Analysis)</h3>
+                <p class="mb-4">Giúp xác định và đánh giá trạng thái hiện tại của một quy trình so với trạng thái mong muốn trong tương lai, từ đó xác định "khoảng trống" cần lấp đầy.</p>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph TD
+                        A[Trạng thái Hiện tại] --> B[Nhận diện Khoảng trống];
+                        B --> C[Xác định Cách lấp đầy];
+                        C --> D[Trạng thái Mong muốn];
+
+                         classDef state fill:#e0f2fe,stroke:#3b82f6,stroke-width:2px;
+                         classDef process fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+                         class A,D state;
+                         class B,C process;
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Tư duy phân tích giúp bạn đặt câu hỏi đúng ("Nguyên nhân gốc rễ là gì?", "Khoảng trống trong quy trình ở đâu?", "Chúng ta chưa xem xét điều gì?"). Kết hợp với tư duy sáng tạo, bạn có thể tìm ra các giải pháp độc đáo. <strong>Luôn nhớ: Tương quan không có nghĩa là nhân quả!</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 4: Quy trình Phân tích Dữ liệu -->
+        <section id="lesson4" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 4: Quy trình Phân tích Dữ liệu</h2>
+                <p class="mb-4">Tư duy và kỹ năng cần một quy trình để vận hành hiệu quả. Quy trình phân tích dữ liệu là một lộ trình có cấu trúc, đảm bảo bạn không bỏ lỡ bước quan trọng nào.</p>
+                <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Quy trình Google Data Analytics Certificate
+                    </h4>
+                    <p class="mt-2">Mặc dù có nhiều biến thể, quy trình cốt lõi mà chương trình này tập trung có 6 bước:</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Sáu bước của Quy trình Phân tích Dữ liệu:</h3>
+                <div class="flowchart-container">
+                    <div class="mermaid">
+                    graph LR
+                        subgraph "Quy trình Phân tích Dữ liệu (6 Bước)"
+                            A(1. Ask<br>Đặt câu hỏi/Định nghĩa vấn đề) --> B(2. Prepare<br>Chuẩn bị dữ liệu);
+                            B --> C(3. Process<br>Xử lý/Làm sạch dữ liệu);
+                            C --> D(4. Analyze<br>Phân tích dữ liệu);
+                            D --> E(5. Share<br>Chia sẻ kết quả);
+                            E --> F(6. Act<br>Hành động);
+                            F --> A;
+                        end
+
+                        classDef step fill:#e0f2fe,stroke:#3b82f6,stroke-width:2px;
+                        class A,B,C,D,E step;
+                        class F fill:#dcfce7,stroke:#22c55e,stroke-width:2px;
+                    </div>
+                </div>
+                <ul class="list-disc list-inside ml-4 mt-4">
+                    <li><strong>Ask:</strong> Hiểu rõ thách thức hoặc câu hỏi cần giải quyết (thường do stakeholders đưa ra). Đặt nhiều câu hỏi.</li>
+                    <li><strong>Prepare:</strong> Tìm và thu thập dữ liệu cần thiết. Xác định nguồn, thu thập, kiểm tra tính chính xác và hữu ích.</li>
+                    <li><strong>Process:</strong> Làm sạch và tổ chức dữ liệu. Xóa bỏ lỗi, điền giá trị thiếu, chuyển đổi định dạng... Đảm bảo dữ liệu sẵn sàng cho phân tích.</li>
+                    <li><strong>Analyze:</strong> Tiến hành phân tích để tìm câu trả lời/giải pháp. Tính toán, đếm, khám phá xu hướng, mô hình.</li>
+                    <li><strong>Share:</strong> Trình bày kết quả cho người ra quyết định (báo cáo, thuyết trình, trực quan hóa). Chọn phương tiện và dữ liệu phù hợp để chia sẻ.</li>
+                    <li><strong>Act:</strong> Đưa các insight từ dữ liệu vào thực tế. Triển khai chiến lược mới, thay đổi quy trình... để giải quyết vấn đề ban đầu.</li>
+                </ul>
+
+                 <div class="info-box p-4 rounded-lg mb-4 mt-6">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Ví dụ áp dụng: Chương trình hưu trí Geo-Flow, Inc.
+                    </h4>
+                    <p class="mt-2">Công ty Geo-Flow, Inc. gặp vấn đề tỷ lệ tham gia chương trình hưu trí thấp. Họ hỏi liệu có nên đầu tư vào đào tạo giáo dục không?</p>
+                    <p class="mt-2"><strong>Ask:</strong> Tỷ lệ tham gia chương trình hưu trí là bao nhiêu? Có nên tạo chương trình giáo dục không?</p>
+                    <p class="mt-2"><strong>Prepare:</strong> Thu thập dữ liệu HR (nhân khẩu học, lương, đóng góp hiện tại).</p>
+                    <p class="mt-2"><strong>Process:</strong> Làm sạch (xóa người nghỉ việc), tổ chức (sắp xếp theo tuổi, phòng ban, thâm niên).</p>
+                    <p class="mt-2"><strong>Analyze:</strong> Phân tích cho thấy một số nhóm nhân viên ít tham gia hoặc không biết về khoản đóng góp matching của công ty. Họ cần giáo dục thêm.</p>
+                    <p class="mt-2"><strong>Share:</strong> Trình bày kết quả bằng biểu đồ (bar chart, pie chart) cho ban quản lý, làm rõ nhóm nào cần tập trung.</p>
+                    <p class="mt-2"><strong>Act:</strong> Triển khai chương trình giáo dục mục tiêu cho các nhóm xác định. Kết quả: tỷ lệ đóng góp tăng đáng kể ở các nhóm này.</p>
+                </div>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Quy trình này có tính <strong>lặp lại (Iterative)</strong>. Bạn có thể phải quay lại các bước trước đó nếu phát hiện vấn đề (ví dụ: dữ liệu bẩn, câu hỏi ban đầu chưa đúng). Sai lầm lớn nhất là tìm câu trả lời nhanh chóng mà bỏ qua các bước. Luôn xem lại công việc của bạn ở mỗi giai đoạn.</p>
+                     <p class="mt-2">Các biến thể khác của quy trình (EMC, SAS, Project-based, Big Data Analytics) có thể có số bước khác nhau hoặc tên gọi khác, nhưng đều chia sẻ các ý tưởng cốt lõi: hỏi/khám phá, chuẩn bị/xử lý dữ liệu, phân tích, chia sẻ và hành động.</p>
+                </div>
+            </div>
+        </section>
+
+         <!-- Lesson 5: Ra quyết định dựa trên dữ liệu -->
+        <section id="lesson5" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 5: Ra quyết định dựa trên dữ liệu</h2>
+                <p class="mb-4">Đây là mục tiêu cuối cùng của mọi phân tích: biến những hiểu biết sâu sắc thành những quyết định thực tế, mang lại giá trị.</p>
+                 <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Định nghĩa
+                    </h4>
+                    <p class="mt-2 font-semibold">Ra quyết định dựa trên dữ liệu (Data-driven decision-making) là việc sử dụng các sự kiện (facts) để định hướng chiến lược kinh doanh.</p>
+                    <p class="mt-2">Nhà phân tích dữ liệu giúp các tổ chức khai thác sức mạnh của dữ liệu để:</p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>Có được insight giá trị.</li>
+                        <li>Kiểm chứng lý thuyết/giả định.</li>
+                        <li>Hiểu rõ hơn cơ hội/thách thức.</li>
+                        <li>Hỗ trợ mục tiêu.</li>
+                        <li>Lập kế hoạch.</li>
+                        <li>Và nhiều hơn nữa.</li>
+                    </ul>
+                </div>
+
+                 <h3 class="text-xl font-semibold mb-2 text-purple-600">Từ Nhu cầu kinh doanh đến Hành động</h3>
+                 <div class="flowchart-container">
+                    <div class="mermaid">
+                       graph TD
+                            A["<b>Xác định Nhu cầu kinh doanh</b><br>(Vấn đề cần giải quyết)"] --> B["<b>Thu thập Dữ liệu</b>"];
+                            B --> C["<b>Phân tích & Tìm Insight</b><br>(Xu hướng, mô hình, mối quan hệ)"];
+                            C --> D["<b>Định hướng Chiến lược</b><br>(Dựa trên Insight đã thu thập)"];
+                            D --> E["<b>Hành động & Đo lường</b><br>(Triển khai và theo dõi kết quả)"];
+
+                        classDef step fill:#e0f2fe,stroke:#3b82f6,stroke-width:2px;
+                        class A,B,C,D,E step;
+                        class E fill:#dcfce7,stroke:#22c55e,stroke-width:2px;
+                    </div>
+                </div>
+
+                 <div class="info-box p-4 rounded-lg mb-4 mt-6">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Lợi ích và Ví dụ thực tế
+                    </h4>
+                    <p class="mt-2">Ra quyết định dựa trên dữ liệu mang lại sự tự tin hơn, giúp chủ động hơn với cơ hội và tiết kiệm thời gian/công sức.</p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li><strong>Ví dụ Nông dân:</strong> Khảo sát khách hàng để chọn hương vị kem thay vì đoán.</li>
+                        <li><strong>Ví dụ HR:</strong> Khảo sát nhân viên để biết phúc lợi nào được coi trọng nhất (thẻ đi lại công cộng) thay vì dựa vào cảm tính (casual dress code).</li>
+                        <li><strong>Ví dụ Dịch vụ Streaming (Netflix/Spotify):</strong> Phân tích dữ liệu nghe/xem của khách hàng để đề xuất nội dung phù hợp, giữ chân khách hàng và tăng doanh thu.</li>
+                        <li><strong>Ví dụ E-commerce:</strong> Dữ liệu cho thấy sự thay đổi sở thích mua sắm, dẫn đến sự ra đời của các mô hình kinh doanh mới không cần cửa hàng vật lý.</li>
+                         <li><strong>Ví dụ Google HR:</strong> Phân tích dữ liệu đánh giá hiệu suất và khảo sát nhân viên cho thấy quản lý giỏi tạo ra sự khác biệt lớn về hạnh phúc và năng suất của đội nhóm. Từ đó, xác định các hành vi của quản lý giỏi và đưa vào quy trình đánh giá.</li>
+                         <li><strong>Ví dụ phi lợi nhuận và báo chí:</strong> Phân tích dữ liệu theo dõi bài viết (clicks, traffic, comments, shares) để giúp nhà báo hiểu cách tạo ra tác động lớn hơn, khuyến khích độc giả hành động hỗ trợ các mục tiêu xã hội.</li>
+                    </ul>
+                </div>
+
+                 <h3 class="text-xl font-semibold mb-2 mt-6 text-purple-600">Dữ liệu và Trực giác (Gut Instinct)</h3>
+                 <p class="mb-4">Các nhà phân tích dữ liệu giống thám tử - dựa vào sự kiện và bằng chứng. Nhưng đôi khi, kinh nghiệm và trực giác cũng đóng vai trò nhất định.</p>
+                 <div class="flowchart-container">
+                    <div class="mermaid">
+                       graph TD
+                            A[Dữ liệu] --> C(Ra quyết định tối ưu);
+                            B[Kinh nghiệm/Trực giác] --> C;
+                            D["Chuyên gia lĩnh vực<br>(Subject Matter Experts)"] --> C;
+
+                            classDef primary fill:#e0f2fe,stroke:#3b82f6,stroke-width:2px;
+                            classDef secondary fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+                            class A,B,D primary;
+                            class C secondary;
+                    </div>
+                 </div>
+                 <p class="mt-4">Trực giác là hiểu biết trực quan mà ít cần giải thích. Tuy nhiên, dựa hoàn toàn vào trực giác có thể dẫn đến thiên kiến và sai lầm (ví dụ: nhà hàng thất bại vì không nghiên cứu thị trường kỹ mà chỉ dựa vào danh tiếng đầu bếp).</p>
+                 <p class="mt-2 font-bold">Kết hợp Dữ liệu + Kiến thức kinh doanh + (một chút) Trực giác = Giải quyết vấn đề hiệu quả.</p>
+                 <p class="mt-2">Việc cân bằng phụ thuộc vào mục tiêu dự án, thời gian, tài nguyên. Hỏi bản thân: "Kết quả cần là gì?", "Ai sẽ được thông báo?", "Tôi có đang trả lời đúng câu hỏi không?", "Quyết định cần ra nhanh cỡ nào?".</p>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Dữ liệu-driven decision-making mạnh mẽ nhất khi kết hợp với kinh nghiệm và kiến thức của con người (chuyên gia lĩnh vực). <strong>Dữ liệu không tự nó ra quyết định; nó cung cấp cơ sở cho con người ra quyết định tốt hơn.</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 6: Hệ sinh thái Dữ liệu -->
+        <section id="lesson6" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600">Bài 6: Hệ sinh thái Dữ liệu</h2>
+                <p class="mb-4">Cuối cùng, hãy nhìn vào bức tranh toàn cảnh. Công việc phân tích của bạn không diễn ra trong chân không, mà là một phần của một "hệ sinh thái" rộng lớn.</p>
+                 <div class="info-box p-4 rounded-lg mb-4">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         Định nghĩa Hệ sinh thái Dữ liệu
+                    </h4>
+                    <p class="mt-2 font-semibold">Hệ sinh thái dữ liệu (Data ecosystem) bao gồm các yếu tố khác nhau tương tác với nhau để tạo ra, quản lý, lưu trữ, tổ chức, phân tích và chia sẻ dữ liệu.</p>
+                     <p class="mt-2">Các yếu tố này bao gồm công cụ (phần cứng, phần mềm) và con người sử dụng chúng (như bạn!).</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-2 text-purple-600">Các thành phần chính và vai trò của Nhà Phân tích</h3>
+                 <div class="flowchart-container">
+                    <div class="mermaid">
+                       graph TD
+                            A{Hệ sinh thái Dữ liệu} --> B["Công cụ<br>(Phần cứng, Phần mềm)"];
+                            A --> C["Con người<br>(Nhà phân tích, Kỹ sư, Nhà khoa học)"];
+                            A --> D["Quy trình<br>(Thu thập, Lưu trữ, Chia sẻ)"];
+                            B --> C;
+                            C --> D;
+                            C -- "Vai trò Nhà phân tích:<br>Tìm insight, Phân tích,<br>Cung cấp giải pháp" --> A;
+
+                            classDef primary fill:#eef2ff,stroke:#4f46e5,stroke-width:2px;
+                            classDef ecosystem fill:#fef3c7,stroke:#d97706,stroke-width:2px;
+                            class A ecosystem;
+                            class B,C,D primary;
+                    </div>
+                 </div>
+
+                 <p class="mt-4"><strong>Vai trò của Nhà phân tích trong hệ sinh thái:</strong> Khai thác sức mạnh của hệ sinh thái, tìm thông tin đúng và cung cấp phân tích giúp đưa ra quyết định thông minh.</p>
+                 <p class="mt-2"><strong>Ví dụ về hệ sinh thái dữ liệu:</strong></p>
+                 <ul class="list-disc list-inside ml-4">
+                    <li><strong>Cửa hàng bán lẻ:</strong> Cơ sở dữ liệu khách hàng (tên, địa chỉ, mua hàng trước đây, đánh giá). Nhà phân tích dự đoán mua hàng tương lai, đảm bảo hàng tồn kho.</li>
+                    <li><strong>Phòng HR:</strong> Thông tin tuyển dụng, thị trường lao động, tỷ lệ thất nghiệp, dữ liệu mạng xã hội. Nhà phân tích giúp tuyển dụng, cải thiện gắn kết nhân viên.</li>
+                    <li><strong>Nông nghiệp:</strong> Dữ liệu địa chất, thời tiết. Nhà phân tích giúp dự đoán sản lượng cây trồng.</li>
+                     <li><strong>Bảo tồn môi trường (ví dụ: Scripps Institution of Oceanography):</strong> Theo dõi kỹ thuật số rạn san hô để xem sinh vật thay đổi thế nào theo thời gian, theo dõi tăng trưởng.</li>
+                 </ul>
+
+                <h3 class="text-xl font-semibold mb-2 mt-6 text-purple-600">Phân biệt Khái niệm</h3>
+                <ul class="list-disc list-inside ml-4">
+                     <li><strong>Data Science (Khoa học dữ liệu):</strong> Tạo ra cách mô hình hóa và hiểu cái chưa biết bằng dữ liệu thô. <strong>Nhà khoa học dữ liệu (Data Scientist)</strong> tạo ra các câu hỏi mới bằng dữ liệu.</li>
+                     <li><strong>Data Analysis (Phân tích dữ liệu):</strong> Quá trình thu thập, chuyển đổi, tổ chức dữ liệu để rút ra kết luận, dự đoán, ra quyết định dựa trên thông tin. <strong>Nhà phân tích dữ liệu (Data Analyst)</strong> tìm câu trả lời cho các câu hỏi hiện có bằng cách tạo insights từ dữ liệu.</li>
+                     <li><strong>Data Analytics (Phân tích dữ liệu - lĩnh vực):</strong> Khoa học về dữ liệu. Khái niệm rất rộng, bao gồm mọi thứ từ quản lý, sử dụng dữ liệu đến công cụ và phương pháp. Data Analysis và Data Ecosystem đều nằm dưới ô dù Data Analytics.</li>
+                </ul>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Vấn đề cần lưu ý
+                    </h4>
+                    <p class="mt-2">Hệ sinh thái dữ liệu là môi trường mà bạn làm việc. Hiểu rõ các thành phần và cách chúng tương tác là quan trọng. <strong>Phân biệt rõ vai trò của Data Analyst (tìm câu trả lời cho câu hỏi hiện có) và Data Scientist (tạo câu hỏi mới).</strong> Cả Data Analysis và Data Ecosystem đều là một phần của lĩnh vực rộng lớn Data Analytics.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 7: Vocabulary -->
+        <section id="lesson7" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                    Từ vựng cần ghi nhớ
+                </h2>
+                <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
+                    <div><strong class="font-semibold text-purple-700">Analytical Skills (Kỹ năng phân tích):</strong> Các phẩm chất và đặc điểm liên quan đến việc giải quyết vấn đề bằng cách sử dụng sự kiện.</div>
+                    <div><strong class="font-semibold text-purple-700">Analytical Thinking (Tư duy phân tích):</strong> Quá trình xác định, định nghĩa và giải quyết vấn đề một cách có tổ chức, từng bước dựa trên dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">Context (Bối cảnh):</strong> Điều kiện hoặc môi trường mà một sự vật, sự việc tồn tại hoặc xảy ra.</div>
+                    <div><strong class="font-semibold text-purple-700">Data (Dữ liệu):</strong> Một tập hợp các sự kiện.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Analysis (Phân tích dữ liệu - Quá trình):</strong> Việc thu thập, chuyển đổi và tổ chức dữ liệu để rút ra kết luận, dự đoán và thúc đẩy việc ra quyết định.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Analytics (Phân tích dữ liệu - Lĩnh vực):</strong> Khoa học về dữ liệu, một lĩnh vực rộng lớn.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Analyst (Nhà phân tích dữ liệu):</strong> Người thu thập, chuyển đổi và tổ chức dữ liệu để giúp đưa ra quyết định.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Design (Thiết kế dữ liệu):</strong> Cách thức tổ chức thông tin.</div>
+                    <div><strong class="font-semibold text-purple-700">Data-driven decision-making (Ra quyết định dựa trên dữ liệu):</strong> Sử dụng sự kiện để định hướng chiến lược kinh doanh.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Ecosystem (Hệ sinh thái dữ liệu):</strong> Các yếu tố (công cụ, con người, quy trình) tương tác với nhau để làm việc với dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Science (Khoa học dữ liệu):</strong> Lĩnh vực sử dụng dữ liệu thô để tạo ra các mô hình mới và hiểu biết về những điều chưa biết.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Strategy (Chiến lược dữ liệu):</strong> Việc quản lý con người, quy trình và công cụ được sử dụng trong phân tích dữ liệu.</div>
+                    <div><strong class="font-semibold text-purple-700">Data Visualization (Trực quan hóa dữ liệu):</strong> Sự biểu diễn dữ liệu bằng đồ họa.</div>
+                    <div><strong class="font-semibold text-purple-700">Dataset (Tập dữ liệu):</strong> Một bộ sưu tập dữ liệu có thể được phân tích hoặc thao tác như một đơn vị.</div>
+                    <div><strong class="font-semibold text-purple-700">Gap Analysis (Phân tích khoảng trống):</strong> Phương pháp kiểm tra và đánh giá trạng thái hiện tại của một quy trình để xác định các cơ hội cải thiện.</div>
+                    <div><strong class="font-semibold text-purple-700">Root Cause (Nguyên nhân gốc rễ):</strong> Lý do cơ bản tại sao một vấn đề xảy ra.</div>
+                    <div><strong class="font-semibold text-purple-700">Technical Mindset (Tư duy kỹ thuật):</strong> Khả năng chia nhỏ vấn đề thành các bước nhỏ hơn và xử lý chúng một cách có trật tự và logic.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lesson 8: Real-world example -->
+        <section id="lesson8" class="lesson-content">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-indigo-600 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    Ví dụ thực tế: Tối ưu hóa dòng Laptop Gaming cho Dell/HP
+                </h2>
+                <p class="mb-4">Hãy cùng xem cách một nhà phân tích dữ liệu áp dụng tất cả các kiến thức đã học để giải quyết một bài toán kinh doanh thực tế: "Làm thế nào để tăng doanh số bán hàng cho dòng laptop gaming mới?".</p>
+                <div class="info-box p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                         Bối cảnh kinh doanh
+                    </h4>
+                    <p class="mt-2">Công ty (ví dụ: Dell) nhận thấy dòng laptop gaming mới ra mắt có doanh số ban đầu thấp hơn kỳ vọng. Ban lãnh đạo muốn biết lý do và cần một chiến lược để cải thiện tình hình trong quý tới.</p>
+                </div>
+
+                <h3 class="text-xl font-semibold mb-3 text-purple-600">Áp dụng Quy trình Phân tích 6 bước:</h3>
+                <div class="space-y-4">
+                    <!-- Step 1 -->
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">1. Ask (Đặt câu hỏi)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-600">
+                            <li>Tại sao doanh số thấp hơn kỳ vọng?</li>
+                            <li>Khách hàng mục tiêu thực sự của chúng ta là ai?</li>
+                            <li>Yếu tố nào (giá, cấu hình, marketing) ảnh hưởng nhất đến quyết định mua?</li>
+                            <li>Mục tiêu kinh doanh: Tăng doanh số 20% trong quý tới.</li>
+                        </ul>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">2. Prepare (Chuẩn bị dữ liệu)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-600">
+                            <li>Dữ liệu bán hàng nội bộ (theo vùng, kênh bán hàng).</li>
+                            <li>Dữ liệu web (lượt truy cập, thời gian trên trang sản phẩm).</li>
+                            <li>Dữ liệu mạng xã hội (bình luận, phân tích cảm tính - sentiment analysis).</li>
+                            <li>Khảo sát khách hàng đã mua và chưa mua.</li>
+                            <li>Dữ liệu về cấu hình và giá của đối thủ cạnh tranh.</li>
+                        </ul>
+                    </div>
+                     <!-- Step 3 -->
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">3. Process (Xử lý dữ liệu)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-600">
+                            <li>Làm sạch: Loại bỏ đơn hàng bị hủy, dữ liệu bán hàng trùng lặp.</li>
+                            <li>Chuẩn hóa: Đồng nhất tên sản phẩm, tên vùng miền (ví dụ: "HN" thành "Hà Nội").</li>
+                            <li>Kết hợp: Nối dữ liệu bán hàng với dữ liệu chi phí marketing để xem hiệu quả.</li>
+                        </ul>
+                    </div>
+                     <!-- Step 4 -->
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">4. Analyze (Phân tích)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-600">
+                            <li>Phân tích mô tả: Vùng nào bán chạy nhất, kênh nào bán chậm nhất?</li>
+                            <li>Phân tích tương quan: Cấu hình (VGA, CPU) ảnh hưởng đến giá và doanh số ra sao?</li>
+                            <li>Phân tích cảm tính: Khách hàng nói gì (tích cực/tiêu cực) về tản nhiệt, thiết kế, thời lượng pin?</li>
+                        </ul>
+                    </div>
+                     <!-- Step 5 -->
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">5. Share (Chia sẻ)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-600">
+                            <li>Tạo Dashboard trên Tableau hoặc Power BI để theo dõi trực quan.</li>
+                            <li>Trực quan hóa: Dùng biểu đồ cột so sánh doanh số theo vùng, biểu đồ tròn về tỷ lệ phàn nàn theo tính năng.</li>
+                            <li>Trình bày cho ban lãnh đạo: "Doanh số thấp ở miền Bắc, chủ yếu do chiến dịch marketing chưa hiệu quả và nhiều khách hàng phàn nàn về thời lượng pin."</li>
+                        </ul>
+                    </div>
+                     <!-- Step 6 -->
+                     <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h4 class="font-bold text-lg text-indigo-600">6. Act (Hành động)</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-600">
+                            <li>Chiến lược Marketing: Chạy chiến dịch quảng cáo tập trung vào miền Bắc, nhấn mạnh hiệu năng.</li>
+                            <li>Cải tiến Sản phẩm: Gửi bản cập nhật phần mềm để cải thiện thời lượng pin cho người dùng hiện tại.</li>
+                            <li>Chính sách Bán hàng: Tạo chương trình khuyến mãi (tặng chuột, tai nghe) cho các kênh bán hàng yếu.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 takeaway-box rounded-lg">
+                    <h4 class="font-bold text-lg flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        Kết nối các bài học
+                    </h4>
+                    <p class="mt-2">Trong ví dụ này, nhà phân tích đã dùng <strong>kỹ năng tò mò</strong> để đặt câu hỏi (Bài 2), áp dụng <strong>tư duy hướng vấn đề</strong> (Bài 3), tuân thủ <strong>quy trình 6 bước</strong> (Bài 4), trực quan hóa dữ liệu để <strong>chia sẻ</strong> và giúp công ty <strong>ra quyết định dựa trên dữ liệu</strong> (Bài 5), tất cả đều diễn ra trong <strong>hệ sinh thái dữ liệu</strong> của công ty (Bài 6).</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            mermaid.initialize({ startOnLoad: false, theme: 'base', themeVariables: {
+                'primaryColor': '#f9fafb',
+                'primaryTextColor': '#374151',
+                'primaryBorderColor': '#e5e7eb',
+                'lineColor': '#6b7280',
+                'secondaryColor': '#dbeafe',
+                'tertiaryColor': '#eef2ff'
+            }});
+            
+            const catalogButtonsContainer = document.getElementById('catalog-buttons');
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            const catalogNav = document.getElementById('catalog-nav');
+            const toggleBtn = document.getElementById('toggle-catalog-btn');
+
+            const showLesson = (targetId) => {
+                lessonContents.forEach(content => content.classList.remove('active'));
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                    
+                    const diagramsToRender = targetContent.querySelectorAll('.mermaid');
+                    if (diagramsToRender.length > 0) {
+                        mermaid.run({
+                            nodes: diagramsToRender,
+                        });
+                    }
+                }
+            };
+            
+            const updateActiveButton = (targetId) => {
+                 catalogButtonsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                 const targetButton = catalogButtonsContainer.querySelector(`[data-target="${targetId}"]`);
+                 if (targetButton) {
+                     targetButton.classList.add('active');
+                 }
+            };
+            
+            catalogButtonsContainer.addEventListener('click', function (e) {
+                const button = e.target.closest('button[data-target]');
+                if (button) {
+                    const targetId = button.getAttribute('data-target');
+                    updateActiveButton(targetId);
+                    showLesson(targetId);
+                    if (window.innerWidth < 1024) {
+                        catalogNav.classList.add('hidden');
+                    }
+                }
+            });
+            
+            toggleBtn.addEventListener('click', () => {
+                catalogNav.classList.toggle('hidden');
+            });
+            
+            const adjustNav = () => {
+                if (window.innerWidth >= 1024) {
+                    catalogNav.classList.remove('hidden');
+                } else {
+                    catalogNav.classList.add('hidden');
+                }
+            };
+            
+            window.addEventListener('resize', adjustNav);
+            
+            const initialLessonId = 'lesson0';
+            updateActiveButton(initialLessonId);
+            showLesson(initialLessonId); 
+            adjustNav();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Việc của Hưng Nghiên Cứu Data - Giao Diện Mới</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Dark mode background */
+            background-color: #0f172a; /* Slate 900 */
+            color: #cbd5e1; /* Slate 300 */
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        /* Gradient text effect */
+        .text-gradient {
+            background: linear-gradient(90deg, #2dd4bf 0%, #38bdf8 100%); /* Teal 400 to Light Blue 400 */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Glassmorphism Card Effect */
+        .project-card {
+            background: rgba(30, 41, 59, 0.5); /* Slate 800 with 50% opacity */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid #334155; /* Slate 700 */
+            border-radius: 1.25rem; /* 20px */
+            transition: all 0.3s ease-in-out;
+            padding: 2rem; /* 32px */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: #2dd4bf; /* Teal 400 */
+            box-shadow: 0 0 30px rgba(45, 212, 191, 0.15);
+        }
+        /* Icon container style */
+        .icon-container {
+            background: linear-gradient(135deg, rgba(45, 212, 191, 0.1), rgba(56, 189, 248, 0.1));
+            width: 4rem; /* 64px */
+            height: 4rem; /* 64px */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem; /* 24px */
+            color: #5eead4; /* Teal 300 */
+        }
+        /* Styled link for action */
+        .action-link {
+            color: #2dd4bf; /* Teal 400 */
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem; /* 8px */
+            transition: all 0.2s ease;
+        }
+        .action-link:hover {
+            color: #5eead4; /* Teal 300 */
+            text-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+        }
+        .action-link .arrow {
+            transition: transform 0.2s ease;
+        }
+        .project-card:hover .action-link .arrow {
+            transform: translateX(4px);
+        }
+    </style>
+</head>
+<body class="p-6 sm:p-10">
+    <div class="container mx-auto">
+        <header class="text-center mb-20">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-4">
+                <span class="text-gradient">BÀI HỌC CỦA HƯNG</span>
+            </h1>
+            <p class="text-lg text-slate-400 max-w-3xl mx-auto">
+                Khám phá tổng quan các kế hoạch, dự án và phân tích dữ liệu quan trọng, được sắp xếp để dễ dàng theo dõi và truy cập.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="project-card group">
+                <div>
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-100 mb-3">BÀI HỌC PHÂN TÍCH DATA</h2>
+                    <p class="text-slate-400 mb-6">
+                        Tổng hợp các bài học, phương pháp và case study thực tế trong lĩnh vực phân tích dữ liệu.
+                    </p>
+                </div>
+                <a href="/google/bai-hoc-phan-tich-data/catalog-bai-hoc-data.html" class="action-link mt-auto">
+                    <span>Xem Lịch Trình</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+
+            <div class="project-card group">
+                <div>
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-5 5a2 2 0 01-2.828 0l-7-7A2 2 0 013 8v-3a2 2 0 012-2z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-100 mb-3">PHÂN LOẠI SẢN PHẨM</h2>
+                    <p class="text-slate-400 mb-6">
+                        Hệ thống phân loại và quản lý các danh mục sản phẩm. Nơi dữ liệu được tổ chức một cách khoa học.
+                    </p>
+                </div>
+                <a href="/phan-loai-san-pham/phan-loai-san-pham.html" class="action-link mt-auto">
+                    <span>Đi tới Phân Loại</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+
+            <div class="project-card group">
+                <div>
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-100 mb-3">KẾ HOẠCH THEO DÕI</h2>
+                    <p class="text-slate-400 mb-6">
+                        Chi tiết các kế hoạch, timeline và tiến độ theo dõi các chỉ số dữ liệu quan trọng.
+                    </p>
+                </div>
+                <a href="/ke-hoach-theo-doi/ke-hoach-theo-doi.html" class="action-link mt-auto">
+                    <span>Xem Kế Hoạch</span>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -3,873 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sơ đồ Kế hoạch Chiến dịch "Back To School"</title>
+    <title>Kế hoạch Chiến dịch "Back To School" - Toàn diện</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .flow-connector {
-            position: relative;
-            width: 100%;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .flow-connector::after {
-            content: '\f063'; /* Font Awesome down arrow */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            color: #9ca3af; /* gray-400 */
-            font-size: 1.5rem;
-        }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            border: 1px solid #e5e7eb;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e40af; /* blue-800 */
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .card ul {
-            list-style-position: inside;
-            margin-top: 1rem;
-        }
-        .card li {
-            margin-bottom: 0.5rem;
-            color: #374151; /* gray-700 */
-        }
-        .decision-card {
-            border-left: 5px solid #10b981; /* emerald-500 */
-            background-color: #f0fdf4; /* emerald-50 */
-        }
-        .rejected-card {
-            border-left: 5px solid #ef4444; /* red-500 */
-            background-color: #fef2f2; /* red-50 */
-            text-decoration: line-through;
-        }
-        .highlight-card {
-            border-left: 5px solid #f97316; /* orange-500 */
-            background-color: #fff7ed; /* orange-50 */
-        }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-        .product-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            background-color: #f9fafb; /* gray-50 */
-            cursor: pointer; /* Indicate clickable */
-            transition: all 0.2s ease-in-out;
-        }
-        .product-card:hover {
-            border-color: #3b82f6; /* blue-500 */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-        .product-card h4 {
-            font-weight: 600;
-            color: #111827;
-        }
-        .product-card p {
-            font-size: 0.875rem;
-            color: #4b5563;
-        }
-        .scenario-card {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-        }
-        .scenario-card h4 {
-            font-weight: 600;
-            color: #1d4ed8;
-        }
-        .scenario-card .recommendation {
-            border-top: 1px dashed #cbd5e1;
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 500px;
-            transform: translateY(-20px);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            position: relative; /* For close button positioning */
-        }
-        .modal-overlay.show .modal-content {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .modal-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #6b7280; /* gray-500 */
-        }
-        .modal-close-btn:hover {
-            color: #111827; /* gray-900 */
-        }
-
-        /* Styles for the collapsible plan section */
-        details.plan-details-section summary {
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1.5rem;
-            padding: 1rem 0;
-            color: #1e40af; /* blue-800 */
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        details.plan-details-section summary::-webkit-details-marker {
-            display: none;
-        }
-        details.plan-details-section[open] summary::before {
-            content: '\f068'; /* Minus icon */
-            transform: rotate(180deg);
-        }
-        details.plan-details-section summary::before {
-            content: '\f067'; /* Plus icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-right: 0.5rem;
-            transition: transform 0.2s ease;
-        }
-        .plan-content h3 {
-            font-weight: 600;
-            font-size: 1.125rem;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            color: #2563eb; /* blue-700 */
-        }
-        .plan-content ul {
-            list-style-type: disc;
-            margin-left: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        .plan-content p {
-            margin-bottom: 1rem;
-        }
-        .plan-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1rem;
-        }
-        .plan-content th, .plan-content td {
-            border: 1px solid #e2e8f0;
-            padding: 0.75rem;
-            text-align: left;
-        }
-        .plan-content th {
-            background-color: #f1f5f9;
-            font-weight: 600;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; border: 1px solid #e2e8f0; }
+        .card-title { font-size: 1.25rem; font-weight: 700; color: #1e3a8a; display: flex; align-items: center; gap: 0.5rem; }
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .sidebar-nav-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 500; color: #475569; transition: all 0.2s ease; cursor: pointer; }
+        .sidebar-nav-link i { width: 1.25rem; margin-right: 0.75rem; color: #94a3b8; }
+        .sidebar-nav-link:hover { background-color: #e2e8f0; color: #0f172a; }
+        .sidebar-nav-link.active { background-color: #3b82f6; color: white; font-weight: 600; box-shadow: 0 4px 6px -1px rgb(59 130 246 / 0.2), 0 2px 4px -2px rgb(59 130 246 / 0.2); }
+        .sidebar-nav-link.active i { color: white; }
+        .plan-content h3 { font-weight: 600; font-size: 1.125rem; margin-top: 1rem; margin-bottom: 0.5rem; color: #2563eb; }
+        .plan-content ul { list-style-type: disc; margin-left: 1.25rem; margin-bottom: 1rem; }
+        .plan-content p { margin-bottom: 1rem; }
+        .plan-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .plan-content th, .plan-content td { border: 1px solid #e2e8f0; padding: 0.75rem; text-align: left; }
+        .plan-content th { background-color: #f1f5f9; font-weight: 600; }
+        .analysis-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left-width: 4px; border-radius: 0.5rem; padding: 1rem; transition: all 0.3s ease; }
+        .analysis-card:hover { transform: translateY(-4px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .faq details { background-color: #f8fafc; padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.5rem; border: 1px solid #e2e8f0; }
+        .faq summary { font-weight: 600; color: #1e3a8a; cursor: pointer; }
+        .faq p { margin-top: 0.75rem; color: #334155; padding-left: 1.25rem; border-left: 2px solid #3b82f6; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        
+        /* MODAL STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content { background-color: white; padding: 1.5rem 2rem; border-radius: 0.75rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); width: 90%; max-width: 800px; transform: scale(0.95); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; position: relative; max-height: 90vh; overflow-y: auto;}
+        .modal-overlay.show .modal-content { transform: scale(1); opacity: 1; }
+        .modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: #e5e7eb; border: none; font-size: 1rem; cursor: pointer; color: #4b5563; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+        .modal-close-btn:hover { background-color: #d1d5db; color: #1f2937; }
+        .detail-group { margin-bottom: 1.5rem; }
+        .detail-group-title { font-size: 1.1rem; font-weight: 700; color: #1e3a8a; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 2px solid #3b82f6;}
+        .spec-item { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #f3f4f6; }
+        .spec-item:last-child { border-bottom: none; }
+        .spec-label { font-weight: 500; color: #4b5563; }
+        .spec-value { font-weight: 600; color: #111827; text-align: right; }
     </style>
 </head>
-<body class="bg-gray-100 p-4 sm:p-6 lg:p-8">
-    <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Kế hoạch Chiến dịch "Back To School"</h1>
-        <p class="text-center text-gray-500 mb-8">Từ ý tưởng, thảo luận, ra quyết định đến kế hoạch hành động chi tiết.</p>
+<body class="bg-slate-100">
 
-        <details class="plan-details-section card mb-8" open>
-            <summary><i class="fas fa-file-alt"></i> KẾ HOẠCH TRIỂN KHAI TẠI BOOTH (PHIÊN BẢN ĐÃ ĐIỀU CHỈNH - Chi tiết)</summary>
-            <div class="plan-content pt-4 border-t border-gray-200 mt-4">
-                <h3>I. MỤC TIÊU CHƯƠNG TRÌNH</h3>
-                <ul>
-                    <li>Thu hút khách hàng đến gian hàng bằng trải nghiệm quà tặng công nghệ (in sticker/ảnh miễn phí).</li>
-                    <li>Giới thiệu và tạo ấn tượng về công cụ AI tư vấn laptop như một điểm nhấn công nghệ độc đáo.</li>
-                    <li>Thu thập dữ liệu khách hàng tiềm năng (email, nhu cầu sử dụng) một cách tự nhiên thông qua luồng tư vấn của AI.</li>
-                    <li>Tăng nhận diện thương hiệu và tạo cơ hội chuyển đổi bán hàng trực tiếp hoặc sau sự kiện.</li>
-                </ul>
-
-                <h3>II. ĐỐI TƯỢNG MỤC TIÊU</h3>
-                <ul>
-                    <li>Học sinh cấp 1, cấp 2, cấp 3.</li>
-                    <li>Sinh viên các trường Đại học, Cao đẳng.</li>
-                    <li>Phụ huynh đi mua sắm cùng con em.</li>
-                </ul>
-
-                <h3>III. NỘI DUNG & LUỒNG TRẢI NGHIỆM KHÁCH HÀNG (Quan trọng nhất)</h3>
-                <h4>1. Khu vực Booth:</h4>
-                <ul>
-                    <li>Trưng bày sản phẩm chính: 8 mẫu laptop được đặt an toàn trong tủ kính có khóa. Mỗi máy có bảng thông số rõ ràng.</li>
-                    <li>Khu vực "Mồi" thu hút: Bố trí Máy in sticker mini (H11) và Máy ảnh & In ảnh (Z1) và Máy chiếu mini (Wanbo Dali 1) ở vị trí dễ thấy phía trước booth để demo và làm quà tặng.</li>
-                    <li>Điểm nhấn truyền thông: Standee/Wobbler với thông điệp mời gọi rõ ràng: "Nhận Sticker Cá Tính Miễn Phí & Trải Nghiệm AI Chọn Laptop Đúng Chuẩn!"</li>
-                    <li>Mã QR: Đặt tại nhiều điểm để khách hàng dễ dàng quét và truy cập công cụ AI.</li>
-                </ul>
-                <h4>2. Luồng Trải Nghiệm Khách Hàng (Đơn giản & Nhanh gọn):</h4>
-                <h5>Bước 1: Tiếp cận & Thu hút bằng Quà tặng (The Hook)</h5>
-                <ul>
-                    <li>Nhân viên chủ động mời khách: "Dạ em chào anh/chị, Chính Nhân đang có chương trình Back To School, mời anh/chị ghé nhận một tấm sticker/ảnh in lấy liền miễn phí ạ!"</li>
-                    <li>Nhân viên sử dụng template có sẵn, chỉ cần nhập tên khách hàng và in tặng. Thời gian < 1 phút, đảm bảo luồng khách thông suốt.</li>
-                </ul>
-                <h5>Bước 2: Giới thiệu Công cụ Tư vấn AI (The Pivot)</h5>
-                <ul>
-                    <li>Trong lúc khách đang hào hứng với món quà, nhân viên khéo léo chuyển hướng: "Nhân đây, anh/chị hãy thử ngay công cụ AI này để tìm chiếc laptop phù hợp nhất với nhu cầu học tập/công việc của mình chỉ trong 2 phút nhé!"</li>
-                    <li>Hướng dẫn khách quét mã QR để bắt đầu.</li>
-                </ul>
-                <h5>Bước 3: Tương tác AI & Thu thập Data (The Core Action)</h5>
-                <ul>
-                    <li>Khách hàng tương tác với Chatbot AI trên điện thoại.</li>
-                    <li>AI sẽ hỏi các câu hỏi định hướng (VD: "Bạn là sinh viên năm mấy?", "Nhu cầu chính của bạn là học tập, thiết kế hay chơi game?").</li>
-                    <li>AI phân tích và gợi ý 1-2 mẫu laptop phù hợp nhất trong 8 mẫu trưng bày.</li>
-                    <li>Call-to-Action quan trọng: Màn hình cuối của AI hiển thị: "Hãy nhập email để nhận ngay thông tin chi tiết, hình ảnh sản phẩm và Voucher giảm giá độc quyền nhé!"</li>
-                </ul>
-                <h5>Bước 4: Tự động hóa & Chăm sóc</h5>
-                <ul>
-                    <li>Hệ thống tự động gửi email chứa thông tin sản phẩm và mã khuyến mãi cho khách.</li>
-                    <li>Nhân viên tại booth có thể tư vấn sâu hơn về mẫu laptop mà AI vừa gợi ý.</li>
-                </ul>
-
-                <h3>IV. HỆ THỐNG CẦN CHUẨN BỊ</h3>
-                <ul>
-                    <li>Nền tảng AI Tư vấn: Một trang web (chatbot) đã được "training" dữ liệu của 8 mẫu laptop và các kịch bản tư vấn.</li>
-                    <li>Hệ thống Email Marketing tự động: Tích hợp với nền tảng AI để gửi email ngay khi khách hàng nhập thông tin.</li>
-                    <li>Database (Google Sheet/CRM): Tự động tổng hợp danh sách khách hàng tiềm năng (Tên, Email, Sản phẩm được gợi ý) từ công cụ AI.</li>
-                    <li>Mã QR Code: Dẫn đến trang web AI tư vấn.</li>
-                    <li>Thiết bị Demo: Sử dụng điện thoại của nhân viên hoặc trang bị 1-2 máy tính bảng tại booth.</li>
-                </ul>
-
-                <h3>V. QUÀ TẶNG & KHUYẾN MÃI</h3>
-                <ul>
-                    <li>Quà Tặng Trải Nghiệm (Tại chỗ): Sticker/Ảnh in lấy liền từ các máy in mini (H11, Z1) và trải nghiệm máy chiếu Wanbo Dali 1.</li>
-                    <li>Ưu Đãi Chuyển Đổi (Gửi qua Email): Voucher giảm giá/Mã khuyến mãi độc quyền dành cho khách hàng đã hoàn thành trải nghiệm AI và để lại email.</li>
-                </ul>
-
-                <h3>VI. TRUYỀN THÔNG</h3>
-                <ul>
-                    <li>PR trước chương trình trên các kênh MXH (Tiktok, Facebook) về hoạt động "Trải nghiệm AI chọn laptop, nhận quà chất".</li>
-                    <li>Kêu gọi follow để cập nhật các hoạt động và khuyến mãi.</li>
-                    <li>Phát tờ rơi giới thiệu về booth, nhấn mạnh 2 hoạt động chính: Nhận sticker miễn phí và Trải nghiệm AI.</li>
-                    <li>Đăng Story/Reels hình ảnh khách hàng đang hào hứng tương tác với AI và khoe quà tặng sticker.</li>
-                </ul>
-
-                <h3>VII. NHÂN SỰ & PHÂN CÔNG</h3>
-                <ul>
-                    <li>Quản lý chương trình (1 người): Theo dõi tổng thể, đảm bảo luồng hoạt động, xử lý tình huống.</li>
-                    <li>Nhân viên Demo Quà tặng (1 người): Chuyên trách việc mời khách, demo máy in sticker/ảnh và tặng quà. Giúp giữ chân khách và tạo không khí sôi động.</li>
-                    <li>Tư vấn viên & Hướng dẫn AI (1-2 người): Hướng dẫn khách sử dụng công cụ AI, giải đáp thắc mắc và tư vấn sâu hơn về sản phẩm laptop sau khi AI đã gợi ý.</li>
-                </ul>
-
-                <h3>VIII. GIAI ĐOẠN</h3>
-                <ul>
-                    <li>Chuẩn bị (Đến 20/06):
-                        <ul>
-                            <li>Xây dựng và training chatbot AI.</li>
-                            <li>Thiết kế booth, standee, template in sticker.</li>
-                            <li>Thiết lập hệ thống email tự động.</li>
-                            <li>Chuẩn bị quà tặng, máy móc.</li>
-                        </ul>
-                    </li>
-                    <li>Diễn ra (Tháng 7 - Tháng 9):
-                        <ul>
-                            <li>Triển khai hoạt động liên tục, tập trung nhân sự vào các khung giờ cao điểm (10h – 12h, 18h – 20h).</li>
-                        </ul>
-                    </li>
-                    <li>Tổng kết (Hàng tuần/cuối kỳ):
-                        <ul>
-                            <li>Tổng hợp data khách hàng tiềm năng.</li>
-                            <li>Đo lường hiệu quả (số lượt tương tác, số email thu thập được).</li>
-                            <li>Đội ngũ sale chủ động liên hệ chăm sóc các khách hàng tiềm năng.</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h3>IX. DỰ KIẾN CHI PHÍ (TÍNH THEO NGÀY / 1 NHÂN VIÊN)</h3>
-                <div class="overflow-x-auto rounded-lg border mt-4">
-                    <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Giờ làm 18-20h</th>
-                                <th scope="col" class="px-6 py-3">Tính giờ công Blog cá</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="bg-white border-b">
-                                <td class="px-6 py-4 font-medium text-gray-900">Giờ xe</td>
-                                <td class="px-6 py-4">10.000 / ngày</td>
-                            </tr>
-                            <tr class="bg-gray-50 border-b">
-                                <td class="px-6 py-4 font-medium text-gray-900">Ăn tối</td>
-                                <td class="px-6 py-4">50.000 / 1 bữa / ngày</td>
-                            </tr>
-                            <tr class="bg-white">
-                                <td class="px-6 py-4 font-medium text-gray-900">Xăng</td>
-                                <td class="px-6 py-4">30.000 / ngày <br>(chỉ áp dụng site lại quận 7)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-sm text-gray-600 mt-2">Tổng chi phí dự kiến cho 2 tháng (Tháng 7 & 8) là 203.000.000 VNĐ (bao gồm cả ngân sách truyền thông).</p>
+    <div class="flex h-screen bg-gray-50">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="hidden md:flex flex-col w-72 bg-white border-r border-slate-200 p-4 transition-transform transform md:translate-x-0 -translate-x-full">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-600 p-2 rounded-lg"><i class="fas fa-bullhorn text-white text-xl"></i></div>
+                <h1 class="text-xl font-bold text-slate-800">Back To School</h1>
             </div>
-        </details>
-        <div class="flow-connector"></div>
+            <nav id="main-nav" class="flex-1 space-y-2">
+                <a class="sidebar-nav-link" data-target="section-ke-hoach-tong-the"><i class="fas fa-file-alt"></i><span>Kế hoạch triển khai</span></a>
+                <a class="sidebar-nav-link" data-target="section-muc-tieu-ban-dau"><i class="fas fa-flag-checkered"></i><span>Mục tiêu ban đầu</span></a>
+                <a class="sidebar-nav-link" data-target="section-dien-bien-hop"><i class="fas fa-users"></i><span>Diễn biến cuộc họp</span></a>
+                <a class="sidebar-nav-link" data-target="section-luong-trai-nghiem"><i class="fas fa-map-signs"></i><span>Luồng trải nghiệm KH</span></a>
+                <a class="sidebar-nav-link active" data-target="section-chien-luoc-sp"><i class="fas fa-shopping-cart"></i><span>Chiến lược sản phẩm</span></a>
+                <a class="sidebar-nav-link" data-target="section-phan-cong"><i class="fas fa-users-viewfinder"></i><span>Phân công & Địa điểm</span></a>
+                <a class="sidebar-nav-link" data-target="section-kich-ban"><i class="fas fa-comments"></i><span>Kịch bản tư vấn</span></a>
+            </nav>
+        </aside>
 
-        <div class="card bg-blue-100 border-blue-300">
-            <h2 class="card-title text-blue-900"><i class="fas fa-flag-checkered"></i> MỤC TIÊU & YÊU CẦU BAN ĐẦU (Email từ Mr. ThietPN)</h2>
-            <ul class="list-disc">
-                <li><strong>Chương trình:</strong> Bán hàng tại PNC với 8 sản phẩm laptop chiến lược.</li>
-                <li><strong>Nhiệm vụ chính (Mr. Bảo):</strong>
-                    <ul class="list-circle ml-6 mt-2">
-                        <li>Dùng AI tạo kịch bản tư vấn laptop cho các nhóm: Phụ huynh + HS Cấp 1, HS Cấp 2, HS Cấp 3, Sinh viên.</li>
-                        <li>Phân tích xu hướng tiêu dùng sản phẩm SMC để chọn hàng bán kèm.</li>
-                    </ul>
-                </li>
-                <li><strong>Mục đích AI:</strong> Training team sale (Chính Nhân & PNC), thu hút sự tò mò của học sinh, sinh viên.</li>
-                <li><strong>Hỗ trợ:</strong> Sales CN & SMC</li>
-                <li><strong>Lưu ý:</strong> Giờ cao điểm tại PNC (10-12h, 18-20h).</li>
-            </ul>
-        </div>
-        <div class="flow-connector"></div>
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="flex justify-between items-center p-4 bg-white border-b border-slate-200 md:justify-end">
+                <button id="mobile-menu-btn" class="text-slate-600 focus:outline-none md:hidden"><i class="fas fa-bars text-xl"></i></button>
+                <div class="text-center">
+                    <h1 class="text-2xl font-bold text-slate-800">Kế hoạch Chiến dịch "Back To School"</h1>
+                    <p class="text-sm text-slate-500">Toàn bộ kế hoạch và phân tích chi tiết</p>
+                </div>
+                <div class="w-10"></div>
+            </header>
 
-        <div class="card">
-            <h2 class="card-title"><i class="fas fa-users"></i> DIỄN BIẾN CUỘC HỌP & QUYẾT ĐỊNH</h2>
-            <div class="space-y-6 mt-4">
-                <div class="card decision-card">
-                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-lightbulb"></i> Giai đoạn 1: Thảo luận Danh mục sản phẩm</h3>
-                    <ul class="list-disc">
-                        <li><strong>Đồng thuận:</strong> Máy in sticker/ảnh có tiềm năng làm sản phẩm "mồi" thu hút, tạo trải nghiệm.</li>
-                        <li class="rejected-card p-2 rounded-md"><strong>Loại bỏ:</strong> Xe trượt điện do không phù hợp không gian nhà sách và rủi ro an toàn.</li>
-                    </ul>
-                </div>
-                <div class="card decision-card">
-                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-money-bill-wave"></i> Giai đoạn 2: Xây dựng Kế hoạch & Ngân sách</h3>
-                    <ul class="list-disc">
-                        <li><strong>Điểm nhấn:</strong> Dùng AI tư vấn laptop như một công cụ công nghệ để thu thập data khách hàng tiềm năng.</li>
-                        <li><strong>Quyết định ngân sách:</strong> Trình ngân sách <strong>203 triệu VNĐ</strong> cho 2 tháng dưới dạng một chiến dịch truyền thông tổng thể để tăng tính thuyết phục với nhãn hàng.</li>
-                    </ul>
-                </div>
-                <div class="card decision-card">
-                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-magic"></i> Giai đoạn 3: Tối ưu Trải nghiệm Khách hàng</h3>
-                    <ul class="list-disc">
-                        <li><strong>Vấn đề:</strong> Khách tự thiết kế sticker/ảnh sẽ gây ùn tắc, tốn thời gian.</li>
-                        <li><strong>Giải pháp:</strong> Nhân viên sẽ demo bằng các template có sẵn. Chỉ cần nhập tên khách hàng, in và tặng. Đảm bảo luồng khách thông suốt (~1 phút/khách).</li>
-                    </ul>
-                </div>
-                <div class="card decision-card">
-                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-handshake"></i> Giai đoạn 4: Thảo luận với Đối tác (PNC)</h3>
-                    <ul class="list-disc">
-                        <li><strong>Quan ngại từ PNC:</strong> Vấn đề an ninh cho các sản phẩm giá trị cao như laptop.</li>
-                        <li><strong>Giải pháp:</strong> Laptop trưng bày sẽ được đặt trong <strong>tủ kính có khóa</strong> để đảm bảo an toàn.</li>
-                    </ul>
-                </div>
-                <div class="card decision-card">
-                    <h3 class="font-bold text-lg text-emerald-800"><i class="fas fa-tasks"></i> Giai đoạn 5: Chốt Kế hoạch & Giao việc</h3>
-                    <ul class="list-disc">
-                        <li>Tổng kết các quyết định về sản phẩm, quy trình AI, phương án demo và ngân sách.</li>
-                        <li>Phân công nhiệm vụ cụ thể cho các đội ngũ liên quan.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="flow-connector"></div>
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-100 p-4 sm:p-6 lg:p-8">
+                <div class="max-w-7xl mx-auto space-y-8">
 
-        <div class="card">
-            <h2 class="card-title"><i class="fas fa-map-signs"></i> LUỒNG TRẢI NGHIỆM KHÁCH HÀNG TẠI ĐIỂM BÁN</h2>
-            <div class="relative mt-6">
-                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-blue-300 hidden md:block"></div>
-                <div class="space-y-8 md:space-y-12">
-                    <div class="md:flex items-center w-full">
-                        <div class="md:w-1/2 text-center md:text-right md:pr-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 1: Tiếp cận & Thu hút</p><p class="text-gray-600">NV chào và giới thiệu sản phẩm phụ trợ độc đáo (máy in sticker, máy in ảnh).</p></div></div>
-                        <div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">1</div>
-                        <div class="md:w-1/2"></div>
-                    </div>
-                    <div class="md:flex items-center w-full"><div class="md:w-1/2"></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">2</div><div class="md:w-1/2 text-center md:text-left md:pl-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 2: Giới thiệu Công cụ AI</p><p class="text-gray-600">"Anh/chị hãy thử công cụ này để tìm chiếc laptop phù hợp nhất nhé!"</p></div></div></div>
-                    <div class="md:flex items-center w-full"><div class="md:w-1/2 text-center md:text-right md:pr-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 3: Tương tác & Trải nghiệm</p><p class="text-gray-600">Khách hàng dùng AI tư vấn, nhận quà tặng từ máy in.</p></div></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">3</div><div class="md:w-1/2"></div></div>
-                    <div class="md:flex items-center w-full"><div class="md:w-1/2"></div><div class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white font-bold z-10">4</div><div class="md:w-1/2 text-center md:text-left md:pl-8"><div class="p-4 bg-white rounded-lg shadow-md inline-block"><p class="font-bold text-blue-700">Bước 4: Tự động hóa & Chuyển đổi</p><p class="text-gray-600">Hệ thống gửi email thông tin SP, khuyến mãi và link mua hàng.</p></div></div></div>
-                </div>
-            </div>
-        </div>
-        <div class="flow-connector"></div>
-        
-        <div class="card">
-            <h2 class="card-title"><i class="fas fa-shopping-cart"></i> CHIẾN LƯỢC SẢN PHẨM & PHÂN TÍCH THỊ TRƯỜNG</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
-                <div class="col-span-1 lg:col-span-2 card highlight-card">
-                    <h3 class="font-bold text-lg text-orange-800"><i class="fas fa-laptop"></i> Danh mục Laptop Trưng bày (8 sản phẩm)</h3>
-                    <div id="laptop-grid" class="product-grid mt-2">
+                    <!-- Section: KẾ HOẠCH TRIỂN KHAI -->
+                    <section id="section-ke-hoach-tong-the" class="content-section">
+                        <div class="card">
+                            <h2 class="card-title text-2xl mb-4"><i class="fas fa-file-invoice"></i> KẾ HOẠCH TRIỂN KHAI TẠI BOOTH</h2>
+                             <div class="plan-content pt-4 border-t border-gray-200">
+                                <h3>I. MỤC TIÊU CHƯƠNG TRÌNH</h3>
+                                <ul><li>Thu hút khách hàng bằng quà tặng công nghệ (in sticker/ảnh miễn phí).</li><li>Giới thiệu công cụ AI tư vấn laptop, tạo điểm nhấn độc đáo.</li><li>Thu thập dữ liệu khách hàng tiềm năng (email, nhu cầu) qua luồng AI.</li><li>Tăng nhận diện thương hiệu và cơ hội chuyển đổi bán hàng.</li></ul>
+                                <h3>II. ĐỐI TƯỢNG MỤC TIÊU</h3>
+                                <ul><li>Học sinh các cấp, Sinh viên các trường Đại học, Cao đẳng, Phụ huynh.</li></ul>
+                                <h3>III. NỘI DUNG & LUỒNG TRẢI NGHIỆM KHÁCH HÀNG</h3>
+                                <h4>1. Khu vực Booth:</h4>
+                                <ul><li>Trưng bày 8 mẫu laptop trong tủ kính có khóa.</li><li>Khu vực "Mồi": Máy in sticker (H11), Máy in ảnh (Z1), Máy chiếu mini.</li><li>Điểm nhấn: Standee với thông điệp: "Nhận Sticker Miễn Phí & Trải Nghiệm AI Chọn Laptop Đúng Chuẩn!"</li><li>Mã QR: Dẫn đến công cụ AI tư vấn.</li></ul>
+                                <h4>2. Luồng Trải Nghiệm Khách Hàng:</h4>
+                                <ul><li><b>Bước 1: Tiếp cận & Thu hút (The Hook):</b> NV mời khách nhận quà (sticker/ảnh).</li><li><b>Bước 2: Giới thiệu Công cụ AI (The Pivot):</b> NV giới thiệu AI chọn laptop trong lúc khách đợi quà.</li><li><b>Bước 3: Tương tác & Thu thập Data:</b> Khách dùng AI, cuối luồng nhập email để nhận voucher.</li><li><b>Bước 4: Tự động hóa & Chăm sóc:</b> Hệ thống tự động gửi email. NV tư vấn sâu hơn về mẫu laptop được AI gợi ý.</li></ul>
+                                <h3>IX. CHI PHÍ, HỖ TRỢ & HOA HỒNG (CẬP NHẬT)</h3>
+                                <h4 class="font-semibold mt-4 mb-2 text-gray-800">1. Chính sách Hoa hồng cho Sales:</h4>
+                                <ul><li class="font-medium text-green-700">Hoa hồng: <strong>2%</strong> trên giá trị đơn hàng (tại PNC).</li></ul>
+                                <h4 class="font-semibold mt-4 mb-2 text-gray-800">2. Hỗ trợ chi phí cho nhân viên (tính theo ngày):</h4>
+                                <div class="overflow-x-auto rounded-lg border mt-2">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-gray-50 text-xs text-gray-700 uppercase"><tr><th class="px-6 py-3">Hạng mục</th><th class="px-6 py-3">Chi phí dự kiến</th><th class="px-6 py-3">Ghi chú</th></tr></thead>
+                                        <tbody>
+                                            <tr class="bg-white border-b"><td class="px-6 py-4">Gửi xe</td><td class="px-6 py-4">20.000 VNĐ / ngày</td><td class="px-6 py-4">-</td></tr>
+                                            <tr class="bg-gray-50 border-b"><td class="px-6 py-4">Ăn tối</td><td class="px-6 py-4">50.000 VNĐ / bữa</td><td class="px-6 py-4">Ca tối</td></tr>
+                                            <tr class="bg-white"><td class="px-6 py-4">Tiền xăng</td><td class="px-6 py-4">30.000 VNĐ / ngày</td><td class="px-6 py-4">Đi 2 site tại Q.7</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <h4 class="font-semibold mt-4 mb-2 text-gray-800">3. Ngân sách Tổng thể:</h4>
+                                <p class="text-sm text-gray-600">Tổng ngân sách dự kiến cho 2 tháng (T7 & T8) là <strong>203.000.000 VNĐ</strong>.</p>
+                            </div>
                         </div>
-                </div>
-                <div class="col-span-1 lg:col-span-2 card">
-                    <h3 class="font-bold text-lg text-gray-800"><i class="fas fa-box-open"></i> Danh mục Sản phẩm SMC được lựa chọn</h3>
-                    <div id="smc-product-grid" class="product-grid mt-2">
+                    </section>
+
+                    <!-- Section: MỤC TIÊU BAN ĐẦU -->
+                    <section id="section-muc-tieu-ban-dau" class="content-section">
+                        <div class="card bg-blue-50 border-blue-200">
+                            <h2 class="card-title text-blue-900"><i class="fas fa-flag-checkered"></i> MỤC TIÊU BAN ĐẦU (Tóm tắt từ Email)</h2>
+                            <ul class="list-disc mt-4 pl-5">
+                                <li><strong>Chương trình:</strong> Bán hàng tại PNC với 8 laptop chiến lược.</li>
+                                <li><strong>Nhiệm vụ chính:</strong> Dùng AI tạo kịch bản tư vấn, chọn hàng SMC bán kèm.</li>
+                                <li><strong>Mục đích AI:</strong> Training team sale, thu hút học sinh/sinh viên.</li>
+                                <li><strong>Lưu ý:</strong> Giờ cao điểm 10-12h, 18-20h.</li>
+                            </ul>
                         </div>
+                    </section>
+                    
+                    <!-- Section: DIỄN BIẾN CUỘC HỌP -->
+                    <section id="section-dien-bien-hop" class="content-section">
+                         <div class="card">
+                            <h2 class="card-title"><i class="fas fa-users"></i> DIỄN BIẾN & QUYẾT ĐỊNH CUỘC HỌP</h2>
+                            <div class="space-y-4 mt-4">
+                                <div class="p-4 rounded-md bg-emerald-50 border-l-4 border-emerald-500"><strong>Thảo luận SP:</strong> Chọn máy in sticker/ảnh làm "mồi", loại xe điện.</div>
+                                <div class="p-4 rounded-md bg-emerald-50 border-l-4 border-emerald-500"><strong>Kế hoạch:</strong> Dùng AI để thu thập data, trình ngân sách 203 triệu.</div>
+                                <div class="p-4 rounded-md bg-emerald-50 border-l-4 border-emerald-500"><strong>Trải nghiệm KH:</strong> NV demo quà tặng bằng template có sẵn để tránh ùn tắc.</div>
+                                <div class="p-4 rounded-md bg-emerald-50 border-l-4 border-emerald-500"><strong>Thảo luận PNC:</strong> Giải pháp an ninh là đặt laptop trong tủ kính có khóa.</div>
+                                <div class="p-4 rounded-md bg-emerald-50 border-l-4 border-emerald-500"><strong>Chốt kế hoạch:</strong> Thống nhất & phân công nhiệm vụ.</div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Section: LUỒNG TRẢI NGHIỆM -->
+                    <section id="section-luong-trai-nghiem" class="content-section">
+                         <div class="card">
+                            <h2 class="card-title"><i class="fas fa-map-signs"></i> LUỒNG TRẢI NGHIỆM KHÁCH HÀNG</h2>
+                            <div class="relative mt-6 p-6 bg-slate-50 rounded-lg">
+                                <div class="absolute top-0 left-8 w-0.5 h-full bg-blue-300"></div>
+                                <div class="space-y-12 relative">
+                                    <div class="flex items-start space-x-6"><div class="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white font-bold text-xl z-10 shadow-lg">1</div><div><p class="font-bold text-lg text-blue-700">Tiếp cận & Thu hút (The Hook)</p><p class="text-slate-600 mt-1">Mời khách nhận quà tặng miễn phí (in sticker/ảnh) để kéo khách vào booth.</p></div></div>
+                                    <div class="flex items-start space-x-6"><div class="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white font-bold text-xl z-10 shadow-lg">2</div><div><p class="font-bold text-lg text-blue-700">Giới thiệu Công cụ AI (The Pivot)</p><p class="text-slate-600 mt-1">Giới thiệu AI chọn laptop và hướng dẫn quét QR trong lúc khách đợi quà.</p></div></div>
+                                    <div class="flex items-start space-x-6"><div class="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white font-bold text-xl z-10 shadow-lg">3</div><div><p class="font-bold text-lg text-blue-700">Tương tác & Thu thập Data</p><p class="text-slate-600 mt-1">Khách dùng AI. Cuối luồng, AI mời nhập email để nhận voucher & thông tin.</p></div></div>
+                                    <div class="flex items-start space-x-6"><div class="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 text-white font-bold text-xl z-10 shadow-lg">4</div><div><p class="font-bold text-lg text-blue-700">Tự động hóa & Chuyển đổi</p><p class="text-slate-600 mt-1">Hệ thống gửi email. NV tại chỗ tư vấn thêm, tăng cơ hội chốt đơn.</p></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section: CHIẾN LƯỢC SẢN PHẨM -->
+                    <section id="section-chien-luoc-sp" class="content-section">
+                        <div class="card">
+                            <h2 class="card-title text-2xl"><i class="fas fa-cogs"></i> PHÂN TÍCH CHIẾN LƯỢC SẢN PHẨM</h2>
+                            <p class="text-sm text-gray-500 mt-2 mb-6">Phân tích vị thế, đối tượng mục tiêu, và các kịch bản tư vấn để tối ưu hóa hiệu quả bán hàng.</p>
+                            
+                            <div class="mb-10">
+                                <h3 class="font-bold text-xl text-slate-800 mb-4 pb-2 border-b-2 border-blue-500"><i class="fas fa-laptop-code mr-2"></i>A. Phân tích Danh mục Laptop</h3>
+                                <div id="laptop-analysis-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-bold text-xl text-slate-800 mb-4 pb-2 border-b-2 border-green-500"><i class="fas fa-gift mr-2"></i>B. Phân tích sản phẩm SMC "Mồi"</h3>
+                                <p class="text-sm text-slate-600 mb-4">Các sản phẩm này là công cụ tạo trải nghiệm và thu hút khách hàng.</p>
+                                <div class="space-y-4">
+                                     <div class="analysis-card border-l-pink-500"><h5 class="font-bold text-slate-800"><i class="fas fa-camera-retro mr-2"></i>Máy ảnh & In ảnh (Instax Z1)</h5><ul class="text-sm space-y-1 text-slate-600 mt-2"><li><b><i class="fa-solid fa-bullseye w-4"></i> Mục đích:</b> "Mồi câu" mạnh nhất, tạo khoảnh khắc vui vẻ, bất ngờ.</li></ul></div>
+                                     <div class="analysis-card border-l-indigo-500"><h5 class="font-bold text-slate-800"><i class="fas fa-tag mr-2"></i>Máy in nhãn (H11)</h5><ul class="text-sm space-y-1 text-slate-600 mt-2"><li><b><i class="fa-solid fa-bullseye w-4"></i> Mục đích:</b> Tạo sự cá nhân hóa (in tên khách), nhanh, gọn, độc đáo.</li></ul></div>
+                                     <div class="analysis-card border-l-cyan-500"><h5 class="font-bold text-slate-800"><i class="fas fa-film mr-2"></i>Máy chiếu Mini (Wanbo)</h5><ul class="text-sm space-y-1 text-slate-600 mt-2"><li><b><i class="fa-solid fa-bullseye w-4"></i> Mục đích:</b> Tạo không khí công nghệ, thu hút từ xa bằng video, hình ảnh.</li></ul></div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Section: PHÂN CÔNG -->
+                    <section id="section-phan-cong" class="content-section">
+                        <div class="card">
+                            <h2 class="card-title"><i class="fas fa-users-viewfinder"></i> PHÂN CÔNG & ĐỊA ĐIỂM TRIỂN KHAI</h2>
+                            <div class="space-y-8 mt-4">
+                                <div>
+                                    <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-user-friends"></i> Danh sách nhân viên tham gia</h3>
+                                    <div class="overflow-x-auto rounded-lg border">
+                                        <table class="w-full text-sm text-left text-gray-500">
+                                            <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
+                                                <tr><th scope="col" class="px-6 py-3">STT</th><th scope="col" class="px-6 py-3">Họ và Tên</th><th scope="col" class="px-6 py-3">Thiết bị làm việc</th></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="bg-white border-b"><td class="px-6 py-4">1</td><td class="px-6 py-4">Nguyễn Quốc Hưng (SMB)</td><td class="px-6 py-4">có laptop cá nhân</td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4">2</td><td class="px-6 py-4">Trần Hoàng Lan Viên (BUZ)</td><td class="px-6 py-4">không có, đề xuất cấp</td></tr>
+                                                <tr class="bg-white border-b"><td class="px-6 py-4">3</td><td class="px-6 py-4">Lê Nguyễn Hữu Dương (BUZ)</td><td class="px-6 py-4">không có, đề xuất cấp</td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4">4</td><td class="px-6 py-4">Nguyễn Phương Tuyền (DNDA)</td><td class="px-6 py-4">không có, đề xuất cấp</td></tr>
+                                                <tr class="bg-white border-b"><td class="px-6 py-4">5</td><td class="px-6 py-4">Lê Đức Minh (BMD)</td><td class="px-6 py-4">không có, đề xuất cấp</td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4">6</td><td class="px-6 py-4">Nguyễn Thị Bảo Hà (BMD)</td><td class="px-6 py-4">không có, đề xuất cấp</td></tr>
+                                                <tr class="bg-white border-b"><td class="px-6 py-4">7</td><td class="px-6 py-4">Đặng Thành Lộc (SROL)</td><td class="px-6 py-4">có laptop</td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-6 py-4">8</td><td class="px-6 py-4">Nguyễn Thị Như Minh (SROL)</td><td class="px-6 py-4">có laptop</td></tr>
+                                                <tr class="bg-white"><td class="px-6 py-4">9</td><td class="px-6 py-4">Đỗ Trung Tín (SROL)</td><td class="px-6 py-4">có laptop</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-2">Lưu ý: PNC sẽ cấp đủ laptop cho nhân sự của họ nếu cần.</p>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-map-marked-alt"></i> Danh sách và phân công tại nhà sách Phương Nam</h3>
+                                    <div class="overflow-x-auto rounded-lg border">
+                                        <table class="w-full text-sm text-left text-gray-500">
+                                            <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
+                                                <tr>
+                                                    <th class="px-4 py-3">Quận/TP</th><th class="px-4 py-3">Nhà Sách</th>
+                                                    <th class="px-2 py-3 text-center">Hưng</th><th class="px-2 py-3 text-center">Viên</th><th class="px-2 py-3 text-center">Dương</th><th class="px-2 py-3 text-center">Tuyền</th><th class="px-2 py-3 text-center">Minh</th><th class="px-2 py-3 text-center">Hà</th><th class="px-2 py-3 text-center">Lộc</th><th class="px-2 py-3 text-center">N.Minh</th><th class="px-2 py-3 text-center">Tín</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-xs">
+                                                <tr class="bg-white border-b"><td class="px-4 py-2">Quận 10</td><td class="px-4 py-2">Bookcity Vạn Hạnh Mall</td><td class="px-2 py-2"></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-4 py-2">Quận 7</td><td class="px-4 py-2">Crescent Mall</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td></tr>
+                                                <tr class="bg-white border-b"><td class="px-4 py-2">Gò Vấp</td><td class="px-4 py-2">Nguyễn Oanh</td><td></td><td></td><td></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-4 py-2">Bình Thạnh</td><td class="px-4 py-2">Estella</td><td></td><td></td><td></td><td></td><td></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td><td></td></tr>
+                                                <tr class="bg-white border-b"><td class="px-4 py-2">Quận 11</td><td class="px-4 py-2">Phú Thọ</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-4 py-2">Quận 1</td><td class="px-4 py-2">Saigon Centre</td><td></td><td></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                                <tr class="bg-white border-b"><td class="px-4 py-2">Quận 1</td><td class="px-4 py-2">Nguyễn Trãi</td><td></td><td></td><td></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td><td></td><td></td><td></td></tr>
+                                                <tr class="bg-gray-50 border-b"><td class="px-4 py-2">Quận 1</td><td class="px-4 py-2">Vincom Đồng Khởi</td><td></td><td></td><td></td><td></td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td><td></td><td></td></tr>
+                                                <tr class="bg-white"><td class="px-4 py-2">Quận 7</td><td class="px-4 py-2">Vivo City</td><td class="px-2 py-2 text-center text-green-600 font-bold">X</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-2">Lưu ý: Địa điểm Q.7 (Crescent, Vivo) & Vincom sẽ luân phiên nhân sự để đảm bảo cân bằng công việc.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Section: KỊCH BẢN TƯ VẤN -->
+                    <section id="section-kich-ban" class="content-section">
+                        <div class="card">
+                            <h2 class="card-title"><i class="fas fa-comments"></i> KỊCH BẢN TƯ VẤN (Gợi ý cho AI & Sales)</h2>
+                            <div class="faq mt-4 space-y-2">
+                                <details><summary>Đối tượng: Phụ huynh + HS Cấp 1, 2</summary><p>Tập trung tư vấn: Độ bền, dễ dùng, giá tốt, phù hợp học online. <strong>Gợi ý:</strong> ASUS/HP i3.</p></details>
+                                <details><summary>Đối tượng: Học sinh Cấp 3</summary><p>Tập trung tư vấn: Mỏng nhẹ, pin lâu, đa nhiệm (học + giải trí). <strong>Gợi ý:</strong> Dell/HP i5.</p></details>
+                                <details><summary>Đối tượng: Sinh viên Kinh tế/Xã hội</summary><p>Tập trung tư vấn: Gõ phím tốt, hiệu năng văn phòng mượt, nhẹ. <strong>Gợi ý:</strong> Dell i7-U, HP i5 16GB RAM.</p></details>
+                                <details><summary>Đối tượng: Sinh viên Kỹ thuật/Đồ họa/Game thủ</summary><p>Tập trung tư vấn: CPU mạnh (dòng HX), có Card đồ họa rời (VGA), tản nhiệt tốt. <strong>Gợi ý:</strong> Lenovo LOQ.</p></details>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </div>
-        </div>
-        <div class="flow-connector"></div>
-        
-        <div class="card">
-            <h2 class="card-title"><i class="fas fa-users-viewfinder"></i> PHÂN CÔNG & ĐỊA ĐIỂM TRIỂN KHAI</h2>
-            <div class="grid grid-cols-1 gap-6 mt-4">
-                <div>
-                    <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-user-friends"></i> Danh sách nhân viên tham gia</h3>
-                    <div class="overflow-x-auto rounded-lg border">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">STT</th>
-                                    <th scope="col" class="px-6 py-3">Họ và Tên</th>
-                                    <th scope="col" class="px-6 py-3">Thiết bị làm việc</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">1</td>
-                                    <td class="px-6 py-4">Nguyễn Quốc Hưng (SMB)</td>
-                                    <td class="px-6 py-4">có laptop cá nhân</td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">2</td>
-                                    <td class="px-6 py-4">Trần Hoàng Lan Viên (BUZ)</td>
-                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
-                                </tr>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">3</td>
-                                    <td class="px-6 py-4">Lê Nguyễn Hữu Dương (BUZ)</td>
-                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">4</td>
-                                    <td class="px-6 py-4">Nguyễn Phương Tuyền (DNDA)</td>
-                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
-                                </tr>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">5</td>
-                                    <td class="px-6 py-4">Lê Đức Minh (BMD)</td>
-                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">6</td>
-                                    <td class="px-6 py-4">Nguyễn Thị Bảo Hà (BMD)</td>
-                                    <td class="px-6 py-4">không có, đề xuất công ty cấp tạm thời</td>
-                                </tr>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">7</td>
-                                    <td class="px-6 py-4">Đặng Thành Lộc (SROL)</td>
-                                    <td class="px-6 py-4">có laptop</td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">8</td>
-                                    <td class="px-6 py-4">Nguyễn Thị Như Minh (SROL)</td>
-                                    <td class="px-6 py-4">có laptop</td>
-                                </tr>
-                                <tr class="bg-white">
-                                    <td class="px-6 py-4 font-medium text-gray-900">9</td>
-                                    <td class="px-6 py-4">Đỗ Trung Tín (SROL)</td>
-                                    <td class="px-6 py-4">có laptop</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="text-sm text-gray-600 mt-2">Lưu ý: PNC sẽ cấp đủ laptop cho nhân sự của họ nếu cần.</p>
-                </div>
-                <div class="mt-8">
-                    <h3 class="font-semibold text-lg text-gray-700 mb-2"><i class="fas fa-map-marked-alt"></i> Danh sách nhà sách Phương Nam</h3>
-                    <div class="overflow-x-auto rounded-lg border">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">STT</th>
-                                    <th scope="col" class="px-6 py-3">Quận / TP Tỉnh</th>
-                                    <th scope="col" class="px-6 py-3">Tên Nhà Sách</th>
-                                    <th scope="col" class="px-6 py-3">Địa chỉ</th>
-                                    <th scope="col" class="px-6 py-3">Hưng SMB</th>
-                                    <th scope="col" class="px-6 py-3">Viên BUZ</th>
-                                    <th scope="col" class="px-6 py-3">Dương BUZ2</th>
-                                    <th scope="col" class="px-6 py-3">Tuyền DNDA</th>
-                                    <th scope="col" class="px-6 py-3">Minh BMD</th>
-                                    <th scope="col" class="px-6 py-3">Hà BMD</th>
-                                    <th scope="col" class="px-6 py-3">Lộc SR</th>
-                                    <th scope="col" class="px-6 py-3">Như Minh SR</th>
-                                    <th scope="col" class="px-6 py-3">Tín SR</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">1</td>
-                                    <td class="px-6 py-4">Quận 10</td>
-                                    <td class="px-6 py-4">Bookcity Vạn Hạnh Mall</td>
-                                    <td class="px-6 py-4">Tầng 3,TTM Vạn Hạnh Mall, 11 Sư Vạn Hạnh, Phường 12, Quận 10, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">2</td>
-                                    <td class="px-6 py-4">Quận 7</td>
-                                    <td class="px-6 py-4">Nhà sách Crescent Mall</td>
-                                    <td class="px-6 py-4">Tầng 3, ĐQT bằng 3F-508, 59 - 374 18 m2, TTM Crescent Mall Phú Mỹ Hưng, 101 Tôn Dật Tiên, Phường Tân Phú, Quận 7, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                </tr>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">3</td>
-                                    <td class="px-6 py-4">Gò Vấp</td>
-                                    <td class="px-6 py-4">Nhà sách Nguyễn Oanh</td>
-                                    <td class="px-6 py-4">03 Nguyễn Oanh, Phường 10, Quận Gò Vấp, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">4</td>
-                                    <td class="px-6 py-4">Bình Thạnh</td>
-                                    <td class="px-6 py-4">Nhà sách Estella</td>
-                                    <td class="px-6 py-4">Tầng 4, Trung tâm mua sắm Estella Place, SỐ 88 Đường Song Hành, Phường An Phú, Quận 2, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">5</td>
-                                    <td class="px-6 py-4">Quận 11</td>
-                                    <td class="px-6 py-4">Nhà sách Phú Thọ</td>
-                                    <td class="px-6 py-4">940 Đường 3/2, Phường 15, Quận 11, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">6</td>
-                                    <td class="px-6 py-4">Quận 1</td>
-                                    <td class="px-6 py-4">Nhà sách Saigon Centre Lê Lợi</td>
-                                    <td class="px-6 py-4">Tầng 4, 65 Lê Lợi, Quận 1, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                                <tr class="bg-white border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">7</td>
-                                    <td class="px-6 py-4">Quận 1</td>
-                                    <td class="px-6 py-4">Nhà sách Nguyễn Trãi</td>
-                                    <td class="px-6 py-4">212 Nguyễn Trãi, P.Phạm Ngũ Lão, Q1, TP HCM</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                                <tr class="bg-gray-50 border-b">
-                                    <td class="px-6 py-4 font-medium text-gray-900">8</td>
-                                    <td class="px-6 py-4">Quận 1</td>
-                                    <td class="px-6 py-4">Nhà sách Vincom Đồng Khởi</td>
-                                    <td class="px-6 py-4">Tầng B2, TTM Vincom, 72 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                                <tr class="bg-white">
-                                    <td class="px-6 py-4 font-medium text-gray-900">9</td>
-                                    <td class="px-6 py-4">Quận 7</td>
-                                    <td class="px-6 py-4">Nhà sách Vivo City</td>
-                                    <td class="px-6 py-4">Tầng 3, TTM Vivo City, 1058 Đại Lộ Nguyễn Văn Linh, Phường Tân Phong, Quận 7, Thành phố Hồ Chí Minh</td>
-                                    <td class="px-6 py-4">X</td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                    <td class="px-6 py-4"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="text-sm text-gray-600 mt-2">Lưu ý: Với 2 địa điểm Quận 7 (Crescent Mall, Phú Mỹ Hưng) và PN Vincom, do xa nên sẽ áp dụng giờ luân phiên cho 4 bạn nam (Tín, Lộc, Dương, Minh BMD) và nữ (Như Minh SR) để đảm bảo cân bằng công việc. </p>
-                    <p class="text-sm text-gray-600 mt-1">Giờ làm việc: Crescent Mall (10h-12h, 19h-20h), PN Vincom (10h-12h, 19h-20h).</p>
-                </div>
-            </div>
-        </div>
-        <div class="flow-connector"></div>
-        
-        <div class="card">
-            <h2 class="card-title"><i class="fas fa-comments"></i> KỊCH BẢN TƯ VẤN LAPTOP (Gợi ý cho AI & Sales)</h2>
-            <div class="mt-4">
-                <p class="text-gray-700 bg-gray-100 p-4 rounded-lg"><i class="fas fa-info-circle mr-2 text-blue-600"></i>Nội dung tư vấn chi tiết cho từng đối tượng khách hàng sẽ tham khảo theo tài liệu Marketing đã được phân tích và biên soạn sẵn.</p>
-            </div>
+            </main>
         </div>
     </div>
-
-    <div id="detail-modal" class="modal-overlay">
+    
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="product-detail-modal" class="modal-overlay">
         <div class="modal-content">
-            <button class="modal-close-btn" id="close-modal-btn">&times;</button>
-            <h3 id="modal-item-name" class="text-2xl font-bold text-gray-800 mb-2"></h3>
-            <p id="modal-item-type" class="text-gray-500 text-sm mb-4"></p>
-            <div class="mb-4">
-                <p class="text-gray-600 font-semibold mb-1">Chi tiết:</p>
-                <p id="modal-item-details" class="text-gray-700 text-lg"></p>
-            </div>
-            <div>
-                <p class="text-gray-600 font-semibold mb-1" id="modal-target-label">Phân khúc khách hàng nhắm tới:</p>
-                <p id="modal-item-target" class="text-gray-700 text-lg"></p>
+            <button class="modal-close-btn" id="close-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="modal-product-name" class="text-2xl font-bold text-gray-800 mb-1"></h3>
+            <p id="modal-product-pn" class="text-sm text-gray-500 mb-4"></p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                <div><div class="detail-group"><h4 class="detail-group-title"><i class="fa-solid fa-microchip mr-2"></i>Vi xử lý & Hiệu năng</h4><div id="modal-cpu-specs"></div></div><div class="detail-group"><h4 class="detail-group-title"><i class="fa-solid fa-memory mr-2"></i>Bộ nhớ RAM</h4><div id="modal-ram-specs"></div></div><div class="detail-group"><h4 class="detail-group-title"><i class="fa-solid fa-hard-drive mr-2"></i>Lưu trữ</h4><div id="modal-storage-specs"></div></div></div>
+                <div><div class="detail-group"><h4 class="detail-group-title"><i class="fa-solid fa-display mr-2"></i>Màn hình & Đồ họa</h4><div id="modal-display-specs"></div></div><div class="detail-group"><h4 class="detail-group-title"><i class="fa-solid fa-ethernet mr-2"></i>Kết nối & Bảo mật</h4><div id="modal-connect-specs"></div></div><div class="detail-group"><h4 class="detail-group-title"><i class="fa-solid fa-ruler-combined mr-2"></i>Thiết kế & Pin</h4><div id="modal-design-specs"></div></div></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Data for laptops (extracted from image)
-        const laptopData = [
-            {
-                name: "ASUS P1403CVA-S60618W",
-                type: "Laptop",
-                details: "CPU: Intel Core i3-1315U, RAM: 8GB DDR5, SSD: 256GB NVMe, OS: Windows 11",
-                target: "Học sinh cấp 1-2, cấp 3 có nhu cầu học tập, duyệt web, xem phim cơ bản. Phù hợp cho việc học online và làm bài tập."
-            },
-            {
-                name: "DELL INSPIRON 3520",
-                type: "Laptop",
-                details: "CPU: Intel Core i5-1235U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
-                target: "Học sinh cấp 3, sinh viên các ngành kinh tế, xã hội. Hỗ trợ tốt cho công việc văn phòng, đa nhiệm nhẹ."
-            },
-            {
-                name: "DELL INSPIRON 3530",
-                type: "Laptop",
-                details: "CPU: Intel Core i7-1355U, RAM: 16GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
-                target: "Sinh viên các ngành có nhu cầu xử lý dữ liệu, lập trình cơ bản, hoặc người dùng văn phòng chuyên nghiệp cần hiệu suất cao."
-            },
-            {
-                name: "DELL INS15 3530",
-                type: "Laptop",
-                details: "CPU: Intel Core i3-1305U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
-                target: "Học sinh cấp 2-3, sinh viên mới nhập học. Đáp ứng tốt nhu cầu học tập, giải trí nhẹ nhàng."
-            },
-            {
-                name: "HP 15-FD0235TU",
-                type: "Laptop",
-                details: "CPU: Intel Core i5-1334U, RAM: 16GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
-                target: "Sinh viên, nhân viên văn phòng cần sự cân bằng giữa hiệu năng và tính di động. Tối ưu cho làm việc đa nhiệm và học tập."
-            },
-            {
-                name: "HP 250 G9",
-                type: "Laptop",
-                details: "CPU: Intel Core i5-1235U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
-                target: "Doanh nghiệp nhỏ, sinh viên cần một chiếc laptop bền bỉ, đáng tin cậy cho công việc hàng ngày và học tập."
-            },
-            {
-                name: "HP 250RG9",
-                type: "Laptop",
-                details: "CPU: Intel Core i3-1315U, RAM: 8GB DDR4, SSD: 512GB NVMe, OS: Windows 11",
-                target: "Học sinh, sinh viên với ngân sách hạn chế nhưng vẫn muốn có hiệu năng ổn định cho việc học và giải trí."
-            },
-            {
-                name: "LENOVO LOQ 15IRX9",
-                type: "Laptop",
-                details: "CPU: Intel Core i7-13650HX, RAM: 24GB DDR5, SSD: 512GB NVMe, GPU: NVIDIA RTX 4050, OS: Windows 11",
-                target: "Sinh viên các ngành kỹ thuật, đồ họa, kiến trúc, hoặc game thủ. Phù hợp cho các tác vụ nặng như render, thiết kế 3D, và chơi game cấu hình cao."
-            }
+    document.addEventListener('DOMContentLoaded', function () {
+        const laptopFullData = [
+            { id: "NBASS P1403CVA S60618W", name: "NB ASUS 14.0IN FHD IPS", partNumber: "P1403CVA-S60618W", brand: "ASUS", line: "P1403CVA", type: "Laptop", color: "Silver", material: "Kim loại", isAI: "X", isGaming: "", isGraphics: "", isOffice: "X", isBusiness: "", isStudent: "X", cpuTech: "Intel", cpuType: "Core i3-1315U", cpuSpeed: "1.2 GHz", cpuMaxSpeed: "4.5 GHz", cpuCores: "6", cpuThreads: "8", cpuCache: "10 MB", os: "Windows 11 Home", office: "", ramSize: "8 GB", ramType: "DDR5", ramBus: "4266 MHz", ramSlots: "2", ramMax: "32 GB", storageSize: "256 GB", storageType: "SSD", storageMaxOption: "", gpu: "Intel UHD Graphics", gpuVram: "-", screenSize: "14.0 inch", screenResolution: "1920x1080", screenRefreshRate: "60 Hz", screenBrightness: "250 nits", screenColorGamut: "45% NTSC", audio: "-", security: "Vân tay", ports: "1x USB 2.0, 1x USB 3.2, HDMI 1.4", battery: "42 Wh", dimensions: "32.3 x 21.6 x 1.79 cm", weight: "1.38 kg" },
+            { id: "NBDE 3520 N515352W1", name: "NB DELL INSPIRON 15 3520", partNumber: "N515352W1", brand: "DELL", line: "Inspiron 15 3520", type: "Laptop", color: "Silver", material: "Kim loại", isAI: "X", isGaming: "", isGraphics: "", isOffice: "X", isBusiness: "", isStudent: "X", cpuTech: "Intel", cpuType: "Core i5-1235U", cpuSpeed: "1.3 GHz", cpuMaxSpeed: "4.4 GHz", cpuCores: "10", cpuThreads: "12", cpuCache: "12 MB", os: "Windows 11 Home", office: "Home & student 2021", ramSize: "8 GB", ramType: "DDR4", ramBus: "3200 MHz", ramSlots: "2", ramMax: "32 GB", storageSize: "512 GB", storageType: "SSD", storageMaxOption: "SATA 2.5 2TB", gpu: "Intel Iris Xe", gpuVram: "-", screenSize: "15.6 inch", screenResolution: "1920x1080", screenRefreshRate: "120 Hz", screenBrightness: "250 nits", screenColorGamut: "-", audio: "Waves MaxxAudio", security: "Vân tay", ports: "2x USB 3.2, 1x USB 2.0, HDMI 1.4, SD Card", battery: "41 Wh", dimensions: "35.8 x 23.5 x 1.69 cm", weight: "1.6 kg" },
+            { id: "NBDE 3530 71053721", name: "NB DELL INSPIRON 15 3530", partNumber: "71053721", brand: "DELL", line: "Inspiron 15 3530", type: "Laptop", color: "Platinum Silver", material: "Kim loại", isAI: "X", isGaming: "", isGraphics: "", isOffice: "X", isBusiness: "", isStudent: "X", cpuTech: "Intel", cpuType: "Core i7-1355U", cpuSpeed: "1.7 GHz", cpuMaxSpeed: "5.0 GHz", cpuCores: "10", cpuThreads: "12", cpuCache: "12 MB", os: "Windows 11 Home SL", office: "Home & student 2024", ramSize: "16 GB", ramType: "DDR4", ramBus: "3200 MHz", ramSlots: "2", ramMax: "32 GB", storageSize: "512 GB", storageType: "SSD", storageMaxOption: "SATA 2.5 2TB", gpu: "Intel Iris Xe", gpuVram: "-", screenSize: "15.6 inch", screenResolution: "1920x1080", screenRefreshRate: "120 Hz", screenBrightness: "250 nits", screenColorGamut: "-", audio: "Waves MaxxAudio", security: "-", ports: "2x USB 3.2, 1x USB 2.0, HDMI 1.4, SD Card", battery: "54 Wh", dimensions: "35.8 x 23.5 x 1.69 cm", weight: "1.63 kg" },
+            { id: "NBDE 3530 P16WD5", name: "NB DELL INSPIRON 15 3530", partNumber: "P16WD5", brand: "DELL", line: "Inspiron 15 3530", type: "Laptop", color: "Silver", material: "Kim loại", isAI: "X", isGaming: "", isGraphics: "", isOffice: "X", isBusiness: "", isStudent: "X", cpuTech: "Intel", cpuType: "Core i3-1305U", cpuSpeed: "1.6 GHz", cpuMaxSpeed: "4.5 GHz", cpuCores: "5", cpuThreads: "6", cpuCache: "10 MB", os: "Windows 11 Home", office: "Home & student 2024", ramSize: "8 GB", ramType: "DDR4", ramBus: "3200 MHz", ramSlots: "2", ramMax: "32 GB", storageSize: "512 GB", storageType: "SSD", storageMaxOption: "SATA 2.5 2TB", gpu: "Intel UHD Graphics", gpuVram: "-", screenSize: "15.6 inch", screenResolution: "1920x1080", screenRefreshRate: "120 Hz", screenBrightness: "250 nits", screenColorGamut: "-", audio: "Waves MaxxAudio", security: "", ports: "2x USB 3.2, 1x USB 2.0, HDMI 1.4, SD Card", battery: "41 Wh", dimensions: "35.8 x 23.5 x 1.69 cm", weight: "1.6 kg" },
+            { id: "NBHP 235TU 9Q970PA", name: "NB HP 15-FD0235TU", partNumber: "90970PA", brand: "HP", line: "15-FD0235TU", type: "Laptop", color: "Natural Silver", material: "Kim loại", isAI: "X", isGaming: "", isGraphics: "", isOffice: "X", isBusiness: "", isStudent: "X", cpuTech: "Intel", cpuType: "Core i5-1334U", cpuSpeed: "1.3 GHz", cpuMaxSpeed: "4.6 GHz", cpuCores: "10", cpuThreads: "12", cpuCache: "12 MB", os: "Windows 11 Home", office: "", ramSize: "16 GB", ramType: "DDR4", ramBus: "3200 MHz", ramSlots: "2", ramMax: "32 GB", storageSize: "512 GB", storageType: "SSD", storageMaxOption: "", gpu: "Intel UHD Graphics", gpuVram: "-", screenSize: "15.6 inch", screenResolution: "1920x1080", screenRefreshRate: "60 Hz", screenBrightness: "250 nits", screenColorGamut: "-", audio: "B&O", security: "-", ports: "2x USB 3.1, 1x USB 2.0, HDMI 1.4, SD Card", battery: "41 Wh", dimensions: "35.85 x 24.2 x 1.79 cm", weight: "1.69 kg" },
+            { id: "NBHP 250G9 AG4X7AT", name: "NB HP 250 G9", partNumber: "AG4X7AT", brand: "HP", line: "250 G9", type: "Laptop", color: "Silver", material: "Kim loại", isAI: "X", isGaming: "", isGraphics: "", isOffice: "X", isBusiness: "", isStudent: "X", cpuTech: "Intel", cpuType: "Core i5-1235U", cpuSpeed: "1.3 GHz", cpuMaxSpeed: "4.4 GHz", cpuCores: "10", cpuThreads: "12", cpuCache: "12 MB", os: "Windows 11 Home SL", office: "", ramSize: "8 GB", ramType: "DDR4", ramBus: "3200 MHz", ramSlots: "2", ramMax: "32 GB", storageSize: "256 GB", storageType: "SSD", storageMaxOption: "", gpu: "Intel UHD Graphics", gpuVram: "-", screenSize: "15.6 inch", screenResolution: "1920x1080", screenRefreshRate: "60 Hz", screenBrightness: "250 nits", screenColorGamut: "-", audio: "B&O", security: "-", ports: "2x USB 3.1, 1x USB 2.0, HDMI 1.4, SD Card", battery: "41 Wh", dimensions: "35.8 x 24.2 x 1.79 cm", weight: "1.74 kg" },
+            { id: "NBHP 250RG9 AX3CBAT", name: "NB HP 250R G9", partNumber: "AX3CBAT", brand: "HP", line: "250RG9", type: "Laptop", color: "Silver", material: "Kim loại", isAI: "X", isGaming: "", isGraphics: "", isOffice: "X", isBusiness: "", isStudent: "X", cpuTech: "Intel", cpuType: "Core i3-1315U", cpuSpeed: "1.2 GHz", cpuMaxSpeed: "4.5 GHz", cpuCores: "6", cpuThreads: "8", cpuCache: "10 MB", os: "Windows 11 Home SL", office: "", ramSize: "8 GB", ramType: "DDR4", ramBus: "3200 MHz", ramSlots: "2", ramMax: "32 GB", storageSize: "512 GB", storageType: "SSD", storageMaxOption: "", gpu: "Intel UHD Graphics", gpuVram: "-", screenSize: "15.6 inch", screenResolution: "1920x1080", screenRefreshRate: "60 Hz", screenBrightness: "250 nits", screenColorGamut: "-", audio: "B&O", security: "Vân tay", ports: "2x USB 3.1, 1x USB 2.0, HDMI 1.4, SD Card", battery: "41 Wh", dimensions: "35.8 x 24.2 x 1.79 cm", weight: "1.74 kg" },
+            { id: "NBLE 15IRX9 017HVN", name: "NB LENOVO LOQ - 15IRX9", partNumber: "017HVN", brand: "Lenovo", line: "LOQ 15IRX9", type: "Laptop", color: "Grey", material: "Kim loại", isAI: "X", isGaming: "X", isGraphics: "X", isOffice: "", isBusiness: "X", isStudent: "X", cpuTech: "Intel", cpuType: "Core i7-13650HX", cpuSpeed: "2.6 GHz", cpuMaxSpeed: "4.9 GHz", cpuCores: "14", cpuThreads: "20", cpuCache: "24 MB", os: "Windows 11 Home", office: "", ramSize: "24 GB", ramType: "DDR5", ramBus: "4800 MHz", ramSlots: "2", ramMax: "64 GB", storageSize: "512 GB", storageType: "SSD", storageMaxOption: "SSD m2 nvme (2TB)", gpu: "NVIDIA GeForce RTX 4050", gpuVram: "6 GB", screenSize: "15.6 inch", screenResolution: "1920x1080", screenRefreshRate: "144 Hz", screenBrightness: "300 nits", screenColorGamut: "100% sRGB", audio: "-", security: "-", ports: "3x USB 3.2, HDMI 2.1, Ethernet", battery: "60 Wh", dimensions: "35.9 x 25.1 x 2.25 cm", weight: "2.4 kg" }
         ];
-
-        // Data for SMC products (extracted and updated)
-        const smcProductData = [
-            {
-                name: "Máy ảnh & In ảnh (Instax Z1)",
-                type: "Sản phẩm SMC",
-                details: "Model: Instax Z1. Dùng để in ảnh lấy liền.",
-                target: "Thu hút khách hàng bằng trải nghiệm quà tặng công nghệ, tạo ảnh miễn phí ngay tại chỗ."
-            },
-            {
-                name: "Máy in nhãn (H11)",
-                type: "Sản phẩm SMC",
-                details: "Model: Hộp Phấn H11. Dùng để in nhãn.",
-                target: "Dùng làm quà tặng nhỏ, cá nhân hóa cho khách hàng tham gia, tăng tính tương tác."
-            },
-            {
-                name: "Máy chiếu Mini (Wanbo Dali 1)", // Updated from L8 to Wanbo Dali 1
-                type: "Sản phẩm SMC",
-                details: "Model: Wanbo Dali 1. Dùng để trình chiếu nội dung.", // Updated details
-                target: "Trình chiếu các nội dung quảng cáo, video giới thiệu sản phẩm hoặc hoạt động tương tác tại booth."
-            },
-            {
-                name: "Máy chiếu Mini (Wanbo Mini Pro)",
-                type: "Sản phẩm SMC",
-                details: "Model: Wanbo Mini Pro. Dùng để trình chiếu nội dung.",
-                target: "Trình chiếu các nội dung quảng cáo, video giới thiệu sản phẩm hoặc hoạt động tương tác tại booth."
-            }
-        ];
-
-        // Get the containers for product cards
-        const laptopGrid = document.getElementById('laptop-grid');
-        const smcProductGrid = document.getElementById('smc-product-grid');
-
-        // Get modal elements
-        const detailModal = document.getElementById('detail-modal');
-        const modalItemName = document.getElementById('modal-item-name');
-        const modalItemType = document.getElementById('modal-item-type');
-        const modalItemDetails = document.getElementById('modal-item-details');
-        const modalItemTarget = document.getElementById('modal-item-target');
-        const modalTargetLabel = document.getElementById('modal-target-label');
+        const navLinks = document.querySelectorAll('.sidebar-nav-link');
+        const contentSections = document.querySelectorAll('.content-section');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const modal = document.getElementById('product-detail-modal');
         const closeModalBtn = document.getElementById('close-modal-btn');
-
-        // Function to open modal
-        function openModal(item) {
-            modalItemName.textContent = item.name;
-            modalItemType.textContent = item.type;
-            modalItemDetails.textContent = item.details;
-            modalItemTarget.textContent = item.target;
-
-            // Adjust label based on item type
-            if (item.type === "Laptop") {
-                modalTargetLabel.textContent = "Phân khúc khách hàng nhắm tới:";
-            } else {
-                modalTargetLabel.textContent = "Mục đích sử dụng/Lợi ích:";
-            }
-            
-            detailModal.classList.add('show');
+        const laptopContainer = document.getElementById('laptop-analysis-container');
+        function switchTab(targetId) {
+            contentSections.forEach(section => section.classList.remove('active'));
+            navLinks.forEach(link => link.classList.remove('active'));
+            document.getElementById(targetId)?.classList.add('active');
+            document.querySelector(`.sidebar-nav-link[data-target="${targetId}"]`)?.classList.add('active');
         }
-
-        // Function to close modal
-        function closeModal() {
-            detailModal.classList.remove('show');
+        navLinks.forEach(link => { link.addEventListener('click', function(e) { e.preventDefault(); switchTab(this.dataset.target); if (window.innerWidth < 768) { sidebar.classList.add('hidden'); } }); });
+        mobileMenuBtn.addEventListener('click', () => { sidebar.classList.toggle('hidden'); sidebar.classList.toggle('absolute'); sidebar.classList.toggle('z-20'); });
+        function getTargetAudience(p) { if (p.isGaming === 'X' || p.isGraphics === 'X') return 'Đồ họa / Gaming'; if (p.cpuType.includes('i7')) return 'Văn phòng cao cấp'; if (p.cpuType.includes('i5')) return 'Văn phòng / Sinh viên'; if (p.cpuType.includes('i3')) return 'Học tập / Cơ bản'; return 'Đa dụng'; }
+        function createAnalysisCard(p) {
+            const card = document.createElement('div'); card.className = 'analysis-card';
+            let audience = getTargetAudience(p); let borderColor = 'border-l-slate-400';
+            if (audience.includes('Gaming')) borderColor = 'border-l-red-500'; else if (audience.includes('cao cấp')) borderColor = 'border-l-amber-500'; else if (audience.includes('Sinh viên')) borderColor = 'border-l-teal-500'; else if (audience.includes('Học tập')) borderColor = 'border-l-sky-500';
+            card.classList.add(borderColor);
+            card.innerHTML = `<h5 class="font-bold text-slate-800">${p.name}</h5><p class="text-xs text-slate-500 mb-3">${p.brand} - ${audience}</p><ul class="text-sm space-y-1 text-slate-600 mb-4"><li><i class="fa-solid fa-microchip w-4 text-gray-400"></i> ${p.cpuType}</li><li><i class="fa-solid fa-memory w-4 text-gray-400"></i> ${p.ramSize} ${p.ramType}</li><li><i class="fa-solid fa-hard-drive w-4 text-gray-400"></i> ${p.storageSize} ${p.storageType}</li></ul><button data-partnumber="${p.partNumber}" class="view-details-btn w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Xem chi tiết</button>`;
+            return card;
         }
-
-        // Populate laptop cards dynamically
-        laptopData.forEach((laptop, index) => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card bg-blue-50 border-blue-200'; // Specific color for laptops
-            productCard.innerHTML = `
-                <h4><i class="fas fa-laptop mr-2"></i>${laptop.name}</h4>
-                <p>${laptop.details.split(',')[0]}</p> <!-- Show only CPU in summary -->
-            `;
-            productCard.addEventListener('click', () => {
-                openModal(laptop);
-            });
-            laptopGrid.appendChild(productCard);
-        });
-
-        // Populate SMC product cards dynamically
-        smcProductData.forEach((product, index) => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card bg-green-50 border-green-200'; // Specific color for SMC products
-            // Determine icon based on product name
-            let iconClass = '';
-            if (product.name.includes('Máy ảnh') || product.name.includes('In ảnh')) {
-                iconClass = 'fa-camera-retro';
-            } else if (product.name.includes('Máy in nhãn')) {
-                iconClass = 'fa-tag';
-            } else if (product.name.includes('Máy chiếu') || product.name.includes('Wanbo Dali 1')) { // Added Wanbo Dali 1
-                iconClass = 'fa-film';
-            } else {
-                iconClass = 'fa-cube'; // Default icon
-            }
-            productCard.innerHTML = `
-                <h4><i class="fas ${iconClass} mr-2"></i>${product.name}</h4>
-                <p>${product.details}</p>
-            `;
-            productCard.addEventListener('click', () => {
-                openModal(product);
-            });
-            smcProductGrid.appendChild(productCard);
-        });
-
-        // Add event listener to close modal button
-        closeModalBtn.addEventListener('click', closeModal);
-
-        // Close modal when clicking outside of it
-        detailModal.addEventListener('click', (event) => {
-            if (event.target === detailModal) {
-                closeModal();
-            }
-        });
+        function showProductDetails(partNumber) {
+            const p = laptopFullData.find(pr => pr.partNumber === partNumber); if (!p) return;
+            document.getElementById('modal-product-name').textContent = p.name;
+            document.getElementById('modal-product-pn').textContent = `Part Number: ${p.partNumber}`;
+            const createSpec = (label, value) => value ? `<div class="spec-item"><span class="spec-label">${label}</span><span class="spec-value">${value}</span></div>` : '';
+            document.getElementById('modal-cpu-specs').innerHTML = createSpec('Loại CPU', p.cpuType) + createSpec('Tốc độ', `${p.cpuSpeed} - ${p.cpuMaxSpeed}`) + createSpec('Nhân / Luồng', `${p.cpuCores} / ${p.cpuThreads}`) + createSpec('Bộ nhớ đệm', p.cpuCache);
+            document.getElementById('modal-ram-specs').innerHTML = createSpec('Dung lượng', p.ramSize) + createSpec('Loại RAM', p.ramType) + createSpec('Bus RAM', p.ramBus) + createSpec('Nâng cấp tối đa', p.ramMax);
+            document.getElementById('modal-storage-specs').innerHTML = createSpec('Dung lượng', `${p.storageSize} ${p.storageType}`) + createSpec('Slot nâng cấp', p.storageMaxOption || 'Không hỗ trợ');
+            document.getElementById('modal-display-specs').innerHTML = createSpec('Kích thước', p.screenSize) + createSpec('Độ phân giải', p.screenResolution) + createSpec('Tần số quét', p.screenRefreshRate) + createSpec('Card đồ họa', p.gpu) + createSpec('VRAM', p.gpuVram !== '-' ? p.gpuVram : 'Onboard');
+            document.getElementById('modal-connect-specs').innerHTML = createSpec('Hệ điều hành', `${p.os}${p.office ? ' + Office' : ''}`) + createSpec('Cổng giao tiếp', p.ports) + createSpec('Bảo mật', p.security || 'Không hỗ trợ');
+            document.getElementById('modal-design-specs').innerHTML = createSpec('Pin', p.battery) + createSpec('Kích thước', p.dimensions) + createSpec('Trọng lượng', p.weight) + createSpec('Màu sắc', p.color);
+            modal.classList.add('show');
+        }
+        laptopFullData.forEach(p => { laptopContainer.appendChild(createAnalysisCard(p)); });
+        document.querySelectorAll('.view-details-btn').forEach(btn => { btn.addEventListener('click', () => showProductDetails(btn.dataset.partnumber)); });
+        closeModalBtn.addEventListener('click', () => modal.classList.remove('show'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+        switchTab('section-chien-luoc-sp');
+    });
     </script>
 </body>
 </html>

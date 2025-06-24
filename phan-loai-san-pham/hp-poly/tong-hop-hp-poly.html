@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng Quan Sản Phẩm HP Poly</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* gray-100 */
+        }
+        /* Custom scrollbar for a better look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb; /* gray-200 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9ca3af; /* gray-400 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* gray-500 */
+        }
+        /* Styles for the sidebar navigation links */
+        .catalog-link {
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+        }
+        .catalog-link:hover {
+            background-color: #4338ca; /* indigo-700 */
+            color: white;
+            border-left-color: #a5b4fc; /* indigo-300 */
+        }
+        .catalog-link.active {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            font-weight: 600;
+            border-left-color: #c7d2fe; /* indigo-200 */
+        }
+        /* Ensure content inside the main area doesn't have its own scrollbars unless needed */
+        #main-content > div {
+             width: 100%;
+             height: 100%;
+        }
+        /* Animation for content fade-in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .win-prob-chart-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+        .win-prob-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.25rem;
+            font-weight: 800;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 0.75rem 1rem;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        .comparison-table th.feature-col, .comparison-table td.feature-col {
+            text-align: left;
+            font-weight: 600;
+        }
+        .poly-highlight {
+            background-color: #eef2ff; /* indigo-50 */
+        }
+        .poly-highlight th {
+            border-top: 3px solid #6366f1; /* indigo-500 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar/Catalog -->
+        <aside class="w-64 bg-gray-800 text-white flex flex-col flex-shrink-0">
+            <div class="px-6 py-5 border-b border-gray-700 flex items-center space-x-3">
+                 <i class="fas fa-headset text-indigo-400 text-2xl"></i>
+                <a href="/phan-loai-san-pham/hp-poly/hp-poly.html"><h2 class="text-xl font-bold">HP Poly</h2></a>
+                
+            </div>
+            <nav id="catalog-nav" class="flex-1 px-3 py-4 space-y-1">
+                <!-- Catalog links will be dynamically inserted here -->
+            </nav>
+            <div class="px-6 py-4 border-t border-gray-700 text-sm text-gray-400">
+                <p>&copy; 2025 Nguyên Kim Computer</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center z-10 flex-shrink-0">
+                <h1 id="page-title" class="text-xl font-semibold text-gray-800"></h1>
+                <div class="flex items-center space-x-4">
+                     <div class="relative">
+                         <input type="search" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 w-48 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                         <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                     </div>
+                     <button class="text-gray-500 hover:text-indigo-600"><i class="fas fa-bell fa-lg"></i></button>
+                     <button class="text-gray-500 hover:text-indigo-600"><i class="fas fa-cog fa-lg"></i></button>
+                     <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=AD" alt="Admin" class="w-10 h-10 rounded-full cursor-pointer">
+                </div>
+            </header>
+            <main id="main-content" class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 sm:p-6 md:p-8">
+                <!-- Content from other HTML files will be loaded here -->
+            </main>
+        </div>
+    </div>
+
+    <script>
+    // --- GLOBAL SCOPE HELPERS & DATA ---
+    const winProbData = {
+        caoCap: {
+            title: 'Phân Khúc Cao Cấp',
+            competitors: ['Logitech', 'Cisco'],
+            products: {
+                poly: ['Studio X70', 'Studio X52', 'G7500 + E70'],
+                comp: ['Rally Bar / Plus', 'Room Bar Pro']
+            },
+            criteria: [
+                { name: 'Công nghệ Camera AI (DirectorAI)', weight: 0.30, poly: 9, comp: 7, note: 'Camera tự động lấy nét, zoom vào người nói và chuyển cảnh mượt mà như một đạo diễn truyền hình. <strong>Lợi ích:</strong> Cuộc họp trở nên chuyên nghiệp, tự nhiên và hấp dẫn hơn, người tham gia không bị phân tâm bởi việc điều khiển camera, giúp tập trung 100% vào nội dung.' },
+                { name: 'Công nghệ Âm thanh AI (Acoustic Fence)', weight: 0.25, poly: 9, comp: 7, note: 'Tạo ra một "hàng rào âm thanh" vô hình, loại bỏ hoàn toàn tiếng ồn và các cuộc trò chuyện bên ngoài khu vực họp. <strong>Lợi ích:</strong> Đảm bảo đầu dây bên kia chỉ nghe thấy bạn, loại bỏ hiểu lầm và tăng tính bảo mật cho các cuộc thảo luận quan trọng, ngay cả trong văn phòng mở ồn ào.' },
+                { name: 'Hệ sinh thái & Quản lý (Poly Lens)', weight: 0.20, poly: 8, comp: 8, note: 'Nền tảng quản lý tập trung miễn phí, cho phép IT cập nhật phần mềm, chẩn đoán lỗi và cấu hình hàng loạt thiết bị từ xa. <strong>Lợi ích:</strong> Giảm đáng kể thời gian và chi phí vận hành cho đội ngũ IT, đảm bảo tất cả thiết bị luôn ở trạng thái tốt nhất mà không cần can thiệp thủ công.' },
+                { name: 'Bảo mật & Dịch vụ (HP Wolf Security)', weight: 0.15, poly: 10, comp: 6, note: 'Thừa hưởng DNA bảo mật từ HP với BIOS tự phục hồi, chống lại mã độc ở cấp độ phần cứng. Dịch vụ bảo hành tận nơi của HP. <strong>Lợi ích:</strong> An tâm tuyệt đối rằng thiết bị hội nghị không phải là cửa ngõ cho hacker. Khi có sự cố, chuyên gia đến tận nơi, đảm bảo hoạt động kinh doanh không bị gián đoạn.' },
+                { name: 'Giá Trị Tổng thể (TCO)', weight: 0.10, poly: 8, comp: 7, note: 'Mặc dù giá ban đầu có thể cao hơn, nhưng chi phí sở hữu tổng thể (TCO) thấp hơn nhờ độ bền, ít lỗi, quản lý miễn phí và vòng đời sản phẩm dài. <strong>Lợi ích:</strong> Một khoản đầu tư tài chính thông minh, giúp tiết kiệm chi phí vận hành và thay thế trong dài hạn, bảo vệ ngân sách của doanh nghiệp.' },
+            ],
+            polyColor: 'rgba(79, 70, 229, 1)', // indigo-600
+            compColor: 'rgba(220, 38, 38, 1)' // red-600
+        },
+        trungCap: {
+            title: 'Phân Khúc Trung Cấp (SMB)',
+            competitors: ['Logitech', 'Yealink'],
+            products: {
+                poly: ['Studio R30', 'Sync 60'],
+                comp: ['Rally Bar Mini', 'UVC40', 'A20']
+            },
+            criteria: [
+                { name: 'Tính Năng AI trên Giá Bán', weight: 0.35, poly: 9, comp: 7, note: 'Mang các công nghệ AI đầu bảng như DirectorAI và Acoustic Fence xuống phân khúc giá dễ tiếp cận hơn cho doanh nghiệp vừa và nhỏ. <strong>Lợi ích:</strong> Doanh nghiệp SMB có được trải nghiệm họp chuyên nghiệp như các tập đoàn lớn mà không cần phá vỡ ngân sách, nâng cao hình ảnh và hiệu quả làm việc.' },
+                { name: 'Dễ Triển Khai & Sử Dụng', weight: 0.25, poly: 9, comp: 8, note: 'Thiết kế "cắm là chạy" qua cổng USB, không yêu cầu cấu hình phức tạp hay đội ngũ IT chuyên biệt để lắp đặt. <strong>Lợi ích:</strong> Tiết kiệm thời gian và chi phí cài đặt. Nhân viên có thể tự sử dụng ngay lập tức, tăng tốc độ ứng dụng công nghệ trong toàn công ty.' },
+                { name: 'Quản lý Cloud Miễn phí (Poly Lens)', weight: 0.20, poly: 10, comp: 6, note: 'Cung cấp đầy đủ các tính năng quản lý từ xa mà không tính thêm phí, không giống như đối thủ thường giới hạn bản miễn phí. <strong>Lợi ích:</strong> Giúp chủ doanh nghiệp hoặc IT duy nhất của công ty dễ dàng quản lý toàn bộ thiết bị, dự toán ngân sách chính xác mà không có chi phí ẩn.' },
+                { name: 'Hỗ trợ & Bảo hành Tận Nơi', weight: 0.10, poly: 9, comp: 7, note: 'Tùy chọn bảo hành tận nơi chuẩn doanh nghiệp của HP là một lợi thế cực lớn, khác biệt với chính sách gửi đi sửa của đối thủ. <strong>Lợi ích:</strong> Giảm thiểu thời gian chết của thiết bị, đảm bảo các cuộc họp quan trọng với khách hàng và đối tác không bao giờ bị ảnh hưởng bởi lỗi kỹ thuật.' },
+                { name: 'Chất lượng phần cứng & Độ bền', weight: 0.10, poly: 8, comp: 8, note: 'Vật liệu cao cấp và thiết kế bền bỉ giúp sản phẩm hoạt động ổn định trong nhiều năm. <strong>Lợi ích:</strong> Khách hàng mua một lần và sử dụng lâu dài, tránh được chi phí và sự phiền toái khi phải thay thế thiết bị thường xuyên.' },
+            ],
+            polyColor: 'rgba(5, 150, 105, 1)', // emerald-600
+            compColor: 'rgba(249, 115, 22, 1)' // orange-500
+        },
+        caNhan: {
+            title: 'Thiết Bị Cá Nhân',
+            competitors: ['Jabra', 'Logitech'],
+             products: {
+                poly: ['Voyager Focus 2', 'Voyager 4320', 'Sync 20'],
+                comp: ['Evolve2 75/65', 'Zone Vibe/Wireless', 'Speak2 55']
+            },
+            criteria: [
+                { name: 'Công nghệ Micro (Acoustic Fence)', weight: 0.40, poly: 10, comp: 8, note: 'Công nghệ độc quyền giúp loại bỏ tiếng ồn xung quanh bạn, chỉ thu giọng nói của bạn. <strong>Lợi ích:</strong> Bạn có thể thực hiện cuộc gọi quan trọng ở bất cứ đâu - quán cafe, sân bay, văn phòng ồn ào - mà người nghe vẫn cảm thấy như bạn đang ở trong phòng riêng. Thể hiện sự chuyên nghiệp tuyệt đối.' },
+                { name: 'Độ thoải mái & Pin', weight: 0.20, poly: 8, comp: 8, note: 'Thiết kế nhẹ, công thái học và thời lượng pin cực dài (lên đến 25 giờ đàm thoại) giúp bạn có thể đeo cả ngày mà không bị mỏi. <strong>Lợi ích:</strong> Tăng năng suất làm việc, bạn có thể tập trung vào công việc mà không bị gián đoạn bởi việc sạc pin hay cảm giác khó chịu khi đeo tai nghe.' },
+                { name: 'Phạm vi & Kết nối', weight: 0.15, poly: 9, comp: 7, note: 'Phạm vi không dây lên tới 50m, vượt trội so với tiêu chuẩn 30m của đối thủ. Kết nối đa điểm mượt mà. <strong>Lợi ích:</strong> Tự do di chuyển quanh văn phòng hoặc nhà mà không sợ mất kết nối. Dễ dàng chuyển đổi giữa cuộc gọi trên laptop và điện thoại.' },
+                { name: 'Chống Ồn Chủ Động (Hybrid ANC)', weight: 0.15, poly: 9, comp: 9, note: 'Công nghệ ANC đa cấp độ giúp bạn loại bỏ tiếng ồn xung quanh để tập trung tối đa vào công việc hoặc thư giãn. <strong>Lợi ích:</strong> Tạo ra một "ốc đảo" yên tĩnh cho riêng bạn, giúp tăng cường sự tập trung, giảm căng thẳng và nâng cao chất lượng công việc.' },
+                { name: 'Giá / Hiệu Năng', weight: 0.10, poly: 8, comp: 7, note: 'Cung cấp các công nghệ đầu bảng với mức giá cạnh tranh, mang lại giá trị đầu tư cao hơn. <strong>Lợi ích:</strong> Khách hàng nhận được một sản phẩm chất lượng cao, bền bỉ với các tính năng chuyên nghiệp, giúp tối ưu hóa chi phí mà vẫn đảm bảo hiệu suất công việc.' },
+            ],
+            polyColor: 'rgba(217, 119, 6, 1)', // amber-600
+            compColor: 'rgba(107, 114, 128, 1)' // gray-500
+        }
+    };
+
+    function calculateWinProb(data) {
+        let polyScore = 0;
+        let compScore = 0;
+        data.criteria.forEach(c => {
+            polyScore += c.poly * c.weight;
+            compScore += c.comp * c.weight;
+        });
+        const totalScore = polyScore + compScore;
+        const polyProb = totalScore > 0 ? Math.round((polyScore / totalScore) * 100) : 50;
+        return { polyScore, compScore, polyProb };
+    }
+
+    function createWinProbChart(canvasId, data, prob) {
+        const ctx = document.getElementById(canvasId)?.getContext('2d');
+        if (!ctx) return;
+        const existingChart = Chart.getChart(ctx);
+        if (existingChart) {
+            existingChart.destroy();
+        }
+        new Chart(ctx, {
+            type: 'doughnut', data: { labels: ['HP Poly', `Đối thủ`], datasets: [{ data: [prob, 100 - prob], backgroundColor: [data.polyColor, data.compColor], borderColor: '#f3f4f6', borderWidth: 4, hoverBorderWidth: 6 }] },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false }, tooltip: { enabled: true, callbacks: { label: function(context) { return `${context.label}: ${context.raw}%`; } } } } }
+        });
+    }
+    
+    function renderWinProbSection(data) {
+        const { polyProb } = calculateWinProb(data);
+        const competitorString = data.competitors.join(' & ');
+        
+        let polyProductsHtml = data.products.poly.map(p => `<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>${p}</li>`).join('');
+        let compProductsHtml = data.products.comp.map(p => `<li class="flex items-center"><i class="fas fa-times-circle text-red-500 mr-2"></i>${p}</li>`).join('');
+
+        let criteriaHtml = data.criteria.map(c => `
+            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center">
+                    <h4 class="font-bold text-gray-800 text-base mb-2 sm:mb-0">${c.name}</h4>
+                    <div class="flex items-center gap-x-3 flex-shrink-0">
+                        <span class="font-bold text-lg py-1 px-3 text-white rounded-md" style="background-color: ${data.polyColor};">HP Poly: ${c.poly}/10</span>
+                        <span class="font-bold text-lg py-1 px-3 text-white rounded-md" style="background-color: ${data.compColor};">Đối thủ: ${c.comp}/10</span>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-dashed">
+                    <p class="text-sm text-gray-700"><strong class="text-indigo-700">Lợi ích cho khách hàng:</strong> ${c.note}</p>
+                </div>
+            </div>
+        `).join('');
+
+        return `
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8 mb-8">
+                    <div class="flex-shrink-0 flex flex-col items-center text-center">
+                         <h3 class="text-2xl font-extrabold text-gray-800">${data.title}</h3>
+                         <p class="text-gray-500 mb-3">vs. ${competitorString}</p>
+                        <div class="win-prob-chart-container">
+                            <canvas id="winProbChart-${data.title.replace(/\s+/g, '')}"></canvas>
+                            <div class="win-prob-percentage" style="color:${data.polyColor};">${polyProb}%</div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2 font-semibold">Xác suất thắng của HP Poly</p>
+                    </div>
+                    <div class="w-full bg-gray-50 border-2 border-dashed rounded-xl p-4">
+                        <h4 class="text-lg font-bold text-center text-gray-800 mb-4">Sản Phẩm Đối Đầu Tiêu Biểu</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-green-100 p-3 rounded-lg border border-green-300">
+                                <h5 class="font-bold text-green-800 mb-2">HP Poly</h5>
+                                <ul class="space-y-1">${polyProductsHtml}</ul>
+                            </div>
+                            <div class="bg-red-100 p-3 rounded-lg border border-red-300">
+                                <h5 class="font-bold text-red-800 mb-2">Đối thủ (${competitorString})</h5>
+                                <ul class="space-y-1">${compProductsHtml}</ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-4">${criteriaHtml}</div>
+            </div>
+        `;
+    }
+
+    // --- PAGE CONTENT CACHE ---
+    const contentCache = {
+        'thi-truong': {
+             title: 'Tổng Quan Thị Trường & Chiến Lược',
+             icon: 'fa-globe-americas',
+             content: `
+             <div class="fade-in">
+                <section class="text-center mb-12">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Bức Tranh Toàn Cảnh</h1>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Phân tích thị trường thiết bị hội nghị và chiến lược định vị của HP Poly.</p>
+                </section>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-lg">
+                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Thị Phần Thiết Bị Hội Nghị Toàn Cầu (Ước tính)</h3>
+                        <div class="h-80"><canvas id="marketShareChart"></canvas></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-lg">
+                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Ma Trận SWOT của HP Poly</h3>
+                        <div class="grid grid-cols-2 gap-4 h-80">
+                            <div class="bg-green-100 p-4 rounded-lg">
+                                <h4 class="font-bold text-green-800 flex items-center"><i class="fas fa-thumbs-up mr-2"></i>Điểm Mạnh</h4>
+                                <ul class="text-sm list-disc list-inside mt-2 text-green-700 space-y-1">
+                                    <li>Công nghệ AI độc quyền</li>
+                                    <li>Bảo mật & Dịch vụ HP</li>
+                                    <li>Thương hiệu uy tín</li>
+                                    <li>Hệ sinh thái toàn diện</li>
+                                </ul>
+                            </div>
+                            <div class="bg-red-100 p-4 rounded-lg">
+                                <h4 class="font-bold text-red-800 flex items-center"><i class="fas fa-thumbs-down mr-2"></i>Điểm Yếu</h4>
+                                <ul class="text-sm list-disc list-inside mt-2 text-red-700 space-y-1">
+                                    <li>Giá cao hơn đối thủ giá rẻ</li>
+                                    <li>Nhận diện "Poly" sau sáp nhập</li>
+                                </ul>
+                            </div>
+                            <div class="bg-blue-100 p-4 rounded-lg">
+                                <h4 class="font-bold text-blue-800 flex items-center"><i class="fas fa-search-plus mr-2"></i>Cơ Hội</h4>
+                                <ul class="text-sm list-disc list-inside mt-2 text-blue-700 space-y-1">
+                                    <li>Nhu cầu Hybrid Work</li>
+                                    <li>Tận dụng kênh phân phối HP</li>
+                                    <li>Bán chéo sản phẩm</li>
+                                </ul>
+                            </div>
+                             <div class="bg-yellow-100 p-4 rounded-lg">
+                                <h4 class="font-bold text-yellow-800 flex items-center"><i class="fas fa-exclamation-triangle mr-2"></i>Thách Thức</h4>
+                                <ul class="text-sm list-disc list-inside mt-2 text-yellow-700 space-y-1">
+                                    <li>Cạnh tranh về giá</li>
+                                    <li>Đối thủ mới nổi</li>
+                                    <li>Phần mềm thay thế phần cứng</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+             `,
+             script: `
+             (() => {
+                const marketCtx = document.getElementById('marketShareChart');
+                if (marketCtx) {
+                    const existingChart = Chart.getChart(marketCtx);
+                    if (existingChart) existingChart.destroy();
+                    new Chart(marketCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Logitech', 'HP Poly', 'Cisco', 'Yealink', 'Khác'],
+                            datasets: [{
+                                data: [35, 25, 15, 10, 15],
+                                backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f97316', '#6b7280']
+                            }]
+                        },
+                        options: {
+                            responsive: true, maintainAspectRatio: false,
+                            plugins: {
+                                legend: { position: 'top' },
+                                title: { display: false }
+                            }
+                        }
+                    });
+                }
+             })();
+             `
+        },
+         'phan-tich': {
+            title: 'Phân Tích Đối Thủ',
+            icon: 'fa-chart-pie',
+            content: `
+            <div class="fade-in">
+                <section class="text-center mb-10">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Phân Tích Đối Thủ Chi Tiết</h1>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Đánh giá xác suất thắng của HP Poly dựa trên các tiêu chí trọng yếu ở từng phân khúc sản phẩm.</p>
+                </section>
+                <div class="space-y-8">
+                    ${renderWinProbSection(winProbData.caoCap)}
+                    ${renderWinProbSection(winProbData.trungCap)}
+                    ${renderWinProbSection(winProbData.caNhan)}
+                </div>
+            </div>
+            `,
+            script: `
+            (() => {
+                createWinProbChart('winProbChart-PhânKhúcCaoCấp', winProbData.caoCap, calculateWinProb(winProbData.caoCap).polyProb);
+                createWinProbChart('winProbChart-PhânKhúcTrungCấp(SMB)', winProbData.trungCap, calculateWinProb(winProbData.trungCap).polyProb);
+                createWinProbChart('winProbChart-ThiếtBịCáNhân', winProbData.caNhan, calculateWinProb(winProbData.caNhan).polyProb);
+            })();
+            `
+        },
+        'cao-cap': {
+            title: 'Dòng Cao Cấp',
+            icon: 'fa-star',
+            content: `
+            <div class="fade-in">
+                <section class="text-center mb-10"><h1 class="text-4xl font-black tracking-tight text-gray-800">Phân Tích Phân Khúc Cao Cấp</h1></section>
+                ${renderWinProbSection(winProbData.caoCap)}
+                <div class="bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Bảng So Sánh Kỹ Thuật Toàn Diện</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[900px] text-sm comparison-table">
+                            <thead>
+                                <tr>
+                                    <th class="feature-col bg-gray-100">Tính năng</th>
+                                    <th class="poly-highlight">Poly Studio X70</th>
+                                    <th class="poly-highlight">Poly Studio X52</th>
+                                    <th class="poly-highlight">Poly G7500 + E70</th>
+                                    <th>Logitech Rally Bar Plus</th>
+                                    <th>Cisco Room Bar Pro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="feature-col">Loại thiết bị</td>
+                                    <td class="poly-highlight">Video Bar All-in-one</td>
+                                    <td class="poly-highlight">Video Bar All-in-one</td>
+                                    <td class="poly-highlight font-bold">Hệ thống Module</td>
+                                    <td>Video Bar (cần Mic Pods)</td>
+                                    <td>Video Bar All-in-one</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Đối tượng phòng</td>
+                                    <td class="poly-highlight">Phòng lớn (10-18 người)</td>
+                                    <td class="poly-highlight">Phòng vừa (6-12 người)</td>
+                                    <td class="poly-highlight font-bold">Phòng lớn/Tùy chỉnh</td>
+                                    <td>Phòng lớn</td>
+                                    <td>Phòng vừa/lớn</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Camera</td>
+                                    <td class="poly-highlight font-bold">Kép 4K, 20MP</td>
+                                    <td class="poly-highlight">4K, 20MP</td>
+                                    <td class="poly-highlight font-bold">Camera E70 Kép 4K rời</td>
+                                    <td>4K, 15x Zoom PTZ</td>
+                                    <td>4K, 12MP</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Camera AI</td>
+                                    <td class="poly-highlight">✨ DirectorAI (Chuyển cảnh)</td>
+                                    <td class="poly-highlight">✨ DirectorAI</td>
+                                    <td class="poly-highlight">✨ DirectorAI</td>
+                                    <td>✅ RightSight 2 (Speaker View)</td>
+                                    <td>✅ Speaker Tracking</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Âm thanh AI</td>
+                                    <td class="poly-highlight">✨ Acoustic Fence & NoiseBlockAI</td>
+                                    <td class="poly-highlight">✨ Acoustic Fence & NoiseBlockAI</td>
+                                    <td class="poly-highlight">✨ Acoustic Fence & NoiseBlockAI</td>
+                                    <td>✅ RightSound</td>
+                                    <td>✅ AI Noise Removal</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Bảo mật phần cứng</td>
+                                    <td class="poly-highlight">✨ HP Wolf Security</td>
+                                    <td class="poly-highlight">✨ HP Wolf Security</td>
+                                    <td class="poly-highlight">✨ HP Wolf Security</td>
+                                    <td>❌ Không</td>
+                                    <td>✅ Secure Boot</td>
+                                </tr>
+                                 <tr>
+                                    <td class="feature-col">Dịch vụ</td>
+                                    <td class="poly-highlight">✨ Bảo hành tận nơi</td>
+                                    <td class="poly-highlight">✨ Bảo hành tận nơi</td>
+                                    <td class="poly-highlight">✨ Bảo hành tận nơi</td>
+                                    <td>❌ Gửi đi sửa</td>
+                                    <td>❌ Gửi đi sửa</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>`,
+            script: `
+            (() => {
+                createWinProbChart('winProbChart-PhânKhúcCaoCấp', winProbData.caoCap, calculateWinProb(winProbData.caoCap).polyProb);
+            })();
+            `
+        },
+        'trung-cap': {
+            title: 'Dòng Trung Cấp',
+            icon: 'fa-video',
+            content: `
+            <div class="fade-in">
+                 <section class="text-center mb-10"><h1 class="text-4xl font-black tracking-tight text-gray-800">Phân Tích Phân Khúc Trung Cấp (SMB)</h1></section>
+                ${renderWinProbSection(winProbData.trungCap)}
+                 <div class="bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Bảng So Sánh Kỹ Thuật Toàn Diện</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[800px] text-sm comparison-table">
+                            <thead>
+                                <tr>
+                                    <th class="feature-col bg-gray-100">Tính năng</th>
+                                    <th class="poly-highlight">Poly Studio R30</th>
+                                    <th class="poly-highlight">Poly Sync 60</th>
+                                    <th>Logitech Rally Bar Mini</th>
+                                    <th>Yealink UVC40</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr>
+                                    <td class="feature-col">Loại thiết bị</td>
+                                    <td class="poly-highlight font-bold">Video Bar USB</td>
+                                    <td class="poly-highlight font-bold">Loa hội nghị</td>
+                                    <td>Video Bar All-in-one</td>
+                                    <td>Video Bar All-in-one</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Camera</td>
+                                    <td class="poly-highlight">✅ 4K, 120° FOV</td>
+                                    <td class="poly-highlight">❌ Không</td>
+                                    <td>✅ 4K, 120° FOV</td>
+                                    <td>✅ 4K, 133° FOV</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Camera AI</td>
+                                    <td class="poly-highlight">✨ DirectorAI</td>
+                                    <td class="poly-highlight">❌ Không áp dụng</td>
+                                    <td>✅ RightSight</td>
+                                    <td>✅ Auto Framing</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Âm thanh AI</td>
+                                    <td class="poly-highlight">✨ Acoustic Fence</td>
+                                    <td class="poly-highlight">✅ Lọc ồn & giọng nói</td>
+                                    <td>✅ RightSound</td>
+                                    <td>✅ Noise Proof</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Quản lý Cloud</td>
+                                    <td class="poly-highlight">✨ Poly Lens (Miễn phí)</td>
+                                    <td class="poly-highlight">✨ Poly Lens (Miễn phí)</td>
+                                    <td>❌ Sync (Có phí)</td>
+                                    <td>❌ YMCS (Có phí)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>`,
+            script: `
+            (() => {
+                createWinProbChart('winProbChart-PhânKhúcTrungCấp(SMB)', winProbData.trungCap, calculateWinProb(winProbData.trungCap).polyProb);
+            })();
+            `
+        },
+        'ca-nhan': {
+            title: 'Thiết Bị Cá Nhân',
+            icon: 'fa-user',
+            content: `
+            <div class="fade-in">
+                <section class="text-center mb-10"><h1 class="text-4xl font-black tracking-tight text-gray-800">Phân Tích Thiết Bị Cá Nhân</h1></section>
+                ${renderWinProbSection(winProbData.caNhan)}
+                <div class="bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Bảng So Sánh Kỹ Thuật Toàn Diện</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[900px] text-sm comparison-table">
+                            <thead>
+                                <tr>
+                                    <th class="feature-col bg-gray-100 w-1/4">Tính năng</th>
+                                    <th class="poly-highlight">Poly Voyager Focus 2</th>
+                                    <th class="poly-highlight">Poly Voyager 4320</th>
+                                    <th class="poly-highlight">Poly Sync 20</th>
+                                    <th>Jabra Evolve2 75</th>
+                                    <th>Logitech Zone Wireless 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="feature-col">Kiểu dáng</td>
+                                    <td class="poly-highlight">Tai nghe Stereo</td>
+                                    <td class="poly-highlight">Tai nghe Stereo</td>
+                                    <td class="poly-highlight">Loa hội nghị</td>
+                                    <td>Tai nghe Stereo</td>
+                                    <td>Tai nghe Stereo</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Công nghệ Micro</td>
+                                    <td class="poly-highlight">✨ Acoustic Fence</td>
+                                    <td class="poly-highlight">✨ Acoustic Fence</td>
+                                    <td class="poly-highlight">✅ Mic đa hướng</td>
+                                    <td>✅ 8-mic ClearVoice</td>
+                                    <td>✅ 5-mic Beamforming</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Chống ồn (ANC)</td>
+                                    <td class="poly-highlight">✅ Hybrid ANC (3 mức)</td>
+                                    <td class="poly-highlight">❌ Không</td>
+                                    <td class="poly-highlight">❌ Không áp dụng</td>
+                                    <td>✅ Advanced ANC</td>
+                                    <td>✅ Hybrid ANC</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Thời lượng Pin (đàm thoại)</td>
+                                    <td class="poly-highlight">✨ Lên đến 25 giờ</td>
+                                    <td class="poly-highlight">✅ Lên đến 24 giờ</td>
+                                    <td class="poly-highlight">✅ Lên đến 20 giờ</td>
+                                    <td>✅ Lên đến 24 giờ</td>
+                                    <td>❌ Lên đến 18 giờ</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-col">Phạm vi không dây</td>
+                                    <td class="poly-highlight">✨ Lên đến 50m</td>
+                                    <td class="poly-highlight">✨ Lên đến 50m</td>
+                                    <td class="poly-highlight">❌ ~10m (BT)</td>
+                                    <td>❌ 30m</td>
+                                    <td>❌ 30m</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>`,
+            script: `
+            (() => {
+                createWinProbChart('winProbChart-ThiếtBịCáNhân', winProbData.caNhan, calculateWinProb(winProbData.caNhan).polyProb);
+            })();
+            `
+        }
+    };
+
+    // This part of the script runs after the DOM is fully loaded.
+    document.addEventListener('DOMContentLoaded', () => {
+        const mainContent = document.getElementById('main-content');
+        const catalogNav = document.getElementById('catalog-nav');
+        const pageTitle = document.getElementById('page-title');
+        
+        function loadContent(pageKey) {
+            if (!contentCache[pageKey]) {
+                mainContent.innerHTML = '<div class="text-center p-12"><h2 class="text-2xl font-bold text-red-600">Lỗi</h2><p>Không tìm thấy nội dung cho trang này.</p></div>';
+                return;
+            }
+            const page = contentCache[pageKey];
+            pageTitle.textContent = page.title;
+            mainContent.innerHTML = '';
+            setTimeout(() => {
+                mainContent.innerHTML = page.content;
+                if (page.script) {
+                    const scriptEl = document.createElement('script');
+                    scriptEl.innerHTML = page.script;
+                    document.body.appendChild(scriptEl);
+                    document.body.removeChild(scriptEl);
+                }
+                if(typeof lucide !== 'undefined') {
+                     lucide.createIcons();
+                }
+            }, 50);
+        }
+
+        Object.keys(contentCache).forEach(key => {
+            const page = contentCache[key];
+            const link = document.createElement('a');
+            link.href = `#${key}`;
+            link.className = 'catalog-link block px-4 py-3 rounded-md font-medium text-gray-300';
+            link.innerHTML = `<i class="fas ${page.icon} fa-fw mr-3"></i>${page.title}`;
+            link.dataset.pageKey = key;
+            catalogNav.appendChild(link);
+        });
+
+        catalogNav.addEventListener('click', (e) => {
+            const link = e.target.closest('a');
+            if (link) {
+                e.preventDefault();
+                window.location.hash = link.dataset.pageKey;
+            }
+        });
+        
+        function handleHashChange() {
+            const pageKey = window.location.hash.substring(1) || Object.keys(contentCache)[0];
+            const currentLink = catalogNav.querySelector(`a.active`);
+            if (currentLink) currentLink.classList.remove('active');
+            const newLink = catalogNav.querySelector(`a[data-page-key="${pageKey}"]`);
+            if (newLink) newLink.classList.add('active');
+            loadContent(pageKey);
+        }
+
+        window.addEventListener('hashchange', handleHashChange);
+        
+        function initialLoad() {
+             const initialPageKey = window.location.hash.substring(1) || Object.keys(contentCache)[0];
+             if (history.replaceState) {
+                history.replaceState(null, null, '#' + initialPageKey);
+             } else {
+                window.location.hash = initialPageKey;
+             }
+             handleHashChange();
+        }
+        
+        initialLoad();
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cơ Sở Tri Thức Sales - Thiết Bị Họp HP Poly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .main-layout {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .left-nav {
+            width: 35%;
+            max-width: 450px;
+            height: calc(100vh - 170px); /* Adjusted for header and new control panel */
+            overflow-y: auto;
+            position: sticky;
+            top: 165px; /* Adjusted for header and new control panel */
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .right-content {
+            width: 65%;
+            flex-grow: 1;
+        }
+        
+        .nav-category-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #1d4ed8;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dbeafe;
+            display: flex;
+            align-items: center;
+        }
+         .nav-category-title:first-child {
+            margin-top: 0;
+        }
+
+        .nav-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #f3f4f6;
+            border-left: 3px solid #93c5fd;
+        }
+
+        .nav-item.active {
+            background-color: #eef2ff;
+            color: #1d4ed8;
+            font-weight: 700;
+            border-left: 3px solid #2563eb;
+        }
+        
+        .content-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+            margin-bottom: 1.25rem;
+        }
+
+        .content-card-header {
+            background-color: #f9fafb;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 700;
+            color: #111827;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .content-card-body {
+            padding: 1.25rem;
+            line-height: 1.7;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 1000px; /* Large enough for content */
+            overflow: hidden;
+        }
+        
+        .content-card.training-mode .content-card-body {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+        }
+        
+        .content-card.training-mode.show .content-card-body {
+            max-height: 1000px;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-card.conversion-card {
+             border-color: #3b82f6;
+             background-color: #eff6ff;
+        }
+        .content-card.conversion-card .content-card-header {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* Training Mode Controls */
+        .training-toggle-btn {
+            cursor: pointer;
+            color: #3b82f6;
+            font-weight: 500;
+            background: #eef2ff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #c7d2fe;
+        }
+        
+        /* Toggle Switch Styles */
+        .toggle-switch-label { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .toggle-switch-label input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-20 h-[85px] flex items-center">
+        <div class="container mx-auto px-6">
+            <h1 class="text-3xl font-bold text-center text-blue-800">Cơ Sở Tri Thức Sales - Thiết Bị Họp HP Poly</h1>
+            <p class="text-center text-gray-500 mt-1">Công cụ tra cứu và đào tạo kịch bản tư vấn chuyên nghiệp.</p>
+        </div>
+    </header>
+
+    <!-- Controls Panel -->
+    <div class="sticky top-[85px] bg-white/80 backdrop-blur-sm z-10 py-3 shadow-sm border-b">
+        <div class="container mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+            <!-- Search Box -->
+             <div class="relative flex-grow max-w-xs">
+                <input type="text" id="search-box" placeholder="Tìm kiếm tình huống..." class="w-full pl-10 pr-4 py-2 border rounded-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <!-- Training Controls -->
+            <div class="flex items-center gap-6">
+                <button id="random-scenario-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-random"></i> Tình huống Ngẫu nhiên
+                </button>
+                 <div class="flex items-center space-x-3">
+                    <label class="toggle-switch-label">
+                        <input type="checkbox" id="training-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="font-medium text-gray-700">Chế độ Luyện tập</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <main class="container mx-auto px-6 py-6">
+        <div class="main-layout">
+            <nav id="left-nav" class="left-nav">
+                <!-- Navigation items will be dynamically inserted here -->
+            </nav>
+
+            <div id="flowchart-display" class="right-content min-h-[600px]">
+                <div class="sticky top-[165px] text-center text-gray-400 flex flex-col items-center justify-center h-[calc(100vh-200px)] bg-white rounded-lg border-2 border-dashed">
+                    <i class="fas fa-arrow-left text-5xl mb-4 text-gray-300"></i>
+                    <p class="text-xl font-medium">Chào mừng đến với Cơ sở tri thức!</p>
+                    <p>Hãy bắt đầu bằng cách chọn một chủ đề từ danh mục bên trái.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const knowledgeBase = {
+            'headsets-general': {
+                title: 'Tư Vấn Tai Nghe',
+                icon: 'fa-headset',
+                scenarios: {
+                    'voyager-vs-focus2': {
+                        title: 'So sánh tai nghe Voyager 5200 và Focus 2?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, Voyager 5200 là tai nghe mono (1 bên tai) chuyên cho di động, còn Focus 2 là tai nghe stereo (2 bên tai) chuyên cho làm việc trong văn phòng ồn ào ạ.' },
+                            { title: 'Bước 2: Giải Thích & Phân Loại', description: '<ul><li><strong>Voyager 5200:</strong> Siêu nhỏ gọn, có công nghệ chống gió WindSmart độc quyền với 4 mic, lý tưởng khi anh/chị hay di chuyển và nghe gọi ngoài trời, trên xe.</li><li><strong>Poly Focus 2:</strong> Có đệm tai lớn, chống ồn chủ động (ANC) 3 cấp độ cực tốt, giúp mình tập trung tối đa khi làm việc trong văn phòng mở hoặc tại nhà.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: 'Để tư vấn chính xác, mình có thể hỏi: <strong>"Nhu cầu chính của anh/chị là nghe gọi khi đang di chuyển, hay cần sự tập trung cao độ tại bàn làm việc ạ?"</strong>' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: 'Nếu khách ưu tiên sự tập trung, "Focus 2 là lựa chọn số một ạ. Anh/chị có muốn dùng thử để trải nghiệm khả năng chống ồn tuyệt vời của nó không ạ?". Nếu khách ưu tiên di động, "Voyager 5200 sẽ là người bạn đồng hành không thể thiếu. Mình lấy mẫu có kèm hộp sạc để tiện dùng cả ngày nhé?"', isConversion: true },
+                        ]
+                    },
+                    'teams-vs-uc': {
+                        title: 'Tai nghe bản Teams và UC khác gì nhau?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, về cơ bản phần cứng của hai phiên bản này là <strong>giống hệt nhau</strong>. Điểm khác biệt chính nằm ở <strong>nút bấm chức năng</strong> và <strong>sự ưu tiên kết nối</strong> với phần mềm ạ.' },
+                            { title: 'Bước 2: Giải Thích Chi Tiết', description: '<ul><li><strong>Bản Teams:</strong> Có một nút bấm riêng biệt để mở ngay lập tức ứng dụng Microsoft Teams. Khi cắm vào máy tính, nó sẽ ưu tiên kết nối và hoạt động tối ưu với Teams.</li><li><strong>Bản UC (Unified Communications):</strong> Nút bấm chức năng sẽ dùng cho các thao tác chung như nhận/từ chối cuộc gọi. Bản này tương thích với tất cả các phần mềm họp khác như Zoom, Google Meet...</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết công ty mình chủ yếu sử dụng phần mềm họp nào là chính ạ? Microsoft Teams hay là Zoom, Google Meet ạ?"</strong>' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: 'Nếu khách dùng Teams: "Vậy thì bản Teams sẽ tiện lợi nhất cho mình ạ." Nếu khách dùng nhiều phần mềm: "Dạ vậy bản UC sẽ linh hoạt hơn cho mình. Cả hai phiên bản đều có sẵn, anh/chị chọn bản nào để em lên đơn ạ?"', isConversion: true },
+                        ]
+                    },
+                     'anc-acoustic-fence': {
+                        title: 'Chống ồn ANC và Acoustic Fence khác gì nhau?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ đây là hai công nghệ chống ồn khác nhau ạ. <strong>ANC là chống ồn cho người đeo</strong>, còn <strong>Acoustic Fence là chống ồn cho người nghe</strong> ở đầu dây bên kia.' },
+                            { title: 'Bước 2: Giải Thích Chuyên Sâu', description: '<ul><li><strong>ANC (Active Noise Cancellation):</strong> Các mic trên tai nghe sẽ nghe tiếng ồn xung quanh bạn, sau đó tạo ra một sóng âm ngược pha để triệt tiêu tiếng ồn đó. Kết quả là bạn sẽ không nghe thấy tiếng ồn xung quanh, giúp bạn tập trung làm việc.</li><li><strong>Acoustic Fence:</strong> Công nghệ này tạo ra một "hàng rào âm thanh" ảo xung quanh miệng của bạn. Nó sẽ tập trung thu giọng nói của bạn và loại bỏ tất cả các âm thanh bên ngoài hàng rào đó, ví dụ như tiếng đồng nghiệp nói chuyện, tiếng gõ phím... Kết quả là người ở đầu dây bên kia chỉ nghe thấy giọng nói của bạn một cách rõ ràng.</li></ul>' },
+                            { title: 'Bước 3: Nhấn Mạnh Lợi Ích Kép', description: 'Các dòng tai nghe cao cấp của Poly như Savi 8220 hay Blackwire 8225 đều được trang bị cả hai công nghệ này, mang lại trải nghiệm hoàn hảo cho cả người đeo và người nghe.' },
+                            { title: 'Bước 4: Gợi Ý Trải Nghiệm', description: '"Để cảm nhận rõ nhất sự khác biệt, em mời anh/chị đeo thử tai nghe và em sẽ thực hiện một cuộc gọi mẫu để anh/chị tự mình trải nghiệm chất lượng âm thanh tuyệt vời này."', isConversion: true },
+                        ]
+                    },
+                    'wired-vs-wireless': {
+                        title: 'Nên chọn tai nghe có dây hay không dây?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ việc lựa chọn giữa có dây và không dây phụ thuộc vào sự ưu tiên của mình về sự ổn định và sự tự do di chuyển ạ.' },
+                            { title: 'Bước 2: Phân Tích Ưu/Nhược Điểm', description: '<ul><li><strong>Tai nghe có dây (Wired - VD: Blackwire series):</strong> Ưu điểm lớn nhất là <strong>kết nối cực kỳ ổn định</strong> và không bao giờ lo hết pin. Chất lượng âm thanh luôn được đảm bảo. Nhược điểm là bị giới hạn bởi độ dài của dây.</li><li><strong>Tai nghe không dây (Wireless - VD: Voyager, Focus series):</strong> Ưu điểm là <strong>hoàn toàn tự do di chuyển</strong>, mình có thể đi lấy nước, đi lại trong phòng mà không bị gián đoạn cuộc gọi. Nhược điểm là cần phải sạc pin.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Anh/chị thường ngồi cố định tại bàn làm việc hay có nhu cầu đi lại nhiều trong khi đang họp hoặc nghe gọi ạ?"</strong>' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: 'Nếu khách cần di chuyển: "Vậy thì tai nghe không dây sẽ tiện lợi hơn rất nhiều cho mình. Dòng Focus 2 có thời lượng pin lên đến 19 tiếng nên mình yên tâm dùng cả ngày ạ." Nếu khách ưu tiên ổn định: "Dạ vậy dòng Blackwire là lựa chọn \'ăn chắc mặc bền\', đảm bảo chất lượng cuộc gọi tốt nhất. Anh/chị chọn loại 1 bên tai hay 2 bên tai ạ?"', isConversion: true },
+                        ]
+                    },
+                    'dect-vs-bluetooth': {
+                        title: 'Chuẩn kết nối DECT và Bluetooth khác gì?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, DECT và Bluetooth đều là công nghệ không dây nhưng được thiết kế cho các mục đích khác nhau. <strong>DECT ưu tiên về phạm vi và độ ổn định cho văn phòng</strong>, còn <strong>Bluetooth ưu tiên sự linh hoạt kết nối với nhiều thiết bị</strong> như điện thoại, laptop.' },
+                            { title: 'Bước 2: So Sánh Chi Tiết', description: '<ul><li><strong>DECT (Digital Enhanced Cordless Telecommunications):</strong> Thường thấy ở dòng Savi. Có phạm vi kết nối rất xa (lên tới hơn 100m), kết nối cực kỳ ổn định và bảo mật cao, ít bị nhiễu sóng. Rất phù hợp cho môi trường văn phòng đông người.</li><li><strong>Bluetooth:</strong> Phổ biến hơn, dễ dàng kết nối với điện thoại, máy tính. Phạm vi ngắn hơn (khoảng 10-30m) và có thể bị nhiễu bởi các thiết bị khác (wifi, lò vi sóng).</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Môi trường làm việc của mình có nhiều người cùng sử dụng tai nghe không dây không ạ? Và mình có cần phải di chuyển rất xa khỏi bàn làm việc không?"</strong>' },
+                            { title: 'Bước 4: Tư Vấn Giải Pháp', description: 'Nếu khách ở trong tổng đài (call center) hoặc văn phòng lớn: "Dòng tai nghe DECT như Savi 8220 sẽ là giải pháp chuyên nghiệp và ổn định nhất, tránh tuyệt đối tình trạng mất kết nối." Nếu là người dùng cá nhân, văn phòng nhỏ: "Tai nghe Bluetooth như Focus 2 là đủ linh hoạt và đáp ứng tốt nhu cầu ạ."', isConversion: true },
+                        ]
+                    },
+                    'battery-life': {
+                        title: 'Pin tai nghe dùng được bao lâu? Sạc có nhanh không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, thời lượng pin của tai nghe Poly rất ấn tượng ạ. Tùy vào model, thời gian đàm thoại có thể từ <strong>7 tiếng (Voyager 5200) đến 19 tiếng (Focus 2)</strong>. Hầu hết các mẫu đều đáp ứng thoải mái cho một ngày làm việc.' },
+                            { title: 'Bước 2: Thông Tin Về Hộp Sạc', description: 'Nhiều model như Voyager 5200 hay Focus 2 còn có tùy chọn mua kèm <strong>hộp sạc di động</strong>. Hộp sạc này có thể sạc đầy cho tai nghe thêm 1-2 lần nữa, kéo dài tổng thời gian sử dụng lên rất nhiều, rất tiện lợi khi đi công tác.' },
+                            { title: 'Bước 3: Thông Tin Về Thời Gian Sạc', description: 'Thời gian để sạc đầy một chiếc tai nghe thường rơi vào khoảng <strong>1.5 đến 2 giờ</strong>. Các sản phẩm đều sử dụng cổng sạc phổ biến như Micro USB hoặc USB-C.' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Với thời lượng pin dài như vậy, anh/chị có thể yên tâm sử dụng cả ngày mà không lo gián đoạn. Mình có muốn lấy thêm phiên bản có hộp sạc để tối đa sự tiện lợi không ạ?"', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'webcam-video': {
+                title: 'Webcam & Video Conference',
+                icon: 'fa-video',
+                scenarios: {
+                    'p5-p15-difference': {
+                        title: 'So sánh Webcam Poly Studio P5 và P15?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, Poly Studio P5 là một webcam cá nhân nhỏ gọn, còn P15 là một thanh video bar (video bar) tất cả-trong-một chuyên nghiệp hơn ạ.' },
+                            { title: 'Bước 2: Phân Tích Tính Năng', description: '<ul><li><strong>Poly Studio P5:</strong> Là webcam chất lượng cao (1080p), có mic định hướng, phù hợp cho một người dùng cá nhân muốn có hình ảnh đẹp và âm thanh rõ ràng. Nó cần loa ngoài từ máy tính.</li><li><strong>Poly Studio P15:</strong> Là một thiết bị lớn hơn, tích hợp sẵn cả camera 4K, hệ thống loa và micro mảng mạnh mẽ với công nghệ Acoustic Fence. P15 phù hợp cho người dùng cá nhân yêu cầu chất lượng đỉnh cao hoặc cho các phòng họp nhỏ (1-3 người). Nó có khả năng tự động khung hình (auto-framing) để người nói luôn ở trung tâm.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết mình cần một webcam để sử dụng cá nhân tại bàn làm việc hay mình đang tìm kiếm một giải pháp cho phòng họp nhỏ ạ?"</strong>' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: 'Nếu dùng cá nhân: "P5 là lựa chọn rất tối ưu và chất lượng ạ." Nếu cho phòng họp nhỏ hoặc yêu cầu cao: "Đầu tư vào P15 sẽ mang lại trải nghiệm chuyên nghiệp và toàn diện hơn rất nhiều. Anh/chị có muốn em báo giá cả hai để mình tiện so sánh không ạ?"', isConversion: true },
+                        ]
+                    },
+                    'low-light-performance': {
+                        title: 'Chất lượng hình ảnh webcam trong điều kiện thiếu sáng?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, webcam của Poly có hiệu năng xử lý trong điều kiện thiếu sáng rất tốt ạ. Các dòng như P5, P15 được trang bị cảm biến hình ảnh chất lượng cao và công nghệ tự động bù sáng thông minh.' },
+                            { title: 'Bước 2: Giải Thích Công Nghệ', description: 'Ngay cả khi anh/chị ngồi trong phòng có ánh sáng yếu hoặc ngược sáng (ngồi đối diện cửa sổ), webcam sẽ tự động điều chỉnh độ sáng và độ tương phản để khuôn mặt của mình luôn rõ nét và sáng sủa, không bị tối sầm lại. Điều này giúp mình luôn có hình ảnh chuyên nghiệp trong mọi cuộc họp.' },
+                            { title: 'Bước 3: So Sánh Với Webcam Thường', description: 'Đây là điểm khác biệt lớn so với các webcam thông thường hoặc webcam tích hợp trên laptop, vốn thường cho hình ảnh rất tối và nhiễu (noise) khi thiếu sáng.' },
+                            { title: 'Bước 4: Cam Kết Chất Lượng', description: '"Anh/chị cứ yên tâm về chất lượng hình ảnh. Bên em cam kết hình ảnh sẽ luôn sáng đẹp trong mọi điều kiện ánh sáng văn phòng. Anh/chị có muốn xem một video demo thực tế không ạ?"', isConversion: true },
+                        ]
+                    },
+                    'auto-framing-explained': {
+                        title: 'Tính năng auto-framing (tự động lấy khung hình) là gì?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, auto-framing là tính năng thông minh giúp camera tự động nhận diện và điều chỉnh góc quay để người nói luôn nằm ở vị trí trung tâm của khung hình.' },
+                            { title: 'Bước 2: Mô Tả Hoạt Động', description: 'Khi anh/chị di chuyển, đứng lên hoặc ngồi xuống trong phạm vi của camera, nó sẽ tự động phóng to hoặc thu nhỏ, lia qua trái hoặc phải một cách mượt mà để giữ cho hình ảnh của mình luôn cân đối. Tính năng này có trên các dòng như Poly Studio P15 hay các thiết bị phòng họp Studio X.' },
+                            { title: 'Bước 3: Nêu Bật Lợi Ích', description: 'Lợi ích lớn nhất là nó tạo ra một trải nghiệm họp rất tự nhiên và chuyên nghiệp. Anh/chị có thể thoải mái di chuyển, thuyết trình mà không cần phải lo lắng việc mình có bị ra khỏi khung hình hay không, giúp cuộc họp trở nên sinh động và thu hút hơn.' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Đây là một tính năng rất cao cấp và hữu ích, đặc biệt nếu mình thường xuyên phải thuyết trình hoặc di chuyển trong các cuộc họp. Dòng Studio P15 với tính năng này chắc chắn sẽ làm mình hài lòng."', isConversion: true },
+                        ]
+                    },
+                    'large-room-solutions': {
+                        title: 'Có giải pháp cho phòng họp lớn hơn 5 người không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ chắc chắn có ạ. Với các phòng họp lớn hơn, Poly có các dòng sản phẩm chuyên dụng như <strong>Poly Studio X series (X30, X50, X70)</strong> hoặc các hệ thống module rời ạ.' },
+                            { title: 'Bước 2: Giới Thiệu Giải Pháp Phù Hợp', description: '<ul><li><strong>Poly Studio X30:</strong> Phù hợp cho phòng họp nhỏ (đến 6 người).</li><li><strong>Poly Studio X50:</strong> Lý tưởng cho phòng họp vừa (đến 10 người), có camera 4K, loa và mic mạnh mẽ hơn.</li><li><strong>Poly Studio X70:</strong> Dành cho phòng họp lớn (trên 10 người), trang bị camera kép (một góc rộng, một tele) để vừa bao quát cả phòng, vừa có thể zoom cận cảnh vào người nói.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Khảo Sát', description: 'Để tư vấn giải pháp tối ưu, em cần thêm một vài thông tin: <strong>"Dạ phòng họp của mình có diện tích khoảng bao nhiêu mét vuông và số lượng người tham dự tối đa là bao nhiêu ạ? Mình đã có sẵn màn hình TV chưa ạ?"</strong>' },
+                            { title: 'Bước 4: Đề Xuất Khảo Sát & Demo', description: '"Với phòng họp lớn, để đảm bảo chất lượng tốt nhất, bên em có thể cử nhân viên kỹ thuật qua tận nơi để khảo sát không gian và tư vấn giải pháp phù hợp nhất. Đồng thời bên em cũng có thể sắp xếp một buổi demo thực tế ngay tại phòng họp của mình. Mình có tiện cho em xin lịch hẹn không ạ?"', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'compatibility-connectivity': {
+                title: 'Kết Nối & Tương Thích',
+                icon: 'fa-link',
+                scenarios: {
+                    'connect-multiple-devices': {
+                        title: 'Tai nghe Poly có kết nối nhiều thiết bị cùng lúc không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Hầu hết các tai nghe Bluetooth chuyên nghiệp của Poly đều hỗ trợ <strong>kết nối đa điểm (multi-point)</strong>, cho phép kết nối đồng thời với 2 thiết bị, ví dụ như máy tính và điện thoại di động.' },
+                            { title: 'Bước 2: Giải Thích Cơ Chế Hoạt Động', description: 'Khi tai nghe đang kết nối với cả laptop và điện thoại, nếu anh/chị đang nghe nhạc trên laptop mà có cuộc gọi đến điện thoại, tai nghe sẽ tự động ưu tiên và chuyển sang cuộc gọi. Kết thúc cuộc gọi, nó sẽ tự động phát lại nhạc trên laptop. Rất liền mạch và tiện lợi.' },
+                            { title: 'Bước 3: Xác Nhận Model Cụ Thể', description: 'Để chắc chắn, mình nên hỏi khách: <strong>"Dạ anh/chị đang quan tâm đến model tai nghe nào cụ thể ạ, để em kiểm tra và xác nhận lại tính năng này cho mình?"</strong> (Ví dụ: các dòng Voyager, Focus, Savi, Blackwire không dây đều hỗ trợ).' },
+                            { title: 'Bước 4: Nhấn Mạnh Lợi Ích', description: '"Tính năng này giúp mình không bỏ lỡ bất kỳ cuộc gọi quan trọng nào trong khi vẫn đang làm việc trên máy tính. Đây là một trong những ưu điểm vượt trội của tai nghe Poly so với các tai nghe thông thường."', isConversion: true },
+                        ]
+                    },
+                    'bt700-dongle-benefit': {
+                        title: 'Lợi ích của USB dongle BT700 là gì?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, USB Dongle BT700 đi kèm tai nghe không chỉ đơn thuần là một cục thu Bluetooth, mà nó mang lại <strong>kết nối ổn định hơn, phạm vi xa hơn và chất lượng âm thanh tốt hơn</strong> so với việc kết nối trực tiếp bằng Bluetooth có sẵn của máy tính ạ.' },
+                            { title: 'Bước 2: Giải Thích Kỹ Thuật', description: '<ul><li><strong>Kết nối ổn định:</strong> Dongle BT700 được tối ưu để hoạt động riêng với tai nghe Poly, giúp giảm thiểu tình trạng nhiễu sóng, mất kết nối đột ngột mà Bluetooth của máy tính hay gặp phải.</li><li><strong>Chất lượng âm thanh:</strong> Nó đảm bảo băng thông đủ cho âm thanh chất lượng cao (HD Voice), giúp giọng nói trong và rõ hơn.</li><li><strong>Tiện lợi:</strong> Dongle được cài đặt sẵn, mình chỉ cần cắm vào là dùng, không cần phải dò tìm và ghép nối phức tạp. Nó cũng hiển thị trạng thái kết nối qua đèn LED.</li></ul>' },
+                            { title: 'Bước 3: Nhấn Mạnh Sự Khác Biệt', description: 'Sử dụng dongle đi kèm mang lại trải nghiệm chuyên nghiệp và đáng tin cậy, đặc biệt quan trọng trong các cuộc họp với đối tác. Đây là sự khác biệt chính giữa tai nghe chuyên dụng và tai nghe nghe nhạc thông thường.' },
+                            { title: 'Bước 4: Cam Kết Chất Lượng', description: '"Tất cả các tai nghe không dây của Poly đều đi kèm dongle BT700 để đảm bảo trải nghiệm tốt nhất cho người dùng. Mình chỉ cần cắm vào là có thể tận hưởng chất lượng âm thanh tuyệt vời ngay lập tức."', isConversion: true },
+                        ]
+                    },
+                    'poly-lens-purpose': {
+                        title: 'Phần mềm Poly Lens dùng để làm gì?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, Poly Lens là một phần mềm miễn phí của Poly, giúp anh/chị <strong>quản lý, tùy chỉnh và cập nhật</strong> các thiết bị Poly của mình như tai nghe, webcam một cách dễ dàng.' },
+                            { title: 'Bước 2: Liệt Kê Tính Năng Chính', description: 'Với Poly Lens, anh/chị có thể:<ul><li><strong>Cập nhật firmware:</strong> Luôn đảm bảo thiết bị có các tính năng mới nhất và hoạt động ổn định nhất.</li><li><strong>Tùy chỉnh cài đặt:</strong> Điều chỉnh các tính năng như mức độ chống ồn ANC, bật/tắt cảm biến thông minh, cài đặt ngôn ngữ thông báo...</li><li><strong>Kiểm tra tình trạng pin:</strong> Xem chính xác phần trăm pin còn lại.</li><li><strong>Tìm thiết bị:</strong> Một số tai nghe có tính năng "Find MyHeadset" thông qua ứng dụng Lens.</li></ul>' },
+                            { title: 'Bước 3: Nhấn Mạnh Tầm Quan Trọng', description: 'Việc cài đặt và sử dụng Poly Lens là rất cần thiết để mình có thể khai thác tối đa 100% công năng của sản phẩm và đảm bảo thiết bị luôn ở trạng thái tốt nhất.' },
+                            { title: 'Bước 4: Hướng Dẫn & Hỗ Trợ', description: '"Phần mềm này rất nhẹ và dễ sử dụng. Khi mua sản phẩm, bên em sẽ hỗ trợ cài đặt và hướng dẫn anh/chị sử dụng các tính năng cơ bản của Poly Lens luôn ạ."', isConversion: true },
+                        ]
+                    },
+                    'deskphone-compatibility': {
+                        title: 'Tai nghe có tương thích với điện thoại bàn không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ, nhưng chỉ một số dòng tai nghe chuyên dụng mới có thể kết nối được với điện thoại bàn. Dòng sản phẩm tiêu biểu nhất cho nhu cầu này là <strong>Poly Savi series (Savi 7300, Savi 8200)</strong>.' },
+                            { title: 'Bước 2: Giải Thích Cơ Chế Kết Nối', description: 'Các tai nghe dòng Savi đi kèm với một bộ đế (base station) đa kết nối. Bộ đế này có cổng để cắm trực tiếp vào điện thoại bàn (chuẩn RJ9), đồng thời có thể kết nối với máy tính qua cổng USB. Tai nghe sẽ kết nối không dây đến bộ đế này.' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Khai Thác', description: 'Để tư vấn chính xác, mình cần hỏi khách: <strong>"Dạ anh/chị có thể cho em biết model của điện thoại bàn mình đang sử dụng được không ạ (VD: Cisco, Avaya, Yealink...)? Và ngoài điện thoại bàn, mình có cần kết nối tai nghe với máy tính hay điện thoại di động nữa không?"</strong>' },
+                            { title: 'Bước 4: Tư Vấn Giải Pháp Toàn Diện', description: '"Dòng Savi 8200 Office có thể kết nối đồng thời cả 3 thiết bị: điện thoại bàn, máy tính và điện thoại di động. Anh/chị có thể nhận cuộc gọi từ bất kỳ thiết bị nào chỉ với một chiếc tai nghe duy nhất, vô cùng tiện lợi. Anh/chị có muốn em tư vấn chi tiết hơn về dòng này không ạ?"', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'troubleshooting-objections': {
+                title: 'Xử Lý Sự Cố & Phản Biện',
+                icon: 'fa-user-shield',
+                scenarios: {
+                    'price-objection': {
+                        title: 'Khách chê giá cao so với Logitech, Jabra...',
+                        steps: [
+                            { title: 'Bước 1: Đồng Cảm & Ghi Nhận', description: 'Dạ em hiểu ạ. Khi so sánh về giá, đúng là sản phẩm của Poly thường có mức giá nhỉnh hơn một chút so với một số thương hiệu khác trên thị trường. Em rất cảm ơn ý kiến của anh/chị.' },
+                            { title: 'Bước 2: Chuyển Hướng Về "Giá Trị"', description: 'Tuy nhiên, mức giá này đi kèm với những <strong>giá trị độc quyền</strong> về công nghệ và độ bền mà Poly đã xây dựng trong hàng chục năm qua. Cụ thể là các công nghệ như <strong>Acoustic Fence và WindSmart</strong> giúp chất lượng đàm thoại vượt trội, đảm bảo sự chuyên nghiệp trong mọi cuộc gọi, điều mà các sản phẩm khác khó có thể so sánh được.' },
+                            { title: 'Bước 3: Nhấn Mạnh Về Độ Bền và Chi Phí Sở Hữu (TCO)', description: 'Sản phẩm của Poly nổi tiếng về độ bền, được thiết kế để sử dụng trong môi trường doanh nghiệp cường độ cao. Việc đầu tư một lần vào sản phẩm chất lượng sẽ giúp mình tiết kiệm chi phí sửa chữa, thay thế và tránh được những gián đoạn không đáng có trong công việc. Tính về chi phí sở hữu lâu dài (Total Cost of Ownership), Poly lại là một lựa chọn rất kinh tế.' },
+                            { title: 'Bước 4: Đề Nghị Trải Nghiệm', description: '"Để mình có thể cảm nhận rõ nhất sự khác biệt về chất lượng, em có thể cho mình mượn demo một sản phẩm Poly và một sản phẩm của hãng khác để mình tự so sánh được không ạ? Em tin là sau khi trải nghiệm, mình sẽ thấy sự đầu tư này là hoàn toàn xứng đáng."', isConversion: true },
+                        ]
+                    },
+                    'connection-issues': {
+                        title: 'Khách phàn nàn tai nghe kết nối không ổn định',
+                        steps: [
+                            { title: 'Bước 1: Lắng Nghe & Xin Lỗi', description: 'Dạ, em rất xin lỗi về sự bất tiện mà anh/chị đang gặp phải ạ. Anh/chị có thể cho em biết rõ hơn về tình trạng mình đang gặp không ạ? Ví dụ như tai nghe hay bị mất kết nối, âm thanh bị ngắt quãng, hay không kết nối được với thiết bị ạ?' },
+                            { title: 'Bước 2: Đưa Ra Các Bước Kiểm Tra Cơ Bản', description: 'Trước khi kiểm tra sâu hơn, mình có thể thử một vài thao tác đơn giản trước ạ: <ul><li><strong>Kiểm tra khoảng cách:</strong> Đảm bảo anh/chị đang ở trong phạm vi kết nối của tai nghe (khoảng 10m với Bluetooth).</li><li><strong>Cập nhật firmware:</strong> Mở phần mềm Poly Lens để kiểm tra và cập nhật firmware cho cả tai nghe và USB dongle.</li><li><strong>Cắm lại dongle:</strong> Rút USB dongle ra và cắm lại vào một cổng USB khác trên máy tính.</li><li><strong>Reset tai nghe:</strong> Thử reset lại kết nối Bluetooth trên tai nghe.</li></ul>' },
+                            { title: 'Bước 3: Đề Xuất Hỗ Trợ Từ Xa', description: 'Nếu các bước trên vẫn chưa khắc phục được, anh/chị có tiện để em xin phép được hỗ trợ từ xa qua UltraViewer hoặc TeamViewer không ạ? Em sẽ kết nối vào máy và kiểm tra các cài đặt chi tiết hơn giúp mình.' },
+                            { title: 'Bước 4: Cam Kết Xử Lý Dứt Điểm', description: '"Anh/chị cứ yên tâm, bên em sẽ hỗ trợ đến khi vấn đề được giải quyết triệt để. Nếu xác định đây là lỗi phần cứng, bên em sẽ tiến hành kiểm tra và bảo hành 1 đổi 1 theo chính sách của hãng cho mình ạ."', isConversion: true },
+                        ]
+                    },
+                    'customer-not-tech-savvy': {
+                        title: 'Khách hàng lớn tuổi, không rành công nghệ',
+                        steps: [
+                            { title: 'Bước 1: Trấn An & Sử Dụng Ngôn Ngữ Đơn Giản', description: 'Dạ, bác/cô/chú cứ yên tâm ạ. Các thiết bị của Poly được thiết kế để rất dễ sử dụng. Cháu sẽ giải thích một cách đơn giản nhất, không dùng từ ngữ kỹ thuật phức tạp đâu ạ.' },
+                            { title: 'Bước 2: Tập Trung Vào Lợi Ích, Không Phải Tính Năng', description: 'Thay vì nói về "Bluetooth 5.2" hay "ANC", hãy nói: "Chiếc tai nghe này chỉ cần bật lên là nó tự kết nối với điện thoại, có cuộc gọi đến chỉ cần bấm một nút to trên tai là nghe được, rất tiện lợi. Khi đeo vào nó cũng tự lọc hết tiếng ồn, giúp mình nghe rõ hơn, không bị phân tâm."' },
+                            { title: 'Bước 3: Demo Trực Tiếp & Hướng Dẫn "Cầm Tay Chỉ Việc"', description: 'Cách tốt nhất là để khách hàng tự trải nghiệm. "Bây giờ cháu sẽ kết nối thử với điện thoại của bác nhé. Đây, bác thấy không, chỉ cần gạt nút này thôi. Có cuộc gọi đến, bác chỉ cần bấm vào nút này. Rất dễ phải không ạ?" Hãy kiên nhẫn lặp lại các thao tác đơn giản nhất.' },
+                            { title: 'Bước 4: Cam Kết Hỗ Trợ Sau Bán Hàng', description: '"Bác cứ yên tâm mua về dùng. Trong quá trình sử dụng, nếu có bất kỳ khó khăn nào, dù là nhỏ nhất, bác cứ gọi điện cho cháu qua số Zalo này. Cháu sẽ gọi video để hướng dẫn lại cho bác bất cứ lúc nào ạ."', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'policy-support': {
+                title: 'Chính Sách & Hỗ Trợ',
+                icon: 'fa-handshake-angle',
+                scenarios: {
+                    'demo-policy': {
+                        title: 'Chính sách demo, cho mượn sản phẩm như thế nào?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, bên em có chính sách cho mượn sản phẩm để khách hàng doanh nghiệp dùng thử (demo) trước khi quyết định mua hàng ạ. Đây là chương trình để hỗ trợ khách hàng trải nghiệm thực tế chất lượng sản phẩm.' },
+                            { title: 'Bước 2: Nêu Rõ Điều Kiện Áp Dụng', description: 'Chương trình này thường áp dụng cho: <ul><li><strong>Khách hàng doanh nghiệp, dự án.</strong></li><li>Các sản phẩm có giá trị cao hoặc các giải pháp cho phòng họp.</li><li>Thời gian mượn demo thường từ 3-7 ngày, tùy thuộc vào sản phẩm và thỏa thuận.</li></ul>' },
+                            { title: 'Bước 3: Quy Trình Thực Hiện', description: 'Mình cần hỏi khách: <strong>"Dạ anh/chị có thể cho em xin thông tin công ty và sản phẩm mình đang quan tâm được không ạ? Em sẽ kiểm tra thiết bị demo có sẵn và trao đổi với bộ phận phụ trách để sắp xếp cho mình."</strong> Thường sẽ cần một số thủ tục đơn giản như ký biên bản bàn giao thiết bị.' },
+                            { title: 'Bước 4: Cam Kết Hỗ Trợ', description: '"Bên em sẽ có nhân viên kỹ thuật mang sản phẩm đến tận nơi, hỗ trợ lắp đặt và hướng dẫn sử dụng cơ bản để mình có trải nghiệm tốt nhất trong quá trình demo. Anh/chị muốn demo sản phẩm nào đầu tiên ạ?"', isConversion: true },
+                        ]
+                    },
+                     'warranty-policy': {
+                        title: 'Chính sách bảo hành sản phẩm Poly ra sao?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, tất cả sản phẩm HP Poly do bên em phân phối đều được hưởng chính sách bảo hành chính hãng <strong>24 tháng theo tiêu chuẩn của nhà sản xuất</strong> ạ.' },
+                            { title: 'Bước 2: Quy Trình Bảo Hành', description: 'Khi sản phẩm phát sinh lỗi kỹ thuật, quy trình sẽ như sau: <ul><li><strong>Tiếp nhận:</strong> Anh/chị vui lòng mang sản phẩm đến trung tâm của bên em, hoặc bên em có thể hỗ trợ tiếp nhận tận nơi (tùy khu vực).</li><li><strong>Kiểm tra:</strong> Kỹ thuật viên sẽ kiểm tra để xác định lỗi.</li><li><strong>Xử lý:</strong> Theo chính sách của HP Poly, sản phẩm lỗi sẽ được <strong>đổi một sản phẩm tương đương</strong>, đảm bảo khách hàng không phải chờ đợi sửa chữa lâu.</li></ul>' },
+                            { title: 'Bước 3: Nhấn Mạnh Về "Đổi Mới"', description: 'Điểm ưu việt trong chính sách bảo hành của Poly là cơ chế "đổi mới" thay vì "sửa chữa". Điều này giúp khách hàng nhận lại sản phẩm nhanh chóng và đảm bảo chất lượng sau bảo hành là tốt nhất.' },
+                            { title: 'Bước 4: Cam Kết An Tâm', description: '"Với chính sách bảo hành 2 năm và đổi sản phẩm lỗi, anh/chị có thể hoàn toàn yên tâm đầu tư và sử dụng sản phẩm trong thời gian dài mà không phải lo lắng về các vấn đề kỹ thuật."', isConversion: true },
+                        ]
+                    },
+                }
+            }
+        };
+
+        // --- DOM Elements ---
+        const navContainer = document.getElementById('left-nav');
+        const display = document.getElementById('flowchart-display');
+        const searchBox = document.getElementById('search-box');
+        const trainingToggle = document.getElementById('training-toggle');
+        const randomBtn = document.getElementById('random-scenario-btn');
+        
+        // --- State ---
+        let isTrainingMode = false;
+        
+        // --- Functions ---
+        function displayScenario(categoryKey, scenarioKey) {
+            const scenarioData = knowledgeBase[categoryKey]?.scenarios[scenarioKey];
+            if (!scenarioData) return;
+
+            let content = `<h3 class="text-2xl font-bold mb-5 text-gray-800">${scenarioData.title}</h3>`;
+            
+            scenarioData.steps.forEach((step, index) => {
+                const isConversion = step.isConversion ? 'conversion-card' : '';
+                const stepIcons = ['fa-comment-dots', 'fa-circle-info', 'fa-circle-question', 'fa-lightbulb'];
+                const cardId = `card-${categoryKey}-${scenarioKey}-${index}`;
+
+                content += `
+                    <div id="${cardId}" class="content-card ${isTrainingMode ? 'training-mode' : ''} ${isConversion}" style="animation-delay: ${index * 0.05}s;">
+                        <div class="content-card-header">
+                            <div class="flex items-center">
+                                <i class="fas ${stepIcons[index]} w-8 text-center text-lg"></i>
+                                <span>${step.title}</span>
+                            </div>
+                            ${isTrainingMode ? `<button class="training-toggle-btn" data-target="${cardId}"><i class="fas fa-eye mr-1"></i> Hiện</button>` : ''}
+                        </div>
+                        <div class="content-card-body text-gray-700">
+                           ${step.description}
+                        </div>
+                    </div>
+                `;
+            });
+            display.innerHTML = content;
+            display.scrollTop = 0; // Scroll to top of content
+
+            // Add event listeners for training mode buttons
+            if (isTrainingMode) {
+                document.querySelectorAll('.training-toggle-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const targetCard = document.getElementById(button.dataset.target);
+                        const isShown = targetCard.classList.toggle('show');
+                        button.innerHTML = isShown ? '<i class="fas fa-eye-slash mr-1"></i> Ẩn' : '<i class="fas fa-eye mr-1"></i> Hiện';
+                    });
+                });
+            }
+
+            // Update active class in nav
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.nav-item[data-category="${categoryKey}"][data-scenario="${scenarioKey}"]`);
+            if (activeBtn) {
+                 activeBtn.classList.add('active');
+            }
+        }
+
+        function buildNav() {
+            let navContent = '';
+            for (const categoryKey in knowledgeBase) {
+                const category = knowledgeBase[categoryKey];
+                navContent += `
+                    <div class="nav-category" data-category-key="${categoryKey}">
+                        <h4 class="nav-category-title"><i class="fas ${category.icon} mr-3 w-6 text-center text-xl"></i>${category.title}</h4>
+                        <div class="space-y-1 mt-2">
+                `;
+                for (const scenarioKey in category.scenarios) {
+                    const scenario = category.scenarios[scenarioKey];
+                    navContent += `
+                        <button class="nav-item" data-category="${categoryKey}" data-scenario="${scenarioKey}">
+                           ${scenario.title}
+                        </button>
+                    `;
+                }
+                navContent += `</div></div>`;
+            }
+            navContainer.innerHTML = navContent;
+
+            // Add event listeners after building nav
+            document.querySelectorAll('.nav-item').forEach(button => {
+                button.addEventListener('click', () => {
+                    const scenarioKey = button.dataset.scenario;
+                    const categoryKey = button.dataset.category;
+                    displayScenario(categoryKey, scenarioKey);
+                });
+            });
+        }
+        
+        function handleSearch() {
+            const query = searchBox.value.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            document.querySelectorAll('.nav-category').forEach(categoryEl => {
+                let categoryHasVisibleItems = false;
+                categoryEl.querySelectorAll('.nav-item').forEach(itemEl => {
+                    const itemText = itemEl.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                    if (itemText.includes(query)) {
+                        itemEl.style.display = 'block';
+                        categoryHasVisibleItems = true;
+                    } else {
+                        itemEl.style.display = 'none';
+                    }
+                });
+
+                if (categoryHasVisibleItems) {
+                    categoryEl.style.display = 'block';
+                } else {
+                    categoryEl.style.display = 'none';
+                }
+            });
+        }
+
+        function handleRandomScenario() {
+            const allScenarios = [];
+            for (const categoryKey in knowledgeBase) {
+                for (const scenarioKey in knowledgeBase[categoryKey].scenarios) {
+                    allScenarios.push({ category: categoryKey, scenario: scenarioKey });
+                }
+            }
+
+            if (allScenarios.length > 0) {
+                const randomIndex = Math.floor(Math.random() * allScenarios.length);
+                const randomItem = allScenarios[randomIndex];
+                
+                displayScenario(randomItem.category, randomItem.scenario);
+                
+                const activeBtn = document.querySelector(`.nav-item[data-category="${randomItem.category}"][data-scenario="${randomItem.scenario}"]`);
+                if(activeBtn) {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+        
+        // --- Event Listeners ---
+        searchBox.addEventListener('input', handleSearch);
+
+        trainingToggle.addEventListener('change', (e) => {
+            isTrainingMode = e.target.checked;
+            // Re-render the current scenario if one is displayed
+            const currentActive = document.querySelector('.nav-item.active');
+            if (currentActive) {
+                displayScenario(currentActive.dataset.category, currentActive.dataset.scenario);
+            }
+        });
+
+        randomBtn.addEventListener('click', handleRandomScenario);
+
+        // --- Initial Setup ---
+        window.onload = () => {
+            buildNav();
+            // Optional: click the first item on load
+            const firstButton = document.querySelector('.nav-item');
+            if(firstButton) {
+                firstButton.click();
+            }
+        };
+
+    </script>
+</body>
+</html>

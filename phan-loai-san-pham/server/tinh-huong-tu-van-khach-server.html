@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cơ Sở Tri Thức Sales - Máy Chủ (Server) - Nâng cấp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .main-layout {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .left-nav {
+            width: 35%;
+            max-width: 450px;
+            height: calc(100vh - 170px); /* Adjusted for header and new control panel */
+            overflow-y: auto;
+            position: sticky;
+            top: 165px; /* Adjusted for header and new control panel */
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .right-content {
+            width: 65%;
+            flex-grow: 1;
+        }
+        
+        .nav-category-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: #1d4ed8;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dbeafe;
+            display: flex;
+            align-items: center;
+        }
+         .nav-category-title:first-child {
+            margin-top: 0;
+        }
+
+        .nav-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #f3f4f6;
+            border-left: 3px solid #93c5fd;
+        }
+
+        .nav-item.active {
+            background-color: #eef2ff;
+            color: #1d4ed8;
+            font-weight: 700;
+            border-left: 3px solid #2563eb;
+        }
+        
+        .content-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+            margin-bottom: 1.25rem;
+        }
+
+        .content-card-header {
+            background-color: #f9fafb;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 700;
+            color: #111827;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .content-card-body {
+            padding: 1.25rem;
+            line-height: 1.7;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 1000px; /* Large enough for content */
+            overflow: hidden;
+        }
+        
+        .content-card.training-mode .content-card-body {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            opacity: 0;
+        }
+        
+        .content-card.training-mode.show .content-card-body {
+            max-height: 1000px;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-card.conversion-card {
+             border-color: #3b82f6;
+             background-color: #eff6ff;
+        }
+        .content-card.conversion-card .content-card-header {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        /* Training Mode Controls */
+        .training-toggle-btn {
+            cursor: pointer;
+            color: #3b82f6;
+            font-weight: 500;
+            background: #eef2ff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #c7d2fe;
+        }
+        
+        /* Toggle Switch Styles */
+        .toggle-switch-label { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .toggle-switch-label input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-20 h-[85px] flex items-center">
+        <div class="container mx-auto px-6">
+            <h1 class="text-3xl font-bold text-center text-blue-800">Cơ Sở Tri Thức Sales - Máy Chủ (Server)</h1>
+            <p class="text-center text-gray-500 mt-1">Công cụ tra cứu và đào tạo kịch bản tư vấn máy chủ chuyên nghiệp.</p>
+        </div>
+    </header>
+
+    <!-- Controls Panel -->
+    <div class="sticky top-[85px] bg-white/80 backdrop-blur-sm z-10 py-3 shadow-sm border-b">
+        <div class="container mx-auto px-6 flex flex-wrap items-center justify-between gap-4">
+            <!-- Search Box -->
+             <div class="relative flex-grow max-w-xs">
+                <input type="text" id="search-box" placeholder="Tìm kiếm tình huống..." class="w-full pl-10 pr-4 py-2 border rounded-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <!-- Training Controls -->
+            <div class="flex items-center gap-6">
+                <button id="random-scenario-btn" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+                    <i class="fas fa-random"></i> Tình huống Ngẫu nhiên
+                </button>
+                 <div class="flex items-center space-x-3">
+                    <label class="toggle-switch-label">
+                        <input type="checkbox" id="training-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="font-medium text-gray-700">Chế độ Luyện tập</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <main class="container mx-auto px-6 py-6">
+        <div class="main-layout">
+            <nav id="left-nav" class="left-nav">
+                <!-- Navigation items will be dynamically inserted here -->
+            </nav>
+
+            <div id="flowchart-display" class="right-content min-h-[600px]">
+                <div class="sticky top-[165px] text-center text-gray-400 flex flex-col items-center justify-center h-[calc(100vh-200px)] bg-white rounded-lg border-2 border-dashed">
+                    <i class="fas fa-arrow-left text-5xl mb-4 text-gray-300"></i>
+                    <p class="text-xl font-medium">Chào mừng đến với Cơ sở tri thức!</p>
+                    <p>Hãy bắt đầu bằng cách chọn một chủ đề từ danh mục bên trái.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const serverKnowledgeBase = {
+             'basic-consulting': {
+                title: 'Tư Vấn Cơ Bản & Tổng Quan',
+                icon: 'fa-headset',
+                scenarios: {
+                    '1u-rack-server-customer-ask': {
+                        title: 'Khách cần server rack 1U, chọn dòng nào?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, với nhu cầu server rack 1U, hai lựa chọn phổ biến và phù hợp nhất hiện nay là <strong>Dell PowerEdge R250 và R360</strong> ạ.' },
+                            { title: 'Bước 2: Giải Thích & Phân Loại', description: '<ul><li><strong>R250:</strong> Là dòng server 1U cơ bản, rất tối ưu về chi phí, phù hợp cho doanh nghiệp nhỏ, các ứng dụng web, làm máy chủ file/in ấn.</li><li><strong>R360:</strong> Là dòng nâng cấp, cấu hình mạnh hơn, hỗ trợ CPU và RAM cao hơn, phù hợp cho các ứng dụng đòi hỏi hiệu năng cao như ảo hóa, cơ sở dữ liệu nhỏ hoặc các ứng dụng chuyên dụng.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: 'Để tư vấn chính xác hơn, mình có thể hỏi khách: <strong>"Dạ không biết mình dự định dùng server cho mục đích cụ thể gì và ngân sách dự kiến khoảng bao nhiêu ạ, để em có thể lên cấu hình tối ưu nhất cho mình?"</strong>' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: 'Sau khi khách trả lời: "Dạ với nhu cầu [nêu lại nhu cầu], em thấy dòng [R250/R360] là phù hợp nhất. Anh/chị có muốn em lên một báo giá chi tiết với các tùy chọn nâng cấp để mình tham khảo không ạ?"', isConversion: true },
+                        ]
+                    },
+                    'customer-need-10-users-server': {
+                        title: 'Khách có 10 người dùng, chọn server nào?',
+                        steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ với quy mô khoảng 10 người dùng, các dòng server dạng tháp (Tower) như <strong>Dell PowerEdge T150 hoặc T350</strong> là lựa chọn rất phù hợp, cân bằng giữa hiệu năng, chi phí và sự yên tĩnh khi vận hành.' },
+                           { title: 'Bước 2: Phân Tích & So Sánh', description: '<ul><li><strong>Dell T150:</strong> Là lựa chọn khởi đầu tuyệt vời cho các ứng dụng nhẹ nhàng như chia sẻ file, máy chủ in, phần mềm kế toán (MISA), quản lý bán hàng. Máy rất nhỏ gọn và êm ái.</li><li><strong>Dell T350:</strong> Mạnh mẽ hơn, phù hợp nếu ứng dụng của khách đòi hỏi xử lý nhiều hơn, cần chạy ảo hóa hoặc cơ sở dữ liệu. Dòng này cũng có nhiều khe cắm ổ cứng và RAM hơn để dễ dàng nâng cấp sau này.</li></ul>' },
+                           { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: 'Mình cần hỏi thêm khách: <strong>"Dạ không biết ứng dụng cụ thể bên mình là gì ạ? Nó có yêu cầu đặc biệt về dung lượng lưu trữ hay tốc độ xử lý không để em tư vấn dòng máy phù hợp nhất ạ?"</strong>' },
+                           { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Dạ vậy với ứng dụng [tên ứng dụng], dòng T350 sẽ đảm bảo hiệu năng và khả năng mở rộng tốt hơn trong tương lai. Em sẽ lên cấu hình T350 tối ưu nhất trong tầm giá cho mình nhé?"', isConversion: true },
+                        ]
+                    },
+                    'server-origin-and-year': {
+                        title: 'Server Dell & HPE sản xuất năm nào, xuất xứ ở đâu?',
+                        steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, tất cả server Dell và HPE do bên em phân phối đều là <strong>hàng chính hãng, mới 100%</strong>. Về xuất xứ, các sản phẩm này được lắp ráp tại các nhà máy của hãng ở nhiều quốc gia như <strong>Malaysia, Trung Quốc, Mexico,...</strong> tùy theo lô hàng nhập về ạ.' },
+                           { title: 'Bước 2: Nhấn Mạnh Về Chất Lượng & Bảo Hành', description: 'Dù được lắp ráp ở đâu, tất cả sản phẩm đều tuân thủ tiêu chuẩn chất lượng toàn cầu của Dell/HPE và được hưởng chế độ <strong>bảo hành chính hãng tại Việt Nam</strong>. Anh/chị có thể hoàn toàn yên tâm về chất lượng và nguồn gốc sản phẩm.' },
+                           { title: 'Bước 3: Xử Lý Băn Khoăn (Nếu có)', description: 'Nếu khách còn băn khoăn về "Made in China", mình có thể giải thích: "Dạ hiện tại hầu hết các thương hiệu điện tử lớn trên thế giới đều có nhà máy tại Trung Quốc để tối ưu chi phí, nhưng toàn bộ quy trình và linh kiện đều theo tiêu chuẩn của hãng. Chất lượng là đồng nhất trên toàn cầu ạ."' },
+                           { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Anh/chị cứ yên tâm, bên em cam kết cung cấp đầy đủ giấy tờ chứng nhận nguồn gốc, chất lượng (CO, CQ) nếu mình có yêu cầu cho dự án. Mình có cần em hỗ trợ thêm thông tin gì về chính sách bảo hành không ạ?"', isConversion: true },
+                        ]
+                    },
+                    'dell-hpe-in-stock': {
+                        title: 'Server Dell & HPE có sẵn kho không?',
+                        steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Bên em luôn có sẵn hàng các dòng server Dell và HPE phổ thông, được nhiều doanh nghiệp lựa chọn để phục vụ nhu cầu giao hàng nhanh của khách hàng ạ.' },
+                           { title: 'Bước 2: Tìm Hiểu Nhu Cầu Cụ Thể', description: 'Tuy nhiên, để kiểm tra chính xác nhất, anh/chị có thể cho em biết mình đang quan tâm đến model cụ thể nào hoặc cấu hình mong muốn ra sao được không ạ? Vì một số cấu hình đặc thù hoặc cao cấp có thể sẽ cần đặt hàng trước.' },
+                           { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết mình đang cần gấp server cho dự án nào không ạ, và model anh/chị đang nhắm tới là gì để em kiểm tra tồn kho chính xác ngay cho mình?"</strong>' },
+                           { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Dạ model [Tên model] hiện đang có sẵn, em có thể giao ngay trong hôm nay cho mình. Nếu mình chốt sớm, em sẽ ưu tiên giữ hàng và sắp xếp giao nhanh nhất có thể ạ."', isConversion: true },
+                        ]
+                    },
+                    'remote-management': {
+                        title: 'Khách muốn quản lý, theo dõi server từ xa có được không?',
+                        steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ hoàn toàn được ạ. Đây là một tính năng quản trị rất quan trọng và chuyên nghiệp. Tất cả các dòng server Dell và HPE đều được tích hợp sẵn cổng quản lý từ xa chuyên dụng.' },
+                           { title: 'Bước 2: Giải Thích Công Nghệ', description: '<ul><li>Với <strong>server Dell</strong>, tính năng này gọi là <strong>iDRAC</strong> (integrated Dell Remote Access Controller).</li><li>Với <strong>server HPE</strong>, nó được gọi là <strong>iLO</strong> (integrated Lights-Out).</li></ul> Cả hai công nghệ này đều cho phép mình quản lý server toàn diện từ xa qua trình duyệt web, như thể mình đang ngồi trực tiếp trước máy chủ, bao gồm bật/tắt, theo dõi tình trạng phần cứng, cài đặt hệ điều hành...' },
+                           { title: 'Bước 3: Phân Loại License & Tư Vấn', description: 'Tuy nhiên, các tính năng nâng cao như điều khiển màn hình từ xa (Remote Console) có thể yêu cầu license. Mình có thể hỏi khách: <strong>"Dạ nhu cầu quản lý từ xa của mình có cần các tính năng chuyên sâu như cài đặt hệ điều hành hay chỉ cần theo dõi tình trạng phần cứng thôi ạ?"</strong> để tư vấn gói license phù hợp (iDRAC Express/Enterprise, iLO Standard/Advanced).' },
+                           { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Tính năng này cực kỳ hữu ích, giúp mình tiết kiệm rất nhiều thời gian và công sức quản trị. Khi lên cấu hình, em sẽ tư vấn gói license quản trị từ xa phù hợp nhất với nhu cầu của công ty mình nhé."', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'compatibility-accessories': {
+                title: 'Tương Thích & Phụ Kiện',
+                icon: 'fa-puzzle-piece',
+                scenarios: {
+                    'rack-server-rail-kit': {
+                        title: 'Server rack có kèm rail kit (thanh trượt) không?',
+                        steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, các server dạng rack (R-series) bán ra mặc định sẽ <strong>không đi kèm rail kit</strong> ạ. Rail kit là một tùy chọn (option) cần mua thêm.' },
+                           { title: 'Bước 2: Giải Thích Lý Do', description: 'Lý do là vì không phải khách hàng nào cũng có sẵn tủ rack; một số khách hàng đặt server trên bàn hoặc kệ chuyên dụng. Việc bán rời rail kit giúp tối ưu chi phí cho những khách hàng không thực sự cần đến nó.' },
+                           { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: 'Khi tư vấn, mình cần chủ động hỏi ngay: <strong>"Dạ, không biết bên mình đã có sẵn tủ rack và đã đo đạc kích thước chưa ạ, để em tư vấn loại rail kit phù hợp nhất cho mình?"</strong>' },
+                           { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Bên em có sẵn các loại rail kit chính hãng cho server này. Anh/chị có muốn em thêm vào báo giá để mình tiện tham khảo và lắp đặt đồng bộ luôn không ạ?"', isConversion: true },
+                        ]
+                    },
+                     'add-hdd-ssd-options': {
+                        title: 'Khách muốn thêm ổ cứng cho Server có sẵn, cần tra gì?',
+                        steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ để tư vấn chính xác ổ cứng tương thích, anh/chị có thể cung cấp cho em xin <strong>số Service Tag (của Dell) hoặc Serial Number (của HPE)</strong> của máy chủ được không ạ?' },
+                           { title: 'Bước 2: Giải Thích Tầm Quan Trọng', description: 'Mỗi dòng server sẽ có những yêu cầu khác nhau về: <ul><li><strong>Chuẩn ổ cứng:</strong> SAS, SATA, hay NVMe.</li><li><strong>Kích thước:</strong> 2.5 inch (SFF) hay 3.5 inch (LFF).</li><li><strong>Khay đựng (caddy/tray):</strong> Mỗi thế hệ server (Gen10, 15G, 16G) lại dùng một loại khay riêng.</li></ul> Việc tra cứu theo Service Tag/Serial Number sẽ đảm bảo 100% các yếu tố trên tương thích, tránh mua về không gắn được.' },
+                           { title: 'Bước 3: Hướng Dẫn Khách Hàng', description: 'Mình có thể hướng dẫn khách: "Số Service Tag thường được dán trên một cái tem nhỏ ở mặt trước hoặc mặt sau của máy chủ. Anh/chị chỉ cần chụp hình tem đó gửi qua Zalo là em tra được ngay ạ."' },
+                           { title: 'Bước 4: Cam Kết Hỗ Trợ', description: '"Sau khi có thông tin, em sẽ gửi lại cho mình danh sách các loại ổ cứng tương thích cùng báo giá tốt nhất. Bên em cũng có dịch vụ hỗ trợ lắp đặt và cấu hình RAID tận nơi nếu mình có nhu cầu ạ."', isConversion: true },
+                        ]
+                    },
+                     'samsung-ssd-compatibility': {
+                        title: 'Server Dell & HPE có gắn được SSD Samsung không?',
+                         steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ về mặt kỹ thuật thì <strong>hoàn toàn có thể gắn được ạ</strong>. Các ổ SSD của Samsung (dòng cho người dùng cuối như 870 EVO, 980 Pro) vẫn có thể hoạt động trên server Dell/HPE.' },
+                           { title: 'Bước 2: Nêu Rõ Hạn Chế & Rủi Ro', description: 'Tuy nhiên, bên em <strong>không khuyến khích</strong> việc này vì các lý do sau: <ul><li><strong>Tính ổn định:</strong> SSD cho người dùng cuối không được thiết kế để hoạt động liên tục 24/7 trong môi trường server, có thể ảnh hưởng đến độ bền và sự ổn định.</li><li><strong>Tương thích RAID:</strong> Card RAID của server có thể không nhận diện, báo lỗi hoặc không tối ưu hiệu năng với các ổ cứng không chính hãng.</li><li><strong>Bảo hành:</strong> Nếu có sự cố xảy ra liên quan đến ổ cứng, hãng có thể từ chối bảo hành cho cả hệ thống server.</li></ul>' },
+                           { title: 'Bước 3: Đưa ra Giải Pháp Tối Ưu', description: 'Để đảm bảo sự ổn định và an toàn dữ liệu tuyệt đối cho doanh nghiệp, giải pháp tốt nhất là sử dụng ổ cứng chính hãng Dell/HPE (Enterprise SSD). Các ổ cứng này đã được kiểm tra và chứng nhận tương thích hoàn toàn với server.' },
+                           { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Mặc dù chi phí đầu tư cho ổ cứng chính hãng có cao hơn một chút, nhưng nó đảm bảo sự an tâm và ổn định lâu dài cho cả hệ thống. Anh/chị có muốn em lên báo giá so sánh giữa phương án dùng SSD Samsung và SSD chính hãng để mình cân nhắc không ạ?"', isConversion: true },
+                        ]
+                    },
+                    'samsung-ssd-t150-tray': {
+                        title: 'Gắn SSD Samsung cho T150 có cần tray chuyển + tray 3.5in không?',
+                        steps: [
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Vì server Dell T150 sử dụng khay ổ cứng 3.5 inch, trong khi các ổ SSD Samsung thường có kích thước 2.5 inch, nên mình sẽ cần một <strong>bộ tray chuyển đổi từ 2.5 inch sang 3.5 inch</strong> để có thể lắp vừa vào máy ạ.' },
+                           { title: 'Bước 2: Giải Thích Chi Tiết', description: 'Bộ chuyển đổi này là một cái khung kim loại hoặc nhựa, giúp cố định ổ cứng 2.5 inch vào đúng vị trí của khay 3.5 inch, đảm bảo kết nối với backplane của server được chắc chắn.' },
+                           { title: 'Bước 3: Nhắc Lại Khuyến Nghị', description: 'Tuy nhiên, như em đã tư vấn, việc sử dụng ổ cứng không chính hãng cho server có thể tiềm ẩn rủi ro về độ ổn định và bảo hành. Mình vẫn nên ưu tiên sử dụng ổ cứng chính hãng để đảm bảo an toàn dữ liệu ạ.' },
+                           { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Bên em có sẵn cả ổ cứng SSD chính hãng 2.5 inch và khay chuyển đổi. Nếu mình vẫn quyết định dùng SSD Samsung, anh/chị có muốn em thêm khay chuyển đổi này vào đơn hàng luôn không ạ?"', isConversion: true },
+                        ]
+                    },
+                     't150-sas-drive-support': {
+                        title: 'Server Dell T150 có gắn được ổ cứng SAS không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ <strong>không được ạ</strong>. Dòng server Dell PowerEdge T150 chỉ hỗ trợ ổ cứng chuẩn <strong>SATA</strong> thôi ạ.' },
+                            { title: 'Bước 2: Giải Thích Lý Do', description: 'T150 là dòng server cơ bản dành cho doanh nghiệp nhỏ, bộ điều khiển lưu trữ (storage controller) trên bo mạch chủ của nó chỉ được thiết kế để tương thích với ổ cứng SATA. Chuẩn SAS là chuẩn cao cấp hơn, yêu cầu card RAID chuyên dụng và thường chỉ được hỗ trợ trên các dòng server từ T350 trở lên.' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết mình có yêu cầu đặc biệt gì về hiệu năng đọc/ghi mà cần đến ổ cứng SAS không ạ?"</strong> Việc này giúp tìm hiểu xem khách có thực sự cần hiệu năng cao của SAS hay chỉ đang nhầm lẫn.' },
+                            { title: 'Bước 4: Tư Vấn Giải Pháp Thay Thế', description: 'Nếu khách cần tốc độ cao, mình có thể tư vấn: "Nếu mình cần hiệu năng cao hơn ổ cứng SATA HDD, giải pháp tốt nhất cho T150 là sử dụng <strong>ổ cứng SSD SATA</strong>. Tốc độ của SSD SATA nhanh hơn rất nhiều lần so với HDD, đáp ứng tốt hầu hết các nhu cầu của doanh nghiệp nhỏ và vừa. Hoặc nếu bắt buộc phải dùng SAS, em có thể tư vấn cho mình lên dòng T350 ạ."', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'dell-servers': {
+                title: 'Dell PowerEdge Servers',
+                icon: 'fa-server',
+                 scenarios: {
+                    'r250-power-supply-option': {
+                        title: 'Server Dell R250 có option thêm nguồn không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, dòng server Dell R250 được thiết kế với <strong>chỉ một bộ nguồn duy nhất (Single Power Supply)</strong> và <strong>không có tùy chọn lắp thêm nguồn thứ hai</strong> để dự phòng ạ.' },
+                            { title: 'Bước 2: Giải Thích Lý Do Thiết Kế', description: 'R250 là dòng server 1U cơ bản, được tối ưu về chi phí cho các doanh nghiệp nhỏ. Việc chỉ có 1 nguồn giúp giảm giá thành sản phẩm. Nguồn dự phòng (redundant power supply) là một tính năng cao cấp hơn.' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết yêu cầu của mình về độ sẵn sàng có cao không ạ? Mình có lo ngại về việc mất điện hoặc hỏng nguồn sẽ làm gián đoạn công việc không ạ?"</strong>' },
+                            { title: 'Bước 4: Tư Vấn Nâng Cấp', description: 'Nếu khách hàng yêu cầu cao về độ sẵn sàng, mình cần tư vấn: "Dạ nếu mình cần server chạy liên tục và không bị gián đoạn, em khuyến nghị mình nên xem xét các dòng cao hơn như <strong>Dell R350 hoặc R360</strong>. Các dòng này có tùy chọn 2 nguồn cắm nóng song song (hot-plug), nếu một nguồn hỏng, nguồn còn lại sẽ tự động gánh tải, đảm bảo server không bị tắt đột ngột."', isConversion: true },
+                        ]
+                    },
+                     'r360-cpu-option': {
+                        title: 'Server Dell R360 có option thêm CPU được không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, dòng server Dell PowerEdge R360 được thiết kế với <strong>chỉ một socket (khe cắm) CPU</strong>. Vì vậy, máy chỉ chạy được duy nhất 1 CPU và <strong>không thể nâng cấp thêm CPU thứ hai</strong> ạ.' },
+                            { title: 'Bước 2: Giải Thích Về Phân Khúc', description: 'R360 thuộc phân khúc server đơn (single-socket), tập trung vào việc cung cấp hiệu năng mạnh mẽ từ một CPU duy nhất cho các tác vụ phổ thông.' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết ứng dụng của mình có yêu cầu đặc biệt về số lượng nhân/luồng xử lý mà mình cần đến CPU thứ hai không ạ?"</strong>' },
+                            { title: 'Bước 4: Tư Vấn Nâng Cấp', description: 'Nếu khách có nhu cầu hiệu năng cực cao, cần chạy 2 CPU song song, mình có thể hướng khách lên các dòng server kép (dual-socket) như <strong>Dell R450 hoặc R550</strong>. Hoặc, mình có thể tư vấn nâng cấp con CPU hiện tại của R360 lên một model khác mạnh hơn trong danh sách hỗ trợ của máy.', isConversion: true },
+                        ]
+                    },
+                    't550-second-cpu-power': {
+                        title: 'Server T550 gắn CPU thứ 2 có cần thêm nguồn không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ <strong>chắc chắn là có ạ</strong>. Khi nâng cấp CPU thứ hai cho Dell T550, việc trang bị bộ nguồn thứ hai (nguồn dự phòng) là <strong>bắt buộc</strong> để đảm bảo cung cấp đủ điện năng và duy trì sự ổn định cho toàn hệ thống.' },
+                            { title: 'Bước 2: Giải Thích Kỹ Thuật', description: 'Mỗi CPU tiêu thụ một lượng điện năng đáng kể, đặc biệt khi hoạt động ở tải cao. Một bộ nguồn sẽ không đủ để cung cấp cho cả 2 CPU và các linh kiện khác. Việc lắp 2 nguồn không chỉ cung cấp đủ điện mà còn tạo ra cơ chế dự phòng, tăng độ tin cậy cho server.' },
+                            { title: 'Bước 3: Kiểm Tra Cấu Hình Hiện Tại', description: 'Mình cần hỏi khách: <strong>"Dạ anh/chị có thể cho em biết cấu hình hiện tại của máy T550 bên mình đang có mấy nguồn không ạ? Nếu chỉ có 1 nguồn, mình cần mua thêm 1 bộ nguồn nữa cùng với CPU thứ hai."</strong>' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Khi mình nâng cấp CPU thứ hai, em sẽ lên báo giá bao gồm cả CPU và bộ nguồn tương thích để đảm bảo hệ thống hoạt động ổn định nhất. Anh/chị có muốn em kiểm tra và báo giá ngay không ạ?"', isConversion: true },
+                        ]
+                    },
+                     'dell-nvme-support': {
+                        title: 'Server Dell sẵn kho có hỗ trợ ổ cứng NVMe không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, việc hỗ trợ ổ cứng NVMe <strong>còn tùy thuộc vào từng model server cụ thể</strong> ạ. Các dòng server Dell thế hệ mới (14G, 15G, 16G) đa số đều có hỗ trợ, nhưng số lượng và cách thức hỗ trợ sẽ khác nhau.' },
+                            { title: 'Bước 2: Phân Loại Hỗ Trợ', description: 'Có hai dạng hỗ trợ chính: <ul><li><strong>Hỗ trợ qua backplane:</strong> Một số dòng cao cấp cho phép cắm trực tiếp ổ NVMe U.2/U.3 vào các khay ổ cứng phía trước.</li><li><strong>Hỗ trợ qua card PCIe:</strong> Các dòng phổ thông hơn thường hỗ trợ gắn ổ NVMe M.2 thông qua một card adapter cắm vào khe PCIe.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ để em kiểm tra chính xác, anh/chị đang quan tâm đến model server nào ạ? Và nhu cầu của mình là dùng NVMe để làm cache tăng tốc hay làm ổ lưu trữ chính ạ?"</strong>' },
+                            { title: 'Bước 4: Tư Vấn Giải Pháp', description: 'Sau khi có thông tin, mình có thể tư vấn: "Dạ, dòng [Tên model] này hỗ trợ gắn NVMe qua card PCIe. Đây là giải pháp rất hiệu quả để tăng tốc độ cho cơ sở dữ liệu hoặc các ứng dụng cần truy xuất nhanh. Em có thể lên cấu hình bao gồm cả server và card NVMe phù hợp cho mình tham khảo nhé."', isConversion: true },
+                        ]
+                    },
+                    'dell-4-port-nic-option': {
+                        title: 'Các server Dell có option card mạng 4 port không?',
+                        steps: [
+                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Hầu hết các dòng server Dell PowerEdge (bao gồm T150/T350/R250/R360) đều có thể <strong>gắn thêm card mạng (NIC) 4 port</strong> thông qua các khe cắm mở rộng PCIe.' },
+                             { title: 'Bước 2: Giải Thích Lợi Ích', description: 'Việc gắn thêm card mạng 4 port mang lại nhiều lợi ích như: <ul><li><strong>Tăng băng thông:</strong> Gộp nhiều cổng mạng lại để tăng tốc độ truyền tải dữ liệu (Teaming).</li><li><strong>Tăng độ tin cậy:</strong> Nếu một cổng mạng bị lỗi, các cổng khác vẫn hoạt động (Failover).</li><li><strong>Phân chia mạng:</strong> Dùng các cổng cho các mục đích mạng khác nhau (VD: 1 cho mạng nội bộ, 1 cho mạng quản lý, 1 cho máy ảo...).</li></ul>' },
+                             { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết mình cần thêm cổng mạng để phục vụ cho mục đích gì ạ, để em tư vấn loại card có tốc độ phù hợp (1GbE, 10GbE)?"</strong>' },
+                             { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Bên em có sẵn các loại card mạng 4 port chính hãng của Dell và Intel, tương thích hoàn toàn với server. Em thêm vào báo giá cho mình một chiếc card 4 port 1GbE phổ biến nhất nhé?"', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'hpe-servers': {
+                title: 'HPE ProLiant Servers',
+                icon: 'fa-server',
+                scenarios: {
+                    'hpe-gen10-basic-carrier': {
+                        title: 'Ổ cứng HPE khay Basic Carrier gắn cho Server Gen10 được không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ <strong>không được ạ</strong>. Ổ cứng HPE đi kèm khay Basic Carrier (thường là khay nhựa đen, không có đèn) được thiết kế cho các dòng server thế hệ cũ hơn (Gen8/Gen9) và <strong>không tương thích</strong> với server HPE Gen10.' },
+                            { title: 'Bước 2: Giải Thích Kỹ Thuật', description: 'Server HPE Gen10 yêu cầu phải sử dụng khay ổ cứng chuyên dụng gọi là <strong>HPE Smart Carrier Gen10</strong>. Loại khay này có thiết kế khác biệt và tích hợp chip thông minh để giao tiếp với hệ thống, hiển thị trạng thái ổ cứng qua đèn LED. Gắn sai loại khay sẽ không thể kết nối được hoặc gây lỗi hệ thống.' },
+                            { title: 'Bước 3: Nhấn Mạnh Rủi Ro', description: 'Việc cố gắng gắn sai loại khay có thể làm hỏng cả ổ cứng và backplane của server. Vì vậy, tuyệt đối không nên thử ạ.' },
+                            { title: 'Bước 4: Tư Vấn Giải Pháp', description: '"Để gắn ổ cứng cho server Gen10, mình cần mua đúng loại ổ cứng đi kèm khay Smart Carrier Gen10. Anh/chị có thể cho em biết dung lượng và chuẩn ổ cứng mình cần (SAS/SATA) để em gửi báo giá loại tương thích 100% được không ạ?"', isConversion: true },
+                        ]
+                    },
+                    'hpe-dl380-g10-hotplug': {
+                        title: 'Ổ cứng HPE có cắm hot-plug cho Server DL380 G10 được không?',
+                        steps: [
+                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, điều này <strong>hoàn toàn phụ thuộc</strong> vào ổ cứng đó có được lắp trong khay <strong>HPE Smart Carrier Gen10</strong> hay không ạ. Nếu đúng là khay Smart Carrier thì sẽ hỗ trợ đầy đủ tính năng cắm nóng (hot-plug).' },
+                             { title: 'Bước 2: Phân Biệt Các Loại Khay', description: '<ul><li><strong>Khay Smart Carrier (Gen8/9/10):</strong> Có đèn LED chẩn đoán trạng thái thông minh, thiết kế để hỗ trợ hot-plug.</li><li><strong>Khay Basic Carrier:</strong> Là khay đơn giản, không có đèn LED, thường không hỗ trợ hot-plug (non-hot-plug).</li></ul>' },
+                             { title: 'Bước 3: Đặt Câu Hỏi Làm Rõ', description: 'Mình cần hỏi khách hoặc kiểm tra mã sản phẩm: <strong>"Dạ ổ cứng HPE của mình đang đi kèm khay loại nào ạ? Trên khay có các biểu tượng đèn LED không ạ?"</strong>' },
+                             { title: 'Bước 4: Tư Vấn & Cam Kết', description: '"Để đảm bảo tính năng hot-plug hoạt động chính xác và an toàn, mình cần sử dụng đúng ổ cứng có khay Smart Carrier Gen10. Tất cả ổ cứng HPE dành cho server Gen10 do bên em cung cấp đều là loại Smart Carrier, hỗ trợ đầy đủ hot-plug và được bảo hành chính hãng ạ."', isConversion: true },
+                        ]
+                    },
+                }
+            },
+            'software-services': {
+                title: 'Phần Mềm & Dịch Vụ',
+                icon: 'fa-cogs',
+                scenarios: {
+                    'raid-h355-support': {
+                        title: 'Card RAID H355 có hỗ trợ RAID 5 không?',
+                        steps: [
+                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Card RAID PERC H355 của Dell <strong>hoàn toàn hỗ trợ RAID 5</strong>. Ngoài ra, nó còn hỗ trợ các cấp độ RAID phổ biến khác như RAID 0, 1, và 10.' },
+                             { title: 'Bước 2: Giải Thích Lợi Ích Của RAID 5', description: 'RAID 5 là một lựa chọn rất phổ biến cho doanh nghiệp vì nó cân bằng được 3 yếu tố: <ul><li><strong>Hiệu năng:</strong> Tốc độ đọc nhanh.</li><li><strong>Dung lượng:</strong> Chỉ mất dung lượng của 1 ổ cứng cho việc dự phòng.</li><li><strong>An toàn dữ liệu:</strong> Cho phép hỏng 1 ổ cứng trong mảng RAID mà không làm mất dữ liệu.</li></ul>' },
+                             { title: 'Bước 3: Yêu Cầu Kỹ Thuật', description: 'Mình cần tư vấn cho khách: "Dạ để cấu hình được RAID 5, mình cần tối thiểu <strong>3 ổ cứng có cùng dung lượng và tốc độ</strong> ạ. Với 3 ổ cứng, dung lượng sử dụng được sẽ là tổng dung lượng của 2 ổ."' },
+                             { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Đây là giải pháp an toàn và hiệu quả cho các ứng dụng lưu trữ dữ liệu quan trọng của công ty. Anh/chị có muốn em tư vấn cấu hình server với 3 ổ cứng và card H355 để chạy RAID 5 luôn không ạ?"', isConversion: true },
+                        ]
+                    },
+                    't150-ram-info': {
+                        title: 'Server Dell T150 có bao nhiêu khe RAM, hỗ trợ tối đa bao nhiêu?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, Server Dell PowerEdge T150 có tổng cộng <strong>4 khe cắm RAM</strong>. Máy hỗ trợ tối đa <strong>128GB RAM</strong> (khi sử dụng 4 thanh RAM 32GB) ạ.' },
+                            { title: 'Bước 2: Lưu Ý Về Loại RAM', description: 'Khi tư vấn nâng cấp RAM cho T150, mình cần lưu ý đây là RAM chuyên dụng cho server: <ul><li><strong>Loại RAM:</strong> DDR4 ECC Unbuffered (UDIMM). Chữ "ECC" rất quan trọng, nó có tính năng tự sửa lỗi để đảm bảo hệ thống ổn định.</li><li><strong>Tốc độ Bus:</strong> Hỗ trợ bus tối đa 3200MT/s.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết ứng dụng của mình chạy có yêu cầu nhiều RAM không ạ? Và hiện tại mình đang dự định nâng cấp lên bao nhiêu GB để em tư vấn loại RAM và số lượng thanh phù hợp nhất?"</strong>' },
+                            { title: 'Bước 4: Tư Vấn Tối Ưu', description: 'Để tối ưu hiệu năng, mình nên tư vấn khách lắp các thanh RAM theo cặp có cùng dung lượng và bus (ví dụ: 2 thanh 16GB) để kích hoạt chế độ Dual Channel. "Dạ, em có sẵn RAM 16GB và 32GB chính hãng cho T150. Anh/chị có muốn em báo giá để nâng cấp luôn không ạ?"', isConversion: true },
+                        ]
+                    },
+                     'win-server-2025-support': {
+                        title: 'Server Dell có cài được Windows Server 2025 không?',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, các dòng server Dell thế hệ mới nhất như <strong>PowerEdge 16G (ví dụ R360, T560)</strong> sẽ được hỗ trợ chính thức và đầy đủ driver cho Windows Server 2025 khi hệ điều hành này ra mắt ạ. Các dòng cũ hơn như 14G, 15G có thể cài được nhưng có thể không đầy đủ driver từ hãng.' },
+                            { title: 'Bước 2: Giải Thích Về Vòng Đời Hỗ Trợ', description: 'Các hãng sản xuất server như Dell thường chỉ cung cấp driver và chứng nhận tương thích chính thức cho các hệ điều hành mới trên các dòng server mới nhất của họ. Việc cài trên các hệ máy cũ hơn có thể chạy được nhưng không đảm bảo 100% sự ổn định.' },
+                            { title: 'Bước 3: Tư Vấn Dựa Trên Nhu Cầu Hiện Tại', description: 'Hiện tại, Windows Server 2022 đang là phiên bản rất ổn định và được hỗ trợ đầy đủ trên hầu hết các dòng server. Mình có thể hỏi khách: <strong>"Dạ không biết mình có yêu cầu bắt buộc nào phải dùng Windows Server 2025 ngay khi ra mắt không ạ, hay mình có thể dùng bản 2022 trước để đảm bảo sự ổn định tối đa?"</strong>' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Bên em cung cấp cả license Windows Server 2022 bản quyền. Khi mua server, em có thể cài đặt sẵn và tối ưu hệ điều hành cho mình. Khi nào Windows Server 2025 chính thức và ổn định, mình có thể cân nhắc nâng cấp sau ạ."', isConversion: true },
+                        ]
+                    },
+                    'office365-support': {
+                        title: 'Server cài Windows Server có hỗ trợ cài Office 365 không?',
+                        steps: [
+                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, câu trả lời là <strong>KHÔNG NÊN</strong> và <strong>không được Microsoft hỗ trợ chính thức</strong> ạ. Các ứng dụng Microsoft 365 (Office 365) được thiết kế để chạy trên các hệ điều hành máy trạm (client) như Windows 10, Windows 11, không phải trên hệ điều hành máy chủ (server).' },
+                             { title: 'Bước 2: Giải Thích Kỹ Thuật & License', description: '<ul><li><strong>Về kỹ thuật:</strong> Cài đặt Office trên Windows Server thường yêu cầu vai trò "Remote Desktop Services", rất phức tạp và không dành cho mục đích văn phòng thông thường.</li><li><strong>Về license:</strong> Điều khoản sử dụng của Microsoft 365 không cho phép cài đặt trên Windows Server, trừ một số trường hợp rất đặc biệt.</li></ul> Việc cài đặt sai có thể dẫn đến lỗi, không ổn định và vi phạm bản quyền.' },
+                             { title: 'Bước 3: Tìm Hiểu Nhu Cầu Thực Sự', description: 'Mình cần hỏi để hiểu rõ mục đích của khách: <strong>"Dạ anh/chị có thể cho em biết mình định cài Office 365 lên server để làm gì không ạ? Có phải mình muốn nhiều người dùng cùng truy cập và sử dụng bộ Office đó từ xa không ạ?"</strong>' },
+                             { title: 'Bước 4: Tư Vấn Giải Pháp Đúng', description: 'Nếu khách muốn nhiều người dùng sử dụng Office, giải pháp đúng là: <strong>mua các gói license Microsoft 365 phù hợp (như Business Basic/Standard) cho từng người dùng</strong>. Mỗi người dùng sẽ cài đặt và sử dụng Office trên máy tính cá nhân của họ, còn server chỉ dùng để lưu trữ và chia sẻ dữ liệu chung. "Em có thể tư vấn các gói Microsoft 365 phù hợp cho doanh nghiệp mình. Đây là giải pháp đúng đắn, được hỗ trợ và đảm bảo ổn định ạ."', isConversion: true },
+                        ]
+                    }
+                }
+            },
+            'advanced-scenarios': {
+                title: 'Tình Huống Nâng Cao & Phản Biện',
+                icon: 'fa-user-shield',
+                scenarios: {
+                    'tight-budget': {
+                        title: 'Khách có ngân sách rất eo hẹp',
+                        steps: [
+                            { title: 'Bước 1: Đồng Cảm & Thấu Hiểu', description: 'Dạ em hiểu ạ, việc cân đối chi phí đầu tư ban đầu là rất quan trọng với mọi doanh nghiệp. Bên em sẽ cố gắng đưa ra giải pháp phù hợp nhất trong tầm ngân sách của mình ạ.' },
+                            { title: 'Bước 2: Đề Xuất Cấu Hình Tối Giản', description: 'Với ngân sách [Số tiền], em đề xuất mình bắt đầu với cấu hình cơ bản nhất của dòng T150. Mình sẽ sử dụng CPU mặc định, 1 thanh RAM 8GB và 1 ổ cứng HDD 1TB. Cấu hình này đủ để chạy các tác vụ cơ bản và mình hoàn toàn có thể nâng cấp thêm sau này khi có điều kiện.' },
+                            { title: 'Bước 3: Tư Vấn Về Phương Án Trả Góp', description: 'Ngoài ra, để giảm áp lực tài chính, bên em có chương trình <strong>trả góp 0% lãi suất</strong> qua thẻ tín dụng. Thay vì trả toàn bộ chi phí một lần, mình có thể chia nhỏ ra trả trong 6 hoặc 12 tháng, rất tiện lợi ạ.' },
+                            { title: 'Bước 4: Nhấn Mạnh Giá Trị Lâu Dài', description: '"Đầu tư vào một máy chủ chính hãng ngay từ đầu sẽ giúp mình tiết kiệm chi phí sửa chữa và đảm bảo công việc không bị gián đoạn trong tương lai. Anh/chị có muốn em gửi chi tiết chương trình trả góp không ạ?"', isConversion: true }
+                        ]
+                    },
+                    'future-scalability-concerns': {
+                        title: 'Khách lo lắng về khả năng nâng cấp trong tương lai',
+                        steps: [
+                            { title: 'Bước 1: Ghi Nhận Mối Quan Tâm', description: 'Dạ đây là một mối quan tâm rất chính đáng và có tầm nhìn ạ. Việc lựa chọn một máy chủ có khả năng mở rộng tốt sẽ giúp bảo vệ khoản đầu tư của mình trong dài hạn.' },
+                            { title: 'Bước 2: Tư Vấn Dòng Máy Phù Hợp', description: 'Nếu mình chú trọng khả năng nâng cấp, em khuyến nghị mình nên xem xét dòng <strong>Dell T350 hoặc T550</strong>. So với T150, các dòng này có: <ul><li>Nhiều khe cắm RAM hơn (tối đa 4 hoặc 8 khe).</li><li>Hỗ trợ nhiều ổ cứng hơn (8 khay hot-plug).</li><li>Nhiều khe cắm PCIe hơn để gắn thêm card mạng, card đồ họa...</li></ul>' },
+                            { title: 'Bước 3: Đưa Ra Ví Dụ Cụ Thể', description: 'Ví dụ, hiện tại mình có thể chỉ cần 16GB RAM và 2 ổ cứng. Nhưng sau 1-2 năm nữa khi công ty phát triển, mình có thể dễ dàng nâng cấp lên 64GB RAM và cắm thêm 6 ổ cứng nữa mà không cần phải thay server mới.' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Việc đầu tư thêm một chút vào dòng T350/T550 bây giờ sẽ mang lại sự linh hoạt và tiết kiệm hơn rất nhiều trong tương lai. Anh/chị có muốn em lên báo giá so sánh chi tiết giữa T150 và T350 để mình thấy rõ sự khác biệt không ạ?"', isConversion: true }
+                        ]
+                    },
+                    'power-consumption-noise': {
+                        title: 'Khách hỏi về điện năng tiêu thụ và độ ồn',
+                        steps: [
+                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ đây là câu hỏi rất thực tế, đặc biệt khi đặt server trong môi trường văn phòng. Về độ ồn và điện năng, server dạng tháp (Tower) như T150, T350 sẽ <strong>êm ái và tiết kiệm điện hơn</strong> đáng kể so với server dạng rack (R-series).' },
+                            { title: 'Bước 2: Giải Thích Lý Do', description: '<ul><li><strong>Server Tower:</strong> Được thiết kế để hoạt động trong môi trường văn phòng, sử dụng quạt tản nhiệt lớn hơn, quay chậm hơn nên ít ồn hơn. Nguồn điện cũng thường có công suất vừa phải.</li><li><strong>Server Rack:</strong> Được thiết kế để đặt trong phòng máy chủ chuyên dụng, tối ưu hóa không gian nên dùng quạt nhỏ, tốc độ cao, gây ra tiếng ồn lớn.</li></ul>' },
+                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: '<strong>"Dạ không biết mình dự định đặt máy chủ ở vị trí nào ạ? Có phải trong phòng làm việc chung không ạ?"</strong>' },
+                            { title: 'Bước 4: Đưa Ra Khuyến Nghị', description: 'Nếu khách đặt trong văn phòng, mình phải nhấn mạnh: "Vậy thì dòng T150 hoặc T350 là lựa chọn tối ưu nhất cho mình ạ. Máy chạy rất êm, sẽ không gây ảnh hưởng đến môi trường làm việc. Em sẽ chọn cấu hình với bộ nguồn hiệu suất cao để tối ưu điện năng cho mình nhé."', isConversion: true }
+                        ]
+                    },
+                    'dell-vs-hpe-comparison': {
+                        title: 'Khách phân vân giữa Dell và HPE',
+                        steps: [
+                            { title: 'Bước 1: Tôn Trọng Cả Hai Thương Hiệu', description: 'Dạ, Dell và HPE đều là hai thương hiệu máy chủ hàng đầu thế giới với chất lượng và độ tin cậy rất cao. Mỗi hãng có những thế mạnh riêng và lựa chọn nào cũng tốt ạ.' },
+                            { title: 'Bước 2: Đưa Ra So Sánh Khách Quan', description: 'Tuy nhiên, có một vài điểm khác biệt nhỏ để mình cân nhắc: <ul><li><strong>Quản lý từ xa:</strong> Giao diện iDRAC của Dell thường được đánh giá là thân thiện và dễ sử dụng hơn một chút so với iLO của HPE.</li><li><strong>Cộng đồng & Hỗ trợ:</strong> Dell có cộng đồng người dùng rất lớn, việc tìm kiếm tài liệu, hướng dẫn xử lý sự cố online thường dễ dàng hơn.</li><li><strong>Hệ sinh thái:</strong> Nếu công ty mình đã sử dụng nhiều sản phẩm khác của Dell (laptop, màn hình), việc chọn server Dell sẽ tạo ra một hệ sinh thái đồng bộ.</li></ul>' },
+                            { title: 'Bước 3: Tập Trung Vào Dịch Vụ Của Cửa Hàng', description: 'Quan trọng hơn cả, dù anh/chị chọn Dell hay HPE, bên em đều cam kết cung cấp <strong>dịch vụ hỗ trợ kỹ thuật và bảo hành chính hãng tốt nhất</strong>. Đội ngũ kỹ thuật của bên em có kinh nghiệm chuyên sâu với cả hai dòng sản phẩm.' },
+                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Dựa trên sự phổ biến và dễ sử dụng, em thường ưu tiên tư vấn dòng Dell cho các doanh nghiệp lần đầu trang bị server. Anh/chị có muốn em demo thử giao diện quản trị iDRAC của Dell để mình trải nghiệm không ạ?"', isConversion: true }
+                        ]
+                    }
+                }
+            }
+        };
+
+        // --- DOM Elements ---
+        const navContainer = document.getElementById('left-nav');
+        const display = document.getElementById('flowchart-display');
+        const searchBox = document.getElementById('search-box');
+        const trainingToggle = document.getElementById('training-toggle');
+        const randomBtn = document.getElementById('random-scenario-btn');
+        
+        // --- State ---
+        let isTrainingMode = false;
+        
+        // --- Functions ---
+        function displayScenario(categoryKey, scenarioKey) {
+            const scenarioData = serverKnowledgeBase[categoryKey]?.scenarios[scenarioKey];
+            if (!scenarioData) return;
+
+            let content = `<h3 class="text-2xl font-bold mb-5 text-gray-800">${scenarioData.title}</h3>`;
+            
+            scenarioData.steps.forEach((step, index) => {
+                const isConversion = step.isConversion ? 'conversion-card' : '';
+                const stepIcons = ['fa-comment-dots', 'fa-circle-info', 'fa-circle-question', 'fa-lightbulb'];
+                const cardId = `card-${categoryKey}-${scenarioKey}-${index}`;
+
+                content += `
+                    <div id="${cardId}" class="content-card ${isTrainingMode ? 'training-mode' : ''} ${isConversion}" style="animation-delay: ${index * 0.05}s;">
+                        <div class="content-card-header">
+                            <div class="flex items-center">
+                                <i class="fas ${stepIcons[index]} w-8 text-center text-lg"></i>
+                                <span>${step.title}</span>
+                            </div>
+                            ${isTrainingMode ? `<button class="training-toggle-btn" data-target="${cardId}"><i class="fas fa-eye mr-1"></i> Hiện</button>` : ''}
+                        </div>
+                        <div class="content-card-body text-gray-700">
+                           ${step.description}
+                        </div>
+                    </div>
+                `;
+            });
+            display.innerHTML = content;
+            display.scrollTop = 0; // Scroll to top of content
+
+            // Add event listeners for training mode buttons
+            if (isTrainingMode) {
+                document.querySelectorAll('.training-toggle-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const targetCard = document.getElementById(button.dataset.target);
+                        const isShown = targetCard.classList.toggle('show');
+                        button.innerHTML = isShown ? '<i class="fas fa-eye-slash mr-1"></i> Ẩn' : '<i class="fas fa-eye mr-1"></i> Hiện';
+                    });
+                });
+            }
+
+            // Update active class in nav
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`.nav-item[data-category="${categoryKey}"][data-scenario="${scenarioKey}"]`);
+            if (activeBtn) {
+                 activeBtn.classList.add('active');
+            }
+        }
+
+        function buildNav() {
+            let navContent = '';
+            for (const categoryKey in serverKnowledgeBase) {
+                const category = serverKnowledgeBase[categoryKey];
+                navContent += `
+                    <div class="nav-category" data-category-key="${categoryKey}">
+                        <h4 class="nav-category-title"><i class="fas ${category.icon} mr-3 w-6 text-center text-xl"></i>${category.title}</h4>
+                        <div class="space-y-1 mt-2">
+                `;
+                for (const scenarioKey in category.scenarios) {
+                    const scenario = category.scenarios[scenarioKey];
+                    navContent += `
+                        <button class="nav-item" data-category="${categoryKey}" data-scenario="${scenarioKey}">
+                           ${scenario.title}
+                        </button>
+                    `;
+                }
+                navContent += `</div></div>`;
+            }
+            navContainer.innerHTML = navContent;
+
+            // Add event listeners after building nav
+            document.querySelectorAll('.nav-item').forEach(button => {
+                button.addEventListener('click', () => {
+                    const scenarioKey = button.dataset.scenario;
+                    const categoryKey = button.dataset.category;
+                    displayScenario(categoryKey, scenarioKey);
+                });
+            });
+        }
+        
+        function handleSearch() {
+            const query = searchBox.value.toLowerCase().trim();
+            document.querySelectorAll('.nav-category').forEach(categoryEl => {
+                let categoryHasVisibleItems = false;
+                categoryEl.querySelectorAll('.nav-item').forEach(itemEl => {
+                    const itemText = itemEl.textContent.toLowerCase();
+                    if (itemText.includes(query)) {
+                        itemEl.style.display = 'block';
+                        categoryHasVisibleItems = true;
+                    } else {
+                        itemEl.style.display = 'none';
+                    }
+                });
+
+                if (categoryHasVisibleItems) {
+                    categoryEl.style.display = 'block';
+                } else {
+                    categoryEl.style.display = 'none';
+                }
+            });
+        }
+
+        function handleRandomScenario() {
+            const allScenarios = [];
+            for (const categoryKey in serverKnowledgeBase) {
+                for (const scenarioKey in serverKnowledgeBase[categoryKey].scenarios) {
+                    allScenarios.push({ category: categoryKey, scenario: scenarioKey });
+                }
+            }
+
+            if (allScenarios.length > 0) {
+                const randomIndex = Math.floor(Math.random() * allScenarios.length);
+                const randomItem = allScenarios[randomIndex];
+                
+                displayScenario(randomItem.category, randomItem.scenario);
+                
+                const activeBtn = document.querySelector(`.nav-item[data-category="${randomItem.category}"][data-scenario="${randomItem.scenario}"]`);
+                if(activeBtn) {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+        
+        // --- Event Listeners ---
+        searchBox.addEventListener('input', handleSearch);
+
+        trainingToggle.addEventListener('change', (e) => {
+            isTrainingMode = e.target.checked;
+            // Re-render the current scenario if one is displayed
+            const currentActive = document.querySelector('.nav-item.active');
+            if (currentActive) {
+                displayScenario(currentActive.dataset.category, currentActive.dataset.scenario);
+            }
+        });
+
+        randomBtn.addEventListener('click', handleRandomScenario);
+
+        // --- Initial Setup ---
+        window.onload = () => {
+            buildNav();
+            // Optional: click the first item on load
+            const firstButton = document.querySelector('.nav-item');
+            if(firstButton) {
+                firstButton.click();
+            }
+        };
+
+    </script>
+</body>
+</html>

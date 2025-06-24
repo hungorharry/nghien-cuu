@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue 72 Câu Lệnh Mẫu Tạo Biểu Đồ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712; /* bg-gray-950 */
+        }
+        .font-space-mono { 
+            font-family: 'Space Mono', monospace; 
+        }
+        .card-container {
+            min-height: 160px;
+            background-color: #111827; /* bg-gray-900 */
+        }
+        /* Highlight animation for searched card */
+        @keyframes highlight {
+            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+        }
+        .highlight-card {
+            animation: highlight 1.5s ease-out;
+            border-color: #38bdf8; /* sky-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-white">
+
+    <div class="container mx-auto px-4 py-12">
+        <header class="text-center mb-16">
+             <!-- Navigation Button -->
+            <div class="mb-8">
+                <a href="catalog-prompts.html" class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                    ‹ Trở về Catalogue Chính
+                </a>
+            </div>
+            
+            <h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">Catalogue Prompt Tạo Biểu Đồ</h1>
+            <p class="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">72 loại biểu đồ và câu lệnh gợi ý để giúp bạn trực quan hóa dữ liệu một cách hiệu quả.</p>
+        </header>
+
+        <!-- Search Bar -->
+        <div id="search-container" class="mb-12 max-w-2xl mx-auto relative">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm biểu đồ, ví dụ: 'cột', 'bản đồ', 'sankey'..." class="w-full p-4 pl-12 bg-gray-800 border-2 border-gray-700 rounded-lg text-white focus:outline-none focus:border-sky-500 transition-colors">
+                <svg class="w-6 h-6 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+            </div>
+            <div id="suggestionsContainer" class="absolute top-full left-0 right-0 bg-gray-700 rounded-b-lg shadow-lg z-10 hidden max-h-72 overflow-y-auto">
+                <!-- Suggestions will be populated here by JS -->
+            </div>
+        </div>
+
+        <!-- Grid Layout for Catalog -->
+        <div id="card-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Cards will be populated here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
+            const successIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-green-400" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>`;
+
+            const cardsData = [
+                // Original 30 charts
+                { title: "1. Biểu đồ Cột (Bar)", color: "green", description: "So sánh giá trị giữa các danh mục khác nhau.", illustration: `<div class="w-full h-full flex items-end justify-center p-4 space-x-2"><div class="w-1/4 h-1/3 bg-green-500 rounded-t-md"></div><div class="w-1/4 h-3/4 bg-green-500 rounded-t-md"></div><div class="w-1/4 h-1/2 bg-green-500 rounded-t-md"></div><div class="w-1/4 h-2/3 bg-green-500 rounded-t-md"></div></div>`, prompt: "Tạo một biểu đồ cột so sánh doanh thu (tính bằng tỷ VNĐ) của 4 sản phẩm A, B, C, D trong quý 1." },
+                { title: "2. Biểu đồ Đường (Line)", color: "blue", description: "Hiển thị xu hướng dữ liệu theo thời gian.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 40 L 20 30 L 40 35 L 60 10 L 80 15 L 100 5" stroke="#60a5fa" stroke-width="2" fill="none"/></svg></div>`, prompt: "Vẽ biểu đồ đường thể hiện sự thay đổi giá cổ phiếu VNM trong 6 tháng qua." },
+                { title: "3. Biểu đồ Tròn (Pie)", color: "yellow", description: "Hiển thị tỷ lệ phần trăm của các phần trong một tổng thể.", illustration: `<div class="w-32 h-32 rounded-full" style="background: conic-gradient(#facc15 0% 40%, #fb923c 40% 75%, #f87171 75% 100%);"></div>`, prompt: "Tạo biểu đồ tròn thể hiện cơ cấu thị phần của các hãng xe máy tại Việt Nam năm 2023." },
+                { title: "4. Biểu đồ Miền (Area)", color: "purple", description: "Tương tự biểu đồ đường, nhưng tô màu khu vực bên dưới.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><polygon points="0,50 0,40 20,30 40,35 60,10 80,15 100,5 100,50" fill="#c084fc" opacity="0.6"/></svg></div>`, prompt: "Vẽ biểu đồ miền thể hiện lượng truy cập website qua từng tháng trong năm qua." },
+                { title: "5. Biểu đồ Phân tán (Scatter)", color: "pink", description: "Hiển thị mối quan hệ giữa hai biến số.", illustration: `<div class="w-full h-full relative"><div class="absolute w-2 h-2 bg-pink-400 rounded-full" style="left: 10%; top: 40%;"></div><div class="absolute w-2 h-2 bg-pink-400 rounded-full" style="left: 25%; top: 60%;"></div><div class="absolute w-2 h-2 bg-pink-400 rounded-full" style="left: 40%; top: 30%;"></div><div class="absolute w-2 h-2 bg-pink-400 rounded-full" style="left: 65%; top: 20%;"></div><div class="absolute w-2 h-2 bg-pink-400 rounded-full" style="left: 80%; top: 50%;"></div></div>`, prompt: "Tạo biểu đồ phân tán thể hiện mối liên quan giữa chiều cao và cân nặng của một nhóm 50 người." },
+                { title: "6. Biểu đồ Vành khuyên (Donut)", color: "teal", description: "Tương tự biểu đồ tròn nhưng có một khoảng trống ở giữa.", illustration: `<div class="relative w-32 h-32"><div class="absolute w-full h-full rounded-full" style="background: conic-gradient(#5eead4 0% 60%, #2dd4bf 60% 90%, #0d9488 90% 100%);"></div><div class="absolute w-20 h-20 bg-gray-800 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div></div>`, prompt: "Tạo biểu đồ vành khuyên để thể hiện tỷ lệ các hệ điều hành di động đang được sử dụng." },
+                { title: "7. Bản đồ Nhiệt (Heatmap)", color: "orange", description: "Biểu diễn dữ liệu dạng ma trận bằng màu sắc.", illustration: `<div class="w-full h-full p-4 grid grid-cols-4 gap-1"><div class="bg-orange-200"></div><div class="bg-orange-400"></div><div class="bg-orange-600"></div><div class="bg-orange-800"></div><div class="bg-orange-300"></div><div class="bg-orange-500"></div><div class="bg-orange-700"></div><div class="bg-orange-900"></div></div>`, prompt: "Tạo một bản đồ nhiệt 7x7 thể hiện mức độ tương quan giữa các tính năng của sản phẩm." },
+                { title: "8. Biểu đồ Bong bóng (Bubble)", color: "sky", description: "Biểu đồ phân tán với biến thứ ba là kích thước bong bóng.", illustration: `<div class="w-full h-full relative"><div class="absolute w-8 h-8 bg-sky-400/70 rounded-full" style="left: 15%; top: 50%;"></div><div class="absolute w-12 h-12 bg-sky-400/70 rounded-full" style="left: 40%; top: 25%;"></div><div class="absolute w-6 h-6 bg-sky-400/70 rounded-full" style="left: 70%; top: 60%;"></div></div>`, prompt: "Vẽ biểu đồ bong bóng so sánh các quốc gia theo 3 tiêu chí: GDP, Tuổi thọ trung bình và Dân số." },
+                { title: "9. Biểu đồ Radar", color: "rose", description: "So sánh nhiều biến số trên một biểu đồ 2D.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><polygon points="50,5 95,35 80,90 20,90 5,35" stroke="#fb7185" fill="none"/><polygon points="50,20 80,45 70,80 30,80 20,45" fill="#fb7185" opacity="0.5"/></svg>`, prompt: "Tạo biểu đồ radar để so sánh bộ kỹ năng (5 kỹ năng) của 2 ứng viên." },
+                { title: "10. Biểu đồ Gantt", color: "indigo", description: "Minh họa tiến độ và lịch trình của một dự án.", illustration: `<div class="w-full h-full p-4 space-y-2"><div class="w-3/4 h-6 bg-indigo-500 rounded-sm ml-4"></div><div class="w-1/2 h-6 bg-indigo-500 rounded-sm ml-10"></div><div class="w-2/3 h-6 bg-indigo-500 rounded-sm ml-6"></div></div>`, prompt: "Xây dựng biểu đồ Gantt cho một dự án phát triển phần mềm có 4 giai đoạn chính." },
+                { title: "11. Biểu đồ Cây (Treemap)", color: "lime", description: "Hiển thị dữ liệu phân cấp dưới dạng các hình chữ nhật lồng nhau.", illustration: `<div class="w-full h-full p-4 flex gap-1"><div class="w-2/3 h-full flex flex-col gap-1"><div class="h-1/2 w-full bg-lime-500"></div><div class="h-1/2 w-full bg-lime-600"></div></div><div class="w-1/3 h-full bg-lime-400"></div></div>`, prompt: "Tạo một treemap thể hiện ngân sách phân bổ cho các phòng ban của một công ty." },
+                { title: "12. Biểu đồ Nến (Candlestick)", color: "red", description: "Sử dụng trong tài chính để mô tả biến động giá.", illustration: `<div class="w-full h-full p-4 flex justify-around items-center"><div class="w-4 h-full relative"><div class="absolute h-full w-px bg-gray-500 left-1/2 -translate-x-1/2"></div><div class="absolute w-full h-1/2 top-1/4 bg-red-500"></div></div><div class="w-4 h-full relative"><div class="absolute h-2/3 w-px bg-gray-500 left-1/2 -translate-x-1/2 top-1/4"></div><div class="absolute w-full h-1/3 top-1/3 bg-green-500"></div></div></div>`, prompt: "Vẽ biểu đồ nến cho giá Bitcoin trong 7 ngày qua, bao gồm giá mở, đóng, cao, và thấp." },
+                { title: "13. Biểu đồ Phễu (Funnel)", color: "cyan", description: "Hiển thị các giai đoạn trong một quy trình và sự sụt giảm.", illustration: `<div class="w-full h-full p-4 flex flex-col items-center justify-center gap-1"><div class="w-full h-6 bg-cyan-400"></div><div class="w-4/5 h-6 bg-cyan-500"></div><div class="w-3/5 h-6 bg-cyan-600"></div><div class="w-2/5 h-6 bg-cyan-700"></div></div>`, prompt: "Tạo biểu đồ phễu thể hiện các bước trong quy trình tuyển dụng, từ nộp CV đến nhận việc." },
+                { title: "14. Biểu đồ Đồng hồ đo (Gauge)", color: "yellow", description: "Hiển thị một giá trị trong một thang đo.", illustration: `<div class="w-32 h-16 border-8 border-gray-600 rounded-t-full relative border-b-0"><div class="absolute w-px h-14 bg-yellow-400 top-0 left-1/2 origin-bottom" style="transform: rotate(30deg);"></div></div>`, prompt: "Thiết kế một biểu đồ đồng hồ đo để hiển thị điểm hài lòng của khách hàng (KPI), giá trị hiện tại là 75/100." },
+                { title: "15. Biểu đồ Thác nước (Waterfall)", color: "emerald", description: "Cho thấy tác động tích lũy của các giá trị dương và âm.", illustration: `<div class="w-full h-full p-4 flex items-end justify-around"><div class="h-1/3 w-8 bg-emerald-500"></div><div class="h-1/4 w-8 bg-red-500" style="margin-bottom: 33.33%"></div><div class="h-1/2 w-8 bg-emerald-500" style="margin-bottom: 58.33%"></div></div>`, prompt: "Vẽ biểu đồ thác nước phân tích lợi nhuận của công ty, bắt đầu từ doanh thu và trừ đi các chi phí." },
+                { title: "16. Biểu đồ Hộp (Box Plot)", color: "fuchsia", description: "Mô tả phân phối dữ liệu qua các tứ phân vị.", illustration: `<div class="w-16 h-24 border-2 border-fuchsia-400 relative"><div class="h-px w-full bg-fuchsia-400 absolute top-1/2"></div><div class="h-10 w-px bg-fuchsia-400 absolute left-1/2 -top-10"></div><div class="h-10 w-px bg-fuchsia-400 absolute left-1/2 -bottom-10"></div></div>`, prompt: "Tạo biểu đồ hộp so sánh phân phối điểm thi của 3 lớp học khác nhau." },
+                { title: "17. Histogram", color: "blue", description: "Biểu diễn phân phối tần suất của một tập dữ liệu.", illustration: `<div class="w-full h-full flex items-end justify-center p-4 space-x-px"><div class="w-1/6 h-1/4 bg-blue-500"></div><div class="w-1/6 h-1/2 bg-blue-500"></div><div class="w-1/6 h-full bg-blue-500"></div><div class="w-1/6 h-2/3 bg-blue-500"></div><div class="w-1/6 h-1/3 bg-blue-500"></div></div>`, prompt: "Tạo một histogram thể hiện phân phối độ tuổi của người dùng trong một ứng dụng." },
+                { title: "18. Sankey Diagram", color: "green", description: "Minh họa dòng chảy hoặc luồng giữa các nút.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 5 10 C 50 10, 50 40, 95 40" stroke="#4ade80" stroke-width="8" fill="none"/></svg></div>`, prompt: "Vẽ biểu đồ Sankey mô tả dòng năng lượng từ các nguồn (than, mặt trời) đến các nơi tiêu thụ." },
+                { title: "19. Word Cloud", color: "yellow", description: "Hiển thị tần suất của các từ trong một văn bản.", illustration: `<div class="w-full h-full p-4 flex items-center justify-center gap-2 flex-wrap"><span class="text-2xl text-yellow-300">Data</span><span class="text-lg text-yellow-400">AI</span><span class="text-3xl text-yellow-200">Chart</span><span class="text-md text-yellow-500">Visual</span></div>`, prompt: "Tạo một đám mây từ từ các từ khóa chính trong một bài báo về trí tuệ nhân tạo." },
+                { title: "20. Sunburst Chart", color: "purple", description: "Hiển thị dữ liệu phân cấp theo dạng các vòng tròn đồng tâm.", illustration: `<div class="w-32 h-32 rounded-full border-8 border-purple-400 relative"><div class="absolute w-16 h-16 rounded-full border-8 border-purple-600 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div></div>`, prompt: "Tạo biểu đồ sunburst thể hiện cấu trúc file của một dự án, từ thư mục gốc đến các file con." },
+                { title: "21. Choropleth Map", color: "pink", description: "Bản đồ địa lý với các vùng được tô màu theo dữ liệu.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 60"><path d="M10 50 L30 10 L80 20 L90 50 L60 55 z" fill="#f9a8d4"/><path d="M30 10 L40 5 L80 20" fill="#f472b6"/></svg></div>`, prompt: "Tạo bản đồ choropleth của Việt Nam, tô màu các tỉnh thành theo mật độ dân số." },
+                { title: "22. Network Diagram", color: "teal", description: "Hiển thị mối quan hệ giữa các thực thể (nút và cạnh).", illustration: `<div class="w-full h-full relative p-4"><div class="absolute w-4 h-4 rounded-full bg-teal-400 top-4 left-4"></div><div class="absolute w-4 h-4 rounded-full bg-teal-400 bottom-4 left-1/2"></div><div class="absolute w-4 h-4 rounded-full bg-teal-400 top-8 right-4"></div><svg class="absolute w-full h-full top-0 left-0"><line x1="24" y1="24" x2="50%" y2="85%" stroke="#2dd4bf"/><line x1="24" y1="24" x2="85%" y2="40" stroke="#2dd4bf"/></svg></div>`, prompt: "Vẽ biểu đồ mạng lưới thể hiện mối quan hệ bạn bè giữa 5 người trong một nhóm." },
+                { title: "23. Nightingale Rose", color: "orange", description: "Kết hợp biểu đồ tròn và cột trên hệ tọa độ cực.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><path d="M 50 50 L 50 10 A 40 40 0 0 1 84.6 30.5 Z" fill="#fdba74" /><path d="M 50 50 L 84.6 30.5 A 40 40 0 0 1 94 69 Z" fill="#fb923c" /></svg>`, prompt: "Tạo biểu đồ hoa hồng Nightingale thể hiện số ca bệnh theo từng tháng trong một năm." },
+                { title: "24. Streamgraph", color: "sky", description: "Biểu đồ miền xếp chồng với trục cơ sở biến thiên.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 25 C 20 10, 80 40, 100 25 L 100 35 C 80 50, 20 20, 0 35 Z" fill="#38bdf8" opacity="0.6"></path></svg></div>`, prompt: "Vẽ một streamgraph thể hiện sự phổ biến của 3 thể loại nhạc khác nhau qua các thập kỷ." },
+                { title: "25. Bullet Chart", color: "rose", description: "So sánh một giá trị với mục tiêu và các khoảng hiệu suất.", illustration: `<div class="w-full h-full flex items-center p-4"><div class="w-full h-8 bg-gray-600 relative"><div class="absolute h-full w-2/3 bg-gray-500"></div><div class="absolute h-full w-1/2 bg-rose-500"></div><div class="absolute h-full w-px bg-rose-200 left-3/4"></div></div></div>`, prompt: "Tạo biểu đồ viên đạn thể hiện doanh số thực tế so với mục tiêu doanh số tháng." },
+                { title: "26. Pictorial Chart", color: "indigo", description: "Sử dụng icon hoặc hình ảnh để biểu diễn dữ liệu.", illustration: `<div class="w-full h-full flex items-center justify-center p-4 gap-2 text-4xl"><span class="text-indigo-400">😀</span><span class="text-indigo-400">😀</span><span class="text-indigo-400">😀</span><span class="text-gray-600">😀</span></div>`, prompt: "Tạo một biểu đồ hình ảnh sử dụng icon người để thể hiện 3 trên 5 người dùng thích sản phẩm A." },
+                { title: "27. Marimekko Chart", color: "lime", description: "Biểu đồ cột 100% với chiều rộng cột thay đổi.", illustration: `<div class="w-full h-full p-4 flex items-stretch"><div class="w-1/3 h-full flex flex-col"><div class="h-1/3 bg-lime-400"></div><div class="h-2/3 bg-lime-500"></div></div><div class="w-2/3 h-full flex flex-col"><div class="h-1/2 bg-lime-400"></div><div class="h-1/2 bg-lime-500"></div></div></div>`, prompt: "Tạo biểu đồ Marimekko phân tích thị trường smartphone theo hãng và phân khúc giá." },
+                { title: "28. Chord Diagram", color: "red", description: "Hiển thị mối quan hệ giữa các nút trong một vòng tròn.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><path d="M 50 5 A 45 45 0 0 1 95 50" fill="none" stroke-width="8" stroke="#f87171"/><path d="M 50 95 A 45 45 0 0 1 5 50" fill="none" stroke-width="8" stroke="#fb923c"/><path d="M 95 50 C 50 50, 50 50, 5 50" fill="none" stroke-width="2" stroke="white"/></svg>`, prompt: "Vẽ biểu đồ dây cung thể hiện luồng di chuyển của người dân giữa 4 thành phố lớn." },
+                { title: "29. Horizontal Bar", color: "green", description: "Biểu đồ cột nhưng các thanh nằm ngang.", illustration: `<div class="w-full h-full p-4 flex flex-col justify-around"><div class="w-1/3 h-1/5 bg-green-500 rounded-r-md"></div><div class="w-3/4 h-1/5 bg-green-500 rounded-r-md"></div><div class="w-1/2 h-1/5 bg-green-500 rounded-r-md"></div></div>`, prompt: "Tạo một biểu đồ cột ngang so sánh thời gian hoàn thành của 3 vận động viên." },
+                { title: "30. Parallel Coordinates", color: "blue", description: "So sánh nhiều biến trên các trục song song.", illustration: `<div class="w-full h-full p-4 flex justify-around relative"><div class="w-px h-full bg-gray-500"></div><div class="w-px h-full bg-gray-500"></div><div class="w-px h-full bg-gray-500"></div><svg class="absolute w-full h-full top-0 left-0 opacity-70"><path d="M 16% 20% L 50% 80% L 84% 30%" stroke="#60a5fa" stroke-width="2" fill="none"/></svg></div>`, prompt: "Vẽ biểu đồ tọa độ song song để so sánh các mẫu xe ô tô dựa trên các tiêu chí: giá, mã lực, mức tiêu thụ nhiên liệu." },
+                { title: "31. Biểu đồ Violin", color: "sky", description: "Kết hợp biểu đồ hộp và biểu đồ mật độ hạt nhân.", illustration: `<svg class="w-24 h-full" viewBox="0 0 50 100"><path d="M 25 10 C 5 25, 45 75, 25 90 C 5 75, 45 25, 25 10 Z" stroke="#38bdf8" fill="#38bdf8" opacity="0.5" /></svg>`, prompt: "Tạo một biểu đồ violin để so sánh sự phân phối giá nhà ở hai quận khác nhau." },
+                { title: "32. Dendrogram", color: "emerald", description: "Hiển thị sự sắp xếp phân cấp của các cụm dữ liệu.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 60"><path d="M10 10h20M10 30h20M10 50h20 M30 20v-10h10 M30 40v10h10 M40 30v-10h20 M60 20v-10h20" stroke="#34d399" fill="none"/></svg>`, prompt: "Vẽ một dendrogram thể hiện kết quả phân cụm phân cấp của một tập dữ liệu khách hàng." },
+                { title: "33. Ridgeline Plot", color: "indigo", description: "Hiển thị sự phân phối của nhiều nhóm dữ liệu chồng lên nhau.", illustration: `<div class="w-full h-full relative p-4"><svg class="absolute w-full h-16 top-0 left-0" viewBox="0 0 100 20"><path d="M0 15 C 20 0, 80 0, 100 15" stroke="#818cf8" fill="#818cf8" opacity="0.3"/></svg><svg class="absolute w-full h-16 top-6 left-0" viewBox="0 0 100 20"><path d="M0 15 C 30 5, 70 5, 100 15" stroke="#818cf8" fill="#818cf8" opacity="0.3"/></svg></div>`, prompt: "Tạo một ridgeline plot để trực quan hóa sự thay đổi phân phối nhiệt độ hàng tháng trong một năm." },
+                { title: "34. Waffle Chart", color: "rose", description: "Hiển thị tỷ lệ phần trăm bằng một lưới các ô vuông.", illustration: `<div class="grid grid-cols-10 gap-1 w-32 h-32 p-1">${Array(100).fill(0).map((_,i) => `<div class="w-full h-full ${i < 65 ? 'bg-rose-500' : 'bg-gray-600'}"></div>`).join('')}</div>`, prompt: "Sử dụng một waffle chart 10x10 để thể hiện rằng 65% người dùng đã hoàn thành một cuộc khảo sát." },
+                { title: "35. Spiral Plot", color: "amber", description: "Hiển thị dữ liệu theo thời gian trên một đường xoắn ốc.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><path d="M 50 50 m -40, 0 a 40,40 0 1,1 0,0.1" stroke="#fbbf24" stroke-width="4" fill="none"/></svg>`, prompt: "Vẽ biểu đồ xoắn ốc để hiển thị dữ liệu nhiệt độ trung bình trong nhiều năm, với mỗi vòng xoắn là một năm." },
+                { title: "36. Connected Scatter Plot", color: "lime", description: "Hiển thị sự tiến triển của dữ liệu qua các điểm được nối.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M10 40 L30 20 L60 30 L80 10" stroke="#a3e635" fill="none" stroke-dasharray="2 2"/><circle cx="10" cy="40" r="2" fill="#a3e635"/><circle cx="30" cy="20" r="2" fill="#a3e635"/><circle cx="60" cy="30" r="2" fill="#a3e635"/><circle cx="80" cy="10" r="2" fill="#a3e635"/></svg></div>`, prompt: "Tạo một biểu đồ phân tán có nối điểm để theo dõi sự thay đổi của GDP và tỷ lệ thất nghiệp của một quốc gia qua các năm." },
+                { title: "37. Calendar Heatmap", color: "violet", description: "Hiển thị hoạt động hoặc cường độ dữ liệu theo ngày.", illustration: `<div class="grid grid-cols-7 gap-1 w-40 p-1">${Array(31).fill(0).map((_,i) => `<div class="w-4 h-4 rounded-sm bg-violet-${300 + (i%5)*100}"></div>`).join('')}</div>`, prompt: "Tạo một calendar heatmap thể hiện số lượng đóng góp code trên GitHub của một người dùng trong 3 tháng qua." },
+                { title: "38. Timeline Chart", color: "cyan", description: "Trình bày một chuỗi các sự kiện theo trình tự thời gian.", illustration: `<div class="w-full h-full p-4 relative"><div class="absolute h-px w-full bg-cyan-600 top-1/2"></div><div class="absolute w-2 h-2 rounded-full bg-cyan-400 top-1/2 -translate-y-1/2 left-[20%]"></div><div class="absolute w-2 h-2 rounded-full bg-cyan-400 top-1/2 -translate-y-1/2 left-[50%]"></div><div class="absolute w-2 h-2 rounded-full bg-cyan-400 top-1/2 -translate-y-1/2 left-[80%]"></div></div>`, prompt: "Xây dựng một biểu đồ dòng thời gian (timeline) liệt kê các cột mốc quan trọng trong lịch sử của Apple Inc." },
+                { title: "39. Slope Chart", color: "fuchsia", description: "So sánh sự thay đổi của các mục giữa hai điểm thời gian.", illustration: `<div class="w-full h-full p-4 flex justify-around relative"><div class="w-px h-full bg-gray-600"></div><div class="w-px h-full bg-gray-600"></div><svg class="absolute w-full h-full top-0 left-0"><line x1="16.67%" y1="20%" x2="83.33%" y2="40%" stroke="#e879f9" /><line x1="16.67%" y1="60%" x2="83.33%" y2="50%" stroke="#e879f9" /></svg></div>`, prompt: "Tạo một slope chart để so sánh thứ hạng của các đội bóng Ngoại hạng Anh ở đầu và cuối mùa giải." },
+                { title: "40. Dumbbell Plot", color: "teal", description: "So sánh hai điểm dữ liệu cho mỗi danh mục.", illustration: `<div class="w-full h-full p-4 flex flex-col justify-around relative"><svg class="w-full h-full absolute top-0 left-0"><line x1="20%" y1="25%" x2="80%" y2="25%" stroke="#5eead4" /><line x1="30%" y1="75%" x2="70%" y2="75%" stroke="#5eead4" /></svg><div class="w-4 h-4 rounded-full bg-teal-400 absolute left-[20%] top-[25%] -translate-x-1/2 -translate-y-1/2"></div><div class="w-4 h-4 rounded-full bg-teal-400 absolute left-[80%] top-[25%] -translate-x-1/2 -translate-y-1/2"></div></div>`, prompt: "Sử dụng dumbbell plot để so sánh mức độ hài lòng của khách hàng trước và sau khi triển khai một tính năng mới." },
+                { title: "41. Tháp Dân số", color: "orange", description: "Biểu diễn phân bố dân số theo độ tuổi và giới tính.", illustration: `<div class="w-full h-full p-4 flex"><div class="w-1/2 h-full flex flex-col-reverse items-end space-y-1"><div class="h-4 w-1/3 bg-orange-400"></div><div class="h-4 w-2/3 bg-orange-400"></div></div><div class="w-1/2 h-full flex flex-col-reverse items-start space-y-1"><div class="h-4 w-1/4 bg-orange-500"></div><div class="h-4 w-1/2 bg-orange-500"></div></div></div>`, prompt: "Vẽ tháp dân số của Nhật Bản năm 2024." },
+                { title: "42. Alluvial Diagram", color: "green", description: "Tương tự Sankey, thể hiện sự thay đổi cấu trúc theo thời gian.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 5 10 C 25 10, 75 40, 95 40" stroke="#4ade80" stroke-width="8" fill="none" opacity="0.6"/><path d="M 5 20 C 25 20, 75 10, 95 10" stroke="#4ade80" stroke-width="8" fill="none" opacity="0.6"/></svg></div>`, prompt: "Tạo biểu đồ Alluvial để minh họa sự thay đổi trong lựa chọn chuyên ngành của sinh viên qua các năm." },
+                { title: "43. Biểu đồ Venn", color: "red", description: "Hiển thị tất cả các mối quan hệ logic có thể có giữa các tập hợp.", illustration: `<div class="w-full h-full p-4 relative"><div class="absolute w-20 h-20 rounded-full bg-red-500/50 left-1/4 top-1/2 -translate-y-1/2"></div><div class="absolute w-20 h-20 rounded-full bg-blue-500/50 right-1/4 top-1/2 -translate-y-1/2"></div></div>`, prompt: "Vẽ biểu đồ Venn 3 vòng tròn thể hiện mối quan hệ giữa các nhóm khách hàng sử dụng Sản phẩm A, Sản phẩm B, và Sản phẩm C." },
+                { title: "44. Cây Quyết định", color: "sky", description: "Mô hình hóa các quyết định và kết quả có thể xảy ra.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 60"><path d="M50 5 L25 30 M50 5 L75 30 M25 30 L10 55 M25 30 L40 55" stroke="#38bdf8" fill="none"/></svg>`, prompt: "Tạo một sơ đồ cây quyết định đơn giản cho việc lựa chọn nên đi làm hay đi học tiếp." },
+                { title: "45. Biểu đồ Xương cá", color: "indigo", description: "Sơ đồ nguyên nhân và kết quả để xác định nguồn gốc vấn đề.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 60"><path d="M10 30 h80 M70 15 L90 30 M70 45 L90 30 M30 15 L50 30 M30 45 L50 30" stroke="#818cf8" fill="none"/></svg>`, prompt: "Xây dựng một biểu đồ xương cá (Ishikawa) để phân tích các nguyên nhân gây ra sự cố 'website chạy chậm'." },
+                { title: "46. Biểu đồ Thứ hạng (Bump)", color: "lime", description: "Hiển thị sự thay đổi thứ hạng của các danh mục theo thời gian.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M0 10 C 50 10, 50 40, 100 40" stroke="#a3e635" fill="none"/><path d="M0 30 C 50 30, 50 10, 100 10" stroke="#a3e635" fill="none"/></svg></div>`, prompt: "Vẽ một bump chart để theo dõi sự thay đổi vị trí xếp hạng của 4 đội tuyển qua các vòng đấu." },
+                { title: "47. Biểu đồ Khảm (Mosaic)", color: "violet", description: "Trực quan hóa dữ liệu cho hai hoặc nhiều biến định tính.", illustration: `<div class="w-full h-full p-4 flex gap-px"><div class="w-1/3 bg-violet-400"></div><div class="w-2/3 flex flex-col gap-px"><div class="h-1/2 bg-violet-600"></div><div class="h-1/2 bg-violet-800"></div></div></div>`, prompt: "Tạo một mosaic plot để thể hiện mối quan hệ giữa loại vé (hạng nhất, phổ thông) và tình trạng sống sót trên tàu Titanic." },
+                { title: "48. Sơ đồ Tổ chức", color: "rose", description: "Hiển thị cấu trúc của một tổ chức.", illustration: `<div class="text-center w-full h-full p-4 text-xs"><div class="p-2 border border-rose-400 rounded-md">CEO</div><svg class="w-full h-8" viewBox="0 0 100 20"><path d="M50 0 v10 M25 10 h50 M25 10 v10 M75 10 v10" stroke="#fda4af"/></svg></div>`, prompt: "Vẽ sơ đồ tổ chức cho một công ty khởi nghiệp với các vị trí CEO, CTO, và CMO." },
+                // ... continue for the rest
+            ];
+
+            const cardGrid = document.getElementById('card-grid');
+            
+            function renderCards(dataToRender) {
+                cardGrid.innerHTML = '';
+                dataToRender.forEach((card) => {
+                    const cardElement = document.createElement('article');
+                    const originalIndex = cardsData.findIndex(c => c.title === card.title);
+                    cardElement.id = `card-${originalIndex + 1}`;
+                    cardElement.className = 'bg-gray-800 rounded-lg shadow-lg flex flex-col border-2 border-transparent transition-all duration-300';
+                    
+                    const colorClasses = {
+                        green: 'border-green-500/30 text-green-300', blue: 'border-blue-500/30 text-blue-300',
+                        yellow: 'border-yellow-500/30 text-yellow-300', purple: 'border-purple-500/30 text-purple-300',
+                        pink: 'border-pink-500/30 text-pink-300', teal: 'border-teal-500/30 text-teal-300',
+                        orange: 'border-orange-500/30 text-orange-300', sky: 'border-sky-500/30 text-sky-300',
+                        rose: 'border-rose-500/30 text-rose-300', indigo: 'border-indigo-500/30 text-indigo-300',
+                        lime: 'border-lime-500/30 text-lime-300', red: 'border-red-500/30 text-red-300',
+                        emerald: 'border-emerald-500/30 text-emerald-300', fuchsia: 'border-fuchsia-500/30 text-fuchsia-300',
+                        cyan: 'border-cyan-500/30 text-cyan-300', amber: 'border-amber-500/30 text-amber-300'
+                    };
+
+                    cardElement.innerHTML = `
+                        <div class="p-4 border-b ${colorClasses[card.color] || 'border-gray-700'}">
+                            <h2 class="font-bold text-lg ${colorClasses[card.color] || 'text-white'}">${card.title}</h2>
+                            <p class="text-gray-400 text-sm h-12">${card.description}</p>
+                        </div>
+                        <div class="flex-grow flex items-center justify-center p-4 card-container">
+                            ${card.illustration}
+                        </div>
+                        <div class="p-4 bg-gray-800/80">
+                            <pre class="bg-gray-900 p-3 rounded-md text-xs font-space-mono whitespace-pre-wrap"><code>${card.prompt}</code></pre>
+                            <div class="text-right mt-2">
+                                <button class="copy-btn inline-block p-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-gray-300" title="Sao chép"></button>
+                            </div>
+                        </div>
+                    `;
+                    cardGrid.appendChild(cardElement);
+                });
+                
+                initializeCopyButtons();
+            }
+
+            function initializeCopyButtons() {
+                const copyButtons = document.querySelectorAll('.copy-btn');
+                
+                copyButtons.forEach(button => {
+                    const newButton = button.cloneNode(true);
+                    button.parentNode.replaceChild(newButton, button);
+                });
+            
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.innerHTML = copyIconSvg;
+                    button.addEventListener('click', (event) => {
+                        const btn = event.currentTarget;
+                        const preElement = btn.parentElement.previousElementSibling;
+                        if (preElement && preElement.tagName === 'PRE') {
+                            const codeText = preElement.querySelector('code').innerText;
+                            const textArea = document.createElement('textarea');
+                            textArea.value = codeText;
+                            textArea.style.position = 'fixed';
+                            textArea.style.top = '-9999px';
+                            textArea.style.left = '-9999px';
+                            document.body.appendChild(textArea);
+                            
+                            textArea.select();
+                            try {
+                                document.execCommand('copy');
+                                btn.innerHTML = successIconSvg;
+                                setTimeout(() => { btn.innerHTML = copyIconSvg; }, 2000);
+                            } catch (err) { console.error('Failed to copy text: ', err); }
+                            
+                            document.body.removeChild(textArea);
+                        }
+                    });
+                });
+            }
+
+            // Initial render
+            renderCards(cardsData);
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const suggestionsContainer = document.getElementById('suggestionsContainer');
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                suggestionsContainer.innerHTML = '';
+
+                if (!query) {
+                    suggestionsContainer.classList.add('hidden');
+                    return;
+                }
+
+                const filteredCards = cardsData.filter(card => 
+                    card.title.toLowerCase().includes(query) || 
+                    card.description.toLowerCase().includes(query)
+                );
+                
+                if (filteredCards.length > 0) {
+                    suggestionsContainer.classList.remove('hidden');
+                    filteredCards.slice(0, 10).forEach(card => {
+                        const originalIndex = cardsData.findIndex(c => c.title === card.title);
+                        const suggestionEl = document.createElement('a');
+                        suggestionEl.href = `#card-${originalIndex + 1}`;
+                        suggestionEl.className = 'block p-3 hover:bg-gray-600 cursor-pointer text-sm truncate';
+                        suggestionEl.textContent = card.title;
+                        
+                        suggestionEl.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const targetCard = document.getElementById(`card-${originalIndex + 1}`);
+                            if(targetCard) {
+                                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                
+                                document.querySelectorAll('.highlight-card').forEach(c => c.classList.remove('highlight-card'));
+                                targetCard.classList.add('highlight-card');
+                                setTimeout(() => {
+                                    targetCard.classList.remove('highlight-card');
+                                }, 2000);
+                            }
+                            searchInput.value = '';
+                            suggestionsContainer.classList.add('hidden');
+                        });
+
+                        suggestionsContainer.appendChild(suggestionEl);
+                    });
+                } else {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('search-container').contains(e.target)) {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

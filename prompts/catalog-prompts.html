@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HƯNG PROMPTS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Brutalist Style for the entire page */
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: #f8fafc; /* A very light grey, almost white */
+            color: #000;
+            line-height: 1.6;
+            border: 8px solid #000;
+            min-height: 100vh;
+        }
+
+        .brutalist-container {
+            width: 95%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Brutalist Button Style */
+        .btn-brutalist {
+            display: inline-block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            color: #000;
+            background-color: #fff;
+            border: 4px solid #000;
+            padding: 1rem 2rem;
+            box-shadow: 6px 6px 0 #000;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-brutalist:hover {
+            background-color: #ffff00; /* Bright yellow on hover */
+            box-shadow: 8px 8px 0 #000;
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-brutalist.btn-blue {
+            background-color: #0000ff;
+            color: #fff;
+        }
+        
+        .btn-brutalist.btn-blue:hover {
+            background-color: #0000cc; /* Darker blue */
+        }
+
+        /* Brutalist Card Style */
+        .card-brutalist {
+            background-color: #fff;
+            border: 4px solid #000;
+            padding: 2rem;
+            box-shadow: 8px 8px 0 #000;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-brutalist h2 {
+            font-size: 1.75rem; /* 28px */
+            font-weight: 700;
+            color: #0000ff; /* Strong blue */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 lg:p-8">
+    <div class="brutalist-container">
+        <!-- Back to Index Button -->
+        <header class="mb-12">
+            <a href="index.html" class="btn-brutalist">
+                &lt;-- QUAY VỀ INDEX
+            </a>
+        </header>
+
+        <main>
+            <!-- Main Title -->
+            <div class="text-center mb-16">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold inline-block p-4 sm:p-6 border-4 border-black bg-white" style="box-shadow: 10px 10px 0 #000;">
+                    PROMPTS
+                </h1>
+            </div>
+
+            <!-- Brutalist Card Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Card 1 -->
+                <div class="card-brutalist">
+                    <div>
+                        <h2 class="mb-4">GIAO DIỆN & UX</h2>
+                        <p class="mb-8">
+                            Tài nguyên, prompts và các mẫu thiết kế giao diện người dùng.
+                        </p>
+                    </div>
+                    <a href="/prompts/cac-prompts/giao-dien-html.html" class="btn-brutalist btn-blue w-full">
+                        XEM CHI TIẾT
+                    </a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card-brutalist">
+                    <div>
+                        <h2 class="mb-4">PHÂN TÍCH DATA</h2>
+                        <p class="mb-8">
+                            Các loại biểu đồ, phương pháp phân tích, mô hình hóa dữ liệu.
+                        </p>
+                    </div>
+                    <a href="/prompts/cac-prompts/cac-loai-chart.html" class="btn-brutalist btn-blue w-full">
+                        XEM CHI TIẾT
+                    </a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card-brutalist">
+                    <div>
+                        <h2 class="mb-4">DỰ ÁN & KẾ HOẠCH</h2>
+                        <p class="mb-8">
+                            Theo dõi tiến độ, các tính năng và lộ trình của các dự án.
+                        </p>
+                    </div>
+                    <a href="/prompts/cac-prompts/cac-tinh-nang.html" class="btn-brutalist btn-blue w-full">
+                        XEM CHI TIẾT
+                    </a>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="card-brutalist">
+                    <div>
+                        <h2 class="mb-4">KIẾN THỨC & BÀI HỌC</h2>
+                        <p class="mb-8">
+                            Tổng hợp các bài học, insights và kiến thức thu được.
+                        </p>
+                    </div>
+                    <a href="/prompts/cac-prompts/prompts-phan-tich.html" class="btn-brutalist btn-blue w-full">
+                        XEM CHI TIẾT
+                    </a>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+</body>
+</html>

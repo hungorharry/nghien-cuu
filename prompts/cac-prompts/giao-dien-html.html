@@ -9,19 +9,46 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- Custom fonts for illustrations -->
     <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Play&family=Press+Start+2P&family=Special+Elite&family=Londrina+Outline&family=Creepster&family=Bebas+Neue&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
 
     <style>
+        /* Base styles with Brutalist theme */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #030712; /* bg-gray-950 */
+            background-color: #FFFFFF; /* White background */
+            color: #000000; /* Black text */
+            font-family: 'Space Mono', monospace; /* Monospace font for the whole page */
         }
-        .font-space-mono {
+
+        /* Brutalist shadow for interactive elements */
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px #000000;
+            transition: all 0.1s ease-in-out;
+        }
+        .brutalist-shadow:active {
+            box-shadow: 1px 1px 0px #000000;
+            transform: translate(3px, 3px);
+        }
+
+        /* Brutalist popup for copy notification */
+        #copy-popup {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #00FFFF; /* Bright Cyan accent */
+            color: #000000;
+            padding: 1rem 1.5rem;
+            border: 2px solid #000000;
             font-family: 'Space Mono', monospace;
+            box-shadow: 4px 4px 0px #000000;
+            z-index: 9999;
+            display: none; /* Initially hidden */
+            font-weight: bold;
+            text-align: center;
         }
-         /* Custom fonts for illustrations */
+        
+        /* Custom fonts for illustrations need to be defined */
         .font-play { font-family: 'Play', sans-serif; }
         .font-press-start-2p { font-family: 'Press Start 2P', cursive; }
         .font-special-elite { font-family: 'Special Elite', cursive; }
@@ -32,730 +59,109 @@
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .font-permanent-marker { font-family: 'Permanent Marker', cursive; }
 
-
-        .card-container {
-            min-height: 160px;
-            background-color: #111827; /* bg-gray-900 */
-        }
-        /* Highlight animation for searched card */
-        @keyframes highlight {
-            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-        }
-        .highlight-card {
-            animation: highlight 1.5s ease-out;
-            border-color: #38bdf8; /* sky-500 */
-        }
-         /* Specific styles for illustrations */
-        .glassmorphism-box {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+        /* Specific styles for illustrations */
+         .glassmorphism-box {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0,0,0, 0.5);
+            color: black;
+         }
          .neumorphism-btn {
             background: #e0e5ec;
             box-shadow: 6px 6px 12px #b8bcc1, -6px -6px 12px #ffffff;
             color: #5a5a5a;
-        }
-        .brutalist-box {
+         }
+         .brutalist-box {
             border: 2px solid black;
             background-color: yellow;
             color: black;
-        }
-        .cyberpunk-box {
+         }
+         .cyberpunk-box {
             background-color: #1a1a1a;
             color: #00ffff;
-            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+            text-shadow: 0 0 2px #00ffff;
             border: 1px solid #ff00ff;
-        }
+         }
          .luxury-box {
             background-color: #1a1a1a;
-            color: #d4af37; /* Gold */
+            color: #d4af37;
             border: 1px solid #d4af37;
-        }
-        .retro-box {
+         }
+         .retro-box {
             background-color: #f0f0d8;
-            color: #ff0000;
+            color: #dd0000;
             border: 3px solid #000;
-        }
+         }
          .minimalist-box {
             background-color: #fff;
             color: #000;
-        }
-        .cartoon-box {
-            background-color: #ffb3ba; /* Pastel Pink */
-            border: 3px solid black;
-            border-radius: 15px;
-        }
-        .handdrawn-box {
-             border: 2px dashed #a0a0a0; /* Simple dashed border to imply hand-drawn */
-            color: #c0c0c0;
-        }
-        .eco-box {
-            background-color: #a3e635; /* Lime */
-            color: #365314; /* Green-900 */
-            border-radius: 8px;
-        }
-        .claymorphism-shape {
-            background: linear-gradient(135deg, #f0f0f0, #c0c0c0);
-            box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2), -8px -8px 15px rgba(255, 255, 255, 0.8);
-            border-radius: 20px;
-        }
-         .aurora-bg {
-            background: linear-gradient(to right, #ff7e5f, #feb47b, #86a8e7, #91eacb);
+            border: 2px solid black;
          }
+         .cartoon-box {
+            background-color: #ffb3ba;
+            border: 3px solid black;
+         }
+         .handdrawn-box {
+             border: 2px dashed #333;
+             color: #333;
+         }
+         .eco-box {
+            background-color: #a3e635;
+            color: #365314;
+            border: 2px solid #365314;
+         }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 4px;
+            width: 100%; height: 100%;
+        }
+        .bento-item {
+            background-color: #e5e7eb;
+            display: flex; align-items: center; justify-content: center;
+            color: #374151;
+            font-size: 0.75rem;
+            border: 1px solid black;
+        }
+        .bento-item:nth-child(1) { grid-column: span 2; }
+        .bento-item:nth-child(4) { grid-column: span 3; }
         .bauhaus-grid {
             display: grid;
             grid-template-columns: 1fr 0.5fr;
             grid-template-rows: 0.5fr 1fr;
             gap: 5px;
+            width: 100%; height: 100%;
         }
-        .bauhaus-item {
-            background-color: currentColor;
-        }
+        .bauhaus-item { background-color: currentColor; border: 1px solid black; }
         .darkacademia-box {
-            background-color: #2c2f33;
-            color: #c0c0c0;
-             border: 1px solid #4f4f4f;
+            background-color: #4a3f35;
+            color: #d8c8b8;
+            border: 1px solid #2c231e;
         }
-        .memphis-container {
-             position: relative;
-            overflow: hidden;
-        }
-        .memphis-shape {
-             position: absolute;
-            opacity: 0.6;
-        }
-         .swiss-box {
-            display: grid;
-            grid-template-columns: 1fr 0.3fr;
-            gap: 8px;
-         }
-         .artdeco-box {
-             background: linear-gradient(to bottom, #1a1a1a, #4f4f4f);
-             border: 2px solid #d4af37;
-             position: relative;
-         }
-         .artdeco-line {
-            position: absolute;
-            background-color: #d4af37;
-         }
-         .artnouveau-box {
-             color: #a0a0a0;
-             font-style: italic;
-         }
-        .psychedelic-text {
-            background: linear-gradient(45deg, #ff00cc, #3333ff, #00ff33);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 2px rgba(255,255,255,0.5));
-         }
-         .grunge-box {
-             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="6.5" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#noiseFilter)" opacity="0.1"/></svg>') repeat, #333;
-            color: #ccc;
-             border: 1px dashed #555;
-             text-shadow: 1px 1px 0px #000;
-         }
-         .y2k-box {
-             background: linear-gradient(to bottom right, #00c6ff, #0072ff);
-             color: #fff;
-             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-             border-radius: 5px;
-             overflow: hidden;
-             position: relative;
-         }
-         .y2k-box::before {
-             content: '';
-             position: absolute;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
-             pointer-events: none;
-         }
-
-         .vaporwave-box {
-            background: linear-gradient(to bottom, #ff77ff, #00ffff);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #fff;
-         }
-         .vaporwave-grid {
-             position: absolute;
-             bottom: 0;
-             left: 0;
-             width: 100%;
-             height: 50%;
-             background: repeating-linear-gradient(to right, #000 0, #000 2px, transparent 2px, transparent 10px), repeating-linear-gradient(to bottom, #000 0, #000 2px, transparent 2px, transparent 10px);
-             transform: perspective(50px) rotateX(30deg);
-             transform-origin: bottom center;
-             opacity: 0.3;
-         }
-         .solarpunk-box {
-             background: linear-gradient(to bottom right, #a3e635, #fcd34d); /* Lime to amber */
-             color: #365314; /* Green-900 */
-             border-radius: 10px;
-         }
-         .steampunk-box {
-             background-color: #5a463b; /* Brownish */
-             color: #d4af37; /* Gold */
-             border: 2px solid #8b4513; /* SaddleBrown */
-         }
-         .steampunk-gear {
-            width: 20px;
-            height: 20px;
-            background-color: #d4af37;
-            border-radius: 50%;
-            position: relative;
-         }
-         .steampunk-gear::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 10px;
-            height: 10px;
-            background-color: #5a463b;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-         }
-         .gothic-box {
-             background-color: #1a1a1a;
-             color: #c0c0c0;
-             border-bottom: 2px solid #4a0e0e; /* Dark Red */
-         }
-         .isometric-box {
-             width: 60px; height: 40px;
-             background: linear-gradient(to bottom right, #60a5fa, #3b82f6); /* Blue gradient */
-             transform: skewY(-30deg) scaleX(0.866); /* Approximate isometric */
-             box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
-             position: relative;
-             transform-style: preserve-3d;
-         }
-         .isometric-box::before {
-             content: '';
-             position: absolute;
-             top: -14px; left: 7px; /* Adjust position */
-             width: 60px; height: 14px; /* Adjust height */
-             background: linear-gradient(to right, #93c5fd, #60a5fa); /* Lighter blue */
-             transform: skewY(45deg) scaleX(0.707) rotateZ(-45deg); /* Top surface */
-             transform-origin: bottom left;
-         }
-         .isometric-box::after {
-            content: '';
-            position: absolute;
-            top: 6px; left: -13px; /* Adjust position */
-            width: 13px; height: 40px; /* Adjust width */
-            background: linear-gradient(to bottom, #a3e635, #65a30d); /* Green gradient */
-            transform: skewX(-45deg) scaleY(0.707); /* Left surface */
-            transform-origin: top right;
-         }
-         .papercut-layer {
-             position: absolute;
-             width: 80px; height: 80px;
-             background-color: #3b82f6; /* Blue */
-             border-radius: 5px;
-             box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
-             top: 10px; left: 10px;
-         }
-         .papercut-layer:nth-child(2) {
-             background-color: #60a5fa; /* Lighter blue */
-             top: 20px; left: 20px;
-             z-index: 1;
-         }
-         .papercut-layer:nth-child(3) {
-             background-color: #93c5fd; /* Even lighter blue */
-             top: 30px; left: 30px;
-             z-index: 2;
-         }
-        .glitch-text {
-            position: relative;
-            color: #fff;
-        }
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        .glitch-text::before {
-             left: 2px;
-             text-shadow: -2px 0 #ff00cc;
-             clip: rect(24px, 350px, 8px, 0); /* Example clip */
-        }
-        .glitch-text::after {
-             left: -2px;
-             text-shadow: 2px 0 #00ffff;
-             clip: rect(8px, 350px, 24px, 0); /* Example clip */
-        }
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 8px;
-            width: 100%; height: 100%;
-        }
-        .bento-item {
-            background-color: #1f2937; /* Gray-800 */
-            border-radius: 5px;
-            display: flex; align-items: center; justify-content: center;
-            color: #9ca3af; /* Gray-400 */
-            font-size: 0.75rem;
-        }
-        .bento-item:nth-child(1) { grid-column: span 2; }
-        .bento-item:nth-child(4) { grid-column: span 3; }
-
-         .corporate-box {
-             background-color: #fff;
-             color: #1f2937; /* Gray-800 */
-             border-left: 4px solid #3b82f6; /* Blue-500 */
-         }
-         .gaming-hud-box {
-             background-color: #1a1a1a;
-             color: #00ff00; /* Green */
-             border: 1px solid #333;
-         }
-         .lofi-box {
-             background-color: #f0ead6; /* Light beige */
-             color: #5c5c5c; /* Dark gray */
-             filter: sepia(0.1) saturate(1.1) contrast(1.05) brightness(1.05); /* Subtle warm effect */
-             position: relative;
-         }
-          .lofi-box::before {
-             content: '';
-             position: absolute;
-             top: 0; left: 0; right: 0; bottom: 0;
-             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAQAAAC1RKzHAAAAEklEQVR4AWJwAAEBAXAAAgABAEEAOzU/gY0AAAAASUVORK5CYII=') repeat; /* Simple noise pattern */
-             opacity: 0.2;
-             pointer-events: none;
-          }
-         .abstract-box {
-            background: radial-gradient(#fcd34d, #ef4444); /* Amber to Red */
-         }
-         .comic-box {
-             background-color: #fff;
-             color: #000;
-             border: 4px solid #000;
-             position: relative;
-         }
-         .comic-box::before {
-             content: 'POW!';
-             position: absolute;
-             top: 50%;
-             left: 50%;
-             transform: translate(-50%, -50%) rotate(-15deg);
-             font-family: 'Bebas Neue', sans-serif;
-             font-size: 2.5rem;
-             color: #ef4444; /* Red */
-             -webkit-text-stroke: 2px #000;
-             text-stroke: 2px #000;
-         }
-
-         .metaverse-box {
-             background: linear-gradient(to bottom right, #5a87f2, #8a5cf6); /* Blue to Purple */
-             color: #e0e7ff;
-             position: relative;
-             overflow: hidden;
-         }
-         .metaverse-box::before {
-             content: '';
-             position: absolute;
-             top: 10px; left: 10px;
-             width: 50px; height: 50px;
-             background-color: rgba(255,255,255,0.2);
-             filter: blur(20px);
-             border-radius: 50%;
-         }
-         .dataviz-box {
-            background-color: #1f2937; /* Gray-800 */
-            color: #e5e7eb; /* Gray-200 */
-         }
-         .cli-box {
-            background-color: #000;
-            color: #00ff00; /* Green */
-            font-family: 'Space Mono', monospace;
-         }
-         .kinetic-box {
-             background-color: #ff00ff; /* Fuchsia */
-             color: #00ffff; /* Cyan */
-         }
-         .collage-box {
-             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><rect width="100%" height="100%" fill="#f0f0f0"/><rect x="10" y="10" width="40" height="40" fill="#ff0000" opacity="0.7"/><circle cx="60" cy="30" r="15" fill="#00ff00" opacity="0.7"/><rect x="20" y="50" width="70" height="30" fill="#0000ff" opacity="0.7"/></svg>'), linear-gradient(45deg, #ccc, #eee);
-            background-blend-mode: multiply;
-         }
-         .monochrome-box {
-             background-color: #60a5fa; /* Blue-400 */
-             color: #1e3a8a; /* Blue-800 */
-         }
-
-         /* New styles for illustrations (41-70) */
-         .skeuomorphism-btn {
-            background: linear-gradient(to bottom, #f0f0f0 0%, #d0d0d0 100%);
-            border: 1px solid #a0a0a0;
-            border-radius: 8px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-            color: #333;
-            font-weight: bold;
-         }
-         .flat20-btn {
-            background: linear-gradient(to bottom, #3b82f6, #2563eb); /* Subtle blue gradient */
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            color: white;
-         }
-         .duotone-img {
-             position: relative;
-             background: url('https://via.placeholder.com/80x80/4b5563/d1d5db?text=IMG') center center / cover no-repeat; /* Example placeholder */
-             width: 80px; height: 80px;
-             filter: grayscale(100%);
-             isolation: isolate; /* Needed for mix-blend-mode */
-         }
-         .duotone-img::before {
-             content: '';
-             position: absolute;
-             top: 0; left: 0; right: 0; bottom: 0;
-             background: linear-gradient(to bottom right, #ef4444, #fcd34d); /* Red to Amber */
-             mix-blend-mode: multiply;
-             z-index: 1;
-         }
-          .lineart-box {
-            border: 2px solid #e5e7eb; /* Gray-200 lines */
-            color: #e5e7eb;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 2rem;
-         }
-         .outline-box {
-            border: 4px solid #d1d5db; /* Gray-300 border */
-            color: #d1d5db;
-            font-size: 1.5rem;
-            text-align: center;
-            -webkit-text-stroke: 1px #d1d5db; /* Outline text */
-            text-stroke: 1px #d1d5db;
-            -webkit-text-fill-color: transparent; /* Make text hollow */
-            text-fill-color: transparent;
-         }
-         .watercolor-box {
-             background: radial-gradient(circle at top left, #f0f9ff, transparent), radial-gradient(circle at bottom right, #bfdbfe, transparent); /* Subtle blue wash */
-             position: relative;
-         }
-         .watercolor-box::before {
-             content: '';
-             position: absolute;
-             top: 0; left: 0; right: 0; bottom: 0;
-             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAQAAAC1RKzHAAAAEklEQVR4AWNwAAEBAXAAAgABAEEAOzU/gY0AAAAASUVORK5CYII=') repeat; /* Noise/texture */
-             opacity: 0.1;
-             pointer-events: none;
-         }
-         .pixelart-text {
-            font-family: 'Press Start 2P', cursive;
-            color: #fff;
-            text-shadow: 1px 1px 0 #000; /* Pixel outline */
-         }
-         .newsprint-box {
-             background-color: #f5f5dc; /* Beige */
-             color: #000;
-             font-family: serif;
-             border: 1px solid #d3d3d3; /* Light gray */
-             column-count: 2;
-             column-gap: 10px;
-             font-size: 0.75rem;
-             line-height: 1.3;
-         }
-         .magazine-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 5px;
-            width: 100%; height: 100%;
-         }
-         .magazine-item {
-             background-color: #4b5563; /* Gray-600 */
-             display: flex; align-items: center; justify-content: center;
-             color: #d1d5db; /* Gray-300 */
-             font-size: 0.6rem;
-         }
-         .magazine-item:nth-child(1) { grid-row: span 2; background-color: #6b7280; /* Gray-500 */ }
-         .oldpaper-box {
-             background: url('data:image/jpeg;base64,...') repeat; /* Placeholder for paper texture */
-             background-color: #f0e68c; /* Khaki - old paper color */
-             color: #5a463b; /* Brown text */
-             position: relative;
-         }
-         .oldpaper-box::before {
-             content: '';
-             position: absolute;
-             top: 0; left: 0; right: 0; bottom: 0;
-             box-shadow: inset 0 0 15px rgba(0,0,0,0.3); /* Soft vignette/age effect */
-         }
-         .chalkboard-box {
-             background-color: #2f4f4f; /* Dark slate gray */
-             color: #e0e0e0; /* Off-white for chalk */
-             font-family: 'Permanent Marker', cursive;
-             text-shadow: 1px 1px 2px rgba(255,255,255,0.3); /* Chalk dust effect */
-         }
-         .scificlean-box {
-             background: linear-gradient(to bottom, #1a202c, #2d3748); /* Dark blue-gray gradient */
-             color: #4299e1; /* Blue-500 */
-             border: 1px solid #2b6cb0; /* Blue-700 */
-             font-family: 'Orbitron', sans-serif;
-         }
-         .scificlean-box::before {
-             content: '';
-             position: absolute;
-             top: 10px; left: 10px; width: 10px; height: 10px;
-             border-top: 2px solid #4299e1;
-             border-left: 2px solid #4299e1;
-         }
-         .fantasy-box {
-             background: url('https://via.placeholder.com/80x80/1a202c/d4af37?text=MAGIC') center center / cover no-repeat; /* Example fantasy texture */
-             color: #d4af37; /* Gold */
-             font-family: 'Cinzel Decorative', cursive;
-             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-         }
-          .fantasy-box::before {
-             content: '';
-             position: absolute;
-             top: 5px; left: 5px; right: 5px; bottom: 5px;
-             border: 2px solid #d4af37;
-             pointer-events: none;
-          }
-         .horror-box {
-             background-color: #000;
-             color: #ff0000; /* Red */
-             border: 2px solid #4a0e0e; /* Dark red */
-             font-family: 'Creepster', cursive;
-             text-shadow: 0 0 5px #ff0000;
-         }
-         .childrensbook-box {
-             background-color: #a7f3d0; /* Emerald-200 */
-             color: #10b981; /* Emerald-600 */
-             border-radius: 15px 5px 15px 5px; /* Playful border */
-             font-family: 'Play', sans-serif;
-         }
-         .victorian-box {
-             background-color: #f5f5dc; /* Beige */
-             color: #8b4513; /* SaddleBrown */
-             font-family: serif;
-             border: 3px double #d4af37; /* Gold double border */
-         }
-         .abstractexpressionism-box {
-             background: linear-gradient(45deg, #ef4444, #f97316, #f59e0b, #eab308); /* Warm gradient */
-             position: relative;
-             overflow: hidden;
-         }
-         .abstractexpressionism-box::before {
-             content: '';
-             position: absolute;
-             width: 50px; height: 50px;
-             background-color: rgba(139, 92, 246, 0.5); /* Purple */
-             top: 20px; left: 30px;
-             transform: rotate(20deg);
-             filter: blur(10px);
-         }
-         .abstractexpressionism-box::after {
-              content: '';
-             position: absolute;
-             width: 30px; height: 70px;
-             background-color: rgba(34, 197, 94, 0.5); /* Green */
-             bottom: 10px; right: 20px;
-             transform: rotate(-30deg);
-             filter: blur(10px);
-         }
-         .futurism-box {
-             background-color: #1a1a1a;
-             color: #00ffff; /* Cyan */
-             font-family: sans-serif;
-             transform: skewX(-10deg); /* Suggest speed */
-             border-left: 3px solid #ff00ff; /* Magenta */
-         }
-         .liquidfluid-box {
-             background: linear-gradient(to bottom right, #6366f1, #a855f7); /* Indigo to Violet */
-             position: relative;
-             overflow: hidden;
-             border-radius: 20px 5px 20px 5px; /* Organic shape hint */
-         }
-         .liquidfluid-box::before {
-             content: '';
-             position: absolute;
-             width: 100px; height: 100px;
-             background: rgba(255,255,255,0.1);
-             border-radius: 50%;
-             top: -30px; left: -30px;
-             filter: blur(15px);
-         }
-         .geometric-box {
-             background-color: #334155; /* Slate-700 */
-             position: relative;
-             overflow: hidden;
-         }
-         .geometric-box::before {
-             content: '';
-             position: absolute;
-             top: 0; left: 0; right: 0; bottom: 0;
-             background:
-                 repeating-linear-gradient(45deg, #475569 0 5px, transparent 5px 10px), /* Slate-600 */
-                 repeating-linear-gradient(-45deg, #475569 0 5px, transparent 5px 10px);
-             opacity: 0.5;
-         }
-         .illustrative-box {
-             background-color: #fff;
-             color: #1f2937; /* Gray-800 */
-             position: relative;
-         }
-         .illustrative-box::before {
-            content: '';
-            position: absolute;
-            bottom: 0; right: 0;
-            width: 50px; height: 50px;
-            background-color: #fcd34d; /* Amber */
-            border-top-left-radius: 50px; /* Organic shape */
-         }
-         .typographiclayout-box {
-             background-color: #1a1a1a;
-             color: #fff;
-             display: grid;
-             grid-template-rows: auto 1fr auto;
-             gap: 5px;
-             padding: 10px;
-         }
-         .typographiclayout-box h3 { font-size: 1.5rem; font-weight: bold; }
-         .typographiclayout-box p { font-size: 0.8rem; color: #d1d5db; }
-         .typographiclayout-box span { font-size: 0.6rem; text-align: right; }
-         .editorial-box {
-             background-color: #fff;
-             color: #1a1a1a;
-             column-count: 2;
-             column-gap: 15px;
-             font-family: serif;
-             font-size: 0.8rem;
-             line-height: 1.4;
-             padding: 10px;
-             border-top: 3px solid #eab308; /* Amber-500 */
-         }
-         .editorial-box h4 {
-             font-size: 1.2rem;
-             font-weight: bold;
-             column-span: all;
-             margin-bottom: 10px;
-         }
-         .retrofuturism-box {
-             background: linear-gradient(to bottom, #c0c0c0, #808080); /* Chrome effect */
-             color: #000;
-             font-family: sans-serif;
-             text-align: center;
-             border-radius: 5px;
-             position: relative;
-         }
-         .retrofuturism-box::before {
-             content: '🚀';
-             position: absolute;
-             top: 10px; left: 10px;
-             font-size: 1.5rem;
-         }
-         .cybersecurity-box {
-             background-color: #000;
-             color: #00ff00; /* Green */
-             font-family: 'Space Mono', monospace;
-             overflow: hidden;
-             position: relative;
-             text-align: left;
-             padding-left: 10px;
-         }
-         .cybersecurity-box::before {
-             content: '10101010\n01010101\n10101010\n01010101'; /* Binary data */
-             position: absolute;
-             top: 0; left: 0;
-             width: 100%; height: 100%;
-             white-space: pre;
-             opacity: 0.1;
-             pointer-events: none;
-         }
-         .neobrutalism-box {
-             background-color: #fcd34d; /* Amber-400 */
-             color: #1a1a1a;
-             border: 4px solid #000;
-             box-shadow: 8px 8px 0 0 #000;
-             position: relative;
-         }
-          .neobrutalism-box::before {
-              content: '';
-              position: absolute;
-              top: -10px; right: -10px;
-              width: 20px; height: 20px;
-              background-color: #ef4444; /* Red */
-              border-radius: 50%;
-              border: 2px solid #000;
-          }
-         .vignette-box {
-             background: url('https://via.placeholder.com/100x100/4b5563/d1d5db?text=BG') center center / cover no-repeat; /* Example background */
-             position: relative;
-             color: white;
-             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-         }
-         .vignette-box::before {
-             content: '';
-             position: absolute;
-             top: 0; left: 0; right: 0; bottom: 0;
-             box-shadow: inset 0 0 50px rgba(0,0,0,0.8); /* Darkens edges */
-             pointer-events: none;
-         }
-         .wabisabi-box {
-             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="2.5" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" fill="#e0d8cc" filter="url(#noiseFilter)" opacity="0.5"/><path d="M10 10 Q 30 0, 50 10 T 90 10" stroke="#8b4513" fill="none" stroke-width="1" opacity="0.7"/></svg>') repeat;
-             background-color: #e0d8cc; /* Earthy tone */
-             color: #5a463b; /* Brown */
-             font-style: italic;
-         }
-         .tornpaper-box {
-             background-color: #f0f0f0; /* Light gray paper */
-             color: #333;
-             position: relative;
-             overflow: hidden;
-         }
-         .tornpaper-box::before {
-             content: '';
-             position: absolute;
-             top: 0; left: 0; width: 100%; height: 20px; /* Simulate tear at top */
-             background: linear-gradient(to bottom, #f0f0f0 0%, #f0f0f0 50%, transparent 50%, transparent 100%),
-                         url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="10"><path d="M0 0 L5 5 Q 10 10 15 5 L 20 0 Z" fill="#f0f0f0"/></svg>') repeat-x;
-             background-size: 100% 20px, 20px 10px;
-             background-position: 0 0, 0 10px;
-             z-index: 1;
-         }
-         .gradientmesh-box {
-             background: radial-gradient(circle at 10% 20%, rgba(254,237,232,1) 0%, rgba(250,195,202,1) 40%, rgba(196,204,244,1) 70%, rgba(100,181,205,1) 100%); /* Smooth blend of colors */
-             position: relative;
-         }
-
     </style>
 </head>
-<body class="bg-gray-950 text-white">
+<body class="bg-white text-black font-space-mono">
 
     <div class="container mx-auto px-4 py-12">
         <header class="text-center mb-16">
-            <!-- Navigation Button -->
+             <!-- Navigation Button -->
             <div class="mb-8">
-                <a href="catalog-prompts.html" class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                <a href="/prompts/catalog-prompts.html" class="inline-block bg-cyan-400 hover:bg-cyan-500 text-black font-bold py-2 px-4 border-2 border-black brutalist-shadow">
                     ‹ Trở về Catalogue Chính
                 </a>
             </div>
 
-            <h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-yellow-400">Catalogue 70 Phong Cách Thiết Kế Web</h1>
-            <p class="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">Một bộ sưu tập cực lớn các phong cách UI/UX mà AI có thể tạo ra, kèm theo prompt tiếng Việt để bạn bắt đầu.</p>
+            <h1 class="text-5xl md:text-6xl font-bold text-black">Catalogue 70 Phong Cách Thiết Kế Web</h1>
+            <p class="mt-4 text-lg text-black max-w-3xl mx-auto">Một bộ sưu tập cực lớn các phong cách UI/UX mà AI có thể tạo ra, kèm theo prompt tiếng Việt để bạn bắt đầu.</p>
         </header>
 
         <!-- Search Bar -->
         <div id="search-container" class="mb-12 max-w-2xl mx-auto relative">
             <div class="relative">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm phong cách, ví dụ: 'Glassmorphism', 'Retro', 'tối giản', 'ảnh hưởng'... " class="w-full p-4 pl-12 bg-gray-800 border-2 border-gray-700 rounded-lg text-white focus:outline-none focus:border-sky-500 transition-colors">
-                <svg class="w-6 h-6 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm phong cách, ví dụ: 'Glassmorphism', 'Retro', 'tối giản'..." class="w-full p-4 pl-12 bg-white border-2 border-black text-black focus:outline-none focus:border-blue-500 font-space-mono">
+                <svg class="w-6 h-6 text-black absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
-            </div>
-            <div id="suggestionsContainer" class="absolute top-full left-0 right-0 bg-gray-700 rounded-b-lg shadow-lg z-10 hidden max-h-72 overflow-y-auto">
-                <!-- Suggestions will be populated here by JS -->
             </div>
         </div>
 
@@ -764,244 +170,168 @@
             <!-- Cards will be populated here -->
         </div>
     </div>
+    
+    <!-- Brutalist Popup element -->
+    <div id="copy-popup">PROMPT<br>COPIED!</div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
-            const successIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-green-400" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>`;
-
-            // UPDATED cardsData for 70 Web Design Styles
+            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
+            
             const cardsData = [
-                 { title: "1. Glassmorphism", color: "blue", description: "Hiệu ứng kính mờ, tạo cảm giác về chiều sâu và không gian.", illustration: `<div class="p-4 glassmorphism-box rounded-lg text-center text-gray-200 w-3/4"><div class="font-bold mb-2">Đăng Nhập</div><button class="px-4 py-2 bg-white bg-opacity-20 rounded-md text-sm hover:bg-opacity-30 transition">Vào Ngay</button></div>`, prompt: "Tạo form đăng nhập 'Glassmorphism'. Nền kính mờ (backdrop-filter), viền trắng tinh tế, đặt trên hình nền trừu tượng." },
-                { title: "2. Neumorphism", color: "gray", description: "Giao diện \"mềm\", các thành phần như được đùn ra từ nền.", illustration: `<button class="px-6 py-3 rounded-xl text-base font-semibold neumorphism-btn">Button</button>`, prompt: "Thiết kế nút bấm 'Neumorphic'. Nền xám nhạt (#e0e5ec), hiệu ứng đùn từ nền bằng box-shadow lồi và lõm." },
+                { title: "1. Glassmorphism", color: "blue", description: "Hiệu ứng kính mờ, tạo cảm giác về chiều sâu và không gian.", illustration: `<div class="p-4 glassmorphism-box w-3/4"><div class="font-bold mb-2">Đăng Nhập</div><button class="px-4 py-2 bg-white bg-opacity-20 text-sm">Vào Ngay</button></div>`, prompt: "Tạo form đăng nhập 'Glassmorphism'. Nền kính mờ (backdrop-filter), viền trắng tinh tế, đặt trên hình nền trừu tượng." },
+                { title: "2. Neumorphism", color: "gray", description: "Giao diện \"mềm\", các thành phần như được đùn ra từ nền.", illustration: `<button class="px-6 py-3 text-base font-semibold neumorphism-btn">Button</button>`, prompt: "Thiết kế nút bấm 'Neumorphic'. Nền xám nhạt (#e0e5ec), hiệu ứng đùn từ nền bằng box-shadow lồi và lõm." },
                 { title: "3. Brutalism", color: "yellow", description: "Thô, gai góc, không trau chuốt, tập trung vào cấu trúc.", illustration: `<div class="p-4 brutalist-box w-3/4 text-center text-xl font-bold font-mono">Cảnh Báo!<button class="ml-4 px-3 py-1 border-2 border-black bg-white text-black text-sm">OK</button></div>`, prompt: "Tạo popup 'Brutalist'. Màu tương phản mạnh (đen, trắng, xanh), font monospace, viền cứng, bóng đổ khối." },
-                { title: "4. Cyberpunk", color: "purple", description: "Neon, công nghệ cao, tối màu và mang hơi hướng tương lai.", illustration: `<div class="p-4 cyberpunk-box w-3/4 text-center text-2xl font-bold font-mono"><div class="mb-2">ONLINE</div><div class="text-xl text-ff00ff">INITIATE</div></div>`, prompt: "Thiết kế UI 'Cyberpunk'. Nền tối, chữ neon cyan và fuchsia, font monospace, hiệu ứng phát sáng." },
-                { title: "5. Luxury", color: "yellow", description: "Sang trọng, tinh tế, sử dụng màu tối và vàng kim.", illustration: `<div class="p-4 luxury-box w-3/4 text-center font-serif"><div class="text-lg font-bold mb-2">Offer</div><button class="px-4 py-2 border border-d4af37 text-sm">Discover</button></div>`, prompt: "Tạo thẻ sản phẩm 'Luxury'. Nền đen, font serif, điểm nhấn màu vàng kim, bố cục tối giản." },
+                { title: "4. Cyberpunk", color: "purple", description: "Neon, công nghệ cao, tối màu và mang hơi hướng tương lai.", illustration: `<div class="p-4 cyberpunk-box w-3/4 text-center text-2xl font-bold font-orbitron"><div class="mb-2">ONLINE</div><div class="text-xl text-fuchsia-500">INITIATE</div></div>`, prompt: "Thiết kế UI 'Cyberpunk'. Nền tối, chữ neon cyan và fuchsia, font monospace, hiệu ứng phát sáng." },
+                { title: "5. Luxury", color: "yellow", description: "Sang trọng, tinh tế, sử dụng màu tối và vàng kim.", illustration: `<div class="p-4 luxury-box w-3/4 text-center font-serif bg-black"><div class="text-lg font-bold mb-2">Offer</div><button class="px-4 py-2 border border-yellow-400 text-sm text-yellow-400">Discover</button></div>`, prompt: "Tạo thẻ sản phẩm 'Luxury'. Nền đen, font serif, điểm nhấn màu vàng kim, bố cục tối giản." },
                 { title: "6. Retro / Vintage", color: "red", description: "Hoài cổ, lấy cảm hứng từ thập niên 80-90.", illustration: `<div class="p-4 retro-box w-3/4 text-center font-press-start-2p text-lg">GAME OVER</div>`, prompt: "Thiết kế popup game 'Retro'. Nền màu kem, bảng màu 80s, font pixel, viền dày, hiệu ứng nhiễu hạt." },
                 { title: "7. Minimalist", color: "green", description: "Tối giản, sạch sẽ, nhiều không gian trắng.", illustration: `<div class="p-6 minimalist-box w-3/4 flex flex-col items-start"><h3 class="text-lg font-bold mb-2">Tiêu Đề</h3><p class="text-sm mb-4">Nội dung là vua.</p><a href="#" class="text-sm font-bold flex items-center">→</a></div>`, prompt: "Tạo thẻ bài 'Tối giản'. Nền trắng, chữ đen, font sans-serif, nhiều không gian âm, không trang trí." },
-                { title: "8. Cartoon / Kawaii", color: "pink", description: "Hoạt hình, vui tươi, sử dụng màu pastel.", illustration: `<div class="p-4 cartoon-box w-3/4 text-center font-play text-lg"><div class="mb-2">Yay!</div><button class="px-4 py-1 bg-white rounded-md border-2 border-black">OK!</button></div>`, prompt: "Thiết kế hộp thông báo 'hoạt hình'. Góc bo tròn đậm, màu pastel, font vui tươi, viền đen dày." },
-                { title: "9. Hand-drawn", color: "gray", description: "Giao diện như được vẽ tay, thân thiện và độc đáo.", illustration: `<div class="p-4 handdrawn-box w-3/4 text-center font-special-elite text-lg"><div class="mb-2">Ý tưởng!</div><button class="px-4 py-1 border-2 border-gray-500 rounded-md text-gray-400">Lưu</button></div>`, prompt: "Tạo UI 'vẽ tay'. Viền không đều, font chữ viết tay, nền giấy, tạo cảm giác thân thiện." },
+                { title: "8. Cartoon / Kawaii", color: "pink", description: "Hoạt hình, vui tươi, sử dụng màu pastel.", illustration: `<div class="p-4 cartoon-box w-3/4 text-center font-play text-lg"><div class="mb-2">Yay!</div><button class="px-4 py-1 bg-white border-2 border-black">OK!</button></div>`, prompt: "Thiết kế hộp thông báo 'hoạt hình'. Góc bo tròn đậm, màu pastel, font vui tươi, viền đen dày." },
+                { title: "9. Hand-drawn", color: "gray", description: "Giao diện như được vẽ tay, thân thiện và độc đáo.", illustration: `<div class="p-4 handdrawn-box w-3/4 text-center font-special-elite text-lg"><div class="mb-2">Ý tưởng!</div><button class="px-4 py-1 border-2 border-black text-black">Lưu</button></div>`, prompt: "Tạo UI 'vẽ tay'. Viền không đều, font chữ viết tay, nền giấy, tạo cảm giác thân thiện." },
                 { title: "10. Eco / Natural", color: "green", description: "Tông màu đất, họa tiết tự nhiên và hình dạng hữu cơ.", illustration: `<div class="p-4 eco-box w-3/4 text-center text-sm font-semibold"><div class="text-2xl mb-1">🌿</div><div class="mb-2">Hữu cơ</div><a href="#" class="underline text-xs">Xem thêm</a></div>`, prompt: "Thiết kế thẻ sản phẩm 'thiên nhiên'. Bảng màu đất (xanh, nâu), họa tiết lá cây, góc bo tròn mềm mại." },
-                { title: "11. Claymorphism 3D", color: "gray", description: "Hiệu ứng \"đất sét\" nổi, mềm mại với đổ bóng sâu.", illustration: `<div class="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl claymorphism-shape">+</div>`, prompt: "Tạo nút bấm 'Claymorphism'. Nền màu nhạt, góc bo tròn lớn, đổ bóng mềm tạo cảm giác 3D như đất sét." },
-                { title: "12. Aurora UI", color: "blue", description: "Nền gradient mờ ảo, chuyển động như cực quang.", illustration: `<div class="aurora-bg w-full h-full rounded-lg flex flex-col items-center justify-center text-white"><div class="text-xl font-bold mb-2">Tương Lai</div><button class="px-4 py-2 bg-white text-blue-800 rounded-md">Bắt đầu</button></div>`, prompt: "Thiết kế màn hình 'Aurora'. Nền gradient mờ, màu sắc rực rỡ chuyển động. UI phía trước tối giản, màu trắng." },
-                { title: "13. Bauhaus", color: "red", description: "Dựa trên hình học cơ bản và màu sắc nguyên thủy.", illustration: `<div class="bauhaus-grid w-3/4 h-3/4"><div class="bauhaus-item bg-red-500"></div><div class="bauhaus-item bg-blue-500"></div><div class="bauhaus-item bg-yellow-500 col-span-2"></div></div>`, prompt: "Tạo bố cục 'Bauhaus'. Dùng lưới bất đối xứng, hình khối cơ bản, màu cơ bản (đỏ, vàng, xanh), font sans-serif." },
+                { title: "11. Claymorphism 3D", color: "gray", description: "Hiệu ứng \"đất sét\" nổi, mềm mại với đổ bóng sâu.", illustration: `<div class="w-20 h-20 flex items-center justify-center text-3xl" style="background: #e0e5ec; box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2), -8px -8px 15px rgba(255, 255, 255, 0.8); border: 2px solid #c0c0c0;">+</div>`, prompt: "Tạo nút bấm 'Claymorphism'. Nền màu nhạt, góc bo tròn lớn, đổ bóng mềm tạo cảm giác 3D như đất sét." },
+                { title: "12. Aurora UI", color: "blue", description: "Nền gradient mờ ảo, chuyển động như cực quang.", illustration: `<div class="w-full h-full flex flex-col items-center justify-center text-black" style="background: linear-gradient(to right, #ff7e5f, #feb47b, #86a8e7, #91eacb);"><div class="text-xl font-bold mb-2">Tương Lai</div><button class="px-4 py-2 bg-white text-blue-800 border border-black">Bắt đầu</button></div>`, prompt: "Thiết kế màn hình 'Aurora'. Nền gradient mờ, màu sắc rực rỡ chuyển động. UI phía trước tối giản, màu trắng." },
+                { title: "13. Bauhaus", color: "red", description: "Dựa trên hình học cơ bản và màu sắc nguyên thủy.", illustration: `<div class="bauhaus-grid"><div class="bauhaus-item text-red-500"></div><div class="bauhaus-item text-blue-500"></div><div class="bauhaus-item text-yellow-500 col-span-2"></div></div>`, prompt: "Tạo bố cục 'Bauhaus'. Dùng lưới bất đối xứng, hình khối cơ bản, màu cơ bản (đỏ, vàng, xanh), font sans-serif." },
                 { title: "14. Dark Academia", color: "brown", description: "Cảm hứng từ học thuật cổ điển, màu tối, font sang trọng.", illustration: `<div class="p-4 darkacademia-box w-full text-center font-serif italic text-sm">"Tri thức là sức mạnh."</div>`, prompt: "Thiết kế trích dẫn 'Dark Academia'. Nền tối có họa tiết, font serif cổ điển, màu trầm (nâu, vàng đồng)." },
-                { title: "15. Memphis Design", color: "pink", description: "Thập niên 80, hình học vui tươi, màu sắc tương phản.", illustration: `<div class="memphis-container w-full h-full flex items-center justify-center relative"><div class="memphis-shape w-12 h-12 bg-yellow-400 top-2 left-2 rotate-45"></div><div class="memphis-shape w-8 h-8 bg-blue-400 bottom-2 right-2"></div><div class="memphis-shape w-16 h-4 bg-red-400 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-12"></div><div class="text-2xl font-bold text-purple-600 z-10">COOL!</div></div>`, prompt: "Tạo UI 'Memphis Design'. Dùng khối màu rực rỡ, hình học trừu tượng (tròn, tam giác), đường zíc-zắc. Bố cục vui tươi." },
-                { title: "16. Swiss Style", color: "red", description: "Bố cục lưới, sạch sẽ, typography là trung tâm.", illustration: `<div class="swiss-box w-full h-full p-4 font-inter text-gray-800"><div class="text-6xl font-light">Aa</div><div class="text-sm font-bold text-red-500 self-end">Grid System</div><div class="text-2xl font-bold mt-2">Typografie</div></div>`, prompt: "Thiết kế bố cục 'Phong cách Thụy Sĩ'. Dùng lưới nghiêm ngặt, font sans-serif (Inter/Helvetica), chữ đen và đỏ làm điểm nhấn." },
-                { title: "17. Art Deco", color: "yellow", description: "Sang trọng, hình học đối xứng, họa tiết kim loại.", illustration: `<div class="artdeco-box w-full h-full flex items-center justify-center font-londrina-outline text-4xl"><div class="artdeco-line w-full h-0.5 top-1/4"></div><div class="artdeco-line w-full h-0.5 bottom-1/4"></div>GATSBY</div>`, prompt: "Tạo UI 'Art Deco'. Sử dụng các đường kẻ đậm, đối xứng, hình học (zíc-zắc, tia nắng), màu đen, trắng và vàng gold." },
-                { title: "18. Art Nouveau", color: "green", description: "Hữu cơ, đường cong uốn lượn, họa tiết thiên nhiên.", illustration: `<div class="artnouveau-box w-full h-full flex items-center justify-center text-3xl">Nouveau</div>`, prompt: "Thiết kế theo phong cách 'Art Nouveau'. Tập trung vào các đường cong, uốn lượn tự nhiên như cây cỏ, hoa lá. Dùng màu sắc trang nhã." },
-                { title: "19. Psychedelic", color: "purple", description: "Thập niên 60-70, màu sắc ảo giác, font chữ méo mó.", illustration: `<div class="psychedelic-text text-4xl font-bold text-center w-full" data-text="TRIPPY">TRIPPY</div>`, prompt: "Tạo UI 'Psychedelic'. Sử dụng màu sắc rực rỡ, tương phản mạnh, hoa văn uốn lượn, và font chữ trông như đang tan chảy." },
-                { title: "20. Grunge", color: "gray", description: "Thập niên 90, bề mặt sần sùi, màu tối, bố cục lộn xộn.", illustration: `<div class="p-4 grunge-box w-full text-center text-lg font-special-elite">Smells Like Code Spirit</div>`, prompt: "Thiết kế trang web 'Grunge'. Dùng texture sần sần, rách nát, màu sắc trầm, font chữ bị mờ hoặc nhòe, và bố cục không theo quy tắc." },
-                { title: "21. Y2K / Frutiger Aero", color: "blue", description: "Đầu 2000s, bóng bẩy, trong suốt, màu xanh/lá.", illustration: `<div class="p-4 y2k-box w-3/4 text-center text-2xl font-play">Aero</div>`, prompt: "Tạo UI 'Frutiger Aero'. Dùng hiệu ứng bóng bẩy, trong suốt, gradient xanh dương và xanh lá, hình ảnh thiên nhiên và nước." },
-                { title: "22. Vaporwave", color: "pink", description: "Hoài niệm 80-90s, tượng La Mã, màu neon, lưới.", illustration: `<div class="vaporwave-box w-full h-full flex flex-col items-center justify-center text-white font-mono text-xl"><div class="vaporwave-grid"></div>A E S T H E T I C</div>`, prompt: "Tạo thiết kế 'Vaporwave'. Kết hợp tượng La Mã, lưới phối cảnh, màu neon hồng và cyan, font chữ cổ điển, và ký tự Nhật." },
-                { title: "23. Solarpunk", color: "green", description: "Tương lai lạc quan, thiên nhiên & công nghệ hòa hợp.", illustration: `<div class="solarpunk-box w-3/4 p-4 text-center text-green-900 text-lg font-semibold"><div class="text-3xl mb-1">☀️🌿</div>Tương Lai Xanh</div>`, prompt: "Thiết kế 'Solarpunk'. Dùng màu sắc tươi sáng (xanh lá, vàng), hình dạng hữu cơ, hình ảnh công nghệ sạch và cây xanh." },
-                { title: "24. Steampunk", color: "brown", description: "Thời Victoria & máy hơi nước, bánh răng, đồng thau.", illustration: `<div class="steampunk-box w-full p-4 text-center text-yellow-700 font-serif"><div class="flex justify-center mb-2"><div class="steampunk-gear mr-2"></div><div class="steampunk-gear"></div></div><div class="text-lg">The Mechanism</div><div class="text-xs mt-1">Gears & Cogs</div></div>`, prompt: "Tạo UI 'Steampunk'. Sử dụng texture kim loại (đồng, thau), gỗ, hình ảnh bánh răng, đồng hồ, font chữ serif kiểu cách." },
-                { title: "25. Gothic", color: "purple", description: "Tối, trang trí cầu kỳ, vòm nhọn, font Blackletter.", illustration: `<div class="gothic-box w-full p-4 text-center font-creepster text-xl"><div class="text-gray-400 text-sm">In Umbra</div>Nocturne</div>`, prompt: "Thiết kế 'Gothic'. Nền tối, màu đen, đỏ sẫm, tím. Dùng font Blackletter, họa tiết trang trí phức tạp, hình vòm nhọn." },
-                { title: "26. Isometric", color: "blue", description: "Phối cảnh 2.5D, tạo chiều sâu và cảm giác 3D.", illustration: `<div class="flex justify-center items-center w-full h-full"><div class="isometric-box"></div></div>`, prompt: "Tạo hình minh họa 'Isometric'. Vẽ các đối tượng theo góc nhìn 2.5D, sử dụng màu sắc phẳng và đổ bóng đơn giản để tạo chiều sâu." },
-                { title: "27. Papercut / Origami", color: "blue", description: "Hiệu ứng lớp giấy cắt, đổ bóng tạo chiều sâu.", illustration: `<div class="relative w-full h-full flex items-center justify-center"><div class="papercut-layer"></div><div class="papercut-layer"></div><div class="papercut-layer"></div></div>`, prompt: "Thiết kế 'Papercut'. Tạo các lớp hình ảnh với màu sắc khác nhau, sử dụng box-shadow để tạo hiệu ứng chiều sâu như các lớp giấy xếp chồng." },
-                { title: "28. Glitch Art", color: "pink", description: "Lỗi kỹ thuật số, vỡ pixel, sai màu, nhiễu sóng.", illustration: `<div class="text-4xl font-bold text-center glitch-text" data-text="ERROR">ERROR</div>`, prompt: "Tạo hiệu ứng 'Glitch'. Làm biến dạng văn bản hoặc hình ảnh, tạo các đường kẻ ngang, sai màu (color channel shifting) và vỡ khối pixel." },
-                { title: "29. Bento UI", color: "gray", description: "Bố cục dạng lưới module, như hộp cơm bento.", illustration: `<div class="bento-grid"><div class="bento-item">Item 1</div><div class="bento-item">Item 2</div><div class="bento-item">Item 3</div><div class="bento-item">Item 4</div></div>`, prompt: "Thiết kế bố cục 'Bento UI'. Sắp xếp nội dung vào các khối (grid) với kích thước khác nhau. Các khối có thể chứa thông tin, hình ảnh, hoặc biểu đồ." },
-                { title: "30. Corporate", color: "blue", description: "Chuyên nghiệp, sạch sẽ, đáng tin cậy.", illustration: `<div class="p-4 corporate-box w-full"><h3 class="text-lg font-bold mb-1">Our Solution</h3><p class="text-sm text-gray-600">Driving business growth.</p><button class="mt-3 px-4 py-1 border border-blue-500 text-blue-500 text-xs rounded">Learn More</button></div>`, prompt: "Thiết kế trang 'Corporate'. Sử dụng bảng màu xanh dương và xám, font sans-serif rõ ràng, bố cục sạch sẽ, hình ảnh chuyên nghiệp." },
-                { title: "31. Gaming UI / HUD", color: "green", description: "Giao diện game, thanh máu, thông số, khoa học viễn tưởng.", illustration: `<div class="gaming-hud-box w-full p-3 text-sm font-mono"><div class="mb-2">HP: [████░░░░] 75%</div><div>Ammo: 30/120</div><div class="text-xs mt-2 text-gray-500">Mission Objective: Survive</div></div>`, prompt: "Tạo 'Gaming HUD'. Sử dụng font chữ đậm, góc cạnh, các thanh trạng thái (máu, mana), màu neon, và các yếu tố viễn tưởng." },
-                { title: "32. Lo-fi Aesthetic", color: "brown", description: "Thư giãn, ấm cúng, màu trầm, texture hạt, hoài niệm.", illustration: `<div class="lofi-box w-full h-full p-4 text-center font-special-elite text-base"><div class="text-xl mb-2">🎧</div>lofi beats to code to</div>`, prompt: "Tạo thiết kế 'Lo-fi'. Dùng màu pastel trầm, ấm áp, thêm hiệu ứng nhiễu hạt (noise), hình minh họa đơn giản và font chữ viết tay." },
-                { title: "33. Abstract", color: "orange", description: "Trừu tượng, tập trung vào màu sắc, hình dạng, bố cục.", illustration: `<div class="abstract-box w-full h-full flex items-center justify-center text-white text-3xl font-bold">SHAPE</div>`, prompt: "Thiết kế 'trừu tượng'. Sử dụng các hình khối và màu sắc không theo quy tắc để tạo ra một cảm xúc hoặc không khí cụ thể." },
-                { title: "34. Comic Book", color: "red", description: "Viền đen đậm, chấm màu halftone, màu sắc cơ bản.", illustration: `<div class="comic-box w-3/4 h-3/4 flex items-center justify-center"></div>`, prompt: "Tạo UI 'truyện tranh'. Dùng viền đen dày, hiệu ứng chấm màu (halftone), bong bóng lời thoại và font chữ đậm, kịch tính." },
-                { title: "35. Metaverse / VR", color: "purple", description: "Không gian 3D, yếu tố lơ lửng, cảm giác nhập vai.", illustration: `<div class="metaverse-box w-full h-full flex items-center justify-center text-xl font-play">VR Space</div>`, prompt: "Thiết kế UI cho 'Metaverse/VR'. Tạo cảm giác không gian 3D, các panel lơ lửng, hiệu ứng phát sáng, và font chữ hiện đại." },
-                { title: "36. Data-viz Dashboard", color: "blue", description: "Biểu đồ, đồ thị, số liệu, sắp xếp để dễ đọc.", illustration: `<div class="dataviz-box w-full p-4 text-sm"><div class="font-bold mb-2">Monthly Growth</div><div class="flex items-end h-16 mb-2"><div class="w-4 bg-green-500 h-1/2 mr-2"></div><div class="w-4 bg-blue-500 h-3/4 mr-2"></div><div class="w-4 bg-yellow-500 h-1/4"></div></div><div class="text-xs text-gray-400">Data Overview</div></div>`, prompt: "Tạo 'Dashboard'. Thiết kế các loại biểu đồ (cột, tròn, đường), thẻ số liệu, sử dụng màu sắc rõ ràng để phân biệt dữ liệu." },
-                { title: "37. CLI Interface", color: "green", description: "Giao diện dòng lệnh, chữ đơn sắc, nền đen.", illustration: `<div class="cli-box w-full h-full p-4 text-sm whitespace-pre-wrap">> npm install more-styles\n_\n</div>`, prompt: "Tạo giao diện giống 'Terminal/CLI'. Dùng nền đen, font monospace màu xanh lá hoặc trắng, và con trỏ nhấp nháy." },
-                { title: "38. Kinetic Typography", color: "pink", description: "Chữ chuyển động, typography là yếu tố chính.", illustration: `<div class="kinetic-box w-full h-full flex items-center justify-center text-4xl font-bold font-bebas-neue">MOVE</div>`, prompt: "Tạo thiết kế 'Kinetic Typography'. Dùng font chữ lớn, đậm, màu sắc tương phản. Bố cục tập trung hoàn toàn vào văn bản." },
-                { title: "39. Collage", color: "orange", description: "Kết hợp ảnh, texture, chữ viết theo kiểu cắt dán.", illustration: `<div class="collage-box w-full h-full flex items-center justify-center font-special-elite text-xl">Mix and Match</div>`, prompt: "Tạo bố cục 'Collage'. Kết hợp nhiều hình ảnh, họa tiết, và mẩu văn bản chồng chéo lên nhau như một tác phẩm cắt dán thủ công." },
-                { title: "40. Monochrome", color: "blue", description: "Chỉ sử dụng một màu với các sắc độ khác nhau.", illustration: `<div class="monochrome-box w-full h-full flex flex-col items-center justify-center"><div class="text-2xl font-bold">Tone</div><div class="text-lg font-semibold text-blue-700">Shade</div></div>`, prompt: "Thiết kế UI 'đơn sắc' (Monochrome). Chọn một màu chủ đạo (ví dụ: xanh dương) và chỉ sử dụng các sắc độ, tông màu của nó." },
-
-                // --- START: Added 30 new styles (41-70) ---
-                { title: "41. Skeuomorphism", color: "gray", description: "Giao diện giống vật thật, có bóng đổ và texture.", illustration: `<button class="px-6 py-3 text-base font-semibold skeuomorphism-btn">Click Me</button>`, prompt: "Thiết kế một nút bấm 'Skeuomorphism' với hiệu ứng bóng đổ sâu, gradient bóng bẩy và viền nhẹ để trông giống vật thật." },
-                { title: "42. Flat Design 2.0", color: "blue", description: "Nền phẳng nhưng có bóng đổ và gradient tinh tế.", illustration: `<button class="px-6 py-3 text-base font-semibold flat20-btn">Download</button>`, prompt: "Thiết kế một thẻ (card) theo phong cách 'Flat Design 2.0' với màu nền phẳng, góc bo tròn nhẹ và bóng đổ mềm mại bên dưới." },
-                { title: "43. Duotone", color: "red", description: "Sử dụng hai màu tương phản để tạo hiệu ứng hình ảnh ấn tượng.", illustration: `<div class="duotone-img"></div>`, prompt: "Tạo hiệu ứng 'Duotone' cho một hình ảnh bằng cách áp dụng gradient hai màu (ví dụ: xanh lam và vàng) lên ảnh đen trắng." },
-                { title: "44. Line Art", color: "gray", description: "Tập trung vào các đường nét mảnh, sạch sẽ.", illustration: `<div class="lineart-box w-full h-full"><svg width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="40" cy="40" r="30"/><path d="M20 40 L40 60 L60 20"/></svg></div>`, prompt: "Thiết kế các icon hoặc hình minh họa theo phong cách 'Line Art' với các đường nét mảnh, không màu nền, và tập trung vào hình dạng." },
-                { title: "45. Outline / Stroke", color: "gray", description: "Các thành phần UI chủ yếu dùng viền (stroke).", illustration: `<div class="outline-box w-3/4 h-1/2 p-2">OUTLINE</div>`, prompt: "Thiết kế một bộ khung form đăng nhập theo phong cách 'Outline'. Các trường input và nút bấm chỉ có viền, không có màu nền." },
-                { title: "46. Hand-painted / Watercolor", color: "blue", description: "Giao diện giống như được vẽ bằng màu nước hoặc sơn.", illustration: `<div class="watercolor-box w-full h-full text-center text-gray-700 p-4">Water Color</div>`, prompt: "Thiết kế nền (background) website theo phong cách 'Hand-painted/Watercolor' với các mảng màu loang lổ, chuyển màu mềm mại và texture giấy." },
-                { title: "47. Pixel Art", color: "gray", description: "Giao diện có độ phân giải thấp, rõ các điểm ảnh.", illustration: `<div class="pixelart-text text-center text-2xl">PIXEL</div>`, prompt: "Thiết kế bộ icon và button theo phong cách 'Pixel Art', kích thước nhỏ (ví dụ 32x32px), rõ các điểm ảnh vuông." },
-                { title: "48. Newsprint / Newspaper", color: "brown", description: "Bố cục cột, chữ serif, cảm giác báo in cũ.", illustration: `<div class="newsprint-box w-full h-full p-2"><h4 class="font-bold mb-1">Tiêu đề</h4>Nội dung bài báo được chia thành hai cột, sử dụng font chữ serif cổ điển.</div>`, prompt: "Thiết kế trang tin tức theo phong cách 'Newsprint', sử dụng bố cục nhiều cột, font chữ serif (như Times New Roman), và màu nền hơi ngả vàng." },
-                { title: "49. Magazine Layout", color: "gray", description: "Sử dụng lưới linh hoạt, kết hợp ảnh lớn và text.", illustration: `<div class="magazine-grid"><div class="magazine-item">Image</div><div class="magazine-item">Title</div><div class="magazine-item">Text</div></div>`, prompt: "Thiết kế bố cục trang sản phẩm theo phong cách 'Magazine Layout', kết hợp ảnh sản phẩm lớn, tiêu đề nổi bật và các khối văn bản nhỏ hơn trên một lưới." },
-                { title: "50. Old Paper / Scroll", color: "brown", description: "Nền giấy cũ, cuộn lại, màu sắc phai mờ.", illustration: `<div class="oldpaper-box w-full h-full p-4 text-sm">Cuộn giấy cũ chứa thông tin quan trọng...</div>`, prompt: "Tạo hiệu ứng 'Old Paper/Scroll' cho một phần nội dung, sử dụng texture giấy cũ, góc bị nhàu hoặc cháy, và font chữ viết tay hoặc serif cổ điển." },
-                { title: "51. Chalkboard", color: "green", description: "Nền bảng đen, chữ viết tay bằng phấn.", illustration: `<div class="chalkboard-box w-full h-full p-4 text-center text-xl">Chalkboard</div>`, prompt: "Thiết kế trang landing page theo phong cách 'Chalkboard', nền đen hoặc xanh đậm, chữ viết tay màu trắng hoặc vàng nhạt, và các đường nét vẽ bằng phấn." },
-                { title: "52. Sci-Fi (Clean)", color: "blue", description: "Tương lai, công nghệ cao, sạch sẽ, ánh sáng neon.", illustration: `<div class="scificlean-box w-full h-full p-4 text-sm font-orbitron relative">Systém Online<br>Initiating...</div>`, prompt: "Thiết kế giao diện người dùng (UI) cho ứng dụng khoa học viễn tưởng theo phong cách 'Sci-Fi Clean', sử dụng màu xanh dương, trắng, xám kim loại, font sans-serif hiện đại và các đường kẻ phát sáng." },
-                { title: "53. Fantasy", color: "purple", description: "Huyền ảo, thần thoại, sử dụng họa tiết trang trí, màu sắc phong phú.", illustration: `<div class="fantasy-box w-full h-full flex items-center justify-center text-xl relative">Quest Log</div>`, prompt: "Thiết kế giao diện theo phong cách 'Fantasy', sử dụng font chữ trang trí, họa tiết lấy cảm hứng từ thiên nhiên hoặc thần thoại, và bảng màu phong phú (tím, xanh lá, vàng kim)." },
-                { title: "54. Horror", color: "red", description: "Tối tăm, đáng sợ, sử dụng màu đỏ, đen, hiệu ứng cũ kỹ.", illustration: `<div class="horror-box w-full h-full flex items-center justify-center text-2xl">FEAR</div>`, prompt: "Thiết kế trang web theo phong cách 'Horror', nền tối, chữ màu đỏ máu, texture cũ kỹ, và hiệu ứng rách nát hoặc mờ ảo." },
-                { title: "55. Children's Book", color: "green", description: "Vui tươi, màu sắc tươi sáng, hình minh họa lớn, font chữ thân thiện.", illustration: `<div class="childrensbook-box w-full h-full p-4 text-center text-emerald-800 text-xl font-play">Hello Friend! 😊</div>`, prompt: "Thiết kế giao diện trang web cho trẻ em theo phong cách 'Children's Book', sử dụng màu sắc rực rỡ, hình dạng bo tròn, font chữ lớn và dễ đọc, và nhiều không gian cho hình minh họa." },
-                { title: "56. Victorian", color: "brown", description: "Cổ điển, trang trí cầu kỳ, font serif, màu sắc đậm.", illustration: `<div class="victorian-box w-full h-full p-4 text-center text-lg font-cinzel-decorative relative">Estate</div>`, prompt: "Thiết kế một phần giao diện theo phong cách 'Victorian', sử dụng font chữ serif trang trọng, họa tiết trang trí phức tạp (ví dụ: khung viền), và bảng màu đậm (nâu, xanh rêu, đỏ tía)." },
-                 { title: "57. Abstract Expressionism", color: "orange", description: "Dựa trên nghệ thuật trừu tượng, màu sắc và hình dạng tự do.", illustration: `<div class="abstractexpressionism-box w-full h-full relative"></div>`, prompt: "Tạo nền (background) website theo phong cách 'Abstract Expressionism', sử dụng các mảng màu, đường nét, và hình dạng trừu tượng, không có bố cục rõ ràng." },
-                { title: "58. Futurism", color: "purple", description: "Tốc độ, công nghệ, đường nét động, màu sắc rực rỡ.", illustration: `<div class="futurism-box w-full h-full p-4 text-xl font-sans text-cyan-300">SPEED<br>ACCEL</div>`, prompt: "Thiết kế giao diện theo phong cách 'Futurism', sử dụng các đường xiên, hình dạng góc cạnh, màu sắc rực rỡ và font chữ gợi cảm giác chuyển động." },
-                { title: "59. Liquid / Fluid", color: "blue", description: "Hình dạng lỏng, chuyển động mềm mại, gradient mượt.", illustration: `<div class="liquidfluid-box w-full h-full relative"></div>`, prompt: "Tạo hiệu ứng 'Liquid/Fluid' cho một khối nội dung hoặc nền, sử dụng hình dạng cong, chuyển động mượt mà (nếu có animation), và gradient màu mềm mại." },
-                { title: "60. Geometric", color: "gray", description: "Chủ yếu sử dụng các hình dạng hình học cơ bản.", illustration: `<div class="geometric-box w-full h-full relative"></div>`, prompt: "Thiết kế bố cục và các thành phần UI theo phong cách 'Geometric', sử dụng các hình vuông, tròn, tam giác, đường thẳng, và sắp xếp chúng theo một mẫu hoặc lưới." },
-                { title: "61. Illustrative", color: "orange", description: "Thiết kế tập trung vào các hình minh họa tùy chỉnh.", illustration: `<div class="illustrative-box w-full h-full relative flex items-center justify-center text-sm">Illustration Base</div>`, prompt: "Thiết kế trang landing page theo phong cách 'Illustrative', sử dụng một hình minh họa lớn, độc đáo làm trung tâm và các yếu tố UI tối giản đi kèm." },
-                { title: "62. Typographic Layout", color: "gray", description: "Chữ là yếu tố thiết kế chính, bố cục mạnh về typography.", illustration: `<div class="typographiclayout-box w-full h-full"><h3 class="font-bold">HEADLINE</h3><p>Body text here focusing on readability and hierarchy.</p><span>Metadata</span></div>`, prompt: "Thiết kế một trang blog hoặc bài viết theo phong cách 'Typographic Layout', tập trung vào sự tương phản font chữ (kích thước, trọng lượng), khoảng trắng và lưới để làm nổi bật nội dung văn bản." },
-                { title: "63. Editorial", color: "brown", description: "Sạch sẽ, có cấu trúc, giống layout báo/tạp chí.", illustration: `<div class="editorial-box w-full h-full"><h4 class="font-bold">Chapter Title</h4>Lorem ipsum dolor sit amet... sed do eiusmod tempor incididunt... Ut enim ad minim veniam...</div>`, prompt: "Thiết kế trang nội dung (article page) theo phong cách 'Editorial', sử dụng lưới cột, font chữ dễ đọc (serif cho body, sans-serif cho heading), và khoảng trắng hợp lý." },
-                { title: "64. Retro Futurism", color: "blue", description: "Pha trộn cảm hứng thập niên 50-80 với công nghệ tương lai.", illustration: `<div class="retrofuturism-box w-3/4 h-1/2 flex items-center justify-center font-play text-lg relative">Future Now!</div>`, prompt: "Thiết kế giao diện theo phong cách 'Retro Futurism', sử dụng màu sắc tươi sáng (xanh ngọc, hồng, vàng), hình dạng streamlined, hiệu ứng chrome hoặc kim loại, và font chữ gợi nhớ thập niên 50-80." },
-                { title: "65. Cybersecurity / Matrix", color: "green", description: "Nền tối, chữ xanh lá cây, hiệu ứng kỹ thuật số, ma trận.", illustration: `<div class="cybersecurity-box w-full h-full p-2 text-sm relative">Status: Secure<br>_</div>`, prompt: "Thiết kế giao diện theo phong cách 'Cybersecurity/Matrix', nền đen hoặc tối, chữ màu xanh lá cây neon, font monospace, và các hiệu ứng thị giác gợi ý dữ liệu hoặc code (ví dụ: hiệu ứng mưa chữ)." },
-                { title: "66. Neobrutalism", color: "yellow", description: "Phiên bản hiện đại của Brutalism, màu sắc đậm, hình học, bóng đổ mạnh.", illustration: `<div class="neobrutalism-box w-full h-full p-4 text-center text-xl font-bold relative">Bold UI</div>`, prompt: "Thiết kế thành phần UI (ví dụ: thẻ sản phẩm) theo phong cách 'Neobrutalism', sử dụng màu sắc rực rỡ hoặc tương phản mạnh, viền đen dày, bóng đổ khối nổi bật, và hình dạng cơ bản." },
-                { title: "67. Vignette / Dark Edges", color: "gray", description: "Phần rìa giao diện tối hơn trung tâm, tạo cảm giác tập trung hoặc u ám.", illustration: `<div class="vignette-box w-full h-full flex items-center justify-center">Focused</div>`, prompt: "Áp dụng hiệu ứng 'Vignette' (làm tối các cạnh) cho nền hoặc toàn bộ giao diện để tạo cảm giác tập trung vào nội dung trung tâm hoặc một không khí cụ thể." },
-                { title: "68. Wabi-Sabi", color: "brown", description: "Đề cao sự không hoàn hảo, tự nhiên, cũ kỹ, tối giản.", illustration: `<div class="wabisabi-box w-full h-full flex items-center justify-center text-sm">Imperfect Beauty</div>`, prompt: "Thiết kế theo phong cách 'Wabi-Sabi', sử dụng texture tự nhiên (giấy, đá, gỗ), màu sắc trầm, bố cục không đối xứng hoàn hảo, và các yếu tố gợi ý sự cũ kỹ hoặc không hoàn hảo tinh tế." },
-                { title: "69. Torn Paper", color: "gray", description: "Hiệu ứng giấy bị xé rách, tạo cảm giác thủ công, tự nhiên.", illustration: `<div class="tornpaper-box w-full h-full p-4 text-sm relative">Torn Edge Effect</div>`, prompt: "Thiết kế các khối nội dung hoặc hình ảnh với hiệu ứng 'Torn Paper' ở các cạnh, sử dụng mask hoặc hình ảnh nền để mô phỏng giấy bị xé rách." },
-                { title: "70. Gradient Mesh / Morphing Shapes", color: "purple", description: "Gradient phức tạp, mượt mà, hình dạng biến đổi hữu cơ.", illustration: `<div class="gradientmesh-box w-full h-full"></div>`, prompt: "Tạo nền hoặc các yếu tố đồ họa theo phong cách 'Gradient Mesh/Morphing Shapes', sử dụng gradient đa điểm màu chuyển đổi mượt mà và các hình dạng hữu cơ, lỏng lẻo." },
-                // --- END: Added 30 new styles ---
+                { title: "15. Memphis Design", color: "pink", description: "Thập niên 80, hình học vui tươi, màu sắc tương phản.", illustration: `<div class="w-full h-full flex items-center justify-center relative"><div class="absolute w-12 h-12 bg-yellow-400 top-2 left-2 -rotate-12 border border-black"></div><div class="absolute w-8 h-8 bg-blue-400 bottom-2 right-2 border border-black"></div><div class="text-2xl font-bold text-purple-600 z-10">COOL!</div></div>`, prompt: "Tạo UI 'Memphis Design'. Dùng khối màu rực rỡ, hình học trừu tượng (tròn, tam giác), đường zíc-zắc. Bố cục vui tươi." },
+                { title: "16. Swiss Style", color: "red", description: "Bố cục lưới, sạch sẽ, typography là trung tâm.", illustration: `<div class="w-full h-full p-4 font-sans grid grid-cols-2 gap-2"><div class="text-6xl font-light col-span-2">Aa</div><div class="text-sm font-bold text-red-500 self-end">Grid</div><div class="text-2xl font-bold mt-2 col-span-2">Typografie</div></div>`, prompt: "Thiết kế bố cục 'Phong cách Thụy Sĩ'. Dùng lưới nghiêm ngặt, font sans-serif (Inter/Helvetica), chữ đen và đỏ làm điểm nhấn." },
+                { title: "17. Art Deco", color: "yellow", description: "Sang trọng, hình học đối xứng, họa tiết kim loại.", illustration: `<div class="w-full h-full flex items-center justify-center font-londrina-outline text-4xl bg-black border-2 border-yellow-400 text-yellow-400">GATSBY</div>`, prompt: "Tạo UI 'Art Deco'. Sử dụng các đường kẻ đậm, đối xứng, hình học (zíc-zắc, tia nắng), màu đen, trắng và vàng gold." },
+                { title: "18. Art Nouveau", color: "green", description: "Hữu cơ, đường cong uốn lượn, họa tiết thiên nhiên.", illustration: `<div class="w-full h-full flex items-center justify-center text-3xl font-serif italic border-2 border-green-800 text-green-800">Nouveau</div>`, prompt: "Thiết kế theo phong cách 'Art Nouveau'. Tập trung vào các đường cong, uốn lượn tự nhiên như cây cỏ, hoa lá. Dùng màu sắc trang nhã." },
+                { title: "19. Psychedelic", color: "purple", description: "Thập niên 60-70, màu sắc ảo giác, font chữ méo mó.", illustration: `<div class="text-4xl font-bold text-center w-full" style="background: linear-gradient(45deg, #ff00cc, #3333ff, #00ff33); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">TRIPPY</div>`, prompt: "Tạo UI 'Psychedelic'. Sử dụng màu sắc rực rỡ, tương phản mạnh, hoa văn uốn lượn, và font chữ trông như đang tan chảy." },
+                { title: "20. Grunge", color: "gray", description: "Thập niên 90, bề mặt sần sùi, màu tối, bố cục lộn xộn.", illustration: `<div class="p-4 w-full text-center text-lg font-special-elite" style="background-color: #333; color: #ccc; border: 1px dashed #555;">Code Spirit</div>`, prompt: "Thiết kế trang web 'Grunge'. Dùng texture sần sần, rách nát, màu sắc trầm, font chữ bị mờ hoặc nhòe, và bố cục không theo quy tắc." },
+                { title: "21. Y2K / Frutiger Aero", color: "blue", description: "Đầu 2000s, bóng bẩy, trong suốt, màu xanh/lá.", illustration: `<div class="p-4 w-3/4 text-center text-2xl font-play text-white border border-black" style="background: linear-gradient(to bottom right, #00c6ff, #0072ff);">Aero</div>`, prompt: "Tạo UI 'Frutiger Aero'. Dùng hiệu ứng bóng bẩy, trong suốt, gradient xanh dương và xanh lá, hình ảnh thiên nhiên và nước." },
+                { title: "22. Vaporwave", color: "pink", description: "Hoài niệm 80-90s, tượng La Mã, màu neon, lưới.", illustration: `<div class="w-full h-full flex flex-col items-center justify-center text-white font-mono text-xl border border-white" style="background: linear-gradient(to bottom, #ff77ff, #00ffff);">AESTHETIC</div>`, prompt: "Tạo thiết kế 'Vaporwave'. Kết hợp tượng La Mã, lưới phối cảnh, màu neon hồng và cyan, font chữ cổ điển, và ký tự Nhật." },
+                { title: "23. Solarpunk", color: "green", description: "Tương lai lạc quan, thiên nhiên & công nghệ hòa hợp.", illustration: `<div class="w-3/4 p-4 text-center text-green-900 text-lg font-semibold" style="background: linear-gradient(to bottom right, #a3e635, #fcd34d);"><div class="text-3xl mb-1">☀️🌿</div>Tương Lai Xanh</div>`, prompt: "Thiết kế 'Solarpunk'. Dùng màu sắc tươi sáng (xanh lá, vàng), hình dạng hữu cơ, hình ảnh công nghệ sạch và cây xanh." },
+                { title: "24. Steampunk", color: "brown", description: "Thời Victoria & máy hơi nước, bánh răng, đồng thau.", illustration: `<div class="w-full p-4 text-center text-yellow-300 font-serif" style="background-color: #5a463b; border: 2px solid #8b4513;"><div class="text-lg">The Mechanism</div></div>`, prompt: "Tạo UI 'Steampunk'. Sử dụng texture kim loại (đồng, thau), gỗ, hình ảnh bánh răng, đồng hồ, font chữ serif kiểu cách." },
+                { title: "25. Gothic", color: "purple", description: "Tối, trang trí cầu kỳ, vòm nhọn, font Blackletter.", illustration: `<div class="w-full p-4 text-center font-creepster text-xl" style="background-color: #1a1a1a; color: #c0c0c0; border-bottom: 2px solid #4a0e0e;">Nocturne</div>`, prompt: "Thiết kế 'Gothic'. Nền tối, màu đen, đỏ sẫm, tím. Dùng font Blackletter, họa tiết trang trí phức tạp, hình vòm nhọn." },
+                { title: "26. Isometric", color: "blue", description: "Phối cảnh 2.5D, tạo chiều sâu và cảm giác 3D.", illustration: `<div class="flex justify-center items-center w-full h-full"><div style="width: 60px; height: 40px; background: #60a5fa; transform: skewY(-30deg) scaleX(0.866);"></div></div>`, prompt: "Tạo hình minh họa 'Isometric'. Vẽ các đối tượng theo góc nhìn 2.5D, sử dụng màu sắc phẳng và đổ bóng đơn giản để tạo chiều sâu." },
+                { title: "27. Papercut / Origami", color: "blue", description: "Hiệu ứng lớp giấy cắt, đổ bóng tạo chiều sâu.", illustration: `<div class="relative w-full h-full flex items-center justify-center"><div style="position: absolute; width: 80px; height: 80px; background-color: #3b82f6; box-shadow: 4px 4px 0 0 #000; top: 10px; left: 10px;"></div><div style="position: absolute; width: 80px; height: 80px; background-color: #60a5fa; box-shadow: 4px 4px 0 0 #000; top: 20px; left: 20px;"></div></div>`, prompt: "Thiết kế 'Papercut'. Tạo các lớp hình ảnh với màu sắc khác nhau, sử dụng box-shadow để tạo hiệu ứng chiều sâu như các lớp giấy xếp chồng." },
+                { title: "28. Glitch Art", color: "pink", description: "Lỗi kỹ thuật số, vỡ pixel, sai màu, nhiễu sóng.", illustration: `<div class="text-4xl font-bold text-center relative" data-text="ERROR"><span style="color: white; text-shadow: -2px 0 #ff00cc, 2px 0 #00ffff;">ERROR</span></div>`, prompt: "Tạo hiệu ứng 'Glitch'. Làm biến dạng văn bản hoặc hình ảnh, tạo các đường kẻ ngang, sai màu (color channel shifting) và vỡ khối pixel." },
+                { title: "29. Corporate", color: "blue", description: "Chuyên nghiệp, sạch sẽ, đáng tin cậy.", illustration: `<div class="p-4 w-full bg-white border-l-4 border-blue-500"><h3 class="text-lg font-bold mb-1">Our Solution</h3><p class="text-sm text-gray-600">Driving growth.</p></div>`, prompt: "Thiết kế trang 'Corporate'. Sử dụng bảng màu xanh dương và xám, font sans-serif rõ ràng, bố cục sạch sẽ, hình ảnh chuyên nghiệp." },
+                { title: "30. Gaming UI / HUD", color: "green", description: "Giao diện game, thanh máu, thông số, khoa học viễn tưởng.", illustration: `<div class="w-full p-3 text-sm font-orbitron bg-black text-green-400 border border-green-700">HP: [████░░] 75%</div>`, prompt: "Tạo 'Gaming HUD'. Sử dụng font chữ đậm, góc cạnh, các thanh trạng thái (máu, mana), màu neon, và các yếu tố viễn tưởng." },
+                { title: "31. Lo-fi Aesthetic", color: "brown", description: "Thư giãn, ấm cúng, màu trầm, texture hạt, hoài niệm.", illustration: `<div class="w-full h-full p-4 text-center font-special-elite text-base" style="background-color: #f0ead6; color: #5c5c5c;">lofi beats</div>`, prompt: "Tạo thiết kế 'Lo-fi'. Dùng màu pastel trầm, ấm áp, thêm hiệu ứng nhiễu hạt (noise), hình minh họa đơn giản và font chữ viết tay." },
+                { title: "32. Abstract", color: "orange", description: "Trừu tượng, tập trung vào màu sắc, hình dạng, bố cục.", illustration: `<div class="w-full h-full flex items-center justify-center text-white text-3xl font-bold" style="background: radial-gradient(#fcd34d, #ef4444);">SHAPE</div>`, prompt: "Thiết kế 'trừu tượng'. Sử dụng các hình khối và màu sắc không theo quy tắc để tạo ra một cảm xúc hoặc không khí cụ thể." },
+                { title: "33. Comic Book", color: "red", description: "Viền đen đậm, chấm màu halftone, màu sắc cơ bản.", illustration: `<div class="w-3/4 h-3/4 flex items-center justify-center border-4 border-black"><span class="font-bebas-neue text-4xl" style="color: #ef4444; -webkit-text-stroke: 2px #000;">POW!</span></div>`, prompt: "Tạo UI 'truyện tranh'. Dùng viền đen dày, hiệu ứng chấm màu (halftone), bong bóng lời thoại và font chữ đậm, kịch tính." },
+                { title: "34. Metaverse / VR", color: "purple", description: "Không gian 3D, yếu tố lơ lửng, cảm giác nhập vai.", illustration: `<div class="w-full h-full flex items-center justify-center text-xl font-orbitron text-white" style="background: linear-gradient(to bottom right, #5a87f2, #8a5cf6);">VR Space</div>`, prompt: "Thiết kế UI cho 'Metaverse/VR'. Tạo cảm giác không gian 3D, các panel lơ lửng, hiệu ứng phát sáng, và font chữ hiện đại." },
+                { title: "35. Data-viz Dashboard", color: "blue", description: "Biểu đồ, đồ thị, số liệu, sắp xếp để dễ đọc.", illustration: `<div class="w-full p-4 text-sm bg-gray-100 border border-black"><div class="font-bold mb-2">Growth</div><div class="flex items-end h-16"><div class="w-4 bg-green-500 h-1/2 mr-2"></div><div class="w-4 bg-blue-500 h-3/4"></div></div></div>`, prompt: "Tạo 'Dashboard'. Thiết kế các loại biểu đồ (cột, tròn, đường), thẻ số liệu, sử dụng màu sắc rõ ràng để phân biệt dữ liệu." },
+                { title: "36. CLI Interface", color: "green", description: "Giao diện dòng lệnh, chữ đơn sắc, nền đen.", illustration: `<div class="w-full h-full p-4 text-sm whitespace-pre" style="background-color: #000; color: #00ff00;">> npm i more-styles_</div>`, prompt: "Tạo giao diện giống 'Terminal/CLI'. Dùng nền đen, font monospace màu xanh lá hoặc trắng, và con trỏ nhấp nháy." },
+                { title: "37. Kinetic Typography", color: "pink", description: "Chữ chuyển động, typography là yếu tố chính.", illustration: `<div class="w-full h-full flex items-center justify-center text-5xl font-bold font-bebas-neue" style="background-color: #ff00ff; color: #00ffff;">MOVE</div>`, prompt: "Tạo thiết kế 'Kinetic Typography'. Dùng font chữ lớn, đậm, màu sắc tương phản. Bố cục tập trung hoàn toàn vào văn bản." },
+                { title: "38. Collage", color: "orange", description: "Kết hợp ảnh, texture, chữ viết theo kiểu cắt dán.", illustration: `<div class="w-full h-full flex items-center justify-center font-special-elite text-xl" style="background: #ccc;">Mix/Match</div>`, prompt: "Tạo bố cục 'Collage'. Kết hợp nhiều hình ảnh, họa tiết, và mẩu văn bản chồng chéo lên nhau như một tác phẩm cắt dán thủ công." },
+                { title: "39. Monochrome", color: "blue", description: "Chỉ sử dụng một màu với các sắc độ khác nhau.", illustration: `<div class="w-full h-full flex flex-col items-center justify-center" style="background-color: #60a5fa; color: #1e3a8a;"><div class="text-2xl font-bold">Tone</div></div>`, prompt: "Thiết kế UI 'đơn sắc' (Monochrome). Chọn một màu chủ đạo (ví dụ: xanh dương) và chỉ sử dụng các sắc độ, tông màu của nó." },
+                { title: "40. Skeuomorphism", color: "gray", description: "Giao diện giống vật thật, có bóng đổ và texture.", illustration: `<button class="px-6 py-3 text-base font-semibold border border-black" style="background: linear-gradient(to bottom, #f0f0f0 0%, #d0d0d0 100%);">Click Me</button>`, prompt: "Thiết kế một nút bấm 'Skeuomorphism' với hiệu ứng bóng đổ sâu, gradient bóng bẩy và viền nhẹ để trông giống vật thật." },
+                { title: "41. Flat Design 2.0", color: "blue", description: "Nền phẳng nhưng có bóng đổ và gradient tinh tế.", illustration: `<button class="px-6 py-3 text-base font-semibold text-white border border-black" style="background: linear-gradient(to bottom, #3b82f6, #2563eb); box-shadow: 2px 2px 0 0 #000;">Download</button>`, prompt: "Thiết kế một thẻ (card) theo phong cách 'Flat Design 2.0' với màu nền phẳng, góc bo tròn nhẹ và bóng đổ mềm mại bên dưới." },
+                { title: "42. Duotone", color: "red", description: "Sử dụng hai màu tương phản để tạo hiệu ứng hình ảnh ấn tượng.", illustration: `<div style="width: 80px; height: 80px; background-color: #ef4444; border: 2px solid black;"></div>`, prompt: "Tạo hiệu ứng 'Duotone' cho một hình ảnh bằng cách áp dụng gradient hai màu (ví dụ: xanh lam và vàng) lên ảnh đen trắng." },
+                { title: "43. Line Art", color: "gray", description: "Tập trung vào các đường nét mảnh, sạch sẽ.", illustration: `<div class="w-full h-full"><svg width="80" height="80" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2"><circle cx="40" cy="40" r="30"/></svg></div>`, prompt: "Thiết kế các icon hoặc hình minh họa theo phong cách 'Line Art' với các đường nét mảnh, không màu nền, và tập trung vào hình dạng." },
+                { title: "44. Outline / Stroke", color: "gray", description: "Các thành phần UI chủ yếu dùng viền (stroke).", illustration: `<div class="w-3/4 h-1/2 p-2 border-4 border-black font-londrina-outline text-2xl">OUTLINE</div>`, prompt: "Thiết kế một bộ khung form đăng nhập theo phong cách 'Outline'. Các trường input và nút bấm chỉ có viền, không có màu nền." },
+                { title: "45. Hand-painted / Watercolor", color: "blue", description: "Giao diện giống như được vẽ bằng màu nước hoặc sơn.", illustration: `<div class="w-full h-full text-center text-gray-700 p-4" style="background: radial-gradient(circle, #bfdbfe, transparent);">Water Color</div>`, prompt: "Thiết kế nền (background) website theo phong cách 'Hand-painted/Watercolor' với các mảng màu loang lổ, chuyển màu mềm mại và texture giấy." },
+                { title: "46. Pixel Art", color: "gray", description: "Giao diện có độ phân giải thấp, rõ các điểm ảnh.", illustration: `<div class="font-press-start-2p text-center text-2xl">PIXEL</div>`, prompt: "Thiết kế bộ icon và button theo phong cách 'Pixel Art', kích thước nhỏ (ví dụ 32x32px), rõ các điểm ảnh vuông." },
+                { title: "47. Newsprint / Newspaper", color: "brown", description: "Bố cục cột, chữ serif, cảm giác báo in cũ.", illustration: `<div class="w-full h-full p-2 font-serif text-xs border border-black" style="background-color: #f5f5dc; column-count: 2;"><h4>Tiêu đề</h4>Nội dung bài báo được chia thành hai cột...</div>`, prompt: "Thiết kế trang tin tức theo phong cách 'Newsprint', sử dụng bố cục nhiều cột, font chữ serif (như Times New Roman), và màu nền hơi ngả vàng." },
+                { title: "48. Magazine Layout", color: "gray", description: "Sử dụng lưới linh hoạt, kết hợp ảnh lớn và text.", illustration: `<div class="grid grid-cols-2 gap-1 w-full h-full"><div class="bg-gray-400 row-span-2"></div><div class="bg-gray-300"></div><div class="bg-gray-300"></div></div>`, prompt: "Thiết kế bố cục trang sản phẩm theo phong cách 'Magazine Layout', kết hợp ảnh sản phẩm lớn, tiêu đề nổi bật và các khối văn bản nhỏ hơn trên một lưới." },
+                { title: "49. Old Paper / Scroll", color: "brown", description: "Nền giấy cũ, cuộn lại, màu sắc phai mờ.", illustration: `<div class="w-full h-full p-4 text-sm border-2 border-yellow-800" style="background-color: #f0e68c;">Cuộn giấy cũ...</div>`, prompt: "Tạo hiệu ứng 'Old Paper/Scroll' cho một phần nội dung, sử dụng texture giấy cũ, góc bị nhàu hoặc cháy, và font chữ viết tay hoặc serif cổ điển." },
+                { title: "50. Chalkboard", color: "green", description: "Nền bảng đen, chữ viết tay bằng phấn.", illustration: `<div class="w-full h-full p-4 text-center text-xl font-permanent-marker" style="background-color: #2f4f4f; color: #e0e0e0;">Chalkboard</div>`, prompt: "Thiết kế trang landing page theo phong cách 'Chalkboard', nền đen hoặc xanh đậm, chữ viết tay màu trắng hoặc vàng nhạt, và các đường nét vẽ bằng phấn." },
+                { title: "51. Sci-Fi (Clean)", color: "blue", description: "Tương lai, công nghệ cao, sạch sẽ, ánh sáng neon.", illustration: `<div class="w-full h-full p-4 text-sm font-orbitron relative" style="background: #1a202c; color: #4299e1; border: 1px solid #2b6cb0;">System Online</div>`, prompt: "Thiết kế giao diện người dùng (UI) cho ứng dụng khoa học viễn tưởng theo phong cách 'Sci-Fi Clean', sử dụng màu xanh dương, trắng, xám kim loại, font sans-serif hiện đại và các đường kẻ phát sáng." },
+                { title: "52. Fantasy", color: "purple", description: "Huyền ảo, thần thoại, sử dụng họa tiết trang trí, màu sắc phong phú.", illustration: `<div class="w-full h-full flex items-center justify-center text-xl font-cinzel-decorative border-2 border-yellow-400" style="color: #d4af37; background: #1a202c;">Quest Log</div>`, prompt: "Thiết kế giao diện theo phong cách 'Fantasy', sử dụng font chữ trang trí, họa tiết lấy cảm hứng từ thiên nhiên hoặc thần thoại, và bảng màu phong phú (tím, xanh lá, vàng kim)." },
+                { title: "53. Horror", color: "red", description: "Tối tăm, đáng sợ, sử dụng màu đỏ, đen, hiệu ứng cũ kỹ.", illustration: `<div class="w-full h-full flex items-center justify-center text-2xl font-creepster" style="background-color: #000; color: #ff0000; border: 2px solid #4a0e0e;">FEAR</div>`, prompt: "Thiết kế trang web theo phong cách 'Horror', nền tối, chữ màu đỏ máu, texture cũ kỹ, và hiệu ứng rách nát hoặc mờ ảo." },
+                { title: "54. Children's Book", color: "green", description: "Vui tươi, màu sắc tươi sáng, hình minh họa lớn, font chữ thân thiện.", illustration: `<div class="w-full h-full p-4 text-center text-emerald-800 text-xl font-play border-2 border-black" style="background-color: #a7f3d0;">Hello 😊</div>`, prompt: "Thiết kế giao diện trang web cho trẻ em theo phong cách 'Children's Book', sử dụng màu sắc rực rỡ, hình dạng bo tròn, font chữ lớn và dễ đọc, và nhiều không gian cho hình minh họa." },
+                { title: "55. Victorian", color: "brown", description: "Cổ điển, trang trí cầu kỳ, font serif, màu sắc đậm.", illustration: `<div class="w-full h-full p-4 text-center text-lg font-serif" style="background-color: #f5f5dc; color: #8b4513; border: 3px double #d4af37;">Estate</div>`, prompt: "Thiết kế một phần giao diện theo phong cách 'Victorian', sử dụng font chữ serif trang trọng, họa tiết trang trí phức tạp (ví dụ: khung viền), và bảng màu đậm (nâu, xanh rêu, đỏ tía)." },
+                { title: "56. Abstract Expressionism", color: "orange", description: "Dựa trên nghệ thuật trừu tượng, màu sắc và hình dạng tự do.", illustration: `<div class="w-full h-full relative" style="background: linear-gradient(45deg, #ef4444, #f97316);"></div>`, prompt: "Tạo nền (background) website theo phong cách 'Abstract Expressionism', sử dụng các mảng màu, đường nét, và hình dạng trừu tượng, không có bố cục rõ ràng." },
+                { title: "57. Futurism", color: "purple", description: "Tốc độ, công nghệ, đường nét động, màu sắc rực rỡ.", illustration: `<div class="w-full h-full p-4 text-xl font-sans text-cyan-300" style="background-color: #1a1a1a; transform: skewX(-10deg); border-left: 3px solid #ff00ff;">SPEED</div>`, prompt: "Thiết kế giao diện theo phong cách 'Futurism', sử dụng các đường xiên, hình dạng góc cạnh, màu sắc rực rỡ và font chữ gợi cảm giác chuyển động." },
+                { title: "58. Liquid / Fluid", color: "blue", description: "Hình dạng lỏng, chuyển động mềm mại, gradient mượt.", illustration: `<div class="w-full h-full relative" style="background: linear-gradient(to bottom right, #6366f1, #a855f7);"></div>`, prompt: "Tạo hiệu ứng 'Liquid/Fluid' cho một khối nội dung hoặc nền, sử dụng hình dạng cong, chuyển động mượt mà (nếu có animation), và gradient màu mềm mại." },
+                { title: "59. Geometric", color: "gray", description: "Chủ yếu sử dụng các hình dạng hình học cơ bản.", illustration: `<div class="w-full h-full relative" style="background-color: #334155;"></div>`, prompt: "Thiết kế bố cục và các thành phần UI theo phong cách 'Geometric', sử dụng các hình vuông, tròn, tam giác, đường thẳng, và sắp xếp chúng theo một mẫu hoặc lưới." },
+                { title: "60. Illustrative", color: "orange", description: "Thiết kế tập trung vào các hình minh họa tùy chỉnh.", illustration: `<div class="w-full h-full relative flex items-center justify-center text-sm border-2 border-black">Illustration</div>`, prompt: "Thiết kế trang landing page theo phong cách 'Illustrative', sử dụng một hình minh họa lớn, độc đáo làm trung tâm và các yếu tố UI tối giản đi kèm." },
+                { title: "61. Typographic Layout", color: "gray", description: "Chữ là yếu tố thiết kế chính, bố cục mạnh về typography.", illustration: `<div class="w-full h-full grid grid-rows-2 p-2 border-2 border-black"><h3 class="font-bold text-2xl">HEADLINE</h3><p class="text-xs self-end">Body text here.</p></div>`, prompt: "Thiết kế một trang blog hoặc bài viết theo phong cách 'Typographic Layout', tập trung vào sự tương phản font chữ (kích thước, trọng lượng), khoảng trắng và lưới để làm nổi bật nội dung văn bản." },
+                { title: "62. Editorial", color: "brown", description: "Sạch sẽ, có cấu trúc, giống layout báo/tạp chí.", illustration: `<div class="w-full h-full p-2 border-t-4 border-yellow-600 font-serif text-xs" style="column-count: 2;"><h4>Title</h4>Lorem ipsum dolor sit...</div>`, prompt: "Thiết kế trang nội dung (article page) theo phong cách 'Editorial', sử dụng lưới cột, font chữ dễ đọc (serif cho body, sans-serif cho heading), và khoảng trắng hợp lý." },
+                { title: "63. Retro Futurism", color: "blue", description: "Pha trộn cảm hứng thập niên 50-80 với công nghệ tương lai.", illustration: `<div class="w-3/4 h-1/2 flex items-center justify-center font-play text-lg" style="background: linear-gradient(to bottom, #c0c0c0, #808080); color: black; border: 2px solid black;">Future Now!</div>`, prompt: "Thiết kế giao diện theo phong cách 'Retro Futurism', sử dụng màu sắc tươi sáng (xanh ngọc, hồng, vàng), hình dạng streamlined, hiệu ứng chrome hoặc kim loại, và font chữ gợi nhớ thập niên 50-80." },
+                { title: "64. Cybersecurity / Matrix", color: "green", description: "Nền tối, chữ xanh lá cây, hiệu ứng kỹ thuật số, ma trận.", illustration: `<div class="w-full h-full p-2 text-sm relative" style="background: black; color: #00ff00;">Status: Secure_</div>`, prompt: "Thiết kế giao diện theo phong cách 'Cybersecurity/Matrix', nền đen hoặc tối, chữ màu xanh lá cây neon, font monospace, và các hiệu ứng thị giác gợi ý dữ liệu hoặc code (ví dụ: hiệu ứng mưa chữ)." },
+                { title: "65. Neobrutalism", color: "yellow", description: "Phiên bản hiện đại của Brutalism, màu sắc đậm, hình học, bóng đổ mạnh.", illustration: `<div class="w-full h-full p-4 text-center text-xl font-bold relative" style="background-color: #fcd34d; color: #1a1a1a; border: 4px solid #000; box-shadow: 6px 6px 0 0 #000;">Bold UI</div>`, prompt: "Thiết kế thành phần UI (ví dụ: thẻ sản phẩm) theo phong cách 'Neobrutalism', sử dụng màu sắc rực rỡ hoặc tương phản mạnh, viền đen dày, bóng đổ khối nổi bật, và hình dạng cơ bản." },
+                { title: "66. Vignette / Dark Edges", color: "gray", description: "Phần rìa giao diện tối hơn trung tâm, tạo cảm giác tập trung hoặc u ám.", illustration: `<div class="w-full h-full flex items-center justify-center text-white" style="background: #888; box-shadow: inset 0 0 50px rgba(0,0,0,0.8);">Focused</div>`, prompt: "Áp dụng hiệu ứng 'Vignette' (làm tối các cạnh) cho nền hoặc toàn bộ giao diện để tạo cảm giác tập trung vào nội dung trung tâm hoặc một không khí cụ thể." },
+                { title: "67. Wabi-Sabi", color: "brown", description: "Đề cao sự không hoàn hảo, tự nhiên, cũ kỹ, tối giản.", illustration: `<div class="w-full h-full flex items-center justify-center text-sm" style="background-color: #e0d8cc; color: #5a463b; border: 1px solid #c0b8af;">Imperfect</div>`, prompt: "Thiết kế theo phong cách 'Wabi-Sabi', sử dụng texture tự nhiên (giấy, đá, gỗ), màu sắc trầm, bố cục không đối xứng hoàn hảo, và các yếu tố gợi ý sự cũ kỹ hoặc không hoàn hảo tinh tế." },
+                { title: "68. Torn Paper", color: "gray", description: "Hiệu ứng giấy bị xé rách, tạo cảm giác thủ công, tự nhiên.", illustration: `<div class="w-full h-full p-4 text-sm relative border-t-2 border-dashed border-black" style="background-color: #f0f0f0;">Torn Edge</div>`, prompt: "Thiết kế các khối nội dung hoặc hình ảnh với hiệu ứng 'Torn Paper' ở các cạnh, sử dụng mask hoặc hình ảnh nền để mô phỏng giấy bị xé rách." },
+                { title: "69. Gradient Mesh / Morphing Shapes", color: "purple", description: "Gradient phức tạp, mượt mà, hình dạng biến đổi hữu cơ.", illustration: `<div class="w-full h-full" style="background: radial-gradient(circle, #c4b5fd, #8b5cf6, #a78bfa);"></div>`, prompt: "Tạo nền hoặc các yếu tố đồ họa theo phong cách 'Gradient Mesh/Morphing Shapes', sử dụng gradient đa điểm màu chuyển đổi mượt mà và các hình dạng hữu cơ, lỏng lẻo." },
+                { title: "70. Collage", color: "orange", description: "Kết hợp ảnh, texture, chữ viết theo kiểu cắt dán.", illustration: `<div class="collage-box w-full h-full flex items-center justify-center font-special-elite text-xl">Mix and Match</div>`, prompt: "Tạo bố cục 'Collage'. Kết hợp nhiều hình ảnh, họa tiết, và mẩu văn bản chồng chéo lên nhau như một tác phẩm cắt dán thủ công." },
             ];
 
             const cardGrid = document.getElementById('card-grid');
-
-            // Function to create and append cards
+            
             function renderCards(dataToRender) {
-                cardGrid.innerHTML = ''; // Clear existing cards
+                cardGrid.innerHTML = '';
                 dataToRender.forEach((card, index) => {
                     const cardElement = document.createElement('article');
-                    // Card ID based on its index in the *original* full array for consistent linking/scrolling
-                    const originalIndex = cardsData.findIndex(c => c.title === card.title); // Find original index
-                    cardElement.id = `card-${originalIndex + 1}`;
-                    cardElement.className = 'bg-gray-800 rounded-lg shadow-lg flex flex-col border-2 border-transparent transition-all duration-300';
-
-                    const colorClasses = {
-                        blue: 'border-blue-500/30 text-blue-300',
-                        gray: 'border-gray-500/30 text-gray-300',
-                        yellow: 'border-yellow-500/30 text-yellow-300',
-                        purple: 'border-purple-500/30 text-purple-300',
-                        red: 'border-red-500/30 text-red-300',
-                        green: 'border-green-500/30 text-green-300',
-                        pink: 'border-pink-500/30 text-pink-300',
-                        brown: 'border-amber-500/30 text-amber-300', // Using amber for brown-ish feel
-                         orange: 'border-orange-500/30 text-orange-300'
-                    };
+                    cardElement.id = `card-${index + 1}`;
+                    cardElement.className = 'bg-white flex flex-col border-2 border-black';
+                    
+                    const accentColorClass = {
+                        blue: 'text-blue-600',
+                        gray: 'text-gray-800',
+                        yellow: 'text-yellow-600',
+                        purple: 'text-purple-600',
+                        red: 'text-red-600',
+                        green: 'text-green-600',
+                        pink: 'text-pink-600',
+                        brown: 'text-yellow-800',
+                        orange: 'text-orange-600'
+                    }[card.color] || 'text-black';
 
                     cardElement.innerHTML = `
-                        <div class="p-4 border-b ${colorClasses[card.color] || 'border-gray-700'}">
-                            <h2 class="font-bold text-lg ${colorClasses[card.color] || 'text-white'}">${card.title}</h2>
-                            <p class="text-gray-400 text-sm h-10">${card.description}</p>
+                        <div class="p-4 border-b-2 border-black">
+                            <h2 class="font-bold text-lg ${accentColorClass}">${card.title}</h2>
+                            <p class="text-black text-sm h-10">${card.description}</p>
                         </div>
-                        <div class="flex-grow flex items-center justify-center p-4 card-container">
+                        <div class="flex-grow flex items-center justify-center p-4 bg-gray-100 border-b-2 border-black min-h-[160px]">
                             ${card.illustration}
                         </div>
-                        <div class="p-4 bg-gray-800/80">
-                            <pre class="bg-gray-900 p-3 rounded-md text-xs font-space-mono whitespace-pre-wrap"><code>${card.prompt}</code></pre>
-                            <div class="text-right mt-2">
-                                <button class="copy-btn inline-block p-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-gray-300" title="Sao chép"></button>
+                        <div class="p-4 bg-white">
+                            <pre class="bg-gray-100 p-3 border border-black text-xs font-space-mono whitespace-pre-wrap"><code>${card.prompt}</code></pre>
+                            <div class="text-right mt-3">
+                                <button class="copy-btn brutalist-shadow inline-block p-2 bg-cyan-400 hover:bg-cyan-500 border-2 border-black text-black" title="Sao chép"></button>
                             </div>
                         </div>
                     `;
                     cardGrid.appendChild(cardElement);
                 });
-
-                // Re-initialize copy buttons for the new cards
+                
                 initializeCopyButtons();
             }
 
-            // Function to initialize copy buttons
             function initializeCopyButtons() {
-                const copyButtons = document.querySelectorAll('.copy-btn');
-                copyButtons.forEach(button => button.innerHTML = copyIconSvg); // Reset icon on re-render
+                const popup = document.getElementById('copy-popup');
+                cardGrid.removeEventListener('click', copyHandler); // Remove old listener
+                cardGrid.addEventListener('click', copyHandler);
 
-                copyButtons.forEach(button => {
-                    // Remove existing listeners to prevent duplicates
-                    const oldButton = button.cloneNode(true);
-                    button.parentNode.replaceChild(oldButton, button);
-                });
+                function copyHandler(event) {
+                    const button = event.target.closest('.copy-btn');
+                    if (!button) return;
 
-                const newCopyButtons = document.querySelectorAll('.copy-btn');
-                newCopyButtons.forEach(button => {
-                     button.innerHTML = copyIconSvg; // Ensure icon is correct after cloning
-                    button.addEventListener('click', (event) => {
-                        const btn = event.currentTarget;
-                        const preElement = btn.parentElement.previousElementSibling;
-                        if (preElement && preElement.tagName === 'PRE') {
-                            const codeText = preElement.querySelector('code').innerText;
-                            const textArea = document.createElement('textarea');
-                            textArea.value = codeText;
-                            textArea.style.position = 'fixed';
-                            textArea.style.top = '-9999px';
-                            textArea.style.left = '-9999px';
-                            document.body.appendChild(textArea);
-                            textArea.select();
-                            try {
-                                document.execCommand('copy');
-                                btn.innerHTML = successIconSvg;
-                                setTimeout(() => { btn.innerHTML = copyIconSvg; }, 2000);
-                            } catch (err) { console.error('Failed to copy text: ', err); }
-                            document.body.removeChild(textArea);
-                        }
-                    });
+                    const preElement = button.closest('.p-4').querySelector('pre');
+                    if (preElement) {
+                        const codeText = preElement.querySelector('code').innerText;
+                        navigator.clipboard.writeText(codeText).then(() => {
+                            popup.style.display = 'block';
+                            setTimeout(() => { popup.style.display = 'none'; }, 2000);
+                        }).catch(err => console.error('Copy failed: ', err));
+                    }
+                }
+
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.innerHTML = copyIconSvg;
                 });
             }
-
 
             // Initial render
             renderCards(cardsData);
 
             // Search functionality
             const searchInput = document.getElementById('searchInput');
-            const suggestionsContainer = document.getElementById('suggestionsContainer');
-
             searchInput.addEventListener('input', () => {
                 const query = searchInput.value.toLowerCase().trim();
-                suggestionsContainer.innerHTML = '';
-
-                if (!query) {
-                    suggestionsContainer.classList.add('hidden');
-                    return;
-                }
-
-                const filteredCards = cardsData.filter(card =>
-                    card.title.toLowerCase().includes(query) ||
+                const filteredCards = cardsData.filter(card => 
+                    card.title.toLowerCase().includes(query) || 
                     card.description.toLowerCase().includes(query) ||
-                    card.prompt.toLowerCase().includes(query) // Also search in prompt text
+                    card.prompt.toLowerCase().includes(query)
                 );
-
-                if (filteredCards.length > 0) {
-                    suggestionsContainer.classList.remove('hidden');
-                    filteredCards.slice(0, 10).forEach((card) => { // Limit suggestions to 10
-                        const originalIndex = cardsData.findIndex(c => c.title === card.title); // Find original index
-                        const suggestionEl = document.createElement('a');
-                        suggestionEl.href = `#card-${originalIndex + 1}`;
-                        suggestionEl.className = 'block p-3 hover:bg-gray-600 cursor-pointer text-sm truncate'; // Add truncate for long titles
-                        suggestionEl.textContent = card.title;
-
-                        suggestionEl.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            const targetCard = document.getElementById(`card-${originalIndex + 1}`);
-                            if(targetCard) {
-                                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                                // Remove highlight from previous cards
-                                document.querySelectorAll('.highlight-card').forEach(c => c.classList.remove('highlight-card'));
-
-                                // Add highlight effect
-                                targetCard.classList.add('highlight-card');
-                                setTimeout(() => {
-                                    targetCard.classList.remove('highlight-card');
-                                }, 2000); // Match animation duration
-                            }
-                            searchInput.value = '';
-                            suggestionsContainer.classList.add('hidden');
-                        });
-
-                        suggestionsContainer.appendChild(suggestionEl);
-                    });
-                } else {
-                    suggestionsContainer.classList.add('hidden');
-                }
+                renderCards(filteredCards);
             });
-
-            // Hide suggestions when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!document.getElementById('search-container').contains(e.target)) {
-                    suggestionsContainer.classList.add('hidden');
-                }
-            });
-
-             // Optional: Hide suggestions when pressing Escape
-            searchInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    suggestionsContainer.classList.add('hidden');
-                }
-            });
-
         });
     </script>
 

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue 70 Câu Lệnh Mẫu Phân Tích Âm thanh & Video</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles with Brutalist theme */
+        body {
+            background-color: #FFFFFF; /* White background */
+            color: #000000; /* Black text */
+            font-family: 'Space Mono', monospace; /* Monospace font for the whole page */
+        }
+        
+        /* Brutalist shadow for interactive elements */
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px #000000;
+            transition: all 0.1s ease-in-out;
+        }
+        .brutalist-shadow:active {
+            box-shadow: 1px 1px 0px #000000;
+            transform: translate(3px, 3px);
+        }
+
+        /* Brutalist Popup for copy notification */
+        #copySuccessPopup > div {
+            background-color: #00FFFF; /* Bright Cyan accent */
+            color: #000000;
+            padding: 1rem 1.5rem;
+            border: 4px solid #000000;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 8px 8px 0 0 #000;
+        }
+    </style>
+</head>
+<body class="bg-white text-black font-space-mono">
+
+    <div class="container mx-auto px-4 py-12">
+        <header class="text-center mb-16">
+            <!-- Navigation Button -->
+            <div class="mb-8">
+                <a href="catalog-prompts.html" class="inline-block bg-cyan-400 hover:bg-cyan-500 text-black font-bold py-2 px-4 border-2 border-black brutalist-shadow">
+                    ‹ Trở về Catalogue Chính
+                </a>
+            </div>
+
+            <h1 class="text-5xl md:text-6xl font-bold text-black">Catalogue Prompts Phân Tích FILE</h1>
+            <p class="mt-4 text-lg text-black max-w-3xl mx-auto">70 câu lệnh mẫu giúp bạn truy xuất và phân tích dữ liệu từ tệp âm thanh & video.</p>
+        </header>
+
+        <!-- Search Bar -->
+        <div id="search-container" class="mb-12 max-w-2xl mx-auto relative">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm, ví dụ: 'tóm tắt', 'gỡ băng', 'cảm xúc', 'video'..." class="w-full p-4 pl-12 bg-white border-2 border-black text-black focus:outline-none focus:border-blue-500 font-space-mono">
+                <svg class="w-6 h-6 text-black absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Grid Layout for Catalog -->
+        <div id="card-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Cards will be populated here -->
+        </div>
+    </div>
+
+    <!-- Brutalist Copy Success Popup -->
+    <div id="copySuccessPopup" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div>
+            Đã sao chép thành công!
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
+            const copySuccessPopup = document.getElementById('copySuccessPopup');
+
+            const cardsData = [
+                // Transcription & Basic Content (1-10)
+                { title: "1. Gỡ băng Cơ bản", color: "blue", description: "Chuyển đổi toàn bộ âm thanh thành văn bản.", illustration: `<div class="text-6xl">🎙️→✍️</div>`, prompt: "Gỡ băng toàn bộ nội dung âm thanh từ tệp [tên tệp hoặc URL] thành văn bản thuần túy." },
+                { title: "2. Gỡ băng có Dấu thời gian", color: "blue", description: "Thêm mốc thời gian cho từng đoạn văn bản.", illustration: `<div class="font-bold text-lg">[00:15] ...<br>[00:30] ...</div>`, prompt: "Chuyển đổi tệp âm thanh [tên tệp] thành văn bản, kèm theo dấu thời gian (timestamp) cho mỗi câu hoặc đoạn văn." },
+                { title: "3. Gỡ băng và Xác định Người nói", color: "blue", description: "Ghi rõ ai đang nói trong cuộc hội thoại.", illustration: `<div class="text-left text-sm font-bold">A: Hello<br>B: Hi!</div>`, prompt: "Gỡ băng cuộc trò chuyện từ tệp [tên tệp], đồng thời xác định và gắn nhãn Người nói 1, Người nói 2, v.v." },
+                { title: "4. Lọc bỏ Từ đệm", color: "blue", description: "Tạo bản gỡ băng sạch, không có 'ờ', 'à'.", illustration: `<div class="font-bold">"Ờm... basically" → "Basically"</div>`, prompt: "Gỡ băng tệp âm thanh [tên tệp] và loại bỏ tất cả các từ đệm như 'ờ', 'à', 'ừm' để có một bản ghi sạch sẽ." },
+                { title: "5. Trích xuất Trích dẫn Trực tiếp", color: "blue", description: "Tìm và lấy ra những câu nói quan trọng.", illustration: `<div class="text-6xl">💬</div>`, prompt: "Từ bản ghi âm cuộc phỏng vấn [tên tệp], trích xuất tất cả các câu trích dẫn trực tiếp từ người được phỏng vấn." },
+                { title: "6. Tạo Phụ đề cho Video", color: "blue", description: "Tạo tệp phụ đề định dạng SRT hoặc VTT.", illustration: `<div class="text-6xl">🎬</div>`, prompt: "Từ tệp video [tên tệp], tạo một tệp phụ đề ở định dạng SRT, bao gồm cả mốc thời gian bắt đầu và kết thúc cho mỗi câu." },
+                { title: "7. Gỡ băng một Đoạn cụ thể", color: "blue", description: "Chỉ chuyển đổi văn bản trong một khoảng thời gian.", illustration: `<div class="font-bold">01:30 → 05:00</div>`, prompt: "Chỉ gỡ băng đoạn âm thanh từ [01:30] đến [05:00] của tệp [tên tệp]." },
+                { title: "8. Đếm số Từ", color: "blue", description: "Đếm tổng số từ trong bản gỡ băng.", illustration: `<div class="text-4xl font-bold">Σ 𝑤</div>`, prompt: "Gỡ băng tệp âm thanh [tên tệp] và cho biết tổng số từ được nói." },
+                { title: "9. Chuyển ngữ và Gỡ băng", color: "blue", description: "Gỡ băng từ ngôn ngữ này và dịch sang ngôn ngữ khác.", illustration: `<div class="font-bold text-2xl">EN → VI</div>`, prompt: "Gỡ băng bài phát biểu bằng tiếng Anh từ tệp [tên tệp] và dịch trực tiếp bản gỡ băng đó sang tiếng Việt." },
+                { title: "10. Trích xuất Thuật ngữ Chuyên ngành", color: "blue", description: "Liệt kê các thuật ngữ kỹ thuật hoặc chuyên ngành.", illustration: `<div class="text-6xl">🧬</div>`, prompt: "Phân tích bản ghi âm bài giảng [tên tệp] và liệt kê tất cả các thuật ngữ khoa học được đề cập." },
+
+                // Summarization (11-20)
+                { title: "11. Tóm tắt Tổng quát", color: "green", description: "Tạo một bản tóm tắt ngắn gọn toàn bộ nội dung.", illustration: `<div class="text-6xl">📜→📄</div>`, prompt: "Tóm tắt nội dung chính của cuộc họp trong tệp ghi âm [tên tệp] thành một đoạn văn không quá 150 từ." },
+                { title: "12. Tóm tắt theo Gạch đầu dòng", color: "green", description: "Liệt kê các ý chính dưới dạng danh sách.", illustration: `<div class="text-left text-lg">● Ý 1<br>● Ý 2</div>`, prompt: "Tạo một bản tóm tắt các ý chính của podcast [tên tệp] dưới dạng các gạch đầu dòng." },
+                { title: "13. Tóm tắt theo Chương/Phần", color: "green", description: "Tạo tóm tắt cho từng phần chính của nội dung.", illustration: `<div class="text-6xl">📚</div>`, prompt: "Chia video bài giảng [tên tệp] thành các chương logic và tóm tắt nội dung của mỗi chương." },
+                { title: "14. Tóm tắt Quan điểm của từng Người", color: "green", description: "Tóm tắt ý kiến của mỗi người tham gia.", illustration: `<div class="text-left text-sm font-bold">A: Ý chính...<br>B: Ý chính...</div>`, prompt: "Từ cuộc thảo luận nhóm trong [tên tệp], tóm tắt quan điểm chính của [Tên người nói 1] và [Tên người nói 2]." },
+                { title: "15. Tạo Tiêu đề Hấp dẫn", color: "green", description: "Đề xuất các tiêu đề cho video hoặc podcast.", illustration: `<div class="text-6xl">📰</div>`, prompt: "Dựa trên nội dung của tệp âm thanh [tên tệp], đề xuất 5 tiêu đề hấp dẫn cho một tập podcast." },
+                { title: "16. Tóm tắt cho Mạng xã hội", color: "green", description: "Viết một bản tóm tắt ngắn để đăng lên MXH.", illustration: `<div class="text-6xl">🐦</div>`, prompt: "Tạo một đoạn tweet (dưới 280 ký tự) tóm tắt điểm chính của video [tên tệp]." },
+                { title: "17. Trích xuất Dữ liệu Số", color: "green", description: "Tìm và liệt kê tất cả các số liệu, thống kê.", illustration: `<div class="font-bold text-2xl">15%, $5M, 200kg</div>`, prompt: "Quét qua bản ghi âm báo cáo tài chính [tên tệp] và trích xuất tất cả các số liệu, dữ liệu thống kê được đề cập." },
+                { title: "18. Tóm tắt các Quyết định", color: "green", description: "Liệt kê các quyết định đã được đưa ra.", illustration: `<div class="text-6xl">⚖️</div>`, prompt: "Từ bản ghi âm cuộc họp hội đồng [tên tệp], liệt kê tất cả các quyết định đã được thông qua." },
+                { title: "19. Tạo Mô tả Video YouTube", color: "green", description: "Viết mô tả chi tiết cho video để đăng tải.", illustration: `<div class="text-6xl">▶️</div>`, prompt: "Viết một mô tả chi tiết (khoảng 200 từ) cho video [tên tệp] để đăng lên YouTube, bao gồm tóm tắt và các mốc thời gian chính." },
+                { title: "20. Tóm tắt Trừu tượng (Abstract)", color: "green", description: "Tạo một bản tóm tắt học thuật.", illustration: `<div class="text-6xl">🔬</div>`, prompt: "Viết một bản tóm tắt trừu tượng (abstract) theo phong cách học thuật cho bài thuyết trình trong tệp [tên tệp]." },
+
+                 // Speaker & Sentiment Analysis (21-35)
+                { title: "21. Phân tích Tỷ lệ nói", color: "yellow", description: "Tính phần trăm thời gian nói của mỗi người.", illustration: `<div class="w-24 h-24 border-2 border-black" style="background: conic-gradient(#facc15 0% 60%, #a1a1aa 60% 100%);"></div>`, prompt: "Phân tích tệp hội thoại [tên tệp] và tính toán tỷ lệ phần trăm thời gian nói của mỗi người tham gia." },
+                { title: "22. Phân tích Cảm xúc Tổng thể", color: "yellow", description: "Xác định sắc thái chung của cuộc trò chuyện.", illustration: `<div class="text-6xl">🙂</div>`, prompt: "Phân tích cảm xúc tổng thể của tệp âm thanh [tên tệp]. Nội dung mang tính tích cực, tiêu cực hay trung lập?" },
+                { title: "23. Theo dõi Cảm xúc theo Thời gian", color: "yellow", description: "Xem cảm xúc thay đổi như thế nào trong suốt file.", illustration: `<svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 20 L 30 10 L 70 40 L 100 30" stroke="#FBBF24" stroke-width="3" fill="none"/></svg>`, prompt: "Vẽ biểu đồ thể hiện sự thay đổi cảm xúc (tích cực/tiêu cực) trong suốt thời gian của video [tên tệp]." },
+                { title: "24. Phát hiện Cảm xúc Cụ thể", color: "yellow", description: "Tìm các khoảnh khắc vui, buồn, tức giận, ngạc nhiên.", illustration: `<div class="text-4xl">😃😠😲</div>`, prompt: "Xác định các đoạn trong tệp âm thanh [tên tệp] có chứa cảm xúc rõ rệt như vui vẻ, tức giận, hoặc ngạc nhiên và trích dẫn câu nói đó." },
+                { title: "25. Phân tích Giọng điệu (Tone)", color: "yellow", description: "Xác định giọng điệu: trang trọng, thân mật, mỉa mai.", illustration: `<div class="text-6xl">🎭</div>`, prompt: "Phân tích giọng điệu của người nói trong tệp [tên tệp]. Họ đang nói chuyện một cách trang trọng, thân mật, hay mỉa mai?" },
+                { title: "26. Xác định Câu hỏi", color: "yellow", description: "Liệt kê tất cả các câu hỏi được đặt ra.", illustration: `<div class="text-6xl">❓</div>`, prompt: "Trích xuất tất cả các câu hỏi được đặt ra trong buổi Q&A từ tệp [tên tệp]." },
+                { title: "27. Phát hiện sự Thay đổi Người nói", color: "yellow", description: "Ghi lại các mốc thời gian khi có sự chuyển đổi người nói.", illustration: `<div class="font-bold">A→B (01:15)</div>`, prompt: "Liệt kê tất cả các mốc thời gian trong tệp [tên tệp] có sự thay đổi người nói." },
+                { title: "28. Phân tích Sự ngập ngừng", color: "yellow", description: "Đo lường mức độ ngập ngừng hoặc không chắc chắn.", illustration: `<div class="text-6xl">🤔</div>`, prompt: "Phân tích bài phát biểu trong [tên tệp] và đánh giá mức độ tự tin của người nói dựa trên số lần ngập ngừng và sử dụng từ đệm." },
+                { title: "29. So sánh Cảm xúc giữa Người nói", color: "yellow", description: "So sánh sắc thái tình cảm của hai người.", illustration: `<div class="font-bold text-2xl">A: 🙂 vs B: 😠</div>`, prompt: "So sánh cảm xúc trung bình của [Người nói A] và [Người nói B] trong suốt cuộc hội thoại [tên tệp]." },
+                { title: "30. Phát hiện Sự Mỉa mai/Châm biếm", color: "yellow", description: "Tìm những câu nói có thể mang ý nghĩa mỉa mai.", illustration: `<div class="text-6xl">😏</div>`, prompt: "Phân tích cuộc trò chuyện trong [tên tệp] và xác định những câu nói có khả năng là mỉa mai hoặc châm biếm, giải thích tại sao." },
+                { title: "31. Đánh giá Mức độ Tương tác", color: "yellow", description: "Đánh giá mức độ sôi nổi của cuộc hội thoại.", illustration: `<div class="text-6xl">🔥</div>`, prompt: "Đánh giá mức độ tương tác và sôi nổi của cuộc thảo luận trong [tên tệp] dựa trên tốc độ nói và tần suất thay đổi người nói." },
+                { title: "32. Xác định Người nói chính", color: "yellow", description: "Ai là người nói nhiều và có ảnh hưởng nhất?", illustration: `<div class="text-6xl">👑</div>`, prompt: "Trong cuộc họp [tên tệp], ai là người nói chính, chiếm ưu thế trong cuộc thảo luận?" },
+                { title: "33. Trích xuất Ý kiến và Quan điểm", color: "yellow", description: "Tập hợp các câu thể hiện quan điểm cá nhân.", illustration: `<div class="text-6xl">🙋</div>`, prompt: "Từ tệp ghi âm [tên tệp], trích xuất tất cả các câu nói thể hiện quan điểm hoặc ý kiến cá nhân (ví dụ: 'Tôi nghĩ rằng...', 'Theo tôi...')." },
+                { title: "34. Phân tích Tốc độ Nói", color: "yellow", description: "Đo lường số từ trên phút.", illustration: `<div class="text-4xl font-bold">WPM</div>`, prompt: "Tính tốc độ nói trung bình (số từ trên phút) của người thuyết trình trong tệp [tên tệp]." },
+                { title: "35. Phát hiện Tiếng ồn và Sự im lặng", color: "yellow", description: "Xác định các đoạn có tiếng ồn hoặc khoảng lặng dài.", illustration: `<div class="text-6xl">🤫</div>`, prompt: "Xác định các khoảng thời gian trong tệp âm thanh [tên tệp] có tiếng ồn nền đáng kể hoặc những khoảng lặng kéo dài hơn 5 giây." },
+                
+                // Topic, Keyword & Action Items (36-50)
+                { title: "36. Trích xuất Từ khóa Chính", color: "purple", description: "Liệt kê các từ khóa quan trọng nhất.", illustration: `<div class="text-6xl">🔑</div>`, prompt: "Liệt kê 10 từ khóa chính được đề cập nhiều nhất trong video [tên tệp]." },
+                { title: "37. Phân loại Chủ đề", color: "purple", description: "Xác định chủ đề chính của nội dung.", illustration: `<div class="p-2 bg-purple-400 text-black border-2 border-black">Chủ đề: AI</div>`, prompt: "Xác định chủ đề chính của bài nói chuyện trong [tên tệp]. Nội dung này thuộc lĩnh vực nào (ví dụ: công nghệ, kinh doanh, nghệ thuật)?" },
+                { title: "38. Gắn thẻ Chủ đề (Tagging)", color: "purple", description: "Tạo một danh sách các thẻ chủ đề liên quan.", illustration: `<div class="font-bold">#AI #Data #Tech</div>`, prompt: "Đề xuất một danh sách các thẻ (tags) phù hợp cho video [tên tệp] để dễ dàng phân loại và tìm kiếm." },
+                { title: "39. Tạo Wolrd Cloud", color: "purple", description: "Tạo đám mây từ các từ được sử dụng nhiều nhất.", illustration: `<div class="text-2xl font-bold">Word Cloud</div>`, prompt: "Tạo dữ liệu cho một đám mây từ (word cloud) từ bản gỡ băng của tệp [tên tệp], với kích thước từ tương ứng với tần suất xuất hiện." },
+                { title: "40. Xác định Các mục cần Hành động", color: "purple", description: "Liệt kê các công việc và nhiệm vụ được giao.", illustration: `<div class="text-6xl">📋</div>`, prompt: "Từ bản ghi âm cuộc họp [tên tệp], liệt kê tất cả các mục cần hành động (action items) và người được giao nhiệm vụ." },
+                { title: "41. Theo dõi các Chủ đề theo Thời gian", color: "purple", description: "Khi nào các chủ đề khác nhau được thảo luận.", illustration: `<div class="text-left text-xs font-bold">0-5': A<br>5-10': B<br>10-15': A</div>`, prompt: "Phân tích video [tên tệp] và cho biết các chủ đề chính được thảo luận trong từng khoảng thời gian 5 phút." },
+                { title: "42. Tìm kiếm theo Từ khóa", color: "purple", description: "Xác định các mốc thời gian một từ khóa xuất hiện.", illustration: `<div class="font-bold">"Budget" at 10:15</div>`, prompt: "Tìm tất cả các dấu thời gian trong tệp âm thanh [tên tệp] khi từ '[tên từ khóa]' được nhắc đến." },
+                { title: "43. Trích xuất Tên thực thể (NER)", color: "purple", description: "Tìm tên người, địa điểm, tổ chức.", illustration: `<div class="font-bold">Apple, Tim Cook</div>`, prompt: "Quét qua tệp [tên tệp] và trích xuất tất cả tên người, tên công ty và địa điểm được đề cập." },
+                { title: "44. Phát hiện Sự kiện", color: "purple", description: "Xác định các sự kiện quan trọng được thảo luận.", illustration: `<div class="text-6xl">🗓️</div>`, prompt: "Phân tích cuộc thảo luận và xác định các sự kiện cụ thể (ví dụ: 'buổi ra mắt sản phẩm', 'hội nghị thường niên') được đề cập." },
+                { title: "45. Phân tích Mối quan hệ giữa các Chủ đề", color: "purple", description: "Các chủ đề liên quan với nhau như thế nào?", illustration: `<div class="text-4xl">A ↔️ B</div>`, prompt: "Phân tích mối liên hệ giữa các chủ đề chính trong video [tên tệp]. Chủ đề nào thường được thảo luận cùng nhau?" },
+                { title: "46. Đề xuất Nội dung Liên quan", color: "purple", description: "Gợi ý các video hoặc bài viết có chủ đề tương tự.", illustration: `<div class="text-6xl">🔗</div>`, prompt: "Dựa trên các chủ đề trong tệp [tên tệp], hãy đề xuất 3 bài viết hoặc video có nội dung liên quan." },
+                { title: "47. Tạo Mục lục (Table of Contents)", color: "purple", description: "Tạo mục lục với các mốc thời gian.", illustration: `<div class="text-left text-xs font-bold">00: Intro<br>05: Topic 1</div>`, prompt: "Tạo một mục lục chi tiết cho video hướng dẫn [tên tệp] với các dấu thời gian cho từng bước." },
+                { title: "48. Trích xuất Câu hỏi chưa được trả lời", color: "purple", description: "Tìm các câu hỏi chưa có lời đáp trong buổi Q&A.", illustration: `<div class="text-6xl">🤷</div>`, prompt: "Phân tích buổi Q&A trong tệp [tên tệp] và liệt kê các câu hỏi mà người nói chưa trả lời hoặc đã bỏ qua." },
+                { title: "49. Xác định các Giả định và Rủi ro", color: "purple", description: "Tìm các giả định hoặc rủi ro được đề cập trong cuộc họp.", illustration: `<div class="text-6xl">⚠️</div>`, prompt: "Phân tích bản ghi cuộc họp kế hoạch dự án [tên tệp] và trích xuất tất cả các giả định và rủi ro đã được thảo luận." },
+                { title: "50. Lập bản đồ Tư duy (Mind Map)", color: "purple", description: "Tạo cấu trúc mind map từ các ý chính.", illustration: `<div class="text-6xl">🧠</div>`, prompt: "Từ buổi brainstorming trong tệp [tên tệp], hãy tạo một cấu trúc dữ liệu có thể được dùng để vẽ bản đồ tư duy (mind map) các ý tưởng." },
+
+                 // Video-Specific Analysis (51-70)
+                { title: "51. Mô tả Cảnh Video", color: "cyan", description: "Tạo mô tả văn bản cho những gì đang diễn ra.", illustration: `<div class="text-6xl">🏞️</div>`, prompt: "Mô tả cảnh đang diễn ra trong video tại mốc thời gian [02:45]." },
+                { title: "52. Nhận dạng Đối tượng trong Video", color: "cyan", description: "Liệt kê các đối tượng xuất hiện trong một khung hình.", illustration: `<div class="text-6xl">🚗🌳🏠</div>`, prompt: "Liệt kê tất cả các đối tượng có thể nhận dạng được trong khung hình tại mốc [00:30] của video [tên tệp]." },
+                { title: "53. Nhận dạng Văn bản trong Video (OCR)", color: "cyan", description: "Đọc chữ viết xuất hiện trên màn hình.", illustration: `<div class="text-4xl font-bold">[TEXT]</div>`, prompt: "Trích xuất tất cả văn bản xuất hiện trên các slide trong video bài thuyết trình [tên tệp]." },
+                { title: "54. Nhận dạng Logo", color: "cyan", description: "Phát hiện logo của các thương hiệu.", illustration: `<div class="text-6xl">©️</div>`, prompt: "Quét toàn bộ video [tên tệp] và cho biết các mốc thời gian mà logo của [tên thương hiệu] xuất hiện." },
+                { title: "55. Phát hiện Chuyển cảnh", color: "cyan", description: "Liệt kê thời điểm các cảnh trong video thay đổi.", illustration: `<div class="text-6xl">✂️</div>`, prompt: "Liệt kê tất cả các dấu thời gian có sự chuyển cảnh trong tệp video [tên tệp]." },
+                { title: "56. Phân tích Thành phần Màu sắc", color: "cyan", description: "Xác định bảng màu chủ đạo của video.", illustration: `<div class="flex"><div class="w-8 h-8 bg-cyan-500"></div><div class="w-8 h-8 bg-blue-500"></div><div class="w-8 h-8 bg-purple-500"></div></div>`, prompt: "Phân tích video [tên tệp] và xác định bảng màu chủ đạo được sử dụng." },
+                { title: "57. Mô tả Hành động", color: "cyan", description: "Mô tả hành động của người hoặc vật thể.", illustration: `<div class="text-6xl">🏃‍♂️</div>`, prompt: "Mô tả hành động đang diễn ra trong video từ [01:00] đến [01:10]." },
+                { title: "58. Theo dõi Đối tượng", color: "cyan", description: "Theo dõi sự di chuyển của một đối tượng cụ thể.", illustration: `<div class="text-6xl">🎯</div>`, prompt: "Theo dõi quỹ đạo di chuyển của quả bóng trong video [tên tệp]." },
+                { title: "59. Phát hiện Cảm xúc trên Khuôn mặt", color: "cyan", description: "Nhận dạng cảm xúc của người trong video.", illustration: `<div class="text-6xl">🙂😠</div>`, prompt: "Phân tích cảm xúc trên khuôn mặt của người trong video tại mốc thời gian [03:20]." },
+                { title: "60. Tạo Thumbnail Gợi ý", color: "cyan", description: "Đề xuất các khung hình làm ảnh đại diện.", illustration: `<div class="flex space-x-1"><div class="w-12 h-8 bg-gray-400 border-2 border-black"></div><div class="w-12 h-8 bg-gray-400 border-2 border-black"></div></div>`, prompt: "Trích xuất 5 khung hình từ video [tên tệp] có thể làm ảnh thumbnail hấp dẫn." },
+                { title: "61. Phân loại Môi trường Cảnh quay", color: "cyan", description: "Xác định cảnh quay trong nhà, ngoài trời, thành phố, v.v.", illustration: `<div class="text-6xl">🏙️🏞️</div>`, prompt: "Phân loại môi trường của các cảnh trong video [tên tệp] (ví dụ: trong nhà, ngoài trời, bãi biển, văn phòng)." },
+                { title: "62. Tìm kiếm Khoảnh khắc Cụ thể", color: "cyan", description: "Tìm thời điểm một sự kiện hình ảnh xảy ra.", illustration: `<div class="text-6xl">🔍</div>`, prompt: "Tìm mốc thời gian trong video [tên tệp] khi có cảnh một chiếc ô tô màu đỏ xuất hiện." },
+                { title: "63. Đánh giá Chất lượng Video", color: "cyan", description: "Đánh giá độ phân giải, độ sáng, độ rung.", illustration: `<div class="text-4xl font-bold">4K HDR</div>`, prompt: "Đánh giá chất lượng kỹ thuật của video [tên tệp], bao gồm độ phân giải, độ sáng và độ ổn định của hình ảnh." },
+                { title: "64. Tạo GIF từ Video", color: "cyan", description: "Tạo một ảnh GIF từ một đoạn video ngắn.", illustration: `<div class="text-6xl">🔄</div>`, prompt: "Tạo một ảnh GIF lặp lại từ đoạn video [tên tệp] trong khoảng thời gian từ [00:45] đến [00:48]." },
+                { title: "65. Phân tích Bố cục Khung hình", color: "cyan", description: "Phân tích cách các đối tượng được sắp xếp.", illustration: `<div class="text-6xl">🖼️</div>`, prompt: "Phân tích bố cục và thành phần của khung hình tại mốc [05:10] theo quy tắc một phần ba (rule of thirds)." },
+                { title: "66. So sánh Hai Video", color: "cyan", description: "Tìm điểm tương đồng và khác biệt về mặt hình ảnh.", illustration: `<div class="font-bold text-2xl">A vs B</div>`, prompt: "So sánh phong cách hình ảnh (màu sắc, ánh sáng, góc quay) của video [tên tệp 1] và [tên tệp 2]." },
+                { title: "67. Tạo Chuỗi Storyboard", color: "cyan", description: "Tạo một chuỗi các khung hình chính kèm mô tả.", illustration: `<div class="text-6xl">🎞️</div>`, prompt: "Tạo một storyboard từ video [tên tệp], trích xuất các khung hình quan trọng và mô tả ngắn gọn cho mỗi cảnh." },
+                { title: "68. Phát hiện Nội dung Không phù hợp", color: "cyan", description: "Lọc nội dung nhạy cảm hoặc không an toàn.", illustration: `<div class="text-6xl">🔞</div>`, prompt: "Quét video [tên tệp] để phát hiện bất kỳ nội dung hình ảnh nào có thể không phù hợp hoặc nhạy cảm." },
+                { title: "69. Trích xuất Dữ liệu Âm nhạc", color: "cyan", description: "Xác định nhịp độ (BPM), thể loại của nhạc nền.", illustration: `<div class="text-6xl">🎵</div>`, prompt: "Phân tích nhạc nền trong video [tên tệp] và xác định thể loại, nhịp độ (BPM), và các nhạc cụ chính." },
+                { title: "70. Kết hợp Phân tích Âm thanh & Hình ảnh", color: "cyan", description: "Tìm mối liên hệ giữa âm thanh và những gì hiển thị.", illustration: `<div class="text-4xl">🔊+🖼️</div>`, prompt: "Phân tích video [tên tệp] và tìm các khoảnh khắc mà âm thanh (ví dụ: một tiếng nổ) khớp với một sự kiện hình ảnh cụ thể." }
+            ];
+
+            const cardGrid = document.getElementById('card-grid');
+            
+            function renderCards(dataToRender) {
+                cardGrid.innerHTML = '';
+                dataToRender.forEach((card, index) => {
+                    const cardElement = document.createElement('article');
+                    cardElement.id = `card-${index + 1}`;
+                    cardElement.className = 'bg-white flex flex-col border-2 border-black';
+                    
+                    const accentColorClass = {
+                        red: 'text-red-600',
+                        green: 'text-green-600',
+                        blue: 'text-blue-600',
+                        yellow: 'text-yellow-600',
+                        purple: 'text-purple-600',
+                        cyan: 'text-cyan-600'
+                    }[card.color] || 'text-black';
+
+                    cardElement.innerHTML = `
+                        <div class="p-4 border-b-2 border-black">
+                            <h2 class="font-bold text-lg ${accentColorClass}">${card.title}</h2>
+                            <p class="text-black text-sm h-10">${card.description}</p>
+                        </div>
+                        <div class="flex-grow flex items-center justify-center p-4 bg-gray-100 border-b-2 border-black min-h-[160px]">
+                            ${card.illustration}
+                        </div>
+                        <div class="p-4 bg-white">
+                            <pre class="bg-gray-100 p-3 border border-black text-xs whitespace-pre-wrap"><code>${card.prompt}</code></pre>
+                            <div class="text-right mt-3">
+                                <button class="copy-btn brutalist-shadow inline-block p-2 bg-cyan-400 hover:bg-cyan-500 border-2 border-black text-black" title="Sao chép"></button>
+                            </div>
+                        </div>
+                    `;
+                    cardGrid.appendChild(cardElement);
+                });
+                
+                initializeCopyButtons();
+            }
+
+            function initializeCopyButtons() {
+                const popup = document.getElementById('copySuccessPopup');
+                cardGrid.removeEventListener('click', copyHandler); // Remove old listener
+                cardGrid.addEventListener('click', copyHandler);
+
+                function copyHandler(event) {
+                    const button = event.target.closest('.copy-btn');
+                    if (!button) return;
+
+                    const preElement = button.closest('.p-4').querySelector('pre');
+                    if (preElement) {
+                        const codeText = preElement.querySelector('code').innerText;
+                        navigator.clipboard.writeText(codeText).then(() => {
+                            popup.classList.remove('hidden');
+                            setTimeout(() => { popup.classList.add('hidden'); }, 2000);
+                        }).catch(err => console.error('Copy failed: ', err));
+                    }
+                }
+
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.innerHTML = copyIconSvg;
+                });
+            }
+
+            // Initial render
+            renderCards(cardsData);
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                const filteredCards = cardsData.filter(card => 
+                    card.title.toLowerCase().includes(query) || 
+                    card.description.toLowerCase().includes(query) ||
+                    card.prompt.toLowerCase().includes(query)
+                );
+                renderCards(filteredCards);
+            });
+        });
+    </script>
+
+</body>
+</html>

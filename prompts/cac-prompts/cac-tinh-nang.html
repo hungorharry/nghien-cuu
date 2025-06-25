@@ -9,150 +9,156 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Base styles with Brutalist theme */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #030712; /* bg-gray-950 */
+            background-color: #FFFFFF; /* White background */
+            color: #000000; /* Black text */
+            font-family: 'Space Mono', monospace; /* Monospace font for the whole page */
         }
-        .font-space-mono { 
-            font-family: 'Space Mono', monospace; 
+
+        /* Brutalist shadow for interactive elements */
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px #000000;
+            transition: all 0.1s ease-in-out;
         }
-        .card-container {
-            min-height: 150px;
-            background-color: #111827; /* bg-gray-900 */
+        .brutalist-shadow:active {
+            box-shadow: 1px 1px 0px #000000;
+            transform: translate(3px, 3px);
         }
-        /* Simple animation for sorting bars */
-        .sort-bar:nth-child(2) { animation: sort-anim 1.5s infinite alternate; }
-        @keyframes sort-anim {
-            from { height: 75%; }
-            to { height: 25%; }
-        }
-        /* Highlight animation for searched card */
-        @keyframes highlight {
-            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-        }
-        .highlight-card {
-            animation: highlight 1.5s ease-out;
-            border-color: #38bdf8; /* sky-500 */
+
+        /* Brutalist popup for copy notification */
+        #copy-popup {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #00FFFF; /* Bright Cyan accent */
+            color: #000000;
+            padding: 1rem 1.5rem;
+            border: 2px solid #000000;
+            font-family: 'Space Mono', monospace;
+            box-shadow: 4px 4px 0px #000000;
+            z-index: 9999;
+            display: none; /* Initially hidden */
+            font-weight: bold;
+            text-align: center;
         }
     </style>
 </head>
-<body class="bg-gray-950 text-white">
+<body class="bg-white text-black font-space-mono">
 
     <div class="container mx-auto px-4 py-12">
         <header class="text-center mb-16">
-            <!-- Navigation Button -->
+             <!-- Navigation Button -->
             <div class="mb-8">
-                <a href="catalog-prompts.html" class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                <a href="/prompts/catalog-prompts.html" class="inline-block bg-cyan-400 hover:bg-cyan-500 text-black font-bold py-2 px-4 border-2 border-black brutalist-shadow">
                     ‹ Trở về Catalogue Chính
                 </a>
             </div>
             
-            <h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-fuchsia-500">Catalogue Prompt Lập Trình</h1>
-            <p class="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">Các câu lệnh mẫu để tạo ra các hàm và các tính năng website phổ biến.</p>
+            <h1 class="text-5xl md:text-6xl font-bold text-black">Catalogue Prompt Lập Trình</h1>
+            <p class="mt-4 text-lg text-black max-w-3xl mx-auto">Các câu lệnh mẫu để tạo ra các hàm và các tính năng website phổ biến.</p>
         </header>
-        
+
         <!-- Search Bar -->
         <div id="search-container" class="mb-12 max-w-2xl mx-auto relative">
             <div class="relative">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm chức năng, ví dụ: 'API', 'sắp xếp', 'modal'..." class="w-full p-4 pl-12 bg-gray-800 border-2 border-gray-700 rounded-lg text-white focus:outline-none focus:border-sky-500 transition-colors">
-                <svg class="w-6 h-6 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm chức năng, ví dụ: 'API', 'sắp xếp', 'modal'..." class="w-full p-4 pl-12 bg-white border-2 border-black text-black focus:outline-none focus:border-blue-500 font-space-mono">
+                <svg class="w-6 h-6 text-black absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
-            </div>
-            <div id="suggestionsContainer" class="absolute top-full left-0 right-0 bg-gray-700 rounded-b-lg shadow-lg z-10 hidden max-h-72 overflow-y-auto">
-                <!-- Suggestions will be populated here by JS -->
             </div>
         </div>
 
         <!-- Grid Layout for Catalog -->
         <div id="card-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <!-- Cards will be populated here -->
+            <!-- Cards will be populated here by JavaScript -->
         </div>
     </div>
+    
+    <!-- Brutalist Popup element -->
+    <div id="copy-popup">PROMPT<br>COPIED!</div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
-            const successIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2 text-green-400" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>`;
-
+            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
+            
             const cardsData = [
-                { title: "1. Sắp xếp Mảng", color: "sky", description: "Sắp xếp các phần tử của một mảng theo thứ tự.", illustration: `<div class="flex-grow flex items-end justify-center p-4 card-container space-x-2"><div class="w-1/5 h-1/4 bg-sky-500 rounded-t-sm"></div><div class="w-1/5 h-1/2 bg-sky-500 rounded-t-sm sort-bar"></div><div class="w-1/5 h-full bg-sky-500 rounded-t-sm"></div><div class="w-1/5 h-2/3 bg-sky-500 rounded-t-sm"></div></div>`, prompt: "Viết một hàm trong JavaScript để sắp xếp một mảng các số theo thứ tự tăng dần." },
-                { title: "2. Lọc Dữ liệu", color: "emerald", description: "Tạo mảng mới với các phần tử thỏa mãn điều kiện.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container space-x-2"><div class="w-8 h-8 rounded-full bg-emerald-500"></div><div class="w-8 h-8 rounded-md bg-gray-600"></div><div class="w-8 h-8 rounded-full bg-emerald-500"></div><div class="w-8 h-8 rounded-md bg-gray-600"></div></div>`, prompt: "Tạo một hàm nhận vào một mảng các số và trả về một mảng mới chỉ chứa các số chẵn." },
-                { title: "3. Gọi API", color: "indigo", description: "Lấy dữ liệu từ một nguồn bên ngoài qua mạng.", illustration: `<div class="flex-grow flex items-center justify-evenly p-4 card-container"><div class="text-3xl">💻</div><svg class="w-12 h-12 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg><div class="text-3xl">☁️</div></div>`, prompt: "Viết một hàm async/await trong JavaScript để gọi API từ URL 'https://api.example.com/users' và trả về dữ liệu JSON." },
-                { title: "4. Đảo ngược Chuỗi", color: "rose", description: "Lật ngược thứ tự các ký tự trong một chuỗi.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="font-mono text-3xl text-rose-300">ABC → CBA</div></div>`, prompt: "Tạo một hàm nhận vào một chuỗi và trả về chuỗi đó đã được đảo ngược mà không dùng hàm reverse() có sẵn." },
-                { title: "5. Kiểm tra Số nguyên tố", color: "amber", description: "Xác định một số có phải là số nguyên tố hay không.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="text-center"><div class="font-bold text-4xl text-amber-300">13</div><div class="text-gray-400">Prime? ✅</div></div></div>`, prompt: "Viết một hàm để kiểm tra xem một số nguyên dương đầu vào có phải là số nguyên tố hay không. Tối ưu hóa hiệu năng." },
-                { title: "6. Xác thực Email", color: "lime", description: "Kiểm tra một chuỗi có đúng định dạng email không.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="px-3 py-2 bg-gray-700 rounded-md text-lime-300 font-mono">name@domain.com</div></div>`, prompt: "Viết một hàm sử dụng Biểu thức chính quy (Regex) trong Python để xác thực một địa chỉ email có hợp lệ hay không." },
-                { title: "7. Tính Giai thừa", color: "violet", description: "Tính tích của tất cả các số nguyên dương từ 1 đến n.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="font-mono text-2xl text-violet-300">5! = 120</div></div>`, prompt: "Viết một hàm đệ quy để tính giai thừa của một số nguyên không âm. Xử lý trường hợp đầu vào là 0." },
-                { title: "8. Thao tác DOM", color: "cyan", description: "Thay đổi nội dung hoặc cấu trúc của trang web.", illustration: `<div class="flex-grow p-4 card-container flex flex-col justify-center items-center"><div class="p-2 border border-dashed border-gray-600 text-cyan-400">&lt;h1 id="title"&gt;...&lt;/h1&gt;</div><div class="text-2xl my-2">↓</div><div class="p-2 border border-cyan-500 rounded-md bg-cyan-900/50 text-white">Hello World</div></div>`, prompt: "Viết một hàm JavaScript tìm một phần tử HTML có id là 'welcome-message' và thay đổi nội dung văn bản của nó." },
-                { title: "9. Gộp Đối tượng", color: "fuchsia", description: "Kết hợp thuộc tính của nhiều đối tượng vào một.", illustration: `<div class="flex-grow flex items-center justify-evenly p-4 card-container"><div class="w-12 h-12 rounded-full border-2 border-fuchsia-500"></div><div class="text-2xl">+</div><div class="w-12 h-12 rounded-full border-2 border-fuchsia-500"></div></div>`, prompt: "Tạo một hàm nhận vào hai đối tượng và trả về một đối tượng mới chứa tất cả các thuộc tính từ cả hai." },
-                { title: "10. Tìm Max/Min", color: "teal", description: "Tìm giá trị lớn nhất hoặc nhỏ nhất trong một tập hợp.", illustration: `<div class="flex-grow flex items-end justify-center p-4 card-container space-x-2"><div class="w-1/5 h-1/4 bg-gray-600"></div><div class="w-1/5 h-full bg-teal-500"></div><div class="w-1/5 h-1/2 bg-gray-600"></div><div class="w-1/5 h-2/3 bg-gray-600"></div></div>`, prompt: "Viết một hàm để tìm số lớn nhất trong một mảng các số mà không sử dụng hàm Math.max()." },
-                { title: "11. Xóa Trùng lặp", color: "orange", description: "Loại bỏ các phần tử bị lặp lại trong một mảng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container space-x-2"><div class="w-8 h-8 rounded-full bg-orange-500"></div><div class="w-8 h-8 rounded-full bg-gray-600"></div><div class="w-8 h-8 rounded-full bg-orange-500 line-through opacity-50"></div></div>`, prompt: "Tạo một hàm nhận vào một mảng và trả về một mảng mới không chứa các phần tử trùng lặp." },
-                { title: "12. Kiểm tra Palindrome", color: "red", description: "Kiểm tra chuỗi đọc xuôi ngược đều giống nhau.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="font-mono text-3xl text-red-300">madam</div></div>`, prompt: "Viết một hàm kiểm tra xem một chuỗi có phải là palindrome hay không (không phân biệt chữ hoa/thường và bỏ qua khoảng trắng)." },
-                { title: "13. Sao chép sâu Đối tượng", color: "blue", description: "Tạo bản sao độc lập hoàn toàn của một đối tượng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="relative"><div class="w-12 h-12 rounded-lg bg-blue-500"></div><div class="w-12 h-12 rounded-lg bg-blue-700 absolute top-2 left-2"></div></div></div>`, prompt: "Tạo một hàm 'deepCopy' trong JavaScript để sao chép sâu một đối tượng, bao gồm cả các đối tượng lồng nhau." },
-                { title: "14. Chuyển sang Dạng Tiêu đề", color: "green", description: "Viết hoa chữ cái đầu tiên của mỗi từ trong câu.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="font-serif text-2xl text-green-300">Hello World</div></div>`, prompt: "Viết một hàm nhận một chuỗi và chuyển nó thành dạng Title Case (viết hoa chữ cái đầu mỗi từ)." },
-                { title: "15. Hàm Debounce", color: "yellow", description: "Trì hoãn việc thực thi hàm cho đến khi người dùng ngừng thao tác.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><svg class="w-24 h-24 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>`, prompt: "Tạo một hàm 'debounce' nhận một hàm khác và một khoảng thời gian chờ (delay) làm tham số." },
-                { title: "16. Tạo màu HEX ngẫu nhiên", color: "purple", description: "Tạo ra một mã màu thập lục phân ngẫu nhiên.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="px-3 py-2 bg-gray-700 rounded-md text-purple-300 font-mono">#A4B8E1</div></div>`, prompt: "Viết một hàm JavaScript không có tham số để tạo và trả về một mã màu HEX ngẫu nhiên (ví dụ: '#1a2b3c')." },
-                { title: "17. Tạo Slider Ảnh (Carousel)", color: "sky", description: "Hiển thị một chuỗi hình ảnh có thể chuyển qua lại.", illustration: `<div class="flex-grow flex items-center justify-between p-4 card-container"><div class="text-2xl text-sky-400">‹</div><div class="w-24 h-16 bg-sky-900 border-2 border-sky-700 rounded-md"></div><div class="text-2xl text-sky-400">›</div></div>`, prompt: "Tạo một component slider ảnh bằng HTML, CSS, và JavaScript với các nút Next/Previous." },
-                { title: "18. Component Tabs", color: "emerald", description: "Tổ chức nội dung vào các tab có thể chuyển đổi.", illustration: `<div class="flex-grow p-4 card-container"><div class="flex border-b border-gray-600"><div class="px-4 py-1 text-emerald-300 border-b-2 border-emerald-300">Tab 1</div><div class="px-4 py-1 text-gray-400">Tab 2</div></div><div class="p-2 text-sm">Nội dung Tab 1...</div></div>`, prompt: "Xây dựng một hệ thống tabs, khi nhấn vào một tab thì hiển thị nội dung tương ứng và ẩn các nội dung khác." },
-                { title: "19. Component Accordion", color: "indigo", description: "Hiển thị/ẩn nội dung khi người dùng nhấn vào tiêu đề.", illustration: `<div class="flex-grow p-4 card-container"><div class="w-full bg-gray-900 rounded-md"><div class="p-2 flex justify-between items-center text-indigo-300"><span>Câu hỏi 1</span><span>+</span></div></div></div>`, prompt: "Tạo một component accordion cho mục câu hỏi thường gặp (FAQ), chỉ cho phép một mục được mở tại một thời điểm." },
-                { title: "20. Cửa sổ Modal/Popup", color: "rose", description: "Hiển thị một hộp thoại đè lên nội dung trang.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center"><div class="w-4/5 p-4 bg-rose-900/50 border border-rose-600 rounded-lg shadow-lg">Nội dung Modal</div></div>`, prompt: "Tạo một cửa sổ modal hiện ra khi nhấn nút, có lớp phủ mờ phía sau và nút để đóng lại." },
-                { title: "21. Cuộn mượt (Smooth Scroll)", color: "amber", description: "Cuộn đến một phần của trang một cách mượt mà.", illustration: `<div class="flex-grow p-4 card-container flex flex-col justify-center items-center"><div class="w-full h-2 bg-amber-800"></div><div class="text-3xl my-2 text-amber-400">↓</div><div class="w-full h-2 bg-amber-800"></div></div>`, prompt: "Viết code JavaScript để khi nhấn vào một link có href dạng '#section-id', trang sẽ cuộn mượt đến phần tử có id đó." },
-                { title: "22. Nút 'Lên Đầu Trang'", color: "lime", description: "Hiện nút khi cuộn xuống và cuộn lên đầu khi nhấn.", illustration: `<div class="flex-grow p-4 card-container flex items-end justify-end"><div class="w-12 h-12 bg-lime-500 rounded-full flex items-center justify-center text-2xl text-black">↑</div></div>`, prompt: "Tạo nút 'Back to Top' chỉ hiện ra khi người dùng cuộn xuống 200px, và cuộn lên đầu trang khi được nhấn." },
-                { title: "23. Tải lười (Lazy Loading)", color: "violet", description: "Chỉ tải ảnh khi chúng xuất hiện trong màn hình xem.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center"><div class="w-24 h-16 bg-gray-700 border-2 border-dashed border-violet-500 flex items-center justify-center"><span class="text-violet-400">Image</span></div></div>`, prompt: "Triển khai lazy loading cho các thẻ 'img' bằng cách sử dụng Intersection Observer API." },
-                { title: "24. Chế độ Sáng/Tối", color: "cyan", description: "Chuyển đổi giao diện giữa chủ đề sáng và tối.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center"><div class="w-16 h-8 bg-cyan-800 rounded-full p-1 flex items-center"><div class="w-6 h-6 bg-white rounded-full"></div></div></div>`, prompt: "Tạo một nút bấm để chuyển đổi qua lại giữa chế độ sáng và tối bằng cách thêm/xóa một class 'dark' vào thẻ body." },
-                { title: "25. Sao chép vào Clipboard", color: "fuchsia", description: "Sao chép một đoạn văn bản vào bộ nhớ tạm.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center"><div class="p-3 bg-gray-900 border border-fuchsia-500 rounded-md">Copy Text 📋</div></div>`, prompt: "Viết một hàm nhận một chuỗi văn bản và sao chép nó vào clipboard của người dùng khi một nút được nhấn." },
-                { title: "26. Đếm ngược (Countdown)", color: "teal", description: "Hiển thị đồng hồ đếm ngược đến một thời điểm.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center font-mono text-3xl text-teal-300">10 : 59</div>`, prompt: "Tạo một đồng hồ đếm ngược đến một ngày cụ thể trong tương lai, hiển thị ngày, giờ, phút, giây còn lại." },
-                { title: "27. Phân trang (Pagination)", color: "orange", description: "Chia một danh sách dài thành nhiều trang.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center space-x-2"><div class="w-8 h-8 rounded bg-orange-500 text-white flex items-center justify-center">1</div><div class="w-8 h-8 rounded bg-gray-700 flex items-center justify-center">2</div><div class="w-8 h-8 rounded bg-gray-700 flex items-center justify-center">...</div></div>`, prompt: "Tạo logic phân trang cho một mảng dữ liệu, hiển thị 10 mục mỗi trang và các nút để chuyển trang." },
-                { title: "28. Xác thực Form", color: "red", description: "Kiểm tra đầu vào của người dùng trong một form.", illustration: `<div class="flex-grow p-4 card-container flex flex-col space-y-2"><div class="w-full p-2 bg-gray-700 rounded-md border border-red-500"></div><div class="text-xs text-red-400">Trường này là bắt buộc.</div></div>`, prompt: "Viết mã JavaScript để xác thực một form liên hệ: kiểm tra trường email và đảm bảo trường tin nhắn không bị bỏ trống." },
-                { title: "29. Thêm vào Giỏ hàng", color: "blue", description: "Chức năng cơ bản của trang thương mại điện tử.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center"><div class="p-3 bg-blue-600 rounded-md text-white">Thêm vào giỏ 🛒</div></div>`, prompt: "Tạo hàm để thêm một sản phẩm (dưới dạng object) vào một mảng 'cart'. Nếu sản phẩm đã tồn tại, tăng số lượng lên." },
-                { title: "30. Tự động hoàn thành Tìm kiếm", color: "green", description: "Gợi ý kết quả khi người dùng đang gõ vào ô tìm kiếm.", illustration: `<div class="flex-grow p-4 card-container flex flex-col"><div class="w-full p-2 bg-gray-700 rounded-t-md">Search...</div><div class="w-full p-2 bg-gray-600 rounded-b-md text-sm text-green-300">Suggestion 1</div></div>`, prompt: "Tạo chức năng autocomplete cho một ô input, gợi ý các kết quả từ một mảng dữ liệu có sẵn khi người dùng gõ." },
-                { title: "31. Tạo ID duy nhất", color: "yellow", description: "Tạo ra một chuỗi định danh ngẫu nhiên và duy nhất.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center"><div class="font-mono text-xl text-yellow-300">id-a4e9c1fb</div></div>`, prompt: "Viết một hàm tạo ra một ID duy nhất, ngắn gọn (ví dụ: 8 ký tự) bao gồm cả chữ và số." },
-                { title: "32. Lắng nghe sự kiện Scroll", color: "purple", description: "Thực hiện hành động dựa trên vị trí cuộn trang.", illustration: `<div class="flex-grow p-4 card-container flex items-center justify-center"><div class="w-3/4 h-24 bg-gray-900 overflow-y-scroll"><div class="h-48"></div></div><div class="text-2xl ml-4 text-purple-400">✨</div></div>`, prompt: "Thêm một event listener để theo dõi sự kiện cuộn trang. Khi người dùng cuộn qua một phần tử có id 'feature', thêm class 'animate' vào nó." },
-                { title: "33. Tính tổng mảng", color: "sky", description: "Tính tổng tất cả các số trong một mảng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container font-mono text-2xl text-sky-300">[1, 2, 3] → 6</div>`, prompt: "Viết một hàm tính tổng tất cả các phần tử số trong một mảng." },
-                { title: "34. Làm phẳng mảng", color: "emerald", description: "Chuyển mảng nhiều chiều thành mảng phẳng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container font-mono text-lg text-emerald-300">[[1], [2, 3]] → [1, 2, 3]</div>`, prompt: "Tạo một hàm để làm phẳng một mảng lồng nhau (ví dụ: [[1, 2], [3, 4]] thành [1, 2, 3, 4])." },
-                { title: "35. Chia nhỏ mảng", color: "indigo", description: "Chia một mảng thành các mảng con có kích thước nhất định.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container font-mono text-sm text-indigo-300">[1,2,3,4,5] → [[1,2],[3,4],[5]]</div>`, prompt: "Viết một hàm chia một mảng thành các mảng con với độ dài cho trước." },
-                { title: "36. Ghi lại âm thanh", color: "rose", description: "Ghi lại âm thanh từ microphone của người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl text-rose-300">🎙️</div>`, prompt: "Sử dụng MediaRecorder API để ghi lại âm thanh từ microphone và cho phép tải xuống dưới dạng tệp âm thanh." },
-                { title: "37. Kéo và Thả", color: "amber", description: "Cho phép người dùng di chuyển các phần tử trên trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="w-16 h-16 border-2 border-dashed border-amber-500 flex items-center justify-center text-4xl">🤚</div></div>`, prompt: "Triển khai chức năng kéo và thả cho các mục trong một danh sách bằng cách sử dụng HTML Drag and Drop API." },
-                { title: "38. Đọc tệp CSV", color: "lime", description: "Đọc và phân tích dữ liệu từ một tệp CSV.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">📄</div>`, prompt: "Viết một đoạn code Node.js để đọc dữ liệu từ một tệp CSV và chuyển nó thành một mảng các đối tượng JSON." },
-                { title: "39. Thông báo trình duyệt", color: "violet", description: "Gửi thông báo đẩy từ trình duyệt web.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="p-2 bg-gray-700 border border-violet-500 rounded-md text-sm">🔔 Bạn có thông báo mới!</div></div>`, prompt: "Viết mã JavaScript để yêu cầu quyền và hiển thị một thông báo trình duyệt đơn giản." },
-                { title: "40. Vẽ trên Canvas", color: "cyan", description: "Cho phép người dùng vẽ tự do trên một vùng canvas.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><svg class="w-24 h-24 text-cyan-400" viewBox="0 0 100 100"><path d="M 10 90 Q 20 10, 50 50 T 90 20" stroke="currentColor" stroke-width="4" fill="none"/></svg></div>`, prompt: "Tạo một bảng vẽ đơn giản bằng thẻ <canvas> cho phép người dùng vẽ bằng chuột." },
-                { title: "41. Chuyển Markdown sang HTML", color: "fuchsia", description: "Phân tích cú pháp Markdown và hiển thị dưới dạng HTML.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container font-mono text-fuchsia-300"># Hi → &lt;h1&gt;Hi&lt;/h1&gt;</div>`, prompt: "Sử dụng một thư viện như 'marked.js' để tạo một trình soạn thảo Markdown đơn giản có xem trước trực tiếp." },
-                { title: "42. Lấy tham số URL", color: "teal", description: "Đọc các tham số truy vấn từ URL hiện tại.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-teal-300 text-sm font-mono">?id=123&user=abc</div>`, prompt: "Viết một hàm JavaScript để lấy giá trị của một tham số cụ thể từ chuỗi truy vấn URL." },
-                { title: "43. Lưu vào LocalStorage", color: "orange", description: "Lưu trữ dữ liệu trên trình duyệt của người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">💾</div>`, prompt: "Tạo các hàm để lưu và lấy một đối tượng từ LocalStorage. Xử lý việc chuyển đổi sang JSON." },
-                { title: "44. Định dạng tiền tệ", color: "red", description: "Hiển thị một số dưới dạng tiền tệ theo định dạng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-red-300 font-mono text-xl">1000 → 1.000 ₫</div>`, prompt: "Viết một hàm định dạng một con số thành chuỗi tiền tệ Việt Nam (ví dụ: 1000000 thành '1.000.000 ₫')." },
-                { title: "45. Tính thời gian tương đối", color: "blue", description: "Hiển thị thời gian dưới dạng '5 phút trước'.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-blue-300">'5 minutes ago'</div>`, prompt: "Tạo một hàm nhận vào một đối tượng Date và trả về một chuỗi biểu thị thời gian đã trôi qua (ví dụ: '2 hours ago')." },
-                { title: "46. Thanh tiến trình", color: "green", description: "Hiển thị tiến độ của một tác vụ đang diễn ra.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container w-full px-4"><div class="w-full bg-gray-600 rounded-full h-4"><div class="bg-green-500 h-4 rounded-full w-3/4"></div></div></div>`, prompt: "Tạo một thanh tiến trình cập nhật trực quan dựa trên một giá trị phần trăm đầu vào." },
-                { title: "47. Dropdown Menu", color: "yellow", description: "Menu thả xuống khi nhấn vào một nút.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="p-2 bg-yellow-500 text-black rounded-md">Menu ▾</div></div>`, prompt: "Xây dựng một menu dropdown bật/tắt bằng JavaScript khi người dùng nhấn vào nút kích hoạt." },
-                { title: "48. Xử lý click bên ngoài", color: "purple", description: "Đóng một phần tử khi nhấn ra ngoài.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="w-24 h-16 border-2 border-purple-500 rounded-md"></div><div class="text-2xl ml-4">🖱️</div></div>`, prompt: "Viết một hàm JavaScript để phát hiện sự kiện nhấp chuột bên ngoài một phần tử cụ thể và thực hiện một hành động." },
-                { title: "49. Thanh trượt giá trị", color: "sky", description: "Cho phép người dùng chọn một giá trị trong một khoảng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container w-full px-4"><input type="range" class="w-full"></div>`, prompt: "Tạo một thanh trượt giá trị tùy chỉnh với CSS và JavaScript hiển thị giá trị hiện tại khi người dùng kéo." },
-                { title: "50. Nhập liệu dạng Tag", color: "emerald", description: "Cho phép người dùng nhập nhiều tag vào một ô.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container flex-wrap gap-2"><div class="px-2 py-1 bg-emerald-600 rounded">React</div><div class="px-2 py-1 bg-emerald-600 rounded">JS</div></div>`, prompt: "Xây dựng một trường nhập liệu cho phép người dùng thêm các tag bằng cách gõ và nhấn Enter." },
-                { title: "51. Đọc văn bản thành giọng nói", color: "indigo", description: "Chuyển đổi một đoạn văn bản thành giọng nói.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">🔊</div>`, prompt: "Sử dụng Web Speech API (SpeechSynthesis) để đọc một đoạn văn bản được cung cấp." },
-                { title: "52. Nhận dạng giọng nói", color: "rose", description: "Chuyển đổi giọng nói từ micro thành văn bản.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-rose-300 font-mono">"Hello" → Hello</div>`, prompt: "Sử dụng Web Speech API (SpeechRecognition) để tạo một chức năng ghi chú bằng giọng nói đơn giản." },
-                { title: "53. Tooltip tùy chỉnh", color: "amber", description: "Hiển thị hộp thông tin nhỏ khi di chuột qua.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><div class="relative"><div class="p-2 bg-amber-500 text-black rounded-md">Hover me</div><div class="absolute bottom-full left-1/2 -translate-x-1/2 p-1 bg-black text-white text-xs rounded mb-1">Tooltip!</div></div></div>`, prompt: "Tạo một tooltip tùy chỉnh bằng HTML, CSS và JavaScript xuất hiện khi người dùng di chuột qua một phần tử." },
-                { title: "54. Breadcrumbs", color: "lime", description: "Hiển thị đường dẫn điều hướng của trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-sm text-lime-300">Home > Products > Laptops</div>`, prompt: "Tạo một component breadcrumbs để cải thiện điều hướng trên trang web." },
-                { title: "55. Xác thực mật khẩu mạnh", color: "violet", description: "Kiểm tra độ mạnh của mật khẩu người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-2xl">••••••••</div>`, prompt: "Viết một hàm xác thực mật khẩu, yêu cầu có ít nhất 8 ký tự, một chữ hoa, một chữ thường, và một số." },
-                { title: "56. So sánh hai mảng", color: "cyan", description: "Tìm các phần tử chung hoặc khác biệt.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-cyan-300 font-mono">A Δ B</div>`, prompt: "Viết một hàm nhận hai mảng và trả về một mảng mới chứa các phần tử chỉ xuất hiện trong một trong hai mảng (khác biệt đối xứng)." },
-                { title: "57. Trộn mảng", color: "fuchsia", description: "Xáo trộn ngẫu nhiên thứ tự các phần tử.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">🔀</div>`, prompt: "Tạo một hàm để xáo trộn một mảng bằng cách sử dụng thuật toán Fisher-Yates." },
-                { title: "58. Cuộn vô hạn", color: "teal", description: "Tự động tải thêm nội dung khi cuộn đến cuối.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">♾️</div>`, prompt: "Triển khai chức năng cuộn vô hạn để tải thêm bài viết từ một API khi người dùng cuộn gần đến cuối trang." },
-                { title: "59. Tạo mã QR", color: "orange", description: "Chuyển đổi một chuỗi thành hình ảnh mã QR.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container"><svg class="w-24 h-24 text-black bg-white p-1" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 192a88 88 0 1 1 88-88a88.1 88.1 0 0 1-88 88Zm-40-88a8 8 0 0 1-8-8V88a8 8 0 0 1 16 0v32a8 8 0 0 1-8 8Zm80 0a8 8 0 0 1-8-8V88a8 8 0 0 1 16 0v32a8 8 0 0 1-8 8Z"/></svg></div>`, prompt: "Sử dụng thư viện JavaScript để tạo mã QR từ một URL hoặc chuỗi văn bản do người dùng nhập." },
-                { title: "60. Hiệu ứng Parallax", color: "red", description: "Tạo hiệu ứng chiều sâu khi cuộn trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">🏞️</div>`, prompt: "Tạo hiệu ứng parallax đơn giản, trong đó ảnh nền di chuyển chậm hơn nội dung khi cuộn." },
-                { title: "61. Gửi Form AJAX", color: "blue", description: "Gửi form không cần tải lại trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">📨</div>`, prompt: "Viết code JavaScript để gửi dữ liệu từ một form bằng phương thức fetch() và hiển thị thông báo thành công/thất bại." },
-                { title: "62. Tạo Slug URL", color: "green", description: "Chuyển đổi tiêu đề thành URL thân thiện.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-sm font-mono text-green-300">Xin Chào → xin-chao</div>`, prompt: "Tạo một hàm chuyển đổi chuỗi 'Xin Chào Các Bạn' thành 'xin-chao-cac-ban'." },
-                { title: "63. Kiểm tra thiết bị cảm ứng", color: "yellow", description: "Phát hiện thiết bị có màn hình cảm ứng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">👆</div>`, prompt: "Viết một hàm JavaScript đơn giản để kiểm tra xem trình duyệt có hỗ trợ sự kiện cảm ứng hay không." },
-                { title: "64. Hoạt ảnh khi cuộn", color: "purple", description: "Thêm hiệu ứng khi phần tử xuất hiện.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">💫</div>`, prompt: "Sử dụng Intersection Observer để thêm một lớp CSS (ví dụ: 'fade-in') vào các phần tử khi chúng cuộn vào chế độ xem." },
-                { title: "65. Lấy vị trí địa lý", color: "sky", description: "Lấy tọa độ hiện tại của người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">📍</div>`, prompt: "Sử dụng Geolocation API để lấy vĩ độ và kinh độ của người dùng sau khi họ cho phép." },
-                { title: "66. Bộ chọn ngày", color: "emerald", description: "Component cho phép người dùng chọn ngày.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">📅</div>`, prompt: "Tạo một component chọn ngày đơn giản bằng HTML, CSS, và JavaScript mà không dùng thư viện bên ngoài." },
-                { title: "67. Bản đồ tương tác", color: "indigo", description: "Hiển thị bản đồ với các điểm đánh dấu.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">🗺️</div>`, prompt: "Sử dụng thư viện Leaflet.js để hiển thị một bản đồ với một điểm đánh dấu có popup thông tin." },
-                { title: "68. Chuyển đổi số La Mã", color: "rose", description: "Chuyển đổi giữa số nguyên và số La Mã.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container font-mono text-2xl text-rose-300">X ↔ 10</div>`, prompt: "Viết một hàm để chuyển đổi một số nguyên thành chuỗi biểu diễn số La Mã của nó." },
-                { title: "69. Lấy favicon trang web", color: "amber", description: "Lấy icon của một trang web từ URL.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">🌐</div>`, prompt: "Viết một hàm nhận vào một URL và trả về URL của favicon trang đó, sử dụng API của bên thứ ba nếu cần." },
-                { title: "70. Gom nhóm đối tượng", color: "lime", description: "Gom nhóm các đối tượng trong mảng theo một thuộc tính.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">🗂️</div>`, prompt: "Viết một hàm 'groupBy' nhận một mảng các đối tượng và một khóa, sau đó gom nhóm các đối tượng theo giá trị của khóa đó." },
-                { title: "71. Kiểm tra truy cập mạng", color: "violet", description: "Xác định người dùng đang online hay offline.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">📶</div>`, prompt: "Sử dụng thuộc tính 'navigator.onLine' và các sự kiện 'online'/'offline' để theo dõi trạng thái kết nối mạng của người dùng." },
-                { title: "72. Rung thiết bị", color: "cyan", description: "Tạo hiệu ứng rung trên các thiết bị hỗ trợ.", illustration: `<div class="flex-grow flex items-center justify-center p-4 card-container text-4xl">📳</div>`, prompt: "Sử dụng Vibration API để làm cho thiết bị rung theo một kiểu mẫu nhất định (ví dụ: 200ms rung, 100ms nghỉ, 200ms rung)." },
+                { color: 'blue', title: "1. Sắp xếp Mảng", description: "Sắp xếp các phần tử của một mảng theo thứ tự.", illustration: `<div class="flex-grow flex items-end justify-center p-4 space-x-2 min-h-[150px]"><div class="w-1/5 h-1/4 bg-blue-500"></div><div class="w-1/5 h-1/2 bg-blue-500"></div><div class="w-1/5 h-full bg-blue-500"></div><div class="w-1/5 h-2/3 bg-blue-500"></div></div>`, prompt: "Viết một hàm trong JavaScript để sắp xếp một mảng các số theo thứ tự tăng dần." },
+                { color: 'fuchsia', title: "2. Lọc Dữ liệu", description: "Tạo mảng mới với các phần tử thỏa mãn điều kiện.", illustration: `<div class="flex-grow flex items-center justify-center p-4 space-x-2 min-h-[150px]"><div class="w-8 h-8 bg-fuchsia-500"></div><div class="w-8 h-8 bg-gray-300"></div><div class="w-8 h-8 bg-fuchsia-500"></div><div class="w-8 h-8 bg-gray-300"></div></div>`, prompt: "Tạo một hàm nhận vào một mảng các số và trả về một mảng mới chỉ chứa các số chẵn." },
+                { color: 'blue', title: "3. Gọi API", description: "Lấy dữ liệu từ một nguồn bên ngoài qua mạng.", illustration: `<div class="flex-grow flex items-center justify-evenly p-4 min-h-[150px]"><div class="font-bold text-3xl">[ 🖥️ ]</div><svg class="w-12 h-12 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg><div class="font-bold text-3xl">[ ☁️ ]</div></div>`, prompt: "Viết một hàm async/await trong JavaScript để gọi API từ URL 'https://api.example.com/users' và trả về dữ liệu JSON." },
+                { color: 'fuchsia', title: "4. Đảo ngược Chuỗi", description: "Lật ngược thứ tự các ký tự trong một chuỗi.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="font-mono text-3xl font-bold">ABC → CBA</div></div>`, prompt: "Tạo một hàm nhận vào một chuỗi và trả về chuỗi đó đã được đảo ngược mà không dùng hàm reverse() có sẵn." },
+                { color: 'blue', title: "5. Kiểm tra Số nguyên tố", description: "Xác định một số có phải là số nguyên tố hay không.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="text-center"><div class="font-bold text-5xl text-blue-600">13</div><div class="mt-2 p-1 bg-green-400 text-black border border-black">PRIME</div></div></div>`, prompt: "Viết một hàm để kiểm tra xem một số nguyên dương đầu vào có phải là số nguyên tố hay không. Tối ưu hóa hiệu năng." },
+                { color: 'fuchsia', title: "6. Xác thực Email", description: "Kiểm tra một chuỗi có đúng định dạng email không.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="px-3 py-2 bg-gray-200 border-2 border-black font-mono">name@domain.com</div></div>`, prompt: "Viết một hàm sử dụng Biểu thức chính quy (Regex) trong Python để xác thực một địa chỉ email có hợp lệ hay không." },
+                { color: 'blue', title: "7. Tính Giai thừa", description: "Tính tích của tất cả các số nguyên dương từ 1 đến n.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="font-mono text-3xl font-bold">5! = 120</div></div>`, prompt: "Viết một hàm đệ quy để tính giai thừa của một số nguyên không âm. Xử lý trường hợp đầu vào là 0." },
+                { color: 'fuchsia', title: "8. Thao tác DOM", description: "Thay đổi nội dung hoặc cấu trúc của trang web.", illustration: `<div class="flex-grow p-4 flex flex-col justify-center items-center min-h-[150px]"><div class="p-2 border-2 border-dashed border-black">#title</div><div class="text-2xl my-1">↓</div><div class="p-2 border-2 border-black bg-fuchsia-300">Hello!</div></div>`, prompt: "Viết một hàm JavaScript tìm một phần tử HTML có id là 'welcome-message' và thay đổi nội dung văn bản của nó." },
+                { color: 'blue', title: "9. Gộp Đối tượng", description: "Kết hợp thuộc tính của nhiều đối tượng vào một.", illustration: `<div class="flex-grow flex items-center justify-evenly p-4 min-h-[150px]"><div class="w-12 h-12 border-2 border-black bg-blue-300"></div><div class="text-3xl font-bold">+</div><div class="w-12 h-12 border-2 border-black bg-cyan-300"></div></div>`, prompt: "Tạo một hàm nhận vào hai đối tượng và trả về một đối tượng mới chứa tất cả các thuộc tính từ cả hai." },
+                { color: 'fuchsia', title: "10. Tìm Max/Min", description: "Tìm giá trị lớn nhất hoặc nhỏ nhất trong một tập hợp.", illustration: `<div class="flex-grow flex items-end justify-center p-4 space-x-2 min-h-[150px]"><div class="w-1/5 h-1/4 bg-gray-300"></div><div class="w-1/5 h-full bg-fuchsia-500 border-2 border-black"></div><div class="w-1/5 h-1/2 bg-gray-300"></div><div class="w-1/5 h-2/3 bg-gray-300"></div></div>`, prompt: "Viết một hàm để tìm số lớn nhất trong một mảng các số mà không sử dụng hàm Math.max()." },
+                { color: 'blue', title: "11. Xóa Trùng lặp", description: "Loại bỏ các phần tử bị lặp lại trong một mảng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 space-x-2 min-h-[150px]"><div class="w-8 h-8 bg-blue-500 border-2 border-black"></div><div class="w-8 h-8 bg-gray-300 border-2 border-black"></div><div class="w-8 h-8 bg-blue-500 border-2 border-black line-through opacity-40"></div></div>`, prompt: "Tạo một hàm nhận vào một mảng và trả về một mảng mới không chứa các phần tử trùng lặp." },
+                { color: 'fuchsia', title: "12. Kiểm tra Palindrome", description: "Kiểm tra chuỗi đọc xuôi ngược đều giống nhau.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="font-mono text-4xl font-bold tracking-widest">madam</div></div>`, prompt: "Viết một hàm kiểm tra xem một chuỗi có phải là palindrome hay không (không phân biệt chữ hoa/thường và bỏ qua khoảng trắng)." },
+                { color: 'blue', title: "13. Sao chép sâu Đối tượng", description: "Tạo bản sao độc lập hoàn toàn của một đối tượng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="relative"><div class="w-12 h-12 bg-blue-400 border-2 border-black"></div><div class="w-12 h-12 bg-blue-600 absolute top-2 left-2 border-2 border-black"></div></div></div>`, prompt: "Tạo một hàm 'deepCopy' trong JavaScript để sao chép sâu một đối tượng, bao gồm cả các đối tượng lồng nhau." },
+                { color: 'fuchsia', title: "14. Chuyển sang Dạng Tiêu đề", description: "Viết hoa chữ cái đầu tiên của mỗi từ trong câu.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="text-3xl font-bold">Hello World</div></div>`, prompt: "Viết một hàm nhận một chuỗi và chuyển nó thành dạng Title Case (viết hoa chữ cái đầu mỗi từ)." },
+                { color: 'blue', title: "15. Hàm Debounce", description: "Trì hoãn việc thực thi hàm cho đến khi người dùng ngừng thao tác.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><svg class="w-24 h-24 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>`, prompt: "Tạo một hàm 'debounce' nhận một hàm khác và một khoảng thời gian chờ (delay) làm tham số." },
+                { color: 'fuchsia', title: "16. Tạo màu HEX ngẫu nhiên", description: "Tạo ra một mã màu thập lục phân ngẫu nhiên.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="p-2 bg-gray-200 border-2 border-black font-mono font-bold text-xl">#A4B8E1</div></div>`, prompt: "Viết một hàm JavaScript không có tham số để tạo và trả về một mã màu HEX ngẫu nhiên (ví dụ: '#1a2b3c')." },
+                { color: 'blue', title: "17. Tạo Slider Ảnh (Carousel)", description: "Hiển thị một chuỗi hình ảnh có thể chuyển qua lại.", illustration: `<div class="flex-grow flex items-center justify-between p-4 min-h-[150px]"><div class="text-3xl font-bold">‹</div><div class="w-24 h-16 bg-blue-300 border-2 border-black"></div><div class="text-3xl font-bold">›</div></div>`, prompt: "Tạo một component slider ảnh bằng HTML, CSS, và JavaScript với các nút Next/Previous." },
+                { color: 'fuchsia', title: "18. Component Tabs", description: "Tổ chức nội dung vào các tab có thể chuyển đổi.", illustration: `<div class="flex-grow p-4 w-full min-h-[150px]"><div class="flex border-b-2 border-black"><div class="px-4 py-1 text-black bg-fuchsia-300 border-2 border-b-0 border-black">Tab 1</div><div class="px-4 py-1 text-black">Tab 2</div></div><div class="p-2 text-sm border-x-2 border-b-2 border-black h-16">Nội dung Tab 1...</div></div>`, prompt: "Xây dựng một hệ thống tabs, khi nhấn vào một tab thì hiển thị nội dung tương ứng và ẩn các nội dung khác." },
+                { color: 'blue', title: "19. Component Accordion", description: "Hiển thị/ẩn nội dung khi người dùng nhấn vào tiêu đề.", illustration: `<div class="flex-grow p-4 w-full min-h-[150px]"><div class="w-full bg-gray-200 border-2 border-black"><div class="p-2 flex justify-between items-center text-blue-800 font-bold"><span>Câu hỏi 1</span><span>+</span></div></div></div>`, prompt: "Tạo một component accordion cho mục câu hỏi thường gặp (FAQ), chỉ cho phép một mục được mở tại một thời điểm." },
+                { color: 'fuchsia', title: "20. Cửa sổ Modal/Popup", description: "Hiển thị một hộp thoại đè lên nội dung trang.", illustration: `<div class="flex-grow p-4 flex items-center justify-center min-h-[150px]"><div class="w-4/5 p-4 bg-fuchsia-300 border-2 border-black shadow-lg">Nội dung Modal</div></div>`, prompt: "Tạo một cửa sổ modal hiện ra khi nhấn nút, có lớp phủ mờ phía sau và nút để đóng lại." },
+                { color: 'blue', title: "21. Cuộn mượt (Smooth Scroll)", description: "Cuộn đến một phần của trang một cách mượt mà.", illustration: `<div class="flex-grow p-4 flex flex-col justify-center items-center min-h-[150px]"><div class="w-full h-2 bg-gray-300"></div><div class="text-4xl my-2 font-bold">↓</div><div class="w-full h-2 bg-gray-300"></div></div>`, prompt: "Viết code JavaScript để khi nhấn vào một link có href dạng '#section-id', trang sẽ cuộn mượt đến phần tử có id đó." },
+                { color: 'fuchsia', title: "22. Nút 'Lên Đầu Trang'", description: "Hiện nút khi cuộn xuống và cuộn lên đầu khi nhấn.", illustration: `<div class="flex-grow p-4 flex items-end justify-end min-h-[150px]"><div class="w-12 h-12 bg-fuchsia-500 border-2 border-black flex items-center justify-center text-2xl text-white font-bold">↑</div></div>`, prompt: "Tạo nút 'Back to Top' chỉ hiện ra khi người dùng cuộn xuống 200px, và cuộn lên đầu trang khi được nhấn." },
+                { color: 'blue', title: "23. Tải lười (Lazy Loading)", description: "Chỉ tải ảnh khi chúng xuất hiện trong màn hình xem.", illustration: `<div class="flex-grow p-4 flex items-center justify-center min-h-[150px]"><div class="w-24 h-16 bg-gray-200 border-2 border-dashed border-black flex items-center justify-center"><span class="text-black">Image</span></div></div>`, prompt: "Triển khai lazy loading cho các thẻ 'img' bằng cách sử dụng Intersection Observer API." },
+                { color: 'fuchsia', title: "24. Chế độ Sáng/Tối", description: "Chuyển đổi giao diện giữa chủ đề sáng và tối.", illustration: `<div class="flex-grow p-4 flex items-center justify-center min-h-[150px]"><div class="w-16 h-8 bg-black border-2 border-black p-1 flex items-center"><div class="w-6 h-6 bg-white"></div></div></div>`, prompt: "Tạo một nút bấm để chuyển đổi qua lại giữa chế độ sáng và tối bằng cách thêm/xóa một class 'dark' vào thẻ body." },
+                { color: 'blue', title: "25. Sao chép vào Clipboard", description: "Sao chép một đoạn văn bản vào bộ nhớ tạm.", illustration: `<div class="flex-grow p-4 flex items-center justify-center min-h-[150px]"><div class="p-3 bg-blue-200 border-2 border-black">Copy Text 📋</div></div>`, prompt: "Viết một hàm nhận một chuỗi văn bản và sao chép nó vào clipboard của người dùng khi một nút được nhấn." },
+                { color: 'fuchsia', title: "26. Đếm ngược (Countdown)", description: "Hiển thị đồng hồ đếm ngược đến một thời điểm.", illustration: `<div class="flex-grow p-4 flex items-center justify-center font-mono text-4xl font-bold min-h-[150px]">10:59</div>`, prompt: "Tạo một đồng hồ đếm ngược đến một ngày cụ thể trong tương lai, hiển thị ngày, giờ, phút, giây còn lại." },
+                { color: 'blue', title: "27. Phân trang (Pagination)", description: "Chia một danh sách dài thành nhiều trang.", illustration: `<div class="flex-grow p-4 flex items-center justify-center space-x-2 min-h-[150px]"><div class="w-8 h-8 border-2 border-black bg-blue-500 text-white flex items-center justify-center">1</div><div class="w-8 h-8 border-2 border-black bg-gray-200 flex items-center justify-center">2</div><div class="w-8 h-8 border-2 border-black bg-gray-200 flex items-center justify-center">...</div></div>`, prompt: "Tạo logic phân trang cho một mảng dữ liệu, hiển thị 10 mục mỗi trang và các nút để chuyển trang." },
+                { color: 'fuchsia', title: "28. Xác thực Form", description: "Kiểm tra đầu vào của người dùng trong một form.", illustration: `<div class="flex-grow p-4 flex flex-col space-y-2 min-h-[150px]"><div class="w-full p-2 bg-white border-2 border-red-500"></div><div class="text-xs text-red-600">Trường này là bắt buộc.</div></div>`, prompt: "Viết mã JavaScript để xác thực một form liên hệ: kiểm tra trường email và đảm bảo trường tin nhắn không bị bỏ trống." },
+                { color: 'blue', title: "29. Thêm vào Giỏ hàng", description: "Chức năng cơ bản của trang thương mại điện tử.", illustration: `<div class="flex-grow p-4 flex items-center justify-center min-h-[150px]"><div class="p-3 bg-blue-500 border-2 border-black text-white brutalist-shadow">Thêm vào giỏ 🛒</div></div>`, prompt: "Tạo hàm để thêm một sản phẩm (dưới dạng object) vào một mảng 'cart'. Nếu sản phẩm đã tồn tại, tăng số lượng lên." },
+                { color: 'fuchsia', title: "30. Tự động hoàn thành Tìm kiếm", description: "Gợi ý kết quả khi người dùng đang gõ vào ô tìm kiếm.", illustration: `<div class="flex-grow p-4 flex flex-col w-full min-h-[150px]"><div class="w-full p-2 bg-white border-2 border-black">Search...</div><div class="w-full p-2 bg-gray-200 border-x-2 border-b-2 border-black text-sm">Suggestion 1</div></div>`, prompt: "Tạo chức năng autocomplete cho một ô input, gợi ý các kết quả từ một mảng dữ liệu có sẵn khi người dùng gõ." },
+                { color: 'blue', title: "31. Tạo ID duy nhất", description: "Tạo ra một chuỗi định danh ngẫu nhiên và duy nhất.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="font-mono text-2xl p-2 bg-gray-200 border border-black">id-a4e9c1fb</div></div>`, prompt: "Viết một hàm tạo ra một ID duy nhất, ngắn gọn (ví dụ: 8 ký tự) bao gồm cả chữ và số." },
+                { color: 'fuchsia', title: "32. Lắng nghe sự kiện Scroll", description: "Thực hiện hành động dựa trên vị trí cuộn trang.", illustration: `<div class="flex-grow p-4 flex items-center justify-center min-h-[150px]"><div class="w-3/4 h-24 bg-gray-200 border-2 border-black overflow-y-scroll"><div class="h-48"></div></div><div class="text-4xl ml-4">✨</div></div>`, prompt: "Thêm một event listener để theo dõi sự kiện cuộn trang. Khi người dùng cuộn qua một phần tử có id 'feature', thêm class 'animate' vào nó." },
+                { color: 'blue', title: "33. Tính tổng mảng", description: "Tính tổng tất cả các số trong một mảng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] font-mono text-2xl font-bold">[1, 2, 3] → 6</div>`, prompt: "Viết một hàm tính tổng tất cả các phần tử số trong một mảng." },
+                { color: 'fuchsia', title: "34. Làm phẳng mảng", description: "Chuyển mảng nhiều chiều thành mảng phẳng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] font-mono text-lg font-bold">[[1], [2, 3]] → [1, 2, 3]</div>`, prompt: "Tạo một hàm để làm phẳng một mảng lồng nhau (ví dụ: [[1, 2], [3, 4]] thành [1, 2, 3, 4])." },
+                { color: 'blue', title: "35. Chia nhỏ mảng", description: "Chia một mảng thành các mảng con có kích thước nhất định.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] font-mono text-sm font-bold">[1,2,3,4,5] → [[1,2],[3,4],[5]]</div>`, prompt: "Viết một hàm chia một mảng thành các mảng con với độ dài cho trước." },
+                { color: 'fuchsia', title: "36. Ghi lại âm thanh", description: "Ghi lại âm thanh từ microphone của người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">🎙️</div>`, prompt: "Sử dụng MediaRecorder API để ghi lại âm thanh từ microphone và cho phép tải xuống dưới dạng tệp âm thanh." },
+                { color: 'blue', title: "37. Kéo và Thả", description: "Cho phép người dùng di chuyển các phần tử trên trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="w-16 h-16 border-2 border-dashed border-black flex items-center justify-center text-5xl">🤚</div></div>`, prompt: "Triển khai chức năng kéo và thả cho các mục trong một danh sách bằng cách sử dụng HTML Drag and Drop API." },
+                { color: 'fuchsia', title: "38. Đọc tệp CSV", description: "Đọc và phân tích dữ liệu từ một tệp CSV.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">📄</div>`, prompt: "Viết một đoạn code Node.js để đọc dữ liệu từ một tệp CSV và chuyển nó thành một mảng các đối tượng JSON." },
+                { color: 'blue', title: "39. Thông báo trình duyệt", description: "Gửi thông báo đẩy từ trình duyệt web.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="p-2 bg-gray-200 border-2 border-black text-sm">🔔 Bạn có thông báo mới!</div></div>`, prompt: "Viết mã JavaScript để yêu cầu quyền và hiển thị một thông báo trình duyệt đơn giản." },
+                { color: 'fuchsia', title: "40. Vẽ trên Canvas", description: "Cho phép người dùng vẽ tự do trên một vùng canvas.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><svg class="w-24 h-24 text-black" viewBox="0 0 100 100"><path d="M 10 90 Q 20 10, 50 50 T 90 20" stroke="currentColor" stroke-width="4" fill="none"/></svg></div>`, prompt: "Tạo một bảng vẽ đơn giản bằng thẻ <canvas> cho phép người dùng vẽ bằng chuột." },
+                { color: 'blue', title: "41. Chuyển Markdown sang HTML", description: "Phân tích cú pháp Markdown và hiển thị dưới dạng HTML.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] font-mono text-lg font-bold"># Hi → &lt;h1&gt;Hi&lt;/h1&gt;</div>`, prompt: "Sử dụng một thư viện như 'marked.js' để tạo một trình soạn thảo Markdown đơn giản có xem trước trực tiếp." },
+                { color: 'fuchsia', title: "42. Lấy tham số URL", description: "Đọc các tham số truy vấn từ URL hiện tại.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-lg font-mono p-2 bg-gray-200 border border-black">?id=123&user=abc</div>`, prompt: "Viết một hàm JavaScript để lấy giá trị của một tham số cụ thể từ chuỗi truy vấn URL." },
+                { color: 'blue', title: "43. Lưu vào LocalStorage", description: "Lưu trữ dữ liệu trên trình duyệt của người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">💾</div>`, prompt: "Tạo các hàm để lưu và lấy một đối tượng từ LocalStorage. Xử lý việc chuyển đổi sang JSON." },
+                { color: 'fuchsia', title: "44. Định dạng tiền tệ", description: "Hiển thị một số dưới dạng tiền tệ theo định dạng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] font-mono text-2xl font-bold">1000 → 1.000 ₫</div>`, prompt: "Viết một hàm định dạng một con số thành chuỗi tiền tệ Việt Nam (ví dụ: 1000000 thành '1.000.000 ₫')." },
+                { color: 'blue', title: "45. Tính thời gian tương đối", description: "Hiển thị thời gian dưới dạng '5 phút trước'.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-lg font-bold">'5 minutes ago'</div>`, prompt: "Tạo một hàm nhận vào một đối tượng Date và trả về một chuỗi biểu thị thời gian đã trôi qua (ví dụ: '2 hours ago')." },
+                { color: 'fuchsia', title: "46. Thanh tiến trình", description: "Hiển thị tiến độ của một tác vụ đang diễn ra.", illustration: `<div class="flex-grow flex items-center justify-center p-4 w-full min-h-[150px]"><div class="w-full bg-gray-300 border-2 border-black h-6"><div class="bg-fuchsia-500 h-full w-3/4"></div></div></div>`, prompt: "Tạo một thanh tiến trình cập nhật trực quan dựa trên một giá trị phần trăm đầu vào." },
+                { color: 'blue', title: "47. Dropdown Menu", description: "Menu thả xuống khi nhấn vào một nút.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="p-2 bg-blue-500 text-white border-2 border-black brutalist-shadow">Menu ▾</div></div>`, prompt: "Xây dựng một menu dropdown bật/tắt bằng JavaScript khi người dùng nhấn vào nút kích hoạt." },
+                { color: 'fuchsia', title: "48. Xử lý click bên ngoài", description: "Đóng một phần tử khi nhấn ra ngoài.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="w-24 h-16 border-2 border-black"></div><div class="text-4xl ml-4">🖱️</div></div>`, prompt: "Viết một hàm JavaScript để phát hiện sự kiện nhấp chuột bên ngoài một phần tử cụ thể và thực hiện một hành động." },
+                { color: 'blue', title: "49. Thanh trượt giá trị", description: "Cho phép người dùng chọn một giá trị trong một khoảng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 w-full min-h-[150px]"><input type="range" class="w-full"></div>`, prompt: "Tạo một thanh trượt giá trị tùy chỉnh với CSS và JavaScript hiển thị giá trị hiện tại khi người dùng kéo." },
+                { color: 'fuchsia', title: "50. Nhập liệu dạng Tag", description: "Cho phép người dùng nhập nhiều tag vào một ô.", illustration: `<div class="flex-grow flex items-center justify-center p-4 flex-wrap gap-2 min-h-[150px]"><div class="px-2 py-1 bg-fuchsia-500 text-white border border-black">React</div><div class="px-2 py-1 bg-fuchsia-500 text-white border border-black">JS</div></div>`, prompt: "Xây dựng một trường nhập liệu cho phép người dùng thêm các tag bằng cách gõ và nhấn Enter." },
+                { color: 'blue', title: "51. Đọc văn bản thành giọng nói", description: "Chuyển đổi một đoạn văn bản thành giọng nói.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">🔊</div>`, prompt: "Sử dụng Web Speech API (SpeechSynthesis) để đọc một đoạn văn bản được cung cấp." },
+                { color: 'fuchsia', title: "52. Nhận dạng giọng nói", description: "Chuyển đổi giọng nói từ micro thành văn bản.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-lg font-mono font-bold">"Hello" → Hello</div>`, prompt: "Sử dụng Web Speech API (SpeechRecognition) để tạo một chức năng ghi chú bằng giọng nói đơn giản." },
+                { color: 'blue', title: "53. Tooltip tùy chỉnh", description: "Hiển thị hộp thông tin nhỏ khi di chuột qua.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><div class="relative"><div class="p-2 bg-blue-500 text-white border-2 border-black">Hover me</div><div class="absolute bottom-full left-1/2 -translate-x-1/2 p-1 bg-black text-white text-xs mb-1">Tooltip!</div></div></div>`, prompt: "Tạo một tooltip tùy chỉnh bằng HTML, CSS và JavaScript xuất hiện khi người dùng di chuột qua một phần tử." },
+                { color: 'fuchsia', title: "54. Breadcrumbs", description: "Hiển thị đường dẫn điều hướng của trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-sm font-bold">Home > Products > Laptops</div>`, prompt: "Tạo một component breadcrumbs để cải thiện điều hướng trên trang web." },
+                { color: 'blue', title: "55. Xác thực mật khẩu mạnh", description: "Kiểm tra độ mạnh của mật khẩu người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-4xl tracking-widest">••••••••</div>`, prompt: "Viết một hàm xác thực mật khẩu, yêu cầu có ít nhất 8 ký tự, một chữ hoa, một chữ thường, và một số." },
+                { color: 'fuchsia', title: "56. So sánh hai mảng", description: "Tìm các phần tử chung hoặc khác biệt.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] font-mono text-3xl font-bold">A Δ B</div>`, prompt: "Viết một hàm nhận hai mảng và trả về một mảng mới chứa các phần tử chỉ xuất hiện trong một trong hai mảng (khác biệt đối xứng)." },
+                { color: 'blue', title: "57. Trộn mảng", description: "Xáo trộn ngẫu nhiên thứ tự các phần tử.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">🔀</div>`, prompt: "Tạo một hàm để xáo trộn một mảng bằng cách sử dụng thuật toán Fisher-Yates." },
+                { color: 'fuchsia', title: "58. Cuộn vô hạn", description: "Tự động tải thêm nội dung khi cuộn đến cuối.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">♾️</div>`, prompt: "Triển khai chức năng cuộn vô hạn để tải thêm bài viết từ một API khi người dùng cuộn gần đến cuối trang." },
+                { color: 'blue', title: "59. Tạo mã QR", description: "Chuyển đổi một chuỗi thành hình ảnh mã QR.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px]"><svg class="w-24 h-24 text-black bg-white p-1 border-2 border-black" viewBox="0 0 256 256"><path fill="currentColor" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24Zm0 192a88 88 0 1 1 88-88a88.1 88.1 0 0 1-88 88Zm-40-88a8 8 0 0 1-8-8V88a8 8 0 0 1 16 0v32a8 8 0 0 1-8 8Zm80 0a8 8 0 0 1-8-8V88a8 8 0 0 1 16 0v32a8 8 0 0 1-8 8Z"/></svg></div>`, prompt: "Sử dụng thư viện JavaScript để tạo mã QR từ một URL hoặc chuỗi văn bản do người dùng nhập." },
+                { color: 'fuchsia', title: "60. Hiệu ứng Parallax", description: "Tạo hiệu ứng chiều sâu khi cuộn trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">🏞️</div>`, prompt: "Tạo hiệu ứng parallax đơn giản, trong đó ảnh nền di chuyển chậm hơn nội dung khi cuộn." },
+                { color: 'blue', title: "61. Gửi Form AJAX", description: "Gửi form không cần tải lại trang.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">📨</div>`, prompt: "Viết code JavaScript để gửi dữ liệu từ một form bằng phương thức fetch() và hiển thị thông báo thành công/thất bại." },
+                { color: 'fuchsia', title: "62. Tạo Slug URL", description: "Chuyển đổi tiêu đề thành URL thân thiện.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-sm font-mono font-bold">Xin Chào → xin-chao</div>`, prompt: "Tạo một hàm chuyển đổi chuỗi 'Xin Chào Các Bạn' thành 'xin-chao-cac-ban'." },
+                { color: 'blue', title: "63. Kiểm tra thiết bị cảm ứng", description: "Phát hiện thiết bị có màn hình cảm ứng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">👆</div>`, prompt: "Viết một hàm JavaScript đơn giản để kiểm tra xem trình duyệt có hỗ trợ sự kiện cảm ứng hay không." },
+                { color: 'fuchsia', title: "64. Hoạt ảnh khi cuộn", description: "Thêm hiệu ứng khi phần tử xuất hiện.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">💫</div>`, prompt: "Sử dụng Intersection Observer để thêm một lớp CSS (ví dụ: 'fade-in') vào các phần tử khi chúng cuộn vào chế độ xem." },
+                { color: 'blue', title: "65. Lấy vị trí địa lý", description: "Lấy tọa độ hiện tại của người dùng.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">📍</div>`, prompt: "Sử dụng Geolocation API để lấy vĩ độ và kinh độ của người dùng sau khi họ cho phép." },
+                { color: 'fuchsia', title: "66. Bộ chọn ngày", description: "Component cho phép người dùng chọn ngày.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">📅</div>`, prompt: "Tạo một component chọn ngày đơn giản bằng HTML, CSS, và JavaScript mà không dùng thư viện bên ngoài." },
+                { color: 'blue', title: "67. Bản đồ tương tác", description: "Hiển thị bản đồ với các điểm đánh dấu.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">🗺️</div>`, prompt: "Sử dụng thư viện Leaflet.js để hiển thị một bản đồ với một điểm đánh dấu có popup thông tin." },
+                { color: 'fuchsia', title: "68. Chuyển đổi số La Mã", description: "Chuyển đổi giữa số nguyên và số La Mã.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] font-mono text-2xl font-bold">X ↔ 10</div>`, prompt: "Viết một hàm để chuyển đổi một số nguyên thành chuỗi biểu diễn số La Mã của nó." },
+                { color: 'blue', title: "69. Lấy favicon trang web", description: "Lấy icon của một trang web từ URL.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">🌐</div>`, prompt: "Viết một hàm nhận vào một URL và trả về URL của favicon trang đó, sử dụng API của bên thứ ba nếu cần." },
+                { color: 'fuchsia', title: "70. Gom nhóm đối tượng", description: "Gom nhóm các đối tượng trong mảng theo một thuộc tính.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">🗂️</div>`, prompt: "Viết một hàm 'groupBy' nhận một mảng các đối tượng và một khóa, sau đó gom nhóm các đối tượng theo giá trị của khóa đó." },
+                { color: 'blue', title: "71. Kiểm tra truy cập mạng", description: "Xác định người dùng đang online hay offline.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">📶</div>`, prompt: "Sử dụng thuộc tính 'navigator.onLine' và các sự kiện 'online'/'offline' để theo dõi trạng thái kết nối mạng của người dùng." },
+                { color: 'fuchsia', title: "72. Rung thiết bị", description: "Tạo hiệu ứng rung trên các thiết bị hỗ trợ.", illustration: `<div class="flex-grow flex items-center justify-center p-4 min-h-[150px] text-6xl">📳</div>`, prompt: "Sử dụng Vibration API để làm cho thiết bị rung theo một kiểu mẫu nhất định (ví dụ: 200ms rung, 100ms nghỉ, 200ms rung)." }
             ];
 
             const cardGrid = document.getElementById('card-grid');
@@ -161,31 +167,23 @@
                 cardGrid.innerHTML = '';
                 dataToRender.forEach((card, index) => {
                     const cardElement = document.createElement('article');
-                    const originalIndex = cardsData.findIndex(c => c.title === card.title);
-                    cardElement.id = `card-${originalIndex + 1}`;
-                    cardElement.className = 'bg-gray-800 rounded-lg shadow-lg flex flex-col border-2 border-transparent transition-all duration-300';
+                    cardElement.id = `card-${index + 1}`;
+                    cardElement.className = 'bg-white flex flex-col border-2 border-black';
                     
-                    const colorClasses = {
-                        sky: 'border-sky-500/30 text-sky-300', emerald: 'border-emerald-500/30 text-emerald-300',
-                        indigo: 'border-indigo-500/30 text-indigo-300', rose: 'border-rose-500/30 text-rose-300',
-                        amber: 'border-amber-500/30 text-amber-300', lime: 'border-lime-500/30 text-lime-300',
-                        violet: 'border-violet-500/30 text-violet-300', cyan: 'border-cyan-500/30 text-cyan-300',
-                        fuchsia: 'border-fuchsia-500/30 text-fuchsia-300', teal: 'border-teal-500/30 text-teal-300',
-                        orange: 'border-orange-500/30 text-orange-300', red: 'border-red-500/30 text-red-300',
-                        blue: 'border-blue-500/30 text-blue-300', green: 'border-green-500/30 text-green-300',
-                        yellow: 'border-yellow-500/30 text-yellow-300', purple: 'border-purple-500/30 text-purple-300'
-                    };
+                    const accentColorClass = card.color === 'blue' ? 'text-blue-600' : 'text-fuchsia-600';
 
                     cardElement.innerHTML = `
-                        <div class="p-4 border-b ${colorClasses[card.color] || 'border-gray-700'}">
-                            <h2 class="font-bold text-lg ${colorClasses[card.color] || 'text-white'}">${card.title}</h2>
-                            <p class="text-gray-400 text-sm h-10">${card.description}</p>
+                        <div class="p-4 border-b-2 border-black">
+                            <h2 class="font-bold text-lg ${accentColorClass}">${card.title}</h2>
+                            <p class="text-black text-sm h-10">${card.description}</p>
                         </div>
-                        ${card.illustration}
-                        <div class="p-4 bg-gray-800/80">
-                            <pre class="bg-gray-900 p-3 rounded-md text-xs font-space-mono whitespace-pre-wrap"><code>${card.prompt}</code></pre>
-                            <div class="text-right mt-2">
-                                <button class="copy-btn inline-block p-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-gray-300" title="Sao chép"></button>
+                        <div class="flex-grow flex items-center justify-center bg-gray-100 border-b-2 border-black">
+                            ${card.illustration}
+                        </div>
+                        <div class="p-4 bg-white">
+                            <pre class="bg-gray-100 p-3 border border-black text-xs font-space-mono whitespace-pre-wrap"><code>${card.prompt}</code></pre>
+                            <div class="text-right mt-3">
+                                <button class="copy-btn brutalist-shadow inline-block p-2 bg-cyan-400 hover:bg-cyan-500 border-2 border-black text-black" title="Sao chép"></button>
                             </div>
                         </div>
                     `;
@@ -196,37 +194,43 @@
             }
 
             function initializeCopyButtons() {
-                const copyButtons = document.querySelectorAll('.copy-btn');
-                
-                copyButtons.forEach(button => {
-                    const newButton = button.cloneNode(true);
-                    button.parentNode.replaceChild(newButton, button);
-                });
-            
-                document.querySelectorAll('.copy-btn').forEach(button => {
-                    button.innerHTML = copyIconSvg;
-                    button.addEventListener('click', (event) => {
-                        const btn = event.currentTarget;
-                        const preElement = btn.parentElement.previousElementSibling;
-                        if (preElement && preElement.tagName === 'PRE') {
-                            const codeText = preElement.querySelector('code').innerText;
+                const popup = document.getElementById('copy-popup');
+                cardGrid.removeEventListener('click', copyHandler); // Remove old listener before adding new one
+                cardGrid.addEventListener('click', copyHandler);
+
+                function copyHandler(event) {
+                    const button = event.target.closest('.copy-btn');
+                    if (!button) return;
+
+                    const preElement = button.closest('.p-4').querySelector('pre');
+
+                    if (preElement) {
+                        const codeText = preElement.querySelector('code').innerText;
+                        navigator.clipboard.writeText(codeText).then(() => {
+                            popup.style.display = 'block';
+                            setTimeout(() => { popup.style.display = 'none'; }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
                             const textArea = document.createElement('textarea');
                             textArea.value = codeText;
                             textArea.style.position = 'fixed';
-                            textArea.style.top = '-9999px';
-                            textArea.style.left = '-9999px';
+                            textArea.style.opacity = '0';
                             document.body.appendChild(textArea);
-                            
                             textArea.select();
                             try {
                                 document.execCommand('copy');
-                                btn.innerHTML = successIconSvg;
-                                setTimeout(() => { btn.innerHTML = copyIconSvg; }, 2000);
-                            } catch (err) { console.error('Failed to copy text: ', err); }
-                            
+                                popup.style.display = 'block';
+                                setTimeout(() => { popup.style.display = 'none'; }, 2000);
+                            } catch (fallbackErr) {
+                                console.error('Fallback copy failed: ', fallbackErr);
+                            }
                             document.body.removeChild(textArea);
-                        }
-                    });
+                        });
+                    }
+                }
+
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.innerHTML = copyIconSvg;
                 });
             }
 
@@ -235,60 +239,16 @@
 
             // Search functionality
             const searchInput = document.getElementById('searchInput');
-            const suggestionsContainer = document.getElementById('suggestionsContainer');
 
             searchInput.addEventListener('input', () => {
                 const query = searchInput.value.toLowerCase().trim();
-                suggestionsContainer.innerHTML = '';
-
-                if (!query) {
-                    suggestionsContainer.classList.add('hidden');
-                    return;
-                }
-
                 const filteredCards = cardsData.filter(card => 
                     card.title.toLowerCase().includes(query) || 
-                    card.description.toLowerCase().includes(query)
+                    card.description.toLowerCase().includes(query) ||
+                    card.prompt.toLowerCase().includes(query)
                 );
-                
-                if (filteredCards.length > 0) {
-                    suggestionsContainer.classList.remove('hidden');
-                    filteredCards.slice(0, 10).forEach(card => {
-                        const originalIndex = cardsData.findIndex(c => c.title === card.title);
-                        const suggestionEl = document.createElement('a');
-                        suggestionEl.href = `#card-${originalIndex + 1}`;
-                        suggestionEl.className = 'block p-3 hover:bg-gray-600 cursor-pointer text-sm truncate';
-                        suggestionEl.textContent = card.title;
-                        
-                        suggestionEl.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            const targetCard = document.getElementById(`card-${originalIndex + 1}`);
-                            if(targetCard) {
-                                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                
-                                document.querySelectorAll('.highlight-card').forEach(c => c.classList.remove('highlight-card'));
-                                targetCard.classList.add('highlight-card');
-                                setTimeout(() => {
-                                    targetCard.classList.remove('highlight-card');
-                                }, 2000);
-                            }
-                            searchInput.value = '';
-                            suggestionsContainer.classList.add('hidden');
-                        });
-
-                        suggestionsContainer.appendChild(suggestionEl);
-                    });
-                } else {
-                    suggestionsContainer.classList.add('hidden');
-                }
+                renderCards(filteredCards);
             });
-
-            document.addEventListener('click', (e) => {
-                if (!document.getElementById('search-container').contains(e.target)) {
-                    suggestionsContainer.classList.add('hidden');
-                }
-            });
-
         });
     </script>
 

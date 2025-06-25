@@ -9,73 +9,60 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Base styles with Brutalist theme */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #030712; /* bg-gray-950 */
+            background-color: #FFFFFF; /* White background */
+            color: #000000; /* Black text */
+            font-family: 'Space Mono', monospace; /* Monospace font for the whole page */
         }
-        .font-space-mono {
-            font-family: 'Space Mono', monospace;
+        
+        /* Brutalist shadow for interactive elements */
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px #000000;
+            transition: all 0.1s ease-in-out;
         }
-        .card-container {
-            min-height: 160px;
-            background-color: #111827; /* bg-gray-900 */
-        }
-        /* Highlight animation for searched card */
-        @keyframes highlight {
-            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-        }
-        .highlight-card {
-            animation: highlight 1.5s ease-out;
-            border-color: #38bdf8; /* sky-500 */
+        .brutalist-shadow:active {
+            box-shadow: 1px 1px 0px #000000;
+            transform: translate(3px, 3px);
         }
 
-        /* Brutalist Shadow using a specific blue, close to Facebook blue */
-        .shadow-brutal {
-             /* A vibrant blue */
-            box-shadow: 8px 8px 0 0 #1877F2; /* Using a hex code close to Facebook blue */
-            /* You could also use Tailwind's default blue-500 #3b82f6 */
-            /* box-shadow: 8px 8px 0 0 #3b82f6; */
-        }
-
-         /* Brutalist Popup Specifics */
+        /* Brutalist Popup for copy notification */
         #copySuccessPopup > div {
-            max-width: 90%; /* Prevent it from being too wide on small screens */
-            /* Ensure border is thick and no rounding */
-            border-width: 4px; /* Make border thicker */
-            border-radius: 0; /* Explicitly remove rounding */
+            background-color: #00FFFF; /* Bright Cyan accent */
+            color: #000000;
+            padding: 1rem 1.5rem;
+            border: 4px solid #000000;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 8px 8px 0 0 #000;
         }
     </style>
 </head>
-<body class="bg-gray-950 text-white">
+<body class="bg-white text-black font-space-mono">
 
     <div class="container mx-auto px-4 py-12">
         <header class="text-center mb-16">
             <!-- Navigation Button -->
             <div class="mb-8">
-                <a href="catalog-prompts.html" class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                <a href="/prompts/catalog-prompts.html" class="inline-block bg-cyan-400 hover:bg-cyan-500 text-black font-bold py-2 px-4 border-2 border-black brutalist-shadow">
                     ‹ Trở về Catalogue Chính
                 </a>
             </div>
 
-            <h1 class="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-yellow-400">Catalogue Prompts Phân Tích Thị Trường</h1>
-            <p class="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">70 câu lệnh mẫu giúp bạn nghiên cứu và đưa ra các quyết định kinh doanh chiến lược.</p>
+            <h1 class="text-5xl md:text-6xl font-bold text-black">Catalogue Prompts Phân Tích Thị Trường</h1>
+            <p class="mt-4 text-lg text-black max-w-3xl mx-auto">70 câu lệnh mẫu giúp bạn nghiên cứu và đưa ra các quyết định kinh doanh chiến lược.</p>
         </header>
 
         <!-- Search Bar -->
         <div id="search-container" class="mb-12 max-w-2xl mx-auto relative">
             <div class="relative">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm câu lệnh, ví dụ: 'SWOT', 'chân dung', 'giá', 'xu hướng'..." class="w-full p-4 pl-12 bg-gray-800 border-2 border-gray-700 rounded-lg text-white focus:outline-none focus:border-sky-500 transition-colors">
-                <svg class="w-6 h-6 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm câu lệnh, ví dụ: 'SWOT', 'chân dung', 'giá'..." class="w-full p-4 pl-12 bg-white border-2 border-black text-black focus:outline-none focus:border-blue-500 font-space-mono">
+                <svg class="w-6 h-6 text-black absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
-            </div>
-            <div id="suggestionsContainer" class="absolute top-full left-0 right-0 bg-gray-700 rounded-b-lg shadow-lg z-10 hidden max-h-72 overflow-y-auto">
-                <!-- Suggestions will be populated here by JS -->
             </div>
         </div>
 
@@ -86,8 +73,8 @@
     </div>
 
     <!-- Brutalist Copy Success Popup -->
-    <div id="copySuccessPopup" class="fixed inset-0 flex items-center justify-center z-50 hidden">
-        <div class="bg-black text-white p-6 border-blue-500 font-space-mono text-center text-lg shadow-brutal">
+    <div id="copySuccessPopup" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div>
             Đã sao chép thành công!
         </div>
     </div>
@@ -95,333 +82,167 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
-
-            // Get the popup element
+            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
             const copySuccessPopup = document.getElementById('copySuccessPopup');
 
             const cardsData = [
                 // Competitor Analysis (1-14)
-                { title: "1. Xác định Đối thủ", color: "red", description: "Liệt kê các đối thủ cạnh tranh chính và gián tiếp.", illustration: `<div class="text-4xl">Me</div><div class="text-2xl text-red-400">vs</div><div class="text-4xl">Them</div>`, prompt: "Liệt kê 5 đối thủ cạnh tranh hàng đầu cho một thương hiệu [loại sản phẩm, ví dụ: 'cà phê đóng chai'] tại thị trường [tên thị trường, ví dụ: 'Việt Nam']." },
-                { title: "2. Phân tích Sản phẩm Đối thủ", color: "red", description: "So sánh các tính năng, ưu và nhược điểm.", illustration: `<div class="flex justify-around w-full"><div class="text-center"><div class="w-12 h-12 bg-gray-700 rounded-md"></div><div class="text-sm mt-1">SP Của Tôi</div></div><div class="text-center"><div class="w-12 h-12 bg-red-900 rounded-md"></div><div class="text-sm mt-1">SP Đối thủ</div></div></div>`, prompt: "Phân tích các tính năng, điểm mạnh và điểm yếu của sản phẩm [tên sản phẩm đối thủ] so với sản phẩm của chúng ta." },
-                { title: "3. Phân tích Chiến lược Giá", color: "red", description: "Hiểu cách đối thủ định giá sản phẩm của họ.", illustration: `<div class="font-mono text-2xl text-red-300">$ ?</div>`, prompt: "Phân tích chiến lược định giá của [tên đối thủ]. Họ đang sử dụng mô hình giá cao cấp, giá rẻ hay giá cạnh tranh?" },
-                { title: "4. Phân tích Marketing", color: "red", description: "Xem xét các hoạt động tiếp thị và quảng cáo.", illustration: `<div class="text-4xl">📢</div>`, prompt: "Tóm tắt các hoạt động marketing gần đây của [tên đối thủ]. Họ đang tập trung vào kênh nào (mạng xã hội, Google Ads, PR)?" },
-                { title: "5. Phân tích Đánh giá Khách hàng", color: "red", description: "Khách hàng nói gì về đối thủ?", illustration: `<div class="text-yellow-400 text-2xl">★★☆☆☆</div>`, prompt: "Tổng hợp các điểm khách hàng thường phàn nàn nhất về [tên đối thủ] dựa trên các đánh giá trực tuyến." },
-                { title: "6. Phân tích Nội dung MXH", color: "red", description: "Nội dung nào của đối thủ hoạt động tốt nhất?", illustration: `<div class="flex items-center space-x-2"><div class="text-2xl">❤️</div><div class="text-lg">10K</div></div>`, prompt: "Phân tích 10 bài đăng gần nhất trên [Facebook/Instagram] của [tên đối thủ] và xác định loại nội dung nào có tương tác cao nhất." },
-                { title: "7. Xác định Lợi thế Cạnh tranh", color: "red", description: "Tìm ra điểm độc nhất (USP) của đối thủ.", illustration: `<div class="text-3xl text-red-300">🏆</div>`, prompt: "Dựa trên website và các tài liệu marketing, hãy xác định Lợi điểm Bán hàng Độc nhất (USP) của [tên đối thủ] là gì?" },
-                { title: "8. So sánh Thị phần", color: "red", description: "Ước tính vị trí của đối thủ trên thị trường.", illustration: `<div class="w-32 h-32 rounded-full" style="background: conic-gradient(#ef4444 0% 40%, #71717a 40% 100%);"></div>`, prompt: "Tìm kiếm và tóm tắt các báo cáo gần đây về thị phần của ngành [tên ngành] để xác định vị thế của [tên đối thủ]." },
-                { title: "9. Kênh Tiếp cận KH Đối thủ", color: "red", description: "Đối thủ thu hút khách hàng qua những kênh nào?", illustration: `<div class="flex space-x-2 text-2xl text-red-300"><span>SEO</span><span>Ads</span><span>SM</span></div>`, prompt: "Liệt kê và phân tích các kênh chính mà [tên đối thủ] sử dụng để tiếp cận và thu hút khách hàng mới (ví dụ: SEO, quảng cáo, nội dung, PR)." },
-                { title: "10. Chiến lược Phân phối Đối thủ", color: "red", description: "Họ đưa sản phẩm đến tay khách hàng bằng cách nào?", illustration: `<div class="text-4xl text-red-300">🚚</div>`, prompt: "Phân tích chiến lược phân phối của [tên đối thủ]. Họ tập trung vào kênh online, offline, hay kết hợp?" },
-                { title: "11. Hiệu suất Online của Đối thủ", color: "red", description: "Thứ hạng SEO, traffic website, v.v.", illustration: `<div class="text-red-300 text-center text-sm">Website traffic: ↑ <br> SEO Rank: #1</div>`, prompt: "Sử dụng các công cụ (như SimilarWeb, Ahrefs), ước tính lượng truy cập website của [tên đối thủ] và các từ khóa SEO hàng đầu của họ." },
-                { title: "12. Phân tích Dịch vụ KH Đối thủ", color: "red", description: "Khách hàng đánh giá dịch vụ hỗ trợ của đối thủ thế nào?", illustration: `<div class="text-red-300 text-4xl">📞</div>`, prompt: "Tìm kiếm các đánh giá và thảo luận về dịch vụ khách hàng của [tên đối thủ]. Điểm mạnh và điểm yếu của họ là gì?" },
-                { title: "13. Chiến lược Đổi mới của Đối thủ", color: "red", description: "Họ có thường xuyên ra mắt sản phẩm/tính năng mới không?", illustration: `<div class="text-red-300 text-4xl">🧪</div>`, prompt: "Phân tích lịch sử ra mắt sản phẩm/tính năng mới của [tên đối thủ]. Họ có phải là người dẫn đầu hay người theo sau trong đổi mới?" },
-                { title: "14. Đối tác và Liên minh Đối thủ", color: "red", description: "Đối thủ đang hợp tác với ai?", illustration: `<div class="text-red-300 text-4xl">🤝</div>`, prompt: "Xác định các đối tác chiến lược, nhà cung cấp chính, hoặc các liên minh mà [tên đối thủ] đang có." },
+                { title: "1. Xác định Đối thủ", color: "red", description: "Liệt kê các đối thủ cạnh tranh chính và gián tiếp.", illustration: `<div class="font-bold text-4xl">Me <span class="text-red-600">vs</span> Them</div>`, prompt: "Liệt kê 5 đối thủ cạnh tranh hàng đầu cho một thương hiệu [loại sản phẩm, ví dụ: 'cà phê đóng chai'] tại thị trường [tên thị trường, ví dụ: 'Việt Nam']." },
+                { title: "2. Phân tích Sản phẩm Đối thủ", color: "red", description: "So sánh các tính năng, ưu và nhược điểm.", illustration: `<div class="flex justify-around w-full"><div class="text-center"><div class="w-12 h-12 bg-gray-200 border-2 border-black"></div><div class="text-sm mt-1">SP Tôi</div></div><div class="text-center"><div class="w-12 h-12 bg-red-400 border-2 border-black"></div><div class="text-sm mt-1">SP Họ</div></div></div>`, prompt: "Phân tích các tính năng, điểm mạnh và điểm yếu của sản phẩm [tên sản phẩm đối thủ] so với sản phẩm của chúng ta." },
+                { title: "3. Phân tích Chiến lược Giá", color: "red", description: "Hiểu cách đối thủ định giá sản phẩm của họ.", illustration: `<div class="font-mono text-4xl font-bold text-red-600">$ ?</div>`, prompt: "Phân tích chiến lược định giá của [tên đối thủ]. Họ đang sử dụng mô hình giá cao cấp, giá rẻ hay giá cạnh tranh?" },
+                { title: "4. Phân tích Marketing", color: "red", description: "Xem xét các hoạt động tiếp thị và quảng cáo.", illustration: `<div class="text-6xl">📢</div>`, prompt: "Tóm tắt các hoạt động marketing gần đây của [tên đối thủ]. Họ đang tập trung vào kênh nào (mạng xã hội, Google Ads, PR)?" },
+                { title: "5. Phân tích Đánh giá Khách hàng", color: "red", description: "Khách hàng nói gì về đối thủ?", illustration: `<div class="text-yellow-500 text-3xl font-bold">★★☆☆☆</div>`, prompt: "Tổng hợp các điểm khách hàng thường phàn nàn nhất về [tên đối thủ] dựa trên các đánh giá trực tuyến." },
+                { title: "6. Phân tích Nội dung MXH", color: "red", description: "Nội dung nào của đối thủ hoạt động tốt nhất?", illustration: `<div class="flex items-center space-x-2"><div class="text-3xl">❤️</div><div class="text-2xl font-bold">10K</div></div>`, prompt: "Phân tích 10 bài đăng gần nhất trên [Facebook/Instagram] của [tên đối thủ] và xác định loại nội dung nào có tương tác cao nhất." },
+                { title: "7. Xác định Lợi thế Cạnh tranh", color: "red", description: "Tìm ra điểm độc nhất (USP) của đối thủ.", illustration: `<div class="text-5xl">🏆</div>`, prompt: "Dựa trên website và các tài liệu marketing, hãy xác định Lợi điểm Bán hàng Độc nhất (USP) của [tên đối thủ] là gì?" },
+                { title: "8. So sánh Thị phần", color: "red", description: "Ước tính vị trí của đối thủ trên thị trường.", illustration: `<div class="w-32 h-32 border-2 border-black" style="background: conic-gradient(#ef4444 0% 40%, #a1a1aa 40% 100%);"></div>`, prompt: "Tìm kiếm và tóm tắt các báo cáo gần đây về thị phần của ngành [tên ngành] để xác định vị thế của [tên đối thủ]." },
+                { title: "9. Kênh Tiếp cận KH Đối thủ", color: "red", description: "Đối thủ thu hút khách hàng qua những kênh nào?", illustration: `<div class="flex space-x-2 text-2xl font-bold"><span>SEO</span><span>Ads</span><span>SM</span></div>`, prompt: "Liệt kê và phân tích các kênh chính mà [tên đối thủ] sử dụng để tiếp cận và thu hút khách hàng mới (ví dụ: SEO, quảng cáo, nội dung, PR)." },
+                { title: "10. Chiến lược Phân phối Đối thủ", color: "red", description: "Họ đưa sản phẩm đến tay khách hàng bằng cách nào?", illustration: `<div class="text-6xl">🚚</div>`, prompt: "Phân tích chiến lược phân phối của [tên đối thủ]. Họ tập trung vào kênh online, offline, hay kết hợp?" },
+                { title: "11. Hiệu suất Online của Đối thủ", color: "red", description: "Thứ hạng SEO, traffic website, v.v.", illustration: `<div class="text-center text-sm font-bold">Traffic: ↑ <br> SEO: #1</div>`, prompt: "Sử dụng các công cụ (như SimilarWeb, Ahrefs), ước tính lượng truy cập website của [tên đối thủ] và các từ khóa SEO hàng đầu của họ." },
+                { title: "12. Phân tích Dịch vụ KH Đối thủ", color: "red", description: "Khách hàng đánh giá dịch vụ hỗ trợ của đối thủ thế nào?", illustration: `<div class="text-6xl">📞</div>`, prompt: "Tìm kiếm các đánh giá và thảo luận về dịch vụ khách hàng của [tên đối thủ]. Điểm mạnh và điểm yếu của họ là gì?" },
+                { title: "13. Chiến lược Đổi mới của Đối thủ", color: "red", description: "Họ có thường xuyên ra mắt sản phẩm/tính năng mới không?", illustration: `<div class="text-6xl">🧪</div>`, prompt: "Phân tích lịch sử ra mắt sản phẩm/tính năng mới của [tên đối thủ]. Họ có phải là người dẫn đầu hay người theo sau trong đổi mới?" },
+                { title: "14. Đối tác và Liên minh Đối thủ", color: "red", description: "Đối thủ đang hợp tác với ai?", illustration: `<div class="text-6xl">🤝</div>`, prompt: "Xác định các đối tác chiến lược, nhà cung cấp chính, hoặc các liên minh mà [tên đối thủ] đang có." },
 
                 // Target Audience Analysis (15-28)
-                { title: "15. Xây dựng Chân dung KH", color: "green", description: "Tạo hồ sơ chi tiết về khách hàng lý tưởng.", illustration: `<div class="text-5xl">👤</div>`, prompt: "Tạo một hồ sơ chân dung khách hàng (persona) cho sản phẩm [tên sản phẩm], bao gồm nhân khẩu học, sở thích, và vấn đề họ gặp phải." },
-                { title: "16. Phân tích Nhân khẩu học", color: "green", description: "Độ tuổi, giới tính, vị trí, thu nhập...", illustration: `<div class="text-green-300">25-35, Nữ, TP.HCM</div>`, prompt: "Dựa trên dữ liệu người dùng hiện tại, hãy phân tích các đặc điểm nhân khẩu học chính của nhóm khách hàng mục tiêu." },
-                { title: "17. Xác định 'Nỗi đau' KH", color: "green", description: "Vấn đề lớn nhất mà khách hàng đang đối mặt là gì?", illustration: `<div class="text-4xl">🤯</div>`, prompt: "Phân tích các diễn đàn và mạng xã hội để xác định những 'nỗi đau' (pain points) chính mà khách hàng trong ngành [tên ngành] đang gặp phải." },
-                { title: "18. Phân tích Hành vi Online", color: "green", description: "Họ hoạt động ở đâu và làm gì trên mạng?", illustration: `<div class="space-x-2 text-2xl"><span>📘</span><span>📸</span><span>🎵</span><span>▶️</span></div>`, prompt: "Khách hàng mục tiêu của sản phẩm [tên sản phẩm] thường truy cập những website, diễn đàn, hoặc nhóm mạng xã hội nào?" },
-                { title: "19. Động lực Mua hàng", color: "green", description: "Yếu tố nào thúc đẩy khách hàng đưa ra quyết định?", illustration: `<div class="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center text-3xl">💡</div>`, prompt: "Các yếu tố chính ảnh hưởng đến quyết định mua hàng của khách hàng trong ngành [tên ngành] là gì (ví dụ: giá cả, chất lượng, thương hiệu)?" },
-                { title: "20. Phân khúc Khách hàng", color: "green", description: "Chia khách hàng thành các nhóm nhỏ hơn.", illustration: `<div class="w-24 h-24 rounded-full flex flex-wrap"><div class="w-1/2 h-1/2 bg-green-500"></div><div class="w-1/2 h-1/2 bg-green-600"></div><div class="w-1/2 h-1/2 bg-green-700"></div><div class="w-1/2 h-1/2 bg-green-800"></div></div>`, prompt: "Đề xuất 3-4 phân khúc khách hàng khác nhau cho sản phẩm [tên sản phẩm] dựa trên hành vi và nhu cầu của họ." },
-                { title: "21. Ngôn ngữ của Khách hàng", color: "green", description: "Họ sử dụng từ ngữ, thuật ngữ, tiếng lóng nào?", illustration: `<div class="p-2 bg-gray-900 rounded-md">"Sản phẩm này 'xịn sò' thật!"</div>`, prompt: "Liệt kê các từ khóa, cụm từ, và tiếng lóng mà khách hàng mục tiêu thường sử dụng khi thảo luận về [chủ đề liên quan]." },
-                { title: "22. Phân tích Hành trình KH", color: "green", description: "Mô tả các bước khách hàng tương tác với thương hiệu.", illustration: `<div class="text-green-300 text-center">Nhận biết → Cân nhắc → Mua → Trung thành</div>`, prompt: "Xây dựng một bản đồ hành trình khách hàng (customer journey map) cơ bản cho một người mua sản phẩm [tên sản phẩm] trực tuyến." },
-                { title: "23. Ước tính LTV Khách hàng", color: "green", description: "Giá trị trung bình một khách hàng mang lại trong suốt vòng đời.", illustration: `<div class="text-center text-2xl text-green-300">💰<br>🔄</div>`, prompt: "Tìm kiếm dữ liệu và ước tính Giá trị Vòng đời Khách hàng (LTV) trung bình trong ngành [tên ngành]. Những yếu tố nào ảnh hưởng nhiều nhất đến LTV?" },
-                { title: "24. Chi phí Thu hút KH (CAC)", color: "green", description: "Chi phí trung bình để có được một khách hàng mới.", illustration: `<div class="text-center text-2xl text-green-300">💸<br>➡️👤</div>`, prompt: "Nghiên cứu các chỉ số trung bình về Chi phí Thu hút Khách hàng (CAC) trong ngành [tên ngành]. Các kênh marketing nào có CAC hiệu quả nhất?" },
-                { title: "25. Quá trình Ra quyết định mua hàng", color: "green", description: "Các bước khách hàng thực hiện trước khi mua.", illustration: `<div class="text-green-300 text-center text-sm">Vấn đề → Tìm kiếm → Đánh giá → Mua</div>`, prompt: "Mô tả chi tiết quá trình ra quyết định mua hàng của khách hàng mục tiêu đối với sản phẩm [tên loại sản phẩm]." },
-                { title: "26. Nguồn Thông tin tin cậy của KH", color: "green", description: "Họ tìm kiếm thông tin sản phẩm/dịch vụ ở đâu?", illustration: `<div class="text-green-300 text-4xl">📚</div>`, prompt: "Khách hàng mục tiêu của bạn tin tưởng những nguồn thông tin nào khi nghiên cứu về [lĩnh vực sản phẩm]? (ví dụ: review, chuyên gia, bạn bè)" },
-                { title: "27. Các Giải pháp thay thế KH đang dùng", color: "green", description: "Họ giải quyết 'nỗi đau' bằng cách nào hiện tại (không nhất thiết là đối thủ trực tiếp)?", illustration: `<div class="text-green-300 text-4xl">🔧</div>`, prompt: "Khách hàng hiện đang sử dụng những giải pháp thay thế nào để giải quyết 'nỗi đau' mà sản phẩm của chúng ta hướng đến, kể cả các giải pháp thủ công hoặc không liên quan trực tiếp?" },
-                { title: "28. Phân tích Cảm xúc Khách hàng", color: "green", description: "Khách hàng cảm thấy thế nào khi tương tác với sản phẩm/ngành hàng?", illustration: `<div class="text-green-300 text-4xl">😊😠😢</div>`, prompt: "Tổng hợp các cảm xúc phổ biến mà khách hàng thể hiện khi thảo luận về [tên sản phẩm/ngành hàng] trên các diễn đàn, mạng xã hội." },
+                { title: "15. Xây dựng Chân dung KH", color: "green", description: "Tạo hồ sơ chi tiết về khách hàng lý tưởng.", illustration: `<div class="text-6xl">👤</div>`, prompt: "Tạo một hồ sơ chân dung khách hàng (persona) cho sản phẩm [tên sản phẩm], bao gồm nhân khẩu học, sở thích, và vấn đề họ gặp phải." },
+                { title: "16. Phân tích Nhân khẩu học", color: "green", description: "Độ tuổi, giới tính, vị trí, thu nhập...", illustration: `<div class="font-bold">25-35, Nữ, TP.HCM</div>`, prompt: "Dựa trên dữ liệu người dùng hiện tại, hãy phân tích các đặc điểm nhân khẩu học chính của nhóm khách hàng mục tiêu." },
+                { title: "17. Xác định 'Nỗi đau' KH", color: "green", description: "Vấn đề lớn nhất mà khách hàng đang đối mặt là gì?", illustration: `<div class="text-6xl">🤯</div>`, prompt: "Phân tích các diễn đàn và mạng xã hội để xác định những 'nỗi đau' (pain points) chính mà khách hàng trong ngành [tên ngành] đang gặp phải." },
+                { title: "18. Phân tích Hành vi Online", color: "green", description: "Họ hoạt động ở đâu và làm gì trên mạng?", illustration: `<div class="space-x-2 text-3xl"><span>📘</span><span>📸</span><span>🎵</span><span>▶️</span></div>`, prompt: "Khách hàng mục tiêu của sản phẩm [tên sản phẩm] thường truy cập những website, diễn đàn, hoặc nhóm mạng xã hội nào?" },
+                { title: "19. Động lực Mua hàng", color: "green", description: "Yếu tố nào thúc đẩy khách hàng đưa ra quyết định?", illustration: `<div class="w-16 h-16 border-2 border-black bg-green-400 flex items-center justify-center text-4xl">💡</div>`, prompt: "Các yếu tố chính ảnh hưởng đến quyết định mua hàng của khách hàng trong ngành [tên ngành] là gì (ví dụ: giá cả, chất lượng, thương hiệu)?" },
+                { title: "20. Phân khúc Khách hàng", color: "green", description: "Chia khách hàng thành các nhóm nhỏ hơn.", illustration: `<div class="w-24 h-24 flex flex-wrap border-2 border-black"><div class="w-1/2 h-1/2 bg-green-500"></div><div class="w-1/2 h-1/2 bg-green-600"></div><div class="w-1/2 h-1/2 bg-green-700"></div><div class="w-1/2 h-1/2 bg-green-800"></div></div>`, prompt: "Đề xuất 3-4 phân khúc khách hàng khác nhau cho sản phẩm [tên sản phẩm] dựa trên hành vi và nhu cầu của họ." },
+                { title: "21. Ngôn ngữ của Khách hàng", color: "green", description: "Họ sử dụng từ ngữ, thuật ngữ, tiếng lóng nào?", illustration: `<div class="p-2 bg-gray-200 border-2 border-black">"Sản phẩm này 'xịn sò'!"</div>`, prompt: "Liệt kê các từ khóa, cụm từ, và tiếng lóng mà khách hàng mục tiêu thường sử dụng khi thảo luận về [chủ đề liên quan]." },
+                { title: "22. Phân tích Hành trình KH", color: "green", description: "Mô tả các bước khách hàng tương tác với thương hiệu.", illustration: `<div class="text-center font-bold">Nhận biết → Mua → Trung thành</div>`, prompt: "Xây dựng một bản đồ hành trình khách hàng (customer journey map) cơ bản cho một người mua sản phẩm [tên sản phẩm] trực tuyến." },
+                { title: "23. Ước tính LTV Khách hàng", color: "green", description: "Giá trị trung bình một khách hàng mang lại trong suốt vòng đời.", illustration: `<div class="text-center text-4xl">💰<span class="text-2xl">🔄</span></div>`, prompt: "Tìm kiếm dữ liệu và ước tính Giá trị Vòng đời Khách hàng (LTV) trung bình trong ngành [tên ngành]. Những yếu tố nào ảnh hưởng nhiều nhất đến LTV?" },
+                { title: "24. Chi phí Thu hút KH (CAC)", color: "green", description: "Chi phí trung bình để có được một khách hàng mới.", illustration: `<div class="text-center text-4xl">💸<span class="text-2xl">➡️</span>👤</div>`, prompt: "Nghiên cứu các chỉ số trung bình về Chi phí Thu hút Khách hàng (CAC) trong ngành [tên ngành]. Các kênh marketing nào có CAC hiệu quả nhất?" },
+                { title: "25. Quá trình Ra quyết định mua hàng", color: "green", description: "Các bước khách hàng thực hiện trước khi mua.", illustration: `<div class="text-center text-sm font-bold">Vấn đề → Tìm kiếm → Đánh giá → Mua</div>`, prompt: "Mô tả chi tiết quá trình ra quyết định mua hàng của khách hàng mục tiêu đối với sản phẩm [tên loại sản phẩm]." },
+                { title: "26. Nguồn Thông tin tin cậy của KH", color: "green", description: "Họ tìm kiếm thông tin sản phẩm/dịch vụ ở đâu?", illustration: `<div class="text-6xl">📚</div>`, prompt: "Khách hàng mục tiêu của bạn tin tưởng những nguồn thông tin nào khi nghiên cứu về [lĩnh vực sản phẩm]? (ví dụ: review, chuyên gia, bạn bè)" },
+                { title: "27. Các Giải pháp thay thế KH đang dùng", color: "green", description: "Họ giải quyết 'nỗi đau' bằng cách nào hiện tại (không nhất thiết là đối thủ trực tiếp)?", illustration: `<div class="text-6xl">🔧</div>`, prompt: "Khách hàng hiện đang sử dụng những giải pháp thay thế nào để giải quyết 'nỗi đau' mà sản phẩm của chúng ta hướng đến, kể cả các giải pháp thủ công hoặc không liên quan trực tiếp?" },
+                { title: "28. Phân tích Cảm xúc Khách hàng", color: "green", description: "Khách hàng cảm thấy thế nào khi tương tác với sản phẩm/ngành hàng?", illustration: `<div class="text-6xl">😊😠😢</div>`, prompt: "Tổng hợp các cảm xúc phổ biến mà khách hàng thể hiện khi thảo luận về [tên sản phẩm/ngành hàng] trên các diễn đàn, mạng xã hội." },
 
                 // Market Trend Analysis (29-42)
-                { title: "29. Xác định Xu hướng Vĩ mô", color: "blue", description: "Các thay đổi lớn về công nghệ, xã hội, kinh tế.", illustration: `<div class="text-4xl">📈</div>`, prompt: "Liệt kê 5 xu hướng công nghệ vĩ mô có khả năng ảnh hưởng đến ngành [tên ngành] trong 5 năm tới." },
-                { title: "30. Phân tích Từ khóa Tìm kiếm", color: "blue", description: "Xem xét sự thay đổi trong lượng tìm kiếm.", illustration: `<svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 40 L 20 30 L 40 35 L 60 10 L 80 15 L 100 5" stroke="#60a5fa" stroke-width="2" fill="none"/></svg>`, prompt: "Phân tích xu hướng tìm kiếm cho từ khóa '[tên từ khóa]' trong 12 tháng qua bằng Google Trends và tóm tắt kết quả." },
-                { title: "31. Xu hướng Ngách (Niche)", color: "blue", description: "Tìm các xu hướng mới nổi trong một thị trường nhỏ.", illustration: `<div class="text-blue-300">🔍 Tìm kiếm cơ hội</div>`, prompt: "Xác định 3 xu hướng mới nổi trong thị trường ngách [tên thị trường ngách, ví dụ: 'thực phẩm thuần chay cho thú cưng']." },
-                { title: "32. Phân tích Báo cáo Ngành", color: "blue", description: "Tóm tắt các báo cáo và nghiên cứu thị trường.", illustration: `<div class="text-4xl">📋</div>`, prompt: "Tóm tắt các điểm chính từ báo cáo thị trường gần đây về [tên ngành] của [tên công ty nghiên cứu, ví dụ: 'Nielsen']." },
-                { title: "33. Tác động của Quy định mới", color: "blue", description: "Phân tích ảnh hưởng của luật pháp, chính sách.", illustration: `<div class="text-4xl">⚖️</div>`, prompt: "Phân tích những tác động tiềm tàng của [tên quy định/luật mới] đối với các doanh nghiệp trong ngành [tên ngành]." },
-                { title: "34. Phân tích Người có ảnh hưởng", color: "blue", description: "Ai là người dẫn dắt xu hướng trong ngành?", illustration: `<div class="text-4xl">✨</div>`, prompt: "Liệt kê 5 người có ảnh hưởng (influencers/KOLs) hàng đầu trong lĩnh vực [tên lĩnh vực] tại Việt Nam." },
-                { title: "35. Dự báo Tương lai", color: "blue", description: "Dự đoán thị trường sẽ phát triển như thế nào.", illustration: `<div class="text-4xl">🔮</div>`, prompt: "Dựa trên các xu hướng hiện tại, hãy dự báo 3 kịch bản có thể xảy ra cho thị trường [tên thị trường] trong 3 năm tới." },
-                { title: "36. Phân tích Chu kỳ Hype", color: "blue", description: "Xác định giai đoạn của một công nghệ/xu hướng.", illustration: `<svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 45 C 20 45, 15 5, 40 5 C 65 5, 60 25, 70 35 S 90 45, 100 45" stroke="#60a5fa" stroke-width="2" fill="none"/></svg>`, prompt: "Công nghệ [tên công nghệ, ví dụ: 'AI tạo sinh'] đang ở giai đoạn nào trong chu kỳ Hype của Gartner?" },
-                { title: "37. Tác động của Công nghệ [Tên]", color: "blue", description: "Công nghệ cụ thể này thay đổi ngành ra sao?", illustration: `<div class="text-blue-300 text-4xl">💻</div>`, prompt: "Phân tích tác động tiềm tàng của [tên công nghệ, ví dụ: 'blockchain'] đối với chuỗi cung ứng và giao dịch trong ngành [tên ngành]." },
-                { title: "38. Xu hướng Xã hội & Văn hóa", color: "blue", description: "Các giá trị và hành vi xã hội đang thay đổi.", illustration: `<div class="text-blue-300 text-4xl">👨‍👩‍👧‍👦</div>`, prompt: "Xác định 3 xu hướng xã hội hoặc văn hóa lớn tại [khu vực/quốc gia] đang ảnh hưởng đến hành vi tiêu dùng trong ngành [tên ngành]." },
-                { title: "39. Xu hướng Bền vững & ESG", color: "blue", description: "Mức độ quan tâm đến môi trường, xã hội, quản trị.", illustration: `<div class="text-blue-300 text-4xl">🌱</div>`, prompt: "Phân tích mức độ quan tâm của khách hàng và doanh nghiệp trong ngành [tên ngành] đối với các yếu tố bền vững và ESG (Môi trường, Xã hội, Quản trị)." },
-                { title: "40. Xu hướng Khu vực/Địa lý", color: "blue", description: "Sự khác biệt và xu hướng ở các vùng khác nhau.", illustration: `<div class="text-blue-300 text-4xl">🌍</div>`, prompt: "So sánh và phân tích các xu hướng thị trường khác nhau giữa [khu vực A] và [khu vực B] trong cùng ngành [tên ngành]." },
-                { title: "41. Xu hướng Lao động & Nhân tài", color: "blue", description: "Thay đổi trong kỹ năng, kỳ vọng của người lao động.", illustration: `<div class="text-blue-300 text-4xl">💼</div>`, prompt: "Xác định những thay đổi trong yêu cầu kỹ năng và kỳ vọng của lực lượng lao động có thể ảnh hưởng đến hoạt động kinh doanh trong ngành [tên ngành]." },
-                { title: "42. Đổi mới liên ngành", color: "blue", description: "Học hỏi từ các ngành khác.", illustration: `<div class="text-blue-300 text-4xl">🔄</div>`, prompt: "Tìm kiếm các ví dụ về đổi mới hoặc mô hình kinh doanh thành công từ các ngành khác mà ngành [tên ngành] có thể học hỏi hoặc áp dụng." },
+                { title: "29. Xác định Xu hướng Vĩ mô", color: "blue", description: "Các thay đổi lớn về công nghệ, xã hội, kinh tế.", illustration: `<div class="text-6xl">📈</div>`, prompt: "Liệt kê 5 xu hướng công nghệ vĩ mô có khả năng ảnh hưởng đến ngành [tên ngành] trong 5 năm tới." },
+                { title: "30. Phân tích Từ khóa Tìm kiếm", color: "blue", description: "Xem xét sự thay đổi trong lượng tìm kiếm.", illustration: `<svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 40 L 20 30 L 40 35 L 60 10 L 80 15 L 100 5" stroke="#0000FF" stroke-width="3" fill="none"/></svg>`, prompt: "Phân tích xu hướng tìm kiếm cho từ khóa '[tên từ khóa]' trong 12 tháng qua bằng Google Trends và tóm tắt kết quả." },
+                { title: "31. Xu hướng Ngách (Niche)", color: "blue", description: "Tìm các xu hướng mới nổi trong một thị trường nhỏ.", illustration: `<div class="font-bold">🔍 Tìm cơ hội</div>`, prompt: "Xác định 3 xu hướng mới nổi trong thị trường ngách [tên thị trường ngách, ví dụ: 'thực phẩm thuần chay cho thú cưng']." },
+                { title: "32. Phân tích Báo cáo Ngành", color: "blue", description: "Tóm tắt các báo cáo và nghiên cứu thị trường.", illustration: `<div class="text-6xl">📋</div>`, prompt: "Tóm tắt các điểm chính từ báo cáo thị trường gần đây về [tên ngành] của [tên công ty nghiên cứu, ví dụ: 'Nielsen']." },
+                { title: "33. Tác động của Quy định mới", color: "blue", description: "Phân tích ảnh hưởng của luật pháp, chính sách.", illustration: `<div class="text-6xl">⚖️</div>`, prompt: "Phân tích những tác động tiềm tàng của [tên quy định/luật mới] đối với các doanh nghiệp trong ngành [tên ngành]." },
+                { title: "34. Phân tích Người có ảnh hưởng", color: "blue", description: "Ai là người dẫn dắt xu hướng trong ngành?", illustration: `<div class="text-6xl">✨</div>`, prompt: "Liệt kê 5 người có ảnh hưởng (influencers/KOLs) hàng đầu trong lĩnh vực [tên lĩnh vực] tại Việt Nam." },
+                { title: "35. Dự báo Tương lai", color: "blue", description: "Dự đoán thị trường sẽ phát triển như thế nào.", illustration: `<div class="text-6xl">🔮</div>`, prompt: "Dựa trên các xu hướng hiện tại, hãy dự báo 3 kịch bản có thể xảy ra cho thị trường [tên thị trường] trong 3 năm tới." },
+                { title: "36. Phân tích Chu kỳ Hype", color: "blue", description: "Xác định giai đoạn của một công nghệ/xu hướng.", illustration: `<svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 45 C 20 45, 15 5, 40 5 C 65 5, 60 25, 70 35 S 90 45, 100 45" stroke="#0000FF" stroke-width="3" fill="none"/></svg>`, prompt: "Công nghệ [tên công nghệ, ví dụ: 'AI tạo sinh'] đang ở giai đoạn nào trong chu kỳ Hype của Gartner?" },
+                { title: "37. Tác động của Công nghệ [Tên]", color: "blue", description: "Công nghệ cụ thể này thay đổi ngành ra sao?", illustration: `<div class="text-6xl">💻</div>`, prompt: "Phân tích tác động tiềm tàng của [tên công nghệ, ví dụ: 'blockchain'] đối với chuỗi cung ứng và giao dịch trong ngành [tên ngành]." },
+                { title: "38. Xu hướng Xã hội & Văn hóa", color: "blue", description: "Các giá trị và hành vi xã hội đang thay đổi.", illustration: `<div class="text-6xl">👨‍👩‍👧‍👦</div>`, prompt: "Xác định 3 xu hướng xã hội hoặc văn hóa lớn tại [khu vực/quốc gia] đang ảnh hưởng đến hành vi tiêu dùng trong ngành [tên ngành]." },
+                { title: "39. Xu hướng Bền vững & ESG", color: "blue", description: "Mức độ quan tâm đến môi trường, xã hội, quản trị.", illustration: `<div class="text-6xl">🌱</div>`, prompt: "Phân tích mức độ quan tâm của khách hàng và doanh nghiệp trong ngành [tên ngành] đối với các yếu tố bền vững và ESG (Môi trường, Xã hội, Quản trị)." },
+                { title: "40. Xu hướng Khu vực/Địa lý", color: "blue", description: "Sự khác biệt và xu hướng ở các vùng khác nhau.", illustration: `<div class="text-6xl">🌍</div>`, prompt: "So sánh và phân tích các xu hướng thị trường khác nhau giữa [khu vực A] và [khu vực B] trong cùng ngành [tên ngành]." },
+                { title: "41. Xu hướng Lao động & Nhân tài", color: "blue", description: "Thay đổi trong kỹ năng, kỳ vọng của người lao động.", illustration: `<div class="text-6xl">💼</div>`, prompt: "Xác định những thay đổi trong yêu cầu kỹ năng và kỳ vọng của lực lượng lao động có thể ảnh hưởng đến hoạt động kinh doanh trong ngành [tên ngành]." },
+                { title: "42. Đổi mới liên ngành", color: "blue", description: "Học hỏi từ các ngành khác.", illustration: `<div class="text-6xl">🔄</div>`, prompt: "Tìm kiếm các ví dụ về đổi mới hoặc mô hình kinh doanh thành công từ các ngành khác mà ngành [tên ngành] có thể học hỏi hoặc áp dụng." },
 
                 // Product & Positioning Analysis (43-56)
-                { title: "43. Đề xuất USP", color: "yellow", description: "Xác định điểm bán hàng độc nhất cho sản phẩm.", illustration: `<div class="text-3xl text-yellow-300">⭐</div>`, prompt: "Dựa trên phân tích đối thủ và nhu cầu khách hàng, hãy đề xuất 3 Lợi điểm Bán hàng Độc nhất (USP) tiềm năng cho sản phẩm [tên sản phẩm]." },
-                { title: "44. Xây dựng Tuyên bố Định vị", color: "yellow", description: "Một câu ngắn gọn mô tả giá trị sản phẩm.", illustration: `<div class="text-center text-sm">Dành cho [KH mục tiêu], [Sản phẩm] là [danh mục] mang lại [lợi ích].</div>`, prompt: "Viết một tuyên bố định vị (positioning statement) cho [tên sản phẩm] theo công thức: 'Dành cho [khách hàng mục tiêu], [tên sản phẩm] là...'" },
-                { title: "45. Phân tích Lỗ hổng Thị trường", color: "yellow", description: "Tìm kiếm nhu cầu chưa được đáp ứng.", illustration: `<div class="text-4xl">🧩</div>`, prompt: "Xác định các lỗ hổng (market gaps) trong thị trường [tên thị trường] mà sản phẩm của chúng ta có thể khai thác." },
-                { title: "46. Tạo Ma trận Tính năng", color: "yellow", description: "So sánh tính năng của bạn với các đối thủ.", illustration: `<table class="w-full text-xs text-center"><thead><tr><th></th><th>Me</th><th>C1</th><th>C2</th></tr></thead><tbody><tr><td>Feat 1</td><td class="text-green-400">✓</td><td class="text-green-400">✓</td><td class="text-red-400">✗</td></tr><tr><td>Feat 2</td><td class="text-green-400">✓</td><td class="text-red-400">✗</td><td class="text-green-400">✓</td></tr></tbody></table>`, prompt: "Tạo một bảng ma trận so sánh các tính năng chính của [sản phẩm của bạn] với 2 đối thủ cạnh tranh hàng đầu." },
-                { title: "47. Phân tích Cảm nhận Thương hiệu", color: "yellow", description: "Thị trường nghĩ gì về thương hiệu của bạn?", illustration: `<div class="text-4xl">🤔</div>`, prompt: "Phân tích các cuộc thảo luận trên mạng xã hội để tóm tắt cảm nhận chung của công chúng về thương hiệu [tên thương hiệu]." },
-                { title: "48. Phân tích Vòng đời Sản phẩm", color: "yellow", description: "Xác định sản phẩm đang ở giai đoạn nào.", illustration: `<div class="text-center">Giới thiệu → Tăng trưởng → Bão hòa → Suy thoái</div>`, prompt: "Dựa trên doanh số và mức độ cạnh tranh, sản phẩm [tên sản phẩm] đang ở giai đoạn nào của vòng đời sản phẩm?" },
-                { title: "49. Xây dựng Sơ đồ Định vị", color: "yellow", description: "Vẽ bản đồ vị trí các thương hiệu trên thị trường.", illustration: `<div class="relative w-full h-full"><div class="absolute w-px h-full bg-gray-600 top-0 left-1/2"></div><div class="absolute h-px w-full bg-gray-600 left-0 top-1/2"></div><div class="w-3 h-3 bg-yellow-400 rounded-full absolute top-1/4 left-1/4"></div></div>`, prompt: "Tạo một sơ đồ định vị 2x2 (perceptual map) cho thị trường [tên thị trường] với 2 trục là [trục 1, ví dụ: 'Giá cả'] và [trục 2, ví dụ: 'Chất lượng']." },
-                { title: "50. Đề xuất Cải tiến Sản phẩm", color: "yellow", description: "Gợi ý các tính năng mới dựa trên phân tích.", illustration: `<div class="text-4xl">🚀</div>`, prompt: "Dựa trên phân tích lỗ hổng thị trường và phản hồi khách hàng, hãy đề xuất 3 cải tiến quan trọng cho phiên bản tiếp theo của sản phẩm." },
-                { title: "51. Ánh xạ Giá trị Sản phẩm", color: "yellow", description: "Sản phẩm giải quyết 'nỗi đau' và tạo 'niềm vui' cho khách hàng thế nào?", illustration: `<div class="text-center text-yellow-300">🤕 → 😊</div>`, prompt: "Ánh xạ (map) giá trị mà sản phẩm [tên sản phẩm] mang lại, kết nối các tính năng với 'nỗi đau' mà nó giải quyết và 'niềm vui' mà nó tạo ra cho khách hàng mục tiêu." },
-                { title: "52. Đề xuất Mô hình Giá", color: "yellow", description: "Các cách khác nhau để định giá sản phẩm/dịch vụ.", illustration: `<div class="font-mono text-2xl text-yellow-300">💲</div>`, prompt: "Đề xuất các mô hình định giá tiềm năng cho sản phẩm/dịch vụ [tên sản phẩm] (ví dụ: trả một lần, thuê bao, freemium, theo mức sử dụng)." },
-                { title: "53. Đánh giá Kênh Bán hàng", color: "yellow", description: "Kênh nào hiệu quả nhất để tiếp cận khách hàng?", illustration: `<div class="text-yellow-300 text-4xl">🛒</div>`, prompt: "Phân tích hiệu quả tiềm năng của các kênh bán hàng khác nhau (online, cửa hàng, đại lý, v.v.) cho sản phẩm [tên sản phẩm] tại thị trường [tên thị trường]." },
-                { title: "54. Chiến lược Thương hiệu & Thông điệp", color: "yellow", description: "Xác định giọng điệu và thông điệp cốt lõi.", illustration: `<div class="text-yellow-300 text-center text-sm">Unique & Memorable</div>`, prompt: "Đề xuất các yếu tố cốt lõi cho chiến lược thương hiệu (brand voice, messaging, visual identity) của sản phẩm [tên sản phẩm] dựa trên chân dung khách hàng." },
-                { title: "55. Phân tích Trải nghiệm người dùng (UX)", color: "yellow", description: "Kỳ vọng của khách hàng về trải nghiệm tương tác.", illustration: `<div class="text-yellow-300 text-4xl">🖱️</div>`, prompt: "Nghiên cứu các xu hướng và kỳ vọng về trải nghiệm người dùng (UX) trong ngành [tên ngành] và sản phẩm [loại sản phẩm]." },
-                { title: "56. Chiến lược Đặt tên Sản phẩm", color: "yellow", description: "Đặt tên hiệu quả cho sản phẩm/dịch vụ mới.", illustration: `<div class="text-yellow-300 text-center text-xl font-bold">Nova</div>`, prompt: "Đề xuất 5 ý tưởng đặt tên cho sản phẩm [tên loại sản phẩm] mới, có tính đến ý nghĩa, dễ nhớ và khả năng đăng ký nhãn hiệu." },
+                { title: "43. Đề xuất USP", color: "yellow", description: "Xác định điểm bán hàng độc nhất cho sản phẩm.", illustration: `<div class="text-5xl">⭐</div>`, prompt: "Dựa trên phân tích đối thủ và nhu cầu khách hàng, hãy đề xuất 3 Lợi điểm Bán hàng Độc nhất (USP) tiềm năng cho sản phẩm [tên sản phẩm]." },
+                { title: "44. Xây dựng Tuyên bố Định vị", color: "yellow", description: "Một câu ngắn gọn mô tả giá trị sản phẩm.", illustration: `<div class="text-center text-xs p-1 border border-black">Dành cho [KH], [SP] là [loại] mang lại [lợi ích].</div>`, prompt: "Viết một tuyên bố định vị (positioning statement) cho [tên sản phẩm] theo công thức: 'Dành cho [khách hàng mục tiêu], [tên sản phẩm] là...'" },
+                { title: "45. Phân tích Lỗ hổng Thị trường", color: "yellow", description: "Tìm kiếm nhu cầu chưa được đáp ứng.", illustration: `<div class="text-6xl">🧩</div>`, prompt: "Xác định các lỗ hổng (market gaps) trong thị trường [tên thị trường] mà sản phẩm của chúng ta có thể khai thác." },
+                { title: "46. Tạo Ma trận Tính năng", color: "yellow", description: "So sánh tính năng của bạn với các đối thủ.", illustration: `<table class="w-full text-xs text-center border-collapse border border-black"><thead class="bg-gray-200"><tr><th class="border border-black"></th><th class="border border-black">Me</th><th class="border border-black">C1</th></tr></thead><tbody><tr><td class="border border-black">F1</td><td class="border border-black">✓</td><td class="border border-black">✗</td></tr><tr><td class="border border-black">F2</td><td class="border border-black">✓</td><td class="border border-black">✓</td></tr></tbody></table>`, prompt: "Tạo một bảng ma trận so sánh các tính năng chính của [sản phẩm của bạn] với 2 đối thủ cạnh tranh hàng đầu." },
+                { title: "47. Phân tích Cảm nhận Thương hiệu", color: "yellow", description: "Thị trường nghĩ gì về thương hiệu của bạn?", illustration: `<div class="text-6xl">🤔</div>`, prompt: "Phân tích các cuộc thảo luận trên mạng xã hội để tóm tắt cảm nhận chung của công chúng về thương hiệu [tên thương hiệu]." },
+                { title: "48. Phân tích Vòng đời Sản phẩm", color: "yellow", description: "Xác định sản phẩm đang ở giai đoạn nào.", illustration: `<div class="text-center text-xs font-bold">Intro → Growth → Mature → Decline</div>`, prompt: "Dựa trên doanh số và mức độ cạnh tranh, sản phẩm [tên sản phẩm] đang ở giai đoạn nào của vòng đời sản phẩm?" },
+                { title: "49. Xây dựng Sơ đồ Định vị", color: "yellow", description: "Vẽ bản đồ vị trí các thương hiệu trên thị trường.", illustration: `<div class="relative w-full h-full"><div class="absolute w-px h-full bg-black top-0 left-1/2"></div><div class="absolute h-px w-full bg-black left-0 top-1/2"></div><div class="w-3 h-3 bg-yellow-400 border border-black absolute top-1/4 left-1/4"></div></div>`, prompt: "Tạo một sơ đồ định vị 2x2 (perceptual map) cho thị trường [tên thị trường] với 2 trục là [trục 1, ví dụ: 'Giá cả'] và [trục 2, ví dụ: 'Chất lượng']." },
+                { title: "50. Đề xuất Cải tiến Sản phẩm", color: "yellow", description: "Gợi ý các tính năng mới dựa trên phân tích.", illustration: `<div class="text-6xl">🚀</div>`, prompt: "Dựa trên phân tích lỗ hổng thị trường và phản hồi khách hàng, hãy đề xuất 3 cải tiến quan trọng cho phiên bản tiếp theo của sản phẩm." },
+                { title: "51. Ánh xạ Giá trị Sản phẩm", color: "yellow", description: "Sản phẩm giải quyết 'nỗi đau' và tạo 'niềm vui' cho khách hàng thế nào?", illustration: `<div class="text-center text-4xl">🤕 → 😊</div>`, prompt: "Ánh xạ (map) giá trị mà sản phẩm [tên sản phẩm] mang lại, kết nối các tính năng với 'nỗi đau' mà nó giải quyết và 'niềm vui' mà nó tạo ra cho khách hàng mục tiêu." },
+                { title: "52. Đề xuất Mô hình Giá", color: "yellow", description: "Các cách khác nhau để định giá sản phẩm/dịch vụ.", illustration: `<div class="font-mono text-4xl font-bold">💲</div>`, prompt: "Đề xuất các mô hình định giá tiềm năng cho sản phẩm/dịch vụ [tên sản phẩm] (ví dụ: trả một lần, thuê bao, freemium, theo mức sử dụng)." },
+                { title: "53. Đánh giá Kênh Bán hàng", color: "yellow", description: "Kênh nào hiệu quả nhất để tiếp cận khách hàng?", illustration: `<div class="text-6xl">🛒</div>`, prompt: "Phân tích hiệu quả tiềm năng của các kênh bán hàng khác nhau (online, cửa hàng, đại lý, v.v.) cho sản phẩm [tên sản phẩm] tại thị trường [tên thị trường]." },
+                { title: "54. Chiến lược Thương hiệu & Thông điệp", color: "yellow", description: "Xác định giọng điệu và thông điệp cốt lõi.", illustration: `<div class="text-center text-sm font-bold">Unique & Memorable</div>`, prompt: "Đề xuất các yếu tố cốt lõi cho chiến lược thương hiệu (brand voice, messaging, visual identity) của sản phẩm [tên sản phẩm] dựa trên chân dung khách hàng." },
+                { title: "55. Phân tích Trải nghiệm người dùng (UX)", color: "yellow", description: "Kỳ vọng của khách hàng về trải nghiệm tương tác.", illustration: `<div class="text-6xl">🖱️</div>`, prompt: "Nghiên cứu các xu hướng và kỳ vọng về trải nghiệm người dùng (UX) trong ngành [tên ngành] và sản phẩm [loại sản phẩm]." },
+                { title: "56. Chiến lược Đặt tên Sản phẩm", color: "yellow", description: "Đặt tên hiệu quả cho sản phẩm/dịch vụ mới.", illustration: `<div class="text-center text-3xl font-bold">Nova</div>`, prompt: "Đề xuất 5 ý tưởng đặt tên cho sản phẩm [tên loại sản phẩm] mới, có tính đến ý nghĩa, dễ nhớ và khả năng đăng ký nhãn hiệu." },
 
                 // SWOT & Strategy (57-70)
-                { title: "57. Phân tích SWOT", color: "purple", description: "Điểm mạnh, Điểm yếu, Cơ hội, Thách thức.", illustration: `<div class="grid grid-cols-2 gap-2 text-center text-sm w-full"><div class="bg-green-800 rounded p-1">Strengths</div><div class="bg-red-800 rounded p-1">Weaknesses</div><div class="bg-blue-800 rounded p-1">Opportunities</div><div class="bg-yellow-800 rounded p-1">Threats</div></div>`, prompt: "Thực hiện phân tích SWOT (Điểm mạnh, Điểm yếu, Cơ hội, Thách thức) cho thương hiệu [tên thương hiệu]." },
-                { title: "58. Phân tích PESTEL", color: "purple", description: "Phân tích các yếu tố vĩ mô ảnh hưởng đến thị trường.", illustration: `<div class="text-purple-300">P-E-S-T-E-L</div>`, prompt: "Tiến hành phân tích PESTEL (Chính trị, Kinh tế, Xã hội, Công nghệ, Môi trường, Pháp lý) cho thị trường [tên thị trường]." },
-                { title: "59. Năm Lực lượng của Porter", color: "purple", description: "Phân tích mức độ hấp dẫn và cạnh tranh của ngành.", illustration: `<div class="text-4xl">🖐️</div>`, prompt: "Áp dụng mô hình Năm Lực lượng cạnh tranh của Porter để phân tích ngành [tên ngành]." },
-                { title: "60. Xác định Quy mô Thị trường", color: "purple", description: "Ước tính tổng giá trị của thị trường.", illustration: `<div class="font-mono text-2xl text-purple-300">$10B ?</div>`, prompt: "Tìm kiếm và tổng hợp dữ liệu để ước tính quy mô thị trường (TAM, SAM, SOM) cho sản phẩm [loại sản phẩm] tại [khu vực]." },
-                { title: "61. Đề xuất Chiến lược Thâm nhập", color: "purple", description: "Làm thế nào để đưa sản phẩm mới vào thị trường?", illustration: `<div class="text-4xl">🗺️</div>`, prompt: "Đề xuất một chiến lược thâm nhập thị trường (go-to-market strategy) cho một sản phẩm [loại sản phẩm] mới." },
-                { title: "62. Phân tích Rủi ro Thị trường", color: "purple", description: "Xác định các mối đe dọa tiềm tàng.", illustration: `<div class="text-4xl">⚠️</div>`, prompt: "Liệt kê 5 rủi ro thị trường lớn nhất mà một công ty mới trong ngành [tên ngành] có thể phải đối mặt." },
-                { title: "63. Đề xuất Đối tác Chiến lược", color: "purple", description: "Tìm kiếm các cơ hội hợp tác.", illustration: `<div class="text-4xl">🤝</div>`, prompt: "Xác định 3 loại đối tác chiến lược tiềm năng có thể giúp công ty [tên công ty] tăng trưởng." },
-                { title: "64. Đánh giá Mức độ phù hợp", color: "purple", description: "Sản phẩm có phù hợp với thị trường không?", illustration: `<div class="text-4xl">🎯</div>`, prompt: "Dựa trên các phân tích trên, hãy đánh giá mức độ phù hợp của sản phẩm/thị trường (Product-Market Fit) cho [tên sản phẩm]." },
-                { title: "65. Ma trận Ansoff", color: "purple", description: "Xác định các chiến lược tăng trưởng tiềm năng (Thâm nhập, Phát triển Sản phẩm, Thị trường, Đa dạng hóa).", illustration: `<table class="w-full text-xs text-center"><thead><tr><th></th><th>SP Hiện tại</th><th>SP Mới</th></tr></thead><tbody><tr><td>TT Hiện tại</td><td class="text-green-400">↑ TT</td><td class="text-blue-400">PX SP</td></tr><tr><td>TT Mới</td><td class="text-yellow-400">PX TT</td><td class="text-red-400">ĐK HH</td></tr></tbody></table>`, prompt: "Áp dụng ma trận Ansoff để xác định các lựa chọn chiến lược tăng trưởng tiềm năng cho công ty [tên công ty] trong ngành [tên ngành]." },
-                { title: "66. Rào cản Thâm nhập Thị trường", color: "purple", description: "Những thách thức khi bước vào thị trường mới.", illustration: `<div class="text-purple-300 text-4xl">🧱</div>`, prompt: "Xác định 5 rào cản lớn nhất khi thâm nhập vào thị trường [tên thị trường] trong ngành [tên ngành]." },
-                { title: "67. Chiến lược Giữ chân KH (Ngành)", color: "purple", description: "Các phương pháp giữ chân khách hàng hiệu quả trong ngành.", illustration: `<div class="text-purple-300 text-4xl">🔒👤</div>`, prompt: "Tìm hiểu các chiến lược giữ chân khách hàng (customer retention) phổ biến và hiệu quả trong ngành [tên ngành]." },
-                { title: "68. Phân tích Phễu Bán hàng Ngành", color: "purple", description: "Hiểu cách khách hàng chuyển đổi qua các giai đoạn.", illustration: `<div class="text-purple-300 text-center text-sm">Lead → MQL → SQL → Customer</div>`, prompt: "Mô tả phễu bán hàng (sales funnel) điển hình trong ngành [tên ngành] và các tỷ lệ chuyển đổi ước tính giữa các giai đoạn." },
-                { title: "69. Mức độ Hấp dẫn Đầu tư", color: "purple", description: "Thị trường này có thu hút nhà đầu tư không?", illustration: `<div class="text-purple-300 text-4xl">💼💰</div>`, prompt: "Dựa trên quy mô, tốc độ tăng trưởng và mức độ cạnh tranh, đánh giá mức độ hấp dẫn đầu tư của thị trường [tên thị trường] trong ngành [tên ngành]." },
-                { title: "70. Ảnh hưởng Chuỗi Cung ứng", color: "purple", description: "Chuỗi cung ứng tác động đến thị trường và chiến lược ra sao?", illustration: `<div class="text-purple-300 text-4xl">📦➡️</div>`, prompt: "Phân tích cách các yếu tố trong chuỗi cung ứng (nhà cung cấp, hậu cần, tồn kho) có thể ảnh hưởng đến giá cả, tính sẵn có và chiến lược cạnh tranh trong ngành [tên ngành]." },
+                { title: "57. Phân tích SWOT", color: "purple", description: "Điểm mạnh, Điểm yếu, Cơ hội, Thách thức.", illustration: `<div class="grid grid-cols-2 gap-2 text-center text-xs w-full text-white font-bold"><div class="bg-green-600 p-1 border border-black">Strengths</div><div class="bg-red-600 p-1 border border-black">Weaknesses</div><div class="bg-blue-600 p-1 border border-black">Opportunities</div><div class="bg-yellow-600 p-1 border border-black">Threats</div></div>`, prompt: "Thực hiện phân tích SWOT (Điểm mạnh, Điểm yếu, Cơ hội, Thách thức) cho thương hiệu [tên thương hiệu]." },
+                { title: "58. Phân tích PESTEL", color: "purple", description: "Phân tích các yếu tố vĩ mô ảnh hưởng đến thị trường.", illustration: `<div class="font-bold text-xl">P-E-S-T-E-L</div>`, prompt: "Tiến hành phân tích PESTEL (Chính trị, Kinh tế, Xã hội, Công nghệ, Môi trường, Pháp lý) cho thị trường [tên thị trường]." },
+                { title: "59. Năm Lực lượng của Porter", color: "purple", description: "Phân tích mức độ hấp dẫn và cạnh tranh của ngành.", illustration: `<div class="text-6xl">🖐️</div>`, prompt: "Áp dụng mô hình Năm Lực lượng cạnh tranh của Porter để phân tích ngành [tên ngành]." },
+                { title: "60. Xác định Quy mô Thị trường", color: "purple", description: "Ước tính tổng giá trị của thị trường.", illustration: `<div class="font-mono text-3xl font-bold">$10B ?</div>`, prompt: "Tìm kiếm và tổng hợp dữ liệu để ước tính quy mô thị trường (TAM, SAM, SOM) cho sản phẩm [loại sản phẩm] tại [khu vực]." },
+                { title: "61. Đề xuất Chiến lược Thâm nhập", color: "purple", description: "Làm thế nào để đưa sản phẩm mới vào thị trường?", illustration: `<div class="text-6xl">🗺️</div>`, prompt: "Đề xuất một chiến lược thâm nhập thị trường (go-to-market strategy) cho một sản phẩm [loại sản phẩm] mới." },
+                { title: "62. Phân tích Rủi ro Thị trường", color: "purple", description: "Xác định các mối đe dọa tiềm tàng.", illustration: `<div class="text-6xl">⚠️</div>`, prompt: "Liệt kê 5 rủi ro thị trường lớn nhất mà một công ty mới trong ngành [tên ngành] có thể phải đối mặt." },
+                { title: "63. Đề xuất Đối tác Chiến lược", color: "purple", description: "Tìm kiếm các cơ hội hợp tác.", illustration: `<div class="text-6xl">🤝</div>`, prompt: "Xác định 3 loại đối tác chiến lược tiềm năng có thể giúp công ty [tên công ty] tăng trưởng." },
+                { title: "64. Đánh giá Mức độ phù hợp", color: "purple", description: "Sản phẩm có phù hợp với thị trường không?", illustration: `<div class="text-6xl">🎯</div>`, prompt: "Dựa trên các phân tích trên, hãy đánh giá mức độ phù hợp của sản phẩm/thị trường (Product-Market Fit) cho [tên sản phẩm]." },
+                { title: "65. Ma trận Ansoff", color: "purple", description: "Xác định các chiến lược tăng trưởng tiềm năng.", illustration: `<table class="w-full text-xs text-center border-collapse border border-black"><thead><tr class="bg-gray-200"><th class="border border-black"></th><th class="border border-black">Hiện tại</th><th class="border border-black">Mới</th></tr></thead><tbody><tr><td class="font-bold bg-gray-200 border border-black">SP</td><td class="border border-black">Thâm nhập</td><td class="border border-black">Phát triển SP</td></tr><tr><td class="font-bold bg-gray-200 border border-black">TT</td><td class="border border-black">Phát triển TT</td><td class="border border-black">Đa dạng hóa</td></tr></tbody></table>`, prompt: "Áp dụng ma trận Ansoff để xác định các lựa chọn chiến lược tăng trưởng tiềm năng cho công ty [tên công ty] trong ngành [tên ngành]." },
+                { title: "66. Rào cản Thâm nhập Thị trường", color: "purple", description: "Những thách thức khi bước vào thị trường mới.", illustration: `<div class="text-6xl">🧱</div>`, prompt: "Xác định 5 rào cản lớn nhất khi thâm nhập vào thị trường [tên thị trường] trong ngành [tên ngành]." },
+                { title: "67. Chiến lược Giữ chân KH (Ngành)", color: "purple", description: "Các phương pháp giữ chân khách hàng hiệu quả trong ngành.", illustration: `<div class="text-6xl">🔒👤</div>`, prompt: "Tìm hiểu các chiến lược giữ chân khách hàng (customer retention) phổ biến và hiệu quả trong ngành [tên ngành]." },
+                { title: "68. Phân tích Phễu Bán hàng Ngành", color: "purple", description: "Hiểu cách khách hàng chuyển đổi qua các giai đoạn.", illustration: `<div class="text-center text-xs font-bold">Lead → MQL → SQL → Customer</div>`, prompt: "Mô tả phễu bán hàng (sales funnel) điển hình trong ngành [tên ngành] và các tỷ lệ chuyển đổi ước tính giữa các giai đoạn." },
+                { title: "69. Mức độ Hấp dẫn Đầu tư", color: "purple", description: "Thị trường này có thu hút nhà đầu tư không?", illustration: `<div class="text-6xl">💼💰</div>`, prompt: "Dựa trên quy mô, tốc độ tăng trưởng và mức độ cạnh tranh, đánh giá mức độ hấp dẫn đầu tư của thị trường [tên thị trường] trong ngành [tên ngành]." },
+                { title: "70. Ảnh hưởng Chuỗi Cung ứng", color: "purple", description: "Chuỗi cung ứng tác động đến thị trường và chiến lược ra sao?", illustration: `<div class="text-6xl">📦➡️</div>`, prompt: "Phân tích cách các yếu tố trong chuỗi cung ứng (nhà cung cấp, hậu cần, tồn kho) có thể ảnh hưởng đến giá cả, tính sẵn có và chiến lược cạnh tranh trong ngành [tên ngành]." },
             ];
 
             const cardGrid = document.getElementById('card-grid');
-
-            // Function to create and append cards
+            
             function renderCards(dataToRender) {
-                cardGrid.innerHTML = ''; // Clear existing cards
+                cardGrid.innerHTML = '';
                 dataToRender.forEach((card, index) => {
                     const cardElement = document.createElement('article');
-                    // Card ID based on its index in the *original* full array for consistent linking/scrolling
-                    const originalIndex = cardsData.findIndex(c => c.title === card.title); // Find original index
-                    cardElement.id = `card-${originalIndex + 1}`;
-                    cardElement.className = 'bg-gray-800 rounded-lg shadow-lg flex flex-col border-2 border-transparent transition-all duration-300';
-
-                    const colorClasses = {
-                        red: 'border-red-500/30 text-red-300',
-                        green: 'border-green-500/30 text-green-300',
-                        blue: 'border-blue-500/30 text-blue-300',
-                        yellow: 'border-yellow-500/30 text-yellow-300',
-                        purple: 'border-purple-500/30 text-purple-300'
-                    };
+                    cardElement.id = `card-${index + 1}`;
+                    cardElement.className = 'bg-white flex flex-col border-2 border-black';
+                    
+                    const accentColorClass = {
+                        red: 'text-red-600',
+                        green: 'text-green-600',
+                        blue: 'text-blue-600',
+                        yellow: 'text-yellow-600',
+                        purple: 'text-purple-600'
+                    }[card.color] || 'text-black';
 
                     cardElement.innerHTML = `
-                        <div class="p-4 border-b ${colorClasses[card.color]}">
-                            <h2 class="font-bold text-lg ${colorClasses[card.color]}">${card.title}</h2>
-                            <p class="text-gray-400 text-sm h-10">${card.description}</p>
+                        <div class="p-4 border-b-2 border-black">
+                            <h2 class="font-bold text-lg ${accentColorClass}">${card.title}</h2>
+                            <p class="text-black text-sm h-10">${card.description}</p>
                         </div>
-                        <div class="flex-grow flex items-center justify-center p-4 card-container">
+                        <div class="flex-grow flex items-center justify-center p-4 bg-gray-100 border-b-2 border-black min-h-[160px]">
                             ${card.illustration}
                         </div>
-                        <div class="p-4 bg-gray-800/80">
-                            <pre class="bg-gray-900 p-3 rounded-md text-xs font-space-mono whitespace-pre-wrap"><code>${card.prompt}</code></pre>
-                            <div class="text-right mt-2">
-                                <button class="copy-btn inline-block p-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-gray-300" title="Sao chép"></button>
+                        <div class="p-4 bg-white">
+                            <pre class="bg-gray-100 p-3 border border-black text-xs whitespace-pre-wrap"><code>${card.prompt}</code></pre>
+                            <div class="text-right mt-3">
+                                <button class="copy-btn brutalist-shadow inline-block p-2 bg-cyan-400 hover:bg-cyan-500 border-2 border-black text-black" title="Sao chép"></button>
                             </div>
                         </div>
                     `;
                     cardGrid.appendChild(cardElement);
                 });
-
-                // Re-initialize copy buttons for the new cards
+                
                 initializeCopyButtons();
             }
 
-            // Function to initialize copy buttons
             function initializeCopyButtons() {
-                const copyButtons = document.querySelectorAll('.copy-btn');
-                copyButtons.forEach(button => button.innerHTML = copyIconSvg); // Reset icon on re-render
+                const popup = document.getElementById('copySuccessPopup');
+                cardGrid.removeEventListener('click', copyHandler); // Remove old listener
+                cardGrid.addEventListener('click', copyHandler);
 
-                // Remove existing listeners to prevent duplicates
-                copyButtons.forEach(button => {
-                     // Use replaceWith to remove and add the element back cleanly
-                    const newButton = button.cloneNode(true);
-                    button.parentNode.replaceChild(newButton, button);
-                });
+                function copyHandler(event) {
+                    const button = event.target.closest('.copy-btn');
+                    if (!button) return;
 
-                const newCopyButtons = document.querySelectorAll('.copy-btn');
-                newCopyButtons.forEach(button => {
-                     button.innerHTML = copyIconSvg; // Ensure icon is correct after cloning
-                    button.addEventListener('click', (event) => {
-                        const btn = event.currentTarget;
-                        const preElement = btn.parentElement.previousElementSibling;
-                        if (preElement && preElement.tagName === 'PRE') {
-                            const codeText = preElement.querySelector('code').innerText;
-                            const textArea = document.createElement('textarea');
-                            textArea.value = codeText;
-                            textArea.style.position = 'fixed'; // Use fixed positioning off-screen
-                            textArea.style.top = '-9999px';
-                            textArea.style.left = '-9999px';
-                            document.body.appendChild(textArea);
-                            textArea.select();
-                            try {
-                                document.execCommand('copy');
+                    const preElement = button.closest('.p-4').querySelector('pre');
+                    if (preElement) {
+                        const codeText = preElement.querySelector('code').innerText;
+                        navigator.clipboard.writeText(codeText).then(() => {
+                            popup.classList.remove('hidden');
+                            setTimeout(() => { popup.classList.add('hidden'); }, 2000);
+                        }).catch(err => console.error('Copy failed: ', err));
+                    }
+                }
 
-                                // --- Show Brutalist Popup ---
-                                copySuccessPopup.classList.remove('hidden');
-                                // Hide popup after 2 seconds
-                                setTimeout(() => {
-                                    copySuccessPopup.classList.add('hidden');
-                                }, 2000); // 2000 milliseconds = 2 seconds
-                                // ---------------------------
-
-                            } catch (err) {
-                                console.error('Failed to copy text: ', err);
-                                // Optionally, show an error message here
-                            }
-                            document.body.removeChild(textArea); // Clean up textarea
-                        }
-                    });
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.innerHTML = copyIconSvg;
                 });
             }
-
 
             // Initial render
             renderCards(cardsData);
 
             // Search functionality
             const searchInput = document.getElementById('searchInput');
-            const suggestionsContainer = document.getElementById('suggestionsContainer');
-
             searchInput.addEventListener('input', () => {
                 const query = searchInput.value.toLowerCase().trim();
-                suggestionsContainer.innerHTML = '';
-
-                if (!query) {
-                    suggestionsContainer.classList.add('hidden');
-                    return;
-                }
-
-                const filteredCards = cardsData.filter(card =>
-                    card.title.toLowerCase().includes(query) ||
+                const filteredCards = cardsData.filter(card => 
+                    card.title.toLowerCase().includes(query) || 
                     card.description.toLowerCase().includes(query) ||
-                    card.prompt.toLowerCase().includes(query) // Also search in prompt text
+                    card.prompt.toLowerCase().includes(query)
                 );
-
-                if (filteredCards.length > 0) {
-                    suggestionsContainer.classList.remove('hidden');
-                    // Sort suggestions to show title matches first, then description/prompt matches
-                    filteredCards.sort((a, b) => {
-                        const aMatchesTitle = a.title.toLowerCase().includes(query);
-                        const bMatchesTitle = b.title.toLowerCase().includes(query);
-                        if (aMatchesTitle && !bMatchesTitle) return -1;
-                        if (!aMatchesTitle && bMatchesTitle) return 1;
-                        return 0; // Keep original order among same match type
-                    });
-
-                    filteredCards.slice(0, 10).forEach((card) => { // Limit suggestions to 10
-                        const originalIndex = cardsData.findIndex(c => c.title === card.title); // Find original index
-                        if (originalIndex === -1) return; // Should not happen if filtering from cardsData
-
-                        const suggestionEl = document.createElement('a');
-                        suggestionEl.href = `#card-${originalIndex + 1}`;
-                        suggestionEl.className = 'block p-3 hover:bg-gray-600 cursor-pointer text-sm truncate'; // Add truncate for long titles
-                         // Highlight the matched part (simple bolding for title/description for now)
-                        let text = card.title;
-                         if (!text.toLowerCase().includes(query)) {
-                             // If query wasn't primarily a title match, show title + snippet? Or just title?
-                             // Let's keep it simple and just show the title for suggestions.
-                             // Highlighting inside prompt is complex for a suggestion list.
-                             // We'll just highlight the suggestion text itself.
-                             const regex = new RegExp(`(${query})`, 'gi');
-                             text = card.title.replace(regex, '<strong class="text-sky-300">$1</strong>');
-                         } else {
-                              const regex = new RegExp(`(${query})`, 'gi');
-                              text = card.title.replace(regex, '<strong class="text-sky-300">$1</strong>');
-                         }
-
-
-                        suggestionEl.innerHTML = text; // Use innerHTML to render strong tag
-
-
-                        suggestionEl.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            const targetCard = document.getElementById(`card-${originalIndex + 1}`);
-                            if(targetCard) {
-                                // Use scrollIntoView with options
-                                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                                // Remove highlight from previous cards
-                                document.querySelectorAll('.highlight-card').forEach(c => c.classList.remove('highlight-card'));
-
-                                // Add highlight effect
-                                targetCard.classList.add('highlight-card');
-                                setTimeout(() => {
-                                    targetCard.classList.remove('highlight-card');
-                                }, 2000); // Match animation duration
-                            }
-                            searchInput.value = ''; // Clear search input
-                            suggestionsContainer.classList.add('hidden'); // Hide suggestions
-                        });
-
-                        suggestionsContainer.appendChild(suggestionEl);
-                    });
-                } else {
-                     // Display a "No results" message
-                    const noResultsEl = document.createElement('div');
-                    noResultsEl.className = 'block p-3 text-gray-400 text-sm italic';
-                    noResultsEl.textContent = 'Không tìm thấy kết quả nào.';
-                    suggestionsContainer.appendChild(noResultsEl);
-                    suggestionsContainer.classList.remove('hidden'); // Still show the "No results" message
-                }
+                renderCards(filteredCards);
             });
-
-             // Handle Arrow keys for navigating suggestions (Optional but good UX)
-             searchInput.addEventListener('keydown', (e) => {
-                const suggestions = suggestionsContainer.querySelectorAll('a');
-                if (suggestions.length === 0) return;
-
-                let currentFocus = -1;
-                suggestions.forEach((s, index) => {
-                    if (s.classList.contains('bg-gray-600')) {
-                        currentFocus = index;
-                        s.classList.remove('bg-gray-600');
-                    }
-                });
-
-                if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    currentFocus = (currentFocus + 1) % suggestions.length;
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    currentFocus = (currentFocus - 1 + suggestions.length) % suggestions.length;
-                } else if (e.key === 'Enter') {
-                    if (currentFocus > -1) {
-                         e.preventDefault(); // Prevent form submission if input is in a form
-                         suggestions[currentFocus].click(); // Trigger the click event
-                    } else if (suggestions.length > 0 && searchInput.value.trim() !== '') {
-                         // If Enter is pressed without selecting a suggestion,
-                         // maybe click the first one or just do nothing special.
-                         // For now, let's just do nothing special if no suggestion is focused.
-                         // If you wanted to trigger the first result, you'd uncomment the line below:
-                         // suggestions[0].click();
-                    }
-                    return; // Prevent further processing after Enter
-                } else if (e.key === 'Escape') {
-                    suggestionsContainer.classList.add('hidden');
-                    searchInput.value = ''; // Clear input on escape
-                    return; // Prevent default escape behavior (like closing modals if any)
-                }
-
-                 if (currentFocus > -1) {
-                    suggestions[currentFocus].classList.add('bg-gray-600');
-                    // Optional: scroll suggestion into view if list is long
-                    suggestions[currentFocus].scrollIntoView({ block: 'nearest' });
-                }
-            });
-
-
-            // Hide suggestions when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!document.getElementById('search-container').contains(e.target)) {
-                    suggestionsContainer.classList.add('hidden');
-                }
-            });
-
-             // Optional: Hide suggestions when pressing Escape (already handled in keydown)
-            // searchInput.addEventListener('keydown', (e) => {
-            //     if (e.key === 'Escape') {
-            //         suggestionsContainer.classList.add('hidden');
-            //     }
-            // });
-
         });
     </script>
 

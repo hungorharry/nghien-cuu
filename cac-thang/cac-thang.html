@@ -3,101 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Việc của Hưng Nghiên Cứu Data</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Việc của Hưng - Các Tháng</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Base styles for the Brutalist theme */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
-            color: #333;
+            font-family: 'Roboto Mono', monospace; /* Monospace font for a raw, technical feel */
+            background-color: #FFFFFF; /* stark white background */
+            color: #000000; /* black text */
         }
+
+        /* Container for the main content */
         .container {
             max-width: 1200px;
         }
-        .card {
-            background-color: #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out;
+
+        /* Brutalist shadow utilities */
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000000; /* Hard, blocky black shadow */
         }
-        .card:hover {
-            transform: translateY(-5px);
+        
+        .brutalist-shadow-purple {
+            box-shadow: 8px 8px 0px #6A0DAD; /* Hard, blocky purple shadow */
         }
-        .btn-primary {
-            background-color: #4f46e5; /* Indigo */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
+
+        /* Header style */
+        .header-brutalist {
+            background-color: #6A0DAD; /* Vibrant purple background */
+            color: #FFFFFF; /* White text for high contrast */
+            border: 4px solid #000000; /* Thick black border */
+            padding: 2rem;
         }
-        .btn-primary:hover {
-            background-color: #4338ca; /* Darker indigo */
+
+        /* Card styles */
+        .card-brutalist {
+            background-color: #FFFFFF;
+            border: 4px solid #000000;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
-        .btn-secondary {
-            background-color: #e0e7ff; /* Light indigo */
-            color: #4f46e5; /* Indigo */
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
+
+        .card-brutalist:hover {
+            transform: translate(-4px, -4px); /* Shift position on hover */
+            box-shadow: 12px 12px 0px #000000; /* Increase shadow on hover for effect */
         }
-        .btn-secondary:hover {
-            background-color: #c7d2fe; /* Lighter indigo */
+
+        /* Button styles */
+        .btn-brutalist {
+            display: inline-block;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: 4px solid #000000;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
         }
+
+        .btn-brutalist:hover {
+            background-color: #000000; /* Invert colors on hover */
+            color: #FFFFFF;
+            transform: translate(-4px, -4px); /* Shift position */
+            box-shadow: 8px 8px 0px #6A0DAD; /* Change shadow to purple on hover */
+        }
+
+        /* Title inside cards */
+        .card-title {
+            font-size: 1.75rem; /* 28px */
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 2rem;
+        }
+        
     </style>
 </head>
-<body class="text-gray-800">
-<div class="container mx-auto px-4 py-8 md:py-16">
+<body class="p-6 sm:p-10">
+    <div class="container mx-auto">
         
-        <!-- Nút Quay Lại -->
-        <div class="mb-8">
-            <a href="/index.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                <i class="fas fa-arrow-left mr-2"></i>
-                Quay lại Danh Mục Chính
+        <!-- Back Button -->
+        <div class="mb-12">
+            <a href="/index.html" class="btn-brutalist brutalist-shadow">
+                &lt;-- Quay lại Danh Mục Chính
             </a>
         </div>
 
-<body class="p-4 sm:p-8">
-    <div class="container mx-auto">
         <!-- Main Title Section -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800 mb-4 rounded-lg bg-white p-4 shadow-md">CÁC THÁNG</h1>
-            <p class="text-lg text-gray-600">Tổng quan các kế hoạch và phân tích dữ liệu quan trọng.</p>
+        <header class="text-center mb-20">
+            <div class="header-brutalist brutalist-shadow">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold">CÁC THÁNG</h1>
+            </div>
+            <p class="text-lg max-w-3xl mx-auto mt-6">
+                > Tổng quan các kế hoạch và phân tích dữ liệu quan trọng.
+            </p>
         </header>
 
-        <!-- Navigation/Action Buttons Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <!-- Button/Card for Months 2025-2026 -->
-            <div class="card p-6 rounded-lg flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">THÁNG 5</h2>
-                <!-- Anchor link to the section (if it exists, otherwise just a button) -->
-                <a href="/cac-thang/thang-5/thang-5.html" class="btn-primary rounded-xl">
+        <!-- Grid for month cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+            
+            <!-- Card 1: May -->
+            <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 5</h2>
+                <a href="/cac-thang/thang-5/thang-5.html" class="btn-brutalist brutalist-shadow mt-auto">
                     XEM
                 </a>
             </div>
 
-            <!-- Button/Card for Product Classification -->
-           <div class="card p-6 rounded-lg flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">THÁNG 6</h2>
-                <!-- Anchor link to the section (if it exists, otherwise just a button) -->
-                <a href="/cac-thang/thang-6/thang-6.html" class="btn-primary rounded-xl">
+            <!-- Card 2: June -->
+            <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 6</h2>
+                <a href="/cac-thang/thang-6/thang-6.html" class="btn-brutalist brutalist-shadow mt-auto">
                     XEM
                 </a>
             </div>
 
-            <!-- New Button/Card for Tracking Plan -->
-         <div class="card p-6 rounded-lg flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">THÁNG 7</h2>
-                <!-- Anchor link to the section (if it exists, otherwise just a button) -->
-                <a href="/cac-thang/thang-7/thang-7.html" class="btn-primary rounded-xl">
+            <!-- Card 3: July -->
+            <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 7</h2>
+                <a href="/cac-thang/thang-7/thang-7.html" class="btn-brutalist brutalist-shadow mt-auto">
                     XEM
                 </a>
             </div>
         </div>
-
-    
     </div>
 </body>
 </html>

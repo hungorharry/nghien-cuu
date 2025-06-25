@@ -3,117 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Mục Bài Học Phân Tích Data</title>
+    <title>Danh Mục Khóa Học Data - Brutalist Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Base styles for the Brutalist theme */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Roboto Mono', monospace;
+            background-color: #FFFFFF;
+            color: #000000;
         }
+
+        /* Container for the main content */
         .container {
             max-width: 1200px;
         }
-        .header-bg {
-            background: linear-gradient(135deg, #34d399 0%, #10b981 100%); /* Green gradient for learning */
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+
+        /* Brutalist shadow utility */
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000000; /* Hard, blocky black shadow */
         }
-        .card {
-            background-color: #fff;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease-in-out;
-            border-radius: 1.25rem;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
+        
+        .brutalist-shadow-green {
+            box-shadow: 8px 8px 0px #22C55E; /* Hard, blocky green shadow */
         }
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+        /* Header style */
+        .header-brutalist {
+            background-color: #22C55E; /* Vibrant green background */
+            color: #FFFFFF; /* White text for high contrast */
+            border: 4px solid #000000;
+            padding: 2rem;
         }
-        .btn-secondary {
-            background-image: linear-gradient(to right, #2dd4bf, #14b8a6); /* Gradient teal */
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 5px 20px rgba(20, 184, 166, 0.4);
-            display: inline-block; /* Ensure button behaves correctly */
+
+        /* Card styles */
+        .course-card {
+            background-color: #FFFFFF;
+            border: 4px solid #000000;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .course-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px #000000;
+        }
+
+        /* Button styles */
+        .btn-brutalist {
+            display: inline-block;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: 4px solid #000000;
+            padding: 1rem 2rem;
+            font-weight: 700;
             text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
         }
-        .btn-secondary:hover {
-            background-image: linear-gradient(to right, #14b8a6, #0d9488);
-            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.55);
+
+        .btn-brutalist:hover {
+            background-color: #000000;
+            color: #FFFFFF;
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0px #22C55E; /* Changed shadow to green on hover */
         }
-        .text-gradient {
-            background: linear-gradient(to right, #2dd4bf, #14b8a6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        
+        /* Input Style */
+        .input-brutalist {
+             font-family: 'Roboto Mono', monospace;
+             width: 100%;
+             padding: 1rem;
+             border: 4px solid #000000;
+             font-weight: 700;
         }
-        .lesson-list li {
-            border-bottom: 1px solid #e2e8f0;
+        .input-brutalist:focus {
+            outline: none;
+            box-shadow: 8px 8px 0px #22C55E; /* Changed focus shadow to green */
         }
-        .lesson-list li:last-child {
-            border-bottom: none;
+
+        /* Popup styles */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 50;
         }
     </style>
 </head>
 <body class="p-6 sm:p-10">
     <div class="container mx-auto">
-        <header class="text-center mb-16">
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 rounded-3xl header-bg p-8 shadow-2xl">
-                Bài Học Phân Tích Dữ Liệu
-            </h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
-                Tổng hợp đầy đủ các bài học và tài liệu liên quan đến quá trình nghiên cứu và phân tích dữ liệu.
-            </p>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-10">
-
-            <div class="md:col-span-2 card p-8 flex flex-col justify-center text-center">
-                <img src="https://img.icons8.com/cute-clipart/128/book.png" alt="Book Icon" class="mx-auto mb-6">
-                <h2 class="text-3xl font-bold text-gradient mb-4">Bài Học Tổng Hợp</h2>
-                <p class="text-gray-700 mb-8 leading-relaxed">
-                    Phiên bản đầy đủ, tổng hợp tất cả các phần của bài học phân tích dữ liệu vào một tài liệu duy nhất.
-                </p>
-                <a href="/google/bai-hoc-phan-tich-data/bai-hoc-data-day-du.html" class="btn-secondary w-full">
-                    Xem Bài Học Đầy Đủ
-                </a>
-            </div>
-
-            <div class="md:col-span-3 card p-8">
-                <h2 class="text-3xl font-bold text-gradient mb-6 text-center md:text-left">Học Theo Từng Phần</h2>
-                <p class="text-gray-700 mb-8 leading-relaxed text-center md:text-left">
-                    Nếu bạn muốn học theo từng chủ đề riêng biệt, hãy chọn một trong các phần dưới đây.
-                </p>
-                <ul class="lesson-list space-y-4">
-                    <li class="p-4 flex justify-between items-center">
-                        <span class="text-lg font-semibold text-gray-800">Phần 1: Giới thiệu và Thu thập Dữ liệu</span>
-                        <a href="/google/bai-hoc-phan-tich-data/phan-1-phan-tich-data.html" class="btn-secondary">Vào học</a>
-                    </li>
-                    <li class="p-4 flex justify-between items-center">
-                        <span class="text-lg font-semibold text-gray-800">Phần 2: Làm sạch và Tiền xử lý Dữ liệu</span>
-                        <a href="/google/bai-hoc-phan-tich-data/phan-2-phan-tich-data.html" class="btn-secondary">Vào học</a>
-                    </li>
-                    <li class="p-4 flex justify-between items-center">
-                        <span class="text-lg font-semibold text-gray-800">Phần 3: Phân tích Khám phá (EDA)</span>
-                        <a href="/google/bai-hoc-phan-tich-data/phan-3-phan-tich-data.html" class="btn-secondary">Vào học</a>
-                    </li>
-                    <li class="p-4 flex justify-between items-center">
-                        <span class="text-lg font-semibold text-gray-800">Phần 4: Trực quan hóa và Báo cáo</span>
-                        <a href="/google/bai-hoc-phan-tich-data/phan-4-phan-tich-data.html" class="btn-secondary">Vào học</a>
-                    </li>
-                    <li class="p-4 flex justify-between items-center">
-                        <span class="text-lg font-semibold text-gray-800">Bonus: Trắc nghiệm Từ vựng</span>
-                        <a href="/google/bai-hoc-phan-tich-data/trac-nghiem-phan-tich-data.html" class="btn-secondary">Thử sức</a>
-                    </li>
-                    </ul>
-            </div>
+        <!-- Back to Index Button -->
+        <div class="mb-12">
+            <a href="/index.html" class="btn-brutalist brutalist-shadow">
+                &lt;-- VỀ TRANG CHỦ
+            </a>
         </div>
 
+        <!-- Header Section -->
+        <header class="text-center mb-16">
+            <div class="header-brutalist brutalist-shadow">
+                <h1 class="text-4xl md:text-5xl font-bold">
+                    DATA ANALYSIS COURSE CATALOG
+                </h1>
+            </div>
+        </header>
+
+        <!-- Smart Search Section -->
+        <div class="mb-16 max-w-2xl mx-auto">
+            <input type="text" id="searchInput" onkeyup="filterCourses()" placeholder="> TÌM KIẾM KHÓA HỌC..." class="input-brutalist brutalist-shadow">
+        </div>
+
+        <!-- Courses Grid -->
+        <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            
+            <!-- Card 1: Data Analysis -->
+            <!-- Card 2: Meta Marketing Analytics -->
+            <div class="course-card brutalist-shadow-green">
+                <div class="flex-grow">
+                    <h2 class="text-2xl font-bold mb-4">Meta Marketing Analytics</h2>
+                    <p class="mb-8">Chuyên sâu về phân tích dữ liệu marketing trên các nền tảng của Meta để tối ưu hóa chiến dịch.</p>
+                </div>
+                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">Bắt đầu học</button>
+            </div>
+
+            <!-- Card 3: IBM Data Analyst -->
+            <div class="course-card brutalist-shadow-green">
+                 <div class="flex-grow">
+                    <h2 class="text-2xl font-bold mb-4">IBM Data Analyst Professional</h2>
+                    <p class="mb-8">Trở thành chuyên gia phân tích dữ liệu với chứng chỉ từ IBM, học về Python, SQL và trực quan hóa.</p>
+                </div>
+                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">
+                    Bắt đầu học
+                </button>
+            </div>
+
+            <!-- Card 4: Google Data Analytics -->
+            <div class="course-card brutalist-shadow-green">
+                 <div class="flex-grow">
+                    <h2 class="text-2xl font-bold mb-4">Google Data Analytics</h2>
+                    <p class="mb-8">Học cách thu thập, làm sạch và phân tích dữ liệu với R, SQL, và Tableau qua chương trình của Google.</p>
+                </div>
+<a href="/google/bai-hoc-phan-tich-data/catalog-bai-hoc-data-google.html" class="btn-brutalist brutalist-shadow mt-auto">                    Bắt đầu học
+                </button>
+            </div>
+
+            <!-- Card 5: E-commerce Analytics -->
+            <div class="course-card brutalist-shadow-green">
+                 <div class="flex-grow">
+                    <h2 class="text-2xl font-bold mb-4">E-commerce Analytics</h2>
+                    <p class="mb-8">Phân tích hành vi khách hàng, tối ưu hóa tỷ lệ chuyển đổi và tăng doanh thu cho cửa hàng trực tuyến.</p>
+                </div>
+                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">
+                    Bắt đầu học</button>
+            </div>
+
+            <!-- Card 6: Power BI Specialist -->
+            <div class="course-card brutalist-shadow-green">
+                 <div class="flex-grow">
+                    <h2 class="text-2xl font-bold mb-4">Microsoft Power BI Specialist</h2>
+                    <p class="mb-8">Làm chủ Power BI để xây dựng các báo cáo tương tác và dashboard thông minh cho doanh nghiệp.</p>
+                </div>
+                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">Bắt đầu học</button>
+            </div>
+        </div>
+        
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden text-center mt-12 p-8 border-4 border-dashed border-black">
+            <p class="text-xl font-bold">> KHÔNG TÌM THẤY KẾT QUẢ PHÙ HỢP.</p>
+        </div>
     </div>
+
+    <!-- Brutalist Popup Modal -->
+    <div id="brutalistPopup" class="popup-overlay hidden">
+        <div class="course-card brutalist-shadow-green w-full max-w-md bg-white">
+            <div>
+                <h2 class="text-2xl font-bold mb-4 text-green-600">XÁC NHẬN</h2>
+                <p class="mb-8">
+                   Bạn sắp được chuyển hướng đến trang khóa học. Bạn đã sẵn sàng chưa?
+                </p>
+            </div>
+            <button id="closePopupBtn" class="btn-brutalist brutalist-shadow mt-auto w-full">ĐÓNG</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Smart Search Filter Logic ---
+        function filterCourses() {
+            const filter = document.getElementById('searchInput').value.toLowerCase();
+            const grid = document.getElementById('coursesGrid');
+            const cards = grid.getElementsByClassName('course-card');
+            let coursesFound = false;
+
+            for (let i = 0; i < cards.length; i++) {
+                const card = cards[i];
+                const title = card.querySelector('h2').innerText.toLowerCase();
+                const description = card.querySelector('p').innerText.toLowerCase();
+                
+                if (title.includes(filter) || description.includes(filter)) {
+                    card.style.display = "flex";
+                    coursesFound = true;
+                } else {
+                    card.style.display = "none";
+                }
+            }
+            const noResultsMessage = document.getElementById('noResults');
+            noResultsMessage.classList.toggle('hidden', coursesFound);
+        }
+
+        // --- Popup Logic ---
+        const popup = document.getElementById('brutalistPopup');
+        const openPopupBtns = document.querySelectorAll('.open-popup-btn');
+        const closePopupBtn = document.getElementById('closePopupBtn');
+
+        const openPopup = () => popup.classList.remove('hidden');
+        const closePopup = () => popup.classList.add('hidden');
+
+        openPopupBtns.forEach(btn => btn.addEventListener('click', openPopup));
+        closePopupBtn.addEventListener('click', closePopup);
+        popup.addEventListener('click', (event) => {
+            if (event.target === popup) closePopup();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !popup.classList.contains('hidden')) closePopup();
+        });
+    </script>
 </body>
 </html>

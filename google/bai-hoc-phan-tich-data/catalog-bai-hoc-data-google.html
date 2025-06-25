@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Mục Bài Học Phân Tích Data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%); /* Green gradient for learning */
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+        .card {
+            background-color: #fff;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in-out;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        .btn-secondary {
+            background-image: linear-gradient(to right, #2dd4bf, #14b8a6); /* Gradient teal */
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 5px 20px rgba(20, 184, 166, 0.4);
+            display: inline-block; /* Ensure button behaves correctly */
+            text-align: center;
+        }
+        .btn-secondary:hover {
+            background-image: linear-gradient(to right, #14b8a6, #0d9488);
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.55);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #2dd4bf, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .lesson-list li {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .lesson-list li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body class="p-6 sm:p-10">
+    <div class="container mx-auto">
+        <header class="text-center mb-16">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 rounded-3xl header-bg p-8 shadow-2xl">
+                Bài Học Phân Tích Dữ Liệu
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
+                Tổng hợp đầy đủ các bài học và tài liệu liên quan đến quá trình nghiên cứu và phân tích dữ liệu.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-10">
+
+            <div class="md:col-span-2 card p-8 flex flex-col justify-center text-center">
+                <img src="https://img.icons8.com/cute-clipart/128/book.png" alt="Book Icon" class="mx-auto mb-6">
+                <h2 class="text-3xl font-bold text-gradient mb-4">Bài Học Tổng Hợp</h2>
+                <p class="text-gray-700 mb-8 leading-relaxed">
+                    Phiên bản đầy đủ, tổng hợp tất cả các phần của bài học phân tích dữ liệu vào một tài liệu duy nhất.
+                </p>
+                <a href="/google/bai-hoc-phan-tich-data/bai-hoc-data-day-du.html" class="btn-secondary w-full">
+                    Xem Bài Học Đầy Đủ
+                </a>
+            </div>
+
+            <div class="md:col-span-3 card p-8">
+                <h2 class="text-3xl font-bold text-gradient mb-6 text-center md:text-left">Học Theo Từng Phần</h2>
+                <p class="text-gray-700 mb-8 leading-relaxed text-center md:text-left">
+                    Nếu bạn muốn học theo từng chủ đề riêng biệt, hãy chọn một trong các phần dưới đây.
+                </p>
+                <ul class="lesson-list space-y-4">
+                    <li class="p-4 flex justify-between items-center">
+                        <span class="text-lg font-semibold text-gray-800">Phần 1: Giới thiệu và Thu thập Dữ liệu</span>
+                        <a href="/google/bai-hoc-phan-tich-data/phan-1-phan-tich-data.html" class="btn-secondary">Vào học</a>
+                    </li>
+                    <li class="p-4 flex justify-between items-center">
+                        <span class="text-lg font-semibold text-gray-800">Phần 2: Làm sạch và Tiền xử lý Dữ liệu</span>
+                        <a href="/google/bai-hoc-phan-tich-data/phan-2-phan-tich-data.html" class="btn-secondary">Vào học</a>
+                    </li>
+                    <li class="p-4 flex justify-between items-center">
+                        <span class="text-lg font-semibold text-gray-800">Phần 3: Phân tích Khám phá (EDA)</span>
+                        <a href="/google/bai-hoc-phan-tich-data/phan-3-phan-tich-data.html" class="btn-secondary">Vào học</a>
+                    </li>
+                    <li class="p-4 flex justify-between items-center">
+                        <span class="text-lg font-semibold text-gray-800">Phần 4: Trực quan hóa và Báo cáo</span>
+                        <a href="/google/bai-hoc-phan-tich-data/phan-4-phan-tich-data.html" class="btn-secondary">Vào học</a>
+                    </li>
+                    <li class="p-4 flex justify-between items-center">
+                        <span class="text-lg font-semibold text-gray-800">Bonus: Trắc nghiệm Từ vựng</span>
+                        <a href="/google/bai-hoc-phan-tich-data/trac-nghiem-phan-tich-data.html" class="btn-secondary">Thử sức</a>
+                    </li>
+                    </ul>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

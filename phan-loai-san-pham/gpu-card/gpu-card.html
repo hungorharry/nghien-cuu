@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản Phẩm HP Poly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sử dụng font Inter làm font chữ mặc định */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Light gray background color */
+        }
+        /* Hover effect for topic cards */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb; /* Light border */
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .card-icon {
+            font-size: 2rem;
+            color: #8b5cf6; /* Purple color for HP Poly icon */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        
+        <div class="mb-8">
+            <a href="/phan-loai-san-pham/phan-loai-san-pham.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Quay lại Danh Mục Chính
+            </a>
+        </div>
+
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3">SẢN PHẨM GPU & CARD</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Khám phá các giải pháp hội nghị và truyền thông của GPU & CARD.</p>
+        </div>
+
+        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+
+    </div>
+
+    <script>
+        // List of HP Poly products based on the provided image
+        const products = [
+            'nghien-cuu-thi-truong.html',
+        ];
+        
+        // Map from slug to full title
+        const titleMap = {
+            'nghien-cuu-thi-truong.html': 'NGHIÊN CỨU PHÂN TÍCH GPU & CARD',
+        };
+
+        // Array of icons for decoration
+        const icons = [
+            'fa-solid fa-graduation-cap', 
+        ];
+
+        const productsGrid = document.getElementById('productsGrid');
+        const basePath = ''; // The path is relative to the current directory
+
+        // Function to get the proper title from the map
+        function getProperTitle(slug) {
+            return titleMap[slug] || slug.replace('.html', '').replace(/-/g, ' ');
+        }
+
+        // Create and display product cards
+        products.forEach((productSlug, index) => {
+            const productTitle = getProperTitle(productSlug); 
+            const productLink = `${basePath}${productSlug}`;
+            const iconClass = icons[index % icons.length]; // Cycle through icons
+
+            const card = document.createElement('div');
+            card.className = 'product-card bg-white rounded-2xl p-8 flex flex-col text-center items-center';
+            
+            card.innerHTML = `
+                <div class="card-icon mb-4">
+                    <i class="${iconClass}"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 flex-grow mb-6">${productTitle}</h3>
+                <a href="${productLink}" class="mt-auto w-full inline-block bg-purple-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 transform hover:scale-105">
+                    Xem Chi Tiết
+                </a>
+            `;
+            
+            productsGrid.appendChild(card);
+        });
+
+    </script>
+</body>
+</html>

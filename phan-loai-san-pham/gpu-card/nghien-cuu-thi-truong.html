@@ -1,0 +1,3483 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo Cáo Phân Tích Toàn Cảnh: Thị Trường GPU & AI</title>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- UNIFIED CSS STYLESHEET -->
+    <style>
+      :root {
+        --bg-color: #f8f9fa;
+        --main-bg: #ffffff;
+        --nav-bg: #111827; /* Dark Gray */
+        --nav-text-color: #d1d5db; /* Light Gray */
+        --nav-hover-bg: #374151; /* Medium Gray */
+        --nav-active-bg: #005f73; /* Dark Teal */
+        --text-color: #212529;
+        --header-color: #0d3b66;
+        --accent-color: #0077b6;
+        --border-color: #dee2e6;
+        --highlight-bg: #e9f2ff;
+        --strength-color: #2a9d8f;
+        --weakness-color: #e76f51;
+        --pro-color: #6f42c1;
+        --legacy-color: #6c757d;
+
+        --nvidia-color: #76b900;
+        --amd-color: #ed1c24;
+        --intel-color: #0071c5;
+
+        --tier-s-plus: linear-gradient(135deg, #ffd700, #ff8c00);
+        --tier-s: #c0c0c0;
+        --tier-a: #cd7f32;
+        --tier-b: #6aab9c;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* --- Navigation Sidebar --- */
+      #main-nav {
+        width: 280px;
+        background-color: var(--nav-bg);
+        color: var(--nav-text-color);
+        padding: 20px 0;
+        height: 100vh;
+        overflow-y: auto;
+        flex-shrink: 0;
+      }
+
+      #main-nav h1 {
+        color: #ffffff;
+        font-size: 1.5em;
+        font-weight: 700;
+        text-align: center;
+        padding: 0 15px;
+        margin-bottom: 30px;
+      }
+
+      #main-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      #main-nav ul li a {
+        display: block;
+        padding: 15px 25px;
+        color: var(--nav-text-color);
+        text-decoration: none;
+        font-weight: 500;
+        border-left: 4px solid transparent;
+        transition: all 0.2s ease-in-out;
+      }
+
+      #main-nav ul li a:hover {
+        background-color: var(--nav-hover-bg);
+        color: #ffffff;
+      }
+
+      #main-nav ul li a.active {
+        background-color: var(--nav-active-bg);
+        color: #ffffff;
+        font-weight: 600;
+        border-left-color: #90e0ef; /* Light blue accent */
+      }
+
+      /* --- Main Content Area --- */
+      #main-content {
+        flex-grow: 1;
+        padding: 40px;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      .content-section {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      /* --- Generic Element Styling --- */
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: var(--header-color);
+        font-weight: 700;
+      }
+
+      h2.section-title,
+      .content-section > h1 {
+        font-size: 2.6em;
+        border-bottom: 3px solid var(--accent-color);
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+      }
+
+      h3.subsection-title,
+      .content-section > h2 {
+        font-size: 2em;
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
+
+      .card {
+        background-color: var(--main-bg);
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+        border: 1px solid var(--border-color);
+      }
+
+      ul.checkmark-list {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      ul.checkmark-list li {
+        padding-left: 30px;
+        position: relative;
+        margin-bottom: 15px;
+      }
+
+      ul.checkmark-list li::before {
+        content: "✓";
+        color: var(--strength-color);
+        font-weight: bold;
+        font-size: 1.5em;
+        position: absolute;
+        left: 0;
+        top: -2px;
+      }
+
+      .highlight-text {
+        background-color: var(--highlight-bg);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        color: var(--header-color);
+      }
+
+      .table-container {
+        overflow-x: auto;
+        margin-top: 20px;
+      }
+
+      table.custom-table {
+        width: 100%;
+        min-width: 900px;
+        border-collapse: collapse;
+        font-size: 0.95em;
+      }
+
+      .custom-table th,
+      .custom-table td {
+        border: 1px solid var(--border-color);
+        padding: 15px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .custom-table th {
+        background-color: var(--header-color);
+        color: #fff;
+        font-weight: 500;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      .custom-table tr:nth-child(even) {
+        background-color: var(--bg-color);
+      }
+
+      .chart-container {
+        position: relative;
+        padding: 1.5rem 1rem;
+        margin-top: 1.5rem;
+        background-color: #ffffff;
+        margin-bottom: 1.5rem;
+        height: 450px;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+      }
+
+      .strength-text {
+        color: var(--strength-color);
+        font-weight: 600;
+      }
+      .weakness-text {
+        color: var(--weakness-color);
+        font-weight: 600;
+      }
+
+      /* Styles for individual sections */
+      .swot-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+        margin-top: 20px;
+      }
+      .swot-item {
+        padding: 25px;
+        border-radius: 8px;
+        background-color: #fdfdfd;
+        border: 1px solid var(--border-color);
+        border-top: 5px solid;
+        display: flex;
+        flex-direction: column;
+      }
+      .strength {
+        border-color: var(--strength-color);
+      }
+      .weakness {
+        border-color: var(--weakness-color);
+      }
+      .opportunity {
+        border-color: var(--header-color);
+      }
+      .threat {
+        border-color: #c0392b;
+      }
+      .swot-title {
+        font-size: 1.3em;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+      .strength .swot-title {
+        color: var(--strength-color);
+      }
+      .weakness .swot-title {
+        color: var(--weakness-color);
+      }
+      .opportunity .swot-title {
+        color: var(--header-color);
+      }
+      .threat .swot-title {
+        color: #c0392b;
+      }
+      .swot-item ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin: 0;
+      }
+
+      #gpuSearchInput {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        background-color: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 1em;
+        box-sizing: border-box;
+      }
+      .brand-nvidia {
+        border-left: 4px solid var(--nvidia-color);
+      }
+      .brand-amd {
+        border-left: 4px solid var(--amd-color);
+      }
+      .brand-intel {
+        border-left: 4px solid var(--intel-color);
+      }
+      .tier {
+        font-weight: bold;
+        padding: 6px 10px;
+        border-radius: 15px;
+        text-align: center;
+        display: inline-block;
+        min-width: 40px;
+      }
+      .tier-s-plus {
+        background: var(--tier-s-plus);
+        color: #000;
+      }
+      .tier-s {
+        background-color: var(--tier-s);
+        color: #000;
+      }
+      .tier-a {
+        background-color: var(--tier-a);
+        color: #000;
+      }
+      .tier-b {
+        background-color: var(--tier-b);
+        color: #000;
+      }
+      .tier-c,
+      .tier-d {
+        background-color: #d1d5db;
+        color: #000;
+      }
+      .tier-pro {
+        background-color: var(--pro-color);
+        color: white;
+      }
+      .tier-legacy {
+        background-color: var(--legacy-color);
+        color: white;
+      }
+
+      .objective-box {
+        background-color: var(--highlight-bg);
+        border-left: 5px solid var(--accent-color);
+        padding: 25px;
+        margin-top: 30px;
+        border-radius: 8px;
+      }
+      .objective-box h3 {
+        margin-top: 0;
+        font-size: 1.5em;
+        color: var(--header-color);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SIDE NAVIGATION (CATALOG) -->
+    <nav id="main-nav">
+      <h1>Báo Cáo Phân Tích</h1>
+      <ul>
+        <li>
+          <a
+            href="#"
+            class="nav-link active"
+            onclick="showSection('sec-gioi-thieu', this)"
+            >0. Giới Thiệu</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="nav-link"
+            onclick="showSection('sec-toan-canh', this)"
+            >1. Toàn Cảnh Môi Trường KD</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="nav-link"
+            onclick="showSection('sec-thi-truong-gpu-ai', this)"
+            >2. Thị Trường GPU & AI</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="nav-link"
+            onclick="showSection('sec-thi-phan', this)"
+            >3. Phân Tích Thị Phần</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="nav-link"
+            onclick="showSection('sec-so-sanh-card', this)"
+            >4. So Sánh Các Card Đồ Họa</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="nav-link"
+            onclick="showSection('sec-ngoai-vi', this)"
+            >5. Thiết Bị Ngoại Vi</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="nav-link"
+            onclick="showSection('sec-phan-phoi', this)"
+            >6. Kênh Phân Phối & AIB</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="nav-link"
+            onclick="showSection('sec-ket-luan', this)"
+            >7. Kết Luận & Đề Xuất</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main id="main-content">
+      <!-- SECTION 0: GIỚI THIỆU -->
+      <section
+        id="sec-gioi-thieu"
+        class="content-section"
+        style="display: block"
+      >
+        <h2 class="section-title">
+          0. Lời Mở Đầu: Tái Định Vị Trong Kỷ Nguyên Mới
+        </h2>
+        <div class="card">
+          <p>
+            Thị trường công nghệ toàn cầu và Việt Nam đang trải qua một cuộc
+            chuyển dịch kiến tạo. Sự bùng nổ của
+            <span class="highlight-text">Trí tuệ nhân tạo (AI)</span> không chỉ
+            là một xu hướng công nghệ, mà là một làn sóng kinh tế đang định hình
+            lại toàn bộ chuỗi giá trị. Đồng thời, thị trường
+            <span class="highlight-text">Gaming</span>, với hàng triệu người
+            dùng và cộng đồng sôi động, vẫn là một "mảnh đất" màu mỡ và ngày
+            càng đòi hỏi những giải pháp phần cứng tinh vi hơn.
+          </p>
+
+          <p>
+            Đối với một doanh nghiệp có bề dày uy tín như
+            <span class="highlight-text">Vi Tính Nguyên Kim</span>, đây là thời
+            điểm không thể tốt hơn để tái định vị vai trò của mình. Dữ liệu
+            không nói dối: thị phần bán lẻ card đồ họa (VGA) chỉ
+            <span class="highlight-text">~0.18%</span> là một minh chứng rõ ràng
+            rằng con đường cạnh tranh về giá trong "biển đỏ" linh kiện đã không
+            còn là một chiến lược bền vững.
+          </p>
+
+          <div
+            class="card"
+            style="
+              margin: 25px 0;
+              background: var(--highlight-bg);
+              border-left: 5px solid var(--accent-color);
+            "
+          >
+            <p style="margin: 0; font-size: 1.1em; font-weight: 500">
+              Thay vì bị cuốn vào cuộc chiến đó, dữ liệu cũng chỉ ra một hướng
+              đi khác, nơi các thế mạnh cốt lõi của Nguyên Kim về uy tín, kinh
+              nghiệm B2B, và năng lực xây dựng giải pháp có thể tỏa sáng. Hướng
+              đi đó nằm ở sự giao thoa giữa hai thị trường lớn nhất:
+              <strong>AI và Gaming.</strong>
+            </p>
+          </div>
+
+          <div class="objective-box">
+            <h3>Mục Tiêu Cốt Lõi Của Báo Cáo</h3>
+            <p>
+              Báo cáo này phân tích dữ liệu từ vĩ mô đến vi mô để chứng minh và
+              làm rõ luận điểm chiến lược sau:
+            </p>
+            <p
+              style="
+                font-size: 1.1em;
+                font-weight: 600;
+                color: var(--header-color);
+              "
+            >
+              Nguyên Kim cần thực hiện một cú chuyển mình (PIVOT) dứt khoát về
+              MÔ HÌNH KINH DOANH: từ bỏ việc cố gắng trở thành một "nhà bán lẻ
+              giá rẻ" để tập trung toàn lực, trở thành một "NHÀ CUNG CẤP GIẢI
+              PHÁP" có giá trị cao, phục vụ cho hai tệp khách hàng chính:
+            </p>
+            <ul style="list-style: none; padding-left: 20px; font-weight: 600">
+              <li style="padding-left: 35px; position: relative">
+                <span
+                  style="
+                    position: absolute;
+                    left: 0;
+                    font-size: 1.5em;
+                    top: -5px;
+                  "
+                  >🚀</span
+                >Doanh nghiệp và chuyên gia cần giải pháp phần cứng AI.
+              </li>
+              <li
+                style="padding-left: 35px; position: relative; margin-top: 15px"
+              >
+                <span
+                  style="
+                    position: absolute;
+                    left: 0;
+                    font-size: 1.5em;
+                    top: -5px;
+                  "
+                  >🎮</span
+                >Game thủ và người dùng cao cấp cần các bộ PC đồng bộ, ổn định.
+              </li>
+            </ul>
+          </div>
+
+          <h3
+            class="subsection-title"
+            style="margin-top: 40px; font-size: 1.6em"
+          >
+            Lộ Trình Của Báo Cáo
+          </h3>
+          <p>
+            Tất cả các phân tích trong những mục tiếp theo được cấu trúc một
+            cách logic để dẫn dắt người đọc qua hành trình này:
+          </p>
+          <ol style="padding-left: 20px">
+            <li>
+              <strong>Phân Tích Môi Trường & Cạnh Tranh:</strong> Để hiểu rõ
+              "luật chơi" và "đối thủ".
+            </li>
+            <li>
+              <strong>Phân Tích Thị Trường GPU & AI:</strong> Để thấy các động
+              lực và quy mô cơ hội.
+            </li>
+            <li>
+              <strong>Phân Tích Dữ Liệu Nội Bộ:</strong> Để hiểu rõ thế mạnh
+              thật sự của Nguyên Kim.
+            </li>
+            <li>
+              <strong>So Sánh Sản Phẩm:</strong> Để có "vũ khí" xây dựng giải
+              pháp.
+            </li>
+            <li>
+              <strong>Phân Tích Kênh Phân Phối:</strong> Để biết cách hợp tác
+              hiệu quả.
+            </li>
+            <li>
+              <strong>Kết Luận & Hành Động:</strong> Tổng hợp tất cả để đưa ra
+              lộ trình chiến lược.
+            </li>
+          </ol>
+          <p>
+            Báo cáo này không chỉ là một tài liệu tham khảo, mà là một tấm bản
+            đồ, dẫn lối Nguyên Kim tận dụng các thế mạnh sẵn có để đón đầu và
+            chinh phục kỷ nguyên công nghệ mới, ở cả hai mặt trận Gaming và AI.
+          </p>
+        </div>
+      </section>
+      <!-- SECTION 1: Môi trường kinh doanh -->
+      <section
+        id="sec-toan-canh"
+        class="content-section"
+        style="display: block"
+      >
+        <h2 class="section-title">
+          I. Phân Tích Toàn Cảnh Môi Trường Kinh Doanh & Cạnh Tranh
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Đây là bước khởi đầu, đặt nền móng cho toàn bộ báo cáo. Chúng ta sẽ đi
+          từ bối cảnh vĩ mô toàn cầu đến phân tích nội tại của Vi Tính Nguyên
+          Kim, để hiểu rõ "sân chơi" và vị thế của công ty trong đó.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title">1. Bối Cảnh Vĩ Mô (PESTEL)</h3>
+          <p>
+            Môi trường kinh doanh hiện nay bị tác động bởi những làn sóng khổng
+            lồ, định hình lại cách các công ty công nghệ phải hoạt động.
+          </p>
+
+          <style>
+            .pestel-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              gap: 20px;
+            }
+            .pestel-item {
+              background-color: #f9fafb;
+              padding: 20px;
+              border-radius: 8px;
+              border-left: 4px solid;
+            }
+            .pestel-item h4 {
+              margin-top: 0;
+              font-size: 1.2em;
+              color: var(--header-color);
+            }
+          </style>
+
+          <div class="pestel-grid">
+            <div class="pestel-item" style="border-color: #c0392b">
+              <h4>Chính trị (Political)</h4>
+              <p>
+                <strong>Chiến tranh công nghệ Mỹ-Trung</strong> và các lệnh cấm
+                vận chip AI hiệu năng cao (như NVIDIA H100) sang Trung Quốc đang
+                tái định hình chuỗi cung ứng toàn cầu và tạo ra sự khan hiếm cục
+                bộ.
+              </p>
+            </div>
+            <div class="pestel-item" style="border-color: #27ae60">
+              <h4>Kinh tế (Economic)</h4>
+              <p>
+                Lạm phát ảnh hưởng sức mua mảng gaming, nhưng làn sóng
+                <strong>đầu tư hàng trăm tỷ USD vào AI</strong> tạo ra "cơn sốt"
+                GPU cho trung tâm dữ liệu, trở thành động lực tăng trưởng chính
+                của ngành.
+              </p>
+            </div>
+            <div class="pestel-item" style="border-color: #2980b9">
+              <h4>Xã hội (Social)</h4>
+              <p>
+                Gaming, E-sports, và Streaming đã trở thành văn hóa chủ đạo. Nhu
+                cầu làm việc từ xa & sáng tạo nội dung duy trì nhu cầu về các
+                máy trạm (Workstation) mạnh mẽ.
+              </p>
+            </div>
+            <div class="pestel-item" style="border-color: #8e44ad">
+              <h4>Công nghệ (Technological)</h4>
+              <p>
+                <strong>Sự bùng nổ của AI tạo sinh (Generative AI)</strong> là
+                yếu tố công nghệ quan trọng nhất, biến GPU từ một linh kiện
+                gaming thành trái tim của cuộc cách mạng công nghiệp mới.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            2. Phân Tích Nội Tại: "Biết Mình" - Vi Tính Nguyên Kim (NK)
+          </h3>
+          <div class="swot-grid">
+            <div class="swot-item strength">
+              <h4 class="swot-title">Điểm Mạnh (Strengths)</h4>
+              <ul>
+                <li>
+                  <strong>Lịch sử & Uy tín:</strong> Gần 2 thập kỷ hoạt động là
+                  một "tài sản thương hiệu" vô giá.
+                </li>
+                <li>
+                  <strong>Đối tác cấp cao (Gold/Platinum Partner):</strong> "Con
+                  hào" cốt lõi, đảm bảo nguồn hàng, chất lượng và là bảo chứng
+                  uy tín từ HP, Dell, Lenovo.
+                </li>
+                <li>
+                  <strong>Năng lực B2B đã kiểm chứng:</strong> Am hiểu sâu sắc
+                  tệp khách hàng doanh nghiệp, dự án - tệp khách hàng có giá trị
+                  cao, ổn định.
+                </li>
+              </ul>
+            </div>
+            <div class="swot-item weakness">
+              <h4 class="swot-title">Điểm Yếu (Weaknesses)</h4>
+              <ul>
+                <li>
+                  <strong>Thị phần bán lẻ VGA không đáng kể (~0.18%):</strong>
+                  Tín hiệu rõ ràng rằng "biển đỏ" bán lẻ không phải sân chơi của
+                  NK.
+                </li>
+                <li>
+                  <strong>Cấu trúc đậm chất B2B:</strong> Quy trình và nhân sự
+                  chưa được tối ưu cho sự linh hoạt của thị trường B2C.
+                </li>
+                <li>
+                  <strong>Biên lợi nhuận bán lẻ thấp:</strong> Bán linh kiện rời
+                  phải cạnh tranh giá khốc liệt, là một cuộc chiến không cân
+                  sức.
+                </li>
+              </ul>
+            </div>
+            <div
+              class="swot-item opportunity"
+              style="border-color: var(--accent-color)"
+            >
+              <h4 class="swot-title" style="color: var(--accent-color)">
+                Cơ hội (Opportunities)
+              </h4>
+              <ul>
+                <li>
+                  <strong>"Cơn khát" phần cứng AI:</strong> Cơ hội lớn nhất, khi
+                  thị trường đang thiếu nhà cung cấp giải pháp AI chuyên nghiệp,
+                  uy tín.
+                </li>
+                <li>
+                  <strong>Khoảng trống mảng "Giải pháp":</strong> Các chuỗi bán
+                  lẻ mạnh về bán sản phẩm, yếu về tư vấn giải pháp tổng thể
+                  (Workstation, máy chủ).
+                </li>
+                <li>
+                  <strong>Phân khúc "An tâm":</strong> Tệp khách hàng sẵn sàng
+                  trả thêm để có một bộ PC được tối ưu và bảo hành trọn gói.
+                </li>
+              </ul>
+            </div>
+            <div class="swot-item threat">
+              <h4 class="swot-title">Thách thức (Threats)</h4>
+              <ul>
+                <li>
+                  <strong>Sự thống trị của chuỗi bán lẻ:</strong> GearVN, Phong
+                  Vũ, An Phát đã có cộng đồng, thương hiệu và lợi thế giá về
+                  linh kiện.
+                </li>
+                <li>
+                  <strong>Sàn TMĐT & Cuộc chiến về giá:</strong> Shopee, Lazada
+                  với sản phẩm không rõ nguồn gốc/bảo hành đang phá giá thị
+                  trường.
+                </li>
+                <li>
+                  <strong>Đối thủ lớn chuyển mình:</strong> FPT Shop thành công
+                  với mô hình laptop gaming cho thấy các "ông lớn" khác cũng có
+                  thể nhảy vào.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            3. Phân Tích Cạnh Tranh: "Biết Người" - Các Đối Thủ Trên Thị Trường
+          </h3>
+          <p>
+            Để định vị chiến lược chính xác, Nguyên Kim cần hiểu rõ các đối thủ
+            đang cạnh tranh để giành lấy cùng một tệp khách hàng và ngân sách
+            của họ.
+          </p>
+
+          <style>
+            .competitor-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+              gap: 25px;
+            }
+            .competitor-card {
+              padding: 25px;
+              border-radius: 8px;
+              border: 1px solid var(--border-color);
+            }
+            .competitor-card h4 {
+              font-size: 1.4em;
+              color: var(--header-color);
+              margin: 0 0 10px 0;
+            }
+            .competitor-card ul {
+              padding-left: 20px;
+              margin: 0;
+            }
+            .competitor-card .weapon {
+              color: var(--strength-color);
+              font-weight: 600;
+            }
+            .competitor-card .weakness-point {
+              color: var(--weakness-color);
+              font-weight: 600;
+            }
+          </style>
+
+          <h4>
+            3.1. Nhóm 1: Đối Thủ Bán Lẻ B2C - "Cuộc Chiến Giành Khách Hàng Cuối"
+          </h4>
+          <div class="competitor-grid">
+            <div class="competitor-card">
+              <h4>
+                Chuỗi Chuyên Biệt Gaming<br />(GearVN, Phong Vũ, An Phát...)
+              </h4>
+              <ul>
+                <li>
+                  <strong>Vũ khí chính:</strong>
+                  <ul style="list-style-type: '✓ '">
+                    <li class="weapon">Tư vấn chuyên sâu, cộng đồng lớn.</li>
+                    <li class="weapon">P/P cực tốt cho linh kiện rời.</li>
+                    <li class="weapon">
+                      Dịch vụ xây dựng PC theo yêu cầu (PC Custom).
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Gót chân Achilles:</strong>
+                  <ul style="list-style-type: '✗ '">
+                    <li class="weakness-point">
+                      Quy mô, độ phủ và ngân sách marketing có thể hạn chế hơn
+                      các chuỗi ICT lớn.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="competitor-card">
+              <h4>
+                Chuỗi Bán Lẻ Lớn (ICT)<br />(Thế Giới Di Động, FPT Shop...)
+              </h4>
+              <ul>
+                <li>
+                  <strong>Vũ khí chính:</strong>
+                  <ul style="list-style-type: '✓ '">
+                    <li class="weapon">
+                      Độ phủ sóng toàn quốc, không đối thủ.
+                    </li>
+                    <li class="weapon">
+                      Marketing và nhận diện thương hiệu khổng lồ.
+                    </li>
+                    <li class="weapon">Thống trị mảng Laptop Gaming.</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Gót chân Achilles:</strong>
+                  <ul style="list-style-type: '✗ '">
+                    <li class="weakness-point">
+                      Giá bán PC/linh kiện thường cao hơn.
+                    </li>
+                    <li class="weakness-point">
+                      Thiếu tư vấn chuyên sâu về PC tự lắp ráp.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="competitor-card">
+              <h4>Sàn Thương Mại Điện Tử (TMĐT)<br />(Shopee, Lazada...)</h4>
+              <ul>
+                <li>
+                  <strong>Vũ khí chính:</strong>
+                  <ul style="list-style-type: '✓ '">
+                    <li class="weapon">Giá rẻ nhất thị trường.</li>
+                    <li class="weapon">Tiện lợi, giao hàng nhanh chóng.</li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Gót chân Achilles:</strong>
+                  <ul style="list-style-type: '✗ '">
+                    <li class="weakness-point">
+                      Rủi ro về nguồn gốc, hàng giả.
+                    </li>
+                    <li class="weakness-point">
+                      Bảo hành phức tạp, không đáng tin cậy.
+                    </li>
+                    <li class="weakness-point">
+                      Hoàn toàn không có dịch vụ tư vấn.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <h4 style="margin-top: 30px">
+            3.2. Nhóm 2: Đối Thủ Cùng Sân Chơi B2B - "Cuộc Chiến Về Giải Pháp &
+            Dự Án"
+          </h4>
+          <div class="competitor-grid">
+            <div class="competitor-card">
+              <h4>Các Nhà Phân Phối Lớn (DGW, SPC, Mai Hoàng...)</h4>
+              <ul>
+                <li>
+                  <strong>Vị thế:</strong> Vừa là đối tác cung cấp hàng, vừa là
+                  đối thủ cạnh tranh trong các dự án lớn.
+                </li>
+                <li>
+                  <strong>Vũ khí chính:</strong>
+                  <ul style="list-style-type: '✓ '">
+                    <li class="weapon">
+                      Quy mô tài chính, khả năng "ôm" hàng và có giá đầu vào tốt
+                      nhất.
+                    </li>
+                    <li class="weapon">Các hợp đồng phân phối độc quyền.</li>
+                    <li class="weapon">
+                      Hệ thống hậu mãi, bảo hành quy mô lớn đã được kiểm chứng.
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Cơ hội cho NK:</strong>
+                  <ul style="list-style-type: '• '; color: var(--accent-color)">
+                    <li>
+                      Các NPP mạnh về phân phối số lượng lớn (volume-based),
+                      nhưng có thể kém linh hoạt hơn NK trong việc cung cấp các
+                      gói giải pháp tùy chỉnh cao (high-touch, custom solutions)
+                      cho các doanh nghiệp vừa và nhỏ. Đây chính là thị trường
+                      ngách của Nguyên Kim.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="card"
+            style="margin-top: 30px; background: var(--highlight-bg)"
+          >
+            <h4>Hàm Ý Chiến Lược Cho Nguyên Kim:</h4>
+            <p>
+              Phân tích trên khẳng định rằng việc cạnh tranh trực diện với Nhóm
+              1 về giá là tự sát. Thay vào đó, chiến lược của Nguyên Kim phải
+              là:
+            </p>
+            <p
+              style="
+                font-weight: 600;
+                color: var(--header-color);
+                font-size: 1.1em;
+              "
+            >
+              "Sử dụng thế mạnh B2B để tạo ra các 'GIẢI PHÁP' có giá trị cao mà
+              các đối thủ bán lẻ không thể hoặc không muốn cung cấp, đồng thời
+              định vị khác biệt hoàn toàn với các nhà phân phối lớn."
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            4. Phân Tích Hệ Sinh Thái Công Nghệ: "Sân Chơi & Luật Chơi"
+          </h3>
+          <p>
+            Các hãng chip không phải đối thủ, mà là người tạo ra "sân chơi" và
+            "luật chơi". Việc lựa chọn nền tảng nào sẽ quyết định loại giải pháp
+            mà Nguyên Kim có thể xây dựng.
+          </p>
+
+          <div class="swot-grid">
+            <div
+              class="swot-item opportunity"
+              style="border-color: var(--nvidia-color)"
+            >
+              <h4 class="swot-title" style="color: var(--nvidia-color)">
+                Tận dụng NVIDIA
+              </h4>
+              <ul>
+                <li>
+                  <strong>Giải pháp AI:</strong> Dùng CUDA để xây dựng máy trạm
+                  AI chuyên nghiệp.
+                </li>
+                <li>
+                  <strong>Gaming cao cấp:</strong> Dùng DLSS & Ray Tracing để
+                  xây dựng PC premium.
+                </li>
+              </ul>
+            </div>
+            <div
+              class="swot-item threat"
+              style="border-color: var(--nvidia-color)"
+            >
+              <h4 class="swot-title" style="color: var(--nvidia-color)">
+                Đối mặt Thách thức từ NVIDIA
+              </h4>
+              <ul>
+                <li>
+                  <strong>"Thuế AI":</strong> Giá GPU cao, khó xây dựng cấu hình
+                  P/P tốt.
+                </li>
+                <li>
+                  <strong>Rủi ro chất lượng:</strong> Yêu cầu NK phải kiểm tra
+                  kỹ và hỗ trợ tốt.
+                </li>
+              </ul>
+            </div>
+            <div
+              class="swot-item opportunity"
+              style="border-color: var(--amd-color)"
+            >
+              <h4 class="swot-title" style="color: var(--amd-color)">
+                Tận dụng AMD
+              </h4>
+              <ul>
+                <li>
+                  <strong>Gaming P/P:</strong> "Vũ khí" để xây dựng PC "cao cấp
+                  vừa túi tiền".
+                </li>
+                <li>
+                  <strong>Nền tảng đồng nhất:</strong> Tối ưu cho các bộ PC tầm
+                  trung.
+                </li>
+              </ul>
+            </div>
+            <div
+              class="swot-item threat"
+              style="border-color: var(--amd-color)"
+            >
+              <h4 class="swot-title" style="color: var(--amd-color)">
+                Đối mặt Thách thức từ AMD
+              </h4>
+              <ul>
+                <li>
+                  <strong>AI còn non trẻ:</strong> Khó xây dựng giải pháp AI
+                  chuyên sâu.
+                </li>
+                <li>
+                  <strong>Ray Tracing yếu hơn:</strong> Khó cạnh tranh phân khúc
+                  PC cao cấp nhất.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Thị trường GPU & AI -->
+      <section
+        id="sec-thi-truong-gpu-ai"
+        class="content-section"
+        style="display: none"
+      >
+        <h2 class="section-title">
+          II. Phân Tích Chuyên Sâu Thị Trường GPU & AI
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Hiểu rõ các động lực vĩ mô, quy mô thị trường và môi trường pháp lý là
+          nền tảng để đưa ra các quyết định chiến lược đúng đắn.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            1. Động Lực Chính: Sự Bùng Nổ AI & Thế Độc Tôn Của NVIDIA
+          </h3>
+          <p>
+            Thị trường phần cứng máy tính đang chứng kiến một cuộc tái định hình
+            lịch sử, nơi AI không còn là xu hướng mà đã trở thành động lực tăng
+            trưởng cốt lõi, và NVIDIA là tâm điểm của sự thay đổi đó.
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>AI là Vua, Gaming là Hoàng tử:</strong> Doanh thu mảng
+              Trung tâm dữ liệu (phần lớn là GPU AI) của NVIDIA
+              <span class="highlight-text">gấp gần 10 lần</span> mảng Gaming.
+              Điều này khẳng định chiến lược và nguồn lực R&D của hãng sẽ hoàn
+              toàn ưu tiên cho AI, và mảng gaming chỉ được hưởng lợi "thứ cấp".
+            </li>
+            <li>
+              <strong>CUDA - "Con Hào" Bất Khả Xâm Phạm:</strong> Sự thống trị
+              của NVIDIA không chỉ đến từ phần cứng mạnh. Lợi thế lớn nhất và
+              gần như không thể bị sao chép là
+              <strong style="color: var(--nvidia-color)"
+                >hệ sinh thái phần mềm CUDA</strong
+              >. Hàng triệu lập trình viên AI trên toàn cầu được đào tạo và làm
+              việc trên nền tảng này, tạo ra một rào cản chuyển đổi khổng lồ cho
+              bất kỳ đối thủ nào.
+            </li>
+            <li>
+              <strong>"Thuế AI" lên Người Dùng Gaming:</strong> Khi một con chip
+              có thể được bán với giá $2,000 cho game thủ (GeForce) hoặc $20,000
+              cho trung tâm dữ liệu (AI Accelerator), NVIDIA phải định giá sản
+              phẩm gaming đủ cao để tối đa hóa lợi nhuận. Người dùng gaming cuối
+              đang gián tiếp trả tiền cho cuộc cách mạng AI.
+            </li>
+          </ul>
+
+          <style>
+            .chart-wrapper {
+              max-width: 900px;
+              width: 100%;
+              margin: 40px auto;
+            }
+            .chart-wrapper h4 {
+              text-align: center;
+              font-weight: 600;
+              margin-bottom: 20px;
+              font-size: 1.2em;
+            }
+          </style>
+
+          <div class="chart-wrapper">
+            <h4>Thị Phần Doanh Số GPU Rời (AIB) Toàn Cầu - Q3 2024</h4>
+            <div
+              class="chart-container"
+              style="max-width: 550px; height: 400px"
+            >
+              <canvas id="marketShareChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-wrapper">
+            <h4>Tăng Trưởng Vốn Hóa Thị Trường NVIDIA (Tỷ USD)</h4>
+            <div class="chart-container" style="height: 400px">
+              <canvas id="nvidiaMarketCapChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            2. Quy Mô Thị Trường (Gaming & AI): Những Con Số Biết Nói
+          </h3>
+          <p>
+            Phân tích quy mô thị trường giúp lượng hóa tiềm năng và khẳng định
+            tại sao việc "Pivot" sang mảng giải pháp AI là một quyết định chiến
+            lược đúng đắn.
+          </p>
+
+          <div class="chart-wrapper">
+            <h4>Doanh Thu Ngành Game Toàn Cầu & Việt Nam (Tỷ USD)</h4>
+            <div class="chart-container" style="height: 400px">
+              <canvas id="gamingRevenueChart"></canvas>
+            </div>
+            <p
+              class="text-center"
+              style="margin-top: -15px; font-size: 0.9em; color: #555"
+            >
+              Thị trường Gaming vẫn là một mảng kinh doanh lớn và ổn định, nhưng
+              đang có dấu hiệu chững lại sau giai đoạn tăng trưởng nóng.
+            </p>
+          </div>
+
+          <div class="chart-wrapper">
+            <h4>Dự Báo Quy Mô Thị Trường AI Toàn Cầu & Việt Nam (Tỷ USD)</h4>
+            <div class="chart-container" style="height: 400px">
+              <canvas id="aiRevenueChart"></canvas>
+            </div>
+            <p
+              class="text-center"
+              style="margin-top: -15px; font-size: 0.9em; color: #555"
+            >
+              Ngược lại, thị trường AI đang trên đà bùng nổ với tốc độ tăng
+              trưởng kép hàng năm (CAGR) cực kỳ ấn tượng, hứa hẹn một "đại dương
+              xanh" cho các nhà cung cấp phần cứng.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">3. Môi Trường Pháp Lý & Rủi Ro</h3>
+          <p>
+            Hoạt động trong một môi trường pháp lý rõ ràng là yếu tố tiên quyết
+            để kinh doanh bền vững.
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Cấm nhập khẩu linh kiện cũ:</strong> Đây là một
+              <strong style="color: var(--strength-color)"
+                >lợi thế cho các đơn vị kinh doanh chính hãng</strong
+              >
+              như Nguyên Kim, giúp loại bỏ sự cạnh tranh không lành mạnh từ hàng
+              "trôi nổi", hàng đã qua sửa chữa từ thị trường xám.
+            </li>
+            <li>
+              <strong>Thuế suất nhập khẩu:</strong> Với mã HS 84718070, một card
+              đồ họa chịu
+              <span class="highlight-text"
+                >thuế nhập khẩu 5% (hoặc 0% nếu có C/O) và thuế GTGT 10%</span
+              >.
+              <div
+                style="
+                  background: #f9f9f9;
+                  padding: 10px 15px;
+                  border-radius: 4px;
+                  font-size: 0.9em;
+                  margin-top: 10px;
+                "
+              >
+                <strong>Ví dụ:</strong> Một card trị giá $500 (~12.5 triệu VNĐ),
+                giá vốn sau thuế sẽ là khoảng 14.4 triệu VNĐ. Việc tính toán
+                đúng và đủ thuế giúp doanh nghiệp tránh các rủi ro pháp lý.
+              </div>
+            </li>
+            <li>
+              <strong>Khoảng trống pháp lý về AI:</strong> Việt Nam hiện thiếu
+              các quy định cụ thể về đạo đức, quyền riêng tư và sở hữu trí tuệ
+              trong AI. Điều này tạo cơ hội cho những
+              <span class="highlight-text"
+                >đơn vị tư vấn uy tín như Nguyên Kim</span
+              >
+              có thể đi đầu trong việc cung cấp các giải pháp an toàn, có trách
+              nhiệm và xây dựng lòng tin cho khách hàng doanh nghiệp.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Phân tích thị phần -->
+      <!-- ====================================================== -->
+      <!-- SECTION II: PHÂN TÍCH THỊ TRƯỜNG GPU & AI (CHI TIẾT)    -->
+      <!-- ====================================================== -->
+      <section
+        id="sec-thi-truong-gpu-ai"
+        class="content-section"
+        style="display: none"
+      >
+        <h2 class="section-title">
+          II. Phân Tích Chuyên Sâu Thị Trường GPU & AI
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Hiểu rõ các động lực vĩ mô, quy mô thị trường và môi trường pháp lý là
+          nền tảng để đưa ra các quyết định chiến lược đúng đắn.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            1. Động Lực Chính: Sự Bùng Nổ AI & Thế Độc Tôn Của NVIDIA
+          </h3>
+          <p>
+            Thị trường phần cứng máy tính đang chứng kiến một cuộc tái định hình
+            lịch sử, nơi AI không còn là xu hướng mà đã trở thành động lực tăng
+            trưởng cốt lõi, và NVIDIA là tâm điểm của sự thay đổi đó.
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>AI là Vua, Gaming là Hoàng tử:</strong> Doanh thu mảng
+              Trung tâm dữ liệu (phần lớn là GPU AI) của NVIDIA
+              <span class="highlight-text">gấp gần 10 lần</span> mảng Gaming.
+              Điều này khẳng định chiến lược và nguồn lực R&D của hãng sẽ hoàn
+              toàn ưu tiên cho AI, và mảng gaming chỉ được hưởng lợi "thứ cấp".
+            </li>
+            <li>
+              <strong>CUDA - "Con Hào" Bất Khả Xâm Phạm:</strong> Sự thống trị
+              của NVIDIA không chỉ đến từ phần cứng mạnh. Lợi thế lớn nhất và
+              gần như không thể bị sao chép là
+              <strong style="color: var(--nvidia-color)"
+                >hệ sinh thái phần mềm CUDA</strong
+              >. Hàng triệu lập trình viên AI trên toàn cầu được đào tạo và làm
+              việc trên nền tảng này, tạo ra một rào cản chuyển đổi khổng lồ cho
+              bất kỳ đối thủ nào.
+            </li>
+            <li>
+              <strong>"Thuế AI" lên Người Dùng Gaming:</strong> Khi một con chip
+              có thể được bán với giá $2,000 cho game thủ (GeForce) hoặc $20,000
+              cho trung tâm dữ liệu (AI Accelerator), NVIDIA phải định giá sản
+              phẩm gaming đủ cao để tối đa hóa lợi nhuận. Người dùng gaming cuối
+              đang gián tiếp trả tiền cho cuộc cách mạng AI.
+            </li>
+          </ul>
+
+          <style>
+            .chart-wrapper {
+              max-width: 900px;
+              width: 100%;
+              margin: 40px auto;
+            }
+            .chart-wrapper h4 {
+              text-align: center;
+              font-weight: 600;
+              margin-bottom: 20px;
+              font-size: 1.2em;
+            }
+          </style>
+
+          <div class="chart-wrapper">
+            <h4>Thị Phần Doanh Số GPU Rời (AIB) Toàn Cầu - Q3 2024</h4>
+            <div
+              class="chart-container"
+              style="max-width: 550px; height: 400px"
+            >
+              <canvas id="marketShareChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-wrapper">
+            <h4>Tăng Trưởng Vốn Hóa Thị Trường NVIDIA (Tỷ USD)</h4>
+            <div class="chart-container" style="height: 400px">
+              <canvas id="nvidiaMarketCapChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            2. Quy Mô Thị Trường (Gaming & AI): Những Con Số Biết Nói
+          </h3>
+          <p>
+            Phân tích quy mô thị trường giúp lượng hóa tiềm năng và khẳng định
+            tại sao việc "Pivot" sang mảng giải pháp AI là một quyết định chiến
+            lược đúng đắn.
+          </p>
+
+          <div class="chart-wrapper">
+            <h4>Doanh Thu Ngành Game Toàn Cầu & Việt Nam (Tỷ USD)</h4>
+            <div class="chart-container" style="height: 400px">
+              <canvas id="gamingRevenueChart"></canvas>
+            </div>
+            <p
+              class="text-center"
+              style="margin-top: -15px; font-size: 0.9em; color: #555"
+            >
+              Thị trường Gaming vẫn là một mảng kinh doanh lớn và ổn định, nhưng
+              đang có dấu hiệu chững lại sau giai đoạn tăng trưởng nóng.
+            </p>
+          </div>
+
+          <div class="chart-wrapper">
+            <h4>Dự Báo Quy Mô Thị Trường AI Toàn Cầu & Việt Nam (Tỷ USD)</h4>
+            <div class="chart-container" style="height: 400px">
+              <canvas id="aiRevenueChart"></canvas>
+            </div>
+            <p
+              class="text-center"
+              style="margin-top: -15px; font-size: 0.9em; color: #555"
+            >
+              Ngược lại, thị trường AI đang trên đà bùng nổ với tốc độ tăng
+              trưởng kép hàng năm (CAGR) cực kỳ ấn tượng, hứa hẹn một "đại dương
+              xanh" cho các nhà cung cấp phần cứng.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">3. Môi Trường Pháp Lý & Rủi Ro</h3>
+          <p>
+            Hoạt động trong một môi trường pháp lý rõ ràng là yếu tố tiên quyết
+            để kinh doanh bền vững.
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Cấm nhập khẩu linh kiện cũ:</strong> Đây là một
+              <strong style="color: var(--strength-color)"
+                >lợi thế cho các đơn vị kinh doanh chính hãng</strong
+              >
+              như Nguyên Kim, giúp loại bỏ sự cạnh tranh không lành mạnh từ hàng
+              "trôi nổi", hàng đã qua sửa chữa từ thị trường xám.
+            </li>
+            <li>
+              <strong>Thuế suất nhập khẩu:</strong> Với mã HS 84718070, một card
+              đồ họa chịu
+              <span class="highlight-text"
+                >thuế nhập khẩu 5% (hoặc 0% nếu có C/O) và thuế GTGT 10%</span
+              >.
+              <div
+                style="
+                  background: #f9f9f9;
+                  padding: 10px 15px;
+                  border-radius: 4px;
+                  font-size: 0.9em;
+                  margin-top: 10px;
+                "
+              >
+                <strong>Ví dụ:</strong> Một card trị giá $500 (~12.5 triệu VNĐ),
+                giá vốn sau thuế sẽ là khoảng 14.4 triệu VNĐ. Việc tính toán
+                đúng và đủ thuế giúp doanh nghiệp tránh các rủi ro pháp lý.
+              </div>
+            </li>
+            <li>
+              <strong>Khoảng trống pháp lý về AI:</strong> Việt Nam hiện thiếu
+              các quy định cụ thể về đạo đức, quyền riêng tư và sở hữu trí tuệ
+              trong AI. Điều này tạo cơ hội cho những
+              <span class="highlight-text"
+                >đơn vị tư vấn uy tín như Nguyên Kim</span
+              >
+              có thể đi đầu trong việc cung cấp các giải pháp an toàn, có trách
+              nhiệm và xây dựng lòng tin cho khách hàng doanh nghiệp.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- SECTION III: PHÂN TÍCH THỊ PHẦN & DOANH SỐ (CHI TIẾT)    -->
+      <!-- ======================================================== -->
+      <section id="sec-thi-phan" class="content-section" style="display: none">
+        <h2 class="section-title">
+          III. La Bàn Chiến Lược: Dữ Liệu Thị Phần & Doanh Số Nội Bộ
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Nếu phân tích thị trường là "nhìn ra thế giới", thì phân tích dữ liệu
+          nội bộ là "soi lại chính mình". Các con số này là kim chỉ nam chính
+          xác nhất cho thấy đâu là sân chơi thực sự của Nguyên Kim.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            1. Bài Học Từ Con Số 0.18%: Tín Hiệu Rời Bỏ "Biển Đỏ"
+          </h3>
+          <p>
+            Thị phần bán lẻ VGA ước tính ~0.18% không phải là một con số để
+            buồn, mà là một
+            <strong style="color: var(--header-color)">dữ liệu quý giá</strong>.
+            Nó nói lên rằng:
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Nỗ lực không hiệu quả:</strong> Mọi nỗ lực marketing hay
+              cạnh tranh về giá trong mảng bán lẻ linh kiện đều sẽ như "muối bỏ
+              bể" khi đối đầu với các "ông lớn" chuyên biệt như GearVN, Phong
+              Vũ, An Phát.
+            </li>
+            <li>
+              <strong>Sân chơi sai lầm:</strong> Nguyên Kim đang vô tình bước
+              vào một sân chơi không thuộc về mình, nơi luật chơi là "giá rẻ
+              nhất" và "khuyến mãi sốc" - những điều đi ngược lại giá trị cốt
+              lõi về uy tín và dịch vụ của công ty.
+            </li>
+          </ul>
+
+          <style>
+            .pivot-diagram {
+              display: flex;
+              align-items: stretch;
+              justify-content: center;
+              gap: 20px;
+              margin: 40px 0;
+              flex-wrap: wrap;
+              text-align: center;
+            }
+            .pivot-box {
+              border: 2px dashed;
+              padding: 25px;
+              border-radius: 8px;
+              width: 320px;
+              display: flex;
+              flex-direction: column;
+            }
+            .pivot-box h4 {
+              font-size: 1.3em;
+              margin: 0 0 10px 0;
+            }
+            .pivot-box ul {
+              list-style: none;
+              padding: 0;
+              margin-top: auto;
+            }
+            .pivot-box li {
+              padding: 0;
+              font-size: 0.9em;
+            }
+            .pivot-box.red-zone {
+              border-color: var(--weakness-color);
+            }
+            .pivot-box.red-zone h4 {
+              color: var(--weakness-color);
+            }
+            .pivot-box.green-zone {
+              border-color: var(--strength-color);
+            }
+            .pivot-box.green-zone h4 {
+              color: var(--strength-color);
+            }
+            .pivot-arrow {
+              font-size: 4em;
+              color: var(--accent-color);
+              font-weight: bold;
+              align-self: center;
+            }
+          </style>
+
+          <div class="pivot-diagram">
+            <div class="pivot-box red-zone">
+              <h4>VÙNG NGUY HIỂM (RED OCEAN)</h4>
+              <p>Cạnh tranh bán lẻ linh kiện.</p>
+              <ul style="color: var(--weakness-color)">
+                <li>Thị phần ~0.18%</li>
+                <li>Biên lợi nhuận mỏng</li>
+                <li>Đối thủ quá mạnh</li>
+              </ul>
+            </div>
+            <div class="pivot-arrow">→</div>
+            <div class="pivot-box green-zone">
+              <h4>VÙNG CƠ HỘI (BLUE OCEAN)</h4>
+              <p>Cung cấp giải pháp trọn gói.</p>
+              <ul style="color: var(--strength-color)">
+                <li>Thị trường AI còn mới</li>
+                <li>Nhu cầu B2B lớn</li>
+                <li>Thế mạnh uy tín & dịch vụ</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            2. "DNA Kinh Doanh" Thể Hiện Qua Doanh Số
+          </h3>
+          <p>
+            Nếu thị phần cho thấy bức tranh bên ngoài, thì dữ liệu bán hàng nội
+            bộ sẽ tiết lộ "DNA" thật sự của Nguyên Kim.
+          </p>
+          <div class="chart-container" style="height: 500px; max-width: 1000px">
+            <canvas id="salesDataChart"></canvas>
+          </div>
+          <h4 style="margin-top: 30px">
+            Ba Tín Hiệu Vàng Từ Dữ Liệu Bán Hàng:
+          </h4>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Tín hiệu 1 - Lõi B2B/Dự án:</strong> Các mã phổ thông như
+              <strong>RTX 3050 6GB</strong> (125 chiếc) và card văn phòng như
+              <strong>ASUS GT 730</strong> (65 chiếc) có doanh số rất cao. Đây
+              là dấu hiệu của các đơn hàng số lượng lớn cho dự án, trường học,
+              doanh nghiệp, không phải từ người dùng cá nhân.
+            </li>
+            <li>
+              <strong>Tín hiệu 2 - Sức mạnh của ngách chuyên nghiệp:</strong>
+              Mã card chuyên dụng cho máy trạm, <strong>Leadtek T400</strong>,
+              có doanh số đứng top 3 (75 chiếc),
+              <strong style="color: var(--pro-color)"
+                >vượt xa tất cả các dòng card gaming cao cấp</strong
+              >. Điều này khẳng định tệp khách hàng chuyên nghiệp đang tìm đến
+              Nguyên Kim như một địa chỉ cung cấp uy tín.
+            </li>
+            <li>
+              <strong>Tín hiệu 3 - Bán lẻ cao cấp chỉ là "đuôi dài":</strong>
+              Các mã gaming hiện đại như RTX 4070 Ti SUPER, 4080 SUPER... chỉ
+              bán được với số lượng cực kỳ nhỏ (1-3 chiếc). Đây là mô hình điển
+              hình của các đơn hàng B2B theo yêu cầu đặc biệt, hoặc tích hợp
+              trong một giải pháp tổng thể, chứ không phải mô hình bán lẻ thông
+              thường.
+            </li>
+          </ul>
+          <div
+            class="card"
+            style="margin-top: 30px; background-color: var(--highlight-bg)"
+          >
+            <p
+              style="
+                font-size: 1.1em;
+                font-weight: 600;
+                text-align: center;
+                color: var(--header-color);
+              "
+            >
+              Kết luận: Dữ liệu nội bộ không hề mâu thuẫn với dữ liệu thị
+              trường. Cả hai đều cùng chỉ về một hướng: Sức mạnh thực sự của
+              Nguyên Kim nằm ở các giải pháp B2B và chuyên nghiệp, không phải
+              bán lẻ.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- SECTION 4: So sánh các card -->
+      <!-- ============================================= -->
+      <!-- SECTION IV: SO SÁNH CARD ĐỒ HỌA (CHI TIẾT)    -->
+      <!-- ============================================= -->
+      <!-- ============================================= -->
+      <!-- SECTION IV: SO SÁNH CARD ĐỒ HỌA (CHI TIẾT)    -->
+      <!-- ============================================= -->
+      <!-- ============================================= -->
+      <!-- SECTION IV: SO SÁNH CARD ĐỒ HỌA (CHI TIẾT)    -->
+      <!-- ============================================= -->
+      <section
+        id="sec-so-sanh-card"
+        class="content-section"
+        style="display: none"
+      >
+        <h2 class="section-title">
+          IV. Cẩm Nang Phần Cứng: Xây Dựng Giải Pháp GPU Tối Ưu
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Sau khi hiểu thị trường, đây là bước chuyển hóa kiến thức thành hành
+          động. Mục này sẽ là công cụ then chốt giúp đội ngũ kinh doanh tư vấn
+          chính xác và xây dựng các gói giải pháp tối ưu cho từng tệp khách
+          hàng.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            1. Bảng Tra Cứu & Phân Hạng Toàn Diện
+          </h3>
+          <p>
+            Sử dụng thanh tìm kiếm dưới đây để nhanh chóng tra cứu thông tin và
+            đánh giá sơ bộ bất kỳ GPU nào.
+          </p>
+          <input
+            type="text"
+            id="gpuSearchInput"
+            onkeyup="filterGpuTable()"
+            placeholder="Ví dụ: 5070, 4090, 7800 XT, 3060, A770, Pro, Legacy..."
+          />
+          <div class="table-container">
+            <table id="gpuTable" class="custom-table">
+              <thead>
+                <tr>
+                  <th>GPU Model</th>
+                  <th>Hãng</th>
+                  <th>Hạng</th>
+                  <th>Phân Khúc/Mục Tiêu</th>
+                  <th>VRAM</th>
+                  <th>Ghi chú chiến lược</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Data rows will be generated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            2. Cẩm Nang Lựa Chọn GPU Theo Mục Tiêu Sử Dụng
+          </h3>
+          <p>
+            Mỗi khách hàng có một câu chuyện và một nhu cầu riêng. Một chiếc
+            card hoàn hảo cho người này có thể là một lựa chọn lãng phí cho
+            người khác. Dưới đây là các đề xuất giải pháp cho từng tệp khách
+            hàng cụ thể mà Nguyên Kim có thể xây dựng.
+          </p>
+
+          <style>
+            .guide-card {
+              margin-top: 30px;
+              border-radius: 12px;
+              border: 1px solid var(--border-color);
+              overflow: hidden;
+            }
+            .guide-header {
+              padding: 20px 25px;
+              background-color: var(--header-color);
+              color: white;
+              display: flex;
+              align-items: center;
+            }
+            .guide-header .icon {
+              font-size: 2.5em;
+              margin-right: 20px;
+              line-height: 1;
+            }
+            .guide-header-text h4 {
+              font-size: 1.6em;
+              margin: 0;
+              color: white;
+            }
+            .guide-header-text p {
+              font-size: 1em;
+              margin: 5px 0 0 0;
+              opacity: 0.8;
+            }
+            .guide-content {
+              padding: 25px;
+            }
+            .guide-content .segment {
+              margin-bottom: 25px;
+              padding-bottom: 20px;
+              border-bottom: 1px dashed var(--border-color);
+            }
+            .guide-content .segment:last-child {
+              border-bottom: none;
+              margin-bottom: 0;
+              padding-bottom: 0;
+            }
+            .guide-content h5 {
+              font-size: 1.3em;
+              margin-top: 0;
+              color: var(--accent-color);
+            }
+            .guide-content ul {
+              list-style: none;
+              padding-left: 0;
+            }
+            .guide-content li {
+              position: relative;
+              padding-left: 25px;
+              margin-bottom: 10px;
+            }
+            .guide-content li::before {
+              content: "▸";
+              position: absolute;
+              left: 0;
+              color: var(--accent-color);
+              font-weight: bold;
+            }
+            .sub-list {
+              padding-left: 20px !important;
+              margin-top: 5px;
+            }
+            .sub-list li {
+              font-size: 0.95em;
+            }
+            .sub-list li::before {
+              content: "•";
+              top: -2px;
+            }
+          </style>
+
+          <!-- ======================= GAMING SOLUTIONS ======================= -->
+          <div class="guide-card">
+            <div class="guide-header">
+              <span class="icon">🎮</span>
+              <div class="guide-header-text">
+                <h4>Giải Pháp Cho GAMING</h4>
+                <p>
+                  Tối ưu hóa hiệu năng và trải nghiệm cho mọi phân khúc game
+                  thủ.
+                </p>
+              </div>
+            </div>
+            <div class="guide-content">
+              <div class="segment">
+                <h5>a. Phân khúc 1080p E-sports & Tiết Kiệm</h5>
+                <ul>
+                  <li>
+                    <strong>Mục tiêu:</strong> FPS cao, phản xạ nhanh trong game
+                    cạnh tranh (Valorant, CS2, LOL) với chi phí thấp nhất.
+                  </li>
+                  <li>
+                    <strong>Các lựa chọn P/P hàng đầu:</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text">AMD RX 6600</span>: Vua P/P
+                        thực sự, hiệu năng thô tuyệt vời.
+                      </li>
+                      <li>
+                        <span class="highlight-text">Intel Arc A750</span>: Giá
+                        siêu cạnh tranh sau khi giảm, P/P tốt.
+                      </li>
+                      <li>
+                        <span class="highlight-text"
+                          >NVIDIA GTX 1660 Super (Cũ)</span
+                        >: Huyền thoại về P/P, cực kỳ ổn định.
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Cân nhắc thêm:</strong> RTX 3050 (khi giá tốt), RX
+                    7600 (cho hiệu năng cao hơn một chút).
+                  </li>
+                </ul>
+              </div>
+              <div class="segment">
+                <h5>b. Phân khúc 1080p Max Settings & Tầm Trung</h5>
+                <ul>
+                  <li>
+                    <strong>Mục tiêu:</strong> "Chơi mọi game" ở 1080p thiết lập
+                    cao, hiệu quả năng lượng tốt.
+                  </li>
+                  <li>
+                    <strong>Lựa chọn công nghệ & hiệu quả:</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text">NVIDIA RTX 4060</span>:
+                        Siêu tiết kiệm điện, DLSS 3 là "vũ khí" cực mạnh.
+                      </li>
+                      <li>
+                        <span class="highlight-text">NVIDIA RTX 3060 12GB</span
+                        >: VRAM lớn, P/P tốt ở thị trường hàng mới/cũ.
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Lựa chọn P/P (hiệu năng thô):</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text"
+                          >AMD RX 7600 XT / RX 6700 XT (Cũ)</span
+                        >: Hiệu năng/giá tốt hơn, VRAM lớn (12GB trên 6700XT).
+                      </li>
+                      <li>
+                        <span class="highlight-text">Intel Arc A770 16GB</span>:
+                        Lựa chọn độc đáo với VRAM khổng lồ.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div class="segment">
+                <h5>c. Phân khúc 1440p High-End (Điểm Vàng)</h5>
+                <ul>
+                  <li>
+                    <strong>Mục tiêu:</strong> Trải nghiệm gaming 1440p
+                    "max-out" mượt mà, cân bằng hoàn hảo giữa hiệu năng và chi
+                    phí.
+                  </li>
+                  <li>
+                    <strong>Lựa chọn Vua P/P:</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text">AMD RX 7800 XT</span>: Hiệu
+                        năng thô vượt trội, 16GB VRAM, mức giá vô địch.
+                      </li>
+                      <li>
+                        <span class="highlight-text">NVIDIA RTX 3080 (Cũ)</span
+                        >: Hiệu năng vẫn cực kỳ mạnh mẽ, giá đồ cũ rất hấp dẫn.
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Lựa chọn Vua Công Nghệ:</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text">NVIDIA RTX 4070 SUPER</span
+                        >: Cân bằng hoàn hảo giữa giá, hiệu năng RT và DLSS.
+                      </li>
+                      <li>
+                        <span class="highlight-text"
+                          >NVIDIA RTX 4070 Ti SUPER</span
+                        >: Lựa chọn gần như hoàn hảo với 16GB VRAM, mạnh mẽ cho
+                        cả 1440p và entry 4K.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div class="segment">
+                <h5>d. Phân khúc 4K Đỉnh Cao (Không Giới Hạn)</h5>
+                <ul>
+                  <li>
+                    <strong>Mục tiêu:</strong> Dành cho khách hàng không lăn tăn
+                    về giá, chỉ cần cỗ máy mạnh nhất.
+                  </li>
+                  <li>
+                    <strong>Nhà Vua Tuyệt Đối:</strong>
+                    <span class="highlight-text"
+                      >NVIDIA RTX 5090 (Dự kiến) / RTX 4090</span
+                    >. Nền tảng của các bộ PC Flagship.
+                  </li>
+                  <li>
+                    <strong>Lựa chọn Flagship P/P:</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text"
+                          >NVIDIA RTX 5080 (Dự kiến) / RTX 4080 SUPER</span
+                        >: Cung cấp hiệu năng flagship với giá hợp lý hơn.
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Lựa chọn thay thế mạnh mẽ:</strong>
+                    <span class="highlight-text">AMD RX 7900 XTX</span>. Hiệu
+                    năng 4K rasterization tuyệt vời, giá cạnh tranh.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- =================== WORKSTATION/CREATOR SOLUTIONS =================== -->
+          <div class="guide-card">
+            <div
+              class="guide-header"
+              style="background-color: var(--pro-color)"
+            >
+              <span class="icon">🎨</span>
+              <div class="guide-header-text">
+                <h4>Giải Pháp Cho Sáng Tạo & Workstation</h4>
+                <p>
+                  Tối ưu hóa cho sự ổn định, tốc độ render và các phần mềm
+                  chuyên dụng.
+                </p>
+              </div>
+            </div>
+            <div class="guide-content">
+              <div class="segment">
+                <h5>a. Entry-Level Creator</h5>
+                <ul>
+                  <li>
+                    <strong>Tệp khách hàng:</strong> Freelancer, sinh viên ngành
+                    thiết kế, media.
+                  </li>
+                  <li>
+                    <strong>Lựa chọn theo VRAM:</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text">Intel Arc A770 16GB</span>:
+                        VRAM lớn nhất trong tầm giá.
+                      </li>
+                      <li>
+                        <span class="highlight-text">NVIDIA RTX 3060 12GB</span
+                        >: VRAM lớn và hệ sinh thái CUDA.
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Lựa chọn theo Công nghệ Mới:</strong>
+                    <span class="highlight-text"
+                      >NVIDIA RTX 4060 / 4060 Ti</span
+                    >
+                    (mã hóa AV1 nhanh hơn, hiệu quả hơn).
+                  </li>
+                </ul>
+              </div>
+              <div class="segment">
+                <h5>b. Semi-Pro Workstation / Gaming & Work</h5>
+                <ul>
+                  <li>
+                    <strong>Tệp khách hàng:</strong> Các studio thiết kế nhỏ,
+                    kiến trúc sư, người làm việc và giải trí trên cùng một máy.
+                  </li>
+                  <li>
+                    <strong>Lựa chọn "2 trong 1":</strong>
+                    <ul class="sub-list">
+                      <li>
+                        <span class="highlight-text"
+                          >NVIDIA RTX 4070 SUPER / Ti SUPER (12/16GB)</span
+                        >: Hiệu năng gaming xuất sắc, đồng thời có nhân CUDA
+                        mạnh mẽ và VRAM đủ lớn cho nhiều công việc.
+                      </li>
+                      <li>
+                        <span class="highlight-text">AMD RX 7800 XT (16GB)</span
+                        >: Rất mạnh cho các tác vụ edit video (như Davinci
+                        Resolve) và có VRAM lớn.
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <strong>Lựa chọn Chuyên Dụng (Ổn định là số 1):</strong>
+                    <span class="highlight-text"
+                      >NVIDIA RTX 2000/4000 SFF Ada</span
+                    >. Có driver chứng nhận ISV, đảm bảo ổn định tuyệt đối,
+                    không treo văng.
+                  </li>
+                </ul>
+              </div>
+              <div class="segment">
+                <h5>c. Professional High-End Workstation</h5>
+                <ul>
+                  <li>
+                    <strong>Tệp khách hàng:</strong> Các công ty làm phim,
+                    render farm, trung tâm R&D.
+                  </li>
+                  <li>
+                    <strong>Giải pháp một GPU:</strong>
+                    <span class="highlight-text"
+                      >NVIDIA RTX 6000 Ada (48GB) / RTX 5000 Ada (32GB)</span
+                    >. VRAM khổng lồ, hiệu năng đỉnh cao, driver ổn định.
+                  </li>
+                  <li>
+                    <strong>Giải pháp đa GPU:</strong> Các hệ thống sử dụng 2-4
+                    card <span class="highlight-text">RTX 4090</span> hoặc
+                    <span class="highlight-text">RTX 6000 Ada</span>, kết nối
+                    qua NVLink (trên card Ada) để gộp VRAM và sức mạnh.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================= -->
+      <!-- SECTION V: THIẾT BỊ NGOẠI VI (CHI TIẾT)         -->
+      <!-- ============================================= -->
+      <section id="sec-ngoai-vi" class="content-section" style="display: none">
+        <h2 class="section-title">
+          V. Mở Rộng Hệ Sinh Thái: Thị Trường Thiết Bị Ngoại Vi
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Thiết bị ngoại vi không còn là "phụ kiện" mà đã trở thành một phần cốt
+          lõi của trải nghiệm máy tính. Đây là mảnh đất màu mỡ để gia tăng giá
+          trị đơn hàng, xây dựng lòng trung thành và hoàn thiện "giải pháp" mà
+          Nguyên Kim hướng tới.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            1. Cuộc Chiến 3 Tầng: Phân Cấp Hệ Sinh Thái Thương Hiệu
+          </h3>
+          <p>
+            Thị trường thiết bị ngoại vi gaming tại Việt Nam cực kỳ sôi động với
+            sự phân tầng rõ rệt, phản ánh các phân khúc người tiêu dùng ngày
+            càng tinh vi và đa dạng.
+          </p>
+
+          <style>
+            .tier-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+              gap: 25px;
+              margin-top: 20px;
+            }
+            .tier-card {
+              padding: 25px;
+              border: 1px solid var(--border-color);
+              border-radius: 8px;
+            }
+            .tier-card .tier-title {
+              display: flex;
+              align-items: center;
+              font-size: 1.5em;
+              margin: 0 0 10px 0;
+              font-weight: 700;
+            }
+            .tier-card .tier-title span {
+              font-size: 1.8em;
+              margin-right: 15px;
+            }
+            .tier-card p.tier-desc {
+              font-style: italic;
+              color: #555;
+            }
+          </style>
+
+          <div class="tier-grid">
+            <div class="tier-card" style="border-left: 5px solid #f1c40f">
+              <h4 class="tier-title" style="color: #f1c40f">
+                <span>👑</span>Tầng 1: Người Dẫn Dắt
+              </h4>
+              <p class="tier-desc">
+                Các thương hiệu toàn cầu, thống trị bằng sức mạnh marketing, R&D
+                và uy tín đã được khẳng định.
+              </p>
+              <ul>
+                <li>
+                  <strong>Logitech:</strong> Vua về độ tin cậy và sự đa dạng.
+                </li>
+                <li>
+                  <strong>Razer:</strong> Biểu tượng của game thủ, thiết kế đặc
+                  trưng.
+                </li>
+                <li>
+                  <strong>HyperX:</strong> Ông vua P/P ở phân khúc tai nghe.
+                </li>
+                <li>
+                  <strong>Corsair & SteelSeries:</strong> Chất lượng build cao
+                  cấp.
+                </li>
+              </ul>
+            </div>
+            <div
+              class="tier-card"
+              style="border-left: 5px solid var(--accent-color)"
+            >
+              <h4 class="tier-title" style="color: var(--accent-color)">
+                <span>⚔️</span>Tầng 2: Người Thách Thức
+              </h4>
+              <p class="tier-desc">
+                Các hãng linh kiện mở rộng hoặc các thương hiệu chuyên biệt, tấn
+                công vào các thị trường ngách.
+              </p>
+              <ul>
+                <li>
+                  <strong>MSI & ASUS:</strong> Lợi thế từ hệ sinh thái đồng bộ.
+                </li>
+                <li>
+                  <strong>Zowie (của BenQ):</strong> Ưu tiên tuyệt đối hiệu năng
+                  thi đấu FPS.
+                </li>
+                <li>
+                  <strong>Akko, Leopold, Filco:</strong> Chuyên gia bàn phím cơ
+                  custom.
+                </li>
+              </ul>
+            </div>
+            <div
+              class="tier-card"
+              style="border-left: 5px solid var(--strength-color)"
+            >
+              <h4 class="tier-title" style="color: var(--strength-color)">
+                <span>🚀</span>Tầng 3: Nhà Vô Địch TMĐT
+              </h4>
+              <p class="tier-desc">
+                Chiến thắng trên các sàn TMĐT bằng chiến lược giá siêu cạnh
+                tranh.
+              </p>
+              <ul>
+                <li>
+                  <strong>Dareu, Fuhlen, AULA:</strong> Nhiều tính năng, giá dễ
+                  tiếp cận.
+                </li>
+                <li>
+                  <strong>Ziyou Lang, SIDOTECH:</strong> Marketing mạnh trên
+                  TikTok Shop.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            2. Giải Mã Tâm Lý Gamer Việt: 5 Yếu Tố Quyết Định
+          </h3>
+          <p>
+            Quyết định mua hàng của game thủ Việt là sự cân bằng của nhiều yếu
+            tố, trong đó Hiệu năng trên Giá thành luôn là vua.
+          </p>
+          <div
+            class="chart-container"
+            style="max-width: 600px; height: 400px; margin-bottom: 30px"
+          >
+            <canvas id="purchasingFactorsChart"></canvas>
+          </div>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Hiệu năng/Giá (P/P):</strong>
+              <span class="highlight-text">Yếu tố quan trọng nhất.</span> Gamer
+              Việt sẽ so sánh rất kỹ để đảm bảo họ nhận được giá trị tối đa.
+            </li>
+            <li>
+              <strong>Uy tín Thương hiệu & Bảo hành:</strong> Danh tiếng của
+              thương hiệu và chính sách bảo hành của NPP tại Việt Nam là yếu tố
+              quyết định sự an tâm.
+            </li>
+            <li>
+              <strong>Thẩm mỹ & Cá nhân hóa:</strong> Trào lưu "khoe góc gaming"
+              ngày càng phát triển, đề cao tính thẩm mỹ đồng bộ.
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">3. Hàm Ý Chiến Lược Cho Nguyên Kim</h3>
+          <p>
+            Thiết bị ngoại vi là một mảnh ghép không thể thiếu để hoàn thiện
+            chiến lược "cung cấp giải pháp" và tối đa hóa lợi nhuận.
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Hoàn thiện giải pháp "NK Gaming":</strong> Một khách hàng
+              chi 30-50 triệu cho PC là khách hàng tiềm năng cho bộ gear 5-10
+              triệu. Bán combo PC + Gear giúp
+              <span class="highlight-text"
+                >gia tăng giá trị trung bình đơn hàng (AOV)</span
+              >
+              và cung cấp một "trải nghiệm trọn gói".
+            </li>
+            <li>
+              <strong>Gia tăng giá trị cho gói B2B:</strong> Đề xuất các gói
+              combo kèm bàn phím/chuột công thái học (vd: Logitech MX Master),
+              giúp bảo vệ sức khỏe nhân viên của khách hàng.
+            </li>
+            <li>
+              <strong
+                >Xây dựng danh mục sản phẩm (portfolio) thông minh:</strong
+              >
+              Tập trung tuyển chọn một portfolio theo chiến lược "Good - Better
+              - Best" thay vì dàn trải:
+              <ul>
+                <li style="list-style-type: square; margin-left: 20px">
+                  <strong>Good:</strong> Một lựa chọn P/P tốt từ Tầng 3 (vd:
+                  Dareu).
+                </li>
+                <li style="list-style-type: square; margin-left: 20px">
+                  <strong>Better:</strong> Sản phẩm từ Tầng 2 (vd: MSI, ASUS) để
+                  đồng bộ.
+                </li>
+                <li style="list-style-type: square; margin-left: 20px">
+                  <strong>Best:</strong> Sản phẩm cao cấp, đáng tin cậy từ Tầng
+                  1 (vd: Logitech, Corsair).
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 6: Phân phối -->
+      <section
+        id="sec-phan-phoi"
+        class="content-section"
+        style="display: block"
+      >
+        <h2 class="section-title">
+          VI. Phân Tích Sâu Kênh Phân Phối & Hệ Sinh Thái AIB
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Kênh phân phối là "mạch máu" của thị trường phần cứng. Hiểu rõ cấu
+          trúc quyền lực, động lực cạnh tranh và vai trò của các "tay chơi" lớn
+          là chìa khóa để xây dựng một chiến lược kinh doanh và mua hàng hiệu
+          quả.
+        </p>
+
+        <!-- The Distribution Model -->
+        <div class="card">
+          <h3 class="subsection-title">
+            1. Mô Hình Chuỗi Cung Ứng & Phân Phối Tại Việt Nam
+          </h3>
+          <p>
+            Để đến tay người dùng cuối, một chiếc card đồ họa phải đi qua một
+            chuỗi giá trị nhiều tầng. Vị thế của mỗi thực thể trong chuỗi này
+            quyết định quyền lực đàm phán, giá cả và khả năng tiếp cận sản phẩm.
+          </p>
+
+          <style>
+            .flow-diagram {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 15px;
+              margin: 40px 0;
+              flex-wrap: wrap;
+              text-align: center;
+            }
+            .flow-box {
+              border: 1px solid var(--border-color);
+              padding: 15px;
+              border-radius: 8px;
+              width: 180px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+            .flow-box h4 {
+              margin: 0 0 5px 0;
+              font-size: 1.1em;
+              color: var(--header-color);
+            }
+            .flow-box p {
+              font-size: 0.9em;
+              margin: 0;
+              color: #555;
+            }
+            .flow-arrow {
+              font-size: 2em;
+              color: var(--accent-color);
+              font-weight: bold;
+            }
+          </style>
+
+          <div class="flow-diagram">
+            <div class="flow-box">
+              <h4>Tầng 1: Hãng Chip</h4>
+              <p>NVIDIA, AMD</p>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+              <h4>Tầng 2: Hãng AIB</h4>
+              <p>ASUS, MSI, Gigabyte...</p>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div
+              class="flow-box"
+              style="border-color: var(--accent-color); border-width: 2px"
+            >
+              <h4>Tầng 3: NPP Việt Nam</h4>
+              <p>Vĩnh Xuân, Mai Hoàng...</p>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+              <h4>Tầng 4: Đại Lý & Bán Lẻ</h4>
+              <p>GearVN, Nguyên Kim</p>
+            </div>
+          </div>
+
+          <ul class="checkmark-list">
+            <li>
+              <strong>Nhà thiết kế Chip (GPU Designer):</strong> NVIDIA và AMD
+              không trực tiếp sản xuất card bán lẻ. Họ thiết kế chip GPU và bán
+              cho các đối tác.
+            </li>
+            <li>
+              <strong>Đối tác AIB (Add-in Board Partners):</strong> Các công ty
+              như ASUS, Gigabyte, MSI... mua chip, sau đó tự thiết kế bo mạch,
+              hệ thống tản nhiệt, phần mềm để tạo ra phiên bản card đồ họa
+              thương mại hoàn chỉnh.
+            </li>
+            <li>
+              <strong>Nhà Phân Phối (NPP) tại Việt Nam:</strong> Đây là các
+              "người gác cổng" thị trường. Họ nhập khẩu số lượng lớn sản phẩm từ
+              các hãng AIB và phân phối lại cho các đại lý bán lẻ trên toàn
+              quốc.
+            </li>
+            <li>
+              <strong>Đại lý bán lẻ (Retailers/Dealers):</strong> Các cửa hàng
+              (như Phong Vũ, An Phát) và các đơn vị tích hợp hệ thống (như
+              Nguyên Kim) mua hàng từ NPP để bán cho người dùng cuối.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Competitive Dynamics -->
+        <div class="card">
+          <h3 class="subsection-title">
+            2. Động Lực Cạnh Tranh & Quyền Lực Thị Trường
+          </h3>
+          <h4>
+            2.1. Cấu trúc độc quyền nhóm (Oligopoly) & Quyền lực "Người Gác
+            Cổng"
+          </h4>
+          <p>
+            Thị trường phân phối sỉ tại Việt Nam không phải là một sân chơi mở.
+            Nó được kiểm soát bởi một số ít NPP lớn, tạo ra những rào cản gia
+            nhập ngành rất cao:
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Yêu cầu vốn khổng lồ:</strong> Để nhập khẩu hàng container
+              và duy trì tồn kho, cần có tiềm lực tài chính cực mạnh.
+            </li>
+            <li>
+              <strong>Quan hệ chiến lược với hãng AIB:</strong> Các mối quan hệ
+              này được xây dựng qua nhiều năm, không dễ để một đơn vị mới chen
+              chân vào và có được nguồn hàng tốt.
+            </li>
+            <li>
+              <strong>Hệ thống Logistics & Bảo hành:</strong> Xây dựng mạng lưới
+              kho bãi và trung tâm bảo hành trên toàn quốc là một khoản đầu tư
+              khổng lồ, là "con hào cạnh tranh" mà các NPP lớn đã thiết lập.
+            </li>
+          </ul>
+          <p>
+            <span class="highlight-text">Hệ quả:</span> Các đại lý bán lẻ gần
+            như không có lựa chọn nào khác ngoài việc làm việc với các NPP này,
+            củng cố thêm quyền lực cho họ.
+          </p>
+
+          <h4>
+            2.2. Dịch Vụ Hậu Mãi & Bảo Hành - "Con Hào Cạnh Tranh" Sống Còn
+          </h4>
+          <p>
+            Với các linh kiện đắt tiền như VGA, yếu tố quyết định lòng trung
+            thành của đại lý và người dùng không chỉ là giá, mà là
+            <span class="highlight-text">chất lượng dịch vụ hậu mãi</span>. Một
+            NPP có thể đánh bại đối thủ cạnh tranh không phải bằng chiết khấu
+            cao hơn, mà bằng một chính sách bảo hành uy tín và nhanh chóng.
+          </p>
+          <p>
+            Cộng đồng người dùng (trên các diễn đàn như
+            <a
+              href="https://voz.vn"
+              target="_blank"
+              style="color: var(--accent-color)"
+              >voz.vn</a
+            >,
+            <a
+              href="https://tinhte.vn"
+              target="_blank"
+              style="color: var(--accent-color)"
+              >tinhte.vn</a
+            >) thường xuyên đánh giá, so sánh và truyền tai nhau về trải nghiệm
+            bảo hành của từng NPP (Vĩnh Xuân, Mai Hoàng, Viễn Sơn...). Uy tín
+            bảo hành của một NPP có thể nâng tầm hoặc hạ bệ giá trị của một
+            thương hiệu AIB tại thị trường Việt Nam.
+          </p>
+        </div>
+
+        <!-- Deep Dive into Distributors -->
+        <div class="card">
+          <h3 class="subsection-title">
+            3. Chân Dung Các Nhà Phân Phối (NPP) Hàng Đầu
+          </h3>
+
+          <style>
+            .dist-profile-grid {
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+              gap: 25px;
+            }
+            .dist-profile-card {
+              border: 1px solid var(--border-color);
+              border-radius: 8px;
+              padding: 25px;
+            }
+            .dist-profile-card .dist-title {
+              font-size: 1.5em;
+              font-weight: 700;
+              color: var(--header-color);
+              margin-top: 0;
+            }
+            .dist-profile-card .dist-tagline {
+              font-style: italic;
+              color: #555;
+              margin-bottom: 15px;
+            }
+          </style>
+
+          <div class="dist-profile-grid">
+            <div class="dist-profile-card">
+              <h4 class="dist-title">Digiworld (DGW)</h4>
+              <p class="dist-tagline">
+                "Gã Khổng Lồ Tài Chính & Chuyên Gia Mở Rộng Thị Trường"
+              </p>
+              <ul>
+                <li>
+                  <strong>Thương hiệu VGA chủ lực:</strong> MSI, Gigabyte, nhiều
+                  thương hiệu khác.
+                </li>
+                <li>
+                  <strong>Phân tích sâu:</strong>
+                  <ul style="padding-left: 20px; list-style-type: circle">
+                    <li>
+                      Là công ty niêm yết trên sàn chứng khoán, có
+                      <span class="highlight-text"
+                        >sức mạnh tài chính và khả năng quản trị vượt trội</span
+                      >.
+                    </li>
+                    <li>
+                      Mô hình "Market Expansion Services" (MES) là thế mạnh cốt
+                      lõi: không chỉ phân phối, DGW cung cấp dịch vụ toàn diện
+                      từ phân tích thị trường, marketing, bán hàng, đến hậu mãi.
+                    </li>
+                    <li>
+                      Mạng lưới đa kênh cực rộng, phủ từ ICT, điện máy đến các
+                      cửa hàng nhỏ.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="dist-profile-card">
+              <h4 class="dist-title">Vĩnh Xuân (SPC)</h4>
+              <p class="dist-tagline">
+                "Người Giữ Lửa Lâu Đời & Bậc Thầy Hợp Tác Độc Quyền"
+              </p>
+              <ul>
+                <li>
+                  <strong>Thương hiệu VGA chủ lực:</strong> ASUS, MSI, AMD,
+                  <span style="font-weight: bold">PNY (độc quyền)</span>,
+                  INNO3D.
+                </li>
+                <li>
+                  <strong>Phân tích sâu:</strong>
+                  <ul style="padding-left: 20px; list-style-type: circle">
+                    <li>
+                      Có
+                      <span class="highlight-text">uy tín gần 30 năm</span>
+                      trong ngành, là một trong những "cây đại thụ" thật sự.
+                    </li>
+                    <li>
+                      Chiến lược tập trung vào "chiều sâu", xây dựng quan hệ đối
+                      tác độc quyền chiến lược cực kỳ bền chặt (ví dụ: PNY,
+                      Corsair).
+                    </li>
+                    <li>
+                      Hệ thống đại lý và trung tâm bảo hành 3 miền được xem là
+                      một trong những hệ thống uy tín và hiệu quả nhất.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="dist-profile-card">
+              <h4 class="dist-title">Mai Hoàng</h4>
+              <p class="dist-tagline">
+                "Chiến Binh Gaming & Bậc Thầy Phủ Sóng Mạng Lưới"
+              </p>
+              <ul>
+                <li>
+                  <strong>Thương hiệu VGA chủ lực:</strong> Colorful, Gainward,
+                  Sapphire, MSI, ASRock.
+                </li>
+                <li>
+                  <strong>Phân tích sâu:</strong>
+                  <ul style="padding-left: 20px; list-style-type: circle">
+                    <li>
+                      Sở hữu một trong những
+                      <span class="highlight-text"
+                        >mạng lưới đại lý lớn nhất Việt Nam (>1000)</span
+                      >, với khả năng "phủ sóng" đến cả các cửa hàng nhỏ.
+                    </li>
+                    <li>
+                      Tập trung mạnh mẽ và am hiểu sâu sắc thị trường Gaming
+                      Gear, tạo ra sức mạnh cộng hưởng.
+                    </li>
+                    <li>
+                      Danh mục sản phẩm cực kỳ rộng, đặc biệt là các thương hiệu
+                      có P/P tốt, đáp ứng đa dạng nhu cầu của thị trường.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="dist-profile-card">
+              <h4 class="dist-title">Viễn Sơn</h4>
+              <p class="dist-tagline">
+                "Nhà Tiên Phong Về Dịch Vụ & Đối Tác Chiến Lược Của ASUS"
+              </p>
+              <ul>
+                <li>
+                  <strong>Thương hiệu VGA chủ lực:</strong> ASUS, Gigabyte, MSI.
+                </li>
+                <li>
+                  <strong>Phân tích sâu:</strong>
+                  <ul style="padding-left: 20px; list-style-type: circle">
+                    <li>
+                      Là một "cây đại thụ" khác, có uy tín lâu năm và là một
+                      trong những đơn vị
+                      <span class="highlight-text"
+                        >tiên phong đầu tư mạnh vào dịch vụ sau bán hàng</span
+                      >.
+                    </li>
+                    <li>
+                      Mối quan hệ với ASUS rất sâu sắc, được
+                      <span class="highlight-text"
+                        >ủy quyền phân phối chính thức cả bo mạch chủ và card đồ
+                        họa</span
+                      >.
+                    </li>
+                    <li>
+                      Thường xuyên cạnh tranh sòng phẳng với Vĩnh Xuân ở mảng
+                      phân phối sản phẩm ASUS.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">4. Hàm Ý Chiến Lược Cho Nguyên Kim</h3>
+          <p>
+            Từ những phân tích trên, có thể rút ra những bài học quan trọng cho
+            chiến lược của Nguyên Kim:
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Không thể cạnh tranh bằng việc trở thành NPP:</strong> Rào
+              cản gia nhập là quá lớn. Thay vào đó, Nguyên Kim cần định vị mình
+              là một
+              <span class="highlight-text"
+                >khách hàng chiến lược, một nhà tích hợp giải pháp giá trị
+                cao</span
+              >
+              của các NPP này.
+            </li>
+            <li>
+              <strong>Tận dụng sự cạnh tranh giữa các NPP:</strong> Việc một
+              thương hiệu (như MSI) có nhiều NPP là cơ hội để Nguyên Kim so sánh
+              giá, chính sách và chọn ra đối tác tốt nhất cho từng đơn hàng hoặc
+              dự án cụ thể.
+            </li>
+            <li>
+              <strong>Xây dựng giải pháp dựa trên thế mạnh của NPP:</strong>
+              <ul
+                style="
+                  padding-left: 30px;
+                  margin-top: 15px;
+                  list-style-type: square;
+                "
+              >
+                <li>
+                  Cần xây dựng giải pháp PC gaming P/P tốt?
+                  <strong style="color: var(--header-color)">Mai Hoàng</strong>
+                  với các thương hiệu như Colorful có thể là lựa chọn tối ưu.
+                </li>
+                <li>
+                  Cần giải pháp chuyên nghiệp, đòi hỏi độ tin cậy và bảo hành
+                  hàng đầu?
+                  <strong style="color: var(--header-color)">Vĩnh Xuân</strong>
+                  và
+                  <strong style="color: var(--header-color)">Viễn Sơn</strong>
+                  với các thương hiệu như ASUS, PNY sẽ là đối tác phù hợp.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Uy tín bảo hành của NPP là uy tín của Nguyên Kim:</strong>
+              Khi bán ra một bộ PC đồng bộ, uy tín bảo hành của Nguyên Kim gắn
+              liền với uy tín của NPP cung cấp linh kiện. Việc lựa chọn NPP có
+              chính sách hậu mãi tốt là tối quan trọng để bảo vệ thương hiệu.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SECTION 7: Kết luận -->
+      <section id="sec-ket-luan" class="content-section" style="display: none">
+        <h2 class="section-title">
+          VII. Lộ Trình Chiến Lược: Từ Dữ Liệu Đến Hành Động
+        </h2>
+        <p class="section-intro" style="font-size: 1.1em; color: #555">
+          Đây là phần quan trọng nhất của báo cáo, nơi tất cả các phân tích hội
+          tụ để vẽ nên một con đường phát triển rõ ràng và bền vững cho Vi Tính
+          Nguyên Kim.
+        </p>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            1. Dữ Liệu Đã Lên Tiếng: Sự Thật Không Thể Chối Cãi
+          </h3>
+          <p>
+            Sau khi phân tích sâu từ thị trường vĩ mô đến doanh số vi mô, hai sự
+            thật cốt lõi đã được xác thực không còn nghi ngờ:
+          </p>
+          <ul class="checkmark-list">
+            <li>
+              <strong>Cuộc chơi bán lẻ đã ngã ngũ:</strong> Với thị phần chỉ
+              <span class="highlight-text">~0.18%</span> và sự thống trị của các
+              chuỗi chuyên biệt về giá, việc cố gắng cạnh tranh trong thị trường
+              bán lẻ linh kiện VGA không chỉ khó khăn mà còn là một chiến lược
+              đốt cháy nguồn lực. Dữ liệu này không phải là một thất bại, mà là
+              một
+              <strong style="color: var(--weakness-color)"
+                >tín hiệu rõ ràng để dừng lại</strong
+              >.
+            </li>
+            <li>
+              <strong>Tệp khách hàng trung thành đã lộ diện:</strong> Doanh số
+              của card chuyên dụng cho máy trạm (Workstation) như
+              <strong style="color: var(--pro-color)"
+                >Leadtek T400/T1000</strong
+              >
+              nằm trong top đầu, vượt xa nhiều dòng card gaming cao cấp. Điều
+              này là bằng chứng không thể chối cãi:
+              <span class="highlight-text"
+                >tệp khách hàng thật sự và có giá trị nhất của Nguyên Kim là
+                doanh nghiệp (B2B), các dự án, và người dùng chuyên nghiệp</span
+              >.
+            </li>
+          </ul>
+        </div>
+
+        <div
+          class="card"
+          style="
+            background: var(--highlight-bg);
+            border-left: 5px solid var(--accent-color);
+          "
+        >
+          <h3 class="subsection-title">
+            2. Cú Chuyển Mình Chiến Lược (The Strategic Pivot)
+          </h3>
+          <p style="font-size: 1.1em; font-weight: 600">
+            Từ bỏ mô hình cạnh tranh dựa trên SẢN PHẨM, chuyển dịch hoàn toàn
+            sang mô hình kinh doanh dựa trên GIẢI PHÁP.
+          </p>
+          <p>
+            Đây không chỉ là một sự thay đổi trong cách bán hàng, mà là một sự
+            thay đổi trong tư duy cốt lõi:
+          </p>
+          <ul>
+            <li>
+              <strong>Từ:</strong> "Chúng tôi bán một chiếc card đồ họa RTX
+              4070."
+            </li>
+            <li>
+              <strong>Thành:</strong> "Chúng tôi cung cấp
+              <span class="highlight-text"
+                >một giải pháp máy trạm đồ họa 3D được tối ưu hóa, ổn định và
+                bảo hành trọn gói</span
+              >, giúp các kiến trúc sư hoàn thành dự án nhanh hơn 30%."
+            </li>
+          </ul>
+          <p>
+            Bằng cách này, Nguyên Kim sẽ thoát khỏi cuộc chiến về giá và bước
+            vào một sân chơi mới, nơi
+            <strong style="color: var(--header-color)"
+              >uy tín, chuyên môn và dịch vụ</strong
+            >
+            là những yếu tố quyết định.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 class="subsection-title">
+            3. Kế Hoạch Hành Động Với 3 Trụ Cột Chiến Lược
+          </h3>
+          <p>
+            Để hiện thực hóa cú chuyển mình này, Nguyên Kim cần tập trung nguồn
+            lực vào ba trụ cột chính sau:
+          </p>
+
+          <style>
+            .pillar-card {
+              margin-top: 20px;
+              padding: 25px;
+              border: 1px solid var(--border-color);
+              border-radius: 8px;
+            }
+            .pillar-title {
+              font-size: 1.5em;
+              font-weight: 700;
+              display: flex;
+              align-items: center;
+              margin-top: 0;
+              color: var(--header-color);
+            }
+            .pillar-title .icon {
+              font-size: 1.8em;
+              margin-right: 15px;
+            }
+            .pillar-card ul {
+              list-style-type: "› ";
+              padding-left: 20px;
+            }
+            .pillar-card ul li {
+              padding-left: 10px;
+            }
+          </style>
+
+          <!-- Pillar 1: B2B -->
+          <div
+            class="pillar-card"
+            style="border-left: 5px solid var(--accent-color)"
+          >
+            <h4 class="pillar-title">
+              <span class="icon">🏰</span>Trụ Cột 1: Củng Cố "Pháo Đài" B2B
+            </h4>
+            <p>
+              Đây là mảng kinh doanh cốt lõi đã được dữ liệu chứng minh. Cần đầu
+              tư để củng cố và khai thác sâu hơn.
+            </p>
+            <ul>
+              <li>
+                <strong>Hành động:</strong> Chủ động xây dựng các gói giải pháp
+                trọn gói cho tệp khách hàng hiện hữu (trường học, văn phòng,
+                doanh nghiệp vừa và nhỏ).
+              </li>
+              <li>
+                <strong>Sản phẩm mục tiêu:</strong> Các gói PC văn phòng đồng
+                bộ, giải pháp mạng, máy trạm đồ họa cơ bản, và thiết bị phòng
+                họp.
+              </li>
+              <li>
+                <strong>Lợi thế cạnh tranh:</strong> Tận dụng vị thế đối tác
+                Vàng/Bạch Kim với HP, Dell, Lenovo để cung cấp các sản phẩm có
+                độ tin cậy và chính sách bảo hành chính hãng tốt nhất.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Pillar 2: AI -->
+          <div
+            class="pillar-card"
+            style="border-left: 5px solid var(--strength-color)"
+          >
+            <h4 class="pillar-title" style="color: var(--strength-color)">
+              <span class="icon">🚀</span>Trụ Cột 2: Chinh Phục "Đại Dương Xanh"
+              AI
+            </h4>
+            <p>
+              Đây là động cơ tăng trưởng của tương lai. Nguyên Kim phải đi trước
+              một bước để trở thành đơn vị dẫn đầu.
+            </p>
+            <ul>
+              <li>
+                <strong>Hành động:</strong> Xây dựng thương hiệu "Nguyên Kim -
+                AI Hardware Solutions". Đào tạo đội ngũ kinh doanh để có thể tư
+                vấn chuyên sâu về phần cứng cho AI.
+              </li>
+              <li>
+                <strong>Sản phẩm mục tiêu:</strong>
+                <ul>
+                  <li>
+                    <span class="highlight-text">"NK AI Dev Station"</span>: Các
+                    cấu hình máy trạm AI được xây dựng sẵn (sử dụng RTX
+                    3090/4090/RTX Ada) cho lập trình viên và nhà nghiên cứu.
+                  </li>
+                  <li>
+                    Cung cấp giải pháp máy chủ AI theo yêu cầu cho các công ty
+                    công nghệ và viện nghiên cứu.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Lợi thế cạnh tranh:</strong> Thị trường hiện đang rất
+                "khát" các đơn vị uy tín có khả năng cung cấp và tư vấn các giải
+                pháp này. Uy tín gần 2 thập kỷ của Nguyên Kim là một tài sản vô
+                giá.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Pillar 3: B2C Gaming -->
+          <div
+            class="pillar-card"
+            style="border-left: 5px solid var(--pro-color)"
+          >
+            <h4 class="pillar-title" style="color: var(--pro-color)">
+              <span class="icon">🎮</span>Trụ Cột 3: Tái Định Vị Mảng Gaming B2C
+            </h4>
+            <p>
+              Không từ bỏ hoàn toàn mảng B2C, mà thay đổi cách tiếp cận: chuyển
+              từ bán linh kiện sang bán GIÁ TRỊ.
+            </p>
+            <ul>
+              <li>
+                <strong>Hành động:</strong> Dừng các chương trình marketing tập
+                trung vào việc bán lẻ VGA giá rẻ. Thay vào đó, tập trung xây
+                dựng thương hiệu PC đồng bộ "NK Gaming".
+              </li>
+              <li>
+                <strong>Sản phẩm mục tiêu:</strong> Các bộ PC được lắp sẵn, tối
+                ưu hóa (hiệu năng, nhiệt độ, đi dây) và được bảo hành trọn gói 1
+                đổi 1.
+              </li>
+              <li>
+                <strong>Lợi thế cạnh tranh:</strong> Bán "sự an tâm và ổn định".
+                Đánh vào tâm lý của những khách hàng có ngân sách nhưng không có
+                thời gian/kiến thức để tự xây dựng và xử lý sự cố, một phân khúc
+                mà các cửa hàng giá rẻ thường bỏ qua.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          class="card"
+          style="
+            margin-top: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #e9f2ff, #f8f9fa);
+          "
+        >
+          <h3
+            class="subsection-title"
+            style="text-align: center; border: none; margin-bottom: 10px"
+          >
+            Tầm Nhìn Tương Lai
+          </h3>
+          <p
+            style="
+              font-size: 1.2em;
+              font-style: italic;
+              color: var(--header-color);
+            "
+          >
+            Bằng cách thực hiện cú chuyển mình chiến lược này, Vi Tính Nguyên
+            Kim sẽ không chỉ né tránh được cuộc cạnh tranh khốc liệt và không
+            hiệu quả, mà còn tận dụng được trọn vẹn những thế mạnh độc nhất của
+            mình để trở thành một nhà cung cấp giải pháp công nghệ dẫn đầu, đảm
+            bảo sự phát triển thịnh vượng và bền vững trong kỷ nguyên AI.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- UNIFIED JAVASCRIPT -->
+    <script>
+      // --- Interactive Navigation ---
+      function showSection(sectionId, element) {
+        document.querySelectorAll(".content-section").forEach((section) => {
+          section.style.display = "none";
+        });
+        document.getElementById(sectionId).style.display = "block";
+
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.classList.remove("active");
+        });
+        element.classList.add("active");
+
+        document.getElementById("main-content").scrollTop = 0;
+      }
+
+      // --- GPU Search Filter ---
+      function filterGpuTable() {
+        let input = document.getElementById("gpuSearchInput");
+        let filter = input.value.toUpperCase();
+        let table = document.getElementById("gpuTable");
+        let tr = table.getElementsByTagName("tr");
+        for (let i = 1; i < tr.length; i++) {
+          let tds = tr[i].getElementsByTagName("td");
+          let found = false;
+          for (let j = 0; j < tds.length; j++) {
+            if (tds[j]) {
+              let txtValue = tds[j].textContent || tds[j].innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                found = true;
+                break;
+              }
+            }
+          }
+          tr[i].style.display = found ? "" : "none";
+        }
+      }
+
+      // --- GPU Data for the comparison table ---
+      const gpuData = [
+        {
+          name: "RTX 5090 (Dự kiến)",
+          brand: "nvidia",
+          tier: "s-plus",
+          target: "4K/8K Gaming, AI/Pro",
+          vram: "32GB GDDR7",
+          note: "Vua hiệu năng tuyệt đối thế hệ mới, nền tảng cho các giải pháp Flagship đắt tiền nhất.",
+        },
+        {
+          name: "RTX 5080 (Dự kiến)",
+          brand: "nvidia",
+          tier: "s-plus",
+          target: "4K Gaming, AI/Pro",
+          vram: "20GB GDDR7",
+          note: "Lựa chọn Flagship P/P của thế hệ mới, cân bằng giá và hiệu năng đỉnh cao.",
+        },
+        {
+          name: "RTX 5070 Ti (Dự kiến)",
+          brand: "nvidia",
+          tier: "s",
+          target: "1440p/4K Gaming",
+          vram: "16GB GDDR7",
+          note: 'Kỳ vọng trở thành "điểm ngọt" mới cho gaming 1440p/4K, cạnh tranh gay gắt.',
+        },
+        {
+          name: "RTX 5070 (Dự kiến)",
+          brand: "nvidia",
+          tier: "a",
+          target: "1440p Gaming",
+          vram: "12GB GDDR7",
+          note: "Lựa chọn cân bằng, có thể sẽ rất phổ biến cho các bộ máy high-end.",
+        },
+        {
+          name: "RTX 5060 Ti (Dự kiến)",
+          brand: "nvidia",
+          tier: "b",
+          target: "1080p/1440p Gaming",
+          vram: "16GB GDDR6",
+          note: "Kỳ vọng có VRAM lớn, hấp dẫn cho người dùng làm việc và chơi game.",
+        },
+        {
+          name: "RTX 5060 (Dự kiến)",
+          brand: "nvidia",
+          tier: "b",
+          target: "1080p Gaming",
+          vram: "8GB GDDR7",
+          note: 'Kỳ vọng trở thành card "quốc dân" thế hệ mới, át chủ bài của các PC tầm trung.',
+        },
+
+        // 40 Series
+        {
+          name: "RTX 4090",
+          brand: "nvidia",
+          tier: "s-plus",
+          target: "4K Gaming, AI/Pro",
+          vram: "24GB GDDR6X",
+          note: "Vẫn là quái vật hiệu năng, mạnh cả game và làm việc, cốt lõi cho giải pháp AI tại gia.",
+        },
+        {
+          name: "RTX 4080 SUPER",
+          brand: "nvidia",
+          tier: "s",
+          target: "4K Gaming, AI/Pro",
+          vram: "16GB GDDR6X",
+          note: "Hiệu năng gần 4090 với giá tốt hơn nhiều, lựa chọn thông minh cho 4K gaming.",
+        },
+        {
+          name: "RTX 4070 Ti SUPER",
+          brand: "nvidia",
+          tier: "a",
+          target: "1440p/4K Gaming",
+          vram: "16GB GDDR6X",
+          note: '"Siêu phẩm" P/P. 16GB VRAM là điểm cộng cực lớn cho 4K và công việc sáng tạo.',
+        },
+        {
+          name: "RTX 4070 SUPER",
+          brand: "nvidia",
+          tier: "a",
+          target: "1440p Gaming",
+          vram: "12GB GDDR6X",
+          note: "Cân bằng hoàn hảo giữa giá và hiệu năng, lựa chọn P/P hàng đầu cho gaming 1440p.",
+        },
+        {
+          name: "RTX 4060 Ti (8/16GB)",
+          brand: "nvidia",
+          tier: "b",
+          target: "1080p Gaming",
+          vram: "8GB/16GB GDDR6",
+          note: "Bản 16GB VRAM lớn cho Creator nhưng GPU hơi yếu để tận dụng hết trong game.",
+        },
+        {
+          name: "RTX 4060",
+          brand: "nvidia",
+          tier: "c",
+          target: "1080p Gaming",
+          vram: "8GB GDDR6",
+          note: "Card quốc dân 1080p. Siêu tiết kiệm điện. DLSS 3 là át chủ bài.",
+        },
+
+        // 30 Series (Thị trường mới và cũ đều rất mạnh)
+        {
+          name: "RTX 3090 Ti / 3090",
+          brand: "nvidia",
+          tier: "s",
+          target: "4K Gaming, AI/Pro",
+          vram: "24GB GDDR6X",
+          note: 'Vẫn cực mạnh, VRAM 24GB là "vàng" cho AI/sáng tạo. Hàng cũ giá siêu tốt.',
+        },
+        {
+          name: "RTX 3080 Ti / 3080",
+          brand: "nvidia",
+          tier: "a",
+          target: "1440p/4K Gaming",
+          vram: "12GB/10GB GDDR6X",
+          note: "Hiệu năng 1440p/4K vẫn rất tốt, lựa chọn hàng cũ đáng giá nhất nhì.",
+        },
+        {
+          name: "RTX 3070 Ti / 3070",
+          brand: "nvidia",
+          tier: "b",
+          target: "1440p Gaming",
+          vram: "8GB GDDR6/X",
+          note: "Lựa chọn P/P tốt cho 1440p trên thị trường cũ.",
+        },
+        {
+          name: "RTX 3060 Ti",
+          brand: "nvidia",
+          tier: "b",
+          target: "1080p/1440p Gaming",
+          vram: "8GB GDDR6",
+          note: "Vua 1080p một thời, vẫn cực kỳ mạnh mẽ và được săn đón.",
+        },
+        {
+          name: "RTX 3060 12GB",
+          brand: "nvidia",
+          tier: "c",
+          target: "1080p Gaming, AI",
+          vram: "12GB GDDR6",
+          note: "12GB VRAM là lợi thế cực lớn cho người mới bắt đầu AI/Creator với chi phí thấp.",
+        },
+        {
+          name: "RTX 3060 8GB",
+          brand: "nvidia",
+          tier: "c",
+          target: "1080p Gaming",
+          vram: "8GB GDDR6",
+          note: "Yếu hơn bản 12GB, chỉ nên mua khi giá tốt hơn hẳn.",
+        },
+        {
+          name: "RTX 3050",
+          brand: "nvidia",
+          tier: "d",
+          target: "1080p E-sports",
+          vram: "8GB/6GB GDDR6",
+          note: "P/P thấp, chỉ nên xây dựng cấu hình khi có yêu cầu đặc biệt về giá.",
+        },
+
+        // 20 Series & 16 Series (Thị trường hàng cũ & Entry-level)
+        {
+          name: "RTX 2080 Ti",
+          brand: "nvidia",
+          tier: "b",
+          target: "1440p Gaming",
+          vram: "11GB GDDR6",
+          note: "Hàng cũ, hiệu năng tương đương 3070, một lựa chọn rất đáng cân nhắc.",
+        },
+        {
+          name: "RTX 2070 SUPER",
+          brand: "nvidia",
+          tier: "c",
+          target: "1080p/1440p Gaming",
+          vram: "8GB GDDR6",
+          note: "Hàng cũ, hiệu năng tốt, có Ray Tracing/DLSS đời đầu.",
+        },
+        {
+          name: "RTX 2060 SUPER / 2060",
+          brand: "nvidia",
+          tier: "c",
+          target: "1080p Gaming",
+          vram: "8GB/6GB GDDR6",
+          note: "Card RTX rẻ nhất, lựa chọn nhập môn công nghệ Ray Tracing.",
+        },
+        {
+          name: "GTX 1660 Super / Ti",
+          brand: "nvidia",
+          tier: "d",
+          target: "1080p Gaming",
+          vram: "6GB GDDR6",
+          note: "Vua P/P 1080p một thời. Không có Ray Tracing/DLSS. Cực kỳ ổn định.",
+        },
+        {
+          name: "GTX 1650 SUPER",
+          brand: "nvidia",
+          tier: "legacy",
+          target: "1080p E-sports",
+          vram: "4GB GDDR6",
+          note: 'Card "chống cháy" phổ biến, chỉ cho các game nhẹ.',
+        },
+
+        // 10 Series (Huyền thoại hàng cũ)
+        {
+          name: "GTX 1080 Ti",
+          brand: "nvidia",
+          tier: "c",
+          target: "1080p/1440p Gaming",
+          vram: "11GB GDDR5X",
+          note: "Huyền thoại. Hiệu năng vẫn còn rất tốt cho game không cần RT, giá đồ cũ hấp dẫn.",
+        },
+        {
+          name: "GTX 1060 6GB",
+          brand: "nvidia",
+          tier: "legacy",
+          target: "1080p Gaming",
+          vram: "6GB GDDR5",
+          note: 'Card "quốc dân" một thời, hiện chỉ còn giá trị cho các cấu hình siêu rẻ.',
+        },
+        {
+          name: "GT 730/1030",
+          brand: "nvidia",
+          tier: "legacy",
+          target: "Xuất hình, Văn phòng",
+          vram: "2GB",
+          note: "Chỉ dùng để xuất hình cho các CPU không có iGPU.",
+        },
+
+        // NVIDIA Workstation
+        {
+          name: "RTX 6000 Ada",
+          brand: "nvidia",
+          tier: "pro",
+          target: "Pro-Viz, Render, AI",
+          vram: "48GB ECC",
+          note: "Giải pháp GPU đơn mạnh nhất cho Workstation, giá cực cao.",
+        },
+        {
+          name: "RTX 5000 Ada",
+          brand: "nvidia",
+          tier: "pro",
+          target: "Workstation High-end",
+          vram: "32GB ECC",
+          note: "Lựa chọn cân bằng hơn cho các công việc chuyên nghiệp đòi hỏi VRAM lớn.",
+        },
+        {
+          name: "RTX 4000 Ada",
+          brand: "nvidia",
+          tier: "pro",
+          target: "Workstation Mid-range",
+          vram: "20GB ECC",
+          note: "Điểm ngọt cho nhiều Workstation, đặc biệt là bản SFF cho case nhỏ.",
+        },
+        {
+          name: "T1000/T400",
+          brand: "nvidia",
+          tier: "pro",
+          target: "CAD 2D, Xuất nhiều màn",
+          vram: "4GB-8GB",
+          note: "Card Workstation nhập môn, đảm bảo sự ổn định của driver với giá rẻ.",
+        },
+
+        // ======================================================
+        // AMD RADEON
+        // ======================================================
+
+        // 7000 Series
+        {
+          name: "RX 7900 XTX",
+          brand: "amd",
+          tier: "s",
+          target: "4K Gaming (Raster)",
+          vram: "24GB GDDR6",
+          note: "Vua hiệu năng rasterization, P/P tuyệt vời cho 4K. Đối thủ trực tiếp của 4080S.",
+        },
+        {
+          name: "RX 7900 XT",
+          brand: "amd",
+          tier: "s",
+          target: "4K Gaming (Raster)",
+          vram: "20GB GDDR6",
+          note: "Hiệu năng 4K tốt, thường có giá rất cạnh tranh.",
+        },
+        {
+          name: "RX 7800 XT",
+          brand: "amd",
+          tier: "a",
+          target: "1440p Gaming (Raster)",
+          vram: "16GB GDDR6",
+          note: "Vua P/P tuyệt đối của phân khúc 1440p. Bán rất chạy.",
+        },
+        {
+          name: "RX 7700 XT",
+          brand: "amd",
+          tier: "b",
+          target: "1080p/1440p Gaming",
+          vram: "12GB GDDR6",
+          note: "Lựa chọn P/P tốt, cạnh tranh trực tiếp với 4060Ti, có lợi thế VRAM.",
+        },
+        {
+          name: "RX 7600 XT",
+          brand: "amd",
+          tier: "c",
+          target: "1080p Gaming",
+          vram: "16GB GDDR6",
+          note: "Bản nâng cấp VRAM của 7600, hấp dẫn cho một số tác vụ sáng tạo.",
+        },
+        {
+          name: "RX 7600",
+          brand: "amd",
+          tier: "c",
+          target: "1080p Gaming",
+          vram: "8GB GDDR6",
+          note: "Đối thủ của RTX 4060, P/P rasterization rất tốt.",
+        },
+
+        // 6000 Series (Thị trường hàng cũ & mới giá tốt)
+        {
+          name: "RX 6950 XT / 6900 XT",
+          brand: "amd",
+          tier: "s",
+          target: "4K Gaming (Raster)",
+          vram: "16GB",
+          note: "Flagship cũ, hiệu năng vẫn rất cao, P/P tuyệt vời trên thị trường cũ.",
+        },
+        {
+          name: -"RX 6800 XT / 6800",
+          brand: "amd",
+          tier: "a",
+          target: "1440p Gaming",
+          vram: "16GB",
+          note: "Hàng cũ giá tốt, hiệu năng vẫn rất mạnh, VRAM 16GB là lợi thế lớn.",
+        },
+        {
+          name: "RX 6700 XT / 6700",
+          brand: "amd",
+          tier: "b",
+          target: "1080p/1440p Gaming",
+          vram: "12GB/10GB",
+          note: "Hàng cũ, P/P tuyệt vời cho 1440p, đặc biệt bản XT 12GB.",
+        },
+        {
+          name: "RX 6600",
+          brand: "amd",
+          tier: "d",
+          target: "1080p Gaming",
+          vram: "8GB",
+          note: "Vua P/P cho gaming 1080p ngân sách thấp, lựa chọn không thể bỏ qua.",
+        },
+        {
+          name: "RX 6500 XT / 6400",
+          brand: "amd",
+          tier: "legacy",
+          target: "E-sports (Hạn chế)",
+          vram: "4GB",
+          note: "Card gây tranh cãi, chỉ dùng bus PCIe x4, hiệu năng thấp, chỉ nên dùng khi giá quá rẻ.",
+        },
+
+        // ======================================================
+        // INTEL ARC
+        // ======================================================
+
+        {
+          name: "Arc A770 16GB",
+          brand: "intel",
+          tier: "c",
+          target: "1080p Gaming, Sáng tạo",
+          vram: "16GB GDDR6",
+          note: "P/P tốt, VRAM 16GB giá rẻ cho Creator, mã hóa AV1 vượt trội.",
+        },
+        {
+          name: "Arc A750",
+          brand: "intel",
+          tier: "d",
+          target: "1080p Gaming",
+          vram: "8GB GDDR6",
+          note: "P/P cực tốt sau khi giảm giá, cạnh tranh sòng phẳng với 1660S/RX 6600.",
+        },
+        {
+          name: "Arc A580",
+          brand: "intel",
+          tier: "d",
+          target: "1080p Gaming",
+          vram: "8GB GDDR6",
+          note: "Lựa chọn tầm trung, cân bằng giữa A750 và A380.",
+        },
+        {
+          name: "Arc A380",
+          brand: "intel",
+          tier: "legacy",
+          target: "E-sports, Media PC",
+          vram: "6GB GDDR6",
+          note: "Card nhập môn, mạnh ở khả năng mã hóa/giải mã video.",
+        },
+      ];
+
+      function populateGpuTable() {
+        const tableBody = document
+          .getElementById("gpuTable")
+          .getElementsByTagName("tbody")[0];
+        let html = "";
+        gpuData.forEach((gpu) => {
+          html += `
+                <tr class="brand-${gpu.brand}">
+                    <td>${gpu.name}</td>
+                    <td>${gpu.brand.toUpperCase()}</td>
+                    <td><span class="tier tier-${gpu.tier}">${gpu.tier
+            .toUpperCase()
+            .replace("-", "+")}</span></td>
+                    <td>${gpu.target}</td>
+                    <td>${gpu.vram}</td>
+                    <td>${gpu.note}</td>
+                </tr>
+            `;
+        });
+        tableBody.innerHTML = html;
+      }
+
+      // --- All Chart Initializations ---
+      document.addEventListener("DOMContentLoaded", function () {
+        Chart.register(ChartDataLabels);
+
+        const chartFontColor = "#374151";
+        Chart.defaults.font.family = "'Be Vietnam Pro', sans-serif";
+        Chart.defaults.color = chartFontColor;
+        Chart.defaults.plugins.legend.position = "bottom";
+        Chart.defaults.plugins.datalabels.font = { weight: "bold" };
+        Chart.defaults.plugins.datalabels.color = "#ffffff";
+
+        populateGpuTable();
+
+        const marketShareCtx = document.getElementById("marketShareChart");
+        if (marketShareCtx)
+          new Chart(marketShareCtx.getContext("2d"), {
+            type: "doughnut",
+            data: {
+              labels: ["NVIDIA", "AMD", "Intel"],
+              datasets: [
+                {
+                  data: [88, 11, 1], // Updated accurate numbers
+                  backgroundColor: ["#76b900", "#ed1c24", "#0071c5"],
+                  borderColor: "#ffffff",
+                  borderWidth: 2,
+                  offset: [15, 0, 0], // Explode the first slice (NVIDIA)
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutout: "60%",
+              plugins: {
+                datalabels: {
+                  formatter: (value) => value + "%",
+                  font: { size: 14 },
+                },
+                legend: {
+                  labels: {
+                    boxWidth: 20,
+                    font: { size: 14 },
+                  },
+                },
+              },
+            },
+          });
+
+        const nvidiaMarketCapCtx = document.getElementById(
+          "nvidiaMarketCapChart"
+        );
+        if (nvidiaMarketCapCtx)
+          new Chart(nvidiaMarketCapCtx.getContext("2d"), {
+            type: "line",
+            data: {
+              labels: ["2016", "2018", "2020", "2022", "2024", "2025"],
+              datasets: [
+                {
+                  label: "Vốn hóa (tỷ USD)",
+                  data: [57.52, 81.42, 323.36, 355.4, 3288.76, 3770.0],
+                  fill: true,
+                  backgroundColor: "rgba(0, 119, 182, 0.1)",
+                  borderColor: "var(--accent-color)",
+                  tension: 0.1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                datalabels: { display: false },
+              },
+            },
+          });
+
+        // NEW: Gaming Revenue Chart
+        const gamingRevenueCtx = document.getElementById("gamingRevenueChart");
+        if (gamingRevenueCtx)
+          new Chart(gamingRevenueCtx.getContext("2d"), {
+            type: "bar",
+            data: {
+              labels: ["Toàn Cầu 2023", "Việt Nam 2023"],
+              datasets: [
+                {
+                  label: "Doanh thu (Tỷ USD)",
+                  data: [184.0, 0.507], // Global in billions, VN in billions
+                  backgroundColor: ["var(--accent-color)", "#00b4d8"],
+                  borderRadius: 4,
+                  barPercentage: 0.6,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                datalabels: {
+                  anchor: "end",
+                  align: "end",
+                  color: chartFontColor,
+                  formatter: (value) => "$" + value.toFixed(1) + "B",
+                },
+              },
+            },
+          });
+
+        // NEW: AI Revenue Chart
+        const aiRevenueCtx = document.getElementById("aiRevenueChart");
+        if (aiRevenueCtx)
+          new Chart(aiRevenueCtx.getContext("2d"), {
+            type: "bar",
+            data: {
+              labels: ["Toàn Cầu 2030", "Việt Nam 2030"],
+              datasets: [
+                {
+                  label: "Doanh thu dự báo (Tỷ USD)",
+                  data: [826.7, 1.52], // Global in billions, VN in billions
+                  backgroundColor: ["var(--strength-color)", "#52b788"],
+                  borderRadius: 4,
+                  barPercentage: 0.6,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                datalabels: {
+                  anchor: "end",
+                  align: "end",
+                  color: chartFontColor,
+                  formatter: (value) => "$" + value.toFixed(1) + "B",
+                },
+              },
+            },
+          });
+
+        const salesDataCtx = document.getElementById("salesDataChart");
+        if (salesDataCtx)
+          new Chart(salesDataCtx.getContext("2d"), {
+            type: "bar",
+            data: {
+              labels: [
+                "RTX 3050 6GB",
+                "RTX 3060 12GB",
+                "Leadtek T400",
+                "RTX 3060 8GB",
+                "ASUS GT 730",
+              ],
+              datasets: [
+                {
+                  label: "Số lượng bán ra",
+                  data: [125, 115, 75, 65, 65],
+                  backgroundColor: [
+                    "var(--accent-color)",
+                    "var(--accent-color)",
+                    "var(--pro-color)",
+                    "var(--accent-color)",
+                    "var(--legacy-color)",
+                  ],
+                  borderRadius: 4,
+                },
+              ],
+            },
+            options: {
+              indexAxis: "y",
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: false },
+                datalabels: {
+                  color: chartFontColor,
+                  anchor: "end",
+                  align: "end",
+                },
+              },
+            },
+          });
+
+        const purchasingFactorsCtx = document.getElementById(
+          "purchasingFactorsChart"
+        );
+        if (purchasingFactorsCtx)
+          new Chart(purchasingFactorsCtx.getContext("2d"), {
+            type: "radar",
+            data: {
+              labels: [
+                "Hiệu năng",
+                "P/P (Giá/Hiệu năng)",
+                "Thẩm mỹ",
+                "Công thái học",
+                "Thương hiệu",
+              ],
+              datasets: [
+                {
+                  label: "Tầm quan trọng (Gamer Việt)",
+                  data: [9, 10, 8, 7, 8],
+                  fill: true,
+                  backgroundColor: "rgba(231, 76, 60, 0.2)",
+                  borderColor: "#e74c3c",
+                  pointBackgroundColor: "#e74c3c",
+                  pointBorderColor: "#fff",
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { r: { beginAtZero: true, max: 10 } },
+            },
+          });
+      });
+    </script>
+  </body>
+</html>

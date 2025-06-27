@@ -77,40 +77,26 @@
         
         /* Input Style */
         .input-brutalist {
-             font-family: 'Roboto Mono', monospace;
-             width: 100%;
-             padding: 1rem;
-             border: 4px solid #000000;
-             font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            width: 100%;
+            padding: 1rem;
+            border: 4px solid #000000;
+            font-weight: 700;
         }
         .input-brutalist:focus {
             outline: none;
             box-shadow: 8px 8px 0px #22C55E; /* Changed focus shadow to green */
         }
-
-        /* Popup styles */
-        .popup-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            z-index: 50;
-        }
     </style>
 </head>
 <body class="p-6 sm:p-10">
     <div class="container mx-auto">
-        <!-- Back to Index Button -->
         <div class="mb-12">
             <a href="/index.html" class="btn-brutalist brutalist-shadow">
                 &lt;-- VỀ TRANG CHỦ
             </a>
         </div>
 
-        <!-- Header Section -->
         <header class="text-center mb-16">
             <div class="header-brutalist brutalist-shadow">
                 <h1 class="text-4xl md:text-5xl font-bold">
@@ -119,81 +105,55 @@
             </div>
         </header>
 
-        <!-- Smart Search Section -->
         <div class="mb-16 max-w-2xl mx-auto">
             <input type="text" id="searchInput" onkeyup="filterCourses()" placeholder="> TÌM KIẾM KHÓA HỌC..." class="input-brutalist brutalist-shadow">
         </div>
 
-        <!-- Courses Grid -->
         <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             
-            <!-- Card 1: Data Analysis -->
-            <!-- Card 2: Meta Marketing Analytics -->
             <div class="course-card brutalist-shadow-green">
-                <div class="flex-grow">
+                <div class="flex-grow text-center">
                     <h2 class="text-2xl font-bold mb-4">Meta Marketing Analytics</h2>
                     <p class="mb-8">Chuyên sâu về phân tích dữ liệu marketing trên các nền tảng của Meta để tối ưu hóa chiến dịch.</p>
                 </div>
-                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">Bắt đầu học</button>
+                <a href="#" class="btn-brutalist brutalist-shadow w-full mt-auto">Bắt đầu học</a>
             </div>
 
-            <!-- Card 3: IBM Data Analyst -->
             <div class="course-card brutalist-shadow-green">
-                 <div class="flex-grow">
+                <div class="flex-grow text-center">
                     <h2 class="text-2xl font-bold mb-4">IBM Data Analyst Professional</h2>
                     <p class="mb-8">Trở thành chuyên gia phân tích dữ liệu với chứng chỉ từ IBM, học về Python, SQL và trực quan hóa.</p>
                 </div>
-                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">
-                    Bắt đầu học
-                </button>
+                <a href="#" class="btn-brutalist brutalist-shadow w-full mt-auto">Bắt đầu học</a>
             </div>
 
-            <!-- Card 4: Google Data Analytics -->
             <div class="course-card brutalist-shadow-green">
-                 <div class="flex-grow">
+                <div class="flex-grow text-center">
                     <h2 class="text-2xl font-bold mb-4">Google Data Analytics</h2>
                     <p class="mb-8">Học cách thu thập, làm sạch và phân tích dữ liệu với R, SQL, và Tableau qua chương trình của Google.</p>
                 </div>
-<a href="/google/bai-hoc-phan-tich-data/catalog-bai-hoc-data-google.html" class="btn-brutalist brutalist-shadow mt-auto">                    Bắt đầu học
-                </button>
+                <a href="/google/bai-hoc-phan-tich-data/catalog-bai-hoc-data-google.html" class="btn-brutalist brutalist-shadow w-full mt-auto">Bắt đầu học</a>
             </div>
 
-            <!-- Card 5: E-commerce Analytics -->
             <div class="course-card brutalist-shadow-green">
-                 <div class="flex-grow">
+                <div class="flex-grow text-center">
                     <h2 class="text-2xl font-bold mb-4">E-commerce Analytics</h2>
                     <p class="mb-8">Phân tích hành vi khách hàng, tối ưu hóa tỷ lệ chuyển đổi và tăng doanh thu cho cửa hàng trực tuyến.</p>
                 </div>
-                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">
-                    Bắt đầu học</button>
+                <a href="#" class="btn-brutalist brutalist-shadow w-full mt-auto">Bắt đầu học</a>
             </div>
 
-            <!-- Card 6: Power BI Specialist -->
             <div class="course-card brutalist-shadow-green">
-                 <div class="flex-grow">
+                <div class="flex-grow text-center">
                     <h2 class="text-2xl font-bold mb-4">Microsoft Power BI Specialist</h2>
                     <p class="mb-8">Làm chủ Power BI để xây dựng các báo cáo tương tác và dashboard thông minh cho doanh nghiệp.</p>
                 </div>
-                <button class="btn-brutalist brutalist-shadow w-full open-popup-btn">Bắt đầu học</button>
+                <a href="#" class="btn-brutalist brutalist-shadow w-full mt-auto">Bắt đầu học</a>
             </div>
         </div>
         
-        <!-- No Results Message -->
         <div id="noResults" class="hidden text-center mt-12 p-8 border-4 border-dashed border-black">
             <p class="text-xl font-bold">> KHÔNG TÌM THẤY KẾT QUẢ PHÙ HỢP.</p>
-        </div>
-    </div>
-
-    <!-- Brutalist Popup Modal -->
-    <div id="brutalistPopup" class="popup-overlay hidden">
-        <div class="course-card brutalist-shadow-green w-full max-w-md bg-white">
-            <div>
-                <h2 class="text-2xl font-bold mb-4 text-green-600">XÁC NHẬN</h2>
-                <p class="mb-8">
-                   Bạn sắp được chuyển hướng đến trang khóa học. Bạn đã sẵn sàng chưa?
-                </p>
-            </div>
-            <button id="closePopupBtn" class="btn-brutalist brutalist-shadow mt-auto w-full">ĐÓNG</button>
         </div>
     </div>
 
@@ -221,22 +181,7 @@
             noResultsMessage.classList.toggle('hidden', coursesFound);
         }
 
-        // --- Popup Logic ---
-        const popup = document.getElementById('brutalistPopup');
-        const openPopupBtns = document.querySelectorAll('.open-popup-btn');
-        const closePopupBtn = document.getElementById('closePopupBtn');
-
-        const openPopup = () => popup.classList.remove('hidden');
-        const closePopup = () => popup.classList.add('hidden');
-
-        openPopupBtns.forEach(btn => btn.addEventListener('click', openPopup));
-        closePopupBtn.addEventListener('click', closePopup);
-        popup.addEventListener('click', (event) => {
-            if (event.target === popup) closePopup();
-        });
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && !popup.classList.contains('hidden')) closePopup();
-        });
+        // --- REMOVED: Popup Logic is deleted ---
     </script>
 </body>
 </html>

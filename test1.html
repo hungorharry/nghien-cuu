@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Ghép Từ Vựng (Full Sound)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brutal-bg: #ffffff;
+        --brutal-fg: #1f2421;
+        --brutal-accent: #4ecdc4;
+        --brutal-primary: #1a535c;
+        --brutal-success: #74c69d;
+        --brutal-danger: #ff6b6b;
+        --brutal-warning: #f4a261;
+        --brutal-light-gray: #f7fff7;
+        --brutal-font: "Montserrat", sans-serif;
+        --transition-speed: 0.2s;
+      }
+      body {
+        font-family: var(--brutal-font);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: var(--brutal-light-gray);
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .game-container {
+        width: 100%;
+        max-width: 845px;
+        background: var(--brutal-bg);
+        border: 3px solid var(--brutal-fg);
+        box-shadow: 10px 10px 0px var(--brutal-fg);
+        padding: 2.5rem;
+        text-align: center;
+        position: relative;
+        transition: all var(--transition-speed) ease-in-out;
+      }
+      #game-wrapper,
+      #start-screen {
+        display: none;
+      }
+      #start-screen.active,
+      #game-wrapper.active {
+        display: block;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--brutal-font);
+        color: var(--brutal-fg);
+        font-weight: 900;
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+      h2 {
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+      }
+      p,
+      .instruction {
+        color: #555;
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+      hr {
+        border: none;
+        border-top: 3px solid var(--brutal-fg);
+        margin: 2rem 0;
+      }
+      #file-input-label {
+        display: block;
+        padding: 20px;
+        border: 3px dashed var(--brutal-fg);
+        background-color: var(--brutal-light-gray);
+        cursor: pointer;
+        margin: 1rem 0;
+        transition: background-color var(--transition-speed);
+      }
+      #file-input-label:hover {
+        background-color: #e8fef8;
+      }
+      #excel-file-name {
+        font-weight: bold;
+        color: var(--brutal-primary);
+      }
+      #data-status {
+        font-weight: bold;
+        margin-top: 1rem;
+        min-height: 20px;
+      }
+      .info-box {
+        border: 3px solid var(--brutal-fg);
+        background-color: var(--brutal-light-gray);
+        padding: 1rem;
+        text-align: left;
+        margin: 1.5rem 0 0 0;
+      }
+      .info-box p {
+        font-size: 1rem;
+      }
+      .info-box table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .info-box th,
+      .info-box td {
+        border: 2px solid var(--brutal-fg);
+        padding: 8px;
+        font-size: 0.9rem;
+      }
+      .info-box th {
+        background: var(--brutal-primary);
+        color: var(--brutal-bg);
+      }
+      .info-box td:first-child {
+        font-weight: bold;
+      }
+      #prompt-text {
+        width: 100%;
+        height: 120px;
+        font-family: monospace;
+        font-size: 0.95rem;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 2px solid var(--brutal-fg);
+        resize: vertical;
+        background-color: white;
+      }
+      .copy-button-wrapper {
+        text-align: right;
+        margin-top: 0.5rem;
+      }
+      .button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+      .game-button {
+        font-family: var(--brutal-font);
+        padding: 12px 25px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: #000000;
+        border: 3px solid var(--brutal-fg);
+        cursor: pointer;
+        transition: all 0.1s ease-in-out;
+        margin-top: 0.5rem;
+        box-shadow: 5px 5px 0px var(--brutal-fg);
+      }
+      .game-button:hover {
+        transform: translate(2px, 2px);
+        box-shadow: 3px 3px 0px var(--brutal-fg);
+      }
+      .game-button:active {
+        transform: translate(5px, 5px);
+        box-shadow: 0px 0px 0px var(--brutal-fg);
+      }
+      .game-button:disabled {
+        background-color: #aaa !important;
+        color: #777 !important;
+        box-shadow: 5px 5px 0px #555 !important;
+        cursor: not-allowed !important;
+      }
+      #action-btn {
+        background-color: #ffffff;
+      }
+      #reveal-btn {
+        background-color: #93ffbe;
+      }
+      #explain-btn {
+        background-color: var(--brutal-warning);
+        display: none;
+      }
+      #next-word-btn {
+        background-color: var(--brutal-success);
+        display: none;
+      }
+      #start-btn {
+        background-color: var(--brutal-success);
+      }
+      #use-default-btn {
+        background-color: var(--brutal-accent);
+        color: var(--brutal-fg);
+      }
+      #download-sample-btn,
+      #copy-prompt-btn {
+        background-color: var(--brutal-primary);
+      }
+      #copy-prompt-btn {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+        margin-top: 0;
+      }
+      #clear-data-btn {
+        position: absolute;
+        top: -50px;
+        left: auto;
+        right: 0px;
+        background: #ff0000;
+        color: #ffffff;
+        border: 3px solid var(--brutal-fg);
+        font-size: 0.8rem;
+        padding: 8px 12px;
+        cursor: pointer;
+        display: none;
+        box-shadow: 3px 3px 0px var(--brutal-fg);
+      }
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .popup-overlay.active {
+        display: flex;
+        animation: fadeIn 0.3s ease;
+      }
+      .popup-box {
+        font-family: var(--brutal-font);
+        background: var(--brutal-bg);
+        border: 3px solid var(--brutal-fg);
+        padding: 2rem;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 8px 8px 0px var(--brutal-fg);
+        transform: scale(0.9);
+        opacity: 0;
+        animation: popupEnter 0.4s ease-out forwards;
+      }
+      .popup-overlay.active .popup-box {
+        transform: scale(1);
+        opacity: 1;
+      }
+      .popup-box h3 {
+        font-size: 2.5rem;
+        margin: 0 0 1rem 0;
+        color: var(--brutal-primary);
+        text-transform: uppercase;
+        font-weight: 900;
+      }
+      .popup-box p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        text-align: left;
+      }
+      #explanation-content strong {
+        color: var(--brutal-primary);
+      }
+      #game-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 450px;
+      }
+      .game-main {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      #timer-container {
+        width: 100%;
+        height: 20px;
+        border: 3px solid var(--brutal-fg);
+        background-color: var(--brutal-light-gray);
+        margin-bottom: 1.5rem;
+        padding: 3px;
+        box-sizing: border-box;
+      }
+      #timer-bar {
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--brutal-success) 0%,
+          #a2e0bd 100%
+        );
+        transition: width 1s linear;
+      }
+      #scramble-hint {
+        font-size: 3rem;
+        font-weight: bold;
+        color: var(--brutal-primary);
+        margin-bottom: 2rem;
+      }
+      #drop-slots {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        min-height: 80px;
+        margin-bottom: 1.5rem;
+        padding: 10px;
+        flex-wrap: wrap;
+      }
+      .slot {
+        width: 60px;
+        height: 60px;
+        background-color: var(--brutal-light-gray);
+        border: 3px dashed var(--brutal-fg);
+        font-size: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all var(--transition-speed) ease-in-out;
+        position: relative;
+      }
+      .slot.filled {
+        background-color: #e6faf8;
+        border-style: solid;
+        border-color: var(--brutal-accent);
+        cursor: grab;
+        transform: scale(1.05);
+      }
+      .slot.dragging {
+        opacity: 0.4;
+        transform: scale(0.9);
+      }
+      #letter-pool {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        min-height: 60px;
+        margin-top: 1.5rem;
+      }
+      .letter {
+        width: 55px;
+        height: 55px;
+        background-color: var(--brutal-primary);
+        color: var(--brutal-bg);
+        border: 3px solid var(--brutal-fg);
+        cursor: pointer;
+        user-select: none;
+        transition: all var(--transition-speed);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 26px;
+      }
+      .letter:hover {
+        background-color: var(--brutal-accent);
+        color: var(--brutal-fg);
+        transform: translateY(-3px);
+      }
+      .letter.used {
+        visibility: hidden;
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      #feedback {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        min-height: 25px;
+        transition: color var(--transition-speed);
+      }
+      #controls {
+        margin-top: auto;
+        padding-top: 1rem;
+      }
+      
+      /* --- CSS MỚI CHO TABS --- */
+      .tabs-container {
+        margin-top: 1rem;
+      }
+      .tab-header {
+        width: 100%;
+        text-align: left;
+        background: var(--brutal-light-gray);
+        border: 3px solid var(--brutal-fg);
+        padding: 12px 15px;
+        cursor: pointer;
+        font-family: var(--brutal-font);
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: -3px; /* Để tab active nối liền với content */
+        transition: all var(--transition-speed) ease;
+        display: block;
+      }
+      .tab-header:hover {
+        background-color: #e8fef8;
+      }
+      .tab-header.active {
+        background-color: var(--brutal-bg); /* Màu nền của container */
+        border-bottom-color: var(--brutal-bg); /* "Xóa" viền dưới */
+      }
+      .tab-content {
+        display: none;
+        border: 3px solid var(--brutal-fg);
+        padding: 1.5rem;
+        text-align: left;
+      }
+      .tab-content.active {
+        display: block;
+      }
+      /* Ghi đè margin của info-box khi nằm trong tab */
+      .tab-content .info-box {
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+      }
+       /* --- KẾT THÚC CSS MỚI CHO TABS --- */
+
+      @keyframes shake {
+        10%,
+        90% {
+          transform: translate3d(-1px, 0, 0);
+        }
+        20%,
+        80% {
+          transform: translate3d(2px, 0, 0);
+        }
+        30%,
+        50%,
+        70% {
+          transform: translate3d(-4px, 0, 0);
+        }
+        40%,
+        60% {
+          transform: translate3d(4px, 0, 0);
+        }
+      }
+      .shake-effect {
+        animation: shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      }
+      @keyframes flash-correct {
+        0% {
+          background-color: var(--brutal-success);
+          transform: scale(1.1);
+        }
+        100% {
+          background-color: #e6faf8;
+          transform: scale(1.05);
+        }
+      }
+      .correct-flash {
+        animation: flash-correct 0.8s ease-out;
+      }
+      @keyframes flash-wrong {
+        0% {
+          background-color: var(--brutal-danger);
+          transform: scale(1.1);
+        }
+        100% {
+          background-color: var(--brutal-light-gray);
+          transform: scale(1);
+        }
+      }
+      .wrong-flash {
+        animation: flash-wrong 0.8s ease-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes popupEnter {
+        0% {
+          transform: scale(0.8) translateY(20px);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="start-screen" class="game-container active">
+      <h1>Game Ghép Từ Vựng</h1>
+      <p>Để bắt đầu, hãy tải lên file Excel chứa bộ từ vựng của bạn.</p>
+      <label for="file-input" id="file-input-label"
+        ><span id="excel-file-name">CHỌN FILE EXCEL (.XLSX)</span></label
+      >
+      <input type="file" id="file-input" accept=".xlsx" style="display: none" />
+      <p id="data-status"></p>
+      <div class="button-group">
+        <button id="use-default-btn" class="game-button sound-on-click">
+          Hoặc Dùng Dữ Liệu Mẫu
+        </button>
+        <button id="start-btn" class="game-button sound-on-click" disabled>
+          Bắt Đầu
+        </button>
+      </div>
+      <hr />
+      <h2>Hướng dẫn Chuẩn Bị Dữ Liệu</h2>
+
+      <!-- THAY ĐỔI: Bắt đầu cấu trúc tab/accordion -->
+      <div class="tabs-container">
+        <!-- Tab Header 1 -->
+        <button class="tab-header" data-target="excel-guide-content">
+          1. Chuẩn bị bằng File Excel
+        </button>
+        <!-- Tab Content 1 -->
+        <div id="excel-guide-content" class="tab-content">
+          <div class="info-box">
+            <p>
+              File Excel của bạn phải có các cột sau đây. Các cột `mnemonic` và
+              `example` là không bắt buộc nhưng được khuyến khích để việc học
+              hiệu quả hơn.
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>word</th>
+                  <th>meaning</th>
+                  <th>mnemonic</th>
+                  <th>example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>develop</td>
+                  <td>phát triển</td>
+                  <td>Đi vẽ lốp xe...</td>
+                  <td>A good diet helps a child to...</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="button-group" style="justify-content: flex-end">
+              <button
+                id="download-sample-btn"
+                class="game-button sound-on-click"
+              >
+                Tải File Mẫu
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Header 2 -->
+        <button class="tab-header" data-target="ai-prompt-content">
+          2. Tạo dữ liệu với AI (Dùng Prompt)
+        </button>
+        <!-- Tab Content 2 -->
+        <div id="ai-prompt-content" class="tab-content">
+          <div id="prompt-template" class="info-box">
+            <p>
+              Bạn có thể dùng prompt mẫu này để yêu cầu AI (như ChatGPT) tạo dữ
+              liệu. Hãy sửa `[Chủ đề]` và `[Số lượng]` theo ý muốn, sau đó sao
+              chép và dán vào AI.
+            </p>
+            <textarea id="prompt-text" readonly>
+Bạn là chuyên gia tạo dữ liệu học từ vựng. Hãy tạo cho tôi [Số lượng] từ vựng tiếng Anh về chủ đề [Chủ đề].
+Cung cấp kết quả dưới dạng một bảng có 4 cột sau:
+1. `word`: Từ vựng tiếng Anh, viết thường.
+2. `meaning`: Nghĩa tiếng Việt tương ứng.
+3. `mnemonic`: Một câu mẹo ghi nhớ ngắn gọn, hài hước, liên kết cách phát âm với nghĩa (ví dụ: "computer" -> "Cậu bú trà sữa mua được cái máy tính").
+4. `example`: Một câu ví dụ tiếng Anh đơn giản sử dụng từ đó.
+Tuyệt đối không thêm bất kỳ định dạng hay giải thích nào khác ngoài bảng.</textarea
+            >
+            <div class="copy-button-wrapper">
+              <button id="copy-prompt-btn" class="game-button">
+                Sao chép Prompt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- THAY ĐỔI: Kết thúc cấu trúc tab/accordion -->
+    </div>
+
+    <div id="game-wrapper" class="game-container">
+      <button
+        id="clear-data-btn"
+        class="sound-on-click"
+        title="Dùng bộ từ khác"
+      >
+        Đổi dữ liệu
+      </button>
+      <div id="game-content-wrapper">
+        <div class="game-main">
+          <div id="timer-container">
+            <div id="timer-bar"></div>
+          </div>
+          <h2>Ghép Từ</h2>
+          <div id="scramble-hint"></div>
+          <div id="drop-slots"></div>
+          <div id="letter-pool"></div>
+        </div>
+        <div id="feedback"></div>
+        <div id="controls" class="button-group">
+          <button id="action-btn" class="game-button sound-on-click">
+            Kiểm tra
+          </button>
+          <button id="reveal-btn" class="game-button sound-on-click">
+            Xem đáp án
+          </button>
+          <button id="explain-btn" class="game-button sound-on-click">
+            Giải nghĩa
+          </button>
+          <button id="next-word-btn" class="game-button sound-on-click">
+            Từ tiếp theo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="explanation-popup-overlay" class="popup-overlay">
+      <div class="popup-box">
+        <h3 id="explanation-title"></h3>
+        <div id="explanation-content" style="text-align: left"></div>
+        <button id="close-explanation-btn" class="game-button sound-on-click">
+          Đã hiểu
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const defaultWordBank = [
+        {
+          word: "develop",
+          meaning: "phát triển",
+          mnemonic:
+            'Để "phát triển", phải "đi" (de) và "vẽ" (ve) cái "lốp" (lop).',
+          example: "A good diet helps a child to develop physically.",
+        },
+        {
+          word: "computer",
+          meaning: "máy vi tính",
+          mnemonic:
+            '"Cậu" (com) "bú" (pu) "trà" (ter) sữa để mua cái máy tính.',
+          example: "I use my computer for work and gaming.",
+        },
+      ];
+      let wordBank = [];
+      let sessionWords = [];
+      const state = { currentWord: null, draggedSlot: null, timeoutId: null };
+      const TIME_LIMIT = 30; // 30 giây
+
+      const UI = {
+        startScreen: document.getElementById("start-screen"),
+        gameWrapper: document.getElementById("game-wrapper"),
+        feedback: document.getElementById("feedback"),
+        actionBtn: document.getElementById("action-btn"),
+        revealBtn: document.getElementById("reveal-btn"),
+        explainBtn: document.getElementById("explain-btn"),
+        nextWordBtn: document.getElementById("next-word-btn"),
+        fileInput: document.getElementById("file-input"),
+        excelFileName: document.getElementById("excel-file-name"),
+        dataStatus: document.getElementById("data-status"),
+        startBtn: document.getElementById("start-btn"),
+        useDefaultBtn: document.getElementById("use-default-btn"),
+        downloadSampleBtn: document.getElementById("download-sample-btn"),
+        clearDataBtn: document.getElementById("clear-data-btn"),
+        copyPromptBtn: document.getElementById("copy-prompt-btn"),
+        explanationPopup: document.getElementById("explanation-popup-overlay"),
+        explanationTitle: document.getElementById("explanation-title"),
+        explanationContent: document.getElementById("explanation-content"),
+        closeExplanationBtn: document.getElementById("close-explanation-btn"),
+        scrambleHint: document.getElementById("scramble-hint"),
+        dropSlots: document.getElementById("drop-slots"),
+        letterPool: document.getElementById("letter-pool"),
+        timerContainer: document.getElementById("timer-container"),
+        timerBar: document.getElementById("timer-bar"),
+      };
+
+      const sounds = {};
+      let isAudioReady = false;
+
+      function setupSounds() {
+        try {
+          sounds.correct = new Tone.Synth({
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 },
+          }).toDestination();
+          sounds.incorrect = new Tone.FMSynth({
+            oscillator: { type: "sine" },
+            envelope: { attack: 0.01, decay: 0.4, sustain: 0.1, release: 0.4 },
+          }).toDestination();
+          sounds.click = new Tone.MembraneSynth({
+            pitchDecay: 0.01,
+            octaves: 2,
+          }).toDestination();
+          sounds.letterClick = new Tone.PluckSynth({
+            attackNoise: 0.5,
+            dampening: 4000,
+            resonance: 0.7,
+          }).toDestination();
+        } catch (e) {
+          console.error("Could not initialize Tone.js sounds.", e);
+        }
+      }
+
+      async function startAudio() {
+        if (isAudioReady) return;
+        try {
+          await Tone.start();
+          isAudioReady = true;
+          console.log("Audio context started successfully!");
+        } catch (e) {
+          console.error("Could not start audio context", e);
+        }
+      }
+
+      function initGame() {
+        UI.startScreen.classList.add("active");
+        setupSounds();
+
+        document.body.addEventListener("click", async (event) => {
+          await startAudio();
+          if (
+            event.target.matches(".sound-on-click") &&
+            !event.target.disabled
+          ) {
+            if (sounds.click) {
+              sounds.click.triggerAttackRelease("C2", "8n");
+            }
+          }
+        });
+        
+        // --- THÊM MỚI: LOGIC ĐIỀU KHIỂN TABS ---
+        const tabHeaders = document.querySelectorAll(".tab-header");
+        tabHeaders.forEach((header) => {
+          header.addEventListener("click", () => {
+            const targetId = header.dataset.target;
+            const targetContent = document.getElementById(targetId);
+            const isAlreadyActive = header.classList.contains("active");
+            
+            // Đóng tất cả
+            document.querySelectorAll(".tab-header").forEach(h => h.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+            
+            // Nếu tab vừa click chưa active, thì mở nó ra
+            if (!isAlreadyActive) {
+                header.classList.add("active");
+                targetContent.classList.add("active");
+            }
+          });
+        });
+
+        UI.fileInput.addEventListener("change", handleFileSelect);
+        UI.useDefaultBtn.addEventListener("click", loadDefaultData);
+        UI.downloadSampleBtn.addEventListener("click", downloadSampleFile);
+        UI.copyPromptBtn.addEventListener("click", copyPrompt);
+        UI.startBtn.addEventListener("click", startGame);
+        UI.clearDataBtn.addEventListener("click", clearData);
+        UI.actionBtn.addEventListener("click", checkAnswer);
+        UI.revealBtn.addEventListener("click", revealAnswer);
+        UI.explainBtn.addEventListener("click", showExplanation);
+        UI.nextWordBtn.addEventListener("click", runNewWord);
+        UI.closeExplanationBtn.addEventListener("click", () =>
+          UI.explanationPopup.classList.remove("active")
+        );
+
+        document.addEventListener("keydown", async (e) => {
+          if (
+            e.key === "Enter" &&
+            UI.actionBtn.style.display !== "none" &&
+            !UI.actionBtn.disabled
+          ) {
+            await startAudio();
+            if (sounds.click) sounds.click.triggerAttackRelease("C2", "8n");
+            UI.actionBtn.click();
+          }
+        });
+      }
+
+      async function copyPrompt() {
+        await startAudio();
+        if (sounds.click) {
+          sounds.click.triggerAttackRelease("C2", "8n");
+        }
+
+        const promptText = document.getElementById("prompt-text");
+        navigator.clipboard.writeText(promptText.value).catch(() => {
+          promptText.select();
+          document.execCommand("copy"); // Fallback
+        });
+        const originalText = UI.copyPromptBtn.textContent;
+        UI.copyPromptBtn.textContent = "Đã chép!";
+        UI.copyPromptBtn.style.backgroundColor = "var(--brutal-success)";
+        UI.copyPromptBtn.disabled = true;
+        setTimeout(() => {
+          UI.copyPromptBtn.textContent = originalText;
+          UI.copyPromptBtn.style.backgroundColor = "var(--brutal-primary)";
+          UI.copyPromptBtn.disabled = false;
+        }, 1500);
+      }
+
+      function startGame() {
+        if (wordBank.length === 0) return;
+        sessionWords = [...wordBank].sort(() => Math.random() - 0.5);
+        UI.startScreen.classList.remove("active");
+        UI.gameWrapper.classList.add("active");
+        UI.clearDataBtn.style.display = "block";
+        runNewWord();
+      }
+
+      function processData(jsonData, source) {
+        try {
+          wordBank = jsonData
+            .map((row) => ({
+              word: row.word?.toString().trim().toLowerCase() || "",
+              meaning: row.meaning?.toString().trim() || "",
+              mnemonic: row.mnemonic?.toString().trim() || "",
+              example: row.example?.toString().trim() || "",
+            }))
+            .filter((w) => w.word && w.meaning);
+          if (wordBank.length > 0) {
+            UI.dataStatus.textContent = `Tải thành công ${wordBank.length} từ từ ${source}. Sẵn sàng!`;
+            UI.dataStatus.style.color = "var(--brutal-success)";
+            UI.startBtn.disabled = false;
+          } else {
+            throw new Error(
+              "Không có dữ liệu hợp lệ (thiếu cột 'word' hoặc 'meaning')."
+            );
+          }
+        } catch (err) {
+          console.error(err);
+          UI.dataStatus.textContent = "Lỗi! " + err.message;
+          UI.dataStatus.style.color = "var(--brutal-danger)";
+          UI.startBtn.disabled = true;
+        }
+      }
+
+      function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        UI.excelFileName.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: "array" });
+            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            const json = XLSX.utils.sheet_to_json(worksheet);
+            processData(json, "File Excel");
+          } catch (err) {
+            processData(null, "File Excel");
+          }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      function downloadSampleFile() {
+        const sampleData = [
+          {
+            word: "example",
+            meaning: "ví dụ",
+            mnemonic: 'Hãy "xem" (ex) "quả táo" (apple) này như một ví dụ.',
+            example: "Let me give you an example.",
+          },
+          {
+            word: "vocabulary",
+            meaning: "từ vựng",
+            mnemonic: 'Hãy "vô" (vo) "ca" (ca) hát để học "từ vựng".',
+            example: "Reading books is a good way to build your vocabulary.",
+          },
+        ];
+        const worksheet = XLSX.utils.json_to_sheet(sampleData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Từ Vựng");
+        XLSX.writeFile(workbook, "TuVungMau.xlsx");
+      }
+
+      function loadDefaultData() {
+        processData(defaultWordBank, "dữ liệu mẫu");
+      }
+
+      function clearData() {
+        wordBank = [];
+        sessionWords = [];
+        stopTimer();
+        UI.fileInput.value = "";
+        UI.excelFileName.textContent = "CHỌN FILE EXCEL (.XLSX)";
+        UI.dataStatus.textContent = "";
+        UI.startBtn.disabled = true;
+        UI.gameWrapper.classList.remove("active");
+        UI.startScreen.classList.add("active");
+        UI.clearDataBtn.style.display = "none";
+      }
+
+      function startTimer() {
+        stopTimer();
+        UI.timerBar.style.transition = "none";
+        UI.timerBar.style.width = "100%";
+        UI.timerContainer.style.display = "block";
+
+        setTimeout(() => {
+          UI.timerBar.style.transition = `width ${TIME_LIMIT}s linear`;
+          UI.timerBar.style.width = "0%";
+        }, 50);
+
+        state.timeoutId = setTimeout(() => {
+          if (UI.actionBtn.style.display !== "none") {
+            if (isAudioReady && sounds.incorrect)
+              sounds.incorrect.triggerAttackRelease("A2", "8n");
+            UI.feedback.textContent = "Hết giờ! Đây là đáp án.";
+            revealAnswer();
+          }
+        }, TIME_LIMIT * 1000);
+      }
+
+      function stopTimer() {
+        if (state.timeoutId) {
+          clearTimeout(state.timeoutId);
+          state.timeoutId = null;
+          UI.timerBar.style.transition = "none";
+        }
+      }
+
+      function runNewWord() {
+        if (sessionWords.length === 0) {
+          if (wordBank.length > 0) {
+            sessionWords = [...wordBank].sort(() => Math.random() - 0.5);
+          } else {
+            alert("Hết từ để chơi! Vui lòng tải bộ từ mới.");
+            clearData();
+            return;
+          }
+        }
+        state.currentWord = sessionWords.pop();
+
+        UI.feedback.textContent = "";
+        UI.actionBtn.style.display = "inline-block";
+        UI.revealBtn.style.display = "inline-block";
+        UI.explainBtn.style.display = "none";
+        UI.nextWordBtn.style.display = "none";
+        UI.actionBtn.disabled = false;
+        UI.revealBtn.disabled = false;
+
+        UI.dropSlots.innerHTML = "";
+        UI.letterPool.innerHTML = "";
+        UI.scrambleHint.textContent = `"${state.currentWord.meaning}"`;
+
+        Array.from(state.currentWord.word).forEach(() => {
+          const slot = document.createElement("div");
+          slot.className = "slot";
+          slot.addEventListener("click", () => returnLetterToPool(slot));
+          slot.addEventListener("dragstart", handleDragStart);
+          slot.addEventListener("dragover", handleDragOver);
+          slot.addEventListener("drop", handleDrop);
+          slot.addEventListener("dragend", handleDragEnd);
+          UI.dropSlots.appendChild(slot);
+        });
+
+        let letterPoolArr = state.currentWord.word
+          .split("")
+          .sort(() => Math.random() - 0.5);
+        letterPoolArr.forEach((char, index) => {
+          const letterDiv = document.createElement("div");
+          letterDiv.className = "letter";
+          letterDiv.textContent = char;
+          letterDiv.dataset.id = index;
+          letterDiv.addEventListener("click", () =>
+            selectLetterToFill(letterDiv)
+          );
+          UI.letterPool.appendChild(letterDiv);
+        });
+
+        startTimer();
+      }
+
+      function selectLetterToFill(letterDiv) {
+        if (isAudioReady && sounds.letterClick)
+          sounds.letterClick.triggerAttackRelease("C4", "8n");
+        if (letterDiv.classList.contains("used")) return;
+        const firstEmptySlot = UI.dropSlots.querySelector(".slot:not(.filled)");
+        if (firstEmptySlot) {
+          firstEmptySlot.textContent = letterDiv.textContent;
+          firstEmptySlot.classList.add("filled");
+          firstEmptySlot.dataset.originId = letterDiv.dataset.id;
+          firstEmptySlot.draggable = true;
+          letterDiv.classList.add("used");
+        }
+      }
+
+      function returnLetterToPool(slotDiv) {
+        if (isAudioReady && sounds.letterClick)
+          sounds.letterClick.triggerAttackRelease("C3", "8n");
+        if (slotDiv.classList.contains("filled")) {
+          const originLetter = UI.letterPool.querySelector(
+            `.letter[data-id='${slotDiv.dataset.originId}']`
+          );
+          if (originLetter) originLetter.classList.remove("used");
+          slotDiv.textContent = "";
+          slotDiv.classList.remove("filled");
+          slotDiv.draggable = false;
+          delete slotDiv.dataset.originId;
+        }
+      }
+
+      function handleDragStart(e) {
+        if (!e.target.classList.contains("filled")) {
+          e.preventDefault();
+          return;
+        }
+        state.draggedSlot = e.target;
+        e.dataTransfer.effectAllowed = "move";
+        setTimeout(() => e.target.classList.add("dragging"), 0);
+      }
+      function handleDragOver(e) {
+        e.preventDefault();
+      }
+      function handleDrop(e) {
+        e.preventDefault();
+        const targetSlot = e.target.closest(".slot");
+        if (
+          state.draggedSlot &&
+          state.draggedSlot !== targetSlot &&
+          targetSlot
+        ) {
+          const dId = state.draggedSlot.dataset.originId,
+            tId = targetSlot.dataset.originId,
+            dTxt = state.draggedSlot.textContent,
+            tTxt = targetSlot.textContent;
+          state.draggedSlot.textContent = tTxt;
+          targetSlot.textContent = dTxt;
+          state.draggedSlot.dataset.originId = tId;
+          targetSlot.dataset.originId = dId;
+          if (dTxt && !tTxt) {
+            state.draggedSlot.classList.remove("filled");
+            state.draggedSlot.draggable = false;
+            targetSlot.classList.add("filled");
+            targetSlot.draggable = true;
+          } else if (!dTxt && tTxt) {
+            state.draggedSlot.classList.add("filled");
+            state.draggedSlot.draggable = true;
+            targetSlot.classList.remove("filled");
+            targetSlot.draggable = false;
+          }
+        }
+      }
+      function handleDragEnd(e) {
+        e.target.classList.remove("dragging");
+        state.draggedSlot = null;
+      }
+
+      function getConstructedWord() {
+        let word = "";
+        UI.dropSlots
+          .querySelectorAll(".slot")
+          .forEach((slot) => (word += slot.textContent));
+        return word.toLowerCase();
+      }
+
+      function checkAnswer() {
+        if (getConstructedWord() === state.currentWord.word) {
+          stopTimer();
+          if (isAudioReady && sounds.correct)
+            sounds.correct.triggerAttackRelease("C5", "8n");
+          UI.feedback.textContent = "Chính xác!";
+          UI.feedback.style.color = "var(--brutal-success)";
+          UI.dropSlots.querySelectorAll(".slot").forEach((slot) => {
+            slot.classList.add("correct-flash");
+            setTimeout(() => slot.classList.remove("correct-flash"), 800);
+          });
+          showPostAnswerControls();
+        } else {
+          if (isAudioReady && sounds.incorrect)
+            sounds.incorrect.triggerAttackRelease("A2", "8n");
+          UI.feedback.textContent = "Chưa đúng, thử lại nhé!";
+          UI.feedback.style.color = "var(--brutal-danger)";
+          UI.dropSlots.classList.add("shake-effect");
+          setTimeout(() => UI.dropSlots.classList.remove("shake-effect"), 600);
+        }
+      }
+
+      function revealAnswer() {
+        stopTimer();
+        UI.dropSlots.querySelectorAll(".slot").forEach((slot, index) => {
+          slot.textContent = state.currentWord.word[index];
+          slot.classList.add("filled", "wrong-flash");
+          setTimeout(() => slot.classList.remove("wrong-flash"), 800);
+        });
+        UI.letterPool.innerHTML = "";
+        if (UI.feedback.textContent === "") {
+            UI.feedback.textContent = `Đáp án là "${state.currentWord.word}"`;
+        }
+        UI.feedback.style.color = "var(--brutal-danger)";
+        showPostAnswerControls();
+      }
+
+      function showPostAnswerControls() {
+        UI.actionBtn.style.display = "none";
+        UI.revealBtn.style.display = "none";
+        UI.explainBtn.style.display = "inline-block";
+        UI.nextWordBtn.style.display = "inline-block";
+      }
+
+      function showExplanation() {
+        const { word, meaning, mnemonic, example } = state.currentWord;
+        UI.explanationTitle.textContent = word;
+        let contentHTML = `<p><strong>Nghĩa:</strong> ${meaning}</p>`;
+        if (mnemonic) {
+          contentHTML += `<p><strong>Mẹo ghi nhớ:</strong> ${mnemonic}</p>`;
+        }
+        if (example) {
+          contentHTML += `<p><strong>Ví dụ:</strong> ${example}</p>`;
+        }
+        UI.explanationContent.innerHTML = contentHTML;
+        UI.explanationPopup.classList.add("active");
+      }
+
+      window.onload = initGame;
+    </script>
+  </body>
+</html>

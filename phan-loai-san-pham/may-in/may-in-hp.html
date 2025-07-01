@@ -1,0 +1,2332 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Phân Tích Toàn Cảnh Máy In HP & Đối Thủ Cạnh Tranh</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet">
+
+        <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #334155; }
+        .card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; border: 1px solid #e2e8f0; }
+        .card-title { font-size: 1.5rem; font-weight: 700; color: #1e3a8a; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e2e8f0; }
+        .content-section { display: none; }
+        .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .sidebar-nav-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 500; color: #475569; transition: all 0.2s ease; cursor: pointer; }
+        .sidebar-nav-link i { width: 1.25rem; text-align: center; margin-right: 0.75rem; color: #94a3b8; }
+        .sidebar-nav-link:hover { background-color: #e2e8f0; color: #0f172a; }
+        .sidebar-nav-link.active { background-color: #3b82f6; color: white; font-weight: 600; box-shadow: 0 4px 6px -1px rgb(59 130 246 / 0.2), 0 2px 4px -2px rgb(59 130 246 / 0.2); }
+        .sidebar-nav-link.active i { color: white; }
+        .content-body h3 { font-weight: 700; font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #1e3a8a; }
+        .content-body h4 { font-weight: 600; font-size: 1.1rem; margin-top: 1.25rem; margin-bottom: 0.5rem; color: #2563eb; }
+        .content-body ul { list-style-type: none; padding-left: 0; margin-bottom: 1rem; }
+        .content-body > ul > li, .content-body .top-level-li { position: relative; padding-left: 1.75rem; margin-bottom: 0.75rem; }
+        .content-body > ul > li::before, .content-body .top-level-li::before { content: '\f111'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #3b82f6; font-size: 0.5rem; position: absolute; left: 0; top: 0.45em; }
+        .content-body ul ul { margin-top: 0.5rem; padding-left: 1rem; }
+        .content-body ul ul li { position: relative; padding-left: 1.75rem; margin-bottom: 0.5rem; }
+        .content-body ul ul li::before { content: '\f10c'; font-family: 'Font Awesome 6 Free'; font-weight: 400; color: #64748b; font-size: 0.6rem; position: absolute; left: 0; top: 0.4em; }
+        .content-body p { line-height: 1.6; margin-bottom: 1rem; }
+        .strategy-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-left-width: 4px; border-radius: 0.5rem; padding: 1.25rem; transition: all 0.3s ease; margin-bottom: 1rem; }
+        .strategy-card:hover { transform: translateY(-4px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .strategy-card h4 { margin-top: 0; }
+        .warning-details { background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem; }
+        .warning-details summary { font-weight: 600; color: #b45309; cursor: pointer; }
+        .warning-details p { margin-top: 0.75rem; color: #78350f; }
+        .nk-available { color: #16a34a; font-weight: 500; }
+        .nk-not-available { color: #71717a; text-decoration: line-through; opacity: 0.8; }
+        .nk-not-available .nk-icon { color: #ef4444; text-decoration: none; }
+        .nk-icon { margin-right: 0.35rem; vertical-align: middle; }
+        .comparison-table ul { padding-left: 1.25rem; margin-bottom: 0; }
+        .comparison-table li { list-style-type: disc; margin-bottom: 0.25rem; }
+        .comparison-table li::marker { color: #94a3b8; }
+        </style>
+    </head>
+    <body class="bg-slate-100">
+
+        <div class="flex h-screen bg-gray-50">
+            <!-- Sidebar -->
+            <aside id="sidebar"
+                class="hidden md:flex flex-col w-80 bg-white border-r border-slate-200 p-4 transition-transform transform md:translate-x-0 -translate-x-full">
+                <div class="flex items-center gap-3 mb-6 px-2">
+                    <div class="bg-blue-600 p-2 rounded-lg"><i
+                            class="fas fa-print text-white text-xl"></i></div>
+                    <h1 class="text-xl font-bold text-slate-800">Phân Tích Máy
+                        In HP</h1>
+                </div>
+
+                <nav id="main-nav" class="flex-1 space-y-1">
+                    <a class="sidebar-nav-link active"
+                        data-target="section-overview"><i
+                            class="fas fa-sitemap"></i><span>1. Tổng Quan & Dòng
+                            SP</span></a>
+                    <a class="sidebar-nav-link"
+                        data-target="section-catalog"><i
+                            class="fas fa-table-list"></i><span>2. So Sánh Phân
+                            Khúc</span></a>
+                    <a class="sidebar-nav-link"
+                        data-target="section-soho"><i
+                            class="fas fa-home"></i><span>3. Văn phòng nhỏ
+                            (SOHO)</span></a>
+                    <a class="sidebar-nav-link"
+                        data-target="section-smb"><i
+                            class="fas fa-briefcase"></i><span>4. Văn phòng vừa
+                            (SMB)</span></a>
+                    <a class="sidebar-nav-link"
+                        data-target="section-enterprise"><i
+                            class="fas fa-building"></i><span>5. Doanh nghiệp
+                            lớn</span></a>
+                    <a class="sidebar-nav-link"
+                        data-target="section-pro"><i
+                            class="fas fa-drafting-compass"></i><span>6. Chuyên
+                            gia Kỹ thuật</span></a>
+                    <a class="sidebar-nav-link"
+                        data-target="section-strategy"><i
+                            class="fas fa-lightbulb"></i><span>7. Phân Tích
+                            Chiến Lược</span></a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <header
+                    class="flex justify-between items-center p-4 bg-white border-b border-slate-200 md:justify-end">
+                    <button id="mobile-menu-btn"
+                        class="text-slate-600 focus:outline-none md:hidden"><i
+                            class="fas fa-bars text-xl"></i></button>
+                    <div class="text-center">
+                        <h1 class="text-2xl font-bold text-slate-800">Phân Tích
+                            Toàn Cảnh Máy In HP</h1>
+                        <p class="text-sm text-slate-500">So sánh các phân khúc,
+                            đối thủ và chiến lược thị trường</p>
+                    </div>
+                    <div class="w-10"></div>
+                </header>
+
+                <main
+                    class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-100 p-4 sm:p-6 lg:p-8"><div
+                        class="max-w-7xl mx-auto space-y-8">
+
+                        <!-- 1. TỔNG QUAN & DÒNG SẢN PHẨM -->
+                        <section id="section-overview" class="content-section">
+                            <div class="card">
+                                <h2 class="card-title"><i
+                                        class="fas fa-sitemap"></i>1. Tổng Quan
+                                    Dòng Máy In HP & Phân Loại</h2>
+                                <div class="content-body">
+                                    <div
+                                        class="p-4 mb-6 bg-blue-50 border-l-4 border-blue-500 rounded-r-md">
+                                        <p class="text-blue-800">
+                                            Mục đích của phân tích này là cung
+                                            cấp một cái nhìn toàn cảnh về danh
+                                            mục máy in HP, vị thế của từng dòng
+                                            sản phẩm trên thị trường so với các
+                                            đối thủ cạnh tranh chính.
+                                            <strong>Đặc biệt, chúng tôi sẽ đánh
+                                                dấu các model hiện đang được
+                                                phân phối chính thức tại Nguyên
+                                                Kim</strong> để giúp khách hàng
+                                            dễ dàng đưa ra lựa chọn.
+                                        </p>
+                                    </div>
+
+                                    <div
+                                        class="mb-6 flex items-center gap-6 p-3 bg-slate-50 rounded-lg">
+                                        <h4
+                                            class="m-0 text-base font-semibold">Chú
+                                            thích:</h4>
+                                        <div class="flex items-center gap-2">
+                                            <span class="nk-available"><i
+                                                    class="fas fa-check-circle nk-icon"></i>Có
+                                                tại Nguyên Kim</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="nk-not-available"><i
+                                                    class="fas fa-times-circle nk-icon"></i>Không
+                                                có / Dòng tham khảo</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-6 mt-4">
+                                        <div
+                                            class="strategy-card border-l-sky-500">
+                                            <h4>1. Dòng HP LaserJet Pro (Mono &
+                                                Color)</h4>
+                                            <p>Dòng máy in laser phổ biến nhất,
+                                                cân bằng giữa hiệu suất, tính
+                                                năng và chi phí, phù hợp cho văn
+                                                phòng nhỏ và nhóm làm việc
+                                                (SOHO/SMB).</p>
+                                            <ul>
+                                                <li><strong>MFP (Đa chức
+                                                        năng):</strong>
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M182N</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>178NW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>179FNW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M283FDN/FDW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M236SDW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>4103FDN/FDW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>4303FDW</span>.
+                                                </li>
+                                                <li><strong>Đơn chức
+                                                        năng:</strong>
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M501DN</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M211D/DW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>4003DN/DW</span>.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="strategy-card border-l-rose-500">
+                                            <h4>2. Dòng HP Color LaserJet
+                                                Pro</h4>
+                                            <p>Tương tự LaserJet Pro nhưng
+                                                chuyên về in màu, dành cho các
+                                                văn phòng có nhu cầu in tài liệu
+                                                marketing, brochure...</p>
+                                            <ul>
+                                                <li><strong>Đơn chức
+                                                        năng:</strong>
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M454DN/DW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>150A/NW</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M155A</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M255NW/DW</span>.
+                                                    <span
+                                                        class="nk-not-available"><i
+                                                            class="fas fa-times-circle nk-icon"></i>CP1025
+                                                        (dòng cũ)</span>.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="strategy-card border-l-indigo-500">
+                                            <h4>3. Dòng HP LaserJet
+                                                Enterprise</h4>
+                                            <p>Dòng cao cấp cho doanh nghiệp vừa
+                                                và lớn, được thiết kế cho khối
+                                                lượng in lớn, hiệu suất cao, độ
+                                                bền vượt trội và bảo mật chuyên
+                                                nghiệp.</p>
+                                            <ul>
+                                                <li><strong>A3/A4 Tốc độ
+                                                        cao:</strong>
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M712DN/N</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M706N</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M610DN</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M611DN</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M612DN</span>.
+                                                    <span
+                                                        class="nk-not-available"><i
+                                                            class="fas fa-times-circle nk-icon"></i>E60155dn
+                                                        (Flow)</span>.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="strategy-card border-l-teal-500">
+                                            <h4>4. Dòng HP LaserJet Managed
+                                                MFP</h4>
+                                            <p>Dành cho các hợp đồng thuê máy in
+                                                (MPS) trong doanh nghiệp lớn,
+                                                tối ưu hóa chi phí và đi kèm
+                                                dịch vụ quản lý.</p>
+                                            <ul>
+                                                <li><strong>A3/A4
+                                                        Managed:</strong>
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M72630DN</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M440N/DN</span>,
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>M42623DN</span>.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="strategy-card border-l-amber-500">
+                                            <h4>5. Dòng HP DesignJet</h4>
+                                            <p>Máy in khổ lớn chuyên dụng cho
+                                                ngành kỹ thuật, kiến trúc, xây
+                                                dựng (AEC) và thiết kế đồ
+                                                họa.</p>
+                                            <ul>
+                                                <li><strong>Kỹ thuật
+                                                        (T-Series):</strong>
+                                                    <span
+                                                        class="nk-available"><i
+                                                            class="fas fa-check-circle nk-icon"></i>T1708</span>.
+                                                </li>
+                                                <li><strong>Đồ họa
+                                                        (Z-Series):</strong>
+                                                    <span
+                                                        class="nk-not-available"><i
+                                                            class="fas fa-times-circle nk-icon"></i>Z9+
+                                                        (tham khảo)</span>.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-8">Giải mã các hậu tố trong
+                                        tên máy in HP</h3>
+                                    <div
+                                        class="overflow-x-auto rounded-lg border">
+                                        <table class="w-full text-sm">
+                                            <thead
+                                                class="bg-slate-100 text-slate-700">
+                                                <tr>
+                                                    <th
+                                                        class="p-3 text-left">Hậu
+                                                        tố</th>
+                                                    <th class="p-3 text-left">Ý
+                                                        nghĩa</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody
+                                                class="divide-y divide-slate-200">
+                                                <tr><td
+                                                        class="p-3 font-semibold">MFP</td><td
+                                                        class="p-3">Multi-Function
+                                                        Printer - Máy đa chức
+                                                        năng (In, Scan,
+                                                        Copy).</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">D</td><td
+                                                        class="p-3">Duplex - In
+                                                        hai mặt tự
+                                                        động.</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">N</td><td
+                                                        class="p-3">Network - Có
+                                                        cổng mạng dây
+                                                        (Ethernet).</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">W</td><td
+                                                        class="p-3">Wireless -
+                                                        Có kết nối không dây
+                                                        (Wi-Fi).</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">F</td><td
+                                                        class="p-3">Fax - Tích
+                                                        hợp chức năng
+                                                        Fax.</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">S</td><td
+                                                        class="p-3">Scan -
+                                                        Thường dùng để nhấn mạnh
+                                                        chức năng quét trong một
+                                                        số dòng.</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">Pro</td><td
+                                                        class="p-3">Dòng phổ
+                                                        thông cho văn phòng nhỏ
+                                                        và vừa.</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">Enterprise</td><td
+                                                        class="p-3">Dòng cao cấp
+                                                        cho doanh nghiệp, hiệu
+                                                        suất và bảo mật
+                                                        cao.</td></tr>
+                                                <tr><td
+                                                        class="p-3 font-semibold">Managed</td><td
+                                                        class="p-3">Dòng cho các
+                                                        giải pháp thuê và quản
+                                                        lý dịch vụ in ấn
+                                                        (MPS).</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 2. SO SÁNH PHÂN KHÚC -->
+                        <!-- Dán toàn bộ section này vào vị trí của section#section-catalog cũ -->
+                        <section id="section-catalog" class="content-section">
+                            <div class="card">
+                                <h2 class="card-title"><i
+                                        class="fas fa-balance-scale"></i>2. Phân
+                                    Tích & So Sánh Chi Tiết Các Phân Khúc</h2>
+                                <div class="content-body">
+                                    <p>Để hiểu rõ vị thế của HP, chúng ta cần
+                                        phân tích sâu vào từng "chiến trường".
+                                        Mỗi phân khúc có những quy luật, đối thủ
+                                        và nhu cầu riêng. Dưới đây là phân tích
+                                        chi tiết cho từng nhóm khách hàng.</p>
+
+                                    <div class="mt-6 grid md:grid-cols-2 gap-6">
+
+                                        <!-- Card 1: Văn phòng nhỏ (SOHO) -->
+                                        <div
+                                            class="strategy-card border-l-blue-500 comparison-card">
+                                            <h3><i class="fas fa-home"></i>Văn
+                                                phòng nhỏ (SOHO)</h3>
+                                            <div>
+                                                <strong
+                                                    class="comparison-card-subtitle">Hồ
+                                                    sơ khách hàng:</strong>
+                                                <p>Cá nhân, freelancer, gia
+                                                    đình, văn phòng siêu nhỏ. Ưu
+                                                    tiên <strong>chi phí ban đầu
+                                                        thấp, nhỏ gọn, dễ cài
+                                                        đặt</strong> và in không
+                                                    dây ổn định.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Sản
+                                                    phẩm HP nổi bật:</strong>
+                                                <p>Dòng <strong>HP LaserJet
+                                                        Pro</strong> (M100/M200
+                                                    series) và <strong>HP
+                                                        Neverstop</strong> để
+                                                    cạnh tranh về chi phí dài
+                                                    hạn.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Đối
+                                                    thủ chính:</strong>
+                                                <p>Brother (giá rẻ, bền), Canon
+                                                    (chất lượng, phổ thông),
+                                                    Epson (máy in bình mực).</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Trận
+                                                    chiến cốt lõi:</strong>
+                                                <p><strong>Trải nghiệm (HP) vs.
+                                                        Chi phí & Độ tin cậy
+                                                        (Brother/Canon).</strong>
+                                                    HP đặt cược vào ứng dụng HP
+                                                    Smart để mang lại sự tiện
+                                                    lợi, trong khi đối thủ tập
+                                                    trung vào chi phí mỗi trang
+                                                    in thấp và độ bền
+                                                    "nồi đồng cối đá".</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Lợi
+                                                    thế của HP:</strong>
+                                                <p
+                                                    class="font-medium text-blue-700">Hệ
+                                                    sinh thái phần mềm thân
+                                                    thiện, giúp người dùng không
+                                                    rành công nghệ dễ dàng quản
+                                                    lý và sử dụng.</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 2: Văn phòng vừa (SMB) -->
+                                        <div
+                                            class="strategy-card border-l-sky-500 comparison-card">
+                                            <h3><i
+                                                    class="fas fa-briefcase"></i>Văn
+                                                phòng vừa (SMB)</h3>
+                                            <div>
+                                                <strong
+                                                    class="comparison-card-subtitle">Hồ
+                                                    sơ khách hàng:</strong>
+                                                <p>Công ty 10-50 nhân viên. Cần
+                                                    máy in "ngựa thồ" <strong>đa
+                                                        chức năng, tốc độ cao,
+                                                        đáng tin cậy</strong> và
+                                                    có Tổng chi phí sở hữu (TCO)
+                                                    hợp lý.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Sản
+                                                    phẩm HP nổi bật:</strong>
+                                                <p>Dòng <strong>HP LaserJet
+                                                        Pro</strong> cao cấp
+                                                    (400/4000 series) với đầy đủ
+                                                    tính năng (in, scan, copy,
+                                                    fax hai mặt).</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Đối
+                                                    thủ chính:</strong>
+                                                <p>Brother MFC Series (vô địch
+                                                    TCO), Canon imageCLASS (hiệu
+                                                    suất cao).</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Trận
+                                                    chiến cốt lõi:</strong>
+                                                <p><strong>Tính năng toàn diện
+                                                        (HP) vs. TCO thấp nhất
+                                                        (Brother).</strong> HP
+                                                    cung cấp một giải pháp
+                                                    "tất cả trong một" tiện lợi,
+                                                    trong khi Brother tập trung
+                                                    vào việc tiết kiệm chi phí
+                                                    vận hành tối đa cho doanh
+                                                    nghiệp.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Lợi
+                                                    thế của HP:</strong>
+                                                <p
+                                                    class="font-medium text-sky-700">Cung
+                                                    cấp một gói tính năng phong
+                                                    phú và giao diện người dùng
+                                                    tốt, giúp tối ưu hóa năng
+                                                    suất văn phòng.</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 3: Doanh nghiệp lớn (Enterprise) -->
+                                        <div
+                                            class="strategy-card border-l-indigo-500 comparison-card">
+                                            <h3><i
+                                                    class="fas fa-building"></i>Doanh
+                                                nghiệp lớn</h3>
+                                            <div>
+                                                <strong
+                                                    class="comparison-card-subtitle">Hồ
+                                                    sơ khách hàng:</strong>
+                                                <p>Tập đoàn, tổ chức lớn có đội
+                                                    ngũ IT chuyên nghiệp. Ưu
+                                                    tiên hàng đầu là <strong>BẢO
+                                                        MẬT, khả năng quản lý
+                                                        đội máy</strong> và các
+                                                    hợp đồng dịch vụ (MPS).</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Sản
+                                                    phẩm HP nổi bật:</strong>
+                                                <p>Dòng <strong>HP LaserJet
+                                                        Enterprise</strong> và
+                                                    <strong>LaserJet
+                                                        Managed</strong> với các
+                                                    tính năng bảo mật tích hợp
+                                                    sâu.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Đối
+                                                    thủ chính:</strong>
+                                                <p>Xerox, Ricoh, Lexmark.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Trận
+                                                    chiến cốt lõi:</strong>
+                                                <p><strong>Bảo mật từ phần cứng
+                                                        (HP) vs. Tự động hóa quy
+                                                        trình (Xerox).</strong>
+                                                    HP tập trung vào việc bảo vệ
+                                                    thiết bị như một điểm cuối
+                                                    trên mạng, trong khi Xerox
+                                                    mạnh về các ứng dụng tối ưu
+                                                    hóa quy trình làm việc tại
+                                                    máy.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Lợi
+                                                    thế của HP:</strong>
+                                                <p
+                                                    class="font-medium text-indigo-700">Hệ
+                                                    sinh thái bảo mật <strong>HP
+                                                        Wolf Security</strong>,
+                                                    được tích hợp từ BIOS, là
+                                                    một lợi thế khác biệt và
+                                                    mạnh mẽ.</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Card 4: Chuyên gia Kỹ thuật / Đồ họa -->
+                                        <div
+                                            class="strategy-card border-l-amber-500 comparison-card">
+                                            <h3><i
+                                                    class="fas fa-drafting-compass"></i>Chuyên
+                                                gia Kỹ thuật/Đồ họa</h3>
+                                            <div>
+                                                <strong
+                                                    class="comparison-card-subtitle">Hồ
+                                                    sơ khách hàng:</strong>
+                                                <p>Kiến trúc sư, kỹ sư (AEC) và
+                                                    nhà thiết kế đồ họa. AEC cần
+                                                    <strong>độ chính xác nét
+                                                        vẽ</strong>, trong khi
+                                                    đồ họa cần <strong>độ chính
+                                                        xác màu
+                                                        sắc</strong>.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Sản
+                                                    phẩm HP nổi bật:</strong>
+                                                <p>Dòng <strong>HP DesignJet
+                                                        T-Series</strong> (Kỹ
+                                                    thuật) và
+                                                    <strong>Z-Series</strong>
+                                                    (Đồ họa).</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Đối
+                                                    thủ chính:</strong>
+                                                <p>Canon imagePROGRAF, Epson
+                                                    SureColor.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Trận
+                                                    chiến cốt lõi:</strong>
+                                                <p><strong>Quy trình làm việc
+                                                        đơn giản (HP) vs. Chất
+                                                        lượng hình ảnh thô
+                                                        (Canon/Epson).</strong>
+                                                    HP tập trung vào việc đơn
+                                                    giản hóa toàn bộ quá trình
+                                                    in ấn phức tạp với phần mềm
+                                                    HP Click, trong khi đối thủ
+                                                    cạnh tranh về không gian màu
+                                                    rộng và chất lượng ảnh tối
+                                                    đa.</p>
+
+                                                <strong
+                                                    class="comparison-card-subtitle">Lợi
+                                                    thế của HP:</strong>
+                                                <p
+                                                    class="font-medium text-amber-700">Phần
+                                                    mềm tối ưu hóa quy trình làm
+                                                    việc, giúp tiết kiệm thời
+                                                    gian và giảm thiểu lỗi cho
+                                                    các chuyên gia.</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- 3. VĂN PHÒNG NHỎ (SOHO) -->
+                        <!-- Dán toàn bộ section này vào vị trí của section#section-soho cũ -->
+                        <section id="section-soho" class="content-section">
+                            <div class="card">
+                                <h2 class="card-title"><i
+                                        class="fas fa-home"></i>3. Phân Khúc
+                                    SOHO: Phân Tích Đối Đầu & Tư Vấn Chuyên
+                                    Sâu</h2>
+                                <div class="content-body">
+                                    <h3>Hồ Sơ Người Dùng & Yếu Tố Quyết
+                                        Định</h3>
+                                    <p>Khách hàng SOHO (Văn phòng nhỏ/Gia đình)
+                                        cần một thiết bị "đa-zi-năng": vừa phải
+                                        chăng, vừa đáng tin cậy, lại dễ sử dụng.
+                                        Quyết định mua hàng của họ là một cuộc
+                                        cân não giữa <strong>Chi phí đầu
+                                            tư</strong>, <strong>Chi phí vận
+                                            hành (TCO)</strong>, và <strong>Sự
+                                            tiện lợi</strong>. Dưới đây là các
+                                        màn so găng chi tiết để tìm ra nhà vô
+                                        địch cho từng nhu cầu.</p>
+
+                                    <h3 class="mt-8">Trận chiến #1: Máy In Laser
+                                        Trắng Đen Đa Năng - "Ngựa Thồ" Văn
+                                        Phòng</h3>
+                                    <div
+                                        class="strategy-card border-l-gray-600">
+                                        <h4 class="text-lg">HP MFP M236sdw <span
+                                                class="nk-available"><i
+                                                    class="fas fa-check-circle nk-icon"></i></span>
+                                            vs. Brother DCP-L2550DW vs. Canon
+                                            MF275dw</h4>
+                                        <p class="mb-4">Đây là cuộc đối đầu khốc
+                                            liệt nhất, nơi tốc độ, độ bền và chi
+                                            phí vận hành được đặt lên bàn
+                                            cân.</p>
+
+                                        <div
+                                            class="overflow-x-auto rounded-lg border">
+                                            <table
+                                                class="w-full text-sm text-left">
+                                                <thead
+                                                    class="bg-slate-100 text-slate-700">
+                                                    <tr>
+                                                        <th class="p-3">Thông
+                                                            số</th>
+                                                        <th class="p-3">HP MFP
+                                                            M236sdw</th>
+                                                        <th class="p-3">Brother
+                                                            DCP-L2550DW</th>
+                                                        <th class="p-3">Canon
+                                                            imageCLASS
+                                                            MF275dw</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="divide-y divide-slate-200">
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Tốc
+                                                            độ in</td>
+                                                        <td class="p-3">29
+                                                            trang/phút</td>
+                                                        <td
+                                                            class="p-3"><strong>34
+                                                                trang/phút</strong></td>
+                                                        <td class="p-3">29
+                                                            trang/phút</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Khay
+                                                            nạp giấy tự động
+                                                            (ADF)</td>
+                                                        <td class="p-3">40
+                                                            tờ</td>
+                                                        <td
+                                                            class="p-3"><strong>50
+                                                                tờ</strong></td>
+                                                        <td class="p-3">35
+                                                            tờ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">In
+                                                            hai mặt</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            Có (Tự động)</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            Có (Tự động)</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            Có (Tự động)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Kết
+                                                            nối Wi-Fi</td>
+                                                        <td
+                                                            class="p-3"><strong>Băng
+                                                                tần kép
+                                                                (Dual-band)</strong></td>
+                                                        <td class="p-3">Băng tần
+                                                            đơn</td>
+                                                        <td class="p-3">Băng tần
+                                                            đơn</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Triết
+                                                            lý thiết kế</td>
+                                                        <td
+                                                            class="p-3"><strong>Trải
+                                                                nghiệm người
+                                                                dùng & Tiện
+                                                                lợi</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Chi
+                                                                phí thấp & Độ
+                                                                bền</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Chất
+                                                                lượng & Hiệu
+                                                                suất</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Tại
+                                                Sao Nên Chọn HP MFP
+                                                M236sdw?</h5>
+                                            <ul
+                                                class="list-disc pl-5 mt-2 text-sm text-blue-900 space-y-1">
+                                                <li><strong>Dễ dùng nhất cho
+                                                        người không
+                                                        chuyên:</strong> Ứng
+                                                    dụng <strong>HP
+                                                        Smart</strong> là vũ khí
+                                                    tối thượng, giúp cài đặt và
+                                                    sử dụng từ điện thoại dễ
+                                                    dàng hơn mọi đối thủ. Bạn
+                                                    không cần phải là chuyên gia
+                                                    IT để làm chủ chiếc máy
+                                                    in.</li>
+                                                <li><strong>Kết nối không dây ổn
+                                                        định hơn:</strong> Wi-Fi
+                                                    Băng tần kép giúp giảm thiểu
+                                                    tình trạng "rớt mạng", một
+                                                    vấn đề gây khó chịu phổ biến
+                                                    ở các văn phòng có nhiều
+                                                    thiết bị Wi-Fi.</li>
+                                                <li><strong>Thiết kế hiện
+                                                        đại:</strong> Máy HP
+                                                    M236sdw có thiết kế gọn
+                                                    gàng, phù hợp với không gian
+                                                    văn phòng hiện đại hơn so
+                                                    với vẻ ngoài "công nghiệp"
+                                                    của Brother.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-8">Trận chiến #2: Máy In Laser
+                                        Màu Đa Năng - Sắc Màu Cho Doanh
+                                        Nghiệp</h3>
+                                    <div
+                                        class="strategy-card border-l-rose-600">
+                                        <h4 class="text-lg">HP MFP 179fnw <span
+                                                class="nk-available"><i
+                                                    class="fas fa-check-circle nk-icon"></i></span>
+                                            vs. Brother MFC-L3750CDW vs. Canon
+                                            MF654Cdw</h4>
+                                        <p class="mb-4">Khi cần in màu cho báo
+                                            giá, catalogue, cuộc chiến chuyển
+                                            sang chất lượng màu, tốc độ và chi
+                                            phí trên từng bản in màu.</p>
+                                        <div
+                                            class="overflow-x-auto rounded-lg border">
+                                            <table
+                                                class="w-full text-sm text-left">
+                                                <thead
+                                                    class="bg-slate-100 text-slate-700">
+                                                    <tr>
+                                                        <th class="p-3">Thông
+                                                            số</th>
+                                                        <th class="p-3">HP MFP
+                                                            179fnw</th>
+                                                        <th class="p-3">Brother
+                                                            MFC-L3750CDW</th>
+                                                        <th class="p-3">Canon
+                                                            imageCLASS
+                                                            MF654Cdw</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="divide-y divide-slate-200">
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Tốc
+                                                            độ (Màu)</td>
+                                                        <td class="p-3">4
+                                                            trang/phút</td>
+                                                        <td
+                                                            class="p-3"><strong>24
+                                                                trang/phút</strong></td>
+                                                        <td class="p-3">21
+                                                            trang/phút</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">In
+                                                            hai mặt</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-times text-red-600"></i>
+                                                            Không</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            <strong>Có (Tự
+                                                                động)</strong></td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            <strong>Có (Tự
+                                                                động)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Màn
+                                                            hình</td>
+                                                        <td class="p-3">LCD 2
+                                                            dòng</td>
+                                                        <td class="p-3">Cảm ứng
+                                                            màu 3.7 inch</td>
+                                                        <td
+                                                            class="p-3"><strong>Cảm
+                                                                ứng màu 5
+                                                                inch</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Điểm
+                                                            mạnh chính</td>
+                                                        <td
+                                                            class="p-3"><strong>Giá
+                                                                mua rẻ nhất,
+                                                                siêu nhỏ
+                                                                gọn.</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Tốc
+                                                                độ in màu nhanh,
+                                                                TCO
+                                                                tốt.</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Chất
+                                                                lượng màu sống
+                                                                động, nhiều tính
+                                                                năng.</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Tại
+                                                Sao Nên Chọn HP MFP 179fnw?</h5>
+                                            <ul
+                                                class="list-disc pl-5 mt-2 text-sm text-blue-900 space-y-1">
+                                                <li><strong>Vô địch về chi phí
+                                                        đầu tư:</strong> Nếu
+                                                    ngân sách là ưu tiên số 1 để
+                                                    sở hữu máy in laser màu đa
+                                                    năng, HP 179fnw gần như
+                                                    không có đối thủ về giá bán
+                                                    ban đầu.</li>
+                                                <li><strong>Lựa chọn duy nhất
+                                                        cho không gian siêu
+                                                        nhỏ:</strong> Kích thước
+                                                    cực kỳ nhỏ gọn của nó là một
+                                                    lợi thế tuyệt đối cho các
+                                                    văn phòng tại nhà hoặc quầy
+                                                    giao dịch có diện tích hạn
+                                                    chế.</li>
+                                                <li><strong>Đáp ứng nhu cầu cơ
+                                                        bản với chi phí
+                                                        thấp:</strong> Dù hy
+                                                    sinh tốc độ in màu và in hai
+                                                    mặt, nó vẫn là giải pháp
+                                                    hoàn hảo cho các doanh
+                                                    nghiệp chỉ cần in màu không
+                                                    thường xuyên nhưng muốn chất
+                                                    lượng laser sắc nét.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-8">Trận chiến #3: Thách Thức
+                                        Từ Máy In Phun Bình Mực (Ink Tank)</h3>
+                                    <div
+                                        class="strategy-card border-l-cyan-600">
+                                        <h4 class="text-lg">HP LaserJet vs.
+                                            Epson EcoTank & Canon MegaTank</h4>
+                                        <p class="mb-4">Đây không phải là cuộc
+                                            chiến về thông số, mà là về triết lý
+                                            và chi phí vận hành dài hạn, đặc
+                                            biệt là khi in màu.</p>
+                                        <ul
+                                            class="list-disc pl-5 space-y-2 text-sm">
+                                            <li><strong>Lợi thế của Ink Tank
+                                                    (Epson/Canon):</strong> Chi
+                                                phí ban đầu cao, nhưng chi phí
+                                                mỗi trang in màu <strong>CỰC KỲ
+                                                    RẺ</strong> (chỉ vài chục
+                                                đồng/trang). Một lần nạp mực có
+                                                thể in hàng ngàn trang màu. Lý
+                                                tưởng cho người in ảnh, tài liệu
+                                                màu số lượng lớn.</li>
+                                            <li><strong>Lợi thế của HP
+                                                    LaserJet:</strong>
+                                                <ul>
+                                                    <li><strong>Tốc độ và sự sắc
+                                                            nét:</strong> Tốc độ
+                                                        in văn bản nhanh hơn
+                                                        nhiều. Chữ đen trên giấy
+                                                        thường có độ sắc nét và
+                                                        chuyên nghiệp hơn.</li>
+                                                    <li><strong>Độ tin
+                                                            cậy:</strong> Không
+                                                        bao giờ lo bị khô mực
+                                                        hay tắc đầu phun, ngay
+                                                        cả khi không in trong
+                                                        thời gian dài. Đây là
+                                                        lợi thế "vàng" cho các
+                                                        văn phòng chỉ in không
+                                                        thường xuyên.</li>
+                                                    <li><strong>Chiến lược đối
+                                                            phó:</strong> HP có
+                                                        dòng <strong>HP
+                                                            Neverstop
+                                                            Laser</strong>
+                                                        (<span
+                                                            class="nk-not-available"><i
+                                                                class="fas fa-times-circle nk-icon"></i></span>)
+                                                        để cạnh tranh trực tiếp
+                                                        về TCO, nhưng các dòng
+                                                        LaserJet Pro như <span
+                                                            class="nk-available"><i
+                                                                class="fas fa-check-circle nk-icon"></i>M4003dn</span>
+                                                        vẫn là lựa chọn hàng đầu
+                                                        cho văn phòng cần tốc độ
+                                                        và sự ổn định.</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Khi
+                                                Nào Nên Chọn HP LaserJet Thay Vì
+                                                Ink Tank?</h5>
+                                            <p class="text-sm text-blue-900">Hãy
+                                                chọn máy in laser của HP khi:
+                                                <strong>(1) Nhu cầu in chính của
+                                                    bạn là văn bản đen
+                                                    trắng</strong>, <strong>(2)
+                                                    Bạn cần tốc độ in nhanh cho
+                                                    các tài liệu nhiều
+                                                    trang</strong>, và
+                                                <strong>(3) Bạn lo ngại về việc
+                                                    máy in phun bị tắc đầu phun
+                                                    nếu để lâu không sử
+                                                    dụng.</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- 4. VĂN PHÒNG VỪA (SMB) -->
+                        <!-- Dán toàn bộ section này vào vị trí của section#section-smb cũ -->
+                        <section id="section-smb" class="content-section">
+                            <div class="card">
+                                <h2 class="card-title"><i
+                                        class="fas fa-briefcase"></i>4. Phân
+                                    Khúc SMB: Cuộc Chiến Của Những
+                                    "Ngựa Thồ"</h2>
+                                <div class="content-body">
+                                    <h3>Hồ Sơ Người Dùng & Yếu Tố Quyết
+                                        Định</h3>
+                                    <p>Doanh nghiệp vừa và nhỏ (SMB) đã vượt qua
+                                        giai đoạn "in cho có". Họ cần một trung
+                                        tâm tài liệu đáng tin cậy. Các yếu tố
+                                        quyết định không chỉ là tốc độ, mà còn
+                                        là <strong>Tổng chi phí sở hữu (TCO), độ
+                                            bền, khả năng quản lý</strong> và
+                                        <strong>bảo mật cơ bản</strong>. Một
+                                        chiếc máy in ngừng hoạt động có thể làm
+                                        đình trệ cả một phòng ban.</p>
+
+                                    <h3 class="mt-8">Trận chiến #1: Máy In Laser
+                                        Trắng Đen Đa Năng Tốc Độ Cao</h3>
+                                    <div
+                                        class="strategy-card border-l-gray-600">
+                                        <h4 class="text-lg">HP Pro MFP 4103fdw
+                                            <span class="nk-available"><i
+                                                    class="fas fa-check-circle nk-icon"></i></span>
+                                            vs. Brother MFC-L5915DW vs. Canon
+                                            MF465dw vs. Lexmark MB3442adw</h4>
+                                        <p class="mb-4">Đây là "hạng cân" quan
+                                            trọng nhất, nơi các máy in phải
+                                            chứng tỏ được sức mạnh, tốc độ và
+                                            khả năng chịu tải cho một nhóm làm
+                                            việc 5-15 người.</p>
+
+                                        <div
+                                            class="overflow-x-auto rounded-lg border">
+                                            <table
+                                                class="w-full text-sm text-left">
+                                                <thead
+                                                    class="bg-slate-100 text-slate-700">
+                                                    <tr>
+                                                        <th class="p-3">Thông
+                                                            số</th>
+                                                        <th class="p-3">HP Pro
+                                                            MFP 4103fdw</th>
+                                                        <th class="p-3">Brother
+                                                            MFC-L5915DW</th>
+                                                        <th class="p-3">Canon
+                                                            imageCLASS
+                                                            MF465dw</th>
+                                                        <th class="p-3">Lexmark
+                                                            MB3442adw</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="divide-y divide-slate-200">
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Tốc
+                                                            độ in</td>
+                                                        <td class="p-3">40
+                                                            trang/phút</td>
+                                                        <td
+                                                            class="p-3"><strong>50
+                                                                trang/phút</strong></td>
+                                                        <td class="p-3">42
+                                                            trang/phút</td>
+                                                        <td class="p-3">42
+                                                            trang/phút</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Quét
+                                                            2 mặt 1 lượt
+                                                            (DADF)</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            Có</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            <strong>Có (70
+                                                                tờ)</strong></td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-check text-green-600"></i>
+                                                            Có</td>
+                                                        <td class="p-3"><i
+                                                                class="fas fa-times text-red-600"></i>
+                                                            Không (chỉ
+                                                            RADF)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Công
+                                                            suất mực (tối
+                                                            đa)</td>
+                                                        <td class="p-3">~9,700
+                                                            trang (HP 151X)</td>
+                                                        <td
+                                                            class="p-3"><strong>~18,000
+                                                                trang
+                                                                (TN-3649)</strong></td>
+                                                        <td class="p-3">~6,000
+                                                            trang (Cartridge
+                                                            070H)</td>
+                                                        <td class="p-3">~6,000
+                                                            trang</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Triết
+                                                            lý chính</td>
+                                                        <td
+                                                            class="p-3"><strong>Quản
+                                                                lý thông minh &
+                                                                Bảo
+                                                                mật</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>TCO
+                                                                thấp nhất & Độ
+                                                                bền</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Hiệu
+                                                                suất & Chất
+                                                                lượng</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Bảo
+                                                                mật & Độ bền
+                                                                Doanh
+                                                                nghiệp</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Tại
+                                                Sao Doanh Nghiệp Nên Chọn HP Pro
+                                                MFP 4103fdw?</h5>
+                                            <ul
+                                                class="list-disc pl-5 mt-2 text-sm text-blue-900 space-y-1">
+                                                <li><strong>Quản lý từ xa hiệu
+                                                        quả:</strong> Với
+                                                    <strong>HP Smart
+                                                        Admin</strong>, người
+                                                    quản lý IT có thể dễ dàng
+                                                    thiết lập, giám sát và quản
+                                                    lý toàn bộ đội máy in từ một
+                                                    giao diện web duy nhất, tiết
+                                                    kiệm thời gian và công sức
+                                                    so với việc phải cấu hình
+                                                    từng máy.</li>
+                                                <li><strong>Bảo mật chủ động
+                                                        ngay từ đầu:</strong> HP
+                                                    tích hợp sẵn <strong>HP Wolf
+                                                        Pro Security</strong>,
+                                                    cung cấp các lớp bảo mật từ
+                                                    BIOS đến mạng, giúp ngăn
+                                                    chặn các mối đe dọa trước
+                                                    khi chúng xảy ra. Các đối
+                                                    thủ như Brother hay Canon
+                                                    thường yếu hơn về mảng
+                                                    này.</li>
+                                                <li><strong>Hộp mực
+                                                        JetIntelligence thông
+                                                        minh:</strong> Không chỉ
+                                                    là mực, hộp mực HP 151X còn
+                                                    có công nghệ chống gian lận
+                                                    và tối ưu hóa hiệu suất, đảm
+                                                    bảo chất lượng in nhất quán
+                                                    từ trang đầu đến trang cuối,
+                                                    điều mà các hộp mực tương
+                                                    thích giá rẻ không thể đảm
+                                                    bảo.</li>
+                                                <li><strong>Hiệu suất cân bằng
+                                                        hoàn hảo:</strong> Dù
+                                                    không có TCO thấp nhất như
+                                                    Brother, HP 4103fdw cung cấp
+                                                    sự cân bằng tuyệt vời giữa
+                                                    tốc độ, chất lượng, tính
+                                                    năng quản lý và bảo mật,
+                                                    biến nó thành một
+                                                    "trung tâm chỉ huy" thông
+                                                    minh thay vì chỉ là một cỗ
+                                                    máy in đơn thuần.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-8">Trận chiến #2: Máy In Laser
+                                        Màu Đa Năng - Sức Mạnh Marketing & Báo
+                                        Cáo</h3>
+                                    <div
+                                        class="strategy-card border-l-rose-600">
+                                        <h4 class="text-lg">HP Color Pro MFP
+                                            4303fdw <span
+                                                class="nk-available"><i
+                                                    class="fas fa-check-circle nk-icon"></i></span>
+                                            vs. Brother MFC-L8905CDW vs. Kyocera
+                                            ECOSYS M6630cidn</h4>
+                                        <p class="mb-4">Khi cần in màu chất
+                                            lượng cao cho báo giá, hợp đồng, hay
+                                            tài liệu marketing, cuộc chiến không
+                                            chỉ về tốc độ mà còn là sự trung
+                                            thực của màu sắc và chi phí cho mỗi
+                                            bản in màu.</p>
+                                        <div
+                                            class="overflow-x-auto rounded-lg border">
+                                            <table
+                                                class="w-full text-sm text-left">
+                                                <thead
+                                                    class="bg-slate-100 text-slate-700">
+                                                    <tr>
+                                                        <th class="p-3">Thông
+                                                            số</th>
+                                                        <th class="p-3">HP Color
+                                                            Pro MFP 4303fdw</th>
+                                                        <th class="p-3">Brother
+                                                            MFC-L8905CDW</th>
+                                                        <th class="p-3">Kyocera
+                                                            ECOSYS
+                                                            M6630cidn</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="divide-y divide-slate-200">
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Tốc
+                                                            độ (Màu/Đen)</td>
+                                                        <td class="p-3">33 / 33
+                                                            trang/phút</td>
+                                                        <td class="p-3">31 / 31
+                                                            trang/phút</td>
+                                                        <td class="p-3">30 / 30
+                                                            trang/phút</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Chất
+                                                            lượng màu</td>
+                                                        <td
+                                                            class="p-3"><strong>Màu
+                                                                sắc trung thực,
+                                                                chuyên nghiệp
+                                                                (TerraJet)</strong></td>
+                                                        <td class="p-3">Màu sắc
+                                                            sống động, rực
+                                                            rỡ</td>
+                                                        <td class="p-3">Màu sắc
+                                                            cân bằng, ổn
+                                                            định</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">TCO
+                                                            & Độ bền</td>
+                                                        <td class="p-3">Tốt</td>
+                                                        <td class="p-3">Tốt, mực
+                                                            rẻ</td>
+                                                        <td
+                                                            class="p-3"><strong>Xuất
+                                                                sắc (Trống từ
+                                                                siêu
+                                                                bền)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Điểm
+                                                            mạnh chính</td>
+                                                        <td
+                                                            class="p-3"><strong>Hiệu
+                                                                suất, chất lượng
+                                                                màu & quản lý
+                                                                thông
+                                                                minh.</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Giá
+                                                                trị, nhiều tùy
+                                                                chọn mực, bảo
+                                                                mật nâng
+                                                                cao.</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Chi
+                                                                phí vận hành
+                                                                thấp nhất, linh
+                                                                kiện siêu
+                                                                bền.</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Tại
+                                                Sao Nên Chọn HP Color Pro MFP
+                                                4303fdw?</h5>
+                                            <ul
+                                                class="list-disc pl-5 mt-2 text-sm text-blue-900 space-y-1">
+                                                <li><strong>Chất lượng màu sắc
+                                                        chuyên nghiệp:</strong>
+                                                    Công nghệ mực
+                                                    <strong>TerraJet</strong>
+                                                    mới của HP được thiết kế để
+                                                    tái tạo màu sắc trung thực,
+                                                    phù hợp cho các tài liệu cần
+                                                    thể hiện đúng màu sắc thương
+                                                    hiệu, vượt trội hơn màu sắc
+                                                    có phần "rực" của
+                                                    Brother.</li>
+                                                <li><strong>Tốc độ và hiệu suất
+                                                        hàng đầu:</strong> Với
+                                                    tốc độ 33 trang/phút cho cả
+                                                    màu và đen trắng, HP 4303fdw
+                                                    là một trong những máy nhanh
+                                                    nhất trong phân khúc, giúp
+                                                    giải quyết công việc nhanh
+                                                    chóng, không phải chờ
+                                                    đợi.</li>
+                                                <li><strong>Một nền tảng quản lý
+                                                        duy nhất:</strong> Lợi
+                                                    thế của HP Smart Admin tiếp
+                                                    tục phát huy, cho phép quản
+                                                    lý cả máy in trắng đen và
+                                                    máy màu trên cùng một hệ
+                                                    thống, đơn giản hóa công
+                                                    việc cho bộ phận IT.</li>
+                                                <li><strong>Đầu tư cho tương
+                                                        lai:</strong> Chọn HP
+                                                    không chỉ là mua một cái
+                                                    máy, mà là đầu tư vào một
+                                                    nền tảng được liên tục cập
+                                                    nhật về phần mềm và bảo mật,
+                                                    đảm bảo thiết bị của bạn
+                                                    luôn an toàn và hiệu quả
+                                                    trong nhiều năm tới.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="mt-8 p-6 bg-slate-50 border-t-4 border-blue-500 rounded-b-lg shadow-inner">
+                                        <h4
+                                            class="!text-lg !font-bold !text-blue-700 !mt-0 flex items-center gap-2"><i
+                                                class="fas fa-lightbulb"></i>Tổng
+                                            Kết: SMB Đầu Tư Vào Cái Gì?</h4>
+                                        <p
+                                            class="text-sm text-slate-600 mb-2">Đối
+                                            với SMB, quyết định mua máy in là
+                                            một khoản đầu tư chiến lược:</p>
+                                        <ul
+                                            class="list-disc pl-5 text-sm space-y-1">
+                                            <li><strong>Đầu tư vào HP</strong>
+                                                là đầu tư vào <strong>Năng suất
+                                                    và Sự An tâm</strong>. Bạn
+                                                có thể tốn thêm một chút chi phí
+                                                vận hành, nhưng đổi lại là một
+                                                hệ thống thông minh, dễ quản lý,
+                                                bảo mật và luôn hoạt động hiệu
+                                                quả.</li>
+                                            <li><strong>Đầu tư vào
+                                                    Brother/Kyocera</strong> là
+                                                đầu tư vào <strong>Tiết kiệm Chi
+                                                    phí Tối đa</strong>. Bạn sẽ
+                                                có TCO thấp nhất, nhưng có thể
+                                                phải hy sinh một chút về trải
+                                                nghiệm người dùng và các tính
+                                                năng quản lý, bảo mật cao
+                                                cấp.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- 5. DOANH NGHIỆP LỚN -->
+                        <!-- Dán toàn bộ section này vào vị trí của section#section-enterprise cũ -->
+                        <section id="section-enterprise"
+                            class="content-section">
+                            <div class="card">
+                                <h2 class="card-title"><i
+                                        class="fas fa-building"></i>5. Phân Khúc
+                                    Doanh Nghiệp Lớn: Pháo Đài Bảo Mật & Trung
+                                    Tâm Chỉ Huy</h2>
+                                <div class="content-body">
+                                    <h3>Hồ Sơ Người Dùng & Yếu Tố Quyết
+                                        Định</h3>
+                                    <p>Ở cấp độ doanh nghiệp, việc mua máy in
+                                        không còn là quyết định của người dùng
+                                        cuối mà là của các Giám đốc Công nghệ
+                                        (CIO), Trưởng phòng IT và bộ phận mua
+                                        hàng. Họ không mua một "cái máy", họ mua
+                                        một "giải pháp". Các yếu tố quyết định
+                                        đã chuyển hoàn toàn sang:</p>
+                                    <ul
+                                        class="list-disc pl-5 mt-2 font-semibold">
+                                        <li>BẢO MẬT: Một máy in là một điểm cuối
+                                            (endpoint) trên mạng, một cửa ngõ
+                                            tiềm tàng cho hacker.</li>
+                                        <li>QUẢN LÝ ĐỘI MÁY: Khả năng giám sát,
+                                            cấu hình, cập nhật hàng trăm thiết
+                                            bị từ xa.</li>
+                                        <li>DỊCH VỤ QUẢN LÝ IN ẤN (MPS): Hợp
+                                            đồng dịch vụ trọn gói, biến chi phí
+                                            thành một khoản dự đoán được.</li>
+                                        <li>TÍCH HỢP & QUY TRÌNH: Khả năng tích
+                                            hợp vào hệ thống hiện có và tự động
+                                            hóa các quy trình công việc.</li>
+                                    </ul>
+
+                                    <h3 class="mt-8">Trận chiến #1: Pháo Đài Bảo
+                                        Mật - HP Wolf Security vs. Thế Giới</h3>
+                                    <div class="strategy-card border-l-red-700">
+                                        <h4 class="text-lg">HP LaserJet
+                                            Enterprise <span
+                                                class="nk-available"><i
+                                                    class="fas fa-check-circle nk-icon"></i></span>
+                                            vs. Xerox AltaLink vs. Ricoh IM
+                                            Series vs. Lexmark CS/CX Series</h4>
+                                        <p class="mb-4">Đây là mặt trận quan
+                                            trọng nhất và là nơi HP xây dựng lợi
+                                            thế khác biệt mạnh mẽ nhất.</p>
+
+                                        <div
+                                            class="overflow-x-auto rounded-lg border">
+                                            <table
+                                                class="w-full text-sm text-left">
+                                                <thead
+                                                    class="bg-slate-100 text-slate-700">
+                                                    <tr>
+                                                        <th class="p-3">Lớp Bảo
+                                                            Mật</th>
+                                                        <th class="p-3">HP Wolf
+                                                            Enterprise
+                                                            Security</th>
+                                                        <th class="p-3">Xerox
+                                                            (với
+                                                            Trellix/McAfee)</th>
+                                                        <th
+                                                            class="p-3">Ricoh/Lexmark</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="divide-y divide-slate-200">
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Bảo
+                                                            vệ BIOS (nền
+                                                            tảng)</td>
+                                                        <td
+                                                            class="p-3"><strong>HP
+                                                                Sure Start (Tự
+                                                                động phục
+                                                                hồi)</strong></td>
+                                                        <td class="p-3">Có, kiểm
+                                                            tra khi khởi
+                                                            động</td>
+                                                        <td class="p-3">Có, kiểm
+                                                            tra khi khởi
+                                                            động</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Bảo
+                                                            vệ Firmware</td>
+                                                        <td
+                                                            class="p-3"><strong>Whitelisting
+                                                                (chỉ chạy mã của
+                                                                HP)</strong></td>
+                                                        <td
+                                                            class="p-3">Whitelisting
+                                                            (hợp tác với
+                                                            Trellix)</td>
+                                                        <td class="p-3">Xác thực
+                                                            mã kỹ thuật số</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Bảo
+                                                            vệ khi đang
+                                                            chạy</td>
+                                                        <td
+                                                            class="p-3"><strong>Run-time
+                                                                Intrusion
+                                                                Detection (chống
+                                                                tấn công bộ
+                                                                nhớ)</strong></td>
+                                                        <td class="p-3">Có các
+                                                            lớp bảo vệ cơ
+                                                            bản</td>
+                                                        <td class="p-3">Có các
+                                                            lớp bảo vệ cơ
+                                                            bản</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Triết
+                                                            lý bảo mật</td>
+                                                        <td
+                                                            class="p-3"><strong>Kiên
+                                                                cường, tự phục
+                                                                hồi từ phần
+                                                                cứng.</strong></td>
+                                                        <td class="p-3">Mạnh mẽ,
+                                                            dựa vào hợp tác phần
+                                                            mềm.</td>
+                                                        <td class="p-3">An toàn,
+                                                            tuân thủ tiêu
+                                                            chuẩn.</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Tại
+                                                Sao Lại Là HP Wolf
+                                                Security?</h5>
+                                            <p class="text-sm text-blue-900">HP
+                                                không chỉ bảo vệ máy in, họ tạo
+                                                ra một thiết bị có khả năng
+                                                <strong>tự chữa lành</strong>.
+                                                Nếu BIOS bị tấn công, nó sẽ tự
+                                                khởi động lại bằng một bản sao
+                                                an toàn. Nếu mã độc cố gắng chạy
+                                                trong bộ nhớ, nó sẽ bị chặn ngay
+                                                lập tức. Đây là cách tiếp cận
+                                                <strong>chủ động và tích hợp từ
+                                                    phần cứng</strong>, vượt
+                                                trội hơn so với các giải pháp
+                                                chỉ dựa vào phần mềm của đối
+                                                thủ.</p>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-8">Trận chiến #2: Trung Tâm
+                                        Chỉ Huy - Quản lý đội máy và Tự động
+                                        hóa</h3>
+                                    <div class="strategy-card border-l-sky-600">
+                                        <h4 class="text-lg">HP Web Jetadmin vs.
+                                            Xerox CentreWare vs. Kyocera Fleet
+                                            Services</h4>
+                                        <p class="mb-4">Quản lý hàng trăm máy in
+                                            không phải là chuyện đùa. Công cụ
+                                            quản lý quyết định hiệu quả làm việc
+                                            của cả bộ phận IT.</p>
+                                        <ul
+                                            class="list-disc pl-5 space-y-2 text-sm">
+                                            <li><strong>HP Web
+                                                    Jetadmin:</strong> Thường
+                                                được coi là "tiêu chuẩn vàng",
+                                                mạnh mẽ trong việc cung cấp các
+                                                báo cáo chi tiết, chẩn đoán lỗi
+                                                sâu và khả năng quản lý cả các
+                                                máy in của hãng khác
+                                                (multi-vendor), một lợi thế cực
+                                                lớn trong môi trường doanh
+                                                nghiệp đa dạng.</li>
+                                            <li><strong>Xerox (ConnectKey & App
+                                                    Gallery):</strong> Lợi thế
+                                                của Xerox không nằm ở công cụ
+                                                quản lý mà ở <strong>khả năng tự
+                                                    động hóa quy trình làm
+                                                    việc</strong>. Với một kho
+                                                ứng dụng phong phú, máy in Xerox
+                                                có thể scan thẳng vào Google
+                                                Drive, dịch tài liệu, hay tự
+                                                động hóa các quy trình kế toán.
+                                                Đây là một cách tiếp cận hướng
+                                                đến người dùng cuối hơn là quản
+                                                trị viên IT.</li>
+                                            <li><strong>Kyocera/Ricoh:</strong>
+                                                Cung cấp các công cụ quản lý đội
+                                                máy hiệu quả, đặc biệt Kyocera
+                                                nổi tiếng với các giải pháp quản
+                                                lý chi phí và kiểm soát truy cập
+                                                người dùng mạnh mẽ.</li>
+                                        </ul>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Lợi
+                                                Thế Của Nền Tảng HP
+                                                Enterprise</h5>
+                                            <p class="text-sm text-blue-900">Các
+                                                máy in như <strong>HP LaserJet
+                                                    Enterprise M611dn</strong>
+                                                <span class="nk-available"><i
+                                                        class="fas fa-check-circle nk-icon"></i></span>
+                                                hay máy A3 đa năng <strong>HP
+                                                    LaserJet Managed
+                                                    M72630dn</strong> <span
+                                                    class="nk-available"><i
+                                                        class="fas fa-check-circle nk-icon"></i></span>
+                                                không chỉ là cỗ máy in tốc độ
+                                                cao. Chúng là những "người lính"
+                                                thông minh trên mạng lưới của
+                                                bạn:</p>
+                                            <ul
+                                                class="list-disc pl-5 mt-2 text-sm text-blue-900 space-y-1">
+                                                <li><strong>Dễ dàng triển khai
+                                                        chính sách:</strong>
+                                                    Quản trị viên có thể đẩy một
+                                                    chính sách bảo mật duy nhất
+                                                    xuống toàn bộ đội máy in HP
+                                                    chỉ với vài cú nhấp
+                                                    chuột.</li>
+                                                <li><strong>Giảm gánh nặng cho
+                                                        IT:</strong> Khả năng tự
+                                                    phục hồi và chẩn đoán từ xa
+                                                    giúp giảm đáng kể số lần IT
+                                                    phải đến tận nơi để sửa
+                                                    chữa, tiết kiệm thời gian và
+                                                    chi phí.</li>
+                                                <li><strong>Đầu tư vào sự ổn
+                                                        định:</strong> Chọn HP
+                                                    Enterprise là chọn một hệ
+                                                    sinh thái được thiết kế để
+                                                    hoạt động cùng nhau một cách
+                                                    liền mạch, từ phần cứng,
+                                                    phần mềm đến dịch vụ.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="mt-8 p-6 bg-slate-50 border-t-4 border-blue-500 rounded-b-lg shadow-inner">
+                                        <h4
+                                            class="!text-lg !font-bold !text-blue-700 !mt-0 flex items-center gap-2"><i
+                                                class="fas fa-lightbulb"></i>Tổng
+                                            Kết: Tại Sao CIO Chọn HP?</h4>
+                                        <p
+                                            class="text-sm text-slate-600 mb-2">Quyết
+                                            định ở cấp độ doanh nghiệp không
+                                            phải là "máy nào rẻ hơn?", mà là
+                                            <strong>"giải pháp nào giảm thiểu rủi ro và tăng hiệu quả tốt nhất?"</strong>.</p>
+                                        <p
+                                            class="text-sm text-blue-900 font-semibold">Chọn
+                                            HP Enterprise không chỉ là mua một
+                                            máy in; đó là <strong>việc áp dụng
+                                                một chiến lược bảo mật cho một
+                                                trong những điểm yếu nhất của
+                                                mạng lưới công ty.</strong>
+                                            Trong một thế giới đầy rẫy các cuộc
+                                            tấn công mạng, sự an tâm mà HP Wolf
+                                            Security mang lại là một giá trị
+                                            không thể đo đếm được bằng tiền.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- 6. CHUYÊN GIA KỸ THUẬT / ĐỒ HỌA -->
+                        <!-- Dán toàn bộ section này vào vị trí của section#section-pro cũ -->
+                        <section id="section-pro" class="content-section">
+                            <div class="card">
+                                <h2 class="card-title"><i
+                                        class="fas fa-drafting-compass"></i>6.
+                                    Phân Khúc Chuyên Nghiệp: Cuộc Chiến Của Sự
+                                    Chính Xác</h2>
+                                <div class="content-body">
+                                    <h3>Hồ Sơ Người Dùng & Yếu Tố Quyết
+                                        Định</h3>
+                                    <p>Đây là phân khúc của những chuyên gia mà
+                                        đối với họ, một sai sót nhỏ trên bản in
+                                        có thể gây thiệt hại lớn. Thị trường này
+                                        chia làm hai "chiến trường" riêng biệt
+                                        với những quy luật hoàn toàn khác
+                                        nhau:</p>
+
+                                    <h3 class="mt-8">Chiến trường #1: AEC (Kiến
+                                        trúc, Kỹ thuật, Xây dựng) - Cuộc Đua Tốc
+                                        Độ & Độ Nét</h3>
+                                    <div
+                                        class="strategy-card border-l-blue-700">
+                                        <h4 class="text-lg">HP DesignJet T1708
+                                            <span class="nk-available"><i
+                                                    class="fas fa-check-circle nk-icon"></i></span>
+                                            vs. Canon imagePROGRAF TX/TM Series
+                                            vs. Epson SureColor T-Series</h4>
+                                        <p class="mb-4">Đối với kiến trúc sư và
+                                            kỹ sư, máy in không chỉ là công cụ,
+                                            nó là một phần của quy trình làm
+                                            việc. Họ cần in những file CAD/GIS
+                                            cực nặng một cách nhanh chóng, với
+                                            những đường nét mảnh và sắc như dao
+                                            cạo.</p>
+
+                                        <div
+                                            class="overflow-x-auto rounded-lg border">
+                                            <table
+                                                class="w-full text-sm text-left">
+                                                <thead
+                                                    class="bg-slate-100 text-slate-700">
+                                                    <tr>
+                                                        <th class="p-3">Công
+                                                            nghệ Cốt lõi</th>
+                                                        <th class="p-3">HP
+                                                            DesignJet
+                                                            T-Series</th>
+                                                        <th class="p-3">Canon
+                                                            imagePROGRAF
+                                                            TX/TM</th>
+                                                        <th class="p-3">Epson
+                                                            SureColor
+                                                            T-Series</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="divide-y divide-slate-200">
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Bộ
+                                                            xử lý bản in</td>
+                                                        <td
+                                                            class="p-3"><strong>Adobe
+                                                                PDF Print Engine
+                                                                (tích
+                                                                hợp)</strong></td>
+                                                        <td class="p-3">LIO-SGML
+                                                            / Bộ xử lý
+                                                            riêng</td>
+                                                        <td class="p-3">Bộ xử lý
+                                                            riêng</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Độ
+                                                            chính xác nét
+                                                            vẽ</td>
+                                                        <td
+                                                            class="p-3">±0.1%</td>
+                                                        <td
+                                                            class="p-3">±0.1%</td>
+                                                        <td
+                                                            class="p-3">±0.1%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Bảo
+                                                            mật</td>
+                                                        <td
+                                                            class="p-3"><strong>HP
+                                                                Secure Boot,
+                                                                Whitelisting,
+                                                                HDD mã
+                                                                hóa</strong></td>
+                                                        <td class="p-3">Xác
+                                                            thực, mã hóa cơ
+                                                            bản</td>
+                                                        <td class="p-3">Xác
+                                                            thực, mã hóa cơ
+                                                            bản</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Quy
+                                                            trình làm việc</td>
+                                                        <td
+                                                            class="p-3"><strong>Phần
+                                                                mềm HP Click (in
+                                                                hàng
+                                                                loạt)</strong></td>
+                                                        <td class="p-3">Direct
+                                                            Print Plus</td>
+                                                        <td class="p-3">Epson
+                                                            Print Admin</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Tại
+                                                Sao Kiến Trúc Sư Nên Chọn HP
+                                                DesignJet T1708?</h5>
+                                            <ul
+                                                class="list-disc pl-5 mt-2 text-sm text-blue-900 space-y-1">
+                                                <li><strong>Không bao giờ
+                                                        "treo máy" khi in file
+                                                        nặng:</strong> Việc tích
+                                                    hợp sẵn <strong>Adobe PDF
+                                                        Print Engine</strong>
+                                                    giúp T1708 xử lý các file
+                                                    PDF phức tạp, nhiều layer
+                                                    một cách mượt mà, điều mà
+                                                    các đối thủ thường gặp khó
+                                                    khăn. Đây là lợi thế tuyệt
+                                                    đối khi gần đến hạn chót nộp
+                                                    hồ sơ.</li>
+                                                <li><strong>Tiết kiệm hàng giờ
+                                                        làm việc:</strong> Phần
+                                                    mềm <strong>HP
+                                                        Click</strong> cho phép
+                                                    kéo-thả hàng chục, hàng trăm
+                                                    file bản vẽ vào và máy sẽ tự
+                                                    động sắp xếp, tối ưu hóa
+                                                    giấy và in một lần. Đây là
+                                                    "vũ khí bí mật" giúp tiết
+                                                    kiệm thời gian so với việc
+                                                    phải mở và in từng
+                                                    file.</li>
+                                                <li><strong>Bảo vệ tài sản trí
+                                                        tuệ:</strong> Với các
+                                                    tính năng bảo mật cấp doanh
+                                                    nghiệp, T1708 đảm bảo các
+                                                    bản vẽ thiết kế, tài sản trí
+                                                    tuệ của công ty bạn luôn
+                                                    được an toàn, một yếu tố mà
+                                                    các dòng máy khác thường xem
+                                                    nhẹ.</li>
+                                                <li><strong>Đầu in người dùng tự
+                                                        thay thế:</strong> Khi
+                                                    đầu in hết hạn, bạn có thể
+                                                    tự thay thế trong vài phút
+                                                    mà không cần chờ kỹ thuật
+                                                    viên, đảm bảo công việc
+                                                    không bị gián đoạn.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-8">Chiến trường #2: Đồ Họa &
+                                        Nhiếp Ảnh - Cuộc Săn Tìm Màu Sắc Hoàn
+                                        Hảo</h3>
+                                    <div
+                                        class="strategy-card border-l-purple-600">
+                                        <h4 class="text-lg">HP DesignJet
+                                            Z-Series vs. Canon imagePROGRAF
+                                            PRO-Series vs. Epson SureColor
+                                            P-Series</h4>
+                                        <p class="mb-4">Đây là lãnh địa của nghệ
+                                            thuật, nơi chất lượng màu sắc, độ
+                                            sâu của màu đen và tuổi thọ bản in
+                                            là tất cả. Mỗi hãng có một triết lý
+                                            riêng để đạt đến sự hoàn hảo.</p>
+
+                                        <div
+                                            class="overflow-x-auto rounded-lg border">
+                                            <table
+                                                class="w-full text-sm text-left">
+                                                <thead
+                                                    class="bg-slate-100 text-slate-700">
+                                                    <tr>
+                                                        <th class="p-3">Công
+                                                            nghệ Cốt lõi</th>
+                                                        <th class="p-3">HP
+                                                            DesignJet
+                                                            Z-Series</th>
+                                                        <th class="p-3">Canon
+                                                            PRO-Series</th>
+                                                        <th class="p-3">Epson
+                                                            P-Series</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody
+                                                    class="divide-y divide-slate-200">
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Hệ
+                                                            thống mực</td>
+                                                        <td class="p-3">9-12 màu
+                                                            Pigment, HP Vivid
+                                                            Photo</td>
+                                                        <td class="p-3">12 màu
+                                                            Pigment, LUCIA PRO &
+                                                            Chroma
+                                                            Optimizer</td>
+                                                        <td class="p-3">10-12
+                                                            màu Pigment,
+                                                            UltraChrome PRO &
+                                                            Violet ink</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Quản
+                                                            lý màu sắc</td>
+                                                        <td
+                                                            class="p-3"><strong>Tích
+                                                                hợp máy quang
+                                                                phổ kế
+                                                                (Spectrophotometer)</strong></td>
+                                                        <td class="p-3">Phần mềm
+                                                            & cảm biến</td>
+                                                        <td class="p-3">Phần mềm
+                                                            & cảm biến</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Đầu
+                                                            in</td>
+                                                        <td
+                                                            class="p-3"><strong>Người
+                                                                dùng tự thay thế
+                                                                (Thermal)</strong></td>
+                                                        <td class="p-3">Cố định
+                                                            (FINE)</td>
+                                                        <td class="p-3">Cố định
+                                                            (PrecisionCore)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            class="p-3 font-semibold">Triết
+                                                            lý</td>
+                                                        <td
+                                                            class="p-3"><strong>Chính
+                                                                xác, nhất quán &
+                                                                dễ bảo
+                                                                trì</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Độ
+                                                                sâu màu đen &
+                                                                chất lượng
+                                                                ảnh</strong></td>
+                                                        <td
+                                                            class="p-3"><strong>Không
+                                                                gian màu rộng
+                                                                nhất & nghệ
+                                                                thuật</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div
+                                            class="mt-4 p-4 bg-blue-50 border-t-4 border-blue-500">
+                                            <h5
+                                                class="font-bold text-blue-800">Tại
+                                                Sao Nhà Thiết Kế Nên Chọn HP
+                                                DesignJet Z-Series?</h5>
+                                            <ul
+                                                class="list-disc pl-5 mt-2 text-sm text-blue-900 space-y-1">
+                                                <li><strong>Màu sắc chính xác
+                                                        tuyệt đối, mọi
+                                                        lúc:</strong> Việc tích
+                                                    hợp sẵn <strong>máy quang
+                                                        phổ kế</strong> là một
+                                                    cuộc cách mạng. Nó cho phép
+                                                    máy tự động cân chỉnh và tạo
+                                                    hồ sơ màu (ICC Profile) cho
+                                                    mọi loại giấy, đảm bảo bản
+                                                    in luôn khớp với màn hình.
+                                                    Đây là tính năng mà các đối
+                                                    thủ không có, giúp tiết kiệm
+                                                    chi phí mua thiết bị cân
+                                                    chỉnh ngoài.</li>
+                                                <li><strong>Không còn nỗi lo tắc
+                                                        đầu phun:</strong> Đầu
+                                                    in nhiệt của HP có thể được
+                                                    người dùng tự thay thế dễ
+                                                    dàng. Điều này loại bỏ hoàn
+                                                    toàn rủi ro lớn nhất của máy
+                                                    in phun đồ họa: tắc đầu phun
+                                                    vĩnh viễn và phải gọi dịch
+                                                    vụ tốn kém. Bạn có thể yên
+                                                    tâm để máy không in trong
+                                                    thời gian dài.</li>
+                                                <li><strong>Chất lượng nhất quán
+                                                        từ bản đầu đến bản
+                                                        cuối:</strong> Công nghệ
+                                                    HP Pixel Control đảm bảo các
+                                                    dải màu chuyển tiếp siêu mịn
+                                                    và chất lượng đồng nhất trên
+                                                    toàn bộ lô in, một yếu tố
+                                                    cực kỳ quan trọng cho các
+                                                    công việc thương mại.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="mt-8 p-6 bg-slate-50 border-t-4 border-blue-500 rounded-b-lg shadow-inner">
+                                        <h4
+                                            class="!text-lg !font-bold !text-blue-700 !mt-0 flex items-center gap-2"><i
+                                                class="fas fa-lightbulb"></i>Tổng
+                                            Kết: HP Chiến Thắng Bằng
+                                            "Bộ Não"</h4>
+                                        <p
+                                            class="text-sm text-slate-600 mb-2">Trong
+                                            khi các đối thủ cạnh tranh gay gắt
+                                            về thông số phần cứng, HP chọn một
+                                            con đường khác: chiến thắng bằng sự
+                                            thông minh và hiệu quả.</p>
+                                        <p
+                                            class="text-sm text-blue-900 font-semibold">Chọn
+                                            HP DesignJet không chỉ là chọn một
+                                            cỗ máy in, mà là đầu tư vào một
+                                            <strong>quy trình làm việc được tối
+                                                ưu hóa</strong>. HP giúp các
+                                            chuyên gia tiết kiệm thứ quý giá
+                                            nhất của họ: <strong>thời gian và sự
+                                                yên tâm</strong>, để họ có thể
+                                            tập trung vào công việc sáng tạo,
+                                            thay vì phải vật lộn với công
+                                            nghệ.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- 7. PHÂN TÍCH CHIẾN LƯỢC -->
+                        <!-- Dán toàn bộ section này vào vị trí của section#section-strategy cũ -->
+                        <section id="section-strategy" class="content-section">
+                            <div class="card">
+                                <h2 class="card-title"><i
+                                        class="fas fa-lightbulb"></i>7. Tổng Kết
+                                    Chiến Lược & Lợi Thế Cạnh Tranh Của HP</h2>
+                                <div class="content-body">
+                                    <p>Sau khi phân tích chi tiết từng
+                                        "chiến trường", một bức tranh chiến lược
+                                        rõ ràng về vị thế của HP đã hiện ra. HP
+                                        không cạnh tranh trên mọi mặt trận bằng
+                                        cùng một vũ khí. Thay vào đó, họ có
+                                        những "át chủ bài" riêng cho từng phân
+                                        khúc.</p>
+
+                                    <h3 class="mt-8">Phân Tích SWOT Dựa Trên Dữ
+                                        Liệu Thực Tế</h3>
+                                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                        <div
+                                            class="strategy-card border-l-green-500">
+                                            <h4><i
+                                                    class="fas fa-check-circle text-green-500"></i>
+                                                Điểm mạnh (Strengths)</h4>
+                                            <ul>
+                                                <li><strong>Hệ sinh thái phần
+                                                        mềm vượt trội:</strong>
+                                                    Bộ ba <strong>HP Smart, HP
+                                                        Smart Admin, HP
+                                                        Click</strong> tạo ra
+                                                    trải nghiệm người dùng và
+                                                    khả năng quản lý liền mạch
+                                                    mà các đối thủ khó sánh
+                                                    bằng.</li>
+                                                <li><strong>Pháo đài bảo mật HP
+                                                        Wolf Security:</strong>
+                                                    Yếu tố khác biệt tuyệt đối ở
+                                                    phân khúc doanh nghiệp,
+                                                    chuyển cuộc thảo luận từ
+                                                    "chi phí" sang
+                                                    "rủi ro".</li>
+                                                <li><strong>Quy trình làm việc
+                                                        thông minh:</strong> Các
+                                                    công nghệ như Adobe PDF
+                                                    Print Engine, máy quang phổ
+                                                    kế tích hợp giúp giải quyết
+                                                    các "nỗi đau" cụ thể của dân
+                                                    chuyên nghiệp.</li>
+                                                <li><strong>Thương hiệu cao cấp
+                                                        & đáng tin
+                                                        cậy.</strong></li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="strategy-card border-l-red-500">
+                                            <h4><i
+                                                    class="fas fa-times-circle text-red-500"></i>
+                                                Điểm yếu (Weaknesses)</h4>
+                                            <ul>
+                                                <li><strong>Cuộc chiến TCO ở
+                                                        phân khúc phổ
+                                                        thông:</strong> Thường
+                                                    có chi phí vận hành
+                                                    (mực/toner) cao hơn so với
+                                                    "vô địch giá rẻ" là
+                                                    Brother.</li>
+                                                <li><strong>Hệ sinh thái "đóng"
+                                                        (Dynamic
+                                                        Security):</strong>
+                                                    Chính sách chỉ cho dùng mực
+                                                    chính hãng gây phản ứng tiêu
+                                                    cực và làm người dùng
+                                                    SOHO/SMB cảm thấy bị
+                                                    "khóa chân".</li>
+                                                <li><strong>Tốc độ không phải
+                                                        lúc nào cũng nhanh
+                                                        nhất:</strong> Trong các
+                                                    bài so găng về tốc độ thô,
+                                                    đôi khi HP bị Brother hoặc
+                                                    Canon vượt mặt ở một số
+                                                    model.</li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="strategy-card border-l-blue-500">
+                                            <h4><i
+                                                    class="fas fa-bullseye text-blue-500"></i>
+                                                Cơ hội (Opportunities)</h4>
+                                            <ul>
+                                                <li><strong>Định vị HP là hãng
+                                                        cung cấp giải pháp an
+                                                        ninh mạng:</strong> Bán
+                                                    máy in như một phần của
+                                                    chiến lược bảo mật cho doanh
+                                                    nghiệp, một thị trường cực
+                                                    lớn.</li>
+                                                <li><strong>Biến điểm yếu TCO
+                                                        thành thế mạnh dịch
+                                                        vụ:</strong> Đẩy mạnh
+                                                    các gói HP+ hoặc MPS để
+                                                    chuyển chi phí vật tư khó
+                                                    đoán thành chi phí hoạt động
+                                                    (OpEx) cố định, hấp dẫn với
+                                                    doanh nghiệp.</li>
+                                                <li><strong>Khai thác
+                                                        "sự lười biếng" của
+                                                        người dùng:</strong> Tận
+                                                    dụng sự tiện lợi của HP
+                                                    Smart để thu hút thế hệ
+                                                    người dùng mới không muốn
+                                                    mất thời gian cho các vấn đề
+                                                    kỹ thuật.</li>
+                                            </ul>
+                                        </div>
+                                        <div
+                                            class="strategy-card border-l-orange-500">
+                                            <h4><i
+                                                    class="fas fa-exclamation-triangle text-orange-500"></i>
+                                                Thách thức (Threats)</h4>
+                                            <ul>
+                                                <li><strong>Sự thống trị của
+                                                        Brother/Kyocera về
+                                                        TCO:</strong> Luôn là
+                                                    rào cản lớn nhất trong tâm
+                                                    trí khách hàng SMB khi so
+                                                    sánh giá.</li>
+                                                <li><strong>Chất lượng màu sắc
+                                                        chuyên biệt của
+                                                        Canon/Epson:</strong>
+                                                    Vẫn là lựa chọn hàng đầu cho
+                                                    một bộ phận nhiếp ảnh gia và
+                                                    nhà in nghệ thuật khắt khe
+                                                    nhất.</li>
+                                                <li><strong>Sự trỗi dậy của máy
+                                                        in bình mực:</strong>
+                                                    Phá vỡ hoàn toàn mô hình
+                                                    kinh doanh truyền thống và
+                                                    tạo ra một chuẩn mực mới về
+                                                    chi phí in màu.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <h3 class="mt-8">Chiến Lược Tư Vấn & Bán
+                                        Hàng Dành Cho Nguyên Kim</h3>
+                                    <p>Để bán hàng hiệu quả, cần thay đổi cách
+                                        tiếp cận cho từng phân khúc khách
+                                        hàng:</p>
+                                    <ol
+                                        class="list-decimal pl-5 space-y-4 mt-4">
+                                        <li>
+                                            <strong>Với khách SOHO/SMB: Đừng bán
+                                                giá, hãy bán GIÁ TRỊ THỜI
+                                                GIAN.</strong>
+                                            <p class="mt-1 text-sm">Khi khách
+                                                hàng phàn nàn
+                                                "mực HP đắt hơn Brother", câu
+                                                trả lời không phải là giảm giá.
+                                                Hãy hỏi:
+                                                "Thời gian của anh/chị đáng giá bao nhiêu?".
+                                                Một giờ vật lộn với cài đặt
+                                                driver hay lỗi kết nối Wi-Fi còn
+                                                tốn kém hơn nhiều so với chênh
+                                                lệch tiền mực. <strong>HP Smart
+                                                    giúp bạn lấy lại thời gian
+                                                    đó.</strong></p>
+                                        </li>
+                                        <li>
+                                            <strong>Với khách Doanh nghiệp: Hãy
+                                                bán sự AN TÂM, không phải máy
+                                                in.</strong>
+                                            <p class="mt-1 text-sm">Cuộc trò
+                                                chuyện với CIO không phải về tốc
+                                                độ in. Hãy hỏi:
+                                                "Một vụ rò rỉ dữ liệu qua máy in sẽ thiệt hại bao nhiêu?".
+                                                <strong>HP Wolf Security không
+                                                    phải là một tính năng, nó là
+                                                    một chính sách bảo
+                                                    hiểm.</strong> Các đối thủ
+                                                có thể cung cấp "ổ khóa", còn HP
+                                                cung cấp một
+                                                "hệ thống báo động thông minh có khả năng tự sửa chữa".</p>
+                                        </li>
+                                        <li>
+                                            <strong>Với khách Chuyên nghiệp: Hãy
+                                                bán HIỆU SUẤT CÔNG VIỆC, không
+                                                phải thông số.</strong>
+                                            <p class="mt-1 text-sm">Đối thủ có
+                                                thể khoe máy in nhanh hơn vài
+                                                giây. Hãy hỏi:
+                                                "Phần mềm HP Click giúp anh/chị tiết kiệm 2 giờ mỗi tuần khi xử lý bộ hồ sơ lớn. Điều đó có giá trị hơn không?".
+                                                <strong>HP DesignJet giúp các
+                                                    chuyên gia làm được nhiều
+                                                    việc hơn, với ít sai sót
+                                                    hơn.</strong></p>
+                                        </li>
+                                    </ol>
+
+                                    <div
+                                        class="mt-8 p-6 bg-slate-50 border-t-4 border-blue-500 rounded-b-lg shadow-inner">
+                                        <h4
+                                            class="!text-lg !font-bold !text-blue-700 !mt-0 flex items-center gap-2"><i
+                                                class="fas fa-rocket"></i>Kết
+                                            Luận: Lựa Chọn HP Là Một Quyết Định
+                                            Chiến Lược</h4>
+                                        <p
+                                            class="text-sm text-slate-600 mb-4">Qua
+                                            các phân tích, có thể thấy việc lựa
+                                            chọn HP không đơn thuần là một quyết
+                                            định mua sắm phần cứng. Đó là một
+                                            lựa chọn mang tính chiến lược về
+                                            cách một cá nhân hay tổ chức định
+                                            giá các yếu tố vô hình:</p>
+                                        <ul
+                                            class="list-disc pl-5 text-sm space-y-1">
+                                            <li><strong>Người dùng
+                                                    SOHO/SMB</strong> đầu tư vào
+                                                HP là đầu tư vào <strong>năng
+                                                    suất và sự tiện
+                                                    lợi.</strong></li>
+                                            <li><strong>Doanh nghiệp
+                                                    lớn</strong> đầu tư vào HP
+                                                là đầu tư vào <strong>an ninh
+                                                    mạng và sự ổn định của hệ
+                                                    thống.</strong></li>
+                                            <li><strong>Chuyên gia</strong> đầu
+                                                tư vào HP là đầu tư vào một
+                                                <strong>quy trình làm việc hiệu
+                                                    quả và không gián
+                                                    đoạn.</strong></li>
+                                        </ul>
+                                        <p
+                                            class="mt-4 text-sm text-blue-900 font-semibold">HP
+                                            không bán những cỗ máy đơn lẻ; họ
+                                            bán một hệ sinh thái thông minh, an
+                                            toàn và được tối ưu hóa. Đó chính là
+                                            lợi thế cạnh tranh cốt lõi và bền
+                                            vững nhất của họ trên thị
+                                            trường.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const navLinks = document.querySelectorAll('.sidebar-nav-link');
+                                const contentSections = document.querySelectorAll('.content-section');
+                                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                                const sidebar = document.getElementById('sidebar');
+
+                                function switchTab(targetId) {
+                                    contentSections.forEach(section => {
+                                        section.classList.remove('active');
+                                    });
+                                    navLinks.forEach(link => {
+                                        link.classList.remove('active');
+                                    });
+
+                                    const targetSection = document.getElementById(targetId);
+                                    if (targetSection) {
+                                        targetSection.classList.add('active');
+                                    }
+                                    
+                                    const targetLink = document.querySelector(`.sidebar-nav-link[data-target="${targetId}"]`);
+                                    if (targetLink) {
+                                        targetLink.classList.add('active');
+                                    }
+                                }
+
+                                navLinks.forEach(link => {
+                                    link.addEventListener('click', function(e) {
+                                        e.preventDefault();
+                                        const targetId = this.dataset.target;
+                                        switchTab(targetId);
+                                        if (window.innerWidth < 768) {
+                                            sidebar.classList.add('-translate-x-full');
+                                            sidebar.classList.remove('translate-x-0');
+                                        }
+                                    });
+                                });
+
+                                mobileMenuBtn.addEventListener('click', () => {
+                                    sidebar.classList.toggle('-translate-x-full');
+                                    sidebar.classList.toggle('translate-x-0');
+                                });
+
+                                if(navLinks.length > 0) {
+                                    switchTab(navLinks[0].dataset.target);
+                                }
+                            });
+                        </script>
+                    </div></main>
+            </div>
+        </div>
+    </body>
+</html>

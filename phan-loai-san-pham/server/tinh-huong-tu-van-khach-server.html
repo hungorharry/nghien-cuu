@@ -269,7 +269,7 @@
                     'rack-server-rail-kit': {
                         title: 'Server rack có kèm rail kit (thanh trượt) không?',
                         steps: [
-                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, các server dạng rack (R-series) bán ra mặc định sẽ <strong>không đi kèm rail kit</strong> ạ. Rail kit là một tùy chọn (option) cần mua thêm.' },
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, các server dạng rack (R-series) bán ra mặc định sẽ <strong>tất cả dòng server rack của hpe và dell đều có rail kit đi kèm</strong> ạ. Rail kit là một tùy chọn (option) cần mua thêm.' },
                            { title: 'Bước 2: Giải Thích Lý Do', description: 'Lý do là vì không phải khách hàng nào cũng có sẵn tủ rack; một số khách hàng đặt server trên bàn hoặc kệ chuyên dụng. Việc bán rời rail kit giúp tối ưu chi phí cho những khách hàng không thực sự cần đến nó.' },
                            { title: 'Bước 3: Đặt Câu Hỏi Dẫn Dắt', description: 'Khi tư vấn, mình cần chủ động hỏi ngay: <strong>"Dạ, không biết bên mình đã có sẵn tủ rack và đã đo đạc kích thước chưa ạ, để em tư vấn loại rail kit phù hợp nhất cho mình?"</strong>' },
                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Bên em có sẵn các loại rail kit chính hãng cho server này. Anh/chị có muốn em thêm vào báo giá để mình tiện tham khảo và lắp đặt đồng bộ luôn không ạ?"', isConversion: true },
@@ -287,7 +287,7 @@
                      'samsung-ssd-compatibility': {
                         title: 'Server Dell & HPE có gắn được SSD Samsung không?',
                          steps: [
-                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ về mặt kỹ thuật thì <strong>hoàn toàn có thể gắn được ạ</strong>. Các ổ SSD của Samsung (dòng cho người dùng cuối như 870 EVO, 980 Pro) vẫn có thể hoạt động trên server Dell/HPE.' },
+                           { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ về mặt kỹ thuật thì <strong>hoàn toàn có thể gắn được ạ</strong>. Các ổ SSD của Samsung (dòng cho người dùng cuối như PM983, 870 EVO, 980 Pro) vẫn có thể hoạt động trên server Dell/HPE.' },
                            { title: 'Bước 2: Nêu Rõ Hạn Chế & Rủi Ro', description: 'Tuy nhiên, bên em <strong>không khuyến khích</strong> việc này vì các lý do sau: <ul><li><strong>Tính ổn định:</strong> SSD cho người dùng cuối không được thiết kế để hoạt động liên tục 24/7 trong môi trường server, có thể ảnh hưởng đến độ bền và sự ổn định.</li><li><strong>Tương thích RAID:</strong> Card RAID của server có thể không nhận diện, báo lỗi hoặc không tối ưu hiệu năng với các ổ cứng không chính hãng.</li><li><strong>Bảo hành:</strong> Nếu có sự cố xảy ra liên quan đến ổ cứng, hãng có thể từ chối bảo hành cho cả hệ thống server.</li></ul>' },
                            { title: 'Bước 3: Đưa ra Giải Pháp Tối Ưu', description: 'Để đảm bảo sự ổn định và an toàn dữ liệu tuyệt đối cho doanh nghiệp, giải pháp tốt nhất là sử dụng ổ cứng chính hãng Dell/HPE (Enterprise SSD). Các ổ cứng này đã được kiểm tra và chứng nhận tương thích hoàn toàn với server.' },
                            { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Mặc dù chi phí đầu tư cho ổ cứng chính hãng có cao hơn một chút, nhưng nó đảm bảo sự an tâm và ổn định lâu dài cho cả hệ thống. Anh/chị có muốn em lên báo giá so sánh giữa phương án dùng SSD Samsung và SSD chính hãng để mình cân nhắc không ạ?"', isConversion: true },
@@ -395,7 +395,7 @@
                     'raid-h355-support': {
                         title: 'Card RAID H355 có hỗ trợ RAID 5 không?',
                         steps: [
-                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Card RAID PERC H355 của Dell <strong>hoàn toàn hỗ trợ RAID 5</strong>. Ngoài ra, nó còn hỗ trợ các cấp độ RAID phổ biến khác như RAID 0, 1, và 10.' },
+                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Card RAID PERC H355 của Dell <strong>không hỗ trợ raid 5, chỉ hỗ trợ raid 0/1/10</strong>. Ngoài ra, nó còn hỗ trợ các cấp độ RAID phổ biến khác như RAID 0, 1, và 10.' },
                              { title: 'Bước 2: Giải Thích Lợi Ích Của RAID 5', description: 'RAID 5 là một lựa chọn rất phổ biến cho doanh nghiệp vì nó cân bằng được 3 yếu tố: <ul><li><strong>Hiệu năng:</strong> Tốc độ đọc nhanh.</li><li><strong>Dung lượng:</strong> Chỉ mất dung lượng của 1 ổ cứng cho việc dự phòng.</li><li><strong>An toàn dữ liệu:</strong> Cho phép hỏng 1 ổ cứng trong mảng RAID mà không làm mất dữ liệu.</li></ul>' },
                              { title: 'Bước 3: Yêu Cầu Kỹ Thuật', description: 'Mình cần tư vấn cho khách: "Dạ để cấu hình được RAID 5, mình cần tối thiểu <strong>3 ổ cứng có cùng dung lượng và tốc độ</strong> ạ. Với 3 ổ cứng, dung lượng sử dụng được sẽ là tổng dung lượng của 2 ổ."' },
                              { title: 'Bước 4: Gợi Ý Chốt Đơn', description: '"Đây là giải pháp an toàn và hiệu quả cho các ứng dụng lưu trữ dữ liệu quan trọng của công ty. Anh/chị có muốn em tư vấn cấu hình server với 3 ổ cứng và card H355 để chạy RAID 5 luôn không ạ?"', isConversion: true },

@@ -44,6 +44,8 @@
             box-shadow: 5px 5px 0px #000; /* Black blocky shadow */
             transition: all 0.1s linear;
             cursor: pointer;
+            display: inline-block; /* Make anchor tags behave like buttons */
+            text-align: center;
         }
         .brutalist-btn:hover {
             background-color: #2563eb; /* Darker blue on hover */
@@ -71,48 +73,6 @@
             padding: 1.5rem;
             text-transform: uppercase;
         }
-
-        /* Popup Styles with updated colors */
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8); /* Light overlay */
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .popup-content {
-            background-color: #fff; /* White background for popup */
-            color: #111827; /* Darker, softer black for popup text */
-            border: 4px solid #3B82F6; /* Bright blue border */
-            box-shadow: 20px 20px 0px #1e3a8a; /* Darker blue blocky shadow */
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-        .popup-close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background-color: #3B82F6; /* Bright blue close button */
-            color: #fff; /* White text for close button */
-            border: 2px solid #000; /* Black border */
-            padding: 0.5rem 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 3px 3px 0px #000; /* Black shadow */
-            transition: all 0.1s linear;
-        }
-        .popup-close-btn:hover {
-            background-color: #2563eb; /* Darker blue on hover */
-            transform: translate(-1px, -1px);
-            box-shadow: 4px 4px 0px #000;
-        }
     </style>
 </head>
 <body class="text-white">
@@ -134,44 +94,48 @@
     </header>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <!-- Card 1: SERVER HP DELL NKC -->
         <div class="brutalist-card p-8 flex flex-col items-center justify-center text-center">
             <h2 class="text-2xl font-bold mb-6">SERVER HP DELL NKC</h2>
             <p class="text-gray-700 mb-8">
                 TRUY CẬP THÔNG TIN CHI TIẾT VỀ MÁY CHỦ HP VÀ DELL, BAO GỒM THÔNG SỐ KỸ THUẬT, HIỆU SUẤT VÀ PHÂN LOẠI.
             </p>
-            <button class="brutalist-btn" onclick="openPopup('SERVER HP DELL NKC')">
+            <a href="/phan-loai-san-pham/server/server.html" class="brutalist-btn">
                 XEM CHI TIẾT
-            </button>
+            </a>
         </div>
 
+        <!-- Card 2: HP POLY NKC -->
         <div class="brutalist-card p-8 flex flex-col items-center justify-center text-center">
             <h2 class="text-2xl font-bold mb-6">HP POLY NKC</h2>
             <p class="text-gray-700 mb-8">
                 KHÁM PHÁ CÁC SẢN PHẨM HP POLY, TỪ THIẾT BỊ HỘI NGHỊ ĐẾN GIẢI PHÁP ÂM THANH VÀ VIDEO.
             </p>
-            <button class="brutalist-btn" onclick="openPopup('HP POLY NKC')">
+            <a href="/phan-loai-san-pham/hp-poly/hp-poly.html" class="brutalist-btn">
                 XEM CHI TIẾT
-            </button>
+            </a>
         </div>
 
+        <!-- Card 3: GPU & CARD -->
         <div class="brutalist-card p-8 flex flex-col items-center justify-center text-center">
             <h2 class="text-2xl font-bold mb-6">GPU & CARD</h2>
             <p class="text-gray-700 mb-8">
                 PHÂN TÍCH CÁC DỮ LIỆU KHÁC, GIÚP BẠN CÓ CÁI NHÌN TỔNG QUAN VỀ GPU & CARD.
             </p>
-            <button class="brutalist-btn" onclick="openPopup('GPU & CARD')">
+            <a href="/phan-loai-san-pham/gpu-card/gpu-card.html" class="brutalist-btn">
                 XEM CHI TIẾT
-            </button>
+            </a>
         </div>
 
+        <!-- Card 4: MÁY IN -->
         <div class="brutalist-card p-8 flex flex-col items-center justify-center text-center">
-            <h2 class="text-2xl font-bold mb-6">DỮ LIỆU KHÁC</h2>
+            <h2 class="text-2xl font-bold mb-6">MÁY IN</h2>
             <p class="text-gray-700 mb-8">
-                PHÂN TÍCH CÁC DỮ LIỆU KHÁC, GIÚP BẠN CÓ CÁI NHÌN TỔNG QUAN VỀ CÁC DANH MỤC CÒN LẠI.
+                KHÁM PHÁ CÁC LOẠI MÁY IN, TỪ MÁY IN LASER, MÁY IN PHUN ĐẾN CÁC DÒNG MÁY IN CHUYÊN DỤNG.
             </p>
-            <button class="brutalist-btn" onclick="openPopup('DỮ LIỆU KHÁC')">
+            <a href="/phan-loai-san-pham/may-in/may-in.html" class="brutalist-btn">
                 XEM CHI TIẾT
-            </button>
+            </a>
         </div>
 
     </div>
@@ -181,59 +145,5 @@
     </footer>
 </div>
 
-<div id="brutalistPopup" class="popup-overlay">
-    <div class="popup-content">
-        <button class="popup-close-btn" onclick="closePopup()">X</button>
-        <h3 id="popupTitle" class="text-3xl font-bold mb-4 uppercase"></h3>
-        <p id="popupContent" class="text-base leading-relaxed">
-            Đây là nội dung chi tiết cho danh mục sản phẩm "<span id="dynamicCategoryName" class="font-bold"></span>".
-            Trong môi trường thực tế, thông tin này sẽ được tải động dựa trên danh mục bạn đã chọn.
-            Thiết kế theo phong cách Brutalist nhấn mạnh sự thẳng thắn, không màu mè và chức năng.
-            Sử dụng các khối màu đậm, viền cứng và phông chữ đơn giản để tạo cảm giác mạnh mẽ và thô mộc.
-        </p>
-        <div class="mt-8 text-center">
-            <a href="#" id="popupLink" class="brutalist-btn" style="display: none;">ĐI TỚI TRANG DANH MỤC</a>
-        </div>
-    </div>
-</div>
-
-<script>
-    function openPopup(categoryName) {
-        const popup = document.getElementById('brutalistPopup');
-        const popupTitle = document.getElementById('popupTitle');
-        const dynamicCategoryName = document.getElementById('dynamicCategoryName');
-        const popupLink = document.getElementById('popupLink');
-
-        popupTitle.textContent = categoryName;
-        dynamicCategoryName.textContent = categoryName;
-
-        // Set the appropriate link based on the category
-        let linkHref = '#';
-        switch (categoryName) {
-            case 'SERVER HP DELL NKC':
-                linkHref = '/phan-loai-san-pham/server/server.html';
-                break;
-            case 'HP POLY NKC':
-                linkHref = '/phan-loai-san-pham/hp-poly/hp-poly.html';
-                break;
-            case 'GPU & CARD':
-                linkHref = '/phan-loai-san-pham/gpu-card/gpu-card.html';
-                break;
-            default:
-                linkHref = '/phan-loai-san-pham/gpu-card/gpu-card.html'; // Fallback for 'DỮ LIỆU KHÁC' or other future categories
-        }
-        popupLink.href = linkHref;
-        // Show the button if it's not "DỮ LIỆU KHÁC" for which we don't have a specific link yet
-        if (categoryName !== 'DỮ LIỆU KHÁC') {
-            popupLink.style.display = 'inline-block';
-        } else {
-            popupLink.style.display = 'none';
-        }
-
-        popup.style.display = 'flex'; // Use flex to center the popup
-    }
-
-    function closePopup() {
-        document.getElementById('brutalistPopup').style.display = 'none';
-    }
-</script>
+</body>
+</html>

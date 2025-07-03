@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tổng Quan Sản Phẩm HP Poly</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phân Tích Sản Phẩm HP Poly</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts for typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <!-- Chart.js for charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
@@ -19,664 +25,936 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* Use Inter as the default font */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* gray-100 */
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f3f4f6;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #e5e7eb;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #9ca3af;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+      }
+      .catalog-link {
+        transition: all 0.2s ease-in-out;
+        border-left: 3px solid transparent;
+      }
+      .catalog-link:hover {
+        background-color: #4338ca;
+        color: white;
+        border-left-color: #a5b4fc;
+      }
+      .catalog-link.active {
+        background-color: #4f46e5;
+        color: white;
+        font-weight: 600;
+        border-left-color: #c7d2fe;
+      }
+      #main-content > div {
+        width: 100%;
+        height: 100%;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-        /* Custom scrollbar for a better look */
-        ::-webkit-scrollbar {
-            width: 8px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        ::-webkit-scrollbar-track {
-            background: #e5e7eb; /* gray-200 */
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #9ca3af; /* gray-400 */
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6b7280; /* gray-500 */
-        }
-        /* Styles for the sidebar navigation links */
-        .catalog-link {
-            transition: all 0.2s ease-in-out;
-            border-left: 3px solid transparent;
-        }
-        .catalog-link:hover {
-            background-color: #4338ca; /* indigo-700 */
-            color: white;
-            border-left-color: #a5b4fc; /* indigo-300 */
-        }
-        .catalog-link.active {
-            background-color: #4f46e5; /* indigo-600 */
-            color: white;
-            font-weight: 600;
-            border-left-color: #c7d2fe; /* indigo-200 */
-        }
-        /* Ensure content inside the main area doesn't have its own scrollbars unless needed */
-        #main-content > div {
-             width: 100%;
-             height: 100%;
-        }
-        /* Animation for content fade-in */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        .win-prob-chart-container {
-            position: relative;
-            width: 180px;
-            height: 180px;
-        }
-        .win-prob-percentage {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2.25rem;
-            font-weight: 800;
-        }
-        .comparison-table th, .comparison-table td {
-            padding: 0.75rem 1rem;
-            text-align: center;
-            border: 1px solid #e5e7eb;
-        }
-        .comparison-table th.feature-col, .comparison-table td.feature-col {
-            text-align: left;
-            font-weight: 600;
-        }
-        .poly-highlight {
-            background-color: #eef2ff; /* indigo-50 */
-        }
-        .poly-highlight th {
-            border-top: 3px solid #6366f1; /* indigo-500 */
-        }
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      .win-prob-chart-container {
+        position: relative;
+        width: 160px;
+        height: 160px;
+      }
+      .win-prob-percentage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2rem;
+        font-weight: 800;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 0.75rem 1rem;
+        text-align: center;
+        border: 1px solid #e5e7eb;
+      }
+      .comparison-table th {
+        background-color: #f9fafb;
+      }
+      .comparison-table th.feature-col,
+      .comparison-table td.feature-col {
+        text-align: left;
+        font-weight: 600;
+      }
+      .comparison-table .poly-highlight {
+        background-color: #eef2ff;
+      }
+      .comparison-table .poly-highlight.header {
+        border-top: 3px solid #6366f1;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar/Catalog -->
-        <aside class="w-64 bg-gray-800 text-white flex flex-col flex-shrink-0">
-            <div class="px-6 py-5 border-b border-gray-700 flex items-center space-x-3">
-                 <i class="fas fa-headset text-indigo-400 text-2xl"></i>
-                <a href="/phan-loai-san-pham/hp-poly/hp-poly.html"><h2 class="text-xl font-bold">HP Poly</h2></a>
-                
-            </div>
-            <nav id="catalog-nav" class="flex-1 px-3 py-4 space-y-1">
-                <!-- Catalog links will be dynamically inserted here -->
-            </nav>
-            <div class="px-6 py-4 border-t border-gray-700 text-sm text-gray-400">
-                <p>&copy; 2025 Nguyên Kim Computer</p>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <header class="bg-white shadow-sm p-4 flex justify-between items-center z-10 flex-shrink-0">
-                <h1 id="page-title" class="text-xl font-semibold text-gray-800"></h1>
-                <div class="flex items-center space-x-4">
-                     <div class="relative">
-                         <input type="search" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 w-48 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                         <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                     </div>
-                     <button class="text-gray-500 hover:text-indigo-600"><i class="fas fa-bell fa-lg"></i></button>
-                     <button class="text-gray-500 hover:text-indigo-600"><i class="fas fa-cog fa-lg"></i></button>
-                     <img src="https://placehold.co/40x40/E2E8F0/4A5568?text=AD" alt="Admin" class="w-10 h-10 rounded-full cursor-pointer">
-                </div>
-            </header>
-            <main id="main-content" class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 sm:p-6 md:p-8">
-                <!-- Content from other HTML files will be loaded here -->
-            </main>
+      <aside class="w-72 bg-gray-800 text-white flex flex-col flex-shrink-0">
+        <div
+          class="px-6 py-5 border-b border-gray-700 flex items-center space-x-3"
+        >
+          <i class="fas fa-headset text-indigo-400 text-2xl"></i
+          ><a href="#"
+            ><h2 class="text-xl font-bold">HP Poly Competitive</h2></a
+          >
         </div>
+        <nav
+          id="catalog-nav"
+          class="flex-1 px-3 py-4 space-y-1 overflow-y-auto"
+        ></nav>
+        <div class="px-6 py-4 border-t border-gray-700 text-sm text-gray-400">
+          <p>© 2025 Nguyên Kim Computer</p>
+        </div>
+      </aside>
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <header
+          class="bg-white shadow-sm p-4 flex justify-between items-center z-10 flex-shrink-0"
+        >
+          <h1 id="page-title" class="text-xl font-semibold text-gray-800"></h1>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <input
+                type="search"
+                placeholder="Tìm kiếm..."
+                class="pl-10 pr-4 py-2 w-48 border rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+              /><i
+                class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              ></i>
+            </div>
+            <button class="text-gray-500 hover:text-indigo-600">
+              <i class="fas fa-bell fa-lg"></i>
+            </button>
+            <img
+              src="https://placehold.co/40x40/E2E8F0/4A5568?text=AD"
+              alt="Admin"
+              class="w-10 h-10 rounded-full cursor-pointer"
+            />
+          </div>
+        </header>
+        <main
+          id="main-content"
+          class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 sm:p-6 md:p-8"
+        ></main>
+      </div>
     </div>
 
     <script>
-    // --- GLOBAL SCOPE HELPERS & DATA ---
-    const winProbData = {
-        caoCap: {
-            title: 'Phân Khúc Cao Cấp',
-            competitors: ['Logitech', 'Cisco'],
-            products: {
-                poly: ['Studio X70', 'Studio X52', 'G7500 + E70'],
-                comp: ['Rally Bar / Plus', 'Room Bar Pro']
-            },
-            criteria: [
-                { name: 'Công nghệ Camera AI (DirectorAI)', weight: 0.30, poly: 9, comp: 7, note: 'Camera tự động lấy nét, zoom vào người nói và chuyển cảnh mượt mà như một đạo diễn truyền hình. <strong>Lợi ích:</strong> Cuộc họp trở nên chuyên nghiệp, tự nhiên và hấp dẫn hơn, người tham gia không bị phân tâm bởi việc điều khiển camera, giúp tập trung 100% vào nội dung.' },
-                { name: 'Công nghệ Âm thanh AI (Acoustic Fence)', weight: 0.25, poly: 9, comp: 7, note: 'Tạo ra một "hàng rào âm thanh" vô hình, loại bỏ hoàn toàn tiếng ồn và các cuộc trò chuyện bên ngoài khu vực họp. <strong>Lợi ích:</strong> Đảm bảo đầu dây bên kia chỉ nghe thấy bạn, loại bỏ hiểu lầm và tăng tính bảo mật cho các cuộc thảo luận quan trọng, ngay cả trong văn phòng mở ồn ào.' },
-                { name: 'Hệ sinh thái & Quản lý (Poly Lens)', weight: 0.20, poly: 8, comp: 8, note: 'Nền tảng quản lý tập trung miễn phí, cho phép IT cập nhật phần mềm, chẩn đoán lỗi và cấu hình hàng loạt thiết bị từ xa. <strong>Lợi ích:</strong> Giảm đáng kể thời gian và chi phí vận hành cho đội ngũ IT, đảm bảo tất cả thiết bị luôn ở trạng thái tốt nhất mà không cần can thiệp thủ công.' },
-                { name: 'Bảo mật & Dịch vụ (HP Wolf Security)', weight: 0.15, poly: 10, comp: 6, note: 'Thừa hưởng DNA bảo mật từ HP với BIOS tự phục hồi, chống lại mã độc ở cấp độ phần cứng. Dịch vụ bảo hành tận nơi của HP. <strong>Lợi ích:</strong> An tâm tuyệt đối rằng thiết bị hội nghị không phải là cửa ngõ cho hacker. Khi có sự cố, chuyên gia đến tận nơi, đảm bảo hoạt động kinh doanh không bị gián đoạn.' },
-                { name: 'Giá Trị Tổng thể (TCO)', weight: 0.10, poly: 8, comp: 7, note: 'Mặc dù giá ban đầu có thể cao hơn, nhưng chi phí sở hữu tổng thể (TCO) thấp hơn nhờ độ bền, ít lỗi, quản lý miễn phí và vòng đời sản phẩm dài. <strong>Lợi ích:</strong> Một khoản đầu tư tài chính thông minh, giúp tiết kiệm chi phí vận hành và thay thế trong dài hạn, bảo vệ ngân sách của doanh nghiệp.' },
-            ],
-            polyColor: 'rgba(79, 70, 229, 1)', // indigo-600
-            compColor: 'rgba(220, 38, 38, 1)' // red-600
-        },
-        trungCap: {
-            title: 'Phân Khúc Trung Cấp (SMB)',
-            competitors: ['Logitech', 'Yealink'],
-            products: {
-                poly: ['Studio R30', 'Sync 60'],
-                comp: ['Rally Bar Mini', 'UVC40', 'A20']
-            },
-            criteria: [
-                { name: 'Tính Năng AI trên Giá Bán', weight: 0.35, poly: 9, comp: 7, note: 'Mang các công nghệ AI đầu bảng như DirectorAI và Acoustic Fence xuống phân khúc giá dễ tiếp cận hơn cho doanh nghiệp vừa và nhỏ. <strong>Lợi ích:</strong> Doanh nghiệp SMB có được trải nghiệm họp chuyên nghiệp như các tập đoàn lớn mà không cần phá vỡ ngân sách, nâng cao hình ảnh và hiệu quả làm việc.' },
-                { name: 'Dễ Triển Khai & Sử Dụng', weight: 0.25, poly: 9, comp: 8, note: 'Thiết kế "cắm là chạy" qua cổng USB, không yêu cầu cấu hình phức tạp hay đội ngũ IT chuyên biệt để lắp đặt. <strong>Lợi ích:</strong> Tiết kiệm thời gian và chi phí cài đặt. Nhân viên có thể tự sử dụng ngay lập tức, tăng tốc độ ứng dụng công nghệ trong toàn công ty.' },
-                { name: 'Quản lý Cloud Miễn phí (Poly Lens)', weight: 0.20, poly: 10, comp: 6, note: 'Cung cấp đầy đủ các tính năng quản lý từ xa mà không tính thêm phí, không giống như đối thủ thường giới hạn bản miễn phí. <strong>Lợi ích:</strong> Giúp chủ doanh nghiệp hoặc IT duy nhất của công ty dễ dàng quản lý toàn bộ thiết bị, dự toán ngân sách chính xác mà không có chi phí ẩn.' },
-                { name: 'Hỗ trợ & Bảo hành Tận Nơi', weight: 0.10, poly: 9, comp: 7, note: 'Tùy chọn bảo hành tận nơi chuẩn doanh nghiệp của HP là một lợi thế cực lớn, khác biệt với chính sách gửi đi sửa của đối thủ. <strong>Lợi ích:</strong> Giảm thiểu thời gian chết của thiết bị, đảm bảo các cuộc họp quan trọng với khách hàng và đối tác không bao giờ bị ảnh hưởng bởi lỗi kỹ thuật.' },
-                { name: 'Chất lượng phần cứng & Độ bền', weight: 0.10, poly: 8, comp: 8, note: 'Vật liệu cao cấp và thiết kế bền bỉ giúp sản phẩm hoạt động ổn định trong nhiều năm. <strong>Lợi ích:</strong> Khách hàng mua một lần và sử dụng lâu dài, tránh được chi phí và sự phiền toái khi phải thay thế thiết bị thường xuyên.' },
-            ],
-            polyColor: 'rgba(5, 150, 105, 1)', // emerald-600
-            compColor: 'rgba(249, 115, 22, 1)' // orange-500
-        },
-        caNhan: {
-            title: 'Thiết Bị Cá Nhân',
-            competitors: ['Jabra', 'Logitech'],
-             products: {
-                poly: ['Voyager Focus 2', 'Voyager 4320', 'Sync 20'],
-                comp: ['Evolve2 75/65', 'Zone Vibe/Wireless', 'Speak2 55']
-            },
-            criteria: [
-                { name: 'Công nghệ Micro (Acoustic Fence)', weight: 0.40, poly: 10, comp: 8, note: 'Công nghệ độc quyền giúp loại bỏ tiếng ồn xung quanh bạn, chỉ thu giọng nói của bạn. <strong>Lợi ích:</strong> Bạn có thể thực hiện cuộc gọi quan trọng ở bất cứ đâu - quán cafe, sân bay, văn phòng ồn ào - mà người nghe vẫn cảm thấy như bạn đang ở trong phòng riêng. Thể hiện sự chuyên nghiệp tuyệt đối.' },
-                { name: 'Độ thoải mái & Pin', weight: 0.20, poly: 8, comp: 8, note: 'Thiết kế nhẹ, công thái học và thời lượng pin cực dài (lên đến 25 giờ đàm thoại) giúp bạn có thể đeo cả ngày mà không bị mỏi. <strong>Lợi ích:</strong> Tăng năng suất làm việc, bạn có thể tập trung vào công việc mà không bị gián đoạn bởi việc sạc pin hay cảm giác khó chịu khi đeo tai nghe.' },
-                { name: 'Phạm vi & Kết nối', weight: 0.15, poly: 9, comp: 7, note: 'Phạm vi không dây lên tới 50m, vượt trội so với tiêu chuẩn 30m của đối thủ. Kết nối đa điểm mượt mà. <strong>Lợi ích:</strong> Tự do di chuyển quanh văn phòng hoặc nhà mà không sợ mất kết nối. Dễ dàng chuyển đổi giữa cuộc gọi trên laptop và điện thoại.' },
-                { name: 'Chống Ồn Chủ Động (Hybrid ANC)', weight: 0.15, poly: 9, comp: 9, note: 'Công nghệ ANC đa cấp độ giúp bạn loại bỏ tiếng ồn xung quanh để tập trung tối đa vào công việc hoặc thư giãn. <strong>Lợi ích:</strong> Tạo ra một "ốc đảo" yên tĩnh cho riêng bạn, giúp tăng cường sự tập trung, giảm căng thẳng và nâng cao chất lượng công việc.' },
-                { name: 'Giá / Hiệu Năng', weight: 0.10, poly: 8, comp: 7, note: 'Cung cấp các công nghệ đầu bảng với mức giá cạnh tranh, mang lại giá trị đầu tư cao hơn. <strong>Lợi ích:</strong> Khách hàng nhận được một sản phẩm chất lượng cao, bền bỉ với các tính năng chuyên nghiệp, giúp tối ưu hóa chi phí mà vẫn đảm bảo hiệu suất công việc.' },
-            ],
-            polyColor: 'rgba(217, 119, 6, 1)', // amber-600
-            compColor: 'rgba(107, 114, 128, 1)' // gray-500
-        }
-    };
-
-    function calculateWinProb(data) {
-        let polyScore = 0;
-        let compScore = 0;
-        data.criteria.forEach(c => {
-            polyScore += c.poly * c.weight;
-            compScore += c.comp * c.weight;
+      // --- GLOBAL SCOPE HELPERS ---
+      function calculateWinProb(criteria) {
+        let polyScore = 0,
+          compScore = 0;
+        criteria.forEach((c) => {
+          polyScore += c.poly * c.weight;
+          compScore += c.comp * c.weight;
         });
         const totalScore = polyScore + compScore;
-        const polyProb = totalScore > 0 ? Math.round((polyScore / totalScore) * 100) : 50;
-        return { polyScore, compScore, polyProb };
-    }
+        return {
+          polyProb:
+            totalScore > 0 ? Math.round((polyScore / totalScore) * 100) : 50,
+        };
+      }
 
-    function createWinProbChart(canvasId, data, prob) {
-        const ctx = document.getElementById(canvasId)?.getContext('2d');
+      function createWinProbChart(canvasId, criteria, polyColor, compColor) {
+        const ctx = document.getElementById(canvasId)?.getContext("2d");
         if (!ctx) return;
-        const existingChart = Chart.getChart(ctx);
-        if (existingChart) {
-            existingChart.destroy();
-        }
+        if (Chart.getChart(ctx)) Chart.getChart(ctx).destroy();
+        const { polyProb } = calculateWinProb(criteria);
         new Chart(ctx, {
-            type: 'doughnut', data: { labels: ['HP Poly', `Đối thủ`], datasets: [{ data: [prob, 100 - prob], backgroundColor: [data.polyColor, data.compColor], borderColor: '#f3f4f6', borderWidth: 4, hoverBorderWidth: 6 }] },
-            options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false }, tooltip: { enabled: true, callbacks: { label: function(context) { return `${context.label}: ${context.raw}%`; } } } } }
+          type: "doughnut",
+          data: {
+            labels: ["HP Poly", `Đối thủ`],
+            datasets: [
+              {
+                data: [polyProb, 100 - polyProb],
+                backgroundColor: [polyColor, compColor],
+                borderColor: "#f3f4f6",
+                borderWidth: 4,
+                hoverBorderWidth: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "75%",
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                enabled: true,
+                callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}%` },
+              },
+            },
+          },
         });
-    }
-    
-    function renderWinProbSection(data) {
-        const { polyProb } = calculateWinProb(data);
-        const competitorString = data.competitors.join(' & ');
+        const percentageEl = document.querySelector(
+          `[data-chart-id="${canvasId}"]`
+        );
+        if (percentageEl) {
+          percentageEl.textContent = `${polyProb}%`;
+          percentageEl.style.color = polyColor;
+        }
+      }
+
+      function renderProductAnalysis(config) {
+        const { polyProb } = calculateWinProb(config.criteria);
+        let criteriaHtml = config.criteria
+          .map(
+            (c) =>
+              `<div class="bg-gray-50 p-3 rounded-lg border border-gray-200"><div class="flex flex-col sm:flex-row justify-between sm:items-center"><h4 class="font-bold text-gray-800 text-sm">${c.name}</h4><div class="flex items-center gap-x-2 flex-shrink-0 mt-2 sm:mt-0"><span class="font-bold text-xs py-1 px-2 text-white rounded-md" style="background-color: ${config.polyColor};">Poly: ${c.poly}/10</span><span class="font-bold text-xs py-1 px-2 text-white rounded-md" style="background-color: ${config.compColor};">Đối thủ: ${c.comp}/10</span></div></div><div class="mt-2 pt-2 border-t border-dashed"><p class="text-xs text-gray-700">${c.note}</p></div></div>`
+          )
+          .join("");
+        return `<h3 class="text-2xl font-extrabold text-gray-900">${
+          config.title
+        }</h3><p class="text-sm text-gray-500 mb-4">Mã SP: ${
+          config.sku
+        }</p><div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><div class="lg:col-span-1 flex flex-col items-center bg-gray-50 p-4 rounded-xl border-2 border-dashed"><div class="win-prob-chart-container"><canvas id="${
+          config.chartId
+        }"></canvas><div data-chart-id="${
+          config.chartId
+        }" class="win-prob-percentage">${polyProb}%</div></div><p class="text-sm text-gray-600 mt-2 font-semibold">Xác suất thắng của HP Poly</p><div class="w-full text-left mt-4 space-y-3"><div><h4 class="font-bold text-green-700">Lợi thế cốt lõi:</h4><ul class="text-sm text-gray-800 list-inside space-y-1 mt-1">${config.advantages
+          .map(
+            (adv) =>
+              `<li><i class="fas fa-check-circle text-green-500 mr-1"></i>${adv}</li>`
+          )
+          .join(
+            ""
+          )}</ul></div><div><h4 class="font-bold text-red-700">Đối thủ chính:</h4><p class="text-sm text-gray-800">${
+          config.competitors
+        }</p></div><div><h4 class="font-bold text-indigo-700">Điểm quyết định:</h4><p class="text-sm text-gray-800">${
+          config.differentiator
+        }</p></div></div></div><div class="lg:col-span-2 space-y-3"><h4 class="text-lg font-bold text-gray-800">Phân Tích Chi Tiết Các Tiêu Chí</h4>${criteriaHtml}</div></div>`;
+      }
+
+      function renderComparisonTable(tableConfig) {
+        let headers = `<th class="feature-col">Tính năng</th>`;
+        tableConfig.columns.forEach((col) => {
+          headers += `<th class="header ${
+            col.isPoly ? "poly-highlight" : ""
+          }">${col.name}</th>`;
+        });
+        let rowsHtml = "";
+        tableConfig.rows.forEach((row) => {
+          let rowData = `<td class="feature-col">${row.feature}</td>`;
+          row.values.forEach((val, index) => {
+            rowData += `<td class="${
+              tableConfig.columns[index].isPoly ? "poly-highlight" : ""
+            }">${val}</td>`;
+          });
+          rowsHtml += `<tr>${rowData}</tr>`;
+        });
+        return `<div class="mt-6"><h4 class="text-lg font-bold text-gray-800 mb-3 text-center">Bảng So Sánh Kỹ Thuật</h4><div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm comparison-table"><thead><tr>${headers}</tr></thead><tbody>${rowsHtml}</tbody></table></div></div>`;
+      }
+
+      function renderFinalAnalysis(text) {
+        return `<div class="bg-indigo-50 border-l-4 border-indigo-500 text-indigo-800 p-4 mt-6 rounded-r-lg" role="alert"><p class="font-bold text-lg mb-2">Phân Tích & Ý Nghĩa</p><p class="text-sm">${text}</p></div>`;
+      }
+
+      // --- PAGE CONTENT CACHE ---
+      const contentCache = {
+        "san-pham-sap-ban": {
+          title: "Phân Tích SP Sắp Bán (2025)",
+          icon: "fa-rocket",
+          content: `
+     <div class="fade-in">
+        <section class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Phân Tích Cạnh Tranh Sản Phẩm Sắp Bán</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">So sánh chi tiết các mã sản phẩm HP Poly sắp ra mắt với đối thủ trực tiếp tại thị trường Việt Nam.</p>
+        </section>
         
-        let polyProductsHtml = data.products.poly.map(p => `<li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>${p}</li>`).join('');
-        let compProductsHtml = data.products.comp.map(p => `<li class="flex items-center"><i class="fas fa-times-circle text-red-500 mr-2"></i>${p}</li>`).join('');
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold text-indigo-700 border-b-4 border-indigo-300 pb-2 mb-6">DANH MỤC TAI NGHE</h2>
+            <div id="new-headsets-container"></div>
+        </div>
+        
+        <div>
+            <h2 class="text-3xl font-bold text-emerald-700 border-b-4 border-emerald-300 pb-2 mb-6">GIẢI PHÁP PHÒNG HỌP</h2>
+            <div id="new-meetingrooms-container"></div>
+        </div>
+     </div>
+     `,
+          script: `
+     (() => {
+        // --- DATA CONFIGURATION FOR NEW PRODUCTS ---
+        const newProductsData = {
+            headsets: [
+                {
+                    config: {
+                        chartId: 'chart-new-bw3220', title: 'Poly Blackwire 3220 - Người hùng của IT', sku: '8X228AA',
+                        advantages: ['Tổng chi phí sở hữu (TCO) thấp', 'Triển khai đơn giản', 'Quản lý tập trung', 'Độ bền cao'], competitors: 'Logitech H570e, Jabra Evolve2 30',
+                        differentiator: 'Giá trị chiến lược dài hạn cho IT thông qua việc giảm chi phí vận hành.', polyColor: '#4f46e5', compColor: '#ca8a04',
+                        criteria: [
+                            { name: 'Tổng chi phí sở hữu (TCO)', weight: 0.35, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Bền và quản lý miễn phí giúp giảm chi phí thay thế, tiết kiệm ngân sách.' },
+                            { name: 'Quản lý & Triển khai', weight: 0.30, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> IT cài đặt và quản lý hàng loạt từ xa dễ dàng, giảm thời gian hỗ trợ.' },
+                            { name: 'Hiệu suất Micro', weight: 0.20, poly: 7, comp: 9, note: '<strong>Lưu ý:</strong> Jabra lợi thế ở môi trường Open Office, nhưng Poly tốt cho gọi tiêu chuẩn.' },
+                            { name: 'Độ bền & Thiết kế', weight: 0.15, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Quai kim loại bền hơn quai nhựa của đối thủ.' }
+                        ]
+                    },
+                    table: {
+                        columns: [{ name: 'Poly Blackwire 3220', isPoly: true }, { name: 'Logitech H570e', isPoly: false }, { name: 'Jabra Evolve2 30', isPoly: false }],
+                        rows: [{ feature: 'Kết Nối', values: ['✨ USB-C (kèm adapter A)', 'USB-A', 'USB-A hoặc USB-C'] }, { feature: 'Vật liệu Quai Đeo', values: ['✨ Kim loại', 'Kim loại gia cố', 'Thép gia cố'] }, { feature: 'Công nghệ Âm thanh', values: ['✨ Dynamic EQ, SoundGuard', 'DSP, Khử tiếng vang', 'Jabra SafeTone'] }]
+                    },
+                    analysis: \`Lợi thế của Blackwire 3220 là <strong>Tổng chi phí sở hữu (TCO) thấp</strong>. Việc đi kèm adapter, quai kim loại và quản lý miễn phí qua Poly Lens giải quyết trực tiếp vấn đề của IT. Trong khi Jabra mạnh hơn về micro, giá trị của Poly tập trung vào việc <strong>giảm chi phí vận hành dài hạn.</strong>\`
+                },
+                {
+                    config: {
+                        chartId: 'chart-new-vf2', title: 'Poly Voyager Focus 2 - Chuyên gia khử ồn', sku: '9T9J6AA',
+                        advantages: ['Acoustic Fence đỉnh cao', 'ANC hiệu quả', 'Thiết kế chuyên nghiệp'], competitors: 'Logitech Zone Wireless 2, Jabra Evolve2 75',
+                        differentiator: 'Tập trung tuyệt đối đảm bảo giọng nói người dùng rõ ràng hoàn hảo.', polyColor: '#d97706', compColor: '#6b7280',
+                        criteria: [{ name: 'Công nghệ Micro', weight: 0.50, poly: 10, comp: 8, note: '<strong>Lợi ích:</strong> Loại bỏ tạp âm nền, giúp bạn chuyên nghiệp trong mọi cuộc gọi.' },{ name: 'Chống Ồn Chủ Động (ANC)', weight: 0.20, poly: 9, comp: 9, note: '<strong>Lợi ích:</strong> Giúp người dùng tập trung tối đa, loại bỏ phiền nhiễu.' },{ name: 'Thoải mái & Pin', weight: 0.15, poly: 8, comp: 8, note: '<strong>Lợi ích:</strong> Đeo thoải mái cả ngày và pin dài không gián đoạn.' }]
+                    },
+                    table: {
+                        columns: [{ name: 'Poly Voyager Focus 2', isPoly: true }, { name: 'Jabra Evolve2 75', isPoly: false }, { name: 'Logitech Zone Wireless 2', isPoly: false }],
+                        rows: [{ feature: 'Công nghệ Micro', values: ['✨ Acoustic Fence (6-mic)', '8-mic ClearVoice', '5-mic Beamforming'] }, { feature: 'Pin (Thoại, ANC on)', values: ['16 giờ', '✨ 18 giờ', '15 giờ'] }, { feature: 'Phạm vi', values: ['✨ 50m', '30m', '✨ 50m'] }]
+                    },
+                    analysis: \`Công nghệ <strong>Acoustic Fence là "tính năng sát thủ"</strong>, định vị Focus 2 là lựa chọn vượt trội cho những ai cần được nghe rõ. Đối với một chuyên gia bán hàng, <strong>độ rõ nét giọng nói được đảm bảo của Focus 2 sẽ quan trọng hơn bất kỳ yếu tố nào khác.</strong>\`
+                },
+                {
+                    config: {
+                        chartId: 'chart-new-ep510', title: 'Poly EncorePro 510 - Vô địch thoải mái', sku: '783Q2AA',
+                        advantages: ['Cực kỳ nhẹ (52g)', 'Độ bền cao', 'Kết nối QD'], competitors: 'Jabra Biz Series',
+                        differentiator: 'Sự thoải mái vượt trội nhờ trọng lượng siêu nhẹ, nâng cao năng suất nhân viên.', polyColor: '#059669', compColor: '#dc2626',
+                        criteria: [ { name: 'Sự thoải mái (Trọng lượng)', weight: 0.40, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Giảm mệt mỏi cho nhân viên đeo tai nghe 8 tiếng/ngày.' }, { name: 'Độ bền & Tuổi thọ', weight: 0.30, poly: 9, comp: 8, note: '<strong>Lợi ích:</strong> Giảm chi phí thay thế cho trung tâm liên lạc.' } ]
+                    },
+                    table: {
+                        columns: [{ name: 'Poly EncorePro 510', isPoly: true }, { name: 'Jabra Biz 2300', isPoly: false }, { name: 'Jabra Biz 2400 II', isPoly: false }],
+                        rows: [{ feature: 'Trọng lượng (Mono)', values: ['✨ 52g', '68g', '57g'] }, { feature: 'Kết cấu', values: ['✨ Hàn laser', 'Dây Kevlar', 'Dây Kevlar'] }, { feature: 'Microphone', values: ['Khử ồn', 'Khử ồn', '✨ Khử ồn Cực cao'] }]
+                    },
+                    analysis: \`Trong thị trường trung tâm liên lạc, <strong>trọng lượng cực nhẹ (52g) là một lợi thế hữu hình</strong>. Câu chuyện bán hàng nên tập trung vào <strong>"sức khỏe và năng suất của nhân viên thông qua thiết kế công thái học vượt trội."</strong>\`
+                },
+                {
+                    config: {
+                        chartId: 'chart-new-v4320', title: 'Poly Voyager 4320 - Kẻ phá vỡ thị trường', sku: '77Z30AA',
+                        advantages: ['Acoustic Fence tầm trung', 'Pin và phạm vi vượt trội', 'Giá trị/hiệu năng tốt'], competitors: 'Logitech Zone Vibe, Jabra Evolve2 55',
+                        differentiator: 'Hiệu suất giao tiếp cốt lõi tốt nhất phân khúc.', polyColor: '#6d28d9', compColor: '#eab308',
+                        criteria: [ { name: 'Giá trị / Hiệu năng', weight: 0.40, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Có công nghệ micro cao cấp với giá tầm trung.' }, { name: 'Pin & Phạm vi', weight: 0.30, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Tự do di chuyển và làm việc cả ngày.' } ]
+                    },
+                    table: {
+                        columns: [{ name: 'Poly Voyager 4320', isPoly: true }, { name: 'Jabra Evolve2 55', isPoly: false }, { name: 'Logitech Zone Vibe 125', isPoly: false }],
+                        rows: [{ feature: 'Công nghệ Micro', values: ['✨ Acoustic Fence', 'Khử ồn (4-mic)', 'Khử ồn cơ bản'] }, { feature: 'Pin (Thoại)', values: ['✨ 24 giờ', '10 giờ (ANC on)', '18 giờ'] }, { feature: 'Phạm vi', values: ['✨ 50m', '30m', '30m'] }, { feature: 'ANC', values: ['❌ Không', '✅ Có', '❌ Không'] }]
+                    },
+                    analysis: \`Đột phá của Voyager 4320 là <strong>dân chủ hóa tính năng cao cấp (Acoustic Fence)</strong> vào một sản phẩm giá phải chăng. Thông điệp là: <strong>"Sở hữu công nghệ micrô cao cấp với giá tai nghe tiêu chuẩn."</strong>\`
+                }
+            ],
+            meetingRooms: [
+                 {
+                    config: { chartId: 'chart-new-combo1', title: 'Combo 1: Poly Studio USB (BYOD)', sku: '842D4AA + 875M6AA', advantages: ['Ưu thế âm thanh', 'Mở rộng micro linh hoạt', 'Camera AI thông minh'], competitors: 'Logitech Rally Bar Huddle, Yealink A20', differentiator: 'Chất lượng âm thanh và sự linh hoạt vượt trội. Mic mở rộng là "bảo hiểm".', polyColor: '#1d4ed8', compColor: '#f97316',
+                        criteria: [ { name: 'Chất lượng & Mở rộng âm thanh', weight: 0.40, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Đảm bảo mọi người được nghe rõ, ngay cả trong phòng lớn/có âm học kém.' }, { name: 'Công nghệ AI', weight: 0.30, poly: 9, comp: 8, note: '<strong>Lợi ích:</strong> Cuộc họp chuyên nghiệp và tự nhiên hơn.' }, { name: 'Dễ sử dụng (BYOD)', weight: 0.20, poly: 9, comp: 9, note: '<strong>Lợi ích:</strong> Cắm một dây USB là họp ngay.' }]
+                    },
+                    table: { columns: [{ name: 'Poly Studio + Mic', isPoly: true }, { name: 'Logitech Rally Bar Huddle', isPoly: false }, { name: 'Yealink MeetingBar A20', isPoly: false }], rows: [{ feature: 'Camera AI', values: ['✨ DirectorAI', 'RightSight 2', 'Auto Framing'] }, { feature: 'Âm thanh AI', values: ['✨ NoiseBlockAI, Fence', 'RightSound', 'Yealink Noise Proof'] }, { feature: 'Phạm vi Mic tích hợp', values: ['4.6 m', '✨ 7 m', 'Tốt'] }, { feature: 'Mic mở rộng', values: ['✅ Có (thêm 2.5m)', '❌ Không', '❌ Không'] }] },
+                    analysis: \`Lợi thế của Poly Studio là <strong>ưu thế âm thanh hai mặt</strong>: xử lý âm thanh tích hợp và một tùy chọn micrô mở rộng. Điều này có nghĩa là giải pháp có <strong>trần hiệu suất cao hơn</strong> và một <strong>lộ trình nâng cấp rõ ràng</strong> mà các đối thủ không có.\`
+                },
+                {
+                    config: { chartId: 'chart-new-combo2', title: 'Combo 2: Giải pháp MTR Doanh Nghiệp', sku: 'A1ZB6AW + A09D4AA + 875K5AA', advantages: ['Kiến trúc Mô-đun', 'TCO & Vòng đời vượt trội', 'Hiệu suất cao', 'Quản lý doanh nghiệp'], competitors: 'Logitech Rally Bar Mini, Yealink MVC640', differentiator: 'Lợi thế chiến lược về tài chính và vận hành IT, tiết kiệm chi phí vốn dài hạn.', polyColor: '#be185d', compColor: '#16a34a',
+                        criteria: [ { name: 'TCO & Vòng đời', weight: 0.40, poly: 10, comp: 6, note: '<strong>Lợi ích:</strong> Chỉ cần nâng cấp PC, giữ lại thanh video đắt tiền. Tiết kiệm khổng lồ.' }, { name: 'Quản lý & Bảo mật', weight: 0.25, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> IT quản lý bằng công cụ Windows quen thuộc (Intune).' }, { name: 'Hiệu suất', weight: 0.20, poly: 9, comp: 8, note: '<strong>Lợi ích:</strong> PC HP mạnh mẽ đảm bảo trải nghiệm MTR mượt mà.' }, { name: 'Hệ sinh thái', weight: 0.15, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Sự kết hợp giữa AV của Poly và IT của HP tạo ra giải pháp toàn diện.' }]
+                    },
+                    table: { columns: [{ name: 'HP Poly Combo 2', isPoly: true }, { name: 'Logitech Rally Bar Mini', isPoly: false }, { name: 'Yealink MVC640', isPoly: false }], rows: [{ feature: 'Kiến trúc', values: ['✨ Mô-đun (Windows)', 'Tích hợp (Android)', '✨ Mô-đun (Windows)'] }, { feature: 'Đơn vị tính toán', values: ['✨ HP PC (i7-13th Gen)', 'Tích hợp', 'Yealink PC (i5-11th Gen)'] }, { feature: 'Camera', values: ['Poly V52 (4K, DirectorAI)', 'PTZ 4K', 'PTZ quang 12x'] }, { feature: 'Quản lý', values: ['✨ Poly Lens + Intune', 'Logitech Sync', 'Yealink DM'] }] },
+                    analysis: \`Combo 2 đại diện cho sự đặt cược vào sự ưa thích của doanh nghiệp đối với hệ sinh thái Windows. Lợi thế chính là <strong>quản lý vòng đời và TCO dài hạn</strong>. Thiết kế mô-đun, nơi PC HP có thể nâng cấp độc lập, là một lợi thế bền vững. Hơn nữa, nó <strong>phù hợp liền mạch với quy trình làm việc hiện có của IT.</strong>\`
+                }
+            ]
+        };
 
-        let criteriaHtml = data.criteria.map(c => `
-            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <div class="flex flex-col sm:flex-row justify-between sm:items-center">
-                    <h4 class="font-bold text-gray-800 text-base mb-2 sm:mb-0">${c.name}</h4>
-                    <div class="flex items-center gap-x-3 flex-shrink-0">
-                        <span class="font-bold text-lg py-1 px-3 text-white rounded-md" style="background-color: ${data.polyColor};">HP Poly: ${c.poly}/10</span>
-                        <span class="font-bold text-lg py-1 px-3 text-white rounded-md" style="background-color: ${data.compColor};">Đối thủ: ${c.comp}/10</span>
+        // --- RENDERING LOGIC ---
+        const headsetsContainer = document.getElementById('new-headsets-container');
+        const meetingRoomsContainer = document.getElementById('new-meetingrooms-container');
+        const renderItem = (item) => {
+            let finalHtml = '<div class="bg-white rounded-2xl shadow-lg p-6 mb-8">';
+            finalHtml += renderProductAnalysis(item.config);
+            finalHtml += renderComparisonTable(item.table);
+            finalHtml += renderFinalAnalysis(item.analysis);
+            finalHtml += '</div>';
+            return finalHtml;
+        };
+
+        if (headsetsContainer) {
+            newProductsData.headsets.forEach(item => headsetsContainer.innerHTML += renderItem(item));
+        }
+        if (meetingRoomsContainer) {
+             newProductsData.meetingRooms.forEach(item => meetingRoomsContainer.innerHTML += renderItem(item));
+        }
+        setTimeout(() => {
+            [...newProductsData.headsets, ...newProductsData.meetingRooms].forEach(item => {
+                createWinProbChart(item.config.chartId, item.config.criteria, item.config.polyColor, item.config.compColor)
+            });
+        }, 50);
+     })()
+    `,
+        },
+        "tai-nghe": {
+          title: "Phân Tích Chuyên Sâu: Tai Nghe",
+          icon: "fa-headphones-alt",
+          content: `
+     <div class="fade-in">
+        <section class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Cuộc Chiến Âm Thanh & Sự Thoải Mái</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Nơi HP Poly chiến thắng bằng di sản kỹ thuật âm thanh và sự thấu hiểu người dùng chuyên nghiệp.</p>
+        </section>
+        <div id="analysis-container"></div>
+     </div>
+    `,
+          script: `
+     (() => {
+        // Data for all 4 headset products
+        const headsetsData = [
+            {
+                config: {
+                    chartId: 'chart-bw3220-sub',
+                    title: 'Poly Blackwire 3220 - Người hùng của IT',
+                    sku: '8X228AA',
+                    advantages: ['TCO thấp', 'Triển khai đơn giản', 'Quản lý tập trung', 'Độ bền cao'],
+                    competitors: 'Logitech H570e, Jabra Evolve2 30',
+                    differentiator: 'Giá trị chiến lược dài hạn cho IT thông qua giảm chi phí vận hành.',
+                    polyColor: '#4f46e5',
+                    compColor: '#ca8a04',
+                    criteria: [
+                        { name: 'Tổng chi phí sở hữu (TCO)', weight: 0.35, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Bền và quản lý miễn phí giúp giảm chi phí thay thế, tiết kiệm ngân sách.' },
+                        { name: 'Quản lý & Triển khai', weight: 0.30, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> IT cài đặt và quản lý hàng loạt từ xa dễ dàng, giảm thời gian hỗ trợ.' },
+                        { name: 'Hiệu suất Micro', weight: 0.20, poly: 7, comp: 9, note: '<strong>Lưu ý:</strong> Jabra lợi thế ở môi trường Open Office, nhưng Poly tốt cho gọi tiêu chuẩn.' },
+                        { name: 'Độ bền & Thiết kế', weight: 0.15, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Quai kim loại bền hơn quai nhựa của đối thủ.' }
+                    ]
+                },
+                table: {
+                    columns: [{ name: 'Poly Blackwire 3220', isPoly: true }, { name: 'Logitech H570e', isPoly: false }, { name: 'Jabra Evolve2 30', isPoly: false }],
+                    rows: [
+                        { feature: 'Kết Nối', values: ['✨ USB-C (kèm adapter A)', 'USB-A', 'USB-A hoặc USB-C'] },
+                        { feature: 'Vật liệu Quai Đeo', values: ['✨ Kim loại', 'Kim loại gia cố', 'Thép gia cố'] },
+                        { feature: 'Công nghệ Âm thanh', values: ['✨ Dynamic EQ, SoundGuard', 'DSP', 'Jabra SafeTone'] }
+                    ]
+                },
+                analysis: \`Lợi thế của Blackwire 3220 là <strong>Tổng chi phí sở hữu (TCO) thấp</strong>. Việc đi kèm adapter, quai kim loại và quản lý miễn phí qua Poly Lens giải quyết trực tiếp vấn đề của IT. Trong khi Jabra mạnh hơn về micro, giá trị của Poly tập trung vào việc <strong>giảm chi phí vận hành dài hạn.</strong>\`
+            },
+            {
+                config: {
+                    chartId: 'chart-vf2-sub',
+                    title: 'Poly Voyager Focus 2 - Chuyên gia khử ồn',
+                    sku: '9T9J6AA',
+                    advantages: ['Acoustic Fence đỉnh cao', 'ANC hiệu quả', 'Thiết kế chuyên nghiệp'],
+                    competitors: 'Logitech Zone Wireless 2, Jabra Evolve2 75',
+                    differentiator: 'Tập trung tuyệt đối đảm bảo giọng nói người dùng rõ ràng hoàn hảo.',
+                    polyColor: '#d97706',
+                    compColor: '#6b7280',
+                    criteria: [
+                        { name: 'Công nghệ Micro', weight: 0.50, poly: 10, comp: 8, note: '<strong>Lợi ích:</strong> Loại bỏ tạp âm nền, giúp bạn chuyên nghiệp trong mọi cuộc gọi.' },
+                        { name: 'Chống Ồn Chủ Động (ANC)', weight: 0.20, poly: 9, comp: 9, note: '<strong>Lợi ích:</strong> Giúp người dùng tập trung tối đa, loại bỏ phiền nhiễu.' },
+                        { name: 'Thoải mái & Pin', weight: 0.15, poly: 8, comp: 8, note: '<strong>Lợi ích:</strong> Đeo thoải mái cả ngày và pin dài không gián đoạn.' },
+                        { name: 'Tính năng thông minh', weight: 0.15, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Cảm biến tự động trả lời/tắt tiếng giúp thao tác nhanh.' }
+                    ]
+                },
+                table: {
+                    columns: [{ name: 'Poly Voyager Focus 2', isPoly: true }, { name: 'Jabra Evolve2 75', isPoly: false }, { name: 'Logitech Zone Wireless 2', isPoly: false }],
+                    rows: [
+                        { feature: 'Công nghệ Micro', values: ['✨ Acoustic Fence (6-mic)', '8-mic ClearVoice', '5-mic Beamforming'] },
+                        { feature: 'Pin (Thoại, ANC on)', values: ['16 giờ', '✨ 18 giờ', '15 giờ'] },
+                        { feature: 'Phạm vi', values: ['✨ 50m', '30m', '✨ 50m'] }
+                    ]
+                },
+                analysis: \`Công nghệ <strong>Acoustic Fence là "tính năng sát thủ"</strong>, định vị Focus 2 là lựa chọn vượt trội cho những ai cần được nghe rõ. Đối với một chuyên gia bán hàng, <strong>độ rõ nét giọng nói được đảm bảo của Focus 2 sẽ quan trọng hơn bất kỳ yếu tố nào khác.</strong>\`
+            },
+            {
+                config: {
+                    chartId: 'chart-ep510-sub',
+                    title: 'Poly EncorePro 510 - Vô địch thoải mái',
+                    sku: '783Q2AA',
+                    advantages: ['Cực kỳ nhẹ (52g)', 'Độ bền cao', 'Kết nối QD'],
+                    competitors: 'Jabra Biz Series',
+                    differentiator: 'Sự thoải mái vượt trội nhờ trọng lượng siêu nhẹ, nâng cao năng suất nhân viên.',
+                    polyColor: '#059669',
+                    compColor: '#dc2626',
+                    criteria: [
+                        { name: 'Sự thoải mái (Trọng lượng)', weight: 0.40, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Giảm mệt mỏi cho nhân viên đeo tai nghe 8 tiếng/ngày.' },
+                        { name: 'Độ bền & Tuổi thọ', weight: 0.30, poly: 9, comp: 8, note: '<strong>Lợi ích:</strong> Giảm chi phí thay thế cho trung tâm liên lạc.' },
+                        { name: 'Chất lượng âm thanh', weight: 0.20, poly: 8, comp: 8, note: '<strong>Ghi chú:</strong> Chất lượng tương đương, sự thoải mái là quyết định.' }
+                    ]
+                },
+                table: {
+                    columns: [{ name: 'Poly EncorePro 510', isPoly: true }, { name: 'Jabra Biz 2300', isPoly: false }, { name: 'Jabra Biz 2400 II', isPoly: false }],
+                    rows: [
+                        { feature: 'Trọng lượng (Mono)', values: ['✨ 52g', '68g', '57g'] },
+                        { feature: 'Kết cấu', values: ['✨ Hàn laser', 'Dây Kevlar', 'Dây Kevlar'] },
+                        { feature: 'Microphone', values: ['Khử ồn', 'Khử ồn', '✨ Khử ồn Cực cao'] }
+                    ]
+                },
+                analysis: \`Trong thị trường trung tâm liên lạc, <strong>trọng lượng cực nhẹ (52g) là một lợi thế hữu hình</strong>. Câu chuyện bán hàng nên tập trung vào <strong>"sức khỏe và năng suất của nhân viên thông qua thiết kế công thái học vượt trội."</strong>\`
+            },
+            {
+                config: {
+                    chartId: 'chart-v4320-sub',
+                    title: 'Poly Voyager 4320 - Kẻ phá vỡ thị trường',
+                    sku: '77Z30AA',
+                    advantages: ['Acoustic Fence tầm trung', 'Pin và phạm vi vượt trội', 'Giá trị/hiệu năng tốt'],
+                    competitors: 'Logitech Zone Vibe, Jabra Evolve2 55',
+                    differentiator: 'Hiệu suất giao tiếp cốt lõi tốt nhất phân khúc.',
+                    polyColor: '#6d28d9',
+                    compColor: '#eab308',
+                    criteria: [
+                        { name: 'Giá trị / Hiệu năng', weight: 0.40, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Có công nghệ micro cao cấp với giá tầm trung.' },
+                        { name: 'Pin & Phạm vi', weight: 0.30, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Tự do di chuyển và làm việc cả ngày.' },
+                        { name: 'Chất lượng Micro', weight: 0.20, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Đảm bảo cuộc gọi luôn rõ ràng.' },
+                        { name: 'Có ANC?', weight: 0.10, poly: 5, comp: 9, note: '<strong>Lưu ý:</strong> Jabra có ANC, nhưng hy sinh pin và phạm vi.' }
+                    ]
+                },
+                table: {
+                    columns: [{ name: 'Poly Voyager 4320', isPoly: true }, { name: 'Jabra Evolve2 55', isPoly: false }, { name: 'Logitech Zone Vibe 125', isPoly: false }],
+                    rows: [
+                        { feature: 'Công nghệ Micro', values: ['✨ Acoustic Fence', 'Khử ồn (4-mic)', 'Khử ồn cơ bản'] },
+                        { feature: 'Pin (Thoại)', values: ['✨ 24 giờ', '10 giờ (ANC on)', '18 giờ'] },
+                        { feature: 'Phạm vi', values: ['✨ 50m', '30m', '30m'] },
+                        { feature: 'ANC', values: ['❌ Không', '✅ Có', '❌ Không'] }
+                    ]
+                },
+                analysis: \`Đột phá của Voyager 4320 là <strong>dân chủ hóa tính năng cao cấp (Acoustic Fence)</strong> vào một sản phẩm giá phải chăng. Thông điệp là: <strong>"Sở hữu công nghệ micrô cao cấp với giá tai nghe tiêu chuẩn."</strong>\`
+            }
+        ];
+
+        const container = document.getElementById('analysis-container');
+        if (container) {
+            headsetsData.forEach(item => {
+                let finalHtml = '<div class="bg-white rounded-2xl shadow-lg p-6 mb-8">';
+                finalHtml += renderProductAnalysis(item.config);
+                finalHtml += renderComparisonTable(item.table);
+                finalHtml += renderFinalAnalysis(item.analysis);
+                finalHtml += '</div>';
+                container.innerHTML += finalHtml;
+            });
+            setTimeout(() => headsetsData.forEach(item => createWinProbChart(item.config.chartId, item.config.criteria, item.config.polyColor, item.config.compColor)), 50);
+        }
+     })()
+    `,
+        },
+        "phong-hop": {
+          title: "Phân Tích Chuyên Sâu: Phòng Họp",
+          icon: "fa-users-viewfinder",
+          content: `
+     <div class="fade-in">
+        <section class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Phân Tích Cạnh Tranh: Giải Pháp Phòng Họp</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Tập trung vào cuộc đối đầu chiến lược về kiến trúc hệ thống và tổng chi phí sở hữu (TCO) cho các giải pháp phòng họp của HP Poly.</p>
+        </section>
+        
+        <div id="meeting-solutions-container"></div>
+     </div>
+     `,
+          script: `
+     (() => {
+        // --- DATA CONFIGURATION FOR MEETING ROOMS ONLY ---
+        const meetingRoomsData = [
+            {
+                config: {
+                    chartId: 'chart-combo1-rooms', 
+                    title: 'Combo 1: Poly Studio USB (BYOD)', 
+                    sku: '842D4AA + 875M6AA', 
+                    advantages: ['Ưu thế âm thanh vượt trội', 'Mở rộng micro linh hoạt', 'Camera AI thông minh', 'Dễ sử dụng (Plug & Play)'], 
+                    competitors: 'Logitech Rally Bar Huddle, Yealink A20', 
+                    differentiator: 'Chất lượng âm thanh và sự linh hoạt. Mic mở rộng là "chính sách bảo hiểm" đảm bảo chất lượng cho mọi phòng họp.', 
+                    polyColor: '#1d4ed8', compColor: '#f97316',
+                    criteria: [ 
+                        { name: 'Chất lượng & Mở rộng âm thanh', weight: 0.40, poly: 10, comp: 7, note: '<strong>Lợi ích:</strong> Đảm bảo mọi người được nghe rõ, ngay cả trong phòng lớn/có âm học kém nhờ mic mở rộng.' }, 
+                        { name: 'Công nghệ AI (Video & Audio)', weight: 0.30, poly: 9, comp: 8, note: '<strong>Lợi ích:</strong> Cuộc họp chuyên nghiệp và tự nhiên hơn với camera tự động lấy nét và âm thanh lọc ồn.' }, 
+                        { name: 'Dễ sử dụng (BYOD)', weight: 0.20, poly: 9, comp: 9, note: '<strong>Lợi ích:</strong> Cắm một dây USB vào laptop là họp ngay.' },
+                        { name: 'Giá trị tổng thể', weight: 0.10, poly: 8, comp: 8, note: '<strong>Lợi ích:</strong> Một giải pháp chất lượng cao, linh hoạt cho nhiều loại phòng.'}
+                    ]
+                },
+                table: { 
+                    columns: [{ name: 'Poly Studio + Mic', isPoly: true }, { name: 'Logitech Rally Bar Huddle', isPoly: false }, { name: 'Yealink MeetingBar A20', isPoly: false }], 
+                    rows: [
+                        { feature: 'Camera AI', values: ['✨ DirectorAI', 'RightSight 2', 'Auto Framing'] }, 
+                        { feature: 'Âm thanh AI', values: ['✨ NoiseBlockAI & Acoustic Fence', 'RightSound', 'Yealink Noise Proof'] }, 
+                        { feature: 'Phạm vi Mic tích hợp', values: ['4.6 m', '✨ 7 m', '~4.5m'] }, 
+                        { feature: 'Mic mở rộng', values: ['✅ Có (thêm 2.5m)', '❌ Không', '❌ Không có tùy chọn chính hãng'] }
+                    ] 
+                },
+                analysis: \`Lợi thế của Poly Studio trong không gian BYOD là <strong>ưu thế âm thanh hai mặt</strong> của nó. Nó kết hợp khả năng xử lý âm thanh tích hợp hàng đầu với một tùy chọn micrô mở rộng liền mạch, cung cấp một giải pháp âm thanh mạnh mẽ và linh hoạt hơn cho các phòng họp phức tạp. Điều này có nghĩa là giải pháp của Poly có <strong>trần hiệu suất cao hơn</strong> và một <strong>lộ trình nâng cấp rõ ràng</strong> mà các đối thủ không có.\`
+            },
+            {
+                config: { 
+                    chartId: 'chart-combo2-rooms', 
+                    title: 'Combo 2: Giải pháp MTR Doanh Nghiệp', 
+                    sku: 'A1ZB6AW + A09D4AA + 875K5AA', 
+                    advantages: ['Kiến trúc Mô-đun (Windows)', 'TCO & Vòng đời vượt trội', 'Hiệu suất cao (PC i7 Gen 13)', 'Quản lý doanh nghiệp với Intune'], 
+                    competitors: 'Logitech Rally Bar Mini System, Yealink MVC640 System', 
+                    differentiator: 'Lợi thế chiến lược về tài chính và vận hành IT, giúp doanh nghiệp tiết kiệm chi phí vốn khổng lồ trong dài hạn.', 
+                    polyColor: '#be185d', compColor: '#16a34a',
+                    criteria: [ 
+                        { name: 'TCO & Quản lý vòng đời', weight: 0.40, poly: 10, comp: 6, note: '<strong>Lợi ích:</strong> Chỉ cần nâng cấp PC giá rẻ, giữ lại thanh video đắt tiền. Tiết kiệm khổng lồ so với việc phải thay cả hệ thống của Logitech.' }, 
+                        { name: 'Quản lý & Bảo mật', weight: 0.25, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> IT quản lý bằng công cụ Windows quen thuộc (Intune), phù hợp hoàn hảo với hạ tầng doanh nghiệp.' }, 
+                        { name: 'Hiệu suất hệ thống', weight: 0.20, poly: 9, comp: 8, note: '<strong>Lợi ích:</strong> PC HP mạnh mẽ đảm bảo trải nghiệm MTR mượt mà, ổn định trong nhiều năm.' }, 
+                        { name: 'Hệ sinh thái HP + Poly', weight: 0.15, poly: 9, comp: 7, note: '<strong>Lợi ích:</strong> Sự kết hợp giữa chuyên môn AV của Poly và sức mạnh IT, dịch vụ của HP tạo ra một giải pháp toàn diện.' }
+                    ]
+                },
+                table: { 
+                    columns: [{ name: 'HP Poly Combo 2', isPoly: true }, { name: 'Logitech Rally Bar Mini', isPoly: false }, { name: 'Yealink MVC640', isPoly: false }], 
+                    rows: [
+                        { feature: 'Kiến trúc', values: ['✨ Mô-đun (Windows)', 'Tích hợp (Android)', '✨ Mô-đun (Windows)'] }, 
+                        { feature: 'Đơn vị tính toán', values: ['✨ HP PC (i7-13th Gen)', 'Tích hợp trong Bar', 'Yealink PC (i5-11th Gen)'] }, 
+                        { feature: 'Camera', values: ['Poly V52 (4K, DirectorAI)', 'PTZ 4K', 'PTZ quang 12x'] }, 
+                        { feature: 'Quản lý', values: ['✨ Poly Lens + Microsoft Intune', 'Logitech Sync', 'Yealink DM'] }
+                    ]
+                },
+                analysis: \`Combo 2 đại diện cho sự đặt cược chiến lược vào sự ưa thích của doanh nghiệp đối với hệ sinh thái Windows. Lợi thế chính là <strong>quản lý vòng đời và TCO dài hạn</strong>. Thiết kế mô-đun, nơi PC HP có thể nâng cấp độc lập, là một lợi thế bền vững so với các thiết bị tích hợp. Hơn nữa, nó <strong>phù hợp liền mạch với quy trình làm việc hiện có của các bộ phận IT.</strong>\`
+            }
+        ];
+
+        // --- RENDERING LOGIC ---
+        const container = document.getElementById('meeting-solutions-container');
+        if (container) {
+            meetingRoomsData.forEach(item => {
+                let finalHtml = '<div class="bg-white rounded-2xl shadow-lg p-6 mb-8">';
+                finalHtml += renderProductAnalysis(item.config);
+                finalHtml += renderComparisonTable(item.table);
+                finalHtml += renderFinalAnalysis(item.analysis);
+                finalHtml += '</div>';
+                container.innerHTML += finalHtml;
+            });
+            setTimeout(() => {
+                meetingRoomsData.forEach(item => {
+                    createWinProbChart(item.config.chartId, item.config.criteria, item.config.polyColor, item.config.compColor)
+                });
+            }, 50);
+        }
+     })()
+    `,
+        },
+'chien-luoc': {
+    title: 'Phân Tích Chiến Lược & TCO',
+    icon: 'fa-chess-king',
+   content: `
+    <div class="fade-in">
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Lập Luận Chiến Thắng Cốt Lõi</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Vượt qua cuộc chiến về tính năng, đây là những lợi thế chiến lược dài hạn về kiến trúc hệ thống và chi phí sở hữu mà HP Poly mang lại.</p>
+        </section>
+
+        <!-- Main Comparison Block -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2">Cuộc Đối Đầu Triết Lý: Kiến Trúc Thông Minh vs. Sự Tiện Lợi Nhất Thời</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">So sánh kiến trúc <strong>Mô-đun dựa trên Windows</strong> của HP Poly với kiến trúc <strong>Tích hợp dựa trên Android (Appliance)</strong> của Logitech.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- HP Poly Modular Approach -->
+                <div class="border-4 border-indigo-500 rounded-xl p-6 bg-indigo-50 flex flex-col">
+                    <h3 class="text-2xl font-bold text-indigo-800 mb-4 flex items-center"><i class="fas fa-puzzle-piece mr-3"></i>HP Poly: Hệ Mô-đun (Chiến lược dài hạn)</h3>
+                    <div class="flex-grow space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-indigo-900">1. Vòng đời & Nâng cấp Linh hoạt</h4>
+                            <p class="text-sm text-gray-700">Khi PC lỗi thời (sau 3-4 năm), bạn chỉ cần nâng cấp PC. Thiết bị AV đắt tiền vẫn được giữ lại.</p>
+                            <p class="text-xs text-indigo-600 mt-2"><strong>Tại sao hơn?</strong> Logitech Rally Bar buộc bạn phải vứt bỏ toàn bộ thanh video bar đắt tiền khi chip xử lý tích hợp bên trong không còn đáp ứng được, gây lãng phí ngân sách cực lớn.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-indigo-900">2. Quản lý Doanh nghiệp & Bảo mật</h4>
+                            <p class="text-sm text-gray-700">PC chạy Windows, cho phép IT quản lý và áp dụng chính sách bảo mật đồng bộ với toàn hệ thống máy tính công ty qua Microsoft Intune.</p>
+                             <p class="text-xs text-indigo-600 mt-2"><strong>Tại sao hơn?</strong> Giải pháp của Logitech chạy CollabOS (Android), quản lý qua cổng Logitech Sync riêng. Nó tạo ra một "silo" (ốc đảo) không tuân thủ chính sách IT chung và là một điểm mù về bảo mật.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-indigo-900">3. Hiệu suất & Khả năng tùy biến</h4>
+                            <p class="text-sm text-gray-700">Tận dụng sức mạnh của PC HP thế hệ mới nhất (Core i7) cho hiệu năng xử lý vượt trội, không bị giới hạn bởi chip ARM.</p>
+                             <p class="text-xs text-indigo-600 mt-2"><strong>Tại sao hơn?</strong> Chip tích hợp của đối thủ có hiệu năng giới hạn và sẽ nhanh chóng đuối sức trước các tính năng AI mới của Microsoft Teams, trong khi PC của HP luôn có thể nâng cấp để đáp ứng.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="mt-3 pt-3 border-t border-dashed">
-                    <p class="text-sm text-gray-700"><strong class="text-indigo-700">Lợi ích cho khách hàng:</strong> ${c.note}</p>
+
+                <!-- Competitor Appliance Approach -->
+                <div class="border-4 border-gray-400 rounded-xl p-6 bg-gray-100 flex flex-col">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center"><i class="fas fa-box-archive mr-3"></i>Logitech: Hệ Tích Hợp (Tiện lợi ngắn hạn)</h3>
+                    <div class="flex-grow space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                             <h4 class="font-semibold text-gray-900">1. Vòng đời Bị Trói Buộc</h4>
+                             <p class="text-sm text-gray-700">PC, camera, mic, loa đều nằm trong một khối duy nhất. Khi bộ xử lý (SoC) bên trong trở nên chậm, toàn bộ thiết bị phải bị thay thế.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                             <h4 class="font-semibold text-gray-900">2. Chi phí Tiềm ẩn & TCO Cao</h4>
+                             <p class="text-sm text-gray-700">Chi phí thay thế toàn bộ thanh video bar đắt đỏ hơn rất nhiều, tạo ra một gánh nặng ngân sách không lường trước được cho doanh nghiệp.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                             <h4 class="font-semibold text-gray-900">3. Rủi ro Quản lý & Bảo mật</h4>
+                             <p class="text-sm text-gray-700">Tạo ra một hệ thống riêng biệt, khó đồng bộ chính sách bảo mật và là một thách thức đối với đội ngũ IT.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        `).join('');
+        </div>
 
-        return `
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8 mb-8">
-                    <div class="flex-shrink-0 flex flex-col items-center text-center">
-                         <h3 class="text-2xl font-extrabold text-gray-800">${data.title}</h3>
-                         <p class="text-gray-500 mb-3">vs. ${competitorString}</p>
-                        <div class="win-prob-chart-container">
-                            <canvas id="winProbChart-${data.title.replace(/\s+/g, '')}"></canvas>
-                            <div class="win-prob-percentage" style="color:${data.polyColor};">${polyProb}%</div>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-2 font-semibold">Xác suất thắng của HP Poly</p>
+        <!-- TCO Calculation Example -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-6">Minh Họa TCO: Lựa Chọn Của Nhà Quản Trị Thông Minh</h2>
+             <div class="overflow-x-auto">
+                <table class="w-full text-sm text-center">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-3 font-semibold text-left">Hạng mục Chi phí (Giả định trong 6 năm)</th>
+                            <th class="p-3 font-semibold text-indigo-700">HP Poly (Mô-đun)</th>
+                            <th class="p-3 font-semibold text-red-700">Logitech (Tích hợp)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="p-3 text-left">Chi phí Đầu tư ban đầu (Năm 0)</td>
+                            <td class="p-3 font-mono">$2,500</td>
+                            <td class="p-3 font-mono">$2,200</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 text-left">Nâng cấp Lần 1 (Năm 3) - Thay thế thành phần lỗi thời</td>
+                            <td class="p-3 text-indigo-700 bg-indigo-50 font-semibold">Chỉ thay Mini PC: <span class="font-mono">$500</span></td>
+                            <td class="p-3 text-red-700 bg-red-50 font-semibold">Buộc phải thay cả Video Bar: <span class="font-mono">$2,200</span></td>
+                        </tr>
+                         <tr>
+                            <td class="p-3 text-left font-bold text-lg">TỔNG CHI PHÍ VỐN SAU 6 NĂM</td>
+                            <td class="p-3 font-bold text-2xl text-green-600 font-mono bg-green-50">$3,000</td>
+                            <td class="p-3 font-bold text-2xl text-red-600 font-mono bg-red-50">$4,400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center text-green-700 font-bold mt-4">=> Giải pháp HP Poly tiết kiệm cho doanh nghiệp <span class="text-3xl font-extrabold">$1,400 (32%)</span> trên mỗi phòng họp sau 6 năm, một con số không thể bỏ qua!</p>
+        </div>
+
+         <!-- Detailed Comparison Table -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+             <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-6">So Sánh Trực Tiếp Các Hệ Thống MTR</h2>
+             <div class="overflow-x-auto">
+                 <table class="w-full text-sm comparison-table">
+                     <thead>
+                        <tr>
+                            <th class="feature-col">Tiêu chí</th>
+                            <th class="poly-highlight header">HP Poly</th>
+                            <th class="header">Logitech</th>
+                             <th class="header">Yealink</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td class="feature-col">Kiến trúc hệ thống</td>
+                           <td class="poly-highlight">✅ Mô-đun (Windows)</td>
+                           <td>❌ Tích hợp (Android)</td>
+                           <td class="poly-highlight">✅ Mô-đun (Windows)</td>
+                        </tr>
+                        <tr>
+                           <td class="feature-col">TCO & Vòng đời</td>
+                           <td class="poly-highlight">🏆 TỐI ƯU</td>
+                           <td>❌ Rất cao</td>
+                           <td>✅ Tốt</td>
+                        </tr>
+                        <tr>
+                           <td class="feature-col">Hiệu suất PC</td>
+                           <td class="poly-highlight">🏆 Vượt trội (Core i7 Gen 13)</td>
+                           <td>- (Giới hạn bởi SoC)</td>
+                           <td>Tốt (Core i5 Gen 11)</td>
+                        </tr>
+                        <tr>
+                           <td class="feature-col">Quản lý & Tích hợp IT</td>
+                           <td class="poly-highlight">🏆 XUẤT SẮC (Tích hợp Intune)</td>
+                           <td>❌ Hệ thống riêng (Sync)</td>
+                           <td>✅ Tốt (Có thể tích hợp)</td>
+                        </tr>
+                        <tr>
+                           <td class="feature-col">Hệ sinh thái & Dịch vụ</td>
+                           <td class="poly-highlight">🏆 Toàn diện (HP + Poly)</td>
+                           <td>Tốt</td>
+                           <td>Khá</td>
+                        </tr>
+                        <tr>
+                           <td class="feature-col">Rủi ro lỗi thời</td>
+                           <td class="poly-highlight">✅ Thấp</td>
+                           <td>❌ Cao</td>
+                           <td>✅ Thấp</td>
+                        </tr>
+                     </tbody>
+                 </table>
+             </div>
+        </div>
+    </div>`,
+},
+'ket-luan': {
+    title: 'Tổng Kết & Khuyến Nghị',
+    icon: 'fa-flag-checkered',
+    content: `
+    <div class="fade-in">
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Công Thức Chiến Thắng Cho HP Poly</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Từ phân tích cạnh tranh đến các hành động cụ thể để chinh phục thị trường Việt Nam.</p>
+        </section>
+
+        <!-- Winning Pillars -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">Ba Trụ Cột Chiến Thắng Của HP Poly</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 text-indigo-600 mb-4">
+                        <i class="fas fa-cogs text-3xl"></i>
                     </div>
-                    <div class="w-full bg-gray-50 border-2 border-dashed rounded-xl p-4">
-                        <h4 class="text-lg font-bold text-center text-gray-800 mb-4">Sản Phẩm Đối Đầu Tiêu Biểu</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                            <div class="bg-green-100 p-3 rounded-lg border border-green-300">
-                                <h5 class="font-bold text-green-800 mb-2">HP Poly</h5>
-                                <ul class="space-y-1">${polyProductsHtml}</ul>
-                            </div>
-                            <div class="bg-red-100 p-3 rounded-lg border border-red-300">
-                                <h5 class="font-bold text-red-800 mb-2">Đối thủ (${competitorString})</h5>
-                                <ul class="space-y-1">${compProductsHtml}</ul>
-                            </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">1. Ưu Thắng Về Kỹ Thuật</h3>
+                    <p class="text-sm text-gray-600">Di sản công nghệ âm thanh với <strong>Acoustic Fence & NoiseBlockAI</strong> và công nghệ camera <strong>DirectorAI</strong> không chỉ là tính năng, mà là giải pháp giải quyết triệt để các vấn đề cốt lõi của họp trực tuyến, mang lại trải nghiệm vượt trội không thể sao chép.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-100 text-purple-600 mb-4">
+                        <i class="fas fa-sitemap text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">2. Lập Luận Kinh Tế Bền Vững</h3>
+                     <p class="text-sm text-gray-600">Kiến trúc MTR <strong>mô-đun dựa trên Windows</strong> là một chiến lược đầu tư thông minh, giúp doanh nghiệp tối ưu hóa <strong>Tổng Chi Phí Sở Hữu (TCO)</strong>, bảo vệ vốn đầu tư và giảm thiểu rủi ro lỗi thời công nghệ - một lợi thế tài chính mà đối thủ không thể cạnh tranh.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                     <div class="flex items-center justify-center h-16 w-16 rounded-full bg-emerald-100 text-emerald-600 mb-4">
+                        <i class="fas fa-shield-alt text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">3. Sự An Tâm Từ Hệ Sinh Thái HP</h3>
+                     <p class="text-sm text-gray-600">Sức mạnh từ thương hiệu HP mang lại sự an tâm tuyệt đối cho khách hàng doanh nghiệp thông qua <strong>bảo mật phần cứng</strong> cấp cao và mạng lưới <strong>dịch vụ, bảo hành tận nơi</strong>, tạo ra một đề xuất giá trị toàn diện vượt xa khỏi bản thân sản phẩm.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Matrix -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+             <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">Ma Trận Hành Động & Thông Điệp Bán Hàng</h2>
+             <div class="space-y-8">
+                <!-- Headsets Section -->
+                <div>
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-4 border-l-4 border-indigo-500 pl-4">DANH MỤC TAI NGHE</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">Đối với Người Dùng Cuối (End-user)</h4>
+                            <p class="text-sm text-gray-600 mb-3"><strong>Trọng tâm:</strong> Trải nghiệm cá nhân, sự thoải mái & hiệu suất.</p>
+                            <ul class="text-sm list-disc list-inside space-y-2">
+                                <li><strong>Hành động:</strong> Tổ chức Demo trực tiếp sức mạnh của Acoustic Fence trong môi trường ồn ào (quán cafe, văn phòng mở).</li>
+                                <li><strong>Thông điệp:</strong> "Nghe và được nghe rõ ràng như đang ở trong phòng riêng, bất kể bạn đang ở đâu."</li>
+                                <li><strong>Thông điệp:</strong> "Tập trung suốt cả ngày với thiết kế siêu nhẹ và thời lượng pin vượt trội."</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">Đối với Người Ra Quyết Định (IT/Purchasing)</h4>
+                            <p class="text-sm text-gray-600 mb-3"><strong>Trọng tâm:</strong> Quản lý, Độ bền & TCO.</p>
+                            <ul class="text-sm list-disc list-inside space-y-2">
+                                 <li><strong>Hành động:</strong> Giới thiệu nền tảng quản lý Poly Lens và nhấn mạnh nó là miễn phí.</li>
+                                 <li><strong>Thông điệp:</strong> "Đầu tư một lần, sử dụng dài lâu với độ bền cấp doanh nghiệp, giảm chi phí thay thế."</li>
+                                 <li><strong>Thông điệp:</strong> "Quản lý hàng ngàn thiết bị dễ dàng từ một nơi duy nhất, tiết kiệm thời gian cho đội ngũ IT."</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class="space-y-4">${criteriaHtml}</div>
-            </div>
-        `;
-    }
-
-    // --- PAGE CONTENT CACHE ---
-    const contentCache = {
-        'thi-truong': {
-             title: 'Tổng Quan Thị Trường & Chiến Lược',
-             icon: 'fa-globe-americas',
-             content: `
-             <div class="fade-in">
-                <section class="text-center mb-12">
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Bức Tranh Toàn Cảnh</h1>
-                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Phân tích thị trường thiết bị hội nghị và chiến lược định vị của HP Poly.</p>
-                </section>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                    <div class="bg-white p-6 rounded-2xl shadow-lg">
-                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Thị Phần Thiết Bị Hội Nghị Toàn Cầu (Ước tính)</h3>
-                        <div class="h-80"><canvas id="marketShareChart"></canvas></div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-lg">
-                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Ma Trận SWOT của HP Poly</h3>
-                        <div class="grid grid-cols-2 gap-4 h-80">
-                            <div class="bg-green-100 p-4 rounded-lg">
-                                <h4 class="font-bold text-green-800 flex items-center"><i class="fas fa-thumbs-up mr-2"></i>Điểm Mạnh</h4>
-                                <ul class="text-sm list-disc list-inside mt-2 text-green-700 space-y-1">
-                                    <li>Công nghệ AI độc quyền</li>
-                                    <li>Bảo mật & Dịch vụ HP</li>
-                                    <li>Thương hiệu uy tín</li>
-                                    <li>Hệ sinh thái toàn diện</li>
-                                </ul>
-                            </div>
-                            <div class="bg-red-100 p-4 rounded-lg">
-                                <h4 class="font-bold text-red-800 flex items-center"><i class="fas fa-thumbs-down mr-2"></i>Điểm Yếu</h4>
-                                <ul class="text-sm list-disc list-inside mt-2 text-red-700 space-y-1">
-                                    <li>Giá cao hơn đối thủ giá rẻ</li>
-                                    <li>Nhận diện "Poly" sau sáp nhập</li>
-                                </ul>
-                            </div>
-                            <div class="bg-blue-100 p-4 rounded-lg">
-                                <h4 class="font-bold text-blue-800 flex items-center"><i class="fas fa-search-plus mr-2"></i>Cơ Hội</h4>
-                                <ul class="text-sm list-disc list-inside mt-2 text-blue-700 space-y-1">
-                                    <li>Nhu cầu Hybrid Work</li>
-                                    <li>Tận dụng kênh phân phối HP</li>
-                                    <li>Bán chéo sản phẩm</li>
-                                </ul>
-                            </div>
-                             <div class="bg-yellow-100 p-4 rounded-lg">
-                                <h4 class="font-bold text-yellow-800 flex items-center"><i class="fas fa-exclamation-triangle mr-2"></i>Thách Thức</h4>
-                                <ul class="text-sm list-disc list-inside mt-2 text-yellow-700 space-y-1">
-                                    <li>Cạnh tranh về giá</li>
-                                    <li>Đối thủ mới nổi</li>
-                                    <li>Phần mềm thay thế phần cứng</li>
-                                </ul>
-                            </div>
+                <!-- Meeting Room Solutions Section -->
+                 <div>
+                    <h3 class="text-2xl font-bold text-emerald-700 mb-4 border-l-4 border-emerald-500 pl-4">GIẢI PHÁP PHÒNG HỌP</h3>
+                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">Đối với Doanh nghiệp nhỏ (BYOD - Combo 1)</h4>
+                             <p class="text-sm text-gray-600 mb-3"><strong>Trọng tâm:</strong> Chất lượng & sự linh hoạt.</p>
+                            <ul class="text-sm list-disc list-inside space-y-2">
+                                <li><strong>Hành động:</strong> Demo khả năng thu âm vượt trội khi kết hợp với mic mở rộng.</li>
+                                 <li><strong>Thông điệp:</strong> "Mang lại trải nghiệm họp chuyên nghiệp của tập đoàn lớn cho doanh nghiệp của bạn."</li>
+                                 <li><strong>Thông điệp:</strong> "Giải pháp linh hoạt, phù hợp với mọi phòng họp từ nhỏ đến vừa, đảm bảo chất lượng âm thanh hoàn hảo."</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                             <h4 class="font-semibold text-gray-800 mb-2">Đối với Doanh nghiệp lớn (MTR - Combo 2)</h4>
+                              <p class="text-sm text-gray-600 mb-3"><strong>Trọng tâm:</strong> TCO, Quản lý & Bảo mật.</p>
+                            <ul class="text-sm list-disc list-inside space-y-2">
+                                <li><strong>Hành động:</strong> Luôn trình bày bảng tính TCO giả định và sơ đồ so sánh kiến trúc Mô-đun vs. Tích hợp.</li>
+                                 <li><strong>Thông điệp:</strong> "Đây không phải là chi phí, đây là một khoản đầu tư thông minh giúp tiết kiệm hàng ngàn đô la trong dài hạn."</li>
+                                 <li><strong>Thông điệp:</strong> "Giải pháp MTR duy nhất phù hợp hoàn hảo với hệ thống quản lý và bảo mật Windows hiện có của bạn."</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
              </div>
-             `,
-             script: `
-             (() => {
-                const marketCtx = document.getElementById('marketShareChart');
-                if (marketCtx) {
-                    const existingChart = Chart.getChart(marketCtx);
-                    if (existingChart) existingChart.destroy();
-                    new Chart(marketCtx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Logitech', 'HP Poly', 'Cisco', 'Yealink', 'Khác'],
-                            datasets: [{
-                                data: [35, 25, 15, 10, 15],
-                                backgroundColor: ['#3b82f6', '#8b5cf6', '#10b981', '#f97316', '#6b7280']
-                            }]
-                        },
-                        options: {
-                            responsive: true, maintainAspectRatio: false,
-                            plugins: {
-                                legend: { position: 'top' },
-                                title: { display: false }
-                            }
-                        }
-                    });
-                }
-             })();
-             `
-        },
-         'phan-tich': {
-            title: 'Phân Tích Đối Thủ',
-            icon: 'fa-chart-pie',
-            content: `
-            <div class="fade-in">
-                <section class="text-center mb-10">
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-3">Phân Tích Đối Thủ Chi Tiết</h1>
-                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Đánh giá xác suất thắng của HP Poly dựa trên các tiêu chí trọng yếu ở từng phân khúc sản phẩm.</p>
-                </section>
-                <div class="space-y-8">
-                    ${renderWinProbSection(winProbData.caoCap)}
-                    ${renderWinProbSection(winProbData.trungCap)}
-                    ${renderWinProbSection(winProbData.caNhan)}
-                </div>
+        </div>
+         <!-- Final Word -->
+        <div class="mt-10 pt-6 border-t-2 border-dashed border-gray-300">
+            <div class="bg-gradient-to-r from-indigo-700 to-purple-800 text-white rounded-xl shadow-2xl p-8 text-center" role="alert">
+                <p class="text-2xl font-bold mb-3">Triết Lý Cạnh Tranh</p>
+                <p class="text-lg">HP Poly không cạnh tranh bằng giá rẻ nhất thời, mà bằng <strong>giá trị vòng đời cao nhất</strong>. Thành công đến từ việc thuyết phục khách hàng rằng đầu tư vào chất lượng, sự bền bỉ và một kiến trúc hệ thống thông minh chính là cách tiết kiệm chi phí hiệu quả nhất.</p>
             </div>
-            `,
-            script: `
-            (() => {
-                createWinProbChart('winProbChart-PhânKhúcCaoCấp', winProbData.caoCap, calculateWinProb(winProbData.caoCap).polyProb);
-                createWinProbChart('winProbChart-PhânKhúcTrungCấp(SMB)', winProbData.trungCap, calculateWinProb(winProbData.trungCap).polyProb);
-                createWinProbChart('winProbChart-ThiếtBịCáNhân', winProbData.caNhan, calculateWinProb(winProbData.caNhan).polyProb);
-            })();
-            `
+        </div>
+    </div>`,
         },
-        'cao-cap': {
-            title: 'Dòng Cao Cấp',
-            icon: 'fa-star',
-            content: `
-            <div class="fade-in">
-                <section class="text-center mb-10"><h1 class="text-4xl font-black tracking-tight text-gray-800">Phân Tích Phân Khúc Cao Cấp</h1></section>
-                ${renderWinProbSection(winProbData.caoCap)}
-                <div class="bg-white rounded-2xl shadow-lg p-6 mt-8">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Bảng So Sánh Kỹ Thuật Toàn Diện</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full min-w-[900px] text-sm comparison-table">
-                            <thead>
-                                <tr>
-                                    <th class="feature-col bg-gray-100">Tính năng</th>
-                                    <th class="poly-highlight">Poly Studio X70</th>
-                                    <th class="poly-highlight">Poly Studio X52</th>
-                                    <th class="poly-highlight">Poly G7500 + E70</th>
-                                    <th>Logitech Rally Bar Plus</th>
-                                    <th>Cisco Room Bar Pro</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="feature-col">Loại thiết bị</td>
-                                    <td class="poly-highlight">Video Bar All-in-one</td>
-                                    <td class="poly-highlight">Video Bar All-in-one</td>
-                                    <td class="poly-highlight font-bold">Hệ thống Module</td>
-                                    <td>Video Bar (cần Mic Pods)</td>
-                                    <td>Video Bar All-in-one</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Đối tượng phòng</td>
-                                    <td class="poly-highlight">Phòng lớn (10-18 người)</td>
-                                    <td class="poly-highlight">Phòng vừa (6-12 người)</td>
-                                    <td class="poly-highlight font-bold">Phòng lớn/Tùy chỉnh</td>
-                                    <td>Phòng lớn</td>
-                                    <td>Phòng vừa/lớn</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Camera</td>
-                                    <td class="poly-highlight font-bold">Kép 4K, 20MP</td>
-                                    <td class="poly-highlight">4K, 20MP</td>
-                                    <td class="poly-highlight font-bold">Camera E70 Kép 4K rời</td>
-                                    <td>4K, 15x Zoom PTZ</td>
-                                    <td>4K, 12MP</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Camera AI</td>
-                                    <td class="poly-highlight">✨ DirectorAI (Chuyển cảnh)</td>
-                                    <td class="poly-highlight">✨ DirectorAI</td>
-                                    <td class="poly-highlight">✨ DirectorAI</td>
-                                    <td>✅ RightSight 2 (Speaker View)</td>
-                                    <td>✅ Speaker Tracking</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Âm thanh AI</td>
-                                    <td class="poly-highlight">✨ Acoustic Fence & NoiseBlockAI</td>
-                                    <td class="poly-highlight">✨ Acoustic Fence & NoiseBlockAI</td>
-                                    <td class="poly-highlight">✨ Acoustic Fence & NoiseBlockAI</td>
-                                    <td>✅ RightSound</td>
-                                    <td>✅ AI Noise Removal</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Bảo mật phần cứng</td>
-                                    <td class="poly-highlight">✨ HP Wolf Security</td>
-                                    <td class="poly-highlight">✨ HP Wolf Security</td>
-                                    <td class="poly-highlight">✨ HP Wolf Security</td>
-                                    <td>❌ Không</td>
-                                    <td>✅ Secure Boot</td>
-                                </tr>
-                                 <tr>
-                                    <td class="feature-col">Dịch vụ</td>
-                                    <td class="poly-highlight">✨ Bảo hành tận nơi</td>
-                                    <td class="poly-highlight">✨ Bảo hành tận nơi</td>
-                                    <td class="poly-highlight">✨ Bảo hành tận nơi</td>
-                                    <td>❌ Gửi đi sửa</td>
-                                    <td>❌ Gửi đi sửa</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>`,
-            script: `
-            (() => {
-                createWinProbChart('winProbChart-PhânKhúcCaoCấp', winProbData.caoCap, calculateWinProb(winProbData.caoCap).polyProb);
-            })();
-            `
-        },
-        'trung-cap': {
-            title: 'Dòng Trung Cấp',
-            icon: 'fa-video',
-            content: `
-            <div class="fade-in">
-                 <section class="text-center mb-10"><h1 class="text-4xl font-black tracking-tight text-gray-800">Phân Tích Phân Khúc Trung Cấp (SMB)</h1></section>
-                ${renderWinProbSection(winProbData.trungCap)}
-                 <div class="bg-white rounded-2xl shadow-lg p-6 mt-8">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Bảng So Sánh Kỹ Thuật Toàn Diện</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full min-w-[800px] text-sm comparison-table">
-                            <thead>
-                                <tr>
-                                    <th class="feature-col bg-gray-100">Tính năng</th>
-                                    <th class="poly-highlight">Poly Studio R30</th>
-                                    <th class="poly-highlight">Poly Sync 60</th>
-                                    <th>Logitech Rally Bar Mini</th>
-                                    <th>Yealink UVC40</th>
-                                </tr>
-                            </thead>
-                             <tbody>
-                                <tr>
-                                    <td class="feature-col">Loại thiết bị</td>
-                                    <td class="poly-highlight font-bold">Video Bar USB</td>
-                                    <td class="poly-highlight font-bold">Loa hội nghị</td>
-                                    <td>Video Bar All-in-one</td>
-                                    <td>Video Bar All-in-one</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Camera</td>
-                                    <td class="poly-highlight">✅ 4K, 120° FOV</td>
-                                    <td class="poly-highlight">❌ Không</td>
-                                    <td>✅ 4K, 120° FOV</td>
-                                    <td>✅ 4K, 133° FOV</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Camera AI</td>
-                                    <td class="poly-highlight">✨ DirectorAI</td>
-                                    <td class="poly-highlight">❌ Không áp dụng</td>
-                                    <td>✅ RightSight</td>
-                                    <td>✅ Auto Framing</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Âm thanh AI</td>
-                                    <td class="poly-highlight">✨ Acoustic Fence</td>
-                                    <td class="poly-highlight">✅ Lọc ồn & giọng nói</td>
-                                    <td>✅ RightSound</td>
-                                    <td>✅ Noise Proof</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Quản lý Cloud</td>
-                                    <td class="poly-highlight">✨ Poly Lens (Miễn phí)</td>
-                                    <td class="poly-highlight">✨ Poly Lens (Miễn phí)</td>
-                                    <td>❌ Sync (Có phí)</td>
-                                    <td>❌ YMCS (Có phí)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>`,
-            script: `
-            (() => {
-                createWinProbChart('winProbChart-PhânKhúcTrungCấp(SMB)', winProbData.trungCap, calculateWinProb(winProbData.trungCap).polyProb);
-            })();
-            `
-        },
-        'ca-nhan': {
-            title: 'Thiết Bị Cá Nhân',
-            icon: 'fa-user',
-            content: `
-            <div class="fade-in">
-                <section class="text-center mb-10"><h1 class="text-4xl font-black tracking-tight text-gray-800">Phân Tích Thiết Bị Cá Nhân</h1></section>
-                ${renderWinProbSection(winProbData.caNhan)}
-                <div class="bg-white rounded-2xl shadow-lg p-6 mt-8">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Bảng So Sánh Kỹ Thuật Toàn Diện</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full min-w-[900px] text-sm comparison-table">
-                            <thead>
-                                <tr>
-                                    <th class="feature-col bg-gray-100 w-1/4">Tính năng</th>
-                                    <th class="poly-highlight">Poly Voyager Focus 2</th>
-                                    <th class="poly-highlight">Poly Voyager 4320</th>
-                                    <th class="poly-highlight">Poly Sync 20</th>
-                                    <th>Jabra Evolve2 75</th>
-                                    <th>Logitech Zone Wireless 2</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="feature-col">Kiểu dáng</td>
-                                    <td class="poly-highlight">Tai nghe Stereo</td>
-                                    <td class="poly-highlight">Tai nghe Stereo</td>
-                                    <td class="poly-highlight">Loa hội nghị</td>
-                                    <td>Tai nghe Stereo</td>
-                                    <td>Tai nghe Stereo</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Công nghệ Micro</td>
-                                    <td class="poly-highlight">✨ Acoustic Fence</td>
-                                    <td class="poly-highlight">✨ Acoustic Fence</td>
-                                    <td class="poly-highlight">✅ Mic đa hướng</td>
-                                    <td>✅ 8-mic ClearVoice</td>
-                                    <td>✅ 5-mic Beamforming</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Chống ồn (ANC)</td>
-                                    <td class="poly-highlight">✅ Hybrid ANC (3 mức)</td>
-                                    <td class="poly-highlight">❌ Không</td>
-                                    <td class="poly-highlight">❌ Không áp dụng</td>
-                                    <td>✅ Advanced ANC</td>
-                                    <td>✅ Hybrid ANC</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Thời lượng Pin (đàm thoại)</td>
-                                    <td class="poly-highlight">✨ Lên đến 25 giờ</td>
-                                    <td class="poly-highlight">✅ Lên đến 24 giờ</td>
-                                    <td class="poly-highlight">✅ Lên đến 20 giờ</td>
-                                    <td>✅ Lên đến 24 giờ</td>
-                                    <td>❌ Lên đến 18 giờ</td>
-                                </tr>
-                                <tr>
-                                    <td class="feature-col">Phạm vi không dây</td>
-                                    <td class="poly-highlight">✨ Lên đến 50m</td>
-                                    <td class="poly-highlight">✨ Lên đến 50m</td>
-                                    <td class="poly-highlight">❌ ~10m (BT)</td>
-                                    <td>❌ 30m</td>
-                                    <td>❌ 30m</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>`,
-            script: `
-            (() => {
-                createWinProbChart('winProbChart-ThiếtBịCáNhân', winProbData.caNhan, calculateWinProb(winProbData.caNhan).polyProb);
-            })();
-            `
-        }
-    };
+      };
 
-    // This part of the script runs after the DOM is fully loaded.
-    document.addEventListener('DOMContentLoaded', () => {
-        const mainContent = document.getElementById('main-content');
-        const catalogNav = document.getElementById('catalog-nav');
-        const pageTitle = document.getElementById('page-title');
-        
+      // --- DOM MANIPULATION & ROUTING ---
+      document.addEventListener("DOMContentLoaded", () => {
+        const mainContent = document.getElementById("main-content");
+        const catalogNav = document.getElementById("catalog-nav");
+        const pageTitle = document.getElementById("page-title");
+
         function loadContent(pageKey) {
-            if (!contentCache[pageKey]) {
-                mainContent.innerHTML = '<div class="text-center p-12"><h2 class="text-2xl font-bold text-red-600">Lỗi</h2><p>Không tìm thấy nội dung cho trang này.</p></div>';
-                return;
+          if (!contentCache[pageKey]) {
+            mainContent.innerHTML =
+              '<div class="text-center p-12"><h2 class="text-2xl font-bold text-red-600">Lỗi 404</h2><p>Không tìm thấy nội dung.</p></div>';
+            return;
+          }
+          const page = contentCache[pageKey];
+          pageTitle.textContent = page.title;
+          mainContent.innerHTML = page.content;
+          if (page.script) {
+            try {
+              new Function(page.script)();
+            } catch (e) {
+              console.error("Lỗi thực thi script trang:", e);
             }
-            const page = contentCache[pageKey];
-            pageTitle.textContent = page.title;
-            mainContent.innerHTML = '';
-            setTimeout(() => {
-                mainContent.innerHTML = page.content;
-                if (page.script) {
-                    const scriptEl = document.createElement('script');
-                    scriptEl.innerHTML = page.script;
-                    document.body.appendChild(scriptEl);
-                    document.body.removeChild(scriptEl);
-                }
-                if(typeof lucide !== 'undefined') {
-                     lucide.createIcons();
-                }
-            }, 50);
+          }
+          if (typeof lucide !== "undefined") lucide.createIcons();
         }
 
-        Object.keys(contentCache).forEach(key => {
-            const page = contentCache[key];
-            const link = document.createElement('a');
-            link.href = `#${key}`;
-            link.className = 'catalog-link block px-4 py-3 rounded-md font-medium text-gray-300';
-            link.innerHTML = `<i class="fas ${page.icon} fa-fw mr-3"></i>${page.title}`;
-            link.dataset.pageKey = key;
-            catalogNav.appendChild(link);
+        Object.keys(contentCache).forEach((key) => {
+          const page = contentCache[key];
+          const link = document.createElement("a");
+          link.href = `#${key}`;
+          link.className =
+            "catalog-link block px-4 py-3 rounded-md font-medium text-gray-300";
+          link.innerHTML = `<i class="fas ${page.icon} fa-fw mr-3 w-5 text-center"></i><span>${page.title}</span>`;
+          link.dataset.pageKey = key;
+          catalogNav.appendChild(link);
         });
 
-        catalogNav.addEventListener('click', (e) => {
-            const link = e.target.closest('a');
-            if (link) {
-                e.preventDefault();
-                window.location.hash = link.dataset.pageKey;
-            }
+        catalogNav.addEventListener("click", (e) => {
+          const link = e.target.closest("a");
+          if (link) {
+            e.preventDefault();
+            window.location.hash = link.dataset.pageKey;
+          }
         });
-        
+
         function handleHashChange() {
-            const pageKey = window.location.hash.substring(1) || Object.keys(contentCache)[0];
-            const currentLink = catalogNav.querySelector(`a.active`);
-            if (currentLink) currentLink.classList.remove('active');
-            const newLink = catalogNav.querySelector(`a[data-page-key="${pageKey}"]`);
-            if (newLink) newLink.classList.add('active');
-            loadContent(pageKey);
+          const pageKey =
+            window.location.hash.substring(1) || Object.keys(contentCache)[0];
+          const currentLink = catalogNav.querySelector("a.active");
+          if (currentLink) currentLink.classList.remove("active");
+          const newLink = catalogNav.querySelector(
+            `a[data-page-key="${pageKey}"]`
+          );
+          if (newLink) newLink.classList.add("active");
+          loadContent(pageKey);
         }
 
-        window.addEventListener('hashchange', handleHashChange);
-        
+        window.addEventListener("hashchange", handleHashChange);
+
         function initialLoad() {
-             const initialPageKey = window.location.hash.substring(1) || Object.keys(contentCache)[0];
-             if (history.replaceState) {
-                history.replaceState(null, null, '#' + initialPageKey);
-             } else {
-                window.location.hash = initialPageKey;
-             }
-             handleHashChange();
+          const initialPageKey =
+            window.location.hash.substring(1) || Object.keys(contentCache)[0];
+          history.replaceState(null, null, "#" + initialPageKey);
+          handleHashChange();
         }
-        
+
         initialLoad();
-    });
+      });
     </script>
-</body>
+  </body>
 </html>

@@ -53,7 +53,9 @@
         }
 
         .nav-item {
-            display: block;
+            display: flex; /* Changed to flex */
+            justify-content: space-between; /* To space out title and badge */
+            align-items: center; /* To vertically align */
             width: 100%;
             text-align: left;
             padding: 0.75rem 1rem;
@@ -75,6 +77,26 @@
             font-weight: 700;
             border-left: 3px solid #2563eb;
         }
+
+        /* NEW: Styles for frequency badge */
+        .nav-item-title {
+            flex-grow: 1;
+            margin-right: 0.5rem;
+        }
+
+        .nav-item-freq-badge {
+            flex-shrink: 0;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            min-width: 50px;
+            text-align: center;
+            color: white;
+        }
+        .freq-high { background-color: #dc2626; } /* red-600 */
+        .freq-medium { background-color: #f59e0b; } /* amber-500 */
+        .freq-low { background-color: #2563eb; } /* blue-600 */
         
         .content-card {
             opacity: 0;
@@ -210,6 +232,7 @@
     </main>
 
     <script>
+        // --- DATA SOURCE WITH FREQUENCY ---
         const serverKnowledgeBase = {
              'basic-consulting': {
                 title: 'Tư Vấn Cơ Bản & Tổng Quan',
@@ -217,6 +240,7 @@
                 scenarios: {
                     '1u-rack-server-customer-ask': {
                         title: 'Khách cần server rack 1U, chọn dòng nào?',
+                        frequency: 85,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, với nhu cầu server rack 1U, hai lựa chọn phổ biến và phù hợp nhất hiện nay là <strong>Dell PowerEdge R250 và R360</strong> ạ.' },
                             { title: 'Bước 2: Giải Thích & Phân Loại', description: '<ul><li><strong>R250:</strong> Là dòng server 1U cơ bản, rất tối ưu về chi phí, phù hợp cho doanh nghiệp nhỏ, các ứng dụng web, làm máy chủ file/in ấn.</li><li><strong>R360:</strong> Là dòng nâng cấp, cấu hình mạnh hơn, hỗ trợ CPU và RAM cao hơn, phù hợp cho các ứng dụng đòi hỏi hiệu năng cao như ảo hóa, cơ sở dữ liệu nhỏ hoặc các ứng dụng chuyên dụng.</li></ul>' },
@@ -226,6 +250,7 @@
                     },
                     'customer-need-10-users-server': {
                         title: 'Khách có 10 người dùng, chọn server nào?',
+                        frequency: 90,
                         steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ với quy mô khoảng 10 người dùng, các dòng server dạng tháp (Tower) như <strong>Dell PowerEdge T150 hoặc T350</strong> là lựa chọn rất phù hợp, cân bằng giữa hiệu năng, chi phí và sự yên tĩnh khi vận hành.' },
                            { title: 'Bước 2: Phân Tích & So Sánh', description: '<ul><li><strong>Dell T150:</strong> Là lựa chọn khởi đầu tuyệt vời cho các ứng dụng nhẹ nhàng như chia sẻ file, máy chủ in, phần mềm kế toán (MISA), quản lý bán hàng. Máy rất nhỏ gọn và êm ái.</li><li><strong>Dell T350:</strong> Mạnh mẽ hơn, phù hợp nếu ứng dụng của khách đòi hỏi xử lý nhiều hơn, cần chạy ảo hóa hoặc cơ sở dữ liệu. Dòng này cũng có nhiều khe cắm ổ cứng và RAM hơn để dễ dàng nâng cấp sau này.</li></ul>' },
@@ -235,6 +260,7 @@
                     },
                     'server-origin-and-year': {
                         title: 'Server Dell & HPE sản xuất năm nào, xuất xứ ở đâu?',
+                        frequency: 75,
                         steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, tất cả server Dell và HPE do bên em phân phối đều là <strong>hàng chính hãng, mới 100%</strong>. Về xuất xứ, các sản phẩm này được lắp ráp tại các nhà máy của hãng ở nhiều quốc gia như <strong>Malaysia, Trung Quốc, Mexico,...</strong> tùy theo lô hàng nhập về ạ.' },
                            { title: 'Bước 2: Nhấn Mạnh Về Chất Lượng & Bảo Hành', description: 'Dù được lắp ráp ở đâu, tất cả sản phẩm đều tuân thủ tiêu chuẩn chất lượng toàn cầu của Dell/HPE và được hưởng chế độ <strong>bảo hành chính hãng tại Việt Nam</strong>. Anh/chị có thể hoàn toàn yên tâm về chất lượng và nguồn gốc sản phẩm.' },
@@ -244,6 +270,7 @@
                     },
                     'dell-hpe-in-stock': {
                         title: 'Server Dell & HPE có sẵn kho không?',
+                        frequency: 95,
                         steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Bên em luôn có sẵn hàng các dòng server Dell và HPE phổ thông, được nhiều doanh nghiệp lựa chọn để phục vụ nhu cầu giao hàng nhanh của khách hàng ạ.' },
                            { title: 'Bước 2: Tìm Hiểu Nhu Cầu Cụ Thể', description: 'Tuy nhiên, để kiểm tra chính xác nhất, anh/chị có thể cho em biết mình đang quan tâm đến model cụ thể nào hoặc cấu hình mong muốn ra sao được không ạ? Vì một số cấu hình đặc thù hoặc cao cấp có thể sẽ cần đặt hàng trước.' },
@@ -253,6 +280,7 @@
                     },
                     'remote-management': {
                         title: 'Khách muốn quản lý, theo dõi server từ xa có được không?',
+                        frequency: 60,
                         steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ hoàn toàn được ạ. Đây là một tính năng quản trị rất quan trọng và chuyên nghiệp. Tất cả các dòng server Dell và HPE đều được tích hợp sẵn cổng quản lý từ xa chuyên dụng.' },
                            { title: 'Bước 2: Giải Thích Công Nghệ', description: '<ul><li>Với <strong>server Dell</strong>, tính năng này gọi là <strong>iDRAC</strong> (integrated Dell Remote Access Controller).</li><li>Với <strong>server HPE</strong>, nó được gọi là <strong>iLO</strong> (integrated Lights-Out).</li></ul> Cả hai công nghệ này đều cho phép mình quản lý server toàn diện từ xa qua trình duyệt web, như thể mình đang ngồi trực tiếp trước máy chủ, bao gồm bật/tắt, theo dõi tình trạng phần cứng, cài đặt hệ điều hành...' },
@@ -268,6 +296,7 @@
                 scenarios: {
                     'rack-server-rail-kit': {
                         title: 'Server rack có kèm rail kit (thanh trượt) không?',
+                        frequency: 70,
                         steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, các server dạng rack (R-series) bán ra mặc định sẽ <strong>tất cả dòng server rack của hpe và dell đều có rail kit đi kèm</strong> ạ. Rail kit là một tùy chọn (option) cần mua thêm.' },
                            { title: 'Bước 2: Giải Thích Lý Do', description: 'Lý do là vì không phải khách hàng nào cũng có sẵn tủ rack; một số khách hàng đặt server trên bàn hoặc kệ chuyên dụng. Việc bán rời rail kit giúp tối ưu chi phí cho những khách hàng không thực sự cần đến nó.' },
@@ -277,6 +306,7 @@
                     },
                      'add-hdd-ssd-options': {
                         title: 'Khách muốn thêm ổ cứng cho Server có sẵn, cần tra gì?',
+                        frequency: 80,
                         steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ để tư vấn chính xác ổ cứng tương thích, anh/chị có thể cung cấp cho em xin <strong>số Service Tag (của Dell) hoặc Serial Number (của HPE)</strong> của máy chủ được không ạ?' },
                            { title: 'Bước 2: Giải Thích Tầm Quan Trọng', description: 'Mỗi dòng server sẽ có những yêu cầu khác nhau về: <ul><li><strong>Chuẩn ổ cứng:</strong> SAS, SATA, hay NVMe.</li><li><strong>Kích thước:</strong> 2.5 inch (SFF) hay 3.5 inch (LFF).</li><li><strong>Khay đựng (caddy/tray):</strong> Mỗi thế hệ server (Gen10, 15G, 16G) lại dùng một loại khay riêng.</li></ul> Việc tra cứu theo Service Tag/Serial Number sẽ đảm bảo 100% các yếu tố trên tương thích, tránh mua về không gắn được.' },
@@ -286,6 +316,7 @@
                     },
                      'samsung-ssd-compatibility': {
                         title: 'Server Dell & HPE có gắn được SSD Samsung không?',
+                        frequency: 65,
                          steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ về mặt kỹ thuật thì <strong>hoàn toàn có thể gắn được ạ</strong>. Các ổ SSD của Samsung (dòng cho người dùng cuối như PM983, 870 EVO, 980 Pro) vẫn có thể hoạt động trên server Dell/HPE.' },
                            { title: 'Bước 2: Nêu Rõ Hạn Chế & Rủi Ro', description: 'Tuy nhiên, bên em <strong>không khuyến khích</strong> việc này vì các lý do sau: <ul><li><strong>Tính ổn định:</strong> SSD cho người dùng cuối không được thiết kế để hoạt động liên tục 24/7 trong môi trường server, có thể ảnh hưởng đến độ bền và sự ổn định.</li><li><strong>Tương thích RAID:</strong> Card RAID của server có thể không nhận diện, báo lỗi hoặc không tối ưu hiệu năng với các ổ cứng không chính hãng.</li><li><strong>Bảo hành:</strong> Nếu có sự cố xảy ra liên quan đến ổ cứng, hãng có thể từ chối bảo hành cho cả hệ thống server.</li></ul>' },
@@ -295,6 +326,7 @@
                     },
                     'samsung-ssd-t150-tray': {
                         title: 'Gắn SSD Samsung cho T150 có cần tray chuyển + tray 3.5in không?',
+                        frequency: 45,
                         steps: [
                            { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Vì server Dell T150 sử dụng khay ổ cứng 3.5 inch, trong khi các ổ SSD Samsung thường có kích thước 2.5 inch, nên mình sẽ cần một <strong>bộ tray chuyển đổi từ 2.5 inch sang 3.5 inch</strong> để có thể lắp vừa vào máy ạ.' },
                            { title: 'Bước 2: Giải Thích Chi Tiết', description: 'Bộ chuyển đổi này là một cái khung kim loại hoặc nhựa, giúp cố định ổ cứng 2.5 inch vào đúng vị trí của khay 3.5 inch, đảm bảo kết nối với backplane của server được chắc chắn.' },
@@ -304,6 +336,7 @@
                     },
                      't150-sas-drive-support': {
                         title: 'Server Dell T150 có gắn được ổ cứng SAS không?',
+                        frequency: 50,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ <strong>không được ạ</strong>. Dòng server Dell PowerEdge T150 chỉ hỗ trợ ổ cứng chuẩn <strong>SATA</strong> thôi ạ.' },
                             { title: 'Bước 2: Giải Thích Lý Do', description: 'T150 là dòng server cơ bản dành cho doanh nghiệp nhỏ, bộ điều khiển lưu trữ (storage controller) trên bo mạch chủ của nó chỉ được thiết kế để tương thích với ổ cứng SATA. Chuẩn SAS là chuẩn cao cấp hơn, yêu cầu card RAID chuyên dụng và thường chỉ được hỗ trợ trên các dòng server từ T350 trở lên.' },
@@ -319,6 +352,7 @@
                  scenarios: {
                     'r250-power-supply-option': {
                         title: 'Server Dell R250 có option thêm nguồn không?',
+                        frequency: 55,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, dòng server Dell R250 được thiết kế với <strong>chỉ một bộ nguồn duy nhất (Single Power Supply)</strong> và <strong>không có tùy chọn lắp thêm nguồn thứ hai</strong> để dự phòng ạ.' },
                             { title: 'Bước 2: Giải Thích Lý Do Thiết Kế', description: 'R250 là dòng server 1U cơ bản, được tối ưu về chi phí cho các doanh nghiệp nhỏ. Việc chỉ có 1 nguồn giúp giảm giá thành sản phẩm. Nguồn dự phòng (redundant power supply) là một tính năng cao cấp hơn.' },
@@ -328,6 +362,7 @@
                     },
                      'r360-cpu-option': {
                         title: 'Server Dell R360 có option thêm CPU được không?',
+                        frequency: 35,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, dòng server Dell PowerEdge R360 được thiết kế với <strong>chỉ một socket (khe cắm) CPU</strong>. Vì vậy, máy chỉ chạy được duy nhất 1 CPU và <strong>không thể nâng cấp thêm CPU thứ hai</strong> ạ.' },
                             { title: 'Bước 2: Giải Thích Về Phân Khúc', description: 'R360 thuộc phân khúc server đơn (single-socket), tập trung vào việc cung cấp hiệu năng mạnh mẽ từ một CPU duy nhất cho các tác vụ phổ thông.' },
@@ -337,6 +372,7 @@
                     },
                     't550-second-cpu-power': {
                         title: 'Server T550 gắn CPU thứ 2 có cần thêm nguồn không?',
+                        frequency: 30,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ <strong>chắc chắn là có ạ</strong>. Khi nâng cấp CPU thứ hai cho Dell T550, việc trang bị bộ nguồn thứ hai (nguồn dự phòng) là <strong>bắt buộc</strong> để đảm bảo cung cấp đủ điện năng và duy trì sự ổn định cho toàn hệ thống.' },
                             { title: 'Bước 2: Giải Thích Kỹ Thuật', description: 'Mỗi CPU tiêu thụ một lượng điện năng đáng kể, đặc biệt khi hoạt động ở tải cao. Một bộ nguồn sẽ không đủ để cung cấp cho cả 2 CPU và các linh kiện khác. Việc lắp 2 nguồn không chỉ cung cấp đủ điện mà còn tạo ra cơ chế dự phòng, tăng độ tin cậy cho server.' },
@@ -346,6 +382,7 @@
                     },
                      'dell-nvme-support': {
                         title: 'Server Dell sẵn kho có hỗ trợ ổ cứng NVMe không?',
+                        frequency: 40,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, việc hỗ trợ ổ cứng NVMe <strong>còn tùy thuộc vào từng model server cụ thể</strong> ạ. Các dòng server Dell thế hệ mới (14G, 15G, 16G) đa số đều có hỗ trợ, nhưng số lượng và cách thức hỗ trợ sẽ khác nhau.' },
                             { title: 'Bước 2: Phân Loại Hỗ Trợ', description: 'Có hai dạng hỗ trợ chính: <ul><li><strong>Hỗ trợ qua backplane:</strong> Một số dòng cao cấp cho phép cắm trực tiếp ổ NVMe U.2/U.3 vào các khay ổ cứng phía trước.</li><li><strong>Hỗ trợ qua card PCIe:</strong> Các dòng phổ thông hơn thường hỗ trợ gắn ổ NVMe M.2 thông qua một card adapter cắm vào khe PCIe.</li></ul>' },
@@ -355,6 +392,7 @@
                     },
                     'dell-4-port-nic-option': {
                         title: 'Các server Dell có option card mạng 4 port không?',
+                        frequency: 60,
                         steps: [
                              { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Hầu hết các dòng server Dell PowerEdge (bao gồm T150/T350/R250/R360) đều có thể <strong>gắn thêm card mạng (NIC) 4 port</strong> thông qua các khe cắm mở rộng PCIe.' },
                              { title: 'Bước 2: Giải Thích Lợi Ích', description: 'Việc gắn thêm card mạng 4 port mang lại nhiều lợi ích như: <ul><li><strong>Tăng băng thông:</strong> Gộp nhiều cổng mạng lại để tăng tốc độ truyền tải dữ liệu (Teaming).</li><li><strong>Tăng độ tin cậy:</strong> Nếu một cổng mạng bị lỗi, các cổng khác vẫn hoạt động (Failover).</li><li><strong>Phân chia mạng:</strong> Dùng các cổng cho các mục đích mạng khác nhau (VD: 1 cho mạng nội bộ, 1 cho mạng quản lý, 1 cho máy ảo...).</li></ul>' },
@@ -370,6 +408,7 @@
                 scenarios: {
                     'hpe-gen10-basic-carrier': {
                         title: 'Ổ cứng HPE khay Basic Carrier gắn cho Server Gen10 được không?',
+                        frequency: 35,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ <strong>không được ạ</strong>. Ổ cứng HPE đi kèm khay Basic Carrier (thường là khay nhựa đen, không có đèn) được thiết kế cho các dòng server thế hệ cũ hơn (Gen8/Gen9) và <strong>không tương thích</strong> với server HPE Gen10.' },
                             { title: 'Bước 2: Giải Thích Kỹ Thuật', description: 'Server HPE Gen10 yêu cầu phải sử dụng khay ổ cứng chuyên dụng gọi là <strong>HPE Smart Carrier Gen10</strong>. Loại khay này có thiết kế khác biệt và tích hợp chip thông minh để giao tiếp với hệ thống, hiển thị trạng thái ổ cứng qua đèn LED. Gắn sai loại khay sẽ không thể kết nối được hoặc gây lỗi hệ thống.' },
@@ -379,6 +418,7 @@
                     },
                     'hpe-dl380-g10-hotplug': {
                         title: 'Ổ cứng HPE có cắm hot-plug cho Server DL380 G10 được không?',
+                        frequency: 40,
                         steps: [
                              { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, điều này <strong>hoàn toàn phụ thuộc</strong> vào ổ cứng đó có được lắp trong khay <strong>HPE Smart Carrier Gen10</strong> hay không ạ. Nếu đúng là khay Smart Carrier thì sẽ hỗ trợ đầy đủ tính năng cắm nóng (hot-plug).' },
                              { title: 'Bước 2: Phân Biệt Các Loại Khay', description: '<ul><li><strong>Khay Smart Carrier (Gen8/9/10):</strong> Có đèn LED chẩn đoán trạng thái thông minh, thiết kế để hỗ trợ hot-plug.</li><li><strong>Khay Basic Carrier:</strong> Là khay đơn giản, không có đèn LED, thường không hỗ trợ hot-plug (non-hot-plug).</li></ul>' },
@@ -394,6 +434,7 @@
                 scenarios: {
                     'raid-h355-support': {
                         title: 'Card RAID H355 có hỗ trợ RAID 5 không?',
+                        frequency: 50,
                         steps: [
                              { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ có ạ. Card RAID PERC H355 của Dell <strong>không hỗ trợ raid 5, chỉ hỗ trợ raid 0/1/10</strong>. Ngoài ra, nó còn hỗ trợ các cấp độ RAID phổ biến khác như RAID 0, 1, và 10.' },
                              { title: 'Bước 2: Giải Thích Lợi Ích Của RAID 5', description: 'RAID 5 là một lựa chọn rất phổ biến cho doanh nghiệp vì nó cân bằng được 3 yếu tố: <ul><li><strong>Hiệu năng:</strong> Tốc độ đọc nhanh.</li><li><strong>Dung lượng:</strong> Chỉ mất dung lượng của 1 ổ cứng cho việc dự phòng.</li><li><strong>An toàn dữ liệu:</strong> Cho phép hỏng 1 ổ cứng trong mảng RAID mà không làm mất dữ liệu.</li></ul>' },
@@ -403,6 +444,7 @@
                     },
                     't150-ram-info': {
                         title: 'Server Dell T150 có bao nhiêu khe RAM, hỗ trợ tối đa bao nhiêu?',
+                        frequency: 70,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, Server Dell PowerEdge T150 có tổng cộng <strong>4 khe cắm RAM</strong>. Máy hỗ trợ tối đa <strong>128GB RAM</strong> (khi sử dụng 4 thanh RAM 32GB) ạ.' },
                             { title: 'Bước 2: Lưu Ý Về Loại RAM', description: 'Khi tư vấn nâng cấp RAM cho T150, mình cần lưu ý đây là RAM chuyên dụng cho server: <ul><li><strong>Loại RAM:</strong> DDR4 ECC Unbuffered (UDIMM). Chữ "ECC" rất quan trọng, nó có tính năng tự sửa lỗi để đảm bảo hệ thống ổn định.</li><li><strong>Tốc độ Bus:</strong> Hỗ trợ bus tối đa 3200MT/s.</li></ul>' },
@@ -412,6 +454,7 @@
                     },
                      'win-server-2025-support': {
                         title: 'Server Dell có cài được Windows Server 2025 không?',
+                        frequency: 25,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, các dòng server Dell thế hệ mới nhất như <strong>PowerEdge 16G (ví dụ R360, T560)</strong> sẽ được hỗ trợ chính thức và đầy đủ driver cho Windows Server 2025 khi hệ điều hành này ra mắt ạ. Các dòng cũ hơn như 14G, 15G có thể cài được nhưng có thể không đầy đủ driver từ hãng.' },
                             { title: 'Bước 2: Giải Thích Về Vòng Đời Hỗ Trợ', description: 'Các hãng sản xuất server như Dell thường chỉ cung cấp driver và chứng nhận tương thích chính thức cho các hệ điều hành mới trên các dòng server mới nhất của họ. Việc cài trên các hệ máy cũ hơn có thể chạy được nhưng không đảm bảo 100% sự ổn định.' },
@@ -421,6 +464,7 @@
                     },
                     'office365-support': {
                         title: 'Server cài Windows Server có hỗ trợ cài Office 365 không?',
+                        frequency: 45,
                         steps: [
                              { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ, câu trả lời là <strong>KHÔNG NÊN</strong> và <strong>không được Microsoft hỗ trợ chính thức</strong> ạ. Các ứng dụng Microsoft 365 (Office 365) được thiết kế để chạy trên các hệ điều hành máy trạm (client) như Windows 10, Windows 11, không phải trên hệ điều hành máy chủ (server).' },
                              { title: 'Bước 2: Giải Thích Kỹ Thuật & License', description: '<ul><li><strong>Về kỹ thuật:</strong> Cài đặt Office trên Windows Server thường yêu cầu vai trò "Remote Desktop Services", rất phức tạp và không dành cho mục đích văn phòng thông thường.</li><li><strong>Về license:</strong> Điều khoản sử dụng của Microsoft 365 không cho phép cài đặt trên Windows Server, trừ một số trường hợp rất đặc biệt.</li></ul> Việc cài đặt sai có thể dẫn đến lỗi, không ổn định và vi phạm bản quyền.' },
@@ -436,6 +480,7 @@
                 scenarios: {
                     'tight-budget': {
                         title: 'Khách có ngân sách rất eo hẹp',
+                        frequency: 90,
                         steps: [
                             { title: 'Bước 1: Đồng Cảm & Thấu Hiểu', description: 'Dạ em hiểu ạ, việc cân đối chi phí đầu tư ban đầu là rất quan trọng với mọi doanh nghiệp. Bên em sẽ cố gắng đưa ra giải pháp phù hợp nhất trong tầm ngân sách của mình ạ.' },
                             { title: 'Bước 2: Đề Xuất Cấu Hình Tối Giản', description: 'Với ngân sách [Số tiền], em đề xuất mình bắt đầu với cấu hình cơ bản nhất của dòng T150. Mình sẽ sử dụng CPU mặc định, 1 thanh RAM 8GB và 1 ổ cứng HDD 1TB. Cấu hình này đủ để chạy các tác vụ cơ bản và mình hoàn toàn có thể nâng cấp thêm sau này khi có điều kiện.' },
@@ -445,6 +490,7 @@
                     },
                     'future-scalability-concerns': {
                         title: 'Khách lo lắng về khả năng nâng cấp trong tương lai',
+                        frequency: 75,
                         steps: [
                             { title: 'Bước 1: Ghi Nhận Mối Quan Tâm', description: 'Dạ đây là một mối quan tâm rất chính đáng và có tầm nhìn ạ. Việc lựa chọn một máy chủ có khả năng mở rộng tốt sẽ giúp bảo vệ khoản đầu tư của mình trong dài hạn.' },
                             { title: 'Bước 2: Tư Vấn Dòng Máy Phù Hợp', description: 'Nếu mình chú trọng khả năng nâng cấp, em khuyến nghị mình nên xem xét dòng <strong>Dell T350 hoặc T550</strong>. So với T150, các dòng này có: <ul><li>Nhiều khe cắm RAM hơn (tối đa 4 hoặc 8 khe).</li><li>Hỗ trợ nhiều ổ cứng hơn (8 khay hot-plug).</li><li>Nhiều khe cắm PCIe hơn để gắn thêm card mạng, card đồ họa...</li></ul>' },
@@ -454,6 +500,7 @@
                     },
                     'power-consumption-noise': {
                         title: 'Khách hỏi về điện năng tiêu thụ và độ ồn',
+                        frequency: 65,
                         steps: [
                             { title: 'Bước 1: Trả Lời Trực Tiếp', description: 'Dạ đây là câu hỏi rất thực tế, đặc biệt khi đặt server trong môi trường văn phòng. Về độ ồn và điện năng, server dạng tháp (Tower) như T150, T350 sẽ <strong>êm ái và tiết kiệm điện hơn</strong> đáng kể so với server dạng rack (R-series).' },
                             { title: 'Bước 2: Giải Thích Lý Do', description: '<ul><li><strong>Server Tower:</strong> Được thiết kế để hoạt động trong môi trường văn phòng, sử dụng quạt tản nhiệt lớn hơn, quay chậm hơn nên ít ồn hơn. Nguồn điện cũng thường có công suất vừa phải.</li><li><strong>Server Rack:</strong> Được thiết kế để đặt trong phòng máy chủ chuyên dụng, tối ưu hóa không gian nên dùng quạt nhỏ, tốc độ cao, gây ra tiếng ồn lớn.</li></ul>' },
@@ -463,6 +510,7 @@
                     },
                     'dell-vs-hpe-comparison': {
                         title: 'Khách phân vân giữa Dell và HPE',
+                        frequency: 70,
                         steps: [
                             { title: 'Bước 1: Tôn Trọng Cả Hai Thương Hiệu', description: 'Dạ, Dell và HPE đều là hai thương hiệu máy chủ hàng đầu thế giới với chất lượng và độ tin cậy rất cao. Mỗi hãng có những thế mạnh riêng và lựa chọn nào cũng tốt ạ.' },
                             { title: 'Bước 2: Đưa Ra So Sánh Khách Quan', description: 'Tuy nhiên, có một vài điểm khác biệt nhỏ để mình cân nhắc: <ul><li><strong>Quản lý từ xa:</strong> Giao diện iDRAC của Dell thường được đánh giá là thân thiện và dễ sử dụng hơn một chút so với iLO của HPE.</li><li><strong>Cộng đồng & Hỗ trợ:</strong> Dell có cộng đồng người dùng rất lớn, việc tìm kiếm tài liệu, hướng dẫn xử lý sự cố online thường dễ dàng hơn.</li><li><strong>Hệ sinh thái:</strong> Nếu công ty mình đã sử dụng nhiều sản phẩm khác của Dell (laptop, màn hình), việc chọn server Dell sẽ tạo ra một hệ sinh thái đồng bộ.</li></ul>' },
@@ -533,6 +581,7 @@
             }
         }
 
+        // --- UPDATED: buildNav function to include frequency badge ---
         function buildNav() {
             let navContent = '';
             for (const categoryKey in serverKnowledgeBase) {
@@ -544,9 +593,21 @@
                 `;
                 for (const scenarioKey in category.scenarios) {
                     const scenario = category.scenarios[scenarioKey];
+                    let badgeHtml = '';
+                    if (scenario.frequency !== undefined) {
+                        let badgeClass = 'freq-low';
+                        if (scenario.frequency >= 75) {
+                            badgeClass = 'freq-high';
+                        } else if (scenario.frequency >= 40) {
+                            badgeClass = 'freq-medium';
+                        }
+                        badgeHtml = `<span class="nav-item-freq-badge ${badgeClass}">${scenario.frequency}%</span>`;
+                    }
+
                     navContent += `
                         <button class="nav-item" data-category="${categoryKey}" data-scenario="${scenarioKey}">
-                           ${scenario.title}
+                           <span class="nav-item-title">${scenario.title}</span>
+                           ${badgeHtml}
                         </button>
                     `;
                 }
@@ -571,7 +632,7 @@
                 categoryEl.querySelectorAll('.nav-item').forEach(itemEl => {
                     const itemText = itemEl.textContent.toLowerCase();
                     if (itemText.includes(query)) {
-                        itemEl.style.display = 'block';
+                        itemEl.style.display = 'flex'; // Changed to flex
                         categoryHasVisibleItems = true;
                     } else {
                         itemEl.style.display = 'none';

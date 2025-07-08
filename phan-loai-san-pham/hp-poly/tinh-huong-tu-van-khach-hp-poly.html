@@ -62,7 +62,9 @@
       }
 
       .nav-item {
-        display: block;
+        display: flex; /* Changed to flex */
+        align-items: center; /* Vertically center items */
+        justify-content: space-between; /* Space out title and badge */
         width: 100%;
         text-align: left;
         padding: 0.75rem 1rem;
@@ -71,6 +73,7 @@
         color: #374151;
         transition: all 0.2s ease;
         border-left: 3px solid transparent;
+        gap: 0.5rem; /* Add gap between title and badge */
       }
 
       .nav-item:hover {
@@ -84,6 +87,23 @@
         font-weight: 700;
         border-left: 3px solid #2563eb;
       }
+
+      /* NEW: Styles for the probability badge */
+      .probability-badge {
+        background-color: #e0e7ff;
+        color: #3730a3;
+        font-size: 0.75rem; /* 12px */
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 9999px;
+        flex-shrink: 0; /* Prevent badge from shrinking */
+      }
+      
+      .nav-item.active .probability-badge {
+        background-color: #c7d2fe;
+        color: #1d4ed8;
+      }
+
 
       .content-card {
         opacity: 0;
@@ -280,6 +300,7 @@
             "voyager-vs-focus2": {
               title:
                 "So sánh 4 dòng: Blackwire 3220, Focus 2, EncorePro 510, Voyager 4320",
+              probability: 40,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -322,6 +343,7 @@
             },
             "teams-vs-uc": {
               title: "Tai nghe bản Teams và UC khác gì nhau?",
+              probability: 35,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -346,34 +368,9 @@
                 },
               ],
             },
-            "anc-acoustic-fence": {
-              title: "Chống ồn ANC và Acoustic Fence khác gì nhau?",
-              steps: [
-                {
-                  title: "Bước 1: Trả Lời Trực Tiếp",
-                  description:
-                    "Dạ đây là hai công nghệ chống ồn khác nhau ạ. <strong>ANC là chống ồn cho người đeo</strong>, còn <strong>Acoustic Fence là chống ồn cho người nghe</strong> ở đầu dây bên kia.",
-                },
-                {
-                  title: "Bước 2: Giải Thích Chuyên Sâu",
-                  description:
-                    '<ul><li><strong>ANC (Active Noise Cancellation):</strong> Các mic trên tai nghe sẽ nghe tiếng ồn xung quanh bạn, sau đó tạo ra một sóng âm ngược pha để triệt tiêu tiếng ồn đó. Kết quả là bạn sẽ không nghe thấy tiếng ồn xung quanh, giúp bạn tập trung làm việc.</li><li><strong>Acoustic Fence:</strong> Công nghệ này tạo ra một "hàng rào âm thanh" ảo xung quanh miệng của bạn. Nó sẽ tập trung thu giọng nói của bạn và loại bỏ tất cả các âm thanh bên ngoài hàng rào đó, ví dụ như tiếng đồng nghiệp nói chuyện, tiếng gõ phím... Kết quả là người ở đầu dây bên kia chỉ nghe thấy giọng nói của bạn một cách rõ ràng.</li></ul>',
-                },
-                {
-                  title: "Bước 3: Nhấn Mạnh Lợi Ích Kép",
-                  description:
-                    "Các dòng tai nghe cao cấp của Poly như Savi 8220 hay Blackwire 8225 đều được trang bị cả hai công nghệ này, mang lại trải nghiệm hoàn hảo cho cả người đeo và người nghe.",
-                },
-                {
-                  title: "Bước 4: Gợi Ý Trải Nghiệm",
-                  description:
-                    '"Để cảm nhận rõ nhất sự khác biệt, em mời anh/chị đeo thử tai nghe và em sẽ thực hiện một cuộc gọi mẫu để anh/chị tự mình trải nghiệm chất lượng âm thanh tuyệt vời này."',
-                  isConversion: true,
-                },
-              ],
-            },
-            "wired-vs-wireless": {
+             "wired-vs-wireless": {
               title: "Nên chọn tai nghe có dây hay không dây?",
+              probability: 50,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -398,8 +395,36 @@
                 },
               ],
             },
+            "anc-acoustic-fence": {
+              title: "Chống ồn ANC và Acoustic Fence khác gì nhau?",
+              probability: 25,
+              steps: [
+                {
+                  title: "Bước 1: Trả Lời Trực Tiếp",
+                  description:
+                    "Dạ đây là hai công nghệ chống ồn khác nhau ạ. <strong>ANC là chống ồn cho người đeo</strong>, còn <strong>Acoustic Fence là chống ồn cho người nghe</strong> ở đầu dây bên kia.",
+                },
+                {
+                  title: "Bước 2: Giải Thích Chuyên Sâu",
+                  description:
+                    '<ul><li><strong>ANC (Active Noise Cancellation):</strong> Các mic trên tai nghe sẽ nghe tiếng ồn xung quanh bạn, sau đó tạo ra một sóng âm ngược pha để triệt tiêu tiếng ồn đó. Kết quả là bạn sẽ không nghe thấy tiếng ồn xung quanh, giúp bạn tập trung làm việc.</li><li><strong>Acoustic Fence:</strong> Công nghệ này tạo ra một "hàng rào âm thanh" ảo xung quanh miệng của bạn. Nó sẽ tập trung thu giọng nói của bạn và loại bỏ tất cả các âm thanh bên ngoài hàng rào đó, ví dụ như tiếng đồng nghiệp nói chuyện, tiếng gõ phím... Kết quả là người ở đầu dây bên kia chỉ nghe thấy giọng nói của bạn một cách rõ ràng.</li></ul>',
+                },
+                {
+                  title: "Bước 3: Nhấn Mạnh Lợi Ích Kép",
+                  description:
+                    "Các dòng tai nghe cao cấp của Poly như Savi 8220 hay Blackwire 8225 đều được trang bị cả hai công nghệ này, mang lại trải nghiệm hoàn hảo cho cả người đeo và người nghe.",
+                },
+                {
+                  title: "Bước 4: Gợi Ý Trải Nghiệm",
+                  description:
+                    '"Để cảm nhận rõ nhất sự khác biệt, em mời anh/chị đeo thử tai nghe và em sẽ thực hiện một cuộc gọi mẫu để anh/chị tự mình trải nghiệm chất lượng âm thanh tuyệt vời này."',
+                  isConversion: true,
+                },
+              ],
+            },
             "dect-vs-bluetooth": {
               title: "Chuẩn kết nối DECT và Bluetooth khác gì?",
+              probability: 15,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -426,6 +451,7 @@
             },
             "battery-life": {
               title: "Pin tai nghe dùng được bao lâu? Sạc có nhanh không?",
+              probability: 30,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -458,6 +484,7 @@
           scenarios: {
             "p5-p15-difference": {
               title: "So sánh Webcam Poly Studio P5 và P15?",
+              probability: 45,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -484,6 +511,7 @@
             },
             "low-light-performance": {
               title: "Chất lượng hình ảnh webcam trong điều kiện thiếu sáng?",
+              probability: 30,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -510,6 +538,7 @@
             },
             "auto-framing-explained": {
               title: "Tính năng auto-framing (tự động lấy khung hình) là gì?",
+              probability: 20,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -536,6 +565,7 @@
             },
             "large-room-solutions": {
               title: "Có giải pháp cho phòng họp lớn hơn 5 người không?",
+              probability: 10,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -563,6 +593,7 @@
           scenarios: {
             "connect-multiple-devices": {
               title: "Tai nghe Poly có kết nối nhiều thiết bị cùng lúc không?",
+              probability: 40,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -589,6 +620,7 @@
             },
             "bt700-dongle-benefit": {
               title: "Lợi ích của USB dongle BT700 là gì?",
+              probability: 25,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -615,6 +647,7 @@
             },
             "poly-lens-purpose": {
               title: "Phần mềm Poly Lens dùng để làm gì?",
+              probability: 15,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -641,6 +674,7 @@
             },
             "deskphone-compatibility": {
               title: "Tai nghe có tương thích với điện thoại bàn không?",
+              probability: 15,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -673,6 +707,7 @@
           scenarios: {
             "price-objection": {
               title: "Khách chê giá cao so với Logitech, Jabra...",
+              probability: 60,
               steps: [
                 {
                   title: "Bước 1: Đồng Cảm & Ghi Nhận",
@@ -697,34 +732,9 @@
                 },
               ],
             },
-            "connection-issues": {
-              title: "Khách phàn nàn tai nghe kết nối không ổn định",
-              steps: [
-                {
-                  title: "Bước 1: Lắng Nghe & Xin Lỗi",
-                  description:
-                    "Dạ, em rất xin lỗi về sự bất tiện mà anh/chị đang gặp phải ạ. Anh/chị có thể cho em biết rõ hơn về tình trạng mình đang gặp không ạ? Ví dụ như tai nghe hay bị mất kết nối, âm thanh bị ngắt quãng, hay không kết nối được với thiết bị ạ?",
-                },
-                {
-                  title: "Bước 2: Đưa Ra Các Bước Kiểm Tra Cơ Bản",
-                  description:
-                    "Trước khi kiểm tra sâu hơn, mình có thể thử một vài thao tác đơn giản trước ạ: <ul><li><strong>Kiểm tra khoảng cách:</strong> Đảm bảo anh/chị đang ở trong phạm vi kết nối của tai nghe (khoảng 10m với Bluetooth).</li><li><strong>Cập nhật firmware:</strong> Mở phần mềm Poly Lens để kiểm tra và cập nhật firmware cho cả tai nghe và USB dongle.</li><li><strong>Cắm lại dongle:</strong> Rút USB dongle ra và cắm lại vào một cổng USB khác trên máy tính.</li><li><strong>Reset tai nghe:</strong> Thử reset lại kết nối Bluetooth trên tai nghe.</li></ul>",
-                },
-                {
-                  title: "Bước 3: Đề Xuất Hỗ Trợ Từ Xa",
-                  description:
-                    "Nếu các bước trên vẫn chưa khắc phục được, anh/chị có tiện để em xin phép được hỗ trợ từ xa qua UltraViewer hoặc TeamViewer không ạ? Em sẽ kết nối vào máy và kiểm tra các cài đặt chi tiết hơn giúp mình.",
-                },
-                {
-                  title: "Bước 4: Cam Kết Xử Lý Dứt Điểm",
-                  description:
-                    '"Anh/chị cứ yên tâm, bên em sẽ hỗ trợ đến khi vấn đề được giải quyết triệt để. Nếu xác định đây là lỗi phần cứng, bên em sẽ tiến hành kiểm tra và bảo hành 1 đổi 1 theo chính sách của hãng cho mình ạ."',
-                  isConversion: true,
-                },
-              ],
-            },
-            "customer-not-tech-savvy": {
+             "customer-not-tech-savvy": {
               title: "Khách hàng lớn tuổi, không rành công nghệ",
+              probability: 35,
               steps: [
                 {
                   title: "Bước 1: Trấn An & Sử Dụng Ngôn Ngữ Đơn Giản",
@@ -750,14 +760,69 @@
                 },
               ],
             },
+            "connection-issues": {
+              title: "Khách phàn nàn tai nghe kết nối không ổn định",
+              probability: 25,
+              steps: [
+                {
+                  title: "Bước 1: Lắng Nghe & Xin Lỗi",
+                  description:
+                    "Dạ, em rất xin lỗi về sự bất tiện mà anh/chị đang gặp phải ạ. Anh/chị có thể cho em biết rõ hơn về tình trạng mình đang gặp không ạ? Ví dụ như tai nghe hay bị mất kết nối, âm thanh bị ngắt quãng, hay không kết nối được với thiết bị ạ?",
+                },
+                {
+                  title: "Bước 2: Đưa Ra Các Bước Kiểm Tra Cơ Bản",
+                  description:
+                    "Trước khi kiểm tra sâu hơn, mình có thể thử một vài thao tác đơn giản trước ạ: <ul><li><strong>Kiểm tra khoảng cách:</strong> Đảm bảo anh/chị đang ở trong phạm vi kết nối của tai nghe (khoảng 10m với Bluetooth).</li><li><strong>Cập nhật firmware:</strong> Mở phần mềm Poly Lens để kiểm tra và cập nhật firmware cho cả tai nghe và USB dongle.</li><li><strong>Cắm lại dongle:</strong> Rút USB dongle ra và cắm lại vào một cổng USB khác trên máy tính.</li><li><strong>Reset tai nghe:</strong> Thử reset lại kết nối Bluetooth trên tai nghe.</li></ul>",
+                },
+                {
+                  title: "Bước 3: Đề Xuất Hỗ Trợ Từ Xa",
+                  description:
+                    "Nếu các bước trên vẫn chưa khắc phục được, anh/chị có tiện để em xin phép được hỗ trợ từ xa qua UltraViewer hoặc TeamViewer không ạ? Em sẽ kết nối vào máy và kiểm tra các cài đặt chi tiết hơn giúp mình.",
+                },
+                {
+                  title: "Bước 4: Cam Kết Xử Lý Dứt Điểm",
+                  description:
+                    '"Anh/chị cứ yên tâm, bên em sẽ hỗ trợ đến khi vấn đề được giải quyết triệt để. Nếu xác định đây là lỗi phần cứng, bên em sẽ tiến hành kiểm tra và bảo hành 1 đổi 1 theo chính sách của hãng cho mình ạ."',
+                  isConversion: true,
+                },
+              ],
+            },
           },
         },
         "policy-support": {
           title: "Chính Sách & Hỗ Trợ",
           icon: "fa-handshake-angle",
           scenarios: {
+            "warranty-policy": {
+              title: "Chính sách bảo hành sản phẩm Poly ra sao?",
+              probability: 50,
+              steps: [
+                {
+                  title: "Bước 1: Trả Lời Trực Tiếp",
+                  description:
+                    "Dạ, tất cả sản phẩm HP Poly do bên em phân phối đều được hưởng chính sách bảo hành chính hãng <strong>24 tháng theo tiêu chuẩn của nhà sản xuất</strong> ạ.",
+                },
+                {
+                  title: "Bước 2: Quy Trình Bảo Hành",
+                  description:
+                    "Khi sản phẩm phát sinh lỗi kỹ thuật, quy trình sẽ như sau: <ul><li><strong>Tiếp nhận:</strong> Anh/chị vui lòng mang sản phẩm đến trung tâm của bên em, hoặc bên em có thể hỗ trợ tiếp nhận tận nơi (tùy khu vực).</li><li><strong>Kiểm tra:</strong> Kỹ thuật viên sẽ kiểm tra để xác định lỗi.</li><li><strong>Xử lý:</strong> Theo chính sách của HP Poly, sản phẩm lỗi sẽ được <strong>đổi một sản phẩm tương đương</strong>, đảm bảo khách hàng không phải chờ đợi sửa chữa lâu.</li></ul>",
+                },
+                {
+                  title: 'Bước 3: Nhấn Mạnh Về "Đổi Mới"',
+                  description:
+                    'Điểm ưu việt trong chính sách bảo hành của Poly là cơ chế "đổi mới" thay vì "sửa chữa". Điều này giúp khách hàng nhận lại sản phẩm nhanh chóng và đảm bảo chất lượng sau bảo hành là tốt nhất.',
+                },
+                {
+                  title: "Bước 4: Cam Kết An Tâm",
+                  description:
+                    '"Với chính sách bảo hành 2 năm và đổi sản phẩm lỗi, anh/chị có thể hoàn toàn yên tâm đầu tư và sử dụng sản phẩm trong thời gian dài mà không phải lo lắng về các vấn đề kỹ thuật."',
+                  isConversion: true,
+                },
+              ],
+            },
             "demo-policy": {
               title: "Chính sách demo, cho mượn sản phẩm như thế nào?",
+              probability: 30,
               steps: [
                 {
                   title: "Bước 1: Trả Lời Trực Tiếp",
@@ -778,32 +843,6 @@
                   title: "Bước 4: Cam Kết Hỗ Trợ",
                   description:
                     '"Bên em sẽ có nhân viên kỹ thuật mang sản phẩm đến tận nơi, hỗ trợ lắp đặt và hướng dẫn sử dụng cơ bản để mình có trải nghiệm tốt nhất trong quá trình demo. Anh/chị muốn demo sản phẩm nào đầu tiên ạ?"',
-                  isConversion: true,
-                },
-              ],
-            },
-            "warranty-policy": {
-              title: "Chính sách bảo hành sản phẩm Poly ra sao?",
-              steps: [
-                {
-                  title: "Bước 1: Trả Lời Trực Tiếp",
-                  description:
-                    "Dạ, tất cả sản phẩm HP Poly do bên em phân phối đều được hưởng chính sách bảo hành chính hãng <strong> tháng theo tiêu chuẩn của nhà sản xuất</strong> ạ.",
-                },
-                {
-                  title: "Bước 2: Quy Trình Bảo Hành",
-                  description:
-                    "Khi sản phẩm phát sinh lỗi kỹ thuật, quy trình sẽ như sau: <ul><li><strong>Tiếp nhận:</strong> Anh/chị vui lòng mang sản phẩm đến trung tâm của bên em, hoặc bên em có thể hỗ trợ tiếp nhận tận nơi (tùy khu vực).</li><li><strong>Kiểm tra:</strong> Kỹ thuật viên sẽ kiểm tra để xác định lỗi.</li><li><strong>Xử lý:</strong> Theo chính sách của HP Poly, sản phẩm lỗi sẽ được <strong>đổi một sản phẩm tương đương</strong>, đảm bảo khách hàng không phải chờ đợi sửa chữa lâu.</li></ul>",
-                },
-                {
-                  title: 'Bước 3: Nhấn Mạnh Về "Đổi Mới"',
-                  description:
-                    'Điểm ưu việt trong chính sách bảo hành của Poly là cơ chế "đổi mới" thay vì "sửa chữa". Điều này giúp khách hàng nhận lại sản phẩm nhanh chóng và đảm bảo chất lượng sau bảo hành là tốt nhất.',
-                },
-                {
-                  title: "Bước 4: Cam Kết An Tâm",
-                  description:
-                    '"Với chính sách bảo hành 2 năm và đổi sản phẩm lỗi, anh/chị có thể hoàn toàn yên tâm đầu tư và sử dụng sản phẩm trong thời gian dài mà không phải lo lắng về các vấn đề kỹ thuật."',
                   isConversion: true,
                 },
               ],
@@ -846,7 +885,7 @@
                         <div class="content-card-header">
                             <div class="flex items-center">
                                 <i class="fas ${
-                                  stepIcons[index]
+                                  stepIcons[index % stepIcons.length]
                                 } w-8 text-center text-lg"></i>
                                 <span>${step.title}</span>
                             </div>
@@ -903,11 +942,22 @@
                         <h4 class="nav-category-title"><i class="fas ${category.icon} mr-3 w-6 text-center text-xl"></i>${category.title}</h4>
                         <div class="space-y-1 mt-2">
                 `;
-          for (const scenarioKey in category.scenarios) {
-            const scenario = category.scenarios[scenarioKey];
+          
+          // NEW: Sort scenarios by probability before rendering
+          const scenarios = Object.entries(category.scenarios)
+                                .sort(([, a], [, b]) => (b.probability || 0) - (a.probability || 0));
+
+          for (const [scenarioKey, scenario] of scenarios) {
+            
+            // NEW: Create the probability badge
+            const probabilityBadge = scenario.probability
+              ? `<span class="probability-badge">${scenario.probability}%</span>`
+              : "";
+
             navContent += `
                         <button class="nav-item" data-category="${categoryKey}" data-scenario="${scenarioKey}">
-                           ${scenario.title}
+                           <span class="flex-grow">${scenario.title}</span>
+                           ${probabilityBadge}
                         </button>
                     `;
           }
@@ -939,7 +989,7 @@
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "");
             if (itemText.includes(query)) {
-              itemEl.style.display = "block";
+              itemEl.style.display = "flex"; // Changed from 'block' to 'flex'
               categoryHasVisibleItems = true;
             } else {
               itemEl.style.display = "none";

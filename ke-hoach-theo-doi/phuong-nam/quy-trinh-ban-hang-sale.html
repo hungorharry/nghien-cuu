@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- MỚI: Thư viện html2canvas để xuất ảnh -->
+    <!-- Thư viện html2canvas để xuất ảnh -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
@@ -24,8 +25,8 @@
         .scenario-btn {
             transition: all 0.2s ease-in-out;
             border-left: 3px solid transparent;
-            display: flex; /* MỚI: Để căn chỉnh checkbox và nội dung */
-            align-items: center; /* MỚI: Để căn chỉnh checkbox và nội dung */
+            display: flex;
+            align-items: center;
         }
         .scenario-btn:hover {
             background-color: #374151; /* gray-700 */
@@ -37,7 +38,7 @@
             font-weight: 600;
             border-left-color: #bfdbfe; /* blue-200 */
         }
-        .scenario-btn.active i {
+        .scenario-btn.active i, .scenario-btn.active .frequency-tag {
             color: white !important;
         }
         .collapsible-content {
@@ -46,7 +47,7 @@
             transition: max-height 0.5s ease-in-out;
         }
         .collapsible-content.expanded {
-            max-height: 1000px; /* Large enough to contain buttons */
+            max-height: 1000px;
         }
         .collapsible-trigger .chevron-icon {
             transition: transform 0.3s ease;
@@ -54,6 +55,33 @@
         .collapsible-trigger.active .chevron-icon {
             transform: rotate(180deg);
         }
+        /* MỚI: Frequency Tag Styles */
+        .frequency-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 9999px;
+            border-width: 1px;
+        }
+        .freq-very-high { color: #ef4444; border-color: #ef4444; } /* red-500 */
+        .freq-high { color: #f97316; border-color: #f97316; } /* orange-500 */
+        .freq-medium { color: #eab308; border-color: #eab308; } /* yellow-500 */
+        .freq-low { color: #22c55e; border-color: #22c55e; } /* green-500 */
+        .freq-situational { color: #6b7280; border-color: #6b7280; } /* gray-500 */
+
+        .header-freq-tag {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            color: white;
+        }
+        .header-freq-very-high { background-color: #dc2626; } /* red-600 */
+        .header-freq-high { background-color: #ea580c; } /* orange-600 */
+        .header-freq-medium { background-color: #d97706; } /* amber-600 */
+        .header-freq-low { background-color: #16a34a; } /* green-600 */
+        .header-freq-situational { background-color: #4b5563; } /* gray-600 */
+
 
         /* --- Main Content Styles --- */
         .step-card {
@@ -126,7 +154,7 @@
         input:checked + .slider { background-color: #2563eb; }
         input:checked + .slider:before { transform: translateX(22px); }
 
-        /* --- MỚI: Export Mode Styles --- */
+        /* --- Export Mode Styles --- */
         .export-checkbox {
             display: none; /* Ẩn checkbox ở chế độ thường */
             margin-right: 10px;
@@ -148,7 +176,6 @@
         #scenario-nav.export-mode .scenario-btn:hover {
             background-color: #4b5563;
         }
-        /* Container để xuất ảnh, sẽ được ẩn đi */
         #export-container {
             width: 900px;
             background-color: white;
@@ -186,80 +213,80 @@
         .export-step-card {
             margin-bottom: 1rem;
         }
-.step-detail-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin-top: 0.75rem;
-    margin-bottom: 1rem;
-}
-.detail-item {
-    background-color: #f9fafb;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    border: 1px solid #e5e7eb;
-}
-.detail-title {
-    font-weight: 600;
-    color: #111827;
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.25rem;
-}
-.detail-title .fas {
-    color: #3b82f6;
-}
-.detail-item p {
-    font-size: 0.875rem;
-    color: #4b5563;
-    line-height: 1.5;
-}
-.detail-title-full {
-    font-weight: 600;
-    color: #111827;
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-    font-size: 1.05em;
-}
-.detail-title-full .fas {
-    color: #3b82f6;
-    margin-right: 0.5rem;
-}
-.script-block {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-}
-.script-good {
-    background-color: #f0fdf4;
-    border-left: 4px solid #22c55e;
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-}
-.script-bad {
-    background-color: #fff1f2;
-    border-left: 4px solid #ef4444;
-    padding: 0.75rem;
-}
-.tips-list {
-    list-style-type: disc;
-    padding-left: 2.5rem;
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    color: #374151;
-}
-.transition-question {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    background-color: #fafaf9;
-    border-top: 2px dotted #eab308;
-    font-style: italic;
-    color: #78350f;
-    font-size: 0.9rem;
-}
-.transition-question strong {
-    color: #ca8a04;
-}
+        .step-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .detail-item {
+            background-color: #f9fafb;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        .detail-title {
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+        .detail-title .fas {
+            color: #3b82f6;
+        }
+        .detail-item p {
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        .detail-title-full {
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 1.05em;
+        }
+        .detail-title-full .fas {
+            color: #3b82f6;
+            margin-right: 0.5rem;
+        }
+        .script-block {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .script-good {
+            background-color: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .script-bad {
+            background-color: #fff1f2;
+            border-left: 4px solid #ef4444;
+            padding: 0.75rem;
+        }
+        .tips-list {
+            list-style-type: disc;
+            padding-left: 2.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+        .transition-question {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #fafaf9;
+            border-top: 2px dotted #eab308;
+            font-style: italic;
+            color: #78350f;
+            font-size: 0.9rem;
+        }
+        .transition-question strong {
+            color: #ca8a04;
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -282,18 +309,24 @@
                         <i class="fas fa-chevron-down chevron-icon"></i>
                     </button>
                     <div class="collapsible-content pl-4 mt-1 space-y-1">
-                        <!-- MỚI: Thêm checkbox vào mỗi button -->
+                        <!-- MỚI: Thêm <span> để chứa tên và <small> cho tần suất -->
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-chi-xem">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-chi-xem">
-                            <i class="fas fa-eye fa-fw mr-2 text-teal-400"></i><span>Khách chỉ nhìn ngắm</span>
+                            <i class="fas fa-eye fa-fw mr-2 text-teal-400"></i>
+                            <span class="flex-grow">Khách chỉ nhìn ngắm</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-chu-dong-hoi">
                              <input type="checkbox" class="export-checkbox" data-scenario-key="khach-chu-dong-hoi">
-                            <i class="fas fa-comments fa-fw mr-2 text-blue-400"></i><span>Khách chủ động hỏi</span>
+                            <i class="fas fa-comments fa-fw mr-2 text-blue-400"></i>
+                            <span class="flex-grow">Khách chủ động hỏi</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-voi-vang">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-voi-vang">
-                            <i class="fas fa-person-running fa-fw mr-2 text-red-400"></i><span>Khách tỏ ra vội</span>
+                            <i class="fas fa-person-running fa-fw mr-2 text-red-400"></i>
+                            <span class="flex-grow">Khách tỏ ra vội</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                     </div>
                 </div>
@@ -306,31 +339,42 @@
                     <div class="collapsible-content pl-4 mt-1 space-y-1">
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-ko-ranh-cn">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-ko-ranh-cn">
-                            <i class="fas fa-hand-holding-heart fa-fw mr-2 text-pink-400"></i><span>Khách không rành công nghệ</span>
+                            <i class="fas fa-hand-holding-heart fa-fw mr-2 text-pink-400"></i>
+                            <span class="flex-grow">Khách không rành CN</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-da-tim-hieu">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-da-tim-hieu">
-                            <i class="fas fa-brain fa-fw mr-2 text-orange-400"></i><span>Khách đã tìm hiểu kỹ</span>
+                            <i class="fas fa-brain fa-fw mr-2 text-orange-400"></i>
+                            <span class="flex-grow">Khách đã tìm hiểu kỹ</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-di-cung-gia-dinh">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-di-cung-gia-dinh">
-                            <i class="fas fa-users fa-fw mr-2 text-purple-400"></i><span>Khách đi cùng gia đình</span>
+                            <i class="fas fa-users fa-fw mr-2 text-purple-400"></i>
+                            <span class="flex-grow">Khách đi cùng gia đình</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-mua-qua-tang">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-mua-qua-tang">
-                            <i class="fas fa-gift fa-fw mr-2 text-rose-400"></i><span>Khách mua làm quà tặng</span>
+                            <i class="fas fa-gift fa-fw mr-2 text-rose-400"></i>
+                            <span class="flex-grow">Khách mua làm quà tặng</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-doanh-nghiep">
                              <input type="checkbox" class="export-checkbox" data-scenario-key="khach-doanh-nghiep">
-                            <i class="fas fa-building-columns fa-fw mr-2 text-gray-400"></i><span>Khách Doanh nghiệp</span>
+                            <i class="fas fa-building-columns fa-fw mr-2 text-gray-400"></i>
+                            <span class="flex-grow">Khách Doanh nghiệp</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-than-thiet">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-than-thiet">
-                            <i class="fas fa-star fa-fw mr-2 text-amber-400"></i><span>Khách thân thiết</span>
+                            <i class="fas fa-star fa-fw mr-2 text-amber-400"></i>
+                            <span class="flex-grow">Khách thân thiết</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                     </div>
                 </div>
-                <!-- ... các nhóm còn lại cũng được thêm checkbox tương tự ... -->
                 <!-- Group 3 -->
                 <div>
                     <button class="collapsible-trigger w-full text-left flex justify-between items-center text-sm font-semibold text-gray-300 p-3 rounded-md hover:bg-gray-700 transition-colors">
@@ -340,19 +384,27 @@
                     <div class="collapsible-content pl-4 mt-1 space-y-1">
                          <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-can-may-cap12">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-can-may-cap12">
-                            <i class="fas fa-child-reaching fa-fw mr-2 text-green-400"></i><span>Con học Cấp 1, 2</span>
+                            <i class="fas fa-child-reaching fa-fw mr-2 text-green-400"></i>
+                            <span class="flex-grow">Con học Cấp 1, 2</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-sv-kinhte">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-sv-kinhte">
-                            <i class="fas fa-chart-line fa-fw mr-2 text-lime-400"></i><span>SV Kinh tế, Xã hội</span>
+                            <i class="fas fa-chart-line fa-fw mr-2 text-lime-400"></i>
+                            <span class="flex-grow">SV Kinh tế, Xã hội</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-sv-kythuat">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-sv-kythuat">
-                            <i class="fas fa-code fa-fw mr-2 text-indigo-400"></i><span>SV Kỹ thuật, Lập trình</span>
+                            <i class="fas fa-code fa-fw mr-2 text-indigo-400"></i>
+                            <span class="flex-grow">SV Kỹ thuật, Lập trình</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-sv-dohoa">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-sv-dohoa">
-                            <i class="fas fa-palette fa-fw mr-2 text-fuchsia-400"></i><span>SV Đồ họa, Kiến trúc</span>
+                            <i class="fas fa-palette fa-fw mr-2 text-fuchsia-400"></i>
+                            <span class="flex-grow">SV Đồ họa, Kiến trúc</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                     </div>
                 </div>
@@ -365,31 +417,45 @@
                     <div class="collapsible-content pl-4 mt-1 space-y-1">
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-so-sanh-gia">
                              <input type="checkbox" class="export-checkbox" data-scenario-key="khach-so-sanh-gia">
-                            <i class="fas fa-scale-balanced fa-fw mr-2 text-cyan-400"></i><span>So sánh giá</span>
+                            <i class="fas fa-scale-balanced fa-fw mr-2 text-cyan-400"></i>
+                            <span class="flex-grow">So sánh giá</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-lo-ben">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-lo-ben">
-                            <i class="fas fa-shield-halved fa-fw mr-2 text-slate-400"></i><span>Lo về độ bền</span>
+                            <i class="fas fa-shield-halved fa-fw mr-2 text-slate-400"></i>
+                            <span class="flex-grow">Lo về độ bền</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-quan-tam-man-hinh">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-quan-tam-man-hinh">
-                            <i class="fas fa-desktop fa-fw mr-2 text-violet-400"></i><span>Quan tâm màn hình</span>
+                            <i class="fas fa-desktop fa-fw mr-2 text-violet-400"></i>
+                            <span class="flex-grow">Quan tâm màn hình</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-hoi-pm">
                              <input type="checkbox" class="export-checkbox" data-scenario-key="khach-hoi-pm">
-                            <i class="fab fa-windows fa-fw mr-2 text-sky-400"></i><span>Hỏi về phần mềm</span>
+                            <i class="fab fa-windows fa-fw mr-2 text-sky-400"></i>
+                            <span class="flex-grow">Hỏi về phần mềm</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-can-nhieu-cong">
                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-can-nhieu-cong">
-                            <i class="fas fa-plug-circle-bolt fa-fw mr-2 text-emerald-400"></i><span>Cần nhiều cổng cắm</span>
+                            <i class="fas fa-plug-circle-bolt fa-fw mr-2 text-emerald-400"></i>
+                            <span class="flex-grow">Cần nhiều cổng cắm</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-hoi-phu-kien">
                              <input type="checkbox" class="export-checkbox" data-scenario-key="khach-hoi-phu-kien">
-                            <i class="fas fa-computer-mouse fa-fw mr-2 text-stone-400"></i><span>Hỏi về phụ kiện</span>
+                            <i class="fas fa-computer-mouse fa-fw mr-2 text-stone-400"></i>
+                            <span class="flex-grow">Hỏi về phụ kiện</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-phan-van">
                              <input type="checkbox" class="export-checkbox" data-scenario-key="khach-phan-van">
-                            <i class="fas fa-person-circle-question fa-fw mr-2 text-yellow-400"></i><span>Phân vân / Từ chối</span>
+                            <i class="fas fa-person-circle-question fa-fw mr-2 text-yellow-400"></i>
+                            <span class="flex-grow">Phân vân / Từ chối</span>
+                            <small class="frequency-tag ml-2"></small>
                         </button>
                     </div>
                 </div>
@@ -398,13 +464,14 @@
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col overflow-hidden">
-            <header class="bg-white shadow-sm p-4 z-10 flex-shrink-0">
+             <!-- MỚI: Cập nhật Header để chứa cả tiêu đề và tag tần suất -->
+            <header id="main-header" class="bg-white shadow-sm p-4 z-10 flex-shrink-0 flex justify-between items-center">
                 <h1 id="page-title" class="text-xl font-semibold text-gray-800">Quy Trình Chào Khách & Tăng Chuyển Đổi</h1>
+                <span id="page-frequency-tag"></span>
             </header>
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 sm:p-6 md:p-8">
                 <!-- Control Panel -->
                 <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 mb-6">
-                    <!-- MỚI: Tách Control Panel ra nhiều phần -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                         <button id="random-scenario-btn" class="w-full sm:w-auto bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
                             <i class="fas fa-random mr-2"></i> Tình huống Ngẫu nhiên
@@ -419,7 +486,6 @@
                     </div>
                     <p class="text-xs text-gray-500 mt-2">Khi bật, nội dung chi tiết sẽ được ẩn để bạn tự ghi nhớ.</p>
                     
-                    <!-- MỚI: Thêm khu vực điều khiển xuất ảnh -->
                     <div class="mt-4 pt-4 border-t border-gray-200">
                          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                             <button id="export-btn" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
@@ -454,6 +520,7 @@ const scenarios = {
         title: 'Tình Huống 1: Khách Chỉ Nhìn Ngắm',
         shortTitle: 'Khách chỉ nhìn ngắm',
         icon: 'fa-eye text-teal-500',
+        frequency: { level: 'Rất Cao', percent: 40 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Tạo không gian & Quan sát (15-30 giây)',
@@ -478,6 +545,7 @@ const scenarios = {
         title: 'Tình Huống 2: Khách Chủ Động Hỏi',
         shortTitle: 'Khách chủ động hỏi',
         icon: 'fa-comments text-blue-500',
+        frequency: { level: 'Cao', percent: 35 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Lắng nghe chủ động & Xác nhận lại',
@@ -502,6 +570,7 @@ const scenarios = {
         title: 'Tình Huống 3: Khách Tỏ Ra Vội Vàng',
         shortTitle: 'Khách tỏ ra vội',
         icon: 'fa-person-running text-red-500',
+        frequency: { level: 'Trung bình', percent: 25 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Nhận biết & Đồng bộ nhịp độ',
@@ -528,6 +597,7 @@ const scenarios = {
         title: 'Tình Huống 4: Khách Không Rành Công Nghệ',
         shortTitle: 'Khách không rành CN',
         icon: 'fa-hand-holding-heart text-pink-400',
+        frequency: { level: 'Cao', percent: 30 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Sử dụng ngôn ngữ đơn giản & Trấn an',
@@ -552,6 +622,7 @@ const scenarios = {
         title: 'Tình Huống 5: Khách Đã Tìm Hiểu Kỹ',
         shortTitle: 'Khách đã tìm hiểu',
         icon: 'fa-brain text-orange-500',
+        frequency: { level: 'Cao', percent: 25 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Tôn trọng kiến thức & Lắng nghe sâu',
@@ -576,6 +647,7 @@ const scenarios = {
         title: 'Tình Huống 6: Khách Đi Cùng Gia Đình',
         shortTitle: 'Khách đi cùng gia đình',
         icon: 'fa-users text-purple-500',
+        frequency: { level: 'Trung bình', percent: 20 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Chào mừng cả gia đình & Xác định vai trò',
@@ -600,6 +672,7 @@ const scenarios = {
         title: 'Tình Huống 7: Khách Mua Làm Quà Tặng',
         shortTitle: 'Khách mua làm quà tặng',
         icon: 'fa-gift text-rose-400',
+        frequency: { level: 'Thấp', percent: 10 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Xác định hồ sơ Người nhận quà',
@@ -624,6 +697,7 @@ const scenarios = {
         title: 'Tình Huống 8: Khách Doanh nghiệp, Trường học',
         shortTitle: 'Khách Doanh nghiệp',
         icon: 'fa-building-columns text-gray-400',
+        frequency: { level: 'Tình huống', percent: 5 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Chuyển sang chế độ tư vấn B2B',
@@ -648,6 +722,7 @@ const scenarios = {
         title: 'Tình Huống 9: Khách Thân Thiết Quay Lại',
         shortTitle: 'Khách thân thiết',
         icon: 'fa-star text-amber-400',
+        frequency: { level: 'Trung bình', percent: 15 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Nhận diện & Chào mừng cá nhân hóa',
@@ -674,6 +749,7 @@ const scenarios = {
         title: 'Tình Huống 10: Khách cần máy cho con học Cấp 1, 2',
         shortTitle: 'Con học Cấp 1, 2',
         icon: 'fa-child-reaching text-green-400',
+        frequency: { level: 'Trung bình', percent: 15 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Tập trung vào "An toàn & Bền bỉ"',
@@ -698,6 +774,7 @@ const scenarios = {
         title: 'Tình Huống 11: Khách là SV Kinh tế, Xã hội',
         shortTitle: 'SV Kinh tế, Xã hội',
         icon: 'fa-chart-line text-lime-400',
+        frequency: { level: 'Cao', percent: 20 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Thể hiện sự đồng cảm & Xác định nhu cầu cốt lõi',
@@ -722,6 +799,7 @@ const scenarios = {
         title: 'Tình Huống 12: Khách là SV Kỹ thuật, Lập trình',
         shortTitle: 'SV Kỹ thuật, Lập trình',
         icon: 'fa-code text-indigo-400',
+        frequency: { level: 'Trung bình', percent: 15 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Thể hiện sự am hiểu chuyên ngành',
@@ -746,6 +824,7 @@ const scenarios = {
         title: 'Tình Huống 13: Khách là SV Đồ họa, Kiến trúc',
         shortTitle: 'SV Đồ họa, Kiến trúc',
         icon: 'fa-palette text-fuchsia-400',
+        frequency: { level: 'Thấp', percent: 10 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Tập trung vào "Màu sắc & Sức mạnh"',
@@ -772,6 +851,7 @@ const scenarios = {
         title: 'Tình Huống 14: Khách So Sánh Giá',
         shortTitle: 'So sánh giá',
         icon: 'fa-scale-balanced text-cyan-400',
+        frequency: { level: 'Rất Cao', percent: 50 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Đồng cảm & Không hạ thấp đối thủ',
@@ -796,6 +876,7 @@ const scenarios = {
         title: 'Tình Huống 15: Khách lo lắng về độ bền',
         shortTitle: 'Lo về độ bền',
         icon: 'fa-shield-halved text-slate-400',
+        frequency: { level: 'Cao', percent: 40 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Đồng cảm & Xác nhận mối quan tâm',
@@ -820,6 +901,7 @@ const scenarios = {
         title: 'Tình Huống 16: Khách quan tâm đến màn hình',
         shortTitle: 'Quan tâm màn hình',
         icon: 'fa-desktop text-violet-400',
+        frequency: { level: 'Trung bình', percent: 25 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Khơi gợi & Xác định đúng nhu cầu',
@@ -844,6 +926,7 @@ const scenarios = {
         title: 'Tình Huống 17: Khách hỏi về phần mềm bản quyền',
         shortTitle: 'Hỏi về phần mềm',
         icon: 'fab fa-windows text-sky-400',
+        frequency: { level: 'Cao', percent: 35 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Khẳng định tầm quan trọng & Sự chuyên nghiệp',
@@ -868,6 +951,7 @@ const scenarios = {
         title: 'Tình Huống 18: Khách cần nhiều cổng kết nối',
         shortTitle: 'Cần nhiều cổng cắm',
         icon: 'fa-plug-circle-bolt text-emerald-400',
+        frequency: { level: 'Trung bình', percent: 20 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Xác nhận nhu cầu kết nối cụ thể',
@@ -892,6 +976,7 @@ const scenarios = {
         title: 'Tình Huống 19: Khách hỏi về phụ kiện',
         shortTitle: 'Hỏi về phụ kiện',
         icon: 'fa-computer-mouse text-stone-400',
+        frequency: { level: 'Cao', percent: 30 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Xem đây là cơ hội Vàng để Upsell',
@@ -919,6 +1004,7 @@ const scenarios = {
         title: 'Tình Huống 20: Khách Phân Vân / Từ Chối',
         shortTitle: 'Phân vân / Từ chối',
         icon: 'fa-person-circle-question text-yellow-400',
+        frequency: { level: 'Rất Cao', percent: 60 }, // MỚI
         steps: [
             {
                 title: 'Bước 1: Đồng cảm & Giảm áp lực (Kỹ thuật "Gương soi")',
@@ -949,6 +1035,7 @@ const scenarios = {
         const randomBtn = document.getElementById('random-scenario-btn');
         const collapsibleTriggers = document.querySelectorAll('.collapsible-trigger');
         const pageTitle = document.getElementById('page-title');
+        const pageFrequencyTag = document.getElementById('page-frequency-tag'); // MỚI
         const exportModeToggle = document.getElementById('export-mode-toggle');
         const exportBtn = document.getElementById('export-btn');
         const exportStatus = document.getElementById('export-status');
@@ -959,13 +1046,65 @@ const scenarios = {
         let isExportMode = false;
         let currentScenarioKey = null;
 
+        // --- MỚI: FUNCTIONS FOR FREQUENCY DISPLAY ---
+        /**
+         * Lấy class màu sắc dựa trên cấp độ tần suất
+         * @param {string} level - Cấp độ (Rất Cao, Cao, Trung bình, Thấp, Tình huống)
+         * @param {string} prefix - 'freq' for sidebar, 'header-freq' for main title
+         * @returns {string} - Tên class CSS
+         */
+        function getFrequencyClass(level, prefix = 'freq') {
+            switch (level) {
+                case 'Rất Cao': return `${prefix}-very-high`;
+                case 'Cao': return `${prefix}-high`;
+                case 'Trung bình': return `${prefix}-medium`;
+                case 'Thấp': return `${prefix}-low`;
+                case 'Tình huống': return `${prefix}-situational`;
+                default: return '';
+            }
+        }
+
+        /**
+         * Khởi tạo và hiển thị các tag tần suất trên sidebar
+         */
+        function initFrequencyTags() {
+            for (const key in scenarios) {
+                const scenario = scenarios[key];
+                if (scenario.frequency) {
+                    const btn = document.querySelector(`.scenario-btn[data-scenario="${key}"]`);
+                    if (btn) {
+                        const tag = btn.querySelector('.frequency-tag');
+                        if (tag) {
+                            tag.textContent = `~${scenario.frequency.percent}%`;
+                            tag.classList.add(getFrequencyClass(scenario.frequency.level));
+                            tag.title = `Tần suất gặp: ${scenario.frequency.level}`;
+                        }
+                    }
+                }
+            }
+        }
+
+
         // --- CORE FUNCTIONS ---
         function displayScenario(scenarioKey) {
             currentScenarioKey = scenarioKey;
             const scenarioData = scenarios[scenarioKey];
             if (!scenarioData) return;
-
+            
+            // MỚI: Cập nhật tiêu đề và tag tần suất
             pageTitle.innerHTML = `<i class="fas ${scenarioData.icon} mr-3"></i> ${scenarioData.title}`;
+            if (scenarioData.frequency) {
+                const freq = scenarioData.frequency;
+                pageFrequencyTag.innerHTML = `
+                    <span class="header-freq-tag ${getFrequencyClass(freq.level, 'header-freq')}">
+                        Tần suất: ${freq.level} (~${freq.percent}%)
+                    </span>
+                `;
+                pageFrequencyTag.style.display = 'block';
+            } else {
+                pageFrequencyTag.style.display = 'none';
+            }
+
 
             let content = `<div class="space-y-2">`;
             if (isTrainingMode) {
@@ -993,7 +1132,7 @@ const scenarios = {
                     content += `
                         <div class="step-card bg-white rounded-lg p-4 border ${isConversion}">
                             <p class="font-semibold text-gray-800">${index + 1}. ${step.title}</p>
-                            <p class="text-gray-600 text-sm mt-1 ml-4">${step.description}</p>
+                            <div class="text-gray-600 text-sm mt-1 ml-4">${step.description}</div>
                         </div>
                     `;
                     if (index < scenarioData.steps.length - 1) {
@@ -1018,25 +1157,17 @@ const scenarios = {
             }
         }
 
-        // --- MỚI: CÁC HÀM TIỆN ÍCH VÀ XỬ LÝ XUẤT ẢNH ---
+        // --- CÁC HÀM TIỆN ÍCH VÀ XỬ LÝ XUẤT ẢNH ---
 
-        /**
-         * Chuyển đổi chuỗi thành dạng slug (tên file an toàn)
-         * @param {string} text - Chuỗi đầu vào
-         * @returns {string} - Chuỗi đã được slugify
-         */
         function slugify(text) {
             return text.toString().toLowerCase()
-                .replace(/\s+/g, '-')           // Thay thế khoảng trắng bằng -
-                .replace(/[^\w\-]+/g, '')       // Loại bỏ các ký tự không hợp lệ
-                .replace(/\-\-+/g, '-')         // Thay thế nhiều - bằng một -
-                .replace(/^-+/, '')             // Cắt bỏ - ở đầu
-                .replace(/-+$/, '');            // Cắt bỏ - ở cuối
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
         }
 
-        /**
-         * Cập nhật trạng thái của nút Xuất ảnh (enable/disable)
-         */
         function updateExportButtonState() {
             const selectedCount = document.querySelectorAll('.export-checkbox:checked').length;
             if (selectedCount > 0) {
@@ -1048,14 +1179,15 @@ const scenarios = {
             }
         }
 
-        /**
-         * Tạo nội dung HTML cho một kịch bản để xuất ảnh
-         * @param {object} scenarioData - Dữ liệu của kịch bản
-         * @returns {string} - Chuỗi HTML
-         */
         function generateExportHTML(scenarioData) {
-            let html = `<div class="export-scenario-block">`;
-            html += `<h2 class="export-title"><i class="fas ${scenarioData.icon} mr-3"></i>${scenarioData.title}</h2>`;
+             let html = `<div class="export-scenario-block">`;
+            // MỚI: Thêm thông tin tần suất vào ảnh xuất
+            let freqHTML = '';
+            if (scenarioData.frequency) {
+                 const freq = scenarioData.frequency;
+                 freqHTML = `<span style="font-size: 0.9rem; font-weight: 500; color: #4b5563; margin-left: 15px;">(Tần suất gặp: ${freq.level} ~${freq.percent}%)</span>`;
+            }
+            html += `<h2 class="export-title flex items-baseline"><i class="fas ${scenarioData.icon} mr-3"></i><span>${scenarioData.title}</span>${freqHTML}</h2>`;
             scenarioData.steps.forEach((step, index) => {
                 html += `
                     <div class="export-step-card">
@@ -1132,6 +1264,9 @@ const scenarios = {
             if (isExportMode) {
                 if (isTrainingMode) trainingToggle.click();
                 document.querySelector('.scenario-btn.active')?.classList.remove('active');
+                 // MỚI: Ẩn tag tần suất ở header khi ở chế độ xuất
+                pageFrequencyTag.style.display = 'none';
+                pageTitle.innerHTML = "Chế độ Chọn để Xuất";
                 display.innerHTML = `
                     <div class="text-center text-gray-500 flex flex-col items-center justify-center h-full">
                         <i class="fas fa-check-square text-4xl mb-4 text-blue-500"></i>
@@ -1145,6 +1280,8 @@ const scenarios = {
                     document.querySelector(`.scenario-btn[data-scenario="${currentScenarioKey}"]`).classList.add('active');
                     displayScenario(currentScenarioKey);
                 } else {
+                     pageTitle.innerHTML = "Quy Trình Chào Khách & Tăng Chuyển Đổi";
+                     pageFrequencyTag.style.display = 'none';
                     display.innerHTML = `
                         <div class="text-center text-gray-400 flex flex-col items-center justify-center h-full">
                             <i class="fas fa-arrow-left text-4xl mb-4"></i>
@@ -1156,7 +1293,6 @@ const scenarios = {
             }
         });
         
-        // MỚI: Logic xử lý xuất nhiều ảnh riêng lẻ
         exportBtn.addEventListener('click', async () => {
             const selectedCheckboxes = document.querySelectorAll('.export-checkbox:checked');
             if (selectedCheckboxes.length === 0) return;
@@ -1165,48 +1301,42 @@ const scenarios = {
             const total = selectedCheckboxes.length;
             let count = 0;
 
-            // Dùng vòng lặp for...of với async/await để xử lý tuần tự
             for (const cb of selectedCheckboxes) {
                 count++;
                 const key = cb.dataset.scenarioKey;
                 const scenarioData = scenarios[key];
                 if (!scenarioData) continue;
 
-                exportStatus.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Đang xuất ảnh ${count}/${total}: <strong>${scenarioData.title}</strong>...`;
+                exportStatus.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Đang xuất ảnh ${count}/${total}: <strong>${scenarioData.shortTitle}</strong>...`;
                 
-                // Tạo một container ẩn để chứa nội dung cần xuất
                 const exportContainer = document.createElement('div');
                 exportContainer.id = 'export-container';
                 exportContainer.style.position = 'absolute';
-                exportContainer.style.left = '-9999px'; // Đặt ngoài màn hình
+                exportContainer.style.left = '-9999px';
                 document.body.appendChild(exportContainer);
                 
                 exportContainer.innerHTML = generateExportHTML(scenarioData);
 
                 try {
                     const canvas = await html2canvas(exportContainer, {
-                        scale: 1.5, // Tăng độ phân giải
+                        scale: 1.5,
                         useCORS: true
                     });
                     
                     const link = document.createElement('a');
-                    // Tạo tên file an toàn từ tiêu đề
                     link.download = `${slugify(scenarioData.title)}.png`;
                     link.href = canvas.toDataURL('image/png');
                     link.click();
 
-                    // Chờ một chút giữa các lần tải để trình duyệt không bị chặn
                     await new Promise(resolve => setTimeout(resolve, 300));
 
                 } catch (err) {
                     console.error(`Lỗi khi xuất ảnh cho kịch bản "${scenarioData.title}":`, err);
                     exportStatus.textContent = `Lỗi khi xuất ảnh kịch bản: ${scenarioData.title}.`;
-                    // Dừng lại nếu có lỗi
-                    document.body.removeChild(exportContainer); // Dọn dẹp
+                    document.body.removeChild(exportContainer);
                     exportBtn.disabled = false;
                     return;
                 } finally {
-                     // Dọn dẹp container sau mỗi lần chụp
                     if (document.body.contains(exportContainer)) {
                         document.body.removeChild(exportContainer);
                     }
@@ -1219,10 +1349,13 @@ const scenarios = {
 
 
         // --- INITIAL LOAD ---
-        if (buttons.length > 0) {
-            collapsibleTriggers[0].click();
-            buttons[0].click();
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            initFrequencyTags(); // MỚI: Gọi hàm để load tần suất
+            if (buttons.length > 0) {
+                collapsibleTriggers[0].click();
+                buttons[0].click();
+            }
+        });
 
     </script>
 </body>

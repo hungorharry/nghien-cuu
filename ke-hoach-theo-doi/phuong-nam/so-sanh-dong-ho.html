@@ -1,191 +1,1362 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>So Sánh Mibro Watch T1 và myFirst Fone R1C | Đâu Là Lựa Chọn Dành Cho Bạn?</title>
+    <title>Lưu Đồ Tương Tác Nâng Cao: Quy Trình Chào Khách & Tăng Chuyển Đổi</title>
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Fonts for typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Thư viện html2canvas để xuất ảnh -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
-            font-family: 'Be Vietnam Pro', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* gray-100 */
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #0052D4, #4364F7, #6FB1FC);
+        /* --- Sidebar Styles --- */
+        .collapsible-trigger {
+            transition: background-color 0.2s ease-in-out;
         }
-        .table-header {
-            background-color: #1e3a8a; /* Dark Blue */
+        .scenario-btn {
+            transition: all 0.2s ease-in-out;
+            border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
         }
-        .highlight-feature {
-            background-color: #eff6ff; /* Light Blue */
+        .scenario-btn:hover {
+            background-color: #374151; /* gray-700 */
+            border-left-color: #60a5fa; /* blue-400 */
         }
-        .mibro-column {
-            border-left: 4px solid #4364F7;
+        .scenario-btn.active {
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            font-weight: 600;
+            border-left-color: #bfdbfe; /* blue-200 */
         }
-        .myfirst-column {
-            border-left: 4px solid #f97316;
+        .scenario-btn.active i, .scenario-btn.active .frequency-tag {
+            color: white !important;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .collapsible-content.expanded {
+            max-height: 1000px;
+        }
+        .collapsible-trigger .chevron-icon {
+            transition: transform 0.3s ease;
+        }
+        .collapsible-trigger.active .chevron-icon {
+            transform: rotate(180deg);
+        }
+        /* MỚI: Frequency Tag Styles */
+        .frequency-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 9999px;
+            border-width: 1px;
+        }
+        .freq-very-high { color: #ef4444; border-color: #ef4444; } /* red-500 */
+        .freq-high { color: #f97316; border-color: #f97316; } /* orange-500 */
+        .freq-medium { color: #eab308; border-color: #eab308; } /* yellow-500 */
+        .freq-low { color: #22c55e; border-color: #22c55e; } /* green-500 */
+        .freq-situational { color: #6b7280; border-color: #6b7280; } /* gray-500 */
+
+        .header-freq-tag {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            color: white;
+        }
+        .header-freq-very-high { background-color: #dc2626; } /* red-600 */
+        .header-freq-high { background-color: #ea580c; } /* orange-600 */
+        .header-freq-medium { background-color: #d97706; } /* amber-600 */
+        .header-freq-low { background-color: #16a34a; } /* green-600 */
+        .header-freq-situational { background-color: #4b5563; } /* gray-600 */
+
+
+        /* --- Main Content Styles --- */
+        .step-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .step-card:nth-child(2) { animation-delay: 0.1s; }
+        .step-card:nth-child(3) { animation-delay: 0.2s; }
+        .step-card:nth-child(4) { animation-delay: 0.3s; }
+        .step-card:nth-child(5) { animation-delay: 0.4s; }
+
+        .step-card.conversion-step {
+            background-color: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .step-card.conversion-step > p:first-child {
+            color: #1d4ed8;
+        }
+        .arrow {
+            font-size: 2rem;
+            color: #d1d5db;
+            text-align: center;
+            line-height: 0.5;
+            animation: fadeIn 0.5s forwards;
+            animation-delay: 0.15s;
+            opacity: 0;
+        }
+        .product-specific-advice {
+            margin-top: 0.5rem; padding-left: 0.75rem;
+            border-left: 2px solid #e5e7eb;
+            font-style: italic; color: #4b5563;
+        }
+        .faq-item {
+            margin-top: 0.5rem; padding: 0.75rem;
+            background-color: #f0f9ff;
+            border-left: 3px solid #60a5fa;
+            font-size: 0.875rem; color: #1e40af;
+        }
+        .faq-item strong { color: #1d4ed8; }
+
+        /* Training Mode Styles */
+        .training-description {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+            padding-left: 1rem;
+        }
+        .training-description.show {
+            max-height: 1000px;
+        }
+        .toggle-hint-btn {
+            cursor: pointer;
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        /* Toggle Switch Styles */
+        .toggle-switch-label { position: relative; display: inline-block; width: 50px; height: 28px; }
+        .toggle-switch-label input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 28px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* --- Export Mode Styles --- */
+        .export-checkbox {
+            display: none; /* Ẩn checkbox ở chế độ thường */
+            margin-right: 10px;
+            accent-color: #60a5fa;
+            width: 16px;
+            height: 16px;
+        }
+        #scenario-nav.export-mode .export-checkbox {
+            display: inline-block; /* Hiện checkbox ở chế độ xuất ảnh */
+        }
+        #scenario-nav.export-mode .scenario-btn {
+            cursor: pointer;
+            border-left-color: transparent !important;
+        }
+        #scenario-nav.export-mode .scenario-btn.active {
+            background-color: #374151; /* Bỏ màu active khi ở chế độ chọn */
+            border-left-color: transparent !important;
+        }
+        #scenario-nav.export-mode .scenario-btn:hover {
+            background-color: #4b5563;
+        }
+        #export-container {
+            width: 900px;
+            background-color: white;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+        }
+        .export-scenario-block {
+            page-break-inside: avoid;
+            margin-bottom: 2.5rem;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .export-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3b82f6;
+        }
+         .export-step-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .export-step-description {
+            font-size: 0.95rem;
+            color: #4b5563;
+            margin-top: 0.25rem;
+            margin-left: 1.5rem;
+            line-height: 1.6;
+        }
+        .export-step-card {
+            margin-bottom: 1rem;
+        }
+        .step-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .detail-item {
+            background-color: #f9fafb;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        .detail-title {
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+        .detail-title .fas {
+            color: #3b82f6;
+        }
+        .detail-item p {
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        .detail-title-full {
+            font-weight: 600;
+            color: #111827;
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 1.05em;
+        }
+        .detail-title-full .fas {
+            color: #3b82f6;
+            margin-right: 0.5rem;
+        }
+        .script-block {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .script-good {
+            background-color: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .script-bad {
+            background-color: #fff1f2;
+            border-left: 4px solid #ef4444;
+            padding: 0.75rem;
+        }
+        .tips-list {
+            list-style-type: disc;
+            padding-left: 2.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+        .transition-question {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #fafaf9;
+            border-top: 2px dotted #eab308;
+            font-style: italic;
+            color: #78350f;
+            font-size: 0.9rem;
+        }
+        .transition-question strong {
+            color: #ca8a04;
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="text-gray-800">
 
-    <div class="container mx-auto p-4 md:p-8">
-        <!-- Header -->
-        <header class="text-center mb-8 p-6 rounded-xl gradient-bg text-white shadow-lg">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">So Sánh Đồng Hồ Thông Minh</h1>
-            <p class="text-lg">Mibro Watch T1 vs. myFirst Fone R1C: Chọn đúng người, đúng việc!</p>
-        </header>
-
-        <!-- Comparison Table -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm md:text-base text-left text-gray-700">
-                    <thead class="text-xs text-white uppercase table-header">
-                        <tr>
-                            <th scope="col" class="px-6 py-4">Tiêu Chí</th>
-                            <th scope="col" class="px-6 py-4 mibro-column">Mibro Watch T1</th>
-                            <th scope="col" class="px-6 py-4 myfirst-column">myFirst Fone R1C</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b">
-                            <td class="px-6 py-4 font-bold text-gray-800">Đối tượng sử dụng</td>
-                            <td class="px-6 py-4 mibro-column font-semibold text-blue-800">Người lớn, dân văn phòng, người tập luyện thể thao</td>
-                            <td class="px-6 py-4 myfirst-column text-orange-800">Trẻ em (5-12 tuổi), cần giám sát từ xa</td>
-                        </tr>
-                        <tr class="border-b highlight-feature">
-                            <td class="px-6 py-4 font-bold text-gray-800">Màn hình</td>
-                            <td class="px-6 py-4 mibro-column font-semibold text-blue-800">🌟 AMOLED 1.6", 320x360px - Sắc nét, rực rỡ</td>
-                            <td class="px-6 py-4 myfirst-column">TFT 1.3", 240x240px - Đơn giản, dễ dùng</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-6 py-4 font-bold text-gray-800">Gọi thoại / Video</td>
-                            <td class="px-6 py-4 mibro-column">📞 Nghe gọi Bluetooth (kết nối điện thoại)</td>
-                            <td class="px-6 py-4 myfirst-column font-semibold text-orange-800">📞 Gọi video & thoại độc lập (có SIM 4G)</td>
-                        </tr>
-                        <tr class="border-b highlight-feature">
-                            <td class="px-6 py-4 font-bold text-gray-800">Theo dõi sức khỏe</td>
-                            <td class="px-6 py-4 mibro-column font-semibold text-blue-800">❤️ Đo nhịp tim, SpO₂, giấc ngủ, stress</td>
-                            <td class="px-6 py-4 myfirst-column">Chỉ đếm bước chân</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-6 py-4 font-bold text-gray-800">Chế độ thể thao</td>
-                            <td class="px-6 py-4 mibro-column font-semibold text-blue-800">🏃 20+ chế độ tích hợp</td>
-                            <td class="px-6 py-4 myfirst-column">Không hỗ trợ</td>
-                        </tr>
-                        <tr class="border-b highlight-feature">
-                            <td class="px-6 py-4 font-bold text-gray-800">Thời lượng Pin</td>
-                            <td class="px-6 py-4 mibro-column font-semibold text-blue-800">🔋 Khoảng 7 ngày sử dụng</td>
-                            <td class="px-6 py-4 myfirst-column">~ 2 ngày sử dụng</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-6 py-4 font-bold text-gray-800">Định vị & An toàn</td>
-                            <td class="px-6 py-4 mibro-column">Không có</td>
-                            <td class="px-6 py-4 myfirst-column font-semibold text-orange-800">🛰️ GPS đa tầng, nút SOS, vùng an toàn</td>
-                        </tr>
-                         <tr class="border-b">
-                            <td class="px-6 py-4 font-bold text-gray-800">Kháng nước</td>
-                            <td class="px-6 py-4 mibro-column">IP68 (sinh hoạt thoải mái)</td>
-                            <td class="px-6 py-4 myfirst-column">IP67 (chống nước nhẹ)</td>
-                        </tr>
-                        <tr class="border-b highlight-feature">
-                            <td class="px-6 py-4 font-bold text-gray-800">Giá bán lẻ (tham khảo)</td>
-                            <td class="px-6 py-4 mibro-column font-semibold text-blue-800">~1.690.000 VNĐ</td>
-                            <td class="px-6 py-4 myfirst-column text-orange-800">~1.990.000 VNĐ</td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="px-6 py-4 font-bold text-gray-800">Điểm nổi bật</td>
-                            <td class="px-6 py-4 mibro-column text-blue-800">Thiết kế thời trang, màn hình đẹp, theo dõi sức khỏe chuyên sâu, pin bền bỉ.</td>
-                            <td class="px-6 py-4 myfirst-column text-orange-800">Thiết bị an toàn cho trẻ, liên lạc độc lập, giám sát vị trí chính xác.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <!-- P/P Chart Section -->
-        <div class="mt-8 bg-white p-6 rounded-xl shadow-lg">
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">So Sánh Hiệu Năng trên Giá Thành (P/P)</h2>
-            <p class="text-center text-gray-600 mb-6">Bạn nhận lại được gì với số tiền bỏ ra?</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Mibro T1 P/P -->
-                <div class="border p-4 rounded-lg bg-blue-50">
-                    <h3 class="font-bold text-lg text-blue-800">Mibro Watch T1</h3>
-                    <p class="text-sm text-blue-600 mb-3">Giá trị cho người lớn hiện đại</p>
-                    <div class="w-full bg-blue-200 rounded-full h-8 mb-2">
-                        <div class="bg-blue-600 h-8 rounded-full flex items-center justify-center text-white font-bold" style="width: 90%">
-                            P/P Rất Cao
-                        </div>
-                    </div>
-                    <ul class="text-sm text-gray-700 space-y-1 mt-3">
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Màn hình <strong>AMOLED</strong> cao cấp</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Tính năng sức khỏe <strong>chuyên sâu</strong></li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Pin <strong>bền bỉ</strong> cả tuần</li>
-                        <li><i class="fas fa-check-circle text-green-500 mr-2"></i>Giá thành <strong>tốt hơn</strong></li>
-                    </ul>
-                </div>
-                <!-- myFirst Fone R1C P/P -->
-                <div class="border p-4 rounded-lg bg-orange-50">
-                    <h3 class="font-bold text-lg text-orange-800">myFirst Fone R1C</h3>
-                    <p class="text-sm text-orange-600 mb-3">Đầu tư cho sự an toàn của trẻ</p>
-                    <div class="w-full bg-orange-200 rounded-full h-8 mb-2">
-                        <div class="bg-orange-500 h-8 rounded-full flex items-center justify-center text-white font-bold" style="width: 75%">
-                            P/P Tốt (Mục đích chuyên biệt)
-                        </div>
-                    </div>
-                     <ul class="text-sm text-gray-700 space-y-1 mt-3">
-                        <li><i class="fas fa-shield-halved text-green-500 mr-2"></i><strong>Định vị GPS</strong> chính xác</li>
-                        <li><i class="fas fa-phone-volume text-green-500 mr-2"></i>Gọi thoại & video <strong>độc lập</strong></li>
-                        <li><i class="fas fa-bell text-green-500 mr-2"></i>Nút <strong>SOS</strong> khẩn cấp</li>
-                        <li><i class="fas fa-times-circle text-red-500 mr-2"></i>Giá cao hơn, ít tính năng cho người lớn</li>
-                    </ul>
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar/Catalog -->
+        <aside class="w-80 bg-gray-800 text-white flex flex-col flex-shrink-0">
+            <div class="px-4 py-5 border-b border-gray-700 flex items-center space-x-3">
+                <i class="fas fa-comments-dollar text-blue-400 text-2xl"></i>
+                <div>
+                    <h2 class="text-lg font-bold">Kịch Bản Tư Vấn</h2>
+                    <p class="text-xs text-gray-400">Quy trình bán hàng hiệu quả</p>
                 </div>
             </div>
-        </div>
+            <nav id="scenario-nav" class="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
+                <!-- Group 1 -->
+                <div>
+                    <button class="collapsible-trigger w-full text-left flex justify-between items-center text-sm font-semibold text-gray-300 p-3 rounded-md hover:bg-gray-700 transition-colors">
+                        <span>NHÓM 1: GIAO TIẾP BAN ĐẦU</span>
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="collapsible-content pl-4 mt-1 space-y-1">
+                        <!-- MỚI: Thêm <span> để chứa tên và <small> cho tần suất -->
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-chi-xem">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-chi-xem">
+                            <i class="fas fa-eye fa-fw mr-2 text-teal-400"></i>
+                            <span class="flex-grow">Khách chỉ nhìn ngắm</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-chu-dong-hoi">
+                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-chu-dong-hoi">
+                            <i class="fas fa-comments fa-fw mr-2 text-blue-400"></i>
+                            <span class="flex-grow">Khách chủ động hỏi</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-voi-vang">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-voi-vang">
+                            <i class="fas fa-person-running fa-fw mr-2 text-red-400"></i>
+                            <span class="flex-grow">Khách tỏ ra vội</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                    </div>
+                </div>
+                <!-- Group 2 -->
+                <div>
+                    <button class="collapsible-trigger w-full text-left flex justify-between items-center text-sm font-semibold text-gray-300 p-3 rounded-md hover:bg-gray-700 transition-colors">
+                        <span>NHÓM 2: PHÂN LOẠI ĐỐI TƯỢNG</span>
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="collapsible-content pl-4 mt-1 space-y-1">
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-ko-ranh-cn">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-ko-ranh-cn">
+                            <i class="fas fa-hand-holding-heart fa-fw mr-2 text-pink-400"></i>
+                            <span class="flex-grow">Khách không rành CN</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-da-tim-hieu">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-da-tim-hieu">
+                            <i class="fas fa-brain fa-fw mr-2 text-orange-400"></i>
+                            <span class="flex-grow">Khách đã tìm hiểu kỹ</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-di-cung-gia-dinh">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-di-cung-gia-dinh">
+                            <i class="fas fa-users fa-fw mr-2 text-purple-400"></i>
+                            <span class="flex-grow">Khách đi cùng gia đình</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-mua-qua-tang">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-mua-qua-tang">
+                            <i class="fas fa-gift fa-fw mr-2 text-rose-400"></i>
+                            <span class="flex-grow">Khách mua làm quà tặng</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-doanh-nghiep">
+                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-doanh-nghiep">
+                            <i class="fas fa-building-columns fa-fw mr-2 text-gray-400"></i>
+                            <span class="flex-grow">Khách Doanh nghiệp</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-than-thiet">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-than-thiet">
+                            <i class="fas fa-star fa-fw mr-2 text-amber-400"></i>
+                            <span class="flex-grow">Khách thân thiết</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                    </div>
+                </div>
+                <!-- Group 3 -->
+                <div>
+                    <button class="collapsible-trigger w-full text-left flex justify-between items-center text-sm font-semibold text-gray-300 p-3 rounded-md hover:bg-gray-700 transition-colors">
+                        <span>NHÓM 3: NHU CẦU HỌC TẬP</span>
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="collapsible-content pl-4 mt-1 space-y-1">
+                         <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-can-may-cap12">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-can-may-cap12">
+                            <i class="fas fa-child-reaching fa-fw mr-2 text-green-400"></i>
+                            <span class="flex-grow">Con học Cấp 1, 2</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-sv-kinhte">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-sv-kinhte">
+                            <i class="fas fa-chart-line fa-fw mr-2 text-lime-400"></i>
+                            <span class="flex-grow">SV Kinh tế, Xã hội</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-sv-kythuat">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-sv-kythuat">
+                            <i class="fas fa-code fa-fw mr-2 text-indigo-400"></i>
+                            <span class="flex-grow">SV Kỹ thuật, Lập trình</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-sv-dohoa">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-sv-dohoa">
+                            <i class="fas fa-palette fa-fw mr-2 text-fuchsia-400"></i>
+                            <span class="flex-grow">SV Đồ họa, Kiến trúc</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                    </div>
+                </div>
+                <!-- Group 4 -->
+                <div>
+                     <button class="collapsible-trigger w-full text-left flex justify-between items-center text-sm font-semibold text-gray-300 p-3 rounded-md hover:bg-gray-700 transition-colors">
+                        <span>NHÓM 4: XỬ LÝ TỪ CHỐI</span>
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </button>
+                    <div class="collapsible-content pl-4 mt-1 space-y-1">
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-so-sanh-gia">
+                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-so-sanh-gia">
+                            <i class="fas fa-scale-balanced fa-fw mr-2 text-cyan-400"></i>
+                            <span class="flex-grow">So sánh giá</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-lo-ben">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-lo-ben">
+                            <i class="fas fa-shield-halved fa-fw mr-2 text-slate-400"></i>
+                            <span class="flex-grow">Lo về độ bền</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-quan-tam-man-hinh">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-quan-tam-man-hinh">
+                            <i class="fas fa-desktop fa-fw mr-2 text-violet-400"></i>
+                            <span class="flex-grow">Quan tâm màn hình</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-hoi-pm">
+                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-hoi-pm">
+                            <i class="fab fa-windows fa-fw mr-2 text-sky-400"></i>
+                            <span class="flex-grow">Hỏi về phần mềm</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-can-nhieu-cong">
+                            <input type="checkbox" class="export-checkbox" data-scenario-key="khach-can-nhieu-cong">
+                            <i class="fas fa-plug-circle-bolt fa-fw mr-2 text-emerald-400"></i>
+                            <span class="flex-grow">Cần nhiều cổng cắm</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-hoi-phu-kien">
+                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-hoi-phu-kien">
+                            <i class="fas fa-computer-mouse fa-fw mr-2 text-stone-400"></i>
+                            <span class="flex-grow">Hỏi về phụ kiện</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                        <button class="scenario-btn p-2 w-full text-left text-sm font-medium text-gray-400 rounded-md" data-scenario="khach-phan-van">
+                             <input type="checkbox" class="export-checkbox" data-scenario-key="khach-phan-van">
+                            <i class="fas fa-person-circle-question fa-fw mr-2 text-yellow-400"></i>
+                            <span class="flex-grow">Phân vân / Từ chối</span>
+                            <small class="frequency-tag ml-2"></small>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </aside>
 
-        <!-- Focus Points for Mibro T1 -->
-        <div class="mt-8 bg-white p-6 rounded-xl shadow-lg">
-            <h2 class="text-2xl font-bold text-blue-800 mb-4">Điểm Vàng Tiếp Thị Mibro Watch T1</h2>
-            <p class="mb-4 text-gray-600">Để khách hàng thấy ngay giá trị của Mibro T1, hãy tập trung vào những lợi ích mà người dùng trưởng thành thực sự quan tâm:</p>
-            <ul class="space-y-3">
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-3 mt-1">✔️</span>
-                    <div>
-                        <h3 class="font-semibold">Màn Hình AMOLED Cao Cấp - "Ăn Tiền" Nhất</h3>
-                        <p class="text-gray-600">Trải nghiệm thị giác vượt trội, hiển thị sắc nét dưới nắng gắt. Đây là tính năng thường chỉ có trên đồng hồ đắt tiền hơn nhiều.</p>
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+             <!-- MỚI: Cập nhật Header để chứa cả tiêu đề và tag tần suất -->
+            <header id="main-header" class="bg-white shadow-sm p-4 z-10 flex-shrink-0 flex justify-between items-center">
+                <h1 id="page-title" class="text-xl font-semibold text-gray-800">Quy Trình Chào Khách & Tăng Chuyển Đổi</h1>
+                <span id="page-frequency-tag"></span>
+            </header>
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 sm:p-6 md:p-8">
+                <!-- Control Panel -->
+                <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200 mb-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <button id="random-scenario-btn" class="w-full sm:w-auto bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
+                            <i class="fas fa-random mr-2"></i> Tình huống Ngẫu nhiên
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <label class="toggle-switch-label">
+                                <input type="checkbox" id="training-toggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="font-medium text-gray-700">Chế độ Luyện tập</span>
+                        </div>
                     </div>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-3 mt-1">✔️</span>
-                    <div>
-                        <h3 class="font-semibold">Nghe Gọi Bluetooth - Tiện Lợi Tối Đa</h3>
-                        <p class="text-gray-600">Nhận cuộc gọi trực tiếp trên đồng hồ khi đang lái xe, tập thể dục hay bận tay. Một tính năng cực kỳ hữu ích trong cuộc sống hàng ngày.</p>
+                    <p class="text-xs text-gray-500 mt-2">Khi bật, nội dung chi tiết sẽ được ẩn để bạn tự ghi nhớ.</p>
+                    
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                            <button id="export-btn" class="w-full sm:w-auto bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                                <i class="fas fa-file-image mr-2"></i> Xuất ảnh các mục đã chọn
+                            </button>
+                            <div class="flex items-center space-x-3">
+                                <label class="toggle-switch-label">
+                                    <input type="checkbox" id="export-mode-toggle">
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="font-medium text-gray-700">Chế độ Chọn để Xuất</span>
+                            </div>
+                        </div>
+                        <p id="export-status" class="text-xs text-gray-500 mt-2">Bật chế độ và chọn các kịch bản bạn muốn xuất.</p>
                     </div>
-                </li>
-                <li class="flex items-start">
-                    <span class="text-green-500 mr-3 mt-1">✔️</span>
-                    <div>
-                        <h3 class="font-semibold">Trợ Lý Sức Khỏe Toàn Diện 24/7</h3>
-                        <p class="text-gray-600">Không chỉ xem giờ, đây là thiết bị theo dõi nhịp tim, nồng độ oxy trong máu (SpO₂), giấc ngủ. Giúp người dùng hiểu rõ và chăm sóc sức khỏe bản thân tốt hơn.</p>
+                </div>
+                <!-- Flowchart Display Area -->
+                <div id="flowchart-display" class="bg-white p-6 rounded-xl shadow-lg border border-gray-200 min-h-[400px]">
+                    <div class="text-center text-gray-400 flex flex-col items-center justify-center h-full">
+                        <i class="fas fa-arrow-left text-4xl mb-4"></i>
+                        <p>Vui lòng chọn một tình huống từ thanh điều hướng bên trái.</p>
                     </div>
-                </li>
-                 <li class="flex items-start">
-                    <span class="text-green-500 mr-3 mt-1">✔️</span>
-                    <div>
-                        <h3 class="font-semibold">Pin "Trâu" & Giá Tốt - Hiệu Quả Kinh Tế</h3>
-                        <p class="text-gray-600">Đánh bay nỗi lo sạc pin mỗi ngày và sở hữu hàng loạt tính năng cao cấp với mức giá hợp lý hơn. Đây chính là lựa chọn tối ưu nhất.</p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        
-        <!-- Conclusion -->
-        <div class="mt-8 text-center bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-r-lg shadow" role="alert">
-            <p class="font-bold">Kết Luận</p>
-            <p>Với mức giá tốt hơn, <strong>Mibro Watch T1</strong> mang lại hiệu năng vượt trội cho người dùng trưởng thành. Trong khi đó, <strong>myFirst Fone R1C</strong> là sự đầu tư xứng đáng cho sự an toàn của con trẻ.</p>
+                </div>
+            </main>
         </div>
     </div>
 
+    <script>
+const scenarios = {
+    // NHÓM 1: GIAO TIẾP BAN ĐẦU
+    'khach-chi-xem': {
+        title: 'Tình Huống 1: Khách Chỉ Nhìn Ngắm',
+        shortTitle: 'Khách chỉ nhìn ngắm',
+        icon: 'fa-eye text-teal-500',
+        frequency: { level: 'Rất Cao', percent: 40 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Tạo không gian & Quan sát (15-30 giây)',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tôn trọng không gian của khách, tránh gây áp lực. Thu thập dữ liệu ban đầu về sự quan tâm của họ một cách kín đáo.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi chỉ muốn xem qua thôi, đừng làm phiền tôi. Tôi chưa muốn bị nhân viên hỏi ngay lập tức."</p></div></div><strong class='detail-title-full'><i class='fas fa-lightbulb mr-2'></i>Mẹo & Lưu ý:</strong><ul class='tips-list'><li>Giữ khoảng cách 2-3 mét, không khoanh tay hay nhìn chằm chằm vào khách.</li><li>Quan sát điểm dừng: Khách dừng lại lâu ở khu vực nào (laptop gaming, laptop văn phòng, máy ảnh)?</li><li>Quan sát hành vi: Họ có đọc thông số kỹ thuật không? Có chạm vào sản phẩm không? Ngôn ngữ cơ thể họ thể hiện sự thích thú hay chỉ lướt qua?</li><li>Hành động chuẩn bị: Dựa vào quan sát, chuẩn bị sẵn "câu chuyện" mở đầu cho sản phẩm họ quan tâm.</li></ul>`
+            },
+            {
+                title: 'Bước 2: Tiếp cận bằng "Câu Nối" liên quan',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Bắt đầu cuộc trò chuyện một cách tự nhiên, không mang tính bán hàng. Cung cấp một thông tin giá trị nhỏ để thu hút sự chú ý.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Ồ, sản phẩm này có vẻ thú vị. Thông tin này hữu ích." (Thay vì "Lại một nhân viên bán hàng nữa...")</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói (dựa trên quan sát):</strong><br>- (Khách xem Laptop mỏng nhẹ): "Dạ em chào anh/chị. Mẫu máy này đang là một trong những lựa chọn hàng đầu cho người hay di chuyển vì nó chỉ nặng hơn 1kg thôi ạ, rất tiện lợi."<br>- (Khách xem máy ảnh Instax): "Mẫu máy ảnh này chụp ra ảnh rất xinh và đang được các bạn trẻ rất yêu thích để làm kỷ niệm hoặc trang trí sổ tay đó ạ."</div><div class='script-bad'><strong>Tránh nói:</strong> "Anh/chị cần gì ạ?", "Em có thể giúp gì cho anh/chị?", "Anh/chị tìm mua máy à?" (Quá trực diện và dễ nhận câu trả lời "Không, anh/chị chỉ xem thôi").</div></div><div class='transition-question'><strong>Câu hỏi chuyển tiếp:</strong> Sau khi nói câu nối và nhận được sự chú ý (gật đầu, nhìn bạn), hãy hỏi: "Không biết mình đang tìm hiểu thêm về tính năng nào của sản phẩm hay có yêu cầu cụ thể nào không ạ?"</div>`
+            },
+            {
+                title: 'Bước 3: Gợi mở nhu cầu bằng câu hỏi mở',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Khuyến khích khách hàng chia sẻ về mục đích sử dụng, vấn đề họ đang gặp phải hoặc mong muốn của họ. Đây là bước quan trọng nhất để tư vấn đúng sản phẩm.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Nhân viên này có vẻ thực sự muốn hiểu nhu cầu của mình, không chỉ cố bán hàng."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- Với Laptop: "Dạ không biết mình đang tìm một chiếc máy chủ yếu để phục vụ cho công việc, học tập hay giải trí ạ? Và mình thường dùng những phần mềm nào là chính ạ?"<br>- Với Máy chiếu: "Để em có thể tư vấn mẫu phù hợp nhất, anh/chị có thể chia sẻ thêm là mình dự định dùng máy chiếu trong không gian như thế nào và cho mục đích gì là chủ yếu không ạ (ví dụ xem phim, dạy học, họp hành)?"</div><div class='script-bad'><strong>Tránh nói:</strong> Các câu hỏi đóng (Có/Không) như: "Anh có mua máy để làm việc không ạ?".</div></div><div class='transition-question'><strong>Câu hỏi chuyển tiếp:</strong> "Dạ, với nhu cầu đó thì em có một vài lựa chọn rất phù hợp. Em xin phép giới thiệu cho mình nhé?"</div>`
+            },
+            {
+                title: 'Bước 4: Mời trải nghiệm & Tạo điểm chạm',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Giữ chân khách hàng lâu hơn, tạo sự gắn kết tình cảm với sản phẩm và thương hiệu, ngay cả khi họ chưa mua ngay. Tăng khả năng họ quay lại hoặc nhớ đến bạn.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Ồ, thật tuyệt, mình được dùng thử miễn phí/tham gia hoạt động thú vị. Cửa hàng này thật thân thiện."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- Với Laptop: "Nếu mình có thời gian, em mời anh/chị ngồi xuống và tự tay trải nghiệm độ mượt của bàn phím và màn hình 120Hz của máy ạ. Cảm giác rất khác biệt đó ạ."<br>- Với Máy ảnh Instax: "Hay là mình chụp thử một tấm ảnh kỷ niệm tại cửa hàng với máy này đi ạ, bên em sẽ tặng mình tấm ảnh đó luôn. Mình có thể thấy ngay chất lượng ảnh và sự thú vị của nó."</div></div><strong class='detail-title-full'><i class='fas fa-lightbulb mr-2'></i>Mẹo & Lưu ý:</strong><ul class='tips-list'><li>Luôn chuẩn bị sẵn sàng thiết bị để demo (máy có pin, có kết nối mạng, có file mẫu).</li><li>Nếu có workshop hoặc sự kiện, đây là cơ hội vàng để mời khách tham gia, tạo mối quan hệ lâu dài.</li></ul>`
+            }
+        ]
+    },
+    'khach-chu-dong-hoi': {
+        title: 'Tình Huống 2: Khách Chủ Động Hỏi',
+        shortTitle: 'Khách chủ động hỏi',
+        icon: 'fa-comments text-blue-500',
+        frequency: { level: 'Cao', percent: 35 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Lắng nghe chủ động & Xác nhận lại',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tạo ấn tượng chuyên nghiệp, đảm bảo hiểu đúng 100% nhu cầu của khách, tránh tư vấn sai hướng và thể hiện sự tôn trọng.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi có một câu hỏi cụ thể, tôi cần câu trả lời chính xác. Hãy cho thấy bạn đang thực sự lắng nghe tôi."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ vâng, em hiểu rồi ạ. Để chắc chắn em không bỏ sót ý nào, có phải mình đang cần một chiếc máy [tóm tắt lại yêu cầu 1], có khả năng [tóm tắt lại yêu cầu 2], và trong tầm ngân sách khoảng [tóm tắt lại yêu cầu 3] đúng không ạ?"</div><div class='script-bad'><strong>Tránh nói:</strong> "Hả? Anh/chị nói gì ạ?" hoặc nghe xong nhảy ngay vào giới thiệu sản phẩm mà không xác nhận lại.</div></div><strong class='detail-title-full'><i class='fas fa-lightbulb mr-2'></i>Mẹo & Lưu ý:</strong><ul class='tips-list'><li>Gật đầu nhẹ khi khách đang trình bày.</li><li>Sử dụng sổ tay để ghi lại 2-3 từ khóa quan trọng nhất mà khách đề cập.</li></ul>`
+            },
+            {
+                title: 'Bước 2: Đưa ra Giải pháp & Lợi ích (FAB)',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Định vị sản phẩm như một "giải pháp" cho vấn đề của khách. Tập trung vào lợi ích khách hàng nhận được, thay vì chỉ liệt kê thông số kỹ thuật.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Sản phẩm này giải quyết được vấn đề của tôi như thế nào? Nó có gì hơn những cái khác?"</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu (Kỹ thuật FAB: Feature - Advantage - Benefit):</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, với những yêu cầu đó, giải pháp tối ưu nhất cho mình chính là chiếc Lenovo LOQ 15IRX9 ạ. <br>- <strong>(Tính năng)</strong> Máy trang bị chip Intel Core i7-13650HX và RAM 24GB DDR5. <br>- <strong>(Lợi thế)</strong> Đây là cấu hình cực mạnh, chuyên dụng cho các tác vụ nặng. <br>- <strong>(Lợi ích)</strong> <strong>Điều này có nghĩa là</strong> anh/chị có thể chạy mượt mà mọi phần mềm lập trình, thiết kế nặng, <strong>giúp mình tiết kiệm hàng giờ đồng hồ chờ đợi</strong> và không bao giờ bị gián đoạn công việc ạ."</div></div><strong class='detail-title-full'><i class='fas fa-question-circle mr-2'></i>Câu hỏi thường gặp (FAQ) cho LENOVO LOQ 15IRX9:</strong><div class="faq-item"><strong>"Máy này chơi game có tốt không?"</strong> "Dạ cực kỳ tốt ạ! Với card đồ họa RTX 4050, máy này không chỉ làm việc mạnh mà còn là một cỗ máy chiến game thực thụ. Anh/chị có thể chơi mượt các tựa game nặng nhất hiện nay ở mức cài đặt cao, giúp mình giải trí tuyệt vời sau những giờ làm việc căng thẳng."</div><div class="faq-item"><strong>"Card đồ họa này có đủ mạnh để làm đồ họa 3D, render video không?"</strong> "Hoàn toàn đủ mạnh ạ! Card RTX 4050 6GB này được tối ưu cho cả đồ họa chuyên nghiệp. Nó sẽ giúp anh/chị render video, xử lý các file 3D nhanh hơn đáng kể, rút ngắn thời gian hoàn thành dự án của mình."</div>`
+            },
+            {
+                title: 'Bước 3: Demo thực tế & Củng cố niềm tin',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Biến những lời nói về lợi ích thành trải nghiệm thực tế, hữu hình. Để sản phẩm tự "chứng minh" giá trị của nó.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Nói thì hay đấy, nhưng thực tế có được như vậy không? Hãy cho tôi xem."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- Với Laptop: "Em mời anh/chị ngồi xuống và tự tay mình trải nghiệm ạ. Anh/chị cứ thử mở cùng lúc 10-15 tab trình duyệt, vừa chạy Youtube 4K, vừa mở file code này xem. Anh/chị sẽ thấy máy vẫn phản hồi ngay lập tức, không hề có độ trễ."<br>- Với Máy chiếu: "Đây ạ, em sẽ chiếu thử một đoạn phim hành động trên Netflix cho mình xem. Anh/chị hãy để ý màu sắc sống động và độ sắc nét của hình ảnh, cùng với âm thanh vòm của máy. Nó sẽ biến phòng khách nhà mình thành một rạp chiếu phim mini thực thụ."</div></div><strong class='detail-title-full'><i class='fas fa-lightbulb mr-2'></i>Mẹo & Lưu ý:</strong><ul class='tips-list'><li>Luôn để khách hàng tự tay thao tác. Việc này tạo ra cảm giác sở hữu.</li><li>Chuẩn bị sẵn các file demo "nặng đô" để thể hiện tối đa sức mạnh của sản phẩm.</li></ul>`
+            },
+            {
+                title: 'Bước 4: Gia tăng giá trị & Chốt đơn bằng lựa chọn',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tạo ra lý do để khách hàng mua NGAY BÂY GIỜ. Sử dụng kỹ thuật chốt đơn giả định hoặc đưa ra lựa chọn để dẫn dắt khách hàng đến quyết định cuối cùng.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi thích sản phẩm này rồi. Liệu có ưu đãi gì đặc biệt nếu tôi mua ngay không? Thủ tục thế nào?"</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu (Kỹ thuật chốt đơn bằng lựa chọn):</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, anh/chị đã rất ưng ý với sản phẩm này rồi, và đặc biệt chỉ trong hôm nay, khi mua máy mình sẽ được tặng kèm một balo chống sốc cao cấp và chuột không dây chính hãng trị giá 800.000 VNĐ. Để em hỗ trợ mình làm thủ tục, anh/chị muốn thanh toán bằng tiền mặt hay thẻ tín dụng để hưởng thêm trả góp 0% ạ?"</div><div class='script-bad'><strong>Tránh nói:</strong> "Vậy anh/chị có mua máy này không ạ?" (Câu hỏi Có/Không tạo cơ hội cho khách từ chối).</div></div><strong class='detail-title-full'><i class='fas fa-lightbulb mr-2'></i>Mẹo & Lưu ý:</strong><ul class='tips-list'><li>Nhấn mạnh tính cấp bách hoặc độc quyền của ưu đãi ("chỉ hôm nay", "ưu đãi dành riêng cho mình", "quà tặng cuối cùng").</li><li>Luôn giữ thái độ vui vẻ, tự tin như thể khách hàng đã đồng ý mua.</li></ul>`
+            }
+        ]
+    },
+    'khach-voi-vang': {
+        title: 'Tình Huống 3: Khách Tỏ Ra Vội Vàng',
+        shortTitle: 'Khách tỏ ra vội',
+        icon: 'fa-person-running text-red-500',
+        frequency: { level: 'Trung bình', percent: 25 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Nhận biết & Đồng bộ nhịp độ',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Thể hiện sự tôn trọng thời gian của khách. Nhanh chóng chứng tỏ bạn là người hiệu quả, không làm lãng phí thời gian của họ.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi không có nhiều thời gian. Đi thẳng vào vấn đề đi. Nếu rườm rà tôi sẽ bỏ đi ngay."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em chào anh/chị. Em thấy mình có vẻ đang vội, em xin phép tư vấn nhanh và trọng tâm nhất để không làm mất thời gian của mình ạ."</div><div class='script-bad'><strong>Tránh nói:</strong> Giữ nguyên kịch bản dài dòng cho khách thông thường.</div></div>`
+            },
+            {
+                title: 'Bước 2: Hỏi câu hỏi chốt hạ',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Lấy thông tin quan trọng nhất trong thời gian ngắn nhất: Nhu cầu cốt lõi và Ngân sách.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Để nhanh nhất, anh/chị cho em biết 2 điều: nhu cầu chính xác nhất của mình là gì (VD: máy cho con học online, máy làm việc) và ngân sách tối đa là bao nhiêu ạ? Em sẽ chọn ngay lập tức mẫu tốt nhất cho mình."</div><div class='script-bad'><strong>Tránh nói:</strong> "Anh/chị có thể chia sẻ thêm về công việc của mình không ạ?" (Quá dài dòng).</div></div>`
+            },
+            {
+                title: 'Bước 3: Đưa ra "Lựa Chọn Số 1" duy nhất',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Loại bỏ sự phân vân cho khách bằng cách đưa ra một lựa chọn duy nhất, quyết đoán, dựa trên thông tin đã nhận được.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tốt, đây có phải là lựa chọn tốt nhất không? Tôi tin tưởng vào sự lựa chọn của chuyên gia."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ đây, với nhu cầu [nhu cầu] và ngân sách [ngân sách], em xin khẳng định HP 250RG9 này là lựa chọn tối ưu và đáng tiền nhất hiện tại. Nó đáp ứng đủ tất cả yêu cầu của mình một cách tốt nhất trong tầm giá này ạ."</div><div class='script-bad'><strong>Tránh nói:</strong> "Mình có thể xem mẫu này, hoặc mẫu kia cũng được ạ..." (Gây phân vân, tốn thời gian).</div></div>`
+            },
+            {
+                title: 'Bước 4: Chốt nhanh & Tối ưu thanh toán',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Hoàn thành giao dịch nhanh nhất có thể. Để lại ấn tượng tốt về sự chuyên nghiệp và hiệu quả.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ vậy mình chốt mẫu này nhé. Em sẽ hỗ trợ mình thủ tục thanh toán nhanh nhất ạ. Mình muốn thanh toán bằng thẻ hay tiền mặt để em chuẩn bị cho nhanh ạ?"</div></div><strong class='detail-title-full'><i class='fas fa-lightbulb mr-2'></i>Mẹo & Lưu ý:</strong><ul class='tips-list'><li>Chủ động cầm sản phẩm ra quầy thu ngân.</li><li>Ưu tiên cho khách hàng này thanh toán trước nếu có thể.</li><li>Gửi kèm card visit và một lời nhắn: "Cảm ơn anh/chị đã ghé qua dù rất vội. Nếu cần hỗ trợ gì thêm, anh/chị cứ liên hệ trực tiếp cho em ạ."</li></ul>`
+            }
+        ]
+    },
+
+    // NHÓM 2: PHÂN LOẠI ĐỐI TƯỢNG
+    'khach-ko-ranh-cn': {
+        title: 'Tình Huống 4: Khách Không Rành Công Nghệ',
+        shortTitle: 'Khách không rành CN',
+        icon: 'fa-hand-holding-heart text-pink-400',
+        frequency: { level: 'Cao', percent: 30 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Sử dụng ngôn ngữ đơn giản & Trấn an',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tạo cảm giác an toàn, thoải mái và kiên nhẫn. Xóa bỏ rào cản "sợ công nghệ" của khách.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi không hiểu gì về mấy thứ này, sợ bị lừa, sợ mua phải đồ không phù hợp. Tôi cần ai đó thật kiên nhẫn và giải thích dễ hiểu."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ anh/chị cứ yên tâm ạ, em sẽ giải thích một cách dễ hiểu nhất, không dùng từ ngữ kỹ thuật phức tạp đâu ạ. Anh/chị chỉ cần nói cho em biết mình muốn dùng máy để làm gì thôi, còn lại cứ để em lo ạ."</div><div class='script-bad'><strong>Tránh nói:</strong> "Con chip này có 8 nhân 16 luồng, tốc độ bus RAM là..." (Dùng thuật ngữ chuyên ngành).</div></div>`
+            },
+            {
+                title: 'Bước 2: Tập trung vào LỢI ÍCH, không phải Thông số',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Dịch các thông số kỹ thuật khô khan thành những lợi ích thực tế, dễ hình dung trong cuộc sống hàng ngày của khách hàng.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- Thay vì "RAM 8GB": "Với bộ nhớ này, máy sẽ giúp mình mở nhiều chương trình cùng lúc, ví dụ vừa đọc báo vừa nghe nhạc mà không bị chậm hay đứng máy ạ."<br>- Thay vì "SSD 512GB": "Ổ cứng này chạy rất nhanh, giúp mình mở máy chỉ trong vòng vài giây, không phải chờ đợi lâu như các máy đời cũ ạ. Dung lượng này cũng thoải mái để mình lưu trữ hình ảnh, tài liệu trong nhiều năm."<br>- Thay vì "Chip Core i5": "Con chip này giống như bộ não của máy, nó đủ mạnh để mọi công việc văn phòng, lướt web, xem phim của mình đều rất mượt mà."</div></div>`
+            },
+            {
+                title: 'Bước 3: Tạo sự an tâm bằng Cam kết Hỗ trợ',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Xây dựng niềm tin bằng cách cho khách hàng thấy họ sẽ không bị "bỏ rơi" sau khi mua hàng.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Lỡ về nhà tôi không biết dùng thì sao? Ai sẽ giúp tôi?"</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Điều quan trọng nhất là bên em có đội ngũ hỗ trợ rất nhiệt tình. Bất cứ khi nào anh/chị gặp khó khăn khi sử dụng, dù là vấn đề nhỏ nhất, cứ gọi điện hoặc mang máy ra đây, bên em sẽ hướng dẫn tận tình cho đến khi mình dùng thành thạo thì thôi ạ."</div></div><div class='transition-question'><strong>Câu hỏi chuyển tiếp:</strong> "Với mẫu máy này, mọi việc của anh/chị sẽ được giải quyết rất nhanh chóng và dễ dàng. Em lấy máy này cho mình nhé?"</div>`
+            },
+            {
+                title: 'Bước 4: Mời tham gia các buổi hướng dẫn cơ bản',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cung cấp một giá trị cộng thêm vượt trội, củng cố quyết định mua hàng và xây dựng mối quan hệ lâu dài.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, để mình yên tâm hơn, bên em thỉnh thoảng có tổ chức các buổi hướng dẫn sử dụng máy tính cơ bản miễn phí, cầm tay chỉ việc. Nếu mình mua máy hôm nay, em sẽ đăng ký ngay cho mình một suất tham gia ạ. Em tin là sẽ rất hữu ích đó ạ."</div></div>`
+            }
+        ]
+    },
+    'khach-da-tim-hieu': {
+        title: 'Tình Huống 5: Khách Đã Tìm Hiểu Kỹ',
+        shortTitle: 'Khách đã tìm hiểu',
+        icon: 'fa-brain text-orange-500',
+        frequency: { level: 'Cao', percent: 25 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Tôn trọng kiến thức & Lắng nghe sâu',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Xây dựng ngay lập tức sự tôn trọng và đồng đẳng. Biến mình từ một người bán hàng thành một nhà tư vấn, một người đối thoại.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi đã bỏ công nghiên cứu. Hãy công nhận điều đó và đừng nói với tôi những điều cơ bản. Tôi cần người xác nhận hoặc làm rõ những điểm tôi còn phân vân."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em thấy anh/chị tìm hiểu rất kỹ về dòng máy này rồi ạ. Để em có thể hỗ trợ tốt nhất, không biết mình đang băn khoăn cụ thể về điểm nào, hay đang muốn so sánh nó với một mẫu nào khác ạ?"</div><div class='script-bad'><strong>Tránh nói:</strong> Lặp lại các thông số cơ bản mà khách chắc chắn đã biết.</div></div>`
+            },
+            {
+                title: 'Bước 2: Cung cấp thông tin chuyên sâu & "Insider"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cung cấp giá trị mà khách không thể tìm thấy trên mạng: kinh nghiệm sử dụng thực tế, so sánh sắc thái, và các chi tiết hậu trường.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Okay, bạn tôn trọng tôi. Bây giờ hãy cho tôi thấy bạn thực sự là chuyên gia. Nói cho tôi điều gì đó mới mẻ."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> (VD: So sánh Dell chip U và Lenovo chip HX) "Về thông số, chip HX của Lenovo mạnh hơn hẳn. Nhưng một điểm mà trên mạng ít đề cập là trải nghiệm thực tế: chip U của Dell sẽ cho thời lượng pin dài hơn gần gấp đôi và máy chạy mát hơn hẳn khi dùng tác vụ văn phòng. Nếu anh/chị ưu tiên hiệu năng 'khủng' cho render thì chọn Lenovo, còn nếu cần sự cân bằng giữa hiệu năng và tính di động, pin lâu thì Dell lại là lựa chọn hợp lý hơn nhiều ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Chuyển hướng về Giá trị Hậu mãi & Dịch vụ',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Trả lời câu hỏi ngầm "Tại sao tôi nên mua ở đây mà không phải nơi khác rẻ hơn?". Dịch chuyển cuộc đối thoại từ SẢN PHẨM sang GÓI GIẢI PHÁP TOÀN DIỆN.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Giá ở đây có tốt không? Có gì đảm bảo không? Mua online có khi rẻ hơn."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Nhưng điểm khác biệt lớn nhất và cũng là giá trị mà Phương Nam mang lại chính là dịch vụ hậu mãi ạ. Dòng Dell Inspiron này được hưởng gói bảo hành tận nhà ProSupport, nghĩa là nếu máy có bất kỳ vấn đề gì, kỹ thuật viên sẽ đến tận nơi của anh/chị để xử lý trong vòng 24 giờ, cực kỳ tiện lợi và không làm gián đoạn công việc của mình. Đây là điều các bên bán hàng online không thể có được."</div></div>`
+            },
+            {
+                title: 'Bước 4: Mời làm Thành viên VIP & Chốt đơn',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tôn vinh kiến thức của khách hàng, biến họ thành người ủng hộ thương hiệu và tạo ra một lý do chốt đơn đặc biệt.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Với kiến thức và sự quan tâm sâu sắc của anh/chị, em xin phép mời mình tham gia nhóm 'Chuyên gia Công nghệ Phương Nam' của bên em. Đây là cộng đồng độc quyền... Và để chào mừng thành viên mới, em xin áp dụng ngay ưu đãi... cho mình. Anh/chị muốn em xuất máy hay cần em hỗ trợ thủ tục trả góp ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-di-cung-gia-dinh': {
+        title: 'Tình Huống 6: Khách Đi Cùng Gia Đình',
+        shortTitle: 'Khách đi cùng gia đình',
+        icon: 'fa-users text-purple-500',
+        frequency: { level: 'Trung bình', percent: 20 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Chào mừng cả gia đình & Xác định vai trò',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tạo thiện cảm với tất cả thành viên. Nhanh chóng nhận diện ai là "Người dùng cuối" (con cái) và ai là "Người quyết định/chi trả" (bố mẹ).</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p><strong>Bố mẹ:</strong> "Cần mua một thứ bền, giá hợp lý, tốt cho việc học của con". <br><strong>Con:</strong> "Cần một thứ trông đẹp, chạy nhanh, có thể chơi game."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em chào cả gia đình mình ạ! Chào con nhé! Không biết hôm nay nhà mình đi xem máy để chuẩn bị cho con vào năm học mới hay để giải trí tại nhà ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tư vấn Lợi ích kép (Dual-Benefit)',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Nói chuyện với cả hai đối tượng cùng lúc bằng cách đưa ra những lợi ích khác nhau của CÙNG MỘT sản phẩm.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu (cho Laptop Dell INS15 3530):</strong><div class='script-block'><div class='script-good'><strong>Nói với con (tập trung vào trải nghiệm):</strong> "Con xem này, màn hình máy này to và sáng, xem phim hoạt hình hay học online đều rất đã mắt nhé. Bàn phím bấm cũng rất êm tay, làm bài tập không bị mỏi đâu."<br><br><strong>Nói với bố mẹ (tập trung vào đầu tư, độ bền, tính kinh tế):</strong> "Dạ, với cấu hình này thì máy hoàn toàn đáp ứng tốt cho việc học của bé đến hết cấp 3, thậm chí cả những năm đầu đại học ạ, một khoản đầu tư rất lâu dài. Đặc biệt máy có sẵn Office bản quyền trọn đời, giúp nhà mình tiết kiệm được gần 2 triệu tiền mua phần mềm ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Để "Người dùng" thuyết phục "Người chi trả"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tận dụng sự yêu thích của người con để tác động đến quyết định của bố mẹ. Một khi đứa trẻ đã thích, bố mẹ sẽ khó từ chối hơn.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Con ngồi vào thử dùng xem có thích không nào? Con thử gõ vài chữ xem có êm tay không? Con thấy máy có đẹp không?"</div></div><strong class='detail-title-full'><i class='fas fa-lightbulb mr-2'></i>Mẹo & Lưu ý:</strong><ul class='tips-list'><li>Sau khi bé thể hiện sự thích thú, hãy nhìn sang phụ huynh và nói: "Dạ bé có vẻ rất thích mẫu này ạ."</li></ul>`
+            },
+            {
+                title: 'Bước 4: Chốt đơn bằng ưu đãi cho cả gia đình',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Đưa ra một giá trị cộng thêm mà cả gia đình đều có thể hưởng lợi, làm cho quyết định mua hàng trở nên vui vẻ và có ý nghĩa hơn.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, để chúc mừng bé có máy mới và cảm ơn gia đình đã tin tưởng, bên em xin tặng nhà mình một voucher mua sách 200.000đ tại nhà sách Phương Nam để cả nhà mình cùng chọn những cuốn sách hay ạ. Mình lấy máy này luôn cho bé nhé ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-mua-qua-tang': {
+        title: 'Tình Huống 7: Khách Mua Làm Quà Tặng',
+        shortTitle: 'Khách mua làm quà tặng',
+        icon: 'fa-gift text-rose-400',
+        frequency: { level: 'Thấp', percent: 10 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Xác định hồ sơ Người nhận quà',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Hiểu rõ người được tặng là ai để tư vấn món quà phù hợp và ý nghĩa nhất, thay vì chỉ tư vấn sản phẩm đắt tiền.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi muốn mua một món quà thật đặc biệt và hữu ích, nhưng không biết nên chọn cái gì. Tôi cần sự gợi ý tinh tế."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ anh/chị đang tìm một món quà công nghệ ý nghĩa phải không ạ? Để em có thể tư vấn món quà phù hợp nhất, anh/chị có thể chia sẻ một chút về người được tặng không ạ, ví dụ như độ tuổi, giới tính, hay sở thích, công việc của họ ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tư vấn theo hướng "Ý nghĩa & Phù hợp"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Gắn sản phẩm với một thông điệp, một ý nghĩa. Cho thấy đây không chỉ là một món đồ công nghệ, mà là sự quan tâm.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- Tặng cho người mới đi làm: "Nếu tặng cho người thân vừa bắt đầu công việc mới, một chiếc laptop văn phòng mỏng nhẹ, sang trọng sẽ là một món quà 'tiếp sức' đầy ý nghĩa, chúc họ thành công trên con đường sự nghiệp ạ."<br>- Tặng bạn gái/vợ: "Một chiếc đồng hồ thông minh theo dõi sức khỏe không chỉ là phụ kiện thời trang, mà còn thể hiện sự quan tâm của anh đến sức khỏe của người ấy, một món quà rất tinh tế ạ."<br>- Tặng bạn bè thân: "Một chiếc máy ảnh lấy liền sẽ là món quà cực kỳ độc đáo để cùng nhau lưu giữ những khoảnh khắc vui vẻ, đáng nhớ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh về Hình thức & Dịch vụ gói quà',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tăng giá trị cảm nhận của món quà. Giải quyết nỗi lo "mua xong phải tự gói" của khách hàng.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Món quà trông phải thật đẹp và trang trọng."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Anh/chị yên tâm ạ, tất cả sản phẩm bên em đều có hộp đựng rất đẹp và sang trọng. Đặc biệt, bên em sẽ hỗ trợ gói quà miễn phí theo yêu cầu và tặng kèm một tấm thiệp nhỏ xinh để mình có thể ghi những lời chúc ý nghĩa gửi đến người nhận ạ."</div></div>`
+            },
+            {
+                title: 'Bước 4: Đề xuất dịch vụ cá nhân hóa',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tạo ra một món quà "độc nhất vô nhị", tăng giá trị và tạo lý do chốt đơn thuyết phục.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Để món quà thêm phần đặc biệt và mang dấu ấn cá nhân, bên em có hỗ trợ khắc tên lên đồng hồ, hoặc dán skin/in hình theo yêu cầu lên laptop với chi phí rất hợp lý. Món quà sẽ trở nên vô cùng độc đáo ạ. Anh/chị có muốn tham khảo thêm về dịch vụ này không ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-doanh-nghiep': {
+        title: 'Tình Huống 8: Khách Doanh nghiệp, Trường học',
+        shortTitle: 'Khách Doanh nghiệp',
+        icon: 'fa-building-columns text-gray-400',
+        frequency: { level: 'Tình huống', percent: 5 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Chuyển sang chế độ tư vấn B2B',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Thể hiện sự chuyên nghiệp, cho thấy bạn hiểu quy trình làm việc với doanh nghiệp khác với khách lẻ.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi cần một đối tác tin cậy, cung cấp giải pháp, có chính sách giá tốt và hỗ trợ kỹ thuật nhanh chóng cho công ty/trường học của tôi."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em chào anh/chị. Em là [Tên], chuyên viên tư vấn khách hàng doanh nghiệp của Phương Nam. Rất vui được hỗ trợ. Không biết bên mình đang có nhu cầu trang bị thiết bị cho mục đích gì và với số lượng dự kiến là bao nhiêu ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tập trung vào "Đồng bộ, Ổn định, Hỗ trợ"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Nói đúng ngôn ngữ của khách hàng doanh nghiệp. Họ không chỉ mua sản phẩm, họ mua một hệ thống ổn định và dễ quản lý.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Với nhu cầu của doanh nghiệp, bên em thường ưu tiên tư vấn các dòng máy đồng bộ như Dell Vostro hoặc HP Probook. Các dòng này có vòng đời sản phẩm dài, giúp mình dễ dàng mua bổ sung và thay thế linh kiện sau này. Hơn nữa, chúng có tính ổn định rất cao và các tính năng bảo mật chuyên dụng cho doanh nghiệp, giúp bộ phận IT của mình dễ dàng quản lý ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh Chính sách B2B',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho khách hàng thấy lợi ích trực tiếp khi làm việc với bạn: giá tốt hơn, dịch vụ ưu tiên và hỗ trợ chuyên biệt.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Bên em có chính sách chiết khấu đặc biệt cho đơn hàng số lượng lớn, chắc chắn sẽ có mức giá cạnh tranh nhất cho mình. Ngoài ra, bên em còn có đội ngũ hỗ trợ kỹ thuật ưu tiên cho doanh nghiệp, cam kết xử lý sự cố tận nơi trong thời gian ngắn nhất để không ảnh hưởng đến hoạt động của công ty. Bên em cũng có thể xuất hóa đơn VAT và cung cấp đầy đủ chứng từ theo yêu cầu."</div></div>`
+            },
+            {
+                title: 'Bước 4: Xin thông tin & Hẹn gửi báo giá chính thức',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Chuyển từ giai đoạn tư vấn sang quy trình bán hàng chính thức. Lấy được thông tin liên lạc là một thành công lớn.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, để tiện cho mình, anh/chị có thể cho em xin thông tin liên hệ (email, SĐT) được không ạ? Em sẽ soạn một báo giá chi tiết với các phương án và mức chiết khấu tốt nhất, sau đó gửi qua cho mình trong chiều nay. Nếu cần, em có thể sắp xếp mang sản phẩm mẫu qua văn phòng mình để demo ạ."</div></div>`
+            }
+        ]
+    },
+    'khach-than-thiet': {
+        title: 'Tình Huống 9: Khách Thân Thiết Quay Lại',
+        shortTitle: 'Khách thân thiết',
+        icon: 'fa-star text-amber-400',
+        frequency: { level: 'Trung bình', percent: 15 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Nhận diện & Chào mừng cá nhân hóa',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Làm cho khách hàng cảm thấy họ được trân trọng và ghi nhớ, không phải là một người lạ. Củng cố mối quan hệ ngay từ giây đầu tiên.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Ồ, họ nhớ mình! Thật tuyệt. Mình đã chọn đúng nơi để quay lại."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "A, em chào anh [Tên khách]! Lâu quá mới gặp lại anh ạ. Em rất vui khi anh lại ghé Phương Nam!" (Nếu không nhớ tên, có thể nói: "Em chào anh/chị, em rất vui được gặp lại mình ạ!").</div><div class='script-bad'><strong>Tránh nói:</strong> Chào như một khách hàng mới: "Em có thể giúp gì cho anh/chị?".</div></div>`
+            },
+            {
+                title: 'Bước 2: Hỏi thăm & Cảm ơn sự tin tưởng',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho thấy bạn quan tâm đến trải nghiệm sau mua hàng của họ và trân trọng sự trung thành của họ.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Chiếc laptop Dell lần trước anh mua về dùng cho công việc vẫn ổn định và tốt chứ ạ? Em rất cảm ơn anh đã luôn tin tưởng và ủng hộ bên em."</div></div>`
+            },
+            {
+                title: 'Bước 3: Tư vấn với ưu đãi độc quyền "VIP"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tưởng thưởng cho sự trung thành của khách. Làm họ cảm thấy mình có đặc quyền mà người khác không có.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Là khách quen thì mình có được ưu đãi gì đặc biệt không?"</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ hôm nay anh tìm sản phẩm nào ạ? Vì là khách hàng thân thiết của bên em, bất kỳ sản phẩm nào anh chọn, em đều sẽ xin phép quản lý để áp dụng cho mình mức giá ưu đãi đặc biệt dành riêng cho thành viên VIP, chắc chắn sẽ tốt hơn giá niêm yết ạ."</div></div>`
+            },
+            {
+                title: 'Bước 4: Xin Giới thiệu & Tăng cường mối quan hệ',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Biến khách hàng trung thành thành đại sứ thương hiệu. Tận dụng sự hài lòng của họ để mở rộng mạng lưới khách hàng.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Sự hài lòng của anh là quan trọng nhất với bên em. Nếu anh có bạn bè, người thân cũng cần mua sản phẩm công nghệ, anh giới thiệu qua giúp em với nhé. Em xin gửi tặng anh và cả người được giới thiệu mỗi người một phiếu quà tặng cho lần mua hàng ạ. Rất mong anh tiếp tục ủng hộ Phương Nam!"</div></div>`
+            }
+        ]
+    },
+
+    // NHÓM 3: NHU CẦU HỌC TẬP
+    'khach-can-may-cap12': {
+        title: 'Tình Huống 10: Khách cần máy cho con học Cấp 1, 2',
+        shortTitle: 'Con học Cấp 1, 2',
+        icon: 'fa-child-reaching text-green-400',
+        frequency: { level: 'Trung bình', percent: 15 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Tập trung vào "An toàn & Bền bỉ"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Nói đúng nỗi lo lớn nhất của phụ huynh: sự an toàn cho con và độ bền của sản phẩm. Tạo sự đồng cảm ngay từ đầu.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý phụ huynh:</strong><p>"Trẻ con hiếu động, máy có dễ hỏng không? Lên mạng có an toàn không? Tôi cần một thứ dễ dùng và khó phá."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em hiểu ạ, khi tìm máy cho các bé ở độ tuổi này, điều phụ huynh mình quan tâm nhất chắc chắn là máy phải bền, chịu va đập tốt và phải an toàn cho bé khi dùng đúng không ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tư vấn sản phẩm phù hợp & Lợi ích cho trẻ',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Giới thiệu sản phẩm với các tính năng giải quyết đúng nỗi lo của phụ huynh.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- <strong>Về độ bền:</strong> "Mẫu HP 250 G9 này có vỏ máy rất cứng cáp, chịu va đập nhẹ tốt hơn các dòng máy thời trang. Đặc biệt bàn phím còn có khả năng chống tràn nhẹ, an toàn hơn nếu bé lỡ làm đổ nước ạ."<br>- <strong>Về sự an toàn:</strong> "Quan trọng nhất là máy có sẵn Windows 11 bản quyền. Nó có sẵn các tính năng bảo vệ, giúp chặn các phần mềm độc hại và phụ huynh có thể cài đặt kiểm soát thời gian sử dụng của con dễ dàng hơn."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh tính dễ sử dụng & Kiểm soát',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho phụ huynh thấy họ vẫn là người kiểm soát tình hình, giúp họ an tâm hơn khi giao thiết bị công nghệ cho con.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Giao diện của máy rất thân thiện, các bé làm quen nhanh lắm ạ. Với đồng hồ thông minh, bố mẹ còn có thể cài đặt các số điện thoại được phép gọi đến và đi, hoặc định vị để biết con đang ở đâu, giúp mình an tâm hơn khi con đi học thêm hay đi chơi."</div></div>`
+            },
+            {
+                title: 'Bước 4: Mời tham gia Workshop & Chốt đơn',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cung cấp giá trị vượt ngoài sản phẩm, thể hiện sự quan tâm đến cả gia đình và củng cố quyết định mua hàng.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Cuối tháng này, bên em có tổ chức một buổi workshop miễn phí 'Cùng con học tập an toàn trên không gian mạng'. Nếu mình mua máy hôm nay, em sẽ đăng ký cho cả gia đình mình một suất ạ. Anh/chị thấy mẫu máy này đã phù hợp với bé nhà mình chưa ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-sv-kinhte': {
+        title: 'Tình Huống 11: Khách là SV Kinh tế, Xã hội',
+        shortTitle: 'SV Kinh tế, Xã hội',
+        icon: 'fa-chart-line text-lime-400',
+        frequency: { level: 'Cao', percent: 20 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Thể hiện sự đồng cảm & Xác định nhu cầu cốt lõi',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Nói đúng "tim đen" của sinh viên khối ngành này: sự cân bằng giữa di động, ngoại hình và hiệu năng văn phòng.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Mình cần máy đẹp, mỏng nhẹ để mang đi cafe học nhóm, pin trâu, chạy mượt Word, Excel, PowerPoint và nhiều tab Chrome."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ chào bạn, là sinh viên kinh tế, chắc hẳn bạn đang tìm một chiếc máy vừa mỏng nhẹ để tiện mang đi học, vừa có thiết kế đẹp, chuyên nghiệp, và đặc biệt là phải chạy mượt các phần mềm Office và lướt web nghiên cứu tài liệu đúng không ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Giới thiệu sản phẩm "Đúng chuyên ngành"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Đưa ra lựa chọn hoàn hảo đáp ứng các tiêu chí trên, nhấn mạnh vào các lợi ích thiết thực nhất.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Với những nhu cầu đó, mẫu ASUS P1403CVA này là 'chân ái' cho bạn. Nó siêu nhẹ chỉ 1.38kg, thiết kế vỏ kim loại rất sang trọng. Quan trọng là máy có sẵn Office bản quyền vĩnh viễn, giúp bạn tiết kiệm gần 2 triệu và có thể làm bài tập nhóm, thuyết trình ngay lập tức. Cấu hình này đảm bảo bạn mở 20-30 tab Chrome nghiên cứu tài liệu mà không lo giật lag."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh tính ổn định & Đầu tư lâu dài',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Giải quyết nỗi lo "dùng 1-2 năm đã hỏng" và cho thấy sản phẩm còn hữu ích cả sau khi ra trường.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dòng máy này rất ổn định và bền bỉ, đảm bảo bạn dùng suốt 4-5 năm đại học mà không lo hỏng hóc vặt. Thiết kế tinh tế và chuyên nghiệp này sau này khi bạn ra trường đi làm vẫn hoàn toàn phù hợp để sử dụng trong môi trường công sở ạ."</div></div>`
+            },
+            {
+                title: 'Bước 4: Chốt đơn bằng Ưu đãi Sinh viên',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tạo cảm giác đặc quyền và lợi ích tài chính, thúc đẩy quyết định mua hàng ngay.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Bên mình đang có chương trình 'Back to School' đặc biệt. Bạn chỉ cần xuất trình thẻ sinh viên là sẽ được giảm ngay 300.000đ trực tiếp và được tặng kèm một balo cao cấp. Bạn muốn lấy máy màu bạc hay màu xám để mình làm thủ tục luôn ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-sv-kythuat': {
+        title: 'Tình Huống 12: Khách là SV Kỹ thuật, Lập trình',
+        shortTitle: 'SV Kỹ thuật, Lập trình',
+        icon: 'fa-code text-indigo-400',
+        frequency: { level: 'Trung bình', percent: 15 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Thể hiện sự am hiểu chuyên ngành',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Nói đúng ngôn ngữ của dân IT, cho thấy bạn không phải là "tay mơ". Tạo sự tin tưởng về mặt chuyên môn.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi cần một cỗ máy mạnh mẽ, không phải đồ chơi. Người bán hàng có hiểu tôi cần gì không?"</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Chào bạn, với sinh viên ngành CNTT, chắc chắn bạn cần một cỗ máy 'trâu bò' để 'cày cuốc' project, chạy máy ảo, Docker hay biên dịch code nặng mà không bị 'nghẽn cổ chai' đúng không ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tư vấn máy hiệu năng cao & Chi tiết then chốt',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Đi thẳng vào các thông số quan trọng nhất đối với lập trình: CPU, RAM, và bàn phím.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Với nhu cầu đó, không mẫu nào qua được Lenovo LOQ 15IRX9. Nó dùng chip Intel Core i7 dòng HX hiệu năng cao với 14 nhân, chứ không phải dòng U tiết kiệm điện. RAM 24GB DDR5 thì bạn có thể chạy song song vài cái máy ảo và nhiều IDE cùng lúc mà không lo hết RAM. Đặc biệt bàn phím của Lenovo thì nổi tiếng là 'huyền thoại' cho dân gõ code rồi ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh Tản nhiệt & Khả năng nâng cấp',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Giải quyết 2 nỗi lo lớn nhất của dân kỹ thuật: máy quá nóng khi chạy tác vụ nặng và khả năng sử dụng lâu dài.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Điểm ăn tiền của dòng này là hệ thống tản nhiệt rất tốt, đảm bảo máy không bị giảm hiệu năng khi bạn compile code hay chạy tác vụ nặng trong thời gian dài. Hơn nữa, nó rất dễ nâng cấp thêm RAM và SSD sau này, đảm bảo bạn dùng hết 4-5 năm đại học mà không lo lỗi thời."</div></div>`
+            },
+            {
+                title: 'Bước 4: Mời tham gia Cộng đồng & Chốt đơn',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Xây dựng mối quan hệ dựa trên sở thích chung, cung cấp giá trị ngoài sản phẩm và chốt đơn.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Bên em có một group Zalo/Discord dành riêng cho các bạn đam mê công nghệ. Mọi người hay chia sẻ tài liệu học và kinh nghiệm về máy móc. Mình lấy máy này rồi em mời vào nhóm giao lưu luôn nhé?"</div></div>`
+            }
+        ]
+    },
+    'khach-sv-dohoa': {
+        title: 'Tình Huống 13: Khách là SV Đồ họa, Kiến trúc',
+        shortTitle: 'SV Đồ họa, Kiến trúc',
+        icon: 'fa-palette text-fuchsia-400',
+        frequency: { level: 'Thấp', percent: 10 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Tập trung vào "Màu sắc & Sức mạnh"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Thể hiện sự am hiểu về 2 yếu tố sống còn của ngành sáng tạo: màn hình chuẩn màu và sức mạnh xử lý đồ họa.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Máy của tôi phải hiển thị màu chính xác tuyệt đối. Và nó phải đủ mạnh để chạy Photoshop, AI, render 3D mà không bị treo."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Chào bạn, với ngành đồ họa, kiến trúc, em biết hai yếu tố quan trọng nhất của một chiếc máy chắc chắn là: màn hình phải chuẩn màu để không bị sai lệch khi in ấn, và máy phải đủ mạnh để 'cân' các file thiết kế nặng đúng không ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Giới thiệu máy có Màn hình đẹp & Card đồ họa rời',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Đáp ứng chính xác 2 yêu cầu trên bằng các thông số cụ thể, đắt giá.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Mẫu Lenovo LOQ 15IRX9 này chính là lựa chọn hàng đầu. Màn hình của nó có độ phủ màu đạt 100% sRGB, đảm bảo màu sắc bạn thấy trên máy sẽ giống hệt khi in ra. Quan trọng hơn, nó có card đồ họa rời NVIDIA RTX 4050, giúp bạn xử lý file Photoshop hàng trăm layer, dựng hình 3D trên Sketchup, Revit hay render video Premiere mượt mà hơn rất nhiều."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh hiệu năng tổng thể (CPU & RAM)',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho thấy máy mạnh một cách toàn diện, không chỉ ở card đồ họa, giúp tăng tốc mọi quy trình làm việc.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Ngoài card đồ họa mạnh, chip Core i7 dòng HX và RAM 24GB của máy sẽ giúp bạn render các bản vẽ kiến trúc phức tạp hoặc video 4K nhanh hơn đáng kể, tiết kiệm rất nhiều thời gian chờ đợi để bạn có thêm thời gian cho việc sáng tạo."</div></div>`
+            },
+            {
+                title: 'Bước 4: Tặng kèm phụ kiện hỗ trợ sáng tạo',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cung cấp một ưu đãi "đúng ngành", hữu ích trực tiếp cho công việc của khách hàng, tạo ra giá trị vượt trội.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Đặc biệt, nếu bạn lấy máy hôm nay, em xin tặng kèm một chiếc bút cảm ứng cao cấp để mình có thể phác thảo ý tưởng, hoặc giảm giá 30% khi mua kèm bảng vẽ điện tử Wacom. Đây đều là những công cụ cực kỳ hữu ích cho dân thiết kế ạ. Mình muốn lấy ưu đãi nào ạ?"</div></div>`
+            }
+        ]
+    },
+
+    // NHÓM 4: XỬ LÝ TỪ CHỐI & CÂU HỎI KHÓ
+    'khach-so-sanh-gia': {
+        title: 'Tình Huống 14: Khách So Sánh Giá',
+        shortTitle: 'So sánh giá',
+        icon: 'fa-scale-balanced text-cyan-400',
+        frequency: { level: 'Rất Cao', percent: 50 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Đồng cảm & Không hạ thấp đối thủ',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Giữ vững sự chuyên nghiệp và tạo thiện cảm. Tránh biến cuộc nói chuyện thành một cuộc tranh cãi.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi là người tiêu dùng thông thái, tôi đã kiểm tra giá ở nhiều nơi. Hãy thuyết phục tôi tại sao giá ở đây lại như vậy."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em hiểu ạ, việc so sánh giá để tìm được lựa chọn tốt nhất là rất đúng đắn. Bên [Tên đối thủ] cũng là một đơn vị uy tín ạ."</div><div class='script-bad'><strong>Tránh nói:</strong> "Bên đó bán hàng không đảm bảo đâu anh/chị ơi.", "Giá đó chắc chắn là hàng xách tay rồi."</div></div>`
+            },
+            {
+                title: 'Bước 2: Chuyển hướng từ "Giá" sang "Giá Trị"',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Định hình lại cuộc chơi. Thay vì đấu về giá (thường sẽ thua), hãy đấu về tổng giá trị mà khách hàng nhận được.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Tuy nhiên, khi mình mua một sản phẩm công nghệ, giá cả chỉ là một phần, phần còn lại quan trọng không kém chính là các dịch vụ đi kèm và sự an tâm trong quá trình sử dụng. Mức giá tại Phương Nam có thể nhỉnh hơn một chút, nhưng đi kèm là rất nhiều giá trị cộng thêm độc quyền mà những nơi khác không có ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh các Điểm Bán Hàng Độc Nhất (USP)',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Chứng minh "giá trị cộng thêm" không phải lời nói suông. Liệt kê cụ thể, rõ ràng những gì khách hàng sẽ nhận được chỉ khi mua hàng tại đây.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Cụ thể là: <br>1. Mình được hưởng gói <strong>bảo hành tận nhà ProSupport</strong>, kỹ thuật viên đến tận nơi xử lý, không mất công đi lại. <br>2. Bên em hỗ trợ <strong>cài đặt phần mềm và vệ sinh máy miễn phí trọn đời</strong>, tính ra đã tiết kiệm cho mình vài trăm ngàn mỗi năm. <br>3. Và quan trọng nhất là chính sách <strong>1 đổi 1 trong 30 ngày</strong> nếu có lỗi, giúp mình an tâm tuyệt đối. Tổng hợp các giá trị này lại, em tin rằng mức giá của bên em là cực kỳ hợp lý và mang lại sự an tâm lâu dài cho mình ạ."</div></div>`
+            },
+            {
+                title: 'Bước 4: Đưa ra ưu đãi cuối cùng để chốt đơn',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tạo một lý do cuối cùng để khách hàng cảm thấy họ đang có một "món hời" khi kết hợp được giá tốt và dịch vụ tuyệt vời.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Đặc biệt, vì anh/chị đã dành thời gian ghé quầy Phương Nam hôm nay, em có thể áp dụng thêm voucher ưu đãi 200.000 VNĐ dành riêng cho khách hàng tại nhà sách. Với ưu đãi này, mức giá sẽ còn tốt hơn nữa, mà mình vẫn nhận được đầy đủ các dịch vụ và bảo hành cao cấp ạ. Anh/chị có muốn em hỗ trợ làm thủ tục luôn không ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-lo-ben': {
+        title: 'Tình Huống 15: Khách lo lắng về độ bền',
+        shortTitle: 'Lo về độ bền',
+        icon: 'fa-shield-halved text-slate-400',
+        frequency: { level: 'Cao', percent: 40 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Đồng cảm & Xác nhận mối quan tâm',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho khách hàng thấy rằng nỗi lo của họ là chính đáng và bạn hiểu điều đó. Xây dựng sự tin tưởng.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi không muốn bỏ một đống tiền ra rồi dùng vài hôm đã hỏng. Đồ công nghệ bây giờ có vẻ không bền."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em hiểu, khi đầu tư một chiếc máy tính, ai cũng mong nó phải thật bền bỉ, dùng được lâu dài. Đây là mối quan tâm rất chính đáng ạ, đặc biệt khi máy là công cụ làm việc quan trọng."</div></div>`
+            },
+            {
+                title: 'Bước 2: So sánh chất liệu & Thiết kế',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cung cấp bằng chứng hữu hình về độ bền của sản phẩm, những thứ khách có thể sờ và cảm nhận được.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Nếu anh/chị ưu tiên độ bền, các dòng Dell Inspiron thường có chất lượng hoàn thiện rất tốt. Anh/chị có thể cầm thử mẫu này, phần vỏ được làm từ hợp kim kim loại, cảm giác rất cứng cáp, chịu va đập tốt hơn hẳn vỏ nhựa. Khớp nối màn hình cũng được gia cố rất vững chắc ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh về Chính sách Bảo hành Vàng',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Đưa ra "tấm lá chắn" mạnh mẽ nhất để xóa tan nỗi lo: sự đảm bảo từ chính sách. Đây là yếu tố quan trọng hơn cả vật liệu.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Tuy nhiên, điều quan trọng hơn cả vật liệu chính là chính sách bảo hành ạ. Bên em cam kết tất cả sản phẩm đều là hàng chính hãng. Đặc biệt, với dòng Dell này, mình được hưởng gói bảo hành tận nhà ProSupport. Tức là dù có bất kỳ vấn đề gì, kỹ thuật viên sẽ đến tận nhà mình xử lý, mình không cần phải đi đâu cả, cực kỳ an tâm."</div></div>`
+            },
+            {
+                title: 'Bước 4: Đề xuất gói Bảo hành mở rộng (Upsell)',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Biến nỗi lo của khách hàng thành cơ hội bán thêm dịch vụ, mang lại sự an tâm tuyệt đối cho họ và tăng doanh thu cho cửa hàng.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Để anh/chị hoàn toàn yên tâm sử dụng máy trong suốt 3-4 năm tới, bên em có gói bảo hành mở rộng thêm với chi phí rất hợp lý. Gói này sẽ bảo vệ khoản đầu tư của mình một cách trọn vẹn nhất. Anh/chị có muốn tham khảo thêm chi tiết về gói này không ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-quan-tam-man-hinh': {
+        title: 'Tình Huống 16: Khách quan tâm đến màn hình',
+        shortTitle: 'Quan tâm màn hình',
+        icon: 'fa-desktop text-violet-400',
+        frequency: { level: 'Trung bình', percent: 25 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Khơi gợi & Xác định đúng nhu cầu',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Hiểu rõ khách quan tâm đến khía cạnh nào của màn hình: độ nét, màu sắc, bảo vệ mắt, hay độ mượt?</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Màn hình rất quan trọng với tôi, nhưng tôi không biết nên ưu tiên yếu tố nào."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, màn hình là một yếu tố rất quan trọng. Không biết mình quan tâm đến nó để phục vụ mục đích gì là chính ạ? Ví dụ như làm đồ họa cần màu chuẩn, hay làm việc văn phòng nhiều cần bảo vệ mắt ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tư vấn công nghệ màn hình & Lợi ích',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Giải thích các công nghệ màn hình bằng lợi ích thực tế dựa trên nhu cầu đã xác định.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- <strong>Nếu cần bảo vệ mắt:</strong> "Nếu mình hay phải nhìn màn hình lâu, mình nên ưu tiên các mẫu có tần số quét 120Hz như Dell Inspiron 3520 này ạ. Nó giúp hình ảnh chuyển động mượt hơn gấp đôi, đỡ mỏi mắt hơn rất nhiều khi mình cuộn trang web hay đọc tài liệu."<br>- <strong>Nếu cần làm đồ họa:</strong> "Còn nếu mình làm đồ họa, thì yếu tố độ phủ màu 100% sRGB trên mẫu Lenovo LOQ này là quan trọng nhất, nó đảm bảo màu sắc thiết kế của mình không bị sai lệch khi in ra."</div></div>`
+            },
+            {
+                title: 'Bước 3: Cho khách hàng tự so sánh',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Để khách hàng tự mình trải nghiệm và nhận ra sự khác biệt. Trải nghiệm thực tế có sức thuyết phục hơn ngàn lời nói.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, để dễ hình dung nhất, em mời anh/chị xem thử hai mẫu máy này đặt cạnh nhau ạ. Anh/chị thử cuộn trang báo này trên cả hai máy sẽ thấy ngay sự khác biệt về độ mượt giữa màn hình 120Hz và 60Hz."</div></div>`
+            },
+            {
+                title: 'Bước 4: Tặng kèm phụ kiện bảo vệ màn hình',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Chốt đơn bằng một quà tặng thiết thực, liên quan trực tiếp đến mối quan tâm của khách.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Để bảo vệ cho chiếc màn hình chất lượng này, em xin tặng mình một bộ dán màn hình chống xước cao cấp và khăn lau chuyên dụng khi mua máy hôm nay ạ. Mình lấy mẫu Dell này luôn nhé ạ?"</div></div>`
+            }
+        ]
+    },
+    'khach-hoi-pm': {
+        title: 'Tình Huống 17: Khách hỏi về phần mềm bản quyền',
+        shortTitle: 'Hỏi về phần mềm',
+        icon: 'fab fa-windows text-sky-400',
+        frequency: { level: 'Cao', percent: 35 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Khẳng định tầm quan trọng & Sự chuyên nghiệp',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho thấy cửa hàng của bạn uy tín, chỉ kinh doanh sản phẩm có bản quyền rõ ràng.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Máy này có sẵn Win và Office không? Có phải là bản 'dùng thử' hay bản lậu không?"</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ đây là một câu hỏi rất hay và quan trọng ạ. Bên em cam kết 100% máy bán ra đều được cài đặt sẵn hệ điều hành Windows bản quyền để đảm bảo sự ổn định và an toàn cho người dùng."</div></div>`
+            },
+            {
+                title: 'Bước 2: Giải thích lợi ích của Windows bản quyền',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho khách hàng thấy lợi ích của việc "trả thêm tiền" cho bản quyền: sự an toàn và ổn định.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Việc dùng Windows bản quyền sẽ giúp máy của mình luôn được cập nhật các bản vá bảo mật mới nhất từ Microsoft, giống như có một lớp áo giáp bảo vệ máy khỏi virus và mã độc. Máy cũng sẽ hoạt động ổn định hơn nhiều, không bị các lỗi vặt như các bản không có bản quyền ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh giá trị của Office bản quyền đi kèm',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Cho khách hàng thấy họ đang nhận được một "món hời" về kinh tế.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Đặc biệt, các mẫu máy như Dell Inspiron 3520 này còn đi kèm bộ Office Home & Student bản quyền vĩnh viễn. Bình thường nếu mình mua riêng bộ Office này đã tốn gần 2 triệu đồng rồi ạ. Mua máy có sẵn sẽ giúp mình tiết kiệm một khoản chi phí rất đáng kể."</div></div>`
+            },
+            {
+                title: 'Bước 4: Tặng khóa học/hướng dẫn sử dụng phần mềm',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tăng thêm giá trị, giúp khách hàng khai thác tối đa sản phẩm họ mua.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Nếu anh/chị lấy máy hôm nay, em xin tặng mình một voucher tham gia khóa học online 'Mẹo sử dụng Excel và PowerPoint hiệu quả'. Khóa học này sẽ giúp mình khai thác tối đa sức mạnh của phần mềm bản quyền để làm việc chuyên nghiệp hơn đó ạ."</div></div>`
+            }
+        ]
+    },
+    'khach-can-nhieu-cong': {
+        title: 'Tình Huống 18: Khách cần nhiều cổng kết nối',
+        shortTitle: 'Cần nhiều cổng cắm',
+        icon: 'fa-plug-circle-bolt text-emerald-400',
+        frequency: { level: 'Trung bình', percent: 20 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Xác nhận nhu cầu kết nối cụ thể',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Hiểu rõ khách hàng cần kết nối những thiết bị gì để tư vấn giải pháp phù hợp, tránh tư vấn chung chung.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi ghét phải dùng mấy cái cục chuyển lằng nhằng. Tôi cần một cái máy cắm vào là được."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, không biết mình thường xuyên cần kết nối với những thiết bị nào nhất ạ? Ví dụ như máy chiếu qua cổng HDMI, ổ cứng di động, hay cắm dây mạng LAN ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tư vấn 2 hướng: Máy đủ cổng & Máy ít cổng + Hub',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Đưa ra hai giải pháp rõ ràng để khách hàng lựa chọn dựa trên ưu tiên của họ: Sự tiện lợi tức thì hay Sự mỏng nhẹ và hiện đại.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- <strong>Hướng 1 (Nhiều cổng):</strong> "Nếu mình ưu tiên sự tiện lợi, cắm vào là dùng ngay, thì mẫu HP 250 G9 này là lựa chọn tuyệt vời. Nó có đầy đủ các cổng từ HDMI, USB-A truyền thống đến cả cổng mạng LAN."<br>- <strong>Hướng 2 (Ít cổng):</strong> "Còn nếu mình thích các dòng máy mỏng nhẹ, hiện đại hơn, chúng thường có ít cổng hơn. Tuy nhiên, mình chỉ cần một chiếc Hub chuyển đổi nhỏ gọn như thế này là có thể kết nối ra mọi thứ mình cần, rất linh hoạt ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Nhấn mạnh lợi ích của từng giải pháp',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Giúp khách hàng ra quyết định bằng cách làm rõ ưu/nhược điểm của mỗi lựa chọn.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Chọn máy nhiều cổng thì mình không cần mang theo gì thêm, nhưng máy sẽ dày hơn một chút. Còn chọn máy mỏng nhẹ và dùng Hub thì sẽ gọn gàng khi di chuyển, và cổng USB-C cũng rất đa năng, có thể vừa sạc, vừa truyền dữ liệu, vừa xuất hình ảnh ạ."</div></div>`
+            },
+            {
+                title: 'Bước 4: Ưu đãi khi mua kèm Hub chuyển đổi',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Biến "điểm yếu" về cổng kết nối của các máy mỏng nhẹ thành cơ hội để bán thêm phụ kiện với ưu đãi hấp dẫn.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Nếu mình chọn mẫu máy mỏng nhẹ này, bên em sẽ giảm giá 50% cho một chiếc Hub chuyển đổi đa năng chính hãng. Tính ra vẫn rất tiện lợi và tiết kiệm hơn so với việc mua lẻ ạ. Anh/chị có muốn em giới thiệu một vài mẫu Hub tốt nhất không?"</div></div>`
+            }
+        ]
+    },
+    'khach-hoi-phu-kien': {
+        title: 'Tình Huống 19: Khách hỏi về phụ kiện',
+        shortTitle: 'Hỏi về phụ kiện',
+        icon: 'fa-computer-mouse text-stone-400',
+        frequency: { level: 'Cao', percent: 30 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Xem đây là cơ hội Vàng để Upsell',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Chuyển tư duy từ "trả lời câu hỏi" sang "tư vấn giải pháp toàn diện". Khách hàng đã mua sản phẩm chính, họ đang có nhu cầu chi tiêu thêm.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi cần những gì để sử dụng cái máy này tốt hơn/an toàn hơn?"</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ có chứ ạ! Bên em có đầy đủ các loại phụ kiện chính hãng, chất lượng cao để tối ưu hóa trải nghiệm sử dụng máy của mình. Anh/chị đang cần tìm loại phụ kiện nào cụ thể, hay để em tư vấn những món 'phải có' cho một chiếc laptop mới ạ?"</div></div>`
+            },
+            {
+                title: 'Bước 2: Tư vấn phụ kiện theo nhóm lợi ích',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Tư vấn một cách có hệ thống, không chỉ liệt kê. Nhóm các phụ kiện theo lợi ích: Bảo vệ, Hiệu suất, Phong cách.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Với một chiếc laptop mới, thường sẽ có 3 nhóm phụ kiện quan trọng ạ:<br>
+                - <strong>Để bảo vệ máy:</strong> Mình nên có một chiếc túi/balo chống sốc và bộ dán màn hình.<br>
+                - <strong>Để làm việc hiệu quả hơn:</strong> Một con chuột không dây sẽ thoải mái hơn nhiều so với dùng touchpad.<br>
+                - <strong>Để kết nối đa năng:</strong> Một chiếc Hub chuyển đổi nếu máy của mình ít cổng."</div></div>`
+            },
+            {
+                title: 'Bước 3: Giới thiệu các Gói Combo hấp dẫn',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Khuyến khích khách hàng mua nhiều hơn bằng cách tạo ra các gói ưu đãi có lợi hơn so với mua lẻ.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, để tiết kiệm hơn cho mình, bên em có các gói combo rất hấp dẫn. Ví dụ, nếu mình mua combo 'Bảo vệ Toàn diện' gồm túi chống sốc và bộ dán màn hình, giá sẽ rẻ hơn 20% so với mua lẻ từng món ạ. Hoặc combo 'Làm việc Hiệu quả' gồm chuột và bàn phím không dây cũng được giảm giá tương tự."</div></div>`
+            },
+            {
+                title: 'Bước 4: Chốt đơn phụ kiện cùng sản phẩm chính',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Đề xuất một cách tự nhiên việc thêm phụ kiện vào hóa đơn mua hàng chính, coi đó là một phần của gói giải pháp.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ, vậy em lấy cho mình combo 'Bảo vệ Toàn diện' màu này luôn nhé ạ? Rất hợp với màu máy của mình và chắc chắn sẽ giúp anh/chị yên tâm hơn khi di chuyển."</div></div>`
+            }
+        ]
+    },
+    'khach-phan-van': {
+        title: 'Tình Huống 20: Khách Phân Vân / Từ Chối',
+        shortTitle: 'Phân vân / Từ chối',
+        icon: 'fa-person-circle-question text-yellow-400',
+        frequency: { level: 'Rất Cao', percent: 60 }, // MỚI
+        steps: [
+            {
+                title: 'Bước 1: Đồng cảm & Giảm áp lực (Kỹ thuật "Gương soi")',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Không đối đầu với sự từ chối. Thay vào đó, đứng về phía khách hàng, thể hiện sự thấu hiểu để họ mở lòng hơn.</p></div><div class='detail-item'><strong class='detail-title'><i class='fas fa-brain mr-2'></i>Tâm lý khách hàng:</strong><p>"Tôi cần thêm thời gian.", "Tôi chưa chắc lắm.", "Tôi sợ quyết định sai lầm."</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ em hiểu ạ, việc lựa chọn một sản phẩm công nghệ là một quyết định quan trọng, cần phải cân nhắc kỹ càng để chọn được chiếc máy ưng ý nhất. Mình cứ thoải mái tìm hiểu ạ."</div><div class='script-bad'><strong>Tránh nói:</strong> "Sao lại không mua ạ?", "Máy này tốt thế mà anh/chị không mua thì tiếc lắm." (Gây áp lực và đối đầu).</div></div>`
+            },
+            {
+                title: 'Bước 2: Tìm hiểu lý do thực sự (Kỹ thuật "Bóc tách")',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Khám phá ra rào cản thực sự đằng sau lời từ chối chung chung ("để về suy nghĩ thêm").</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Nếu không phiền, anh/chị có thể chia sẻ thêm một chút điều gì khiến mình còn băn khoăn nhất được không ạ? Liệu có phải là về giá cả, cấu hình, hay một yếu tố nào khác ạ? Cứ chia sẻ thoải mái để em có thể hỗ trợ mình tốt nhất, dù mình có quyết định mua hôm nay hay không ạ."</div></div>`
+            },
+            {
+                title: 'Bước 3: Đưa ra giải pháp thay thế hoặc cam kết mạnh mẽ',
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Dựa trên lý do thực sự đã khám phá, đưa ra một giải pháp cụ thể để hóa giải nỗi lo đó.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong><br>- <strong>Nếu lo về giá:</strong> "Dạ, nếu ngân sách là yếu tố chính, mình có thể tham khảo mẫu HP 250RG9 này ạ, vẫn đáp ứng tốt nhu cầu mà giá lại mềm hơn. Hoặc bên em có chương trình trả góp 0% lãi suất, chia nhỏ khoản thanh toán ra hàng tháng rất nhẹ nhàng ạ."<br>- <strong>Nếu lo về hiệu năng:</strong> "Để anh/chị hoàn toàn yên tâm, bên em có chính sách cho mình dùng thử trong 7 ngày. Nếu cảm thấy không phù hợp với nhu cầu, mình có thể mang ra đổi sang mẫu khác. Chính sách này đảm bảo anh/chị sẽ không bao giờ 'mua nhầm' sản phẩm."</div></div>`
+            },
+            {
+                title: 'Bước 4: Giữ liên lạc & Tạo cơ hội tương lai',
+                isConversion: true,
+                description: `<div class='step-detail-grid'><div class='detail-item'><strong class='detail-title'><i class='fas fa-bullseye mr-2'></i>Mục tiêu:</strong><p>Nếu khách vẫn chưa mua, mục tiêu chuyển sang "giữ mối quan hệ" để có cơ hội bán hàng trong tương lai. Không để khách hàng rời đi tay trắng.</p></div></div><strong class='detail-title-full'><i class='fas fa-comments mr-2'></i>Kịch bản mẫu:</strong><div class='script-block'><div class='script-good'><strong>Nên nói:</strong> "Dạ không sao ạ. Anh/chị có thể quét mã Zalo này để kết bạn với em. Em sẽ gửi thông tin so sánh chi tiết các mẫu máy mình quan tâm để anh/chị tham khảo thêm tại nhà. Sắp tới nếu có chương trình khuyến mãi lớn, em sẽ báo cho mình đầu tiên để không bỏ lỡ cơ hội tốt ạ."</div></div>`
+            }
+        ]
+    }
+};
+
+        // --- DOM ELEMENTS ---
+        const display = document.getElementById('flowchart-display');
+        const scenarioNav = document.getElementById('scenario-nav');
+        const buttons = document.querySelectorAll('.scenario-btn');
+        const trainingToggle = document.getElementById('training-toggle');
+        const randomBtn = document.getElementById('random-scenario-btn');
+        const collapsibleTriggers = document.querySelectorAll('.collapsible-trigger');
+        const pageTitle = document.getElementById('page-title');
+        const pageFrequencyTag = document.getElementById('page-frequency-tag'); // MỚI
+        const exportModeToggle = document.getElementById('export-mode-toggle');
+        const exportBtn = document.getElementById('export-btn');
+        const exportStatus = document.getElementById('export-status');
+
+
+        // --- STATE VARIABLES ---
+        let isTrainingMode = false;
+        let isExportMode = false;
+        let currentScenarioKey = null;
+
+        // --- MỚI: FUNCTIONS FOR FREQUENCY DISPLAY ---
+        /**
+         * Lấy class màu sắc dựa trên cấp độ tần suất
+         * @param {string} level - Cấp độ (Rất Cao, Cao, Trung bình, Thấp, Tình huống)
+         * @param {string} prefix - 'freq' for sidebar, 'header-freq' for main title
+         * @returns {string} - Tên class CSS
+         */
+        function getFrequencyClass(level, prefix = 'freq') {
+            switch (level) {
+                case 'Rất Cao': return `${prefix}-very-high`;
+                case 'Cao': return `${prefix}-high`;
+                case 'Trung bình': return `${prefix}-medium`;
+                case 'Thấp': return `${prefix}-low`;
+                case 'Tình huống': return `${prefix}-situational`;
+                default: return '';
+            }
+        }
+
+        /**
+         * Khởi tạo và hiển thị các tag tần suất trên sidebar
+         */
+        function initFrequencyTags() {
+            for (const key in scenarios) {
+                const scenario = scenarios[key];
+                if (scenario.frequency) {
+                    const btn = document.querySelector(`.scenario-btn[data-scenario="${key}"]`);
+                    if (btn) {
+                        const tag = btn.querySelector('.frequency-tag');
+                        if (tag) {
+                            tag.textContent = `~${scenario.frequency.percent}%`;
+                            tag.classList.add(getFrequencyClass(scenario.frequency.level));
+                            tag.title = `Tần suất gặp: ${scenario.frequency.level}`;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        // --- CORE FUNCTIONS ---
+        function displayScenario(scenarioKey) {
+            currentScenarioKey = scenarioKey;
+            const scenarioData = scenarios[scenarioKey];
+            if (!scenarioData) return;
+            
+            // MỚI: Cập nhật tiêu đề và tag tần suất
+            pageTitle.innerHTML = `<i class="fas ${scenarioData.icon} mr-3"></i> ${scenarioData.title}`;
+            if (scenarioData.frequency) {
+                const freq = scenarioData.frequency;
+                pageFrequencyTag.innerHTML = `
+                    <span class="header-freq-tag ${getFrequencyClass(freq.level, 'header-freq')}">
+                        Tần suất: ${freq.level} (~${freq.percent}%)
+                    </span>
+                `;
+                pageFrequencyTag.style.display = 'block';
+            } else {
+                pageFrequencyTag.style.display = 'none';
+            }
+
+
+            let content = `<div class="space-y-2">`;
+            if (isTrainingMode) {
+                scenarioData.steps.forEach((step, index) => {
+                    const isConversion = step.isConversion ? 'conversion-step' : '';
+                    const descriptionId = `desc-${scenarioKey}-${index}`;
+                    content += `
+                        <div class="step-card bg-white rounded-lg p-4 border ${isConversion}">
+                            <div class="flex justify-between items-center">
+                                <p class="font-semibold text-gray-800">${index + 1}. ${step.title}</p>
+                                <span class="toggle-hint-btn text-sm" data-target="${descriptionId}">
+                                    <i class="fas fa-eye mr-1"></i> Hiện Gợi ý
+                                </span>
+                            </div>
+                            <div id="${descriptionId}" class="training-description text-gray-600 text-sm mt-2">${step.description}</div>
+                        </div>
+                    `;
+                    if (index < scenarioData.steps.length - 1) {
+                        content += '<div class="arrow"><i class="fas fa-arrow-down"></i></div>';
+                    }
+                });
+            } else {
+                scenarioData.steps.forEach((step, index) => {
+                    const isConversion = step.isConversion ? 'conversion-step' : '';
+                    content += `
+                        <div class="step-card bg-white rounded-lg p-4 border ${isConversion}">
+                            <p class="font-semibold text-gray-800">${index + 1}. ${step.title}</p>
+                            <div class="text-gray-600 text-sm mt-1 ml-4">${step.description}</div>
+                        </div>
+                    `;
+                    if (index < scenarioData.steps.length - 1) {
+                        content += '<div class="arrow"><i class="fas fa-arrow-down"></i></div>';
+                    }
+                });
+            }
+            content += `</div>`;
+            display.innerHTML = content;
+
+            if (isTrainingMode) {
+                document.querySelectorAll('.toggle-hint-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const targetId = button.dataset.target;
+                        const description = document.getElementById(targetId);
+                        const isShown = description.classList.toggle('show');
+                        button.innerHTML = isShown ?
+                            '<i class="fas fa-eye-slash mr-1"></i> Ẩn Gợi ý' :
+                            '<i class="fas fa-eye mr-1"></i> Hiện Gợi ý';
+                    });
+                });
+            }
+        }
+
+        // --- CÁC HÀM TIỆN ÍCH VÀ XỬ LÝ XUẤT ẢNH ---
+
+        function slugify(text) {
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
+        }
+
+        function updateExportButtonState() {
+            const selectedCount = document.querySelectorAll('.export-checkbox:checked').length;
+            if (selectedCount > 0) {
+                exportBtn.disabled = false;
+                exportStatus.textContent = `Đã chọn ${selectedCount} kịch bản để xuất.`;
+            } else {
+                exportBtn.disabled = true;
+                exportStatus.textContent = 'Chọn các kịch bản bạn muốn xuất từ menu bên trái.';
+            }
+        }
+
+        function generateExportHTML(scenarioData) {
+             let html = `<div class="export-scenario-block">`;
+            // MỚI: Thêm thông tin tần suất vào ảnh xuất
+            let freqHTML = '';
+            if (scenarioData.frequency) {
+                 const freq = scenarioData.frequency;
+                 freqHTML = `<span style="font-size: 0.9rem; font-weight: 500; color: #4b5563; margin-left: 15px;">(Tần suất gặp: ${freq.level} ~${freq.percent}%)</span>`;
+            }
+            html += `<h2 class="export-title flex items-baseline"><i class="fas ${scenarioData.icon} mr-3"></i><span>${scenarioData.title}</span>${freqHTML}</h2>`;
+            scenarioData.steps.forEach((step, index) => {
+                html += `
+                    <div class="export-step-card">
+                        <p class="export-step-title">${index + 1}. ${step.title}</p>
+                        <div class="export-step-description">${step.description}</div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            return html;
+        }
+
+        // --- EVENT LISTENERS ---
+        buttons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                if (isExportMode) {
+                    const checkbox = button.querySelector('.export-checkbox');
+                    if (checkbox && event.target.tagName !== 'INPUT') {
+                        checkbox.checked = !checkbox.checked;
+                    }
+                    updateExportButtonState();
+                } else {
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const scenarioKey = button.dataset.scenario;
+                    displayScenario(scenarioKey);
+                }
+            });
+        });
+
+        trainingToggle.addEventListener('change', () => {
+            isTrainingMode = trainingToggle.checked;
+            if (isTrainingMode && isExportMode) {
+                exportModeToggle.click();
+            }
+            if (currentScenarioKey) {
+                displayScenario(currentScenarioKey);
+            }
+        });
+
+        randomBtn.addEventListener('click', () => {
+            if (isTrainingMode) trainingToggle.click();
+            if (isExportMode) exportModeToggle.click();
+            const allKeys = Object.keys(scenarios);
+            const randomKey = allKeys[Math.floor(Math.random() * allKeys.length)];
+            const randomButton = document.querySelector(`.scenario-btn[data-scenario="${randomKey}"]`);
+            if (randomButton) {
+                const parentCollapsibleContent = randomButton.closest('.collapsible-content');
+                if (parentCollapsibleContent) {
+                    const parentTrigger = parentCollapsibleContent.previousElementSibling;
+                    if (!parentCollapsibleContent.classList.contains('expanded')) {
+                        parentTrigger.click();
+                    }
+                }
+                setTimeout(() => {
+                    randomButton.click();
+                    randomButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        });
+
+        collapsibleTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const content = trigger.nextElementSibling;
+                trigger.classList.toggle('active');
+                content.classList.toggle('expanded');
+            });
+        });
+
+        exportModeToggle.addEventListener('change', () => {
+            isExportMode = exportModeToggle.checked;
+            scenarioNav.classList.toggle('export-mode', isExportMode);
+            if (isExportMode) {
+                if (isTrainingMode) trainingToggle.click();
+                document.querySelector('.scenario-btn.active')?.classList.remove('active');
+                 // MỚI: Ẩn tag tần suất ở header khi ở chế độ xuất
+                pageFrequencyTag.style.display = 'none';
+                pageTitle.innerHTML = "Chế độ Chọn để Xuất";
+                display.innerHTML = `
+                    <div class="text-center text-gray-500 flex flex-col items-center justify-center h-full">
+                        <i class="fas fa-check-square text-4xl mb-4 text-blue-500"></i>
+                        <p class="font-semibold text-lg">Chế độ Chọn để Xuất Ảnh</p>
+                        <p>Vui lòng chọn một hoặc nhiều kịch bản từ menu bên trái, sau đó nhấn nút "Xuất ảnh".</p>
+                    </div>`;
+                updateExportButtonState();
+            } else {
+                document.querySelectorAll('.export-checkbox').forEach(cb => cb.checked = false);
+                if (currentScenarioKey) {
+                    document.querySelector(`.scenario-btn[data-scenario="${currentScenarioKey}"]`).classList.add('active');
+                    displayScenario(currentScenarioKey);
+                } else {
+                     pageTitle.innerHTML = "Quy Trình Chào Khách & Tăng Chuyển Đổi";
+                     pageFrequencyTag.style.display = 'none';
+                    display.innerHTML = `
+                        <div class="text-center text-gray-400 flex flex-col items-center justify-center h-full">
+                            <i class="fas fa-arrow-left text-4xl mb-4"></i>
+                            <p>Vui lòng chọn một tình huống từ thanh điều hướng bên trái.</p>
+                        </div>`;
+                }
+                exportStatus.textContent = 'Bật chế độ và chọn các kịch bản bạn muốn xuất.';
+                exportBtn.disabled = true;
+            }
+        });
+        
+        exportBtn.addEventListener('click', async () => {
+            const selectedCheckboxes = document.querySelectorAll('.export-checkbox:checked');
+            if (selectedCheckboxes.length === 0) return;
+
+            exportBtn.disabled = true;
+            const total = selectedCheckboxes.length;
+            let count = 0;
+
+            for (const cb of selectedCheckboxes) {
+                count++;
+                const key = cb.dataset.scenarioKey;
+                const scenarioData = scenarios[key];
+                if (!scenarioData) continue;
+
+                exportStatus.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Đang xuất ảnh ${count}/${total}: <strong>${scenarioData.shortTitle}</strong>...`;
+                
+                const exportContainer = document.createElement('div');
+                exportContainer.id = 'export-container';
+                exportContainer.style.position = 'absolute';
+                exportContainer.style.left = '-9999px';
+                document.body.appendChild(exportContainer);
+                
+                exportContainer.innerHTML = generateExportHTML(scenarioData);
+
+                try {
+                    const canvas = await html2canvas(exportContainer, {
+                        scale: 1.5,
+                        useCORS: true
+                    });
+                    
+                    const link = document.createElement('a');
+                    link.download = `${slugify(scenarioData.title)}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
+                } catch (err) {
+                    console.error(`Lỗi khi xuất ảnh cho kịch bản "${scenarioData.title}":`, err);
+                    exportStatus.textContent = `Lỗi khi xuất ảnh kịch bản: ${scenarioData.title}.`;
+                    document.body.removeChild(exportContainer);
+                    exportBtn.disabled = false;
+                    return;
+                } finally {
+                    if (document.body.contains(exportContainer)) {
+                        document.body.removeChild(exportContainer);
+                    }
+                }
+            }
+
+            exportBtn.disabled = false;
+            exportStatus.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> Hoàn tất! Đã tải về ${total} tệp ảnh.`;
+        });
+
+
+        // --- INITIAL LOAD ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initFrequencyTags(); // MỚI: Gọi hàm để load tần suất
+            if (buttons.length > 0) {
+                collapsibleTriggers[0].click();
+                buttons[0].click();
+            }
+        });
+
+    </script>
 </body>
 </html>

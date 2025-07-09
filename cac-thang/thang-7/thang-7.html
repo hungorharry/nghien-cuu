@@ -56,7 +56,7 @@
                     Đề Tháng 7</h1>
                 <p class="text-lg text-gray-600 max-w-3xl mx-auto">Khám phá các
                     bài viết, phân tích và hướng dẫn chi tiết được biên soạn
-                    trong tháng 6.</p>
+                    trong tháng 7.</p>
             </div>
 
             <!-- Lưới hiển thị các chủ đề -->
@@ -68,16 +68,18 @@
         </div>
 
         <script>
-        // Danh sách các chủ đề của Tháng 6
+        // Danh sách các chủ đề của Tháng 7
         const topics = [
             'nghien-cuu-facebook.html',
-            'nghien-cuu-thiet-ke.html',
+            'nghien-cuu-thiet-ke.html', // <-- ĐÃ THÊM DẤU PHẨY
+            'nghien-cuu-cac-mang-xa-hoi.html',
         ];
         
-        // **MỚI: Ánh xạ từ slug sang tiêu đề hoàn chỉnh**
+        // Ánh xạ từ slug sang tiêu đề hoàn chỉnh
         const titleMap = {
             'nghien-cuu-facebook.html': 'Nghiên Cứu Facebook',
-            'nghien-cuu-thiet-ke.html': 'Nghiên Cứu Thiết Kế',        
+            'nghien-cuu-thiet-ke.html': 'Nghiên Cứu Thiết Kế', // <-- ĐÃ THÊM DẤU PHẨY
+            'nghien-cuu-cac-mang-xa-hoi.html': 'Nghiên Cứu Các Mạng Xã Hội',        
         };
 
         // Mảng các icon để trang trí
@@ -85,14 +87,14 @@
             'fa-solid fa-store', 'fa-solid fa-chart-line', 'fa-solid fa-brain', 
             'fa-solid fa-sitemap', 'fa-solid fa-share-nodes', 'fa-solid fa-cart-shopping', 
             'fa-solid fa-camera-retro', 'fa-solid fa-microphone-lines', 'fa-solid fa-headset',
-            'fa-solid fa-mobile-screen', // Icon mới cho điện thoại
+            'fa-solid fa-mobile-screen',
             'fa-brands fa-tiktok'
         ];
 
         const topicsGrid = document.getElementById('topicsGrid');
-        const basePath = ''; // Cập nhật đường dẫn để liên kết tương đối với thư mục hiện tại của thang-6.html
+        const basePath = '';
 
-        // **CẬP NHẬT: Hàm lấy tiêu đề từ map**
+        // Hàm lấy tiêu đề từ map
         function getProperTitle(slug) {
             // Ưu tiên lấy tiêu đề từ map, nếu không có sẽ tự động tạo
             return titleMap[slug] || slug.replace('.html', '').replace(/-/g, ' ');

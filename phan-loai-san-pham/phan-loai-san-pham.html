@@ -53,6 +53,7 @@
             box-shadow: 7px 7px 0px #000;
         }
         /* Brutalist link styles with updated colors */
+        /* This style is kept for any future links that NEED an underline */
         .brutalist-link {
             color: #3B82F6; /* Bright blue link */
             text-decoration: none;
@@ -73,15 +74,22 @@
             padding: 1.5rem;
             text-transform: uppercase;
         }
+        /* Arbitrary values for the custom framed link hover effect */
+        .brutalist-framed-link:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px #000;
+        }
     </style>
 </head>
-<body class="text-white">
+<body> <!-- Removed unnecessary text-white class -->
 <div class="container mx-auto px-4 py-8 md:py-16">
 
-    <div class="mb-8">
-        <a href="/index.html" class="inline-flex items-center brutalist-link">
-            <span class="mr-2">&lt;</span> QUAY LẠI DANH MỤC CHÍNH
+    <div class="mb-12">
+        <!-- === START: CHANGED THIS LINK === -->
+        <a href="/index.html" class="brutalist-framed-link inline-flex items-center text-[#111827] bg-white font-bold border-4 border-[#111827] px-4 py-2 shadow-[5px_5px_0px_#000] transition-all duration-100 no-underline">
+            <span class="mr-2 font-black"><</span> QUAY LẠI DANH MỤC CHÍNH
         </a>
+        <!-- === END: CHANGED THIS LINK === -->
     </div>
 
     <header class="text-center mb-16">
@@ -137,11 +145,10 @@
                 XEM CHI TIẾT
             </a>
         </div>
-
     </div>
 
     <footer class="text-center text-[#111827] mt-16 text-sm">
-        &copy; 2025 HƯNG NGHIÊN CỨU DATA. MỌI QUYỀN ĐƯỢC BẢO LƯU.
+        © 2025 HƯNG NGHIÊN CỨU DATA. MỌI QUYỀN ĐƯỢC BẢO LƯU.
     </footer>
 </div>
 

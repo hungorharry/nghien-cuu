@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sơ đồ Phương Pháp Học Từ Vựng PTE</title>
+    <title>Sơ Đồ Tư Duy: Phân Tích & Kế Hoạch Hành Động (Trước & Sau)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -13,7 +13,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Để có không gian cho bộ điều khiển */
+            justify-content: flex-start;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -38,19 +38,49 @@
             margin-bottom: 25px;
             width: min(95vw, 1000px);
         }
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
         .controls-title {
             font-size: 1.1rem;
             font-weight: 700;
             color: #334155;
-            text-align: center;
-            margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            flex-grow: 1;
         }
+        .state-toggle {
+            display: flex;
+            background-color: #d1d5db;
+            border-radius: 10px;
+            padding: 4px;
+        }
+        .state-toggle button {
+            padding: 8px 16px;
+            border: none;
+            background-color: transparent;
+            color: #475569;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .state-toggle button.active {
+            background-color: #ffffff;
+            color: #f97316;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
         .controls-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
+            margin-top: 15px;
         }
         .control-item {
             display: flex;
@@ -61,14 +91,12 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        .control-item:hover {
-            background-color: #dde1e7;
-        }
+        .control-item:hover { background-color: #dde1e7; }
         .control-item input[type="checkbox"] {
             margin-right: 10px;
             width: 18px;
             height: 18px;
-            accent-color: #10B981;
+            accent-color: #f97316;
             cursor: pointer;
         }
         .control-item label {
@@ -99,11 +127,11 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         .circle-node {
             position: absolute;
-            background-color: #334155;
             color: #ffffff;
             border-radius: 50%;
             display: flex;
@@ -119,42 +147,45 @@
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             cursor: pointer;
             word-break: break-word;
-            border: 3px solid #475569;
             z-index: 10;
         }
-
         .circle-node:hover {
             transform: scale(1.1);
-            background-color: #1e293b;
             box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5);
         }
-
         .circle-node.highlight {
-            background-color: #10B981;
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-            border: 3px solid #059669;
+            background-color: #f97316;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+            border-color: #ea580c !important;
         }
-
         .circle-node.highlight:hover {
-            background-color: #059669;
+            background-color: #ea580c;
             transform: scale(1.15);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.55);
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.55);
         }
-
-        .circle-node .rank-label {
-            font-size: 0.75em;
+        .rank-label {
+            font-size: 0.7em;
             font-weight: 700;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             text-transform: uppercase;
         }
-        .circle-node.highlight .rank-label { color: #ffffff; }
+        .node-status {
+            font-size: 0.85em;
+            font-weight: 700;
+            background-color: rgba(0,0,0,0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 5px;
+            line-height: 1;
+        }
         
         @media (min-width: 768px) {
             .circle-node { font-size: 1rem; padding: 15px; }
-            .circle-node .rank-label { font-size: 0.85em; }
+            .rank-label { font-size: 0.75em; }
         }
         
+        /* Modal Styles */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px);
@@ -179,12 +210,13 @@
         .modal-overlay.show .modal-content { transform: scale(1) translateY(0); }
         .modal-title { font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; text-align: center; }
         .modal-body { font-size: 1rem; color: #334155; line-height: 1.7; text-align: left; }
-        .modal-body h3 { font-size: 1.5rem; font-weight: 600; color: #10B981; margin-top: 25px; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
-        .modal-body h4 { font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-top: 20px; margin-bottom: 8px; }
+        .modal-body h3 { font-size: 1.5rem; font-weight: 600; color: #f97316; margin-top: 25px; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+        .modal-body h4 { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-top: 20px; margin-bottom: 8px; }
         .modal-body strong { color: #0f172a; font-weight: 700; }
         .modal-body ul { list-style-type: none; padding-left: 10px; margin-top: 10px; }
         .modal-body li { position: relative; padding-left: 25px; margin-bottom: 10px; }
-        .modal-body li::before { content: '✓'; position: absolute; left: 0; top: 1px; color: #10B981; font-weight: bold; }
+        .modal-body li::before { content: '•'; position: absolute; left: 0; top: 1px; color: #f97316; font-weight: bold; font-size: 1.2em; line-height: 1; }
+        .modal-body code { background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
         .modal-footer { margin-top: 30px; text-align: center; }
         .modal-close-btn { background-color: #ef4444; color: #ffffff; padding: 12px 28px; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: background-color 0.2s ease, transform 0.2s ease; }
         .modal-close-btn:hover { background-color: #dc2626; transform: translateY(-2px); }
@@ -193,7 +225,13 @@
 <body>
     <div class="main-container">
         <div class="controls-container">
-            <h3 class="controls-title">Các Phương Pháp Học Từ Vựng PTE Hiệu Quả</h3>
+            <div class="controls-header">
+                <h3 class="controls-title">Phân Tích & Kế Hoạch Hành Động</h3>
+                <div class="state-toggle">
+                    <button id="btnBefore" class="active">Trước Khi Áp Dụng</button>
+                    <button id="btnAfter">Sau Khi Áp Dụng</button>
+                </div>
+            </div>
             <div id="controlsGrid" class="controls-grid"></div>
         </div>
 
@@ -206,7 +244,7 @@
         <div class="modal-content">
             <h2 id="modalTitle" class="modal-title"></h2>
             <div id="modalBody" class="modal-body"></div>
-            <div class="footer">
+            <div class="modal-footer">
                 <button id="closeModalBtn" class="modal-close-btn">Đóng</button>
             </div>
         </div>
@@ -223,65 +261,169 @@
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
             const closeModalBtn = document.getElementById('closeModalBtn');
+            const btnBefore = document.getElementById('btnBefore');
+            const btnAfter = document.getElementById('btnAfter');
+
+            let currentState = 'before';
+            let renderedNodes = [];
 
             const nodeData = [
-                { 
-                    "text": "Học theo Chủ đề & Ngữ cảnh", 
-                    "highlight": true, 
+                {
+                    "text": "Phân Tích 4 Vấn Đề Kinh Doanh",
                     "rank": 1,
-                    "connections": ["Đọc Chủ động", "Nghe & Xem Chủ động", "Flashcards & Lặp lại ngắt quãng"],
-                    "tooltip": "Đây là phương pháp **nền tảng và quan trọng nhất**. Thay vì học các từ riêng lẻ, hãy học chúng trong một cụm câu, một đoạn văn hoặc một chủ đề cụ thể. Điều này giúp bạn hiểu sâu sắc cách dùng từ và ghi nhớ lâu hơn.\n### Tại sao lại quan trọng với PTE?\n- PTE là bài thi học thuật, từ vựng thường xoay quanh các chủ đề cố định như: **Môi trường, Giáo dục, Công nghệ, Y tế, Xã hội...**\n- Các dạng bài như **Fill in the Blanks** hay **Summarize Spoken Text** đều đòi hỏi khả năng hiểu từ vựng trong ngữ cảnh.\n### Cách thực hiện:\n- **Bước 1:** Xác định các chủ đề thường gặp trong PTE.\n- **Bước 2:** Tìm các bài đọc, bài nghe, video liên quan đến chủ đề đó.\n- **Bước 3:** Khi gặp từ mới, đừng chỉ ghi lại từ đó. Hãy ghi lại **cả câu chứa từ đó**."
+                    "connections": ["Kế Hoạch Hành Động 3 Giai Đoạn", "Bài Trí & Không Gian", "Chương Trình Khuyến Mãi", "Nội Tại Nhân Viên", "Tỉ Lệ Chuyển Đổi & Marketing"],
+                    "states": { "before": { "status": "Tổng Quan", "color": "#334155" }, "after": { "status": "Tổng Quan", "color": "#334155" } },
+                    "tooltip": {
+                        "before": "### Rank 1: Tổng Quan 4 Vấn Đề Kinh Doanh\n\nĐây là bức tranh tổng thể, xác định 4 trụ cột chính ảnh hưởng đến hiệu quả kinh doanh tại gian hàng. Việc phân loại này giúp hệ thống hóa các thách thức và định hướng giải pháp một cách có cấu trúc.\n\n<ol>\n<li>Bài trí & Không gian: Yếu tố nền tảng về mặt vật lý. Khách hàng có nhìn thấy sản phẩm không? Không gian có thuận tiện cho việc tiếp cận không?</li>\n<li>Chương trình khuyến mãi: Yếu tố thu hút về mặt tài chính. Có lý do gì để khách hàng mua hàng ngay bây giờ không? Ưu đãi có đủ hấp dẫn không?</li>\n<li>Nội tại nhân viên: Yếu tố con người, ảnh hưởng trực tiếp đến trải nghiệm khách hàng. Nhân viên có đủ kiến thức, kỹ năng và động lực để bán hàng không?</li>\n<li>Tỉ lệ chuyển đổi & Marketing: Yếu tố hiệu quả kinh doanh. Có bao nhiêu người xem chuyển thành người mua? Các hoạt động marketing tại điểm bán đã hiệu quả chưa?</li>\n</ol>",
+                        "after": "### Rank 1: Tổng Quan 4 Vấn Đề Kinh Doanh\n\nSau khi có kế hoạch hành động, 4 vấn đề được nhìn nhận một cách hệ thống và có giải pháp cụ thể cho từng mục, tạo ra một lộ trình rõ ràng để cải thiện hiệu suất chung."
+                    }
                 },
-                { 
-                    "text": "Đọc Chủ động", 
+                {
+                    "text": "Kế Hoạch Hành Động 3 Giai Đoạn",
+                    "highlight": true,
                     "rank": 2,
-                    "connections": ["Học theo Chủ đề & Ngữ cảnh", "Tập trung vào Collocations", "Luyện tập Sản sinh"],
-                    "tooltip": "Đọc không chỉ để hiểu nội dung mà còn là một công cụ săn tìm từ vựng. Đọc chủ động có nghĩa là bạn tương tác sâu với văn bản.\n### Biểu hiện của đọc chủ động:\n- **Gạch chân/Tô sáng:** Đánh dấu từ mới, collocations hay, và các cấu trúc ngữ pháp phức tạp.\n- **Ghi chú bên lề:** Tóm tắt ý chính của đoạn văn, đặt câu hỏi, hoặc viết lại định nghĩa của từ mới theo cách hiểu của bạn.\n- **Tra cứu thông minh:** Không chỉ tra nghĩa của từ, mà còn xem cả cách phát âm, word family (gia đình từ) và các ví dụ.\n### Nguồn để đọc:\n- **Báo học thuật:** New Scientist, The Economist, National Geographic.\n- **Trang tin tức uy tín:** BBC, The Guardian, Reuters.\n- **Các bài đọc mẫu PTE:** Từ các nguồn luyện thi chính thống."
+                    "connections": ["Tỉ Lệ Chuyển Đổi & Marketing", "Nội Tại Nhân Viên", "Chương Trình Khuyến Mãi", "Phễu Bán Hàng 5 Bước"],
+                    "states": { "before": { "status": "Đề Xuất", "color": "#f97316" }, "after": { "status": "Đang Thực Thi", "color": "#f97316" } },
+                    "tooltip": {
+                        "before": "### Rank 2: Kế Hoạch Hành Động 3 Giai Đoạn Để Khắc Phục Nhược Điểm\n\nĐây là kế hoạch tổng thể, tuần tự được đề xuất để giải quyết các vấn đề đã xác định, tập trung vào việc tăng tỉ lệ chuyển đổi cho laptop.\n\n### Giai đoạn 1: \"Chiến Dịch Mồi Câu\" (2 Tuần Đầu)\n**Mục tiêu:** Phá vỡ sự thờ ơ, thu hút sự chú ý và chuẩn bị năng lực cho nhân viên.\n<h4>1. Cải Thiện Trưng Bày Gây Sốc</h4>\n<h4>2. Đào Tạo Cấp Tốc Cho Nhân Viên</h4>\n\n### Giai đoạn 2: \"Xây Dựng Giá Trị & Tương Tác\" (2 Tuần Tiếp Theo)\n**Mục tiêu:** Chuyển đổi sự chú ý thành sự quan tâm.\n<h4>1. Triển Khai Khuyến Mãi \"Mồi\"</h4>\n<h4>2. Xây Dựng Công Cụ So Sánh</h4>\n\n### Giai đoạn 3: \"Tối Ưu Hóa & Đo Lường\" (Tháng Thứ 2)\n**Mục tiêu:** Phân tích dữ liệu và cải tiến liên tục.\n<h4>1. Thu Thập Dữ Liệu</h4>\n<h4>2. Họp Đánh Giá & Điều Chỉnh</h4>",
+                        "after": "### Rank 2: Kế Hoạch Hành Động 3 Giai Đoạn (Đang Thực Thi)\n\nKế hoạch đang được triển khai, các hoạt động cụ thể trong từng giai đoạn đang được thực hiện để tạo ra sự thay đổi tích cực cho các vấn đề khác.\n\n### Giai đoạn 1: Đã Hoàn Thành\n<ul>\n<li>✅ Trưng bày gây sốc đã thu hút được sự chú ý ban đầu.</li>\n<li>✅ Nhân viên đã được đào tạo về chính sách và có kịch bản bán hàng cơ bản.</li>\n</ul>\n\n### Giai đoạn 2: Đang Diễn Ra\n<ul>\n<li>🔥 Khuyến mãi \"mồi\" đang được áp dụng để tạo tương tác.</li>\n<li>🔥 Bảng so sánh giá trị đã được đặt tại quầy.</li>\n</ul>\n\n### Giai đoạn 3: Sắp Tới\n<ul>\n<li>⏳ Chuẩn bị thu thập dữ liệu và tối ưu hóa dựa trên kết quả thực tế.</li>\n</ul>"
+                    }
                 },
-                { 
-                    "text": "Nghe & Xem Chủ động", 
+                {
+                    "text": "Bài Trí & Không Gian",
                     "rank": 3,
-                    "connections": ["Học theo Chủ đề & Ngữ cảnh", "Tập trung vào Collocations", "Luyện tập Sản sinh"],
-                    "tooltip": "Tương tự như Đọc chủ động, phương pháp này biến việc nghe/xem thụ động thành một buổi học tích cực. Kỹ năng này cực kỳ quan trọng cho các phần thi như **Summarize Spoken Text** và **Write from Dictation**.\n### Cách thực hiện:\n- **Nghe và chép chính tả (Transcription):** Chọn một đoạn audio/video ngắn (1-2 phút) và cố gắng chép lại chính xác từng từ. Đây là cách luyện tai và phát hiện từ mới hiệu quả nhất.\n- **Shadowing (Nói nhại):** Lặp lại ngay lập tức những gì người bản xứ nói. Kỹ thuật này giúp cải thiện phát âm, ngữ điệu và ghi nhớ các cụm từ một cách tự nhiên.\n### Nguồn để nghe/xem:\n- **TED Talks:** Nguồn video học thuật đa dạng chủ đề với phụ đề chính xác.\n- **Podcasts:** Tìm các podcast về khoa học, lịch sử, kinh tế (ví dụ: '60-Second Science').\n- **Bài giảng online:** Các bài giảng ngắn trên Coursera, edX hoặc YouTube."
+                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh"],
+                    "states": { "before": { "status": "Đã OK", "color": "#10b981" }, "after": { "status": "Tối Ưu Hơn", "color": "#10b981" } },
+                    "tooltip": {
+                        "before": "### Rank 3: Vấn đề 1 - Bài Trí & Không Gian\n\n**Tình trạng:** Đã giải quyết (Được đánh giá là \"OK\").\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Hiện trạng: Theo anh Lộc, việc bố trí kệ hàng, lối đi và khu vực trưng bày sản phẩm đã được tối ưu. Khách hàng dễ dàng di chuyển và nhìn thấy sản phẩm một cách tự nhiên.</li>\n<li>Kết luận: Vấn đề này không phải là nguyên nhân chính gây ra tỉ lệ chuyển đổi thấp của laptop. Nó đã hoàn thành vai trò nền tảng của mình.</li>\n</ul>",
+                        "after": "### Rank 3: Vấn đề 1 - Bài Trí & Không Gian (Tối Ưu Hơn)\n\n**Tình trạng:** Duy trì và cải tiến.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Dựa trên Giai đoạn 1 của Kế hoạch, không gian đã được bổ sung yếu tố \"Visual Hook\" (Trưng bày gây sốc).</li>\n<li>Kết quả: Không gian không chỉ \"OK\" mà còn trở nên thu hút và gây tò mò, chủ động kéo sự chú ý của khách hàng về phía quầy laptop, giải quyết bước đầu tiên của phễu bán hàng.</li>\n</ul>"
+                    }
                 },
-                { 
-                    "text": "Flashcards & Lặp lại ngắt quãng", 
-                    "rank": 4, 
-                    "connections": ["Học theo Chủ đề & Ngữ cảnh", "Ôn tập & Tự kiểm tra", "Tận dụng Công cụ & Ứng dụng"],
-                    "tooltip": "Đây là phương pháp **ghi nhớ** từ vựng một cách khoa học. Thay vì học nhồi nhét, bạn sẽ ôn lại từ vựng vào những thời điểm tối ưu trước khi bạn kịp quên nó.\n### Spaced Repetition System (SRS) là gì?\n- Đây là một thuật toán giúp lên lịch ôn tập. Những từ bạn hay quên sẽ xuất hiện thường xuyên hơn, còn những từ bạn đã thuộc sẽ xuất hiện ít lại.\n### Cách tạo một flashcard hiệu quả:\n- **Mặt trước:** Ghi từ mới.\n- **Mặt sau:**\n  - Định nghĩa (bằng tiếng Anh nếu có thể).\n  - **Câu ví dụ** (rất quan trọng, nên lấy từ bài đọc/nghe bạn đã học).\n  - Phiên âm (IPA).\n  - Word family (ví dụ: economy, economic, economical, economist).\n- **Công cụ:** Các ứng dụng như **Anki** (miễn phí, mạnh mẽ nhất), Quizlet, Memrise đều sử dụng SRS."
+                {
+                    "text": "Chương Trình Khuyến Mãi",
+                    "rank": 4,
+                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh", "Kế Hoạch Hành Động 3 Giai Đoạn"],
+                    "states": { "before": { "status": "Cần Tối Ưu", "color": "#f59e0b" }, "after": { "status": "Đã Tối Ưu", "color": "#10b981" } },
+                    "tooltip": {
+                        "before": "### Rank 4: Vấn đề 2 - Chương Trình Khuyến Mãi\n\n**Tình trạng:** Cần tối ưu và tích hợp.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thách thức: Phải thiết kế chương trình khuyến mãi (CTKM) của gian hàng sao cho không \"chỏi\" với CTKM chung của nhà sách.</li>\n<li>Giải pháp đề xuất: \"Nương theo\" CTKM của nhà sách và gia tăng giá trị (VD: tặng thêm voucher 200k).</li>\n</ul>",
+                        "after": "### Rank 4: Vấn đề 2 - Chương Trình Khuyến Mãi (Đã Tối Ưu)\n\n**Tình trạng:** Đã tối ưu và đang thử nghiệm.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Dựa trên Giai đoạn 2 của Kế hoạch, một chương trình khuyến mãi \"mồi\" cụ thể và hấp dẫn đã được triển khai (VD: Tặng chuột không dây).</li>\n<li>Kết quả: Khuyến mãi không còn là ý tưởng mà đã trở thành một công cụ marketing chủ động, tạo ra lý do để khách hàng lưu tâm và tương tác, thay vì chỉ là một voucher chung chung.</li>\n</ul>"
+                    }
                 },
-                { 
-                    "text": "Tập trung vào Collocations", 
-                    "rank": 5, 
-                    "connections": ["Đọc Chủ động", "Nghe & Xem Chủ động", "Luyện tập Sản sinh"],
-                    "tooltip": "Collocation là những cụm từ thường đi với nhau một cách tự nhiên (ví dụ: 'make a decision', không phải 'do a decision'). PTE đánh giá rất cao việc sử dụng collocations chính xác, đặc biệt trong phần **Writing** và **Speaking**.\n### Tại sao Collocations lại quan trọng?\n- **Tăng điểm Fluency:** Giúp bạn nói và viết trôi chảy, tự nhiên hơn.\n- **Tăng điểm Vocabulary:** Thể hiện bạn có vốn từ sâu, không chỉ là từ đơn lẻ.\n- **Tránh lỗi sai:** Giúp bạn dùng từ đúng ngữ cảnh.\n### Cách học Collocations:\n- **Tạo một sổ tay Collocations:** Khi đọc hoặc nghe, nếu thấy một cụm từ hay (ví dụ: 'a compelling argument'), hãy ghi nó vào sổ.\n- **Sử dụng từ điển Collocations:** Các trang như Ozdic.com, freecollocation.com là công cụ tra cứu tuyệt vời."
+                {
+                    "text": "Nội Tại Nhân Viên",
+                    "rank": 5,
+                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh", "Chính Sách Bảo Hành", "Kinh Nghiệm Tư Vấn", "Kế Hoạch Hành Động 3 Giai Đoạn"],
+                    "states": { "before": { "status": "6/10 Điểm", "color": "#f59e0b" }, "after": { "status": "8/10 Điểm", "color": "#10b981" } },
+                    "tooltip": {
+                        "before": "### Rank 5: Vấn đề 3 - Nội Tại Nhân Viên & Nhân Lực\n\n**Tình trạng:** Trung bình (Đánh giá 6/10 điểm).\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Điểm yếu (4/10):\n<ol>\n<li>Lỗ hổng kiến thức: Không nắm rõ chính sách bảo hành.</li>\n<li>Thiếu kinh nghiệm thực chiến: Chưa có kinh nghiệm tư vấn laptop.</li>\n</ol></li>\n</ul>",
+                        "after": "### Rank 5: Vấn đề 3 - Nội Tại Nhân Viên & Nhân Lực (Đã Cải Thiện)\n\n**Tình trạng:** Tốt (Đánh giá 8/10 điểm).\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Dựa trên Giai đoạn 1 của Kế hoạch, nhân viên đã trải qua đào tạo cấp tốc.</li>\n<li>Kết quả:\n<ol>\n<li>Kiến thức vững chắc hơn: Nhân viên đã nắm rõ chính sách bảo hành, tự tin trả lời khách hàng.</li>\n<li>Tự tin hơn: Có kịch bản bán hàng 30 giây làm \"phao cứu sinh\", giúp họ bắt đầu cuộc trò chuyện mà không lúng túng.</li>\n</ol>\nNăng lực của nhân viên đã được nâng cấp để sẵn sàng đón nhận những khách hàng đầu tiên.</li>\n</ul>"
+                    }
                 },
-                { 
-                    "text": "Luyện tập Sản sinh", 
-                    "rank": 6, 
-                    "connections": ["Đọc Chủ động", "Nghe & Xem Chủ động", "Tập trung vào Collocations", "Ôn tập & Tự kiểm tra"],
-                    "tooltip": "'Use it or lose it' - Hãy sử dụng từ bạn đã học! Sản sinh (Production) là quá trình bạn chủ động tạo ra ngôn ngữ (viết và nói), đây là bước cuối cùng để biến từ vựng thụ động thành chủ động.\n### Cách luyện tập Writing:\n- **Viết tóm tắt:** Sau khi đọc một bài báo hoặc nghe một bài giảng, hãy viết một đoạn tóm tắt ngắn sử dụng các từ vựng và collocations mới học được.\n- **Viết essay:** Luyện viết các bài essay theo chủ đề của PTE. Cố gắng lồng ghép từ vựng học thuật một cách tự nhiên.\n### Cách luyện tập Speaking:\n- **Tự nói về một chủ đề:** Đặt một chủ đề bất kỳ (ví dụ: 'The impact of technology on society') và cố gắng nói về nó trong 1-2 phút, sử dụng các từ mới.\n- **Luyện các phần của PTE:** Áp dụng từ mới vào việc trả lời các câu hỏi **Describe Image**, **Re-tell Lecture**."
+                {
+                    "text": "Tỉ Lệ Chuyển Đổi & Marketing",
+                    "rank": 6,
+                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh", "Phễu Bán Hàng 5 Bước", "Phân Tích Tỉ Lệ", "Kế Hoạch Hành Động 3 Giai Đoạn"],
+                    "states": { "before": { "status": "Báo Động", "color": "#ef4444" }, "after": { "status": "Đang Cải Thiện", "color": "#10b981" } },
+                    "tooltip": {
+                        "before": "### Rank 6: Vấn đề 4 - Tỉ Lệ Chuyển Đổi & Marketing\n\n**Tình trạng:** Báo động (Tỉ lệ chuyển đổi laptop = 0%).\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề cốt lõi: Sản phẩm laptop đang \"vô hình\" trong mắt khách hàng.</li>\n<li>Nguyên nhân: Cảm giác \"chỉ để trưng bày\", thiếu các hoạt động marketing tại điểm bán.</li>\n</ul>",
+                        "after": "### Rank 6: Vấn đề 4 - Tỉ Lệ Chuyển Đổi & Marketing (Đang Cải Thiện)\n\n**Tình trạng:** Có tín hiệu tích cực.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Kế hoạch hành động đã tác động trực tiếp vào các bước đầu của phễu bán hàng.</li>\n<li>Kết quả:\n<ul>\n<li>Trưng bày mới đã thu hút được sự chú ý.</li>\n<li>Khuyến mãi \"mồi\" đã tạo ra sự lưu tâm.</li>\n<li>Tỉ lệ chuyển đổi từ 0% đã bắt đầu có những tín hiệu tích cực đầu tiên, tạo nền tảng để đo lường và tối ưu ở Giai đoạn 3.</li>\n</ul>\n</ul>"
+                    }
                 },
-                { 
-                    "text": "Tận dụng Công cụ & Ứng dụng", 
-                    "rank": 7, 
-                    "connections": ["Flashcards & Lặp lại ngắt quãng"],
-                    "tooltip": "Công nghệ là người bạn đồng hành đắc lực trong việc học từ vựng. Hãy biết cách chọn và sử dụng các công cụ một cách thông minh.\n### Các công cụ cần thiết:\n- **Từ điển Anh-Anh:** Oxford Learner's Dictionaries, Cambridge Dictionary. Chúng cung cấp định nghĩa, ví dụ, collocations và phát âm chuẩn.\n- **Ứng dụng Flashcard (SRS):** Anki (khuyến khích hàng đầu), Quizlet.\n- **Công cụ kiểm tra ngữ pháp & chính tả:** Grammarly. Giúp bạn nhận ra lỗi sai khi luyện viết.\n- **Trang web tra cứu Collocation:** Ozdic, FreeCollocation.\n- **YouTube & Podcast:** Nguồn tài liệu nghe vô tận."
+                {
+                    "text": "Phễu Bán Hàng 5 Bước",
+                    "rank": 7,
+                    "connections": ["Tỉ Lệ Chuyển Đổi & Marketing", "1. Chú Ý", "2. Lưu Tâm", "3. So Sánh Giá Trị", "4. Ra Quyết Định", "5. Chốt Đơn", "Kế Hoạch Hành Động 3 Giai Đoạn"],
+                    "states": { "before": { "status": "Lý Thuyết", "color": "#64748b" }, "after": { "status": "Đang Áp Dụng", "color": "#64748b" } },
+                    "tooltip": {
+                        "before": "### Rank 7: Phễu Bán Hàng 5 Bước - Khung Sườn Lý Thuyết\n\nĐây là mô hình lý thuyết được đưa ra để cấu trúc hóa hành trình của khách hàng và xác định các điểm cần can thiệp.\n\n<ol>\n<li>Bước 1: Chú ý: Làm khách hàng DỪNG LẠI và NHÌN.</li>\n<li>Bước 2: Lưu tâm: Làm khách hàng thấy THÚ VỊ và muốn TÌM HIỂU.</li>\n<li>Bước 3: So sánh: Giúp khách hàng thấy GIÁ TRỊ VƯỢT TRỘI.</li>\n<li>Bước 4: Ra quyết định: Xử lý các RÀO CẢN cuối cùng.</li>\n<li>Bước 5: Chốt đơn: Tạo ra lý do để hành động NGAY.</li>\n</ol>",
+                        "after": "### Rank 7: Phễu Bán Hàng 5 Bước (Đang Áp Dụng)\n\nKế hoạch hành động được xây dựng bám sát vào mô hình phễu bán hàng, biến lý thuyết thành hành động cụ thể.\n\n<ol>\n<li>Bước 1 (Chú ý): Giải quyết bằng Trưng bày gây sốc.</li>\n<li>Bước 2 (Lưu tâm): Giải quyết bằng Khuyến mãi \"mồi\".</li>\n<li>Bước 3 (So sánh): Giải quyết bằng Bảng so sánh giá trị.</li>\n<li>Bước 4 & 5 (Quyết định & Chốt đơn): Sẽ được tối ưu hóa ở Giai đoạn 3 dựa trên dữ liệu thu thập được.</li>\n</ol>"
+                    }
                 },
-                { 
-                    "text": "Ôn tập & Tự kiểm tra", 
-                    "rank": 8, 
-                    "connections": ["Flashcards & Lặp lại ngắt quãng", "Luyện tập Sản sinh"],
-                    "tooltip": "Học từ mới chỉ là một nửa chặng đường. Việc ôn tập định kỳ và tự kiểm tra sẽ giúp bạn củng cố kiến thức và xác định những lỗ hổng cần cải thiện.\n### Xây dựng lịch ôn tập:\n- **Hàng ngày:** Dành 15-20 phút để ôn lại flashcards trên Anki/Quizlet.\n- **Hàng tuần:** Dành thời gian xem lại toàn bộ từ vựng đã học trong tuần. Thử đặt câu với những từ khó nhớ nhất.\n### Cách tự kiểm tra:\n- **Làm các bài tập Fill in the Blanks:** Đây là dạng bài kiểm tra từ vựng và collocations rất hiệu quả.\n- **Làm các bài thi thử (mock test):** Các bài thi thử sẽ cho bạn thấy bạn có thực sự áp dụng được từ vựng đã học vào môi trường áp lực thời gian hay không."
+                {
+                    "text": "Phân Tích Tỉ Lệ",
+                    "rank": 8,
+                    "connections": ["Tỉ Lệ Chuyển Đổi & Marketing"],
+                     "states": { "before": { "status": "Laptop = 0%", "color": "#ef4444" }, "after": { "status": "Laptop > 0%", "color": "#10b981" } },
+                    "tooltip": {
+                         "before": "### Rank 8: Phân Tích Tỉ Lệ Chuyển Đổi Hiện Tại\n\nĐây là những con số cụ thể chứng minh mức độ nghiêm trọng của vấn đề.\n\n<h4>Số liệu cụ thể</h4>\n<ul>\n<li>Máy chiếu: ~7% (Tốt).</li>\n<li>Máy in tem: 1-2% (Thấp).</li>\n<li>Laptop: 0% (Báo động).</li>\n</ul>",
+                         "after": "### Rank 8: Phân Tích Tỉ Lệ Chuyển Đổi (Đã Thay Đổi)\n\nSau khi áp dụng các giải pháp, các chỉ số bắt đầu có sự chuyển biến.\n\n<h4>Số liệu dự kiến</h4>\n<ul>\n<li>Máy chiếu: ~7% (Duy trì).</li>\n<li>Máy in tem: 1-2% (Duy trì).</li>\n<li>Laptop: > 0%. Con số có thể vẫn còn nhỏ, nhưng quan trọng nhất là nó đã không còn là 0. Đã có dữ liệu ban đầu để phân tích và tối ưu, phá vỡ được tình trạng bế tắc.</li>\n</ul>"
+                    }
+                },
+                {
+                    "text": "Chính Sách Bảo Hành",
+                    "rank": 9,
+                    "connections": ["Nội Tại Nhân Viên"],
+                    "states": { "before": { "status": "Mập Mờ", "color": "#ef4444" }, "after": { "status": "Rõ Ràng", "color": "#10b981" } },
+                     "tooltip": {
+                        "before": "### Rank 9: Chi Tiết Vấn Đề - Chính Sách Bảo Hành\n\n**Tình trạng:** Mập mờ, thiếu thống nhất.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Biểu hiện: Nhân viên không dám \"chắc\" khi trả lời khách, có sự khác biệt thông tin giữa các bên.</li>\n<li>Hệ quả: Làm xói mòn lòng tin của khách hàng, đặc biệt với sản phẩm giá trị cao.</li>\n</ul>",
+                        "after": "### Rank 9: Chi Tiết Vấn Đề - Chính Sách Bảo Hành (Đã Giải Quyết)\n\n**Tình trạng:** Rõ ràng, thống nhất.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Một buổi họp thống nhất đã được tổ chức (Giai đoạn 1).</li>\n<li>Kết quả: Toàn bộ nhân viên đã được trang bị một tài liệu FAQ chuẩn. Giờ đây, họ có thể trả lời các câu hỏi về bảo hành một cách tự tin và nhất quán, giúp xây dựng lòng tin với khách hàng.</li>\n</ul>"
+                    }
+                },
+                {
+                    "text": "Kinh Nghiệm Tư Vấn",
+                    "rank": 10,
+                    "connections": ["Nội Tại Nhân Viên"],
+                    "states": { "before": { "status": "Thiếu Trầm Trọng", "color": "#ef4444" }, "after": { "status": "Bắt Đầu Tích Lũy", "color": "#f59e0b" } },
+                    "tooltip": {
+                        "before": "### Rank 10: Chi Tiết Vấn Đề - Kinh Nghiệm Tư Vấn\n\n**Tình trạng:** Thiếu trầm trọng.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề cốt lõi: Rơi vào \"vòng lặp tiêu cực\": Không có khách ➞ không có kinh nghiệm ➞ không bán được hàng.</li>\n<li>Biểu hiện: Nhân viên không có mô hình để học hỏi, lúng túng khi có khách quan tâm.</li>\n</ul>",
+                        "after": "### Rank 10: Chi Tiết Vấn Đề - Kinh Nghiệm Tư Vấn (Bắt Đầu Tích Lũy)\n\n**Tình trạng:** Có cơ hội để phát triển.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Các hoạt động marketing ở Giai đoạn 1 & 2 đã phá vỡ vòng lặp tiêu cực bằng cách chủ động mang khách hàng đến.</li>\n<li>Kết quả: Nhân viên đã bắt đầu có những cuộc tương tác đầu tiên về laptop. Dù có thể chưa chốt được đơn, nhưng mỗi lần tương tác là một lần họ tích lũy kinh nghiệm, học hỏi từ câu hỏi của khách và dần trở nên dạn dày hơn.</li>\n</ul>"
+                    }
+                },
+                {
+                    "text": "1. Chú Ý",
+                    "rank": 11,
+                    "connections": ["Phễu Bán Hàng 5 Bước"],
+                    "states": { "before": { "status": "Thất Bại", "color": "#ef4444" }, "after": { "status": "Thành Công", "color": "#10b981" } },
+                    "tooltip": {
+                        "before": "### Rank 11: Chi Tiết Bước 1 - Thu hút sự Chú Ý (Attention)\n\n**Tình trạng:** Thất bại.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề hiện tại: Quầy laptop đang bị \"tàng hình\". Nó hòa lẫn vào không gian chung của nhà sách và không có gì nổi bật.</li>\n</ul>",
+                        "after": "### Rank 11: Chi Tiết Bước 1 - Thu hút sự Chú Ý (Attention) (Thành Công)\n\n**Tình trạng:** Đã giải quyết.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Trưng bày gây sốc (Visual Hook) từ Giai đoạn 1 đã được triển khai.</li>\n<li>Kết quả: Khách hàng giờ đây không thể không nhìn thấy quầy laptop. Yếu tố \"lạ\" và \"bất ngờ\" đã thành công trong việc khiến họ phải dừng lại, hoàn thành xuất sắc bước đầu tiên của phễu.</li>\n</ul>"
+                    }
+                },
+                {
+                    "text": "2. Lưu Tâm",
+                    "rank": 12,
+                    "connections": ["Phễu Bán Hàng 5 Bước"],
+                    "states": { "before": { "status": "Thất Bại", "color": "#ef4444" }, "after": { "status": "Thành Công", "color": "#10b981" } },
+                    "tooltip": {
+                        "before": "### Rank 12: Chi Tiết Bước 2 - Tạo sự Lưu tâm (Consideration)\n\n**Tình trạng:** Thất bại.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề hiện tại: Ngay cả khi khách hàng nhìn thấy, họ cũng không có lý do gì để tiến lại gần hoặc hỏi.</li>\n</ul>",
+                        "after": "### Rank 12: Chi Tiết Bước 2 - Tạo sự Lưu tâm (Consideration) (Thành Công)\n\n**Tình trạng:** Đã giải quyết.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Khuyến mãi \"mồi\" từ Giai đoạn 2 đã được áp dụng.</li>\n<li>Kết quả: Khách hàng không chỉ nhìn mà còn có lý do cụ thể để quan tâm (vì có ưu đãi). Điều này đã kích thích họ tìm hiểu thêm, chuyển từ trạng thái \"nhìn thấy\" sang \"quan tâm\".</li>\n</ul>"
+                    }
+                },
+                {
+                    "text": "3. So Sánh Giá Trị",
+                    "rank": 13,
+                    "connections": ["Phễu Bán Hàng 5 Bước"],
+                    "states": { "before": { "status": "Thất Bại", "color": "#ef4444" }, "after": { "status": "Đang Thực Hiện", "color": "#f59e0b" } },
+                    "tooltip": {
+                        "before": "### Rank 13: Chi Tiết Bước 3 - So Sánh Giá Trị (Comparison)\n\n**Tình trạng:** Thất bại.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề hiện tại: Khách hàng không có đủ thông tin để so sánh và mặc định rằng mua ở đây không có lợi.</li>\n</ul>",
+                        "after": "### Rank 13: Chi Tiết Bước 3 - So Sánh Giá Trị (Comparison) (Đang Thực Hiện)\n\n**Tình trạng:** Đã có công cụ hỗ trợ.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Bảng so sánh giá trị từ Giai đoạn 2 đã được đặt tại quầy.</li>\n<li>Kết quả: Gian hàng đã chủ động cung cấp cho khách hàng một công cụ để so sánh, làm nổi bật tổng giá trị mà họ nhận được. Điều này giúp định hướng suy nghĩ của khách hàng theo hướng có lợi cho gian hàng.</li>\n</ul>"
+                    }
+                },
+                {
+                    "text": "4. Ra Quyết Định",
+                    "rank": 14,
+                    "connections": ["Phễu Bán Hàng 5 Bước"],
+                    "states": { "before": { "status": "Chưa Tới", "color": "#94a3b8" }, "after": { "status": "Bắt Đầu Gặp", "color": "#f59e0b" } },
+                    "tooltip": {
+                        "before": "### Rank 14: Chi Tiết Bước 4 - Hỗ trợ Ra Quyết Định (Decision)\n\n**Tình trạng:** Chưa có cơ hội tiếp cận.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Do các bước đầu của phễu bị tắc, gần như không có khách hàng nào đi đến giai đoạn này.</li>\n</ul>",
+                        "after": "### Rank 14: Chi Tiết Bước 4 - Hỗ trợ Ra Quyết Định (Decision) (Bắt Đầu Gặp)\n\n**Tình trạng:** Bắt đầu xuất hiện.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Khi các bước 1, 2, 3 được khơi thông, đã có những khách hàng đầu tiên đi đến giai đoạn do dự cuối cùng.</li>\n<li>Kết quả: Nhân viên bắt đầu có cơ hội thực hành kỹ năng xử lý từ chối và củng cố quyết định cho khách. Dữ liệu về các rào cản thực tế bắt đầu được thu thập.</li>\n</ul>"
+                    }
+                },
+                {
+                    "text": "5. Chốt Đơn",
+                    "rank": 15,
+                    "connections": ["Phễu Bán Hàng 5 Bước"],
+                    "states": { "before": { "status": "Chưa Tới", "color": "#94a3b8" }, "after": { "status": "Mục Tiêu Tiếp Theo", "color": "#f59e0b" } },
+                    "tooltip": {
+                        "before": "### Rank 15: Chi Tiết Bước 5 - Thúc Đẩy Chốt Đơn (Action/Closing)\n\n**Tình trạng:** Chưa có cơ hội tiếp cận.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Đây là bước cuối cùng và xa vời nhất trong tình trạng hiện tại.</li>\n</ul>",
+                        "after": "### Rank 15: Chi Tiết Bước 5 - Thúc Đẩy Chốt Đơn (Action/Closing) (Mục Tiêu Tiếp Theo)\n\n**Tình trạng:** Sẽ được tập trung ở Giai đoạn 3.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Sau khi thu thập đủ dữ liệu về lý do khách hàng do dự ở bước 4, Giai đoạn 3 sẽ tập trung vào việc thiết kế các kỹ thuật chốt đơn hiệu quả.</li>\n<li>Kết quả (dự kiến): Áp dụng các kỹ thuật tạo sự khan hiếm và khẩn cấp một cách thông minh, dựa trên dữ liệu thực tế để tăng tỉ lệ khách hàng ra quyết định ngay lập tức.</li>\n</ul>"
+                    }
                 }
             ];
 
-
-            // Functions to create and render the diagram
             nodeData.forEach((node, index) => {
                 node.isActive = true; 
                 node.originalIndex = index;
-                if (!node.rank) node.rank = index + 1;
             });
             
             const createControls = () => {
@@ -314,8 +456,6 @@
                 });
             };
 
-            let renderedNodes = [];
-
             const renderDiagram = () => {
                 const containerSize = Math.min(container.offsetWidth, container.offsetHeight);
                 canvas.width = containerSize;
@@ -334,8 +474,8 @@
             
             const createNodes = (activeNodes, containerSize) => {
                 const numNodes = activeNodes.length;
-                const nodeDiameterRatio = numNodes > 5 ? 0.20 : 0.24;
-                const radius = containerSize / 2 * (numNodes > 1 ? 0.73 : 0);
+                const nodeDiameterRatio = numNodes > 9 ? 0.16 : (numNodes > 5 ? 0.20 : 0.24);
+                const radius = containerSize / 2 * (numNodes > 1 ? 0.75 : 0);
                 const centerX = containerSize / 2;
                 const centerY = containerSize / 2;
                 const nodeDiameter = containerSize * nodeDiameterRatio;
@@ -350,9 +490,7 @@
 
                     const nodeElement = document.createElement('div');
                     nodeElement.classList.add('circle-node');
-                    if (data.highlight) {
-                        nodeElement.classList.add('highlight');
-                    }
+                    if (data.highlight) nodeElement.classList.add('highlight');
                     nodeElement.style.width = `${nodeDiameter}px`;
                     nodeElement.style.height = `${nodeDiameter}px`;
                     nodeElement.style.left = `${x}px`;
@@ -360,81 +498,119 @@
                     
                     const rankLabel = document.createElement('span');
                     rankLabel.classList.add('rank-label');
-                    rankLabel.textContent = `Phương pháp ${data.rank}`; // Changed from "Luồng"
+                    rankLabel.textContent = `Chủ đề ${data.rank}`;
                     nodeElement.appendChild(rankLabel);
 
                     const textContent = document.createElement('span');
                     textContent.textContent = data.text;
                     nodeElement.appendChild(textContent);
 
+                    const statusLabel = document.createElement('div');
+                    statusLabel.classList.add('node-status');
+                    nodeElement.appendChild(statusLabel);
+
                     nodeElement.dataset.originalIndex = data.originalIndex;
                     container.appendChild(nodeElement);
-
-                    renderedNodes.push({
-                        ...data,
-                        x: x + nodeRadius,
-                        y: y + nodeRadius,
-                        radius: nodeRadius,
-                        element: nodeElement
-                    });
-
+                    
+                    const nodeInfo = { ...data, x: x + nodeRadius, y: y + nodeRadius, radius: nodeRadius, element: nodeElement };
+                    renderedNodes.push(nodeInfo);
+                    
                     nodeElement.addEventListener('click', () => {
                         const clickedIndex = parseInt(nodeElement.dataset.originalIndex);
                         const originalNodeData = nodeData.find(n => n.originalIndex === clickedIndex);
                         modalTitle.textContent = originalNodeData.text;
-                        modalBody.innerHTML = marked.parse(originalNodeData.tooltip); 
+                        modalBody.innerHTML = marked.parse(originalNodeData.tooltip[currentState]); 
                         tooltipModal.classList.add('show');
                         tooltipModal.querySelector('.modal-content').scrollTop = 0;
                     });
                 });
+                applyCurrentStateStyles();
             };
             
             const drawNetworkLines = () => {
-                ctx.strokeStyle = 'rgba(100, 116, 139, 0.7)';
-                ctx.lineWidth = 2;
-                ctx.setLineDash([]);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 const drawBidirectionalArrow = (context, fromX, fromY, toX, toY) => {
-                    const headlen = 12;
+                    const headlen = 10;
                     const angle = Math.atan2(toY - fromY, toX - fromX);
-                    const reverseAngle = angle + Math.PI;
-
                     context.beginPath();
                     context.moveTo(fromX, fromY);
                     context.lineTo(toX, toY);
-                    
+                    context.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
                     context.moveTo(toX, toY);
-                    context.lineTo(toX - headlen * Math.cos(angle - Math.PI / 7), toY - headlen * Math.sin(angle - Math.PI / 7));
-                    context.moveTo(toX, toY);
-                    context.lineTo(toX - headlen * Math.cos(angle + Math.PI / 7), toY - headlen * Math.sin(angle + Math.PI / 7));
-
+                    context.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
                     context.moveTo(fromX, fromY);
-                    context.lineTo(fromX - headlen * Math.cos(reverseAngle - Math.PI / 7), fromY - headlen * Math.sin(reverseAngle - Math.PI / 7));
+                    context.lineTo(fromX + headlen * Math.cos(angle - Math.PI / 6), fromY + headlen * Math.sin(angle - Math.PI / 6));
                     context.moveTo(fromX, fromY);
-                    context.lineTo(fromX - headlen * Math.cos(reverseAngle + Math.PI / 7), fromY - headlen * Math.sin(reverseAngle + Math.PI / 7));
-
+                    context.lineTo(fromX + headlen * Math.cos(angle + Math.PI / 6), fromY + headlen * Math.sin(angle + Math.PI / 6));
                     context.stroke();
                 };
                 
                 const renderedNodeMap = new Map(renderedNodes.map(node => [node.text, node]));
+                const drawnConnections = new Set();
+                
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(100, 116, 139, 0.7)';
 
                 for (const node1 of renderedNodes) {
                     if (node1.connections) {
                         for (const connectionName of node1.connections) {
                              const node2 = renderedNodeMap.get(connectionName);
-                             if (node2 && node1.rank < node2.rank) {
-                                const angle = Math.atan2(node2.y - node1.y, node2.x - node1.x);
-                                const startX = node1.x + node1.radius * Math.cos(angle);
-                                const startY = node1.y + node1.radius * Math.sin(angle);
-                                const endX = node2.x - node2.radius * Math.cos(angle);
-                                const endY = node2.y - node2.radius * Math.sin(angle);
-
-                                drawBidirectionalArrow(ctx, startX, startY, endX, endY);
+                             if (node2) {
+                                const connectionKey = [node1.text, node2.text].sort().join('--');
+                                if (!drawnConnections.has(connectionKey)) {
+                                    const angle = Math.atan2(node2.y - node1.y, node2.x - node1.x);
+                                    const startX = node1.x + node1.radius * Math.cos(angle);
+                                    const startY = node1.y + node1.radius * Math.sin(angle);
+                                    const endX = node2.x - node2.radius * Math.cos(angle);
+                                    const endY = node2.y - node2.radius * Math.sin(angle);
+                                    drawBidirectionalArrow(ctx, startX, startY, endX, endY);
+                                    drawnConnections.add(connectionKey);
+                                }
                              }
                         }
                     }
                 }
             };
+            
+            const applyCurrentStateStyles = () => {
+                renderedNodes.forEach(node => {
+                    if (node.states && node.states[currentState]) {
+                        const state = node.states[currentState];
+                        node.element.style.backgroundColor = state.color;
+                        node.element.style.borderColor = getDarkerColor(state.color);
+                        const statusLabel = node.element.querySelector('.node-status');
+                        if (statusLabel) {
+                            statusLabel.textContent = state.status;
+                            statusLabel.style.display = 'inline-block';
+                        }
+                    } else {
+                         const statusLabel = node.element.querySelector('.node-status');
+                         if(statusLabel) statusLabel.style.display = 'none';
+                    }
+                });
+            };
+            
+            const getDarkerColor = (hex) => {
+                if (!hex) return '#000000';
+                let r = parseInt(hex.slice(1, 3), 16);
+                let g = parseInt(hex.slice(3, 5), 16);
+                let b = parseInt(hex.slice(5, 7), 16);
+                r = Math.max(0, r - 30);
+                g = Math.max(0, g - 30);
+                b = Math.max(0, b - 30);
+                return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+            };
+
+            const updateState = (newState) => {
+                currentState = newState;
+                btnBefore.classList.toggle('active', newState === 'before');
+                btnAfter.classList.toggle('active', newState === 'after');
+                applyCurrentStateStyles();
+            };
+
+            btnBefore.addEventListener('click', () => updateState('before'));
+            btnAfter.addEventListener('click', () => updateState('after'));
             
             closeModalBtn.addEventListener('click', () => tooltipModal.classList.remove('show'));
             tooltipModal.addEventListener('click', (event) => {

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sơ Đồ Tư Duy: Phân Tích & Kế Hoạch Hành Động (Trước & Sau)</title>
+    <title>Sơ Đồ Tư Duy: Lộ Trình Học SQL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Be Vietnam Pro', sans-serif;
             background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
             display: flex;
             flex-direction: column;
@@ -19,7 +19,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-
         .main-container {
             display: flex;
             flex-direction: column;
@@ -27,7 +26,6 @@
             width: 100%;
             max-width: 1200px;
         }
-        
         .controls-container {
             background-color: #e6e9ef;
             padding: 20px;
@@ -38,49 +36,19 @@
             margin-bottom: 25px;
             width: min(95vw, 1000px);
         }
-        .controls-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
         .controls-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #334155;
             text-transform: uppercase;
             letter-spacing: 1px;
-            flex-grow: 1;
+            text-align: center;
+            margin-bottom: 15px;
         }
-        .state-toggle {
-            display: flex;
-            background-color: #d1d5db;
-            border-radius: 10px;
-            padding: 4px;
-        }
-        .state-toggle button {
-            padding: 8px 16px;
-            border: none;
-            background-color: transparent;
-            color: #475569;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .state-toggle button.active {
-            background-color: #ffffff;
-            color: #f97316;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
         .controls-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
-            margin-top: 15px;
         }
         .control-item {
             display: flex;
@@ -96,7 +64,6 @@
             margin-right: 10px;
             width: 18px;
             height: 18px;
-            accent-color: #f97316;
             cursor: pointer;
         }
         .control-item label {
@@ -105,7 +72,6 @@
             cursor: pointer;
             flex-grow: 1;
         }
-
         .diagram-container {
             position: relative;
             width: min(95vw, 1000px);
@@ -119,7 +85,6 @@
                 -12px -12px 24px rgba(255, 255, 255, 0.9),
                 12px 12px 24px rgba(0, 0, 0, 0.1);
         }
-
         canvas {
             position: absolute;
             top: 0;
@@ -129,7 +94,6 @@
             pointer-events: none;
             transition: opacity 0.3s ease;
         }
-
         .circle-node {
             position: absolute;
             color: #ffffff;
@@ -144,48 +108,39 @@
             box-sizing: border-box;
             line-height: 1.3;
             box-shadow: 0 6px 12px rgba(51, 65, 85, 0.35);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
             cursor: pointer;
             word-break: break-word;
             z-index: 10;
+            border: 3px solid transparent;
         }
         .circle-node:hover {
             transform: scale(1.1);
             box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5);
         }
+
+        /* --- NEW HIGHLIGHT STYLES --- */
         .circle-node.highlight {
-            background-color: #f97316;
-            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
-            border-color: #ea580c !important;
+            transform: scale(1.15) !important;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.5) !important;
+            z-index: 20 !important;
+            opacity: 1 !important;
         }
-        .circle-node.highlight:hover {
-            background-color: #ea580c;
-            transform: scale(1.15);
-            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.55);
+        .circle-node.related {
+            opacity: 1 !important;
+            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5);
+            transform: scale(1.05);
         }
-        .rank-label {
-            font-size: 0.7em;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2px;
-            text-transform: uppercase;
+        .circle-node.dimmed {
+            opacity: 0.2;
+            transform: scale(0.95);
         }
-        .node-status {
-            font-size: 0.85em;
-            font-weight: 700;
-            background-color: rgba(0,0,0,0.2);
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-top: 5px;
-            line-height: 1;
-        }
-        
+        /* --- END NEW STYLES --- */
+
         @media (min-width: 768px) {
             .circle-node { font-size: 1rem; padding: 15px; }
             .rank-label { font-size: 0.75em; }
         }
-        
-        /* Modal Styles */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px);
@@ -197,41 +152,30 @@
         .modal-content {
             background-color: #ffffff; padding: 30px 40px; border-radius: 16px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
+            max-width: 650px;
             width: 90%; position: relative;
             transform: scale(0.95) translateY(-20px);
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             max-height: 85vh; overflow-y: auto;
         }
-        .modal-content::-webkit-scrollbar { width: 8px; }
-        .modal-content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        .modal-content::-webkit-scrollbar-thumb { background: #a8a8a8; border-radius: 10px; }
-        .modal-content::-webkit-scrollbar-thumb:hover { background: #888; }
         .modal-overlay.show .modal-content { transform: scale(1) translateY(0); }
-        .modal-title { font-size: 2rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; text-align: center; }
+        .modal-title { font-size: 1.8rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; text-align: center; }
         .modal-body { font-size: 1rem; color: #334155; line-height: 1.7; text-align: left; }
-        .modal-body h3 { font-size: 1.5rem; font-weight: 600; color: #f97316; margin-top: 25px; margin-bottom: 15px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
-        .modal-body h4 { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-top: 20px; margin-bottom: 8px; }
-        .modal-body strong { color: #0f172a; font-weight: 700; }
-        .modal-body ul { list-style-type: none; padding-left: 10px; margin-top: 10px; }
-        .modal-body li { position: relative; padding-left: 25px; margin-bottom: 10px; }
-        .modal-body li::before { content: '•'; position: absolute; left: 0; top: 1px; color: #f97316; font-weight: bold; font-size: 1.2em; line-height: 1; }
+        .modal-body h3 { font-size: 1.2rem; font-weight: 600; color: #f97316; margin-top: 20px; margin-bottom: 10px; }
+        .modal-body ul { list-style-type: disc; padding-left: 20px; }
         .modal-body code { background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
-        .modal-footer { margin-top: 30px; text-align: center; }
-        .modal-close-btn { background-color: #ef4444; color: #ffffff; padding: 12px 28px; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: background-color 0.2s ease, transform 0.2s ease; }
+        .modal-close-btn { background-color: #ef4444; color: #ffffff; padding: 10px 24px; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: background-color 0.2s ease, transform 0.2s ease; display: block; margin: 25px auto 0; }
         .modal-close-btn:hover { background-color: #dc2626; transform: translateY(-2px); }
     </style>
 </head>
 <body>
+
     <div class="main-container">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-800 text-center mb-2">Sơ Đồ Tư Duy: Lộ Trình Học SQL</h1>
+        <p class="text-slate-600 text-center mb-6 max-w-2xl">Một lộ trình trực quan cho người mới bắt đầu. Click vào các nút để xem chi tiết và dùng checkbox để lọc các chủ đề bạn muốn tập trung.</p>
+
         <div class="controls-container">
-            <div class="controls-header">
-                <h3 class="controls-title">Phân Tích & Kế Hoạch Hành Động</h3>
-                <div class="state-toggle">
-                    <button id="btnBefore" class="active">Trước Khi Áp Dụng</button>
-                    <button id="btnAfter">Sau Khi Áp Dụng</button>
-                </div>
-            </div>
+            <h3 class="controls-title">Bảng điều khiển chủ đề</h3>
             <div id="controlsGrid" class="controls-grid"></div>
         </div>
 
@@ -244,385 +188,247 @@
         <div class="modal-content">
             <h2 id="modalTitle" class="modal-title"></h2>
             <div id="modalBody" class="modal-body"></div>
-            <div class="modal-footer">
-                <button id="closeModalBtn" class="modal-close-btn">Đóng</button>
-            </div>
+            <button id="closeModalBtn" class="modal-close-btn">Đóng</button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('diagramContainer');
-            const canvas = document.getElementById('diagramCanvas');
-            const ctx = canvas.getContext('2d');
-            const controlsGrid = document.getElementById('controlsGrid');
-            const tooltipModal = document.getElementById('tooltipModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const btnBefore = document.getElementById('btnBefore');
-            const btnAfter = document.getElementById('btnAfter');
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('diagramContainer');
+        const canvas = document.getElementById('diagramCanvas');
+        const ctx = canvas.getContext('2d');
+        const controlsGrid = document.getElementById('controlsGrid');
+        const tooltipModal = document.getElementById('tooltipModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        
+        let renderedNodes = [];
 
-            let currentState = 'before';
-            let renderedNodes = [];
+        const categoryColors = {
+            CORE: '#334155',
+            FUNDAMENTAL: '#2563eb',
+            DML: '#16a34a',
+            QUERYING: '#f97316',
+            STRUCTURE: '#7c3aed',
+            ADVANCED: '#dc2626'
+        };
 
-            const nodeData = [
-                {
-                    "text": "Phân Tích 4 Vấn Đề Kinh Doanh",
-                    "rank": 1,
-                    "connections": ["Kế Hoạch Hành Động 3 Giai Đoạn", "Bài Trí & Không Gian", "Chương Trình Khuyến Mãi", "Nội Tại Nhân Viên", "Tỉ Lệ Chuyển Đổi & Marketing"],
-                    "states": { "before": { "status": "Tổng Quan", "color": "#334155" }, "after": { "status": "Tổng Quan", "color": "#334155" } },
-                    "tooltip": {
-                        "before": "### Rank 1: Tổng Quan 4 Vấn Đề Kinh Doanh\n\nĐây là bức tranh tổng thể, xác định 4 trụ cột chính ảnh hưởng đến hiệu quả kinh doanh tại gian hàng. Việc phân loại này giúp hệ thống hóa các thách thức và định hướng giải pháp một cách có cấu trúc.\n\n<ol>\n<li>Bài trí & Không gian: Yếu tố nền tảng về mặt vật lý. Khách hàng có nhìn thấy sản phẩm không? Không gian có thuận tiện cho việc tiếp cận không?</li>\n<li>Chương trình khuyến mãi: Yếu tố thu hút về mặt tài chính. Có lý do gì để khách hàng mua hàng ngay bây giờ không? Ưu đãi có đủ hấp dẫn không?</li>\n<li>Nội tại nhân viên: Yếu tố con người, ảnh hưởng trực tiếp đến trải nghiệm khách hàng. Nhân viên có đủ kiến thức, kỹ năng và động lực để bán hàng không?</li>\n<li>Tỉ lệ chuyển đổi & Marketing: Yếu tố hiệu quả kinh doanh. Có bao nhiêu người xem chuyển thành người mua? Các hoạt động marketing tại điểm bán đã hiệu quả chưa?</li>\n</ol>",
-                        "after": "### Rank 1: Tổng Quan 4 Vấn Đề Kinh Doanh\n\nSau khi có kế hoạch hành động, 4 vấn đề được nhìn nhận một cách hệ thống và có giải pháp cụ thể cho từng mục, tạo ra một lộ trình rõ ràng để cải thiện hiệu suất chung."
-                    }
-                },
-                {
-                    "text": "Kế Hoạch Hành Động 3 Giai Đoạn",
-                    "highlight": true,
-                    "rank": 2,
-                    "connections": ["Tỉ Lệ Chuyển Đổi & Marketing", "Nội Tại Nhân Viên", "Chương Trình Khuyến Mãi", "Phễu Bán Hàng 5 Bước"],
-                    "states": { "before": { "status": "Đề Xuất", "color": "#f97316" }, "after": { "status": "Đang Thực Thi", "color": "#f97316" } },
-                    "tooltip": {
-                        "before": "### Rank 2: Kế Hoạch Hành Động 3 Giai Đoạn Để Khắc Phục Nhược Điểm\n\nĐây là kế hoạch tổng thể, tuần tự được đề xuất để giải quyết các vấn đề đã xác định, tập trung vào việc tăng tỉ lệ chuyển đổi cho laptop.\n\n### Giai đoạn 1: \"Chiến Dịch Mồi Câu\" (2 Tuần Đầu)\n**Mục tiêu:** Phá vỡ sự thờ ơ, thu hút sự chú ý và chuẩn bị năng lực cho nhân viên.\n<h4>1. Cải Thiện Trưng Bày Gây Sốc</h4>\n<h4>2. Đào Tạo Cấp Tốc Cho Nhân Viên</h4>\n\n### Giai đoạn 2: \"Xây Dựng Giá Trị & Tương Tác\" (2 Tuần Tiếp Theo)\n**Mục tiêu:** Chuyển đổi sự chú ý thành sự quan tâm.\n<h4>1. Triển Khai Khuyến Mãi \"Mồi\"</h4>\n<h4>2. Xây Dựng Công Cụ So Sánh</h4>\n\n### Giai đoạn 3: \"Tối Ưu Hóa & Đo Lường\" (Tháng Thứ 2)\n**Mục tiêu:** Phân tích dữ liệu và cải tiến liên tục.\n<h4>1. Thu Thập Dữ Liệu</h4>\n<h4>2. Họp Đánh Giá & Điều Chỉnh</h4>",
-                        "after": "### Rank 2: Kế Hoạch Hành Động 3 Giai Đoạn (Đang Thực Thi)\n\nKế hoạch đang được triển khai, các hoạt động cụ thể trong từng giai đoạn đang được thực hiện để tạo ra sự thay đổi tích cực cho các vấn đề khác.\n\n### Giai đoạn 1: Đã Hoàn Thành\n<ul>\n<li>✅ Trưng bày gây sốc đã thu hút được sự chú ý ban đầu.</li>\n<li>✅ Nhân viên đã được đào tạo về chính sách và có kịch bản bán hàng cơ bản.</li>\n</ul>\n\n### Giai đoạn 2: Đang Diễn Ra\n<ul>\n<li>🔥 Khuyến mãi \"mồi\" đang được áp dụng để tạo tương tác.</li>\n<li>🔥 Bảng so sánh giá trị đã được đặt tại quầy.</li>\n</ul>\n\n### Giai đoạn 3: Sắp Tới\n<ul>\n<li>⏳ Chuẩn bị thu thập dữ liệu và tối ưu hóa dựa trên kết quả thực tế.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "Bài Trí & Không Gian",
-                    "rank": 3,
-                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh"],
-                    "states": { "before": { "status": "Đã OK", "color": "#10b981" }, "after": { "status": "Tối Ưu Hơn", "color": "#10b981" } },
-                    "tooltip": {
-                        "before": "### Rank 3: Vấn đề 1 - Bài Trí & Không Gian\n\n**Tình trạng:** Đã giải quyết (Được đánh giá là \"OK\").\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Hiện trạng: Theo anh Lộc, việc bố trí kệ hàng, lối đi và khu vực trưng bày sản phẩm đã được tối ưu. Khách hàng dễ dàng di chuyển và nhìn thấy sản phẩm một cách tự nhiên.</li>\n<li>Kết luận: Vấn đề này không phải là nguyên nhân chính gây ra tỉ lệ chuyển đổi thấp của laptop. Nó đã hoàn thành vai trò nền tảng của mình.</li>\n</ul>",
-                        "after": "### Rank 3: Vấn đề 1 - Bài Trí & Không Gian (Tối Ưu Hơn)\n\n**Tình trạng:** Duy trì và cải tiến.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Dựa trên Giai đoạn 1 của Kế hoạch, không gian đã được bổ sung yếu tố \"Visual Hook\" (Trưng bày gây sốc).</li>\n<li>Kết quả: Không gian không chỉ \"OK\" mà còn trở nên thu hút và gây tò mò, chủ động kéo sự chú ý của khách hàng về phía quầy laptop, giải quyết bước đầu tiên của phễu bán hàng.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "Chương Trình Khuyến Mãi",
-                    "rank": 4,
-                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh", "Kế Hoạch Hành Động 3 Giai Đoạn"],
-                    "states": { "before": { "status": "Cần Tối Ưu", "color": "#f59e0b" }, "after": { "status": "Đã Tối Ưu", "color": "#10b981" } },
-                    "tooltip": {
-                        "before": "### Rank 4: Vấn đề 2 - Chương Trình Khuyến Mãi\n\n**Tình trạng:** Cần tối ưu và tích hợp.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thách thức: Phải thiết kế chương trình khuyến mãi (CTKM) của gian hàng sao cho không \"chỏi\" với CTKM chung của nhà sách.</li>\n<li>Giải pháp đề xuất: \"Nương theo\" CTKM của nhà sách và gia tăng giá trị (VD: tặng thêm voucher 200k).</li>\n</ul>",
-                        "after": "### Rank 4: Vấn đề 2 - Chương Trình Khuyến Mãi (Đã Tối Ưu)\n\n**Tình trạng:** Đã tối ưu và đang thử nghiệm.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Dựa trên Giai đoạn 2 của Kế hoạch, một chương trình khuyến mãi \"mồi\" cụ thể và hấp dẫn đã được triển khai (VD: Tặng chuột không dây).</li>\n<li>Kết quả: Khuyến mãi không còn là ý tưởng mà đã trở thành một công cụ marketing chủ động, tạo ra lý do để khách hàng lưu tâm và tương tác, thay vì chỉ là một voucher chung chung.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "Nội Tại Nhân Viên",
-                    "rank": 5,
-                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh", "Chính Sách Bảo Hành", "Kinh Nghiệm Tư Vấn", "Kế Hoạch Hành Động 3 Giai Đoạn"],
-                    "states": { "before": { "status": "6/10 Điểm", "color": "#f59e0b" }, "after": { "status": "8/10 Điểm", "color": "#10b981" } },
-                    "tooltip": {
-                        "before": "### Rank 5: Vấn đề 3 - Nội Tại Nhân Viên & Nhân Lực\n\n**Tình trạng:** Trung bình (Đánh giá 6/10 điểm).\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Điểm yếu (4/10):\n<ol>\n<li>Lỗ hổng kiến thức: Không nắm rõ chính sách bảo hành.</li>\n<li>Thiếu kinh nghiệm thực chiến: Chưa có kinh nghiệm tư vấn laptop.</li>\n</ol></li>\n</ul>",
-                        "after": "### Rank 5: Vấn đề 3 - Nội Tại Nhân Viên & Nhân Lực (Đã Cải Thiện)\n\n**Tình trạng:** Tốt (Đánh giá 8/10 điểm).\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Dựa trên Giai đoạn 1 của Kế hoạch, nhân viên đã trải qua đào tạo cấp tốc.</li>\n<li>Kết quả:\n<ol>\n<li>Kiến thức vững chắc hơn: Nhân viên đã nắm rõ chính sách bảo hành, tự tin trả lời khách hàng.</li>\n<li>Tự tin hơn: Có kịch bản bán hàng 30 giây làm \"phao cứu sinh\", giúp họ bắt đầu cuộc trò chuyện mà không lúng túng.</li>\n</ol>\nNăng lực của nhân viên đã được nâng cấp để sẵn sàng đón nhận những khách hàng đầu tiên.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "Tỉ Lệ Chuyển Đổi & Marketing",
-                    "rank": 6,
-                    "connections": ["Phân Tích 4 Vấn Đề Kinh Doanh", "Phễu Bán Hàng 5 Bước", "Phân Tích Tỉ Lệ", "Kế Hoạch Hành Động 3 Giai Đoạn"],
-                    "states": { "before": { "status": "Báo Động", "color": "#ef4444" }, "after": { "status": "Đang Cải Thiện", "color": "#10b981" } },
-                    "tooltip": {
-                        "before": "### Rank 6: Vấn đề 4 - Tỉ Lệ Chuyển Đổi & Marketing\n\n**Tình trạng:** Báo động (Tỉ lệ chuyển đổi laptop = 0%).\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề cốt lõi: Sản phẩm laptop đang \"vô hình\" trong mắt khách hàng.</li>\n<li>Nguyên nhân: Cảm giác \"chỉ để trưng bày\", thiếu các hoạt động marketing tại điểm bán.</li>\n</ul>",
-                        "after": "### Rank 6: Vấn đề 4 - Tỉ Lệ Chuyển Đổi & Marketing (Đang Cải Thiện)\n\n**Tình trạng:** Có tín hiệu tích cực.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Kế hoạch hành động đã tác động trực tiếp vào các bước đầu của phễu bán hàng.</li>\n<li>Kết quả:\n<ul>\n<li>Trưng bày mới đã thu hút được sự chú ý.</li>\n<li>Khuyến mãi \"mồi\" đã tạo ra sự lưu tâm.</li>\n<li>Tỉ lệ chuyển đổi từ 0% đã bắt đầu có những tín hiệu tích cực đầu tiên, tạo nền tảng để đo lường và tối ưu ở Giai đoạn 3.</li>\n</ul>\n</ul>"
-                    }
-                },
-                {
-                    "text": "Phễu Bán Hàng 5 Bước",
-                    "rank": 7,
-                    "connections": ["Tỉ Lệ Chuyển Đổi & Marketing", "1. Chú Ý", "2. Lưu Tâm", "3. So Sánh Giá Trị", "4. Ra Quyết Định", "5. Chốt Đơn", "Kế Hoạch Hành Động 3 Giai Đoạn"],
-                    "states": { "before": { "status": "Lý Thuyết", "color": "#64748b" }, "after": { "status": "Đang Áp Dụng", "color": "#64748b" } },
-                    "tooltip": {
-                        "before": "### Rank 7: Phễu Bán Hàng 5 Bước - Khung Sườn Lý Thuyết\n\nĐây là mô hình lý thuyết được đưa ra để cấu trúc hóa hành trình của khách hàng và xác định các điểm cần can thiệp.\n\n<ol>\n<li>Bước 1: Chú ý: Làm khách hàng DỪNG LẠI và NHÌN.</li>\n<li>Bước 2: Lưu tâm: Làm khách hàng thấy THÚ VỊ và muốn TÌM HIỂU.</li>\n<li>Bước 3: So sánh: Giúp khách hàng thấy GIÁ TRỊ VƯỢT TRỘI.</li>\n<li>Bước 4: Ra quyết định: Xử lý các RÀO CẢN cuối cùng.</li>\n<li>Bước 5: Chốt đơn: Tạo ra lý do để hành động NGAY.</li>\n</ol>",
-                        "after": "### Rank 7: Phễu Bán Hàng 5 Bước (Đang Áp Dụng)\n\nKế hoạch hành động được xây dựng bám sát vào mô hình phễu bán hàng, biến lý thuyết thành hành động cụ thể.\n\n<ol>\n<li>Bước 1 (Chú ý): Giải quyết bằng Trưng bày gây sốc.</li>\n<li>Bước 2 (Lưu tâm): Giải quyết bằng Khuyến mãi \"mồi\".</li>\n<li>Bước 3 (So sánh): Giải quyết bằng Bảng so sánh giá trị.</li>\n<li>Bước 4 & 5 (Quyết định & Chốt đơn): Sẽ được tối ưu hóa ở Giai đoạn 3 dựa trên dữ liệu thu thập được.</li>\n</ol>"
-                    }
-                },
-                {
-                    "text": "Phân Tích Tỉ Lệ",
-                    "rank": 8,
-                    "connections": ["Tỉ Lệ Chuyển Đổi & Marketing"],
-                     "states": { "before": { "status": "Laptop = 0%", "color": "#ef4444" }, "after": { "status": "Laptop > 0%", "color": "#10b981" } },
-                    "tooltip": {
-                         "before": "### Rank 8: Phân Tích Tỉ Lệ Chuyển Đổi Hiện Tại\n\nĐây là những con số cụ thể chứng minh mức độ nghiêm trọng của vấn đề.\n\n<h4>Số liệu cụ thể</h4>\n<ul>\n<li>Máy chiếu: ~7% (Tốt).</li>\n<li>Máy in tem: 1-2% (Thấp).</li>\n<li>Laptop: 0% (Báo động).</li>\n</ul>",
-                         "after": "### Rank 8: Phân Tích Tỉ Lệ Chuyển Đổi (Đã Thay Đổi)\n\nSau khi áp dụng các giải pháp, các chỉ số bắt đầu có sự chuyển biến.\n\n<h4>Số liệu dự kiến</h4>\n<ul>\n<li>Máy chiếu: ~7% (Duy trì).</li>\n<li>Máy in tem: 1-2% (Duy trì).</li>\n<li>Laptop: > 0%. Con số có thể vẫn còn nhỏ, nhưng quan trọng nhất là nó đã không còn là 0. Đã có dữ liệu ban đầu để phân tích và tối ưu, phá vỡ được tình trạng bế tắc.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "Chính Sách Bảo Hành",
-                    "rank": 9,
-                    "connections": ["Nội Tại Nhân Viên"],
-                    "states": { "before": { "status": "Mập Mờ", "color": "#ef4444" }, "after": { "status": "Rõ Ràng", "color": "#10b981" } },
-                     "tooltip": {
-                        "before": "### Rank 9: Chi Tiết Vấn Đề - Chính Sách Bảo Hành\n\n**Tình trạng:** Mập mờ, thiếu thống nhất.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Biểu hiện: Nhân viên không dám \"chắc\" khi trả lời khách, có sự khác biệt thông tin giữa các bên.</li>\n<li>Hệ quả: Làm xói mòn lòng tin của khách hàng, đặc biệt với sản phẩm giá trị cao.</li>\n</ul>",
-                        "after": "### Rank 9: Chi Tiết Vấn Đề - Chính Sách Bảo Hành (Đã Giải Quyết)\n\n**Tình trạng:** Rõ ràng, thống nhất.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Một buổi họp thống nhất đã được tổ chức (Giai đoạn 1).</li>\n<li>Kết quả: Toàn bộ nhân viên đã được trang bị một tài liệu FAQ chuẩn. Giờ đây, họ có thể trả lời các câu hỏi về bảo hành một cách tự tin và nhất quán, giúp xây dựng lòng tin với khách hàng.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "Kinh Nghiệm Tư Vấn",
-                    "rank": 10,
-                    "connections": ["Nội Tại Nhân Viên"],
-                    "states": { "before": { "status": "Thiếu Trầm Trọng", "color": "#ef4444" }, "after": { "status": "Bắt Đầu Tích Lũy", "color": "#f59e0b" } },
-                    "tooltip": {
-                        "before": "### Rank 10: Chi Tiết Vấn Đề - Kinh Nghiệm Tư Vấn\n\n**Tình trạng:** Thiếu trầm trọng.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề cốt lõi: Rơi vào \"vòng lặp tiêu cực\": Không có khách ➞ không có kinh nghiệm ➞ không bán được hàng.</li>\n<li>Biểu hiện: Nhân viên không có mô hình để học hỏi, lúng túng khi có khách quan tâm.</li>\n</ul>",
-                        "after": "### Rank 10: Chi Tiết Vấn Đề - Kinh Nghiệm Tư Vấn (Bắt Đầu Tích Lũy)\n\n**Tình trạng:** Có cơ hội để phát triển.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Các hoạt động marketing ở Giai đoạn 1 & 2 đã phá vỡ vòng lặp tiêu cực bằng cách chủ động mang khách hàng đến.</li>\n<li>Kết quả: Nhân viên đã bắt đầu có những cuộc tương tác đầu tiên về laptop. Dù có thể chưa chốt được đơn, nhưng mỗi lần tương tác là một lần họ tích lũy kinh nghiệm, học hỏi từ câu hỏi của khách và dần trở nên dạn dày hơn.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "1. Chú Ý",
-                    "rank": 11,
-                    "connections": ["Phễu Bán Hàng 5 Bước"],
-                    "states": { "before": { "status": "Thất Bại", "color": "#ef4444" }, "after": { "status": "Thành Công", "color": "#10b981" } },
-                    "tooltip": {
-                        "before": "### Rank 11: Chi Tiết Bước 1 - Thu hút sự Chú Ý (Attention)\n\n**Tình trạng:** Thất bại.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề hiện tại: Quầy laptop đang bị \"tàng hình\". Nó hòa lẫn vào không gian chung của nhà sách và không có gì nổi bật.</li>\n</ul>",
-                        "after": "### Rank 11: Chi Tiết Bước 1 - Thu hút sự Chú Ý (Attention) (Thành Công)\n\n**Tình trạng:** Đã giải quyết.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Trưng bày gây sốc (Visual Hook) từ Giai đoạn 1 đã được triển khai.</li>\n<li>Kết quả: Khách hàng giờ đây không thể không nhìn thấy quầy laptop. Yếu tố \"lạ\" và \"bất ngờ\" đã thành công trong việc khiến họ phải dừng lại, hoàn thành xuất sắc bước đầu tiên của phễu.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "2. Lưu Tâm",
-                    "rank": 12,
-                    "connections": ["Phễu Bán Hàng 5 Bước"],
-                    "states": { "before": { "status": "Thất Bại", "color": "#ef4444" }, "after": { "status": "Thành Công", "color": "#10b981" } },
-                    "tooltip": {
-                        "before": "### Rank 12: Chi Tiết Bước 2 - Tạo sự Lưu tâm (Consideration)\n\n**Tình trạng:** Thất bại.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề hiện tại: Ngay cả khi khách hàng nhìn thấy, họ cũng không có lý do gì để tiến lại gần hoặc hỏi.</li>\n</ul>",
-                        "after": "### Rank 12: Chi Tiết Bước 2 - Tạo sự Lưu tâm (Consideration) (Thành Công)\n\n**Tình trạng:** Đã giải quyết.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Khuyến mãi \"mồi\" từ Giai đoạn 2 đã được áp dụng.</li>\n<li>Kết quả: Khách hàng không chỉ nhìn mà còn có lý do cụ thể để quan tâm (vì có ưu đãi). Điều này đã kích thích họ tìm hiểu thêm, chuyển từ trạng thái \"nhìn thấy\" sang \"quan tâm\".</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "3. So Sánh Giá Trị",
-                    "rank": 13,
-                    "connections": ["Phễu Bán Hàng 5 Bước"],
-                    "states": { "before": { "status": "Thất Bại", "color": "#ef4444" }, "after": { "status": "Đang Thực Hiện", "color": "#f59e0b" } },
-                    "tooltip": {
-                        "before": "### Rank 13: Chi Tiết Bước 3 - So Sánh Giá Trị (Comparison)\n\n**Tình trạng:** Thất bại.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Vấn đề hiện tại: Khách hàng không có đủ thông tin để so sánh và mặc định rằng mua ở đây không có lợi.</li>\n</ul>",
-                        "after": "### Rank 13: Chi Tiết Bước 3 - So Sánh Giá Trị (Comparison) (Đang Thực Hiện)\n\n**Tình trạng:** Đã có công cụ hỗ trợ.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Bảng so sánh giá trị từ Giai đoạn 2 đã được đặt tại quầy.</li>\n<li>Kết quả: Gian hàng đã chủ động cung cấp cho khách hàng một công cụ để so sánh, làm nổi bật tổng giá trị mà họ nhận được. Điều này giúp định hướng suy nghĩ của khách hàng theo hướng có lợi cho gian hàng.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "4. Ra Quyết Định",
-                    "rank": 14,
-                    "connections": ["Phễu Bán Hàng 5 Bước"],
-                    "states": { "before": { "status": "Chưa Tới", "color": "#94a3b8" }, "after": { "status": "Bắt Đầu Gặp", "color": "#f59e0b" } },
-                    "tooltip": {
-                        "before": "### Rank 14: Chi Tiết Bước 4 - Hỗ trợ Ra Quyết Định (Decision)\n\n**Tình trạng:** Chưa có cơ hội tiếp cận.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Do các bước đầu của phễu bị tắc, gần như không có khách hàng nào đi đến giai đoạn này.</li>\n</ul>",
-                        "after": "### Rank 14: Chi Tiết Bước 4 - Hỗ trợ Ra Quyết Định (Decision) (Bắt Đầu Gặp)\n\n**Tình trạng:** Bắt đầu xuất hiện.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Khi các bước 1, 2, 3 được khơi thông, đã có những khách hàng đầu tiên đi đến giai đoạn do dự cuối cùng.</li>\n<li>Kết quả: Nhân viên bắt đầu có cơ hội thực hành kỹ năng xử lý từ chối và củng cố quyết định cho khách. Dữ liệu về các rào cản thực tế bắt đầu được thu thập.</li>\n</ul>"
-                    }
-                },
-                {
-                    "text": "5. Chốt Đơn",
-                    "rank": 15,
-                    "connections": ["Phễu Bán Hàng 5 Bước"],
-                    "states": { "before": { "status": "Chưa Tới", "color": "#94a3b8" }, "after": { "status": "Mục Tiêu Tiếp Theo", "color": "#f59e0b" } },
-                    "tooltip": {
-                        "before": "### Rank 15: Chi Tiết Bước 5 - Thúc Đẩy Chốt Đơn (Action/Closing)\n\n**Tình trạng:** Chưa có cơ hội tiếp cận.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Đây là bước cuối cùng và xa vời nhất trong tình trạng hiện tại.</li>\n</ul>",
-                        "after": "### Rank 15: Chi Tiết Bước 5 - Thúc Đẩy Chốt Đơn (Action/Closing) (Mục Tiêu Tiếp Theo)\n\n**Tình trạng:** Sẽ được tập trung ở Giai đoạn 3.\n\n<h4>Phân tích cụ thể</h4>\n<ul>\n<li>Thay đổi: Sau khi thu thập đủ dữ liệu về lý do khách hàng do dự ở bước 4, Giai đoạn 3 sẽ tập trung vào việc thiết kế các kỹ thuật chốt đơn hiệu quả.</li>\n<li>Kết quả (dự kiến): Áp dụng các kỹ thuật tạo sự khan hiếm và khẩn cấp một cách thông minh, dựa trên dữ liệu thực tế để tăng tỉ lệ khách hàng ra quyết định ngay lập tức.</li>\n</ul>"
-                    }
+        const nodeData = [
+            { text: "Lộ Trình Học SQL", rank: 0, category: 'CORE', connections: ["Cơ Sở SQL", "Thao Tác Dữ Liệu", "Truy Vấn Nâng Cao", "Cấu Trúc Database"], tooltip: { content: "### Điểm Bắt Đầu: Lộ Trình Học SQL\n\nĐây là trung tâm của sơ đồ, đại diện cho toàn bộ hành trình học SQL của bạn. Từ đây, bạn sẽ tỏa ra các nhánh kiến thức chính, từ những lệnh cơ bản nhất đến các kỹ thuật phức tạp." } },
+            { text: "Cơ Sở SQL", rank: 1, category: 'FUNDAMENTAL', connections: ["SELECT", "WHERE", "ORDER BY", "Lộ Trình Học SQL"], tooltip: { content: "### Nhóm 1: Cơ Sở SQL\n\nĐây là những viên gạch nền tảng đầu tiên. Nắm vững nhóm này, bạn có thể bắt đầu **lấy dữ liệu** theo ý muốn từ cơ sở dữ liệu." } },
+            { text: "SELECT", rank: 2, category: 'FUNDAMENTAL', connections: ["Cơ Sở SQL", "WHERE", "Hàm Tổng Hợp"], tooltip: { content: "### SELECT: Lấy Dữ Liệu\n\nLà câu lệnh quan trọng và được sử dụng nhiều nhất. Dùng để chọn và lấy dữ liệu từ một hoặc nhiều bảng.\n\n`SELECT ten_cot FROM ten_bang;`" } },
+            { text: "WHERE", rank: 3, category: 'FUNDAMENTAL', connections: ["SELECT", "AND, OR, NOT", "Thao Tác Dữ Liệu"], tooltip: { content: "### WHERE: Lọc Dữ Liệu\n\nĐi kèm với `SELECT`, `UPDATE`, `DELETE` để lọc các hàng dữ liệu dựa trên một điều kiện cụ thể.\n\n*Ví dụ: chỉ lấy các sản phẩm có giá > 100.000đ.*\n\n`SELECT * FROM SanPham WHERE Gia > 100000;`" } },
+            { text: "AND, OR, NOT", rank: 4, category: 'FUNDAMENTAL', connections: ["WHERE"], tooltip: { content: "### AND, OR, NOT: Kết Hợp Điều Kiện\n\nCác toán tử logic dùng trong mệnh đề `WHERE` để kết hợp nhiều điều kiện lọc, giúp truy vấn trở nên chính xác và mạnh mẽ hơn." } },
+            { text: "ORDER BY", rank: 5, category: 'FUNDAMENTAL', connections: ["Cơ Sở SQL"], tooltip: { content: "### ORDER BY: Sắp Xếp Kết Quả\n\nDùng để sắp xếp bộ kết quả trả về theo một hoặc nhiều cột, theo thứ tự tăng dần (`ASC`) hoặc giảm dần (`DESC`)." } },
+            { text: "Thao Tác Dữ Liệu", rank: 6, category: 'DML', connections: ["INSERT INTO", "UPDATE", "DELETE", "Lộ Trình Học SQL", "WHERE"], tooltip: { content: "### Nhóm 2: Thao Tác Dữ Liệu (DML)\n\nSau khi biết cách lấy dữ liệu, bạn sẽ học cách **thay đổi** nó: thêm dữ liệu mới, cập nhật dữ liệu cũ và xóa dữ liệu không cần thiết." } },
+            { text: "INSERT INTO", rank: 7, category: 'DML', connections: ["Thao Tác Dữ Liệu"], tooltip: { content: "### INSERT INTO: Thêm Dữ Liệu Mới\n\nDùng để chèn một hoặc nhiều dòng dữ liệu mới vào một bảng." } },
+            { text: "UPDATE", rank: 8, category: 'DML', connections: ["Thao Tác Dữ Liệu"], tooltip: { content: "### UPDATE: Cập Nhật Dữ Liệu\n\nDùng để chỉnh sửa, cập nhật các giá trị trong các dòng dữ liệu đã tồn tại. **Luôn dùng `WHERE`** để tránh cập nhật nhầm toàn bộ bảng!" } },
+            { text: "DELETE", rank: 9, category: 'DML', connections: ["Thao Tác Dữ Liệu"], tooltip: { content: "### DELETE: Xóa Dữ Liệu\n\nDùng để xóa một hoặc nhiều dòng dữ liệu khỏi bảng. **Cực kỳ cẩn thận và luôn dùng `WHERE`**!" } },
+            { text: "Truy Vấn Nâng Cao", rank: 10, category: 'QUERYING', connections: ["Lộ Trình Học SQL", "JOINs", "GROUP BY", "Hàm Tổng Hợp", "Kỹ Thuật Nâng Cao"], tooltip: { content: "### Nhóm 3: Truy Vấn Nâng Cao\n\nNâng tầm khả năng truy vấn của bạn. Nhóm này giúp bạn **kết hợp thông tin từ nhiều nơi** và **tổng hợp dữ liệu** để tạo ra các báo cáo có giá trị." } },
+            { text: "JOINs", rank: 11, category: 'QUERYING', connections: ["Truy Vấn Nâng Cao", "Khóa Chính & Ngoại"], tooltip: { content: "### JOINs: Kết Nối Các Bảng\n\nLà kỹ thuật **cực kỳ quan trọng** để kết hợp các dòng từ hai hoặc nhiều bảng dựa trên một cột liên quan giữa chúng (thường là khóa chính/ngoại). Có nhiều loại: `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`." } },
+            { text: "Hàm Tổng Hợp", rank: 12, category: 'QUERYING', connections: ["SELECT", "GROUP BY", "Truy Vấn Nâng Cao"], tooltip: { content: "### Hàm Tổng Hợp (Aggregate Functions)\n\nBao gồm `COUNT()`, `SUM()`, `AVG()`, `MIN()`, `MAX()`. Các hàm này thực hiện một phép tính trên một tập hợp các giá trị và trả về một giá trị duy nhất. Thường được sử dụng với `GROUP BY`." } },
+            { text: "GROUP BY", rank: 13, category: 'QUERYING', connections: ["Truy Vấn Nâng Cao", "Hàm Tổng Hợp", "HAVING"], tooltip: { content: "### GROUP BY: Nhóm Dữ Liệu\n\nNhóm các hàng có cùng giá trị trong các cột được chỉ định thành các hàng tóm tắt. Thường dùng để kết hợp với các hàm tổng hợp.\n\n*Ví dụ: Tính tổng doanh thu cho **mỗi** thành phố.*" } },
+            { text: "HAVING", rank: 14, category: 'QUERYING', connections: ["GROUP BY"], tooltip: { content: "### HAVING: Lọc Theo Nhóm\n\nGiống như `WHERE` nhưng dùng để lọc dữ liệu **sau khi** đã được nhóm bởi `GROUP BY`. `WHERE` lọc từng dòng, `HAVING` lọc cả nhóm." } },
+            { text: "Cấu Trúc Database", rank: 15, category: 'STRUCTURE', connections: ["Lộ Trình Học SQL", "Tạo & Xóa Bảng", "Constraints"], tooltip: { content: "### Nhóm 4: Cấu Trúc Database (DDL)\n\nTìm hiểu cách **thiết kế và xây dựng** nên bộ khung của cơ sở dữ liệu: tạo bảng, định nghĩa các cột và thiết lập các quy tắc cho dữ liệu." } },
+            { text: "Tạo & Xóa Bảng", rank: 16, category: 'STRUCTURE', connections: ["Cấu Trúc Database", "Constraints"], tooltip: { content: "### CREATE, ALTER, DROP TABLE\n\n- **CREATE TABLE**: Tạo một bảng mới.\n- **ALTER TABLE**: Sửa đổi cấu trúc của một bảng đã có (thêm, xóa, sửa cột).\n- **DROP TABLE**: Xóa hoàn toàn một bảng." } },
+            { text: "Constraints", rank: 17, category: 'STRUCTURE', connections: ["Tạo & Xóa Bảng", "Khóa Chính & Ngoại"], tooltip: { content: "### Constraints: Ràng Buộc Dữ Liệu\n\nLà các quy tắc được áp dụng cho các cột của bảng để đảm bảo tính chính xác và toàn vẹn của dữ liệu. Ví dụ: `NOT NULL` (không được rỗng), `UNIQUE` (không trùng lặp), `DEFAULT` (giá trị mặc định)..." } },
+            { text: "Khóa Chính & Ngoại", rank: 18, category: 'STRUCTURE', connections: ["Constraints", "JOINs"], tooltip: { content: "### Primary & Foreign Key\n\n- **Primary Key (Khóa chính)**: Một ràng buộc để xác định duy nhất mỗi bản ghi trong bảng.\n- **Foreign Key (Khóa ngoại)**: Một khóa được sử dụng để liên kết hai bảng lại với nhau. Đây là nền tảng cho `JOINs`." } },
+            { text: "Kỹ Thuật Nâng Cao", rank: 19, category: 'ADVANCED', connections: ["Truy Vấn Nâng Cao", "CASE", "Views", "UNION", "Subqueries", "CTEs (WITH Clause)", "Window Functions"], tooltip: { content: "### Nhóm 5: Kỹ Thuật Nâng Cao\n\nNhững công cụ mạnh mẽ giúp bạn giải quyết các bài toán phức tạp, làm cho câu lệnh SQL của bạn linh hoạt và có tổ chức hơn." } },
+            { text: "CASE", rank: 20, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao"], tooltip: { content: "### CASE: Logic Điều Kiện\n\nGiống như câu lệnh `if-then-else` trong lập trình. Cho phép bạn thêm logic điều kiện vào trong câu lệnh SQL.\n\n*Ví dụ: Phân loại khách hàng là 'VIP' hoặc 'Thường' dựa trên tổng chi tiêu.*" } },
+            { text: "UNION", rank: 21, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao"], tooltip: { content: "### UNION: Gộp Kết Quả\n\nDùng để kết hợp tập kết quả của hai hoặc nhiều câu lệnh `SELECT` thành một tập kết quả duy nhất. Lưu ý `UNION` sẽ loại bỏ các dòng trùng lặp, trong khi `UNION ALL` sẽ giữ lại tất cả." } },
+            { text: "Views", rank: 22, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao"], tooltip: { content: "### Views: Bảng Ảo\n\nMột View là một bảng ảo dựa trên tập kết quả của một câu lệnh SQL. Bạn có thể lưu một câu lệnh `SELECT` phức tạp thành một View và sau đó truy vấn nó như một bảng thông thường, giúp đơn giản hóa và tái sử dụng code." } },
+            { text: "Subqueries", rank: 23, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao", "WHERE", "SELECT"], tooltip: { content: "### Subqueries (Truy vấn con)\n\nLà một câu lệnh `SELECT` được lồng bên trong một câu lệnh SQL khác. Chúng có thể được sử dụng trong mệnh đề `SELECT`, `FROM`, `WHERE` và rất hữu ích để thực hiện các phép lọc hoặc tính toán phức tạp." } },
+            { text: "CTEs (WITH Clause)", rank: 24, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao", "Subqueries"], tooltip: { content: "### CTEs (Common Table Expressions)\n\nSử dụng mệnh đề `WITH`, CTEs cho phép bạn định nghĩa một tập kết quả tạm thời mà bạn có thể tham chiếu đến trong câu lệnh `SELECT`, `INSERT`, `UPDATE` hoặc `DELETE`. Chúng giúp chia nhỏ các truy vấn phức tạp, làm cho code dễ đọc và bảo trì hơn so với Subqueries dài dòng." } },
+            { text: "Window Functions", rank: 25, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao", "Hàm Tổng Hợp"], tooltip: { content: "### Window Functions\n\nLà các hàm thực hiện tính toán trên một tập hợp các hàng liên quan đến hàng hiện tại. Khác với hàm tổng hợp (tổng hợp thành một hàng), Window Functions trả về một giá trị cho mỗi hàng.\n\n*Các hàm phổ biến: `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LEAD()`, `LAG()`.*" } }
+        ];
+
+        // --- NEW: Add mouse event listeners in createNodeElement ---
+        const handleMouseOver = (event) => {
+            const hoveredNodeIndex = parseInt(event.currentTarget.dataset.originalIndex);
+            const hoveredNode = renderedNodes.find(n => n.originalIndex === hoveredNodeIndex);
+            if (!hoveredNode) return;
+
+            const connectionNames = new Set(hoveredNode.connections);
+            
+            renderedNodes.forEach(node => {
+                const el = node.element;
+                el.classList.remove('highlight', 'related', 'dimmed'); // Reset first
+                if (node.originalIndex === hoveredNode.originalIndex) {
+                    el.classList.add('highlight');
+                } else if (connectionNames.has(node.text)) {
+                    el.classList.add('related');
+                } else {
+                    el.classList.add('dimmed');
                 }
-            ];
-
-            nodeData.forEach((node, index) => {
-                node.isActive = true; 
-                node.originalIndex = index;
             });
-            
-            const createControls = () => {
-                controlsGrid.innerHTML = '';
-                const sortedNodes = [...nodeData].sort((a, b) => a.rank - b.rank);
+            drawNetworkLines(hoveredNode);
+        };
 
-                sortedNodes.forEach(node => {
-                    const controlItem = document.createElement('div');
-                    controlItem.className = 'control-item';
+        const handleMouseOut = () => {
+            renderedNodes.forEach(node => {
+                node.element.classList.remove('highlight', 'related', 'dimmed');
+            });
+            drawNetworkLines();
+        };
 
-                    const checkbox = document.createElement('input');
-                    checkbox.type = 'checkbox';
-                    checkbox.id = `check-${node.originalIndex}`;
-                    checkbox.checked = node.isActive;
-                    checkbox.dataset.index = node.originalIndex;
-
-                    const label = document.createElement('label');
-                    label.htmlFor = `check-${node.originalIndex}`;
-                    label.textContent = node.text;
-
-                    controlItem.appendChild(checkbox);
-                    controlItem.appendChild(label);
-                    controlsGrid.appendChild(controlItem);
-
-                    checkbox.addEventListener('change', (e) => {
-                        const index = parseInt(e.target.dataset.index);
-                        nodeData.find(n => n.originalIndex === index).isActive = e.target.checked;
-                        renderDiagram();
-                    });
+        nodeData.forEach((node, index) => { node.isActive = true; node.originalIndex = index; });
+        
+        const createControls = () => {
+            controlsGrid.innerHTML = '';
+            const sortedNodes = [...nodeData].sort((a, b) => a.rank - b.rank);
+            sortedNodes.forEach(node => {
+                const controlItem = document.createElement('div');
+                controlItem.className = 'control-item';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `check-${node.originalIndex}`;
+                checkbox.checked = node.isActive;
+                checkbox.dataset.index = node.originalIndex;
+                const categoryColor = categoryColors[node.category] || '#334155';
+                checkbox.style.accentColor = categoryColor;
+                const label = document.createElement('label');
+                label.htmlFor = `check-${node.originalIndex}`;
+                label.textContent = node.text;
+                controlItem.appendChild(checkbox);
+                controlItem.appendChild(label);
+                controlsGrid.appendChild(controlItem);
+                checkbox.addEventListener('change', (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    nodeData.find(n => n.originalIndex === index).isActive = e.target.checked;
+                    renderDiagram();
                 });
-            };
+            });
+        };
 
-            const renderDiagram = () => {
-                const containerSize = Math.min(container.offsetWidth, container.offsetHeight);
-                canvas.width = containerSize;
-                canvas.height = containerSize;
-                
-                container.querySelectorAll('.circle-node').forEach(el => el.remove());
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                const activeNodesData = nodeData.filter(node => node.isActive).sort((a,b) => a.rank - b.rank);
-
-                if (activeNodesData.length > 0) {
-                    createNodes(activeNodesData, containerSize);
-                    drawNetworkLines();
-                }
-            };
-            
-            const createNodes = (activeNodes, containerSize) => {
-                const numNodes = activeNodes.length;
-                const nodeDiameterRatio = numNodes > 9 ? 0.16 : (numNodes > 5 ? 0.20 : 0.24);
-                const radius = containerSize / 2 * (numNodes > 1 ? 0.75 : 0);
-                const centerX = containerSize / 2;
-                const centerY = containerSize / 2;
-                const nodeDiameter = containerSize * nodeDiameterRatio;
+        const renderDiagram = () => {
+            const containerSize = Math.min(container.offsetWidth, container.offsetHeight);
+            canvas.width = containerSize; canvas.height = containerSize;
+            container.querySelectorAll('.circle-node').forEach(el => el.remove());
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const activeNodesData = nodeData.filter(node => node.isActive).sort((a,b) => a.rank - b.rank);
+            if (activeNodesData.length > 0) {
+                createNodes(activeNodesData, containerSize);
+                drawNetworkLines();
+            }
+        };
+        
+        const createNodes = (activeNodes, containerSize) => {
+            const numNodes = activeNodes.length;
+            const nodeDiameterRatio = numNodes > 12 ? 0.15 : (numNodes > 6 ? 0.18 : 0.22);
+            const radius = containerSize / 2 * (numNodes > 1 ? 0.78 : 0);
+            const centerX = containerSize / 2, centerY = containerSize / 2;
+            const nodeDiameter = containerSize * nodeDiameterRatio;
+            renderedNodes = [];
+            const centerNodeData = activeNodes.find(n => n.rank === 0);
+            const peripheralNodes = activeNodes.filter(n => n.rank !== 0);
+            if (centerNodeData) {
                 const nodeRadius = nodeDiameter / 2;
-
-                renderedNodes = [];
-
-                activeNodes.forEach((data, i) => {
-                    const angle = (i / numNodes) * Math.PI * 2 - Math.PI / 2;
-                    const x = centerX + radius * Math.cos(angle) - nodeRadius;
-                    const y = centerY + radius * Math.sin(angle) - nodeRadius;
-
-                    const nodeElement = document.createElement('div');
-                    nodeElement.classList.add('circle-node');
-                    if (data.highlight) nodeElement.classList.add('highlight');
-                    nodeElement.style.width = `${nodeDiameter}px`;
-                    nodeElement.style.height = `${nodeDiameter}px`;
-                    nodeElement.style.left = `${x}px`;
-                    nodeElement.style.top = `${y}px`;
-                    
-                    const rankLabel = document.createElement('span');
-                    rankLabel.classList.add('rank-label');
-                    rankLabel.textContent = `Chủ đề ${data.rank}`;
-                    nodeElement.appendChild(rankLabel);
-
-                    const textContent = document.createElement('span');
-                    textContent.textContent = data.text;
-                    nodeElement.appendChild(textContent);
-
-                    const statusLabel = document.createElement('div');
-                    statusLabel.classList.add('node-status');
-                    nodeElement.appendChild(statusLabel);
-
-                    nodeElement.dataset.originalIndex = data.originalIndex;
-                    container.appendChild(nodeElement);
-                    
-                    const nodeInfo = { ...data, x: x + nodeRadius, y: y + nodeRadius, radius: nodeRadius, element: nodeElement };
-                    renderedNodes.push(nodeInfo);
-                    
-                    nodeElement.addEventListener('click', () => {
-                        const clickedIndex = parseInt(nodeElement.dataset.originalIndex);
-                        const originalNodeData = nodeData.find(n => n.originalIndex === clickedIndex);
-                        modalTitle.textContent = originalNodeData.text;
-                        modalBody.innerHTML = marked.parse(originalNodeData.tooltip[currentState]); 
-                        tooltipModal.classList.add('show');
-                        tooltipModal.querySelector('.modal-content').scrollTop = 0;
-                    });
-                });
-                applyCurrentStateStyles();
-            };
-            
-            const drawNetworkLines = () => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                const drawBidirectionalArrow = (context, fromX, fromY, toX, toY) => {
-                    const headlen = 10;
-                    const angle = Math.atan2(toY - fromY, toX - fromX);
-                    context.beginPath();
-                    context.moveTo(fromX, fromY);
-                    context.lineTo(toX, toY);
-                    context.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
-                    context.moveTo(toX, toY);
-                    context.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
-                    context.moveTo(fromX, fromY);
-                    context.lineTo(fromX + headlen * Math.cos(angle - Math.PI / 6), fromY + headlen * Math.sin(angle - Math.PI / 6));
-                    context.moveTo(fromX, fromY);
-                    context.lineTo(fromX + headlen * Math.cos(angle + Math.PI / 6), fromY + headlen * Math.sin(angle + Math.PI / 6));
-                    context.stroke();
-                };
-                
-                const renderedNodeMap = new Map(renderedNodes.map(node => [node.text, node]));
-                const drawnConnections = new Set();
-                
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = 'rgba(100, 116, 139, 0.7)';
-
-                for (const node1 of renderedNodes) {
-                    if (node1.connections) {
-                        for (const connectionName of node1.connections) {
-                             const node2 = renderedNodeMap.get(connectionName);
-                             if (node2) {
-                                const connectionKey = [node1.text, node2.text].sort().join('--');
-                                if (!drawnConnections.has(connectionKey)) {
-                                    const angle = Math.atan2(node2.y - node1.y, node2.x - node1.x);
-                                    const startX = node1.x + node1.radius * Math.cos(angle);
-                                    const startY = node1.y + node1.radius * Math.sin(angle);
-                                    const endX = node2.x - node2.radius * Math.cos(angle);
-                                    const endY = node2.y - node2.radius * Math.sin(angle);
-                                    drawBidirectionalArrow(ctx, startX, startY, endX, endY);
-                                    drawnConnections.add(connectionKey);
-                                }
-                             }
-                        }
-                    }
-                }
-            };
-            
-            const applyCurrentStateStyles = () => {
-                renderedNodes.forEach(node => {
-                    if (node.states && node.states[currentState]) {
-                        const state = node.states[currentState];
-                        node.element.style.backgroundColor = state.color;
-                        node.element.style.borderColor = getDarkerColor(state.color);
-                        const statusLabel = node.element.querySelector('.node-status');
-                        if (statusLabel) {
-                            statusLabel.textContent = state.status;
-                            statusLabel.style.display = 'inline-block';
-                        }
-                    } else {
-                         const statusLabel = node.element.querySelector('.node-status');
-                         if(statusLabel) statusLabel.style.display = 'none';
-                    }
-                });
-            };
-            
-            const getDarkerColor = (hex) => {
-                if (!hex) return '#000000';
-                let r = parseInt(hex.slice(1, 3), 16);
-                let g = parseInt(hex.slice(3, 5), 16);
-                let b = parseInt(hex.slice(5, 7), 16);
-                r = Math.max(0, r - 30);
-                g = Math.max(0, g - 30);
-                b = Math.max(0, b - 30);
-                return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-            };
-
-            const updateState = (newState) => {
-                currentState = newState;
-                btnBefore.classList.toggle('active', newState === 'before');
-                btnAfter.classList.toggle('active', newState === 'after');
-                applyCurrentStateStyles();
-            };
-
-            btnBefore.addEventListener('click', () => updateState('before'));
-            btnAfter.addEventListener('click', () => updateState('after'));
-            
-            closeModalBtn.addEventListener('click', () => tooltipModal.classList.remove('show'));
-            tooltipModal.addEventListener('click', (event) => {
-                if (event.target === tooltipModal) {
-                    tooltipModal.classList.remove('show');
-                }
+                const x = centerX - nodeRadius; const y = centerY - nodeRadius;
+                renderedNodes.push(createNodeElement(centerNodeData, x, y, nodeDiameter));
+            }
+            peripheralNodes.forEach((data, i) => {
+                const angle = (i / peripheralNodes.length) * Math.PI * 2 - Math.PI / 2;
+                const nodeRadius = nodeDiameter / 2;
+                const x = centerX + radius * Math.cos(angle) - nodeRadius;
+                const y = centerY + radius * Math.sin(angle) - nodeRadius;
+                renderedNodes.push(createNodeElement(data, x, y, nodeDiameter));
             });
+        };
+
+        const createNodeElement = (data, x, y, diameter) => {
+            const nodeElement = document.createElement('div');
+            nodeElement.className = 'circle-node';
+            nodeElement.style.width = `${diameter}px`; nodeElement.style.height = `${diameter}px`;
+            nodeElement.style.left = `${x}px`; nodeElement.style.top = `${y}px`;
+            const categoryColor = categoryColors[data.category] || '#334155';
+            nodeElement.style.backgroundColor = categoryColor;
+            nodeElement.style.borderColor = getDarkerColor(categoryColor);
+            const rankLabel = document.createElement('span');
+            rankLabel.className = 'rank-label'; rankLabel.textContent = data.category;
+            nodeElement.appendChild(rankLabel);
+            const textContent = document.createElement('span');
+            textContent.textContent = data.text;
+            nodeElement.appendChild(textContent);
+            nodeElement.dataset.originalIndex = data.originalIndex;
+            container.appendChild(nodeElement);
             
-            createControls();
-            renderDiagram();
-            window.addEventListener('resize', renderDiagram);
+            nodeElement.addEventListener('click', () => {
+                const clickedIndex = parseInt(nodeElement.dataset.originalIndex);
+                const originalNodeData = nodeData.find(n => n.originalIndex === clickedIndex);
+                modalTitle.textContent = originalNodeData.text;
+                modalBody.innerHTML = marked.parse(originalNodeData.tooltip.content); 
+                tooltipModal.classList.add('show');
+                tooltipModal.querySelector('.modal-content').scrollTop = 0;
+            });
+
+            // --- ADDED HIGHLIGHT EVENTS ---
+            nodeElement.addEventListener('mouseover', handleMouseOver);
+            nodeElement.addEventListener('mouseout', handleMouseOut);
+            
+            const nodeRadius = diameter / 2;
+            return { ...data, x: x + nodeRadius, y: y + nodeRadius, radius: nodeRadius, element: nodeElement };
+        };
+        
+        // --- MODIFIED drawNetworkLines to handle highlighting ---
+        const drawNetworkLines = (highlightedNode = null) => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const renderedNodeMap = new Map(renderedNodes.map(node => [node.text, node]));
+            const defaultColor = 'rgba(100, 116, 139, 0.6)';
+            const highlightColor = '#f97316';
+            
+            const highlightedConnections = new Set();
+            if (highlightedNode) {
+                highlightedNode.connections.forEach(connName => {
+                    const key = [highlightedNode.text, connName].sort().join('--');
+                    highlightedConnections.add(key);
+                });
+            }
+
+            for (const node1 of renderedNodes) {
+                if (node1.connections) {
+                    for (const connectionName of node1.connections) {
+                         const node2 = renderedNodeMap.get(connectionName);
+                         if (node2) {
+                            const connectionKey = [node1.text, node2.text].sort().join('--');
+                            const isHighlighted = highlightedConnections.has(connectionKey);
+
+                            ctx.beginPath();
+                            ctx.moveTo(node1.x, node1.y);
+                            ctx.lineTo(node2.x, node2.y);
+                            
+                            if (highlightedNode) {
+                                ctx.strokeStyle = isHighlighted ? highlightColor : 'rgba(100, 116, 139, 0.1)';
+                                ctx.lineWidth = isHighlighted ? 4 : 2.5;
+                            } else {
+                                ctx.strokeStyle = defaultColor;
+                                ctx.lineWidth = 2.5;
+                            }
+                            ctx.stroke();
+                         }
+                    }
+                }
+            }
+        };
+        
+        const getDarkerColor = (hex) => {
+            if (!hex) return '#000000';
+            let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+            r = Math.max(0, r - 30); g = Math.max(0, g - 30); b = Math.max(0, b - 30);
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        };
+
+        closeModalBtn.addEventListener('click', () => tooltipModal.classList.remove('show'));
+        tooltipModal.addEventListener('click', (event) => {
+            if (event.target === tooltipModal) { tooltipModal.classList.remove('show'); }
         });
+        
+        createControls();
+        renderDiagram();
+        window.addEventListener('resize', renderDiagram);
+    });
     </script>
+
 </body>
 </html>

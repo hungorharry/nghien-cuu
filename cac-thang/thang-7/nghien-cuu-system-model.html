@@ -9,7 +9,6 @@
     <style>
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
-            background: linear-gradient(135deg, #f0f2f5 0%, #e0e5ec 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -119,21 +118,21 @@
             box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5);
         }
 
-        /* --- NEW HIGHLIGHT STYLES --- */
+        /* --- HIGHLIGHT STYLES --- */
         .circle-node.highlight {
-            transform: scale(1.15) !important;
-            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.5) !important;
-            z-index: 20 !important;
-            opacity: 1 !important;
+            transform: scale(1.15) !important; 
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.5) !important; 
+            z-index: 20 !important; 
+            opacity: 1 !important; 
         }
         .circle-node.related {
-            opacity: 1 !important;
-            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5);
-            transform: scale(1.05);
+            opacity: 1 !important; 
+            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5); 
+            transform: scale(1.05); 
         }
         .circle-node.dimmed {
-            opacity: 0.2;
-            transform: scale(0.95);
+            opacity: 0.2; 
+            transform: scale(0.95); 
         }
         /* --- END NEW STYLES --- */
 
@@ -161,7 +160,13 @@
         .modal-overlay.show .modal-content { transform: scale(1) translateY(0); }
         .modal-title { font-size: 1.8rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; text-align: center; }
         .modal-body { font-size: 1rem; color: #334155; line-height: 1.7; text-align: left; }
-        .modal-body h3 { font-size: 1.2rem; font-weight: 600; color: #f97316; margin-top: 20px; margin-bottom: 10px; }
+        .modal-body h3 { 
+            font-size: 1.2rem; 
+            font-weight: 600; 
+            color: #f97316; /* Consistent orange for headings */
+            margin-top: 20px; 
+            margin-bottom: 10px; 
+        }
         .modal-body ul { list-style-type: disc; padding-left: 20px; }
         .modal-body code { background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
         .modal-close-btn { background-color: #ef4444; color: #ffffff; padding: 10px 24px; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: background-color 0.2s ease, transform 0.2s ease; display: block; margin: 25px auto 0; }
@@ -244,40 +249,50 @@
             { text: "Window Functions", rank: 25, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao", "Hàm Tổng Hợp"], tooltip: { content: "### Window Functions\n\nLà các hàm thực hiện tính toán trên một tập hợp các hàng liên quan đến hàng hiện tại. Khác với hàm tổng hợp (tổng hợp thành một hàng), Window Functions trả về một giá trị cho mỗi hàng.\n\n*Các hàm phổ biến: `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LEAD()`, `LAG()`.*" } }
         ];
 
-        // --- NEW: Add mouse event listeners in createNodeElement ---
+        // Highlight functions (kept from previous version)
         const handleMouseOver = (event) => {
             const hoveredNodeIndex = parseInt(event.currentTarget.dataset.originalIndex);
             const hoveredNode = renderedNodes.find(n => n.originalIndex === hoveredNodeIndex);
             if (!hoveredNode) return;
 
-            const connectionNames = new Set(hoveredNode.connections);
+            const connectedNodeNames = new Set(hoveredNode.connections);
+            renderedNodes.forEach(node => {
+                if (node.connections && node.connections.includes(hoveredNode.text)) {
+                    connectedNodeNames.add(node.text);
+                }
+            });
             
             renderedNodes.forEach(node => {
                 const el = node.element;
-                el.classList.remove('highlight', 'related', 'dimmed'); // Reset first
+                el.classList.remove('highlight', 'related', 'dimmed'); 
                 if (node.originalIndex === hoveredNode.originalIndex) {
                     el.classList.add('highlight');
-                } else if (connectionNames.has(node.text)) {
+                } else if (connectedNodeNames.has(node.text)) {
                     el.classList.add('related');
                 } else {
                     el.classList.add('dimmed');
                 }
             });
-            drawNetworkLines(hoveredNode);
+            drawNetworkLines(hoveredNode); 
         };
 
         const handleMouseOut = () => {
             renderedNodes.forEach(node => {
                 node.element.classList.remove('highlight', 'related', 'dimmed');
             });
-            drawNetworkLines();
+            drawNetworkLines(); 
         };
 
         nodeData.forEach((node, index) => { node.isActive = true; node.originalIndex = index; });
         
         const createControls = () => {
             controlsGrid.innerHTML = '';
-            const sortedNodes = [...nodeData].sort((a, b) => a.rank - b.rank);
+            const sortedNodes = [...nodeData].sort((a, b) => {
+                if (a.rank === 0) return -1;
+                if (b.rank === 0) return 1;
+                return a.text.localeCompare(b.text);
+            });
+
             sortedNodes.forEach(node => {
                 const controlItem = document.createElement('div');
                 controlItem.className = 'control-item';
@@ -317,25 +332,114 @@
         const createNodes = (activeNodes, containerSize) => {
             const numNodes = activeNodes.length;
             const nodeDiameterRatio = numNodes > 12 ? 0.15 : (numNodes > 6 ? 0.18 : 0.22);
-            const radius = containerSize / 2 * (numNodes > 1 ? 0.78 : 0);
+            const radius = containerSize / 2 * (numNodes > 5 ? 0.78 : (numNodes > 1 ? 0.65 : 0)); 
             const centerX = containerSize / 2, centerY = containerSize / 2;
-            const nodeDiameter = containerSize * nodeDiameterRatio;
+            let nodeDiameter = containerSize * nodeDiameterRatio;
+
+            if (numNodes <= 4) nodeDiameter = containerSize * 0.25; 
+            
             renderedNodes = [];
             const centerNodeData = activeNodes.find(n => n.rank === 0);
             const peripheralNodes = activeNodes.filter(n => n.rank !== 0);
+
             if (centerNodeData) {
-                const nodeRadius = nodeDiameter / 2;
-                const x = centerX - nodeRadius; const y = centerY - nodeRadius;
-                renderedNodes.push(createNodeElement(centerNodeData, x, y, nodeDiameter));
+                const centerNodeDiameter = numNodes === 1 ? containerSize * 0.4 : nodeDiameter * 1.2; 
+                const x = centerX - centerNodeDiameter / 2; 
+                const y = centerY - centerNodeDiameter / 2;
+                renderedNodes.push(createNodeElement(centerNodeData, x, y, centerNodeDiameter));
             }
             peripheralNodes.forEach((data, i) => {
                 const angle = (i / peripheralNodes.length) * Math.PI * 2 - Math.PI / 2;
-                const nodeRadius = nodeDiameter / 2;
-                const x = centerX + radius * Math.cos(angle) - nodeRadius;
-                const y = centerY + radius * Math.sin(angle) - nodeRadius;
+                const x = centerX + radius * Math.cos(angle) - nodeDiameter / 2;
+                const y = centerY + radius * Math.sin(angle) - nodeDiameter / 2;
                 renderedNodes.push(createNodeElement(data, x, y, nodeDiameter));
             });
         };
+
+        // --- NEW: Function to populate modal content ---
+        const populateModalContent = (nodeToDisplay) => {
+            modalTitle.textContent = nodeToDisplay.text;
+            modalBody.innerHTML = marked.parse(nodeToDisplay.tooltip.content); 
+
+            // Add related topics to modal
+            const relatedTopicsContainer = document.createElement('div');
+            // Using inline style for h3 here to ensure it applies inside the dynamic content
+            relatedTopicsContainer.innerHTML = '<h3 style="font-size: 1.2rem; font-weight: 600; color: #f97316; margin-top: 20px; margin-bottom: 10px;">Các chủ đề liên quan:</h3>';
+            const relatedList = document.createElement('ul');
+            relatedList.style.listStyleType = 'none';
+            relatedList.style.paddingLeft = '0';
+
+            const relatedNodesSet = new Set();
+            // Find nodes that current node connects to (current node is a prerequisite for them)
+            if (nodeToDisplay.connections) {
+                nodeToDisplay.connections.forEach(connectedNodeName => {
+                    const connectedNode = nodeData.find(n => n.text === connectedNodeName);
+                    if (connectedNode) {
+                        relatedNodesSet.add(connectedNode);
+                    }
+                });
+            }
+            // Find nodes that connect to current node (current node is a dependency for them)
+            nodeData.forEach(potentialParentNode => {
+                if (potentialParentNode.connections && potentialParentNode.connections.includes(nodeToDisplay.text) && potentialParentNode.originalIndex !== nodeToDisplay.originalIndex) {
+                    relatedNodesSet.add(potentialParentNode);
+                }
+            });
+
+            if (relatedNodesSet.size > 0) {
+                const sortedRelatedNodes = Array.from(relatedNodesSet).sort((a, b) => a.text.localeCompare(b.text));
+
+                sortedRelatedNodes.forEach(relatedNode => {
+                    const listItem = document.createElement('li');
+                    listItem.style.marginBottom = '5px';
+                    listItem.style.display = 'flex';
+                    listItem.style.alignItems = 'center';
+
+                    // Category color dot
+                    const colorDot = document.createElement('span');
+                    colorDot.style.display = 'inline-block';
+                    colorDot.style.width = '10px';
+                    colorDot.style.height = '10px';
+                    colorDot.style.borderRadius = '50%';
+                    colorDot.style.backgroundColor = categoryColors[relatedNode.category] || '#ccc';
+                    colorDot.style.marginRight = '8px';
+                    listItem.appendChild(colorDot);
+
+                    const topicText = document.createElement('span');
+                    topicText.textContent = `${relatedNode.text} (${relatedNode.category.replace(/([A-Z])/g, ' $1').trim()})`;
+                    topicText.style.fontWeight = '600';
+                    topicText.style.color = '#2563eb'; // A clickable link color
+                    topicText.style.cursor = 'pointer';
+                    topicText.style.textDecoration = 'underline';
+                    topicText.style.transition = 'color 0.2s ease'; // Smooth color transition
+                    topicText.style.userSelect = 'none'; // Prevent text selection on click/hover
+
+                    topicText.onmouseover = () => topicText.style.color = '#f97316'; // Hover color
+                    topicText.onmouseout = () => topicText.style.color = '#2563eb'; // Default color
+
+                    topicText.addEventListener('click', (e) => {
+                        e.preventDefault(); 
+                        e.stopPropagation(); // Prevent modal from closing if this click triggers event bubbling
+                        populateModalContent(relatedNode); // Recursively call for the new node
+                        tooltipModal.querySelector('.modal-content').scrollTop = 0; // Scroll to top for new content
+                    });
+
+                    listItem.appendChild(topicText);
+                    relatedList.appendChild(listItem);
+                });
+                relatedTopicsContainer.appendChild(relatedList);
+                modalBody.appendChild(relatedTopicsContainer);
+            } else {
+                const noRelated = document.createElement('p');
+                noRelated.textContent = "Không có chủ đề liên quan nào được liệt kê trực tiếp.";
+                noRelated.style.color = '#64748b';
+                noRelated.style.fontStyle = 'italic';
+                noRelated.style.marginTop = '20px'; 
+                modalBody.appendChild(noRelated);
+            }
+        };
+        // --- END NEW function ---
+
 
         const createNodeElement = (data, x, y, diameter) => {
             const nodeElement = document.createElement('div');
@@ -346,7 +450,8 @@
             nodeElement.style.backgroundColor = categoryColor;
             nodeElement.style.borderColor = getDarkerColor(categoryColor);
             const rankLabel = document.createElement('span');
-            rankLabel.className = 'rank-label'; rankLabel.textContent = data.category;
+            rankLabel.className = 'rank-label'; 
+            rankLabel.textContent = data.category === 'CORE' ? 'Tổng quan' : data.category.replace(/([A-Z])/g, ' $1').trim().toUpperCase(); 
             nodeElement.appendChild(rankLabel);
             const textContent = document.createElement('span');
             textContent.textContent = data.text;
@@ -354,16 +459,16 @@
             nodeElement.dataset.originalIndex = data.originalIndex;
             container.appendChild(nodeElement);
             
+            // --- MODIFIED: Use populateModalContent for click event ---
             nodeElement.addEventListener('click', () => {
                 const clickedIndex = parseInt(nodeElement.dataset.originalIndex);
                 const originalNodeData = nodeData.find(n => n.originalIndex === clickedIndex);
-                modalTitle.textContent = originalNodeData.text;
-                modalBody.innerHTML = marked.parse(originalNodeData.tooltip.content); 
+                populateModalContent(originalNodeData); // Call the new function
                 tooltipModal.classList.add('show');
                 tooltipModal.querySelector('.modal-content').scrollTop = 0;
             });
+            // --- END MODIFIED ---
 
-            // --- ADDED HIGHLIGHT EVENTS ---
             nodeElement.addEventListener('mouseover', handleMouseOver);
             nodeElement.addEventListener('mouseout', handleMouseOut);
             
@@ -371,35 +476,28 @@
             return { ...data, x: x + nodeRadius, y: y + nodeRadius, radius: nodeRadius, element: nodeElement };
         };
         
-        // --- MODIFIED drawNetworkLines to handle highlighting ---
         const drawNetworkLines = (highlightedNode = null) => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const renderedNodeMap = new Map(renderedNodes.map(node => [node.text, node]));
             const defaultColor = 'rgba(100, 116, 139, 0.6)';
-            const highlightColor = '#f97316';
+            const highlightColor = '#f97316'; 
             
-            const highlightedConnections = new Set();
-            if (highlightedNode) {
-                highlightedNode.connections.forEach(connName => {
-                    const key = [highlightedNode.text, connName].sort().join('--');
-                    highlightedConnections.add(key);
-                });
-            }
-
             for (const node1 of renderedNodes) {
                 if (node1.connections) {
                     for (const connectionName of node1.connections) {
                          const node2 = renderedNodeMap.get(connectionName);
-                         if (node2) {
-                            const connectionKey = [node1.text, node2.text].sort().join('--');
-                            const isHighlighted = highlightedConnections.has(connectionKey);
+                         if (node2 && node1.isActive && node2.isActive) { 
+                            const isHighlighted = highlightedNode && (
+                                (highlightedNode.text === node1.text && highlightedNode.connections.includes(node2.text)) ||
+                                (highlightedNode.text === node2.text && node2.connections && node2.connections.includes(node1.text))
+                            );
 
                             ctx.beginPath();
                             ctx.moveTo(node1.x, node1.y);
                             ctx.lineTo(node2.x, node2.y);
                             
                             if (highlightedNode) {
-                                ctx.strokeStyle = isHighlighted ? highlightColor : 'rgba(100, 116, 139, 0.1)';
+                                ctx.strokeStyle = isHighlighted ? highlightColor : 'rgba(100, 116, 139, 0.1)'; 
                                 ctx.lineWidth = isHighlighted ? 4 : 2.5;
                             } else {
                                 ctx.strokeStyle = defaultColor;
@@ -420,6 +518,7 @@
         };
 
         closeModalBtn.addEventListener('click', () => tooltipModal.classList.remove('show'));
+        // Ensure clicking on the overlay closes the modal but clicking inside content does not
         tooltipModal.addEventListener('click', (event) => {
             if (event.target === tooltipModal) { tooltipModal.classList.remove('show'); }
         });

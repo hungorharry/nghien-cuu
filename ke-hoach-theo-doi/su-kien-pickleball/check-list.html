@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Sự Kiện</title>
+    <style>
+        :root {
+            --primary-bg: #f4f7f6;
+            --secondary-bg: #ffffff;
+            --text-color: #333;
+            --light-text: #777;
+            --border-color: #e0e0e0;
+            --accent-color: #007bff;
+            --important-color: #d9534f;
+            --header-bg: #f8cbad; /* Màu cam nhạt giống header ảnh */
+            --header-text: #333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 20px;
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        #search-container {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        #checklist-container {
+            padding: 10px 20px 20px;
+        }
+
+        .category {
+            margin-top: 25px;
+        }
+
+        .category:first-child {
+            margin-top: 10px;
+        }
+
+        .category h2 {
+            font-size: 20px;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--header-bg);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 5px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .check-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        .check-item input[type="checkbox"] {
+            margin-top: 4px;
+            margin-right: 15px;
+            min-width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .check-item .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .check-item .main-text {
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        
+        /* Dùng pre-wrap để giữ nguyên định dạng xuống dòng của nội dung */
+        .check-item .main-text span {
+             white-space: pre-wrap;
+        }
+
+        .check-item .details {
+            font-size: 13px;
+            color: var(--light-text);
+            margin-top: 4px;
+        }
+
+        .check-item.checked .main-text {
+            text-decoration: line-through;
+            color: var(--light-text);
+        }
+        
+        .check-item .important {
+            color: var(--important-color);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Checklist Công Việc</h1>
+        </div>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="🔍 Tìm kiếm công việc...">
+        </div>
+        <div id="checklist-container">
+            <!-- Checklist sẽ được tạo bởi JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            // Dữ liệu được trích xuất từ hình ảnh
+            { stt: 1, noidung: 'Cúp giải 1', soluong: 30, ghichu: '' },
+            { stt: 2, noidung: 'Cúp giải 2', soluong: 30, ghichu: '' },
+            { stt: 3, noidung: 'Cúp giải 3', soluong: 30, ghichu: '' },
+            { stt: 4, noidung: 'Kỷ niệm chương', soluong: 90, ghichu: '' },
+            { stt: 5, noidung: 'Cúp nhà tài trợ', soluong: 27, ghichu: '' },
+            { stt: 6, noidung: 'Thùng từ thiện', soluong: 1, ghichu: '' },
+            { stt: 7, noidung: 'Áo vận động viên', soluong: 102, ghichu: '' },
+            { stt: 8, noidung: 'Quà rút thăm trúng thưởng\n- 3 đồng hồ\n- 1 máy in cầm tay thông minh\n- 1 máy chiếu thông minh', soluong: 5, ghichu: '' },
+            { stt: 9, noidung: 'Máy tính dùng quay số và chiếu thiện nguyện', soluong: 1, ghichu: '' },
+            { stt: 10, noidung: 'Standee', soluong: null, ghichu: '' },
+            { stt: 11, noidung: 'Băng rôn trần', soluong: null, ghichu: '' },
+            { stt: 12, noidung: 'Băng rôn đón khách', soluong: null, ghichu: '' },
+            { stt: 13, noidung: 'Băng rôn đội', soluong: null, ghichu: '' },
+            { stt: 14, noidung: 'Backgroup sân', soluong: null, ghichu: '' },
+            { stt: 15, noidung: 'Backgroup tiệc', soluong: null, ghichu: '' },
+            { stt: 16, noidung: 'Bảng đội phát áo ABCDEF', soluong: null, ghichu: '' },
+            { stt: 17, noidung: 'Bút bi', soluong: 1, ghichu: '' },
+            { stt: 18, noidung: 'Phong bì (từ thiện)', soluong: 100, ghichu: '' },
+            { stt: 19, noidung: 'Túi đựng cúp', soluong: 120, ghichu: '' },
+            { stt: 20, noidung: 'Dây điện dài', soluong: 1, ghichu: '' },
+            { stt: 21, noidung: 'Loa + micro', soluong: 1, ghichu: '' },
+            { stt: 22, noidung: 'Khăn trải bàn', soluong: 1, ghichu: '' },
+            { stt: 23, noidung: 'Bóng pickleball', soluong: 30, ghichu: '' },
+            { stt: 24, noidung: 'Thùng xốp', soluong: 9, ghichu: 'đối tác đem ra sân' },
+            { stt: 25, noidung: 'Nước suối', soluong: 50, ghichu: 'sân' },
+            { stt: 26, noidung: 'Bia ken bạc lon cao', soluong: 55, ghichu: 'đối tác đem ra nhà hàng' },
+            { stt: 27, noidung: 'Khay trao cúp', soluong: 4, ghichu: 'nhà hàng' },
+            { stt: 28, noidung: 'Bàn để cúp trên sân', soluong: 1, ghichu: 'sân' },
+            { stt: 29, noidung: 'Bàn phát áo đồng phục', soluong: 6, ghichu: 'sân' },
+            { stt: 30, noidung: 'Bàn để cúp sảnh tiệc', soluong: 1, ghichu: 'nhà hàng' },
+            { stt: 31, noidung: 'Bàn để thùng từ thiện tiệc', soluong: 1, ghichu: 'nhà hàng' },
+            { stt: 32, noidung: 'Bàn để phát túi và hộp đựng cúp', soluong: 2, ghichu: 'nhà hàng' },
+            { stt: 33, noidung: 'File chiếu về thiện nguyện (2-3 phút', soluong: 1, ghichu: '' },
+            { stt: 34, noidung: 'File tổng kết về từ thiện', soluong: 1, ghichu: '', important: true },
+            { stt: 35, noidung: 'Mã QR ngân hàng nhận từ thiện', soluong: 1, ghichu: '' },
+            { stt: 36, noidung: 'MC khai mạc + gala', soluong: 1, ghichu: '', important: true },
+            { stt: 37, noidung: 'PG gala', soluong: 2, ghichu: 'Tảo' },
+            { stt: 38, noidung: 'Nhân viên y tế', soluong: 1, ghichu: 'sân' },
+            { stt: 39, noidung: 'Nhân viên cơ xương khớp', soluong: 2, ghichu: 'sân', important: true },
+            { stt: 40, noidung: 'Quay phim', soluong: 1, ghichu: '' },
+            { stt: 41, noidung: 'Quay fly cam', soluong: 1, ghichu: '' },
+            { stt: 42, noidung: 'Chụp hình', soluong: 2, ghichu: '' },
+            { stt: 43, noidung: 'Trọng tài sân', soluong: 16, ghichu: '' },
+            { stt: 44, noidung: 'Trọng tài chính', soluong: 2, ghichu: '', important: true }
+        ];
+
+        const categories = {
+            'Giải thưởng & Quà tặng': ['cúp', 'kỷ niệm chương', 'quà'],
+            'Nhân sự': ['mc', 'pg', 'nhân viên', 'trọng tài'],
+            'Thiết bị & Dụng cụ': ['máy tính', 'standee', 'backgroup', 'băng rôn', 'bảng đội', 'dây điện', 'loa', 'micro', 'khăn trải bàn', 'thùng', 'khay', 'bàn để', 'quay phim', 'fly cam', 'chụp hình'],
+            'Vật phẩm Sự kiện': ['áo', 'bút bi', 'phong bì', 'túi', 'bóng', 'file', 'mã qr'],
+            'Đồ ăn & Thức uống': ['nước suối', 'bia'],
+        };
+
+        function categorizeData(data) {
+            const categorized = {};
+            for (const catName in categories) {
+                categorized[catName] = [];
+            }
+            categorized['Khác'] = [];
+
+            data.forEach(item => {
+                let foundCategory = false;
+                const lowerCaseNoidung = item.noidung.toLowerCase();
+                for (const catName in categories) {
+                    if (categories[catName].some(keyword => lowerCaseNoidung.includes(keyword))) {
+                        categorized[catName].push(item);
+                        foundCategory = true;
+                        break;
+                    }
+                }
+                if (!foundCategory) {
+                    categorized['Khác'].push(item);
+                }
+            });
+            return categorized;
+        }
+
+        function renderChecklist() {
+            const container = document.getElementById('checklist-container');
+            const categorizedData = categorizeData(data);
+
+            let html = '';
+            for (const catName in categorizedData) {
+                const items = categorizedData[catName];
+                if (items.length > 0) {
+                    html += `<div class="category"><h2>${catName}</h2>`;
+                    items.forEach(item => {
+                        const details = [];
+                        if (item.soluong !== null) details.push(`Số lượng: ${item.soluong}`);
+                        if (item.ghichu) details.push(`Ghi chú: ${item.ghichu}`);
+
+                        const isImportant = item.important ? 'important' : '';
+
+                        html += `
+                            <label class="check-item" data-text="${item.noidung.toLowerCase()}">
+                                <input type="checkbox">
+                                <div class="content">
+                                    <div class="main-text">
+                                        <span class="${isImportant}">${item.noidung}</span>
+                                    </div>
+                                    ${details.length > 0 ? `<div class="details">${details.join(' | ')}</div>` : ''}
+                                </div>
+                            </label>
+                        `;
+                    });
+                    html += `</div>`;
+                }
+            }
+            container.innerHTML = html;
+
+            // Thêm event listener cho các checkbox
+            document.querySelectorAll('.check-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    e.currentTarget.closest('.check-item').classList.toggle('checked', e.currentTarget.checked);
+                });
+            });
+        }
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const categories = document.querySelectorAll('.category');
+
+            categories.forEach(category => {
+                const items = category.querySelectorAll('.check-item');
+                let visibleItems = 0;
+                items.forEach(item => {
+                    const itemText = item.dataset.text;
+                    if (itemText.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                        visibleItems++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                // Ẩn tiêu đề danh mục nếu không có item nào hiển thị
+                if (visibleItems > 0) {
+                    category.style.display = 'block';
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderChecklist();
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', handleSearch);
+        });
+
+    </script>
+
+</body>
+</html>

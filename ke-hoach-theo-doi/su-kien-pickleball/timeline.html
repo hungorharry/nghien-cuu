@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Công Việc Sự Kiện Pickleball</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Thêm hiệu ứng cuộn mượt mà */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .timeline-container {
+            position: relative;
+            padding-left: 50px;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #cbd5e1;
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: -50px;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 10;
+            border: 4px solid #f0f2f5;
+            transition: all 0.3s ease;
+        }
+        
+        /* Trạng thái công việc */
+        .timeline-item.is-upcoming .timeline-icon { background-color: #94a3b8; } /* slate-400 */
+        .timeline-item.is-upcoming .timeline-time { color: #64748b; } /* slate-500 */
+
+        .timeline-item.is-active { transform: scale(1.03); }
+        .timeline-item.is-active .timeline-card {
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
+        }
+        .timeline-item.is-active .timeline-icon {
+            background-color: #3b82f6; /* blue-500 */
+            animation: pulse 2s infinite; /* Hiệu ứng nổi bật */
+        }
+        .timeline-item.is-active .timeline-time { color: #2563eb; font-weight: 800; } /* blue-600 */
+
+        .timeline-item.is-complete { opacity: 0.65; }
+        .timeline-item.is-complete .timeline-card { border-color: #d1d5db; background-color: #f9fafb; }
+        .timeline-item.is-complete .timeline-icon { background-color: #16a34a; } /* green-600 */
+        .timeline-item.is-complete .timeline-time { text-decoration: line-through; color: #6b7280; } /* gray-500 */
+        .timeline-item.is-complete h3 { color: #4b5563; }
+
+        .timeline-card ul { list-style-type: none; padding-left: 0; }
+        .timeline-card li { position: relative; padding-left: 24px; margin-bottom: 8px; }
+        .timeline-card li::before {
+            content: '✓';
+            font-weight: 600;
+            position: absolute;
+            left: 0;
+            color: #4f46e5; /* indigo-600 */
+        }
+
+        /* Animation cho icon đang active */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">Timeline Sự Kiện Pickleball</h1>
+            <p id="event-date-display" class="text-xl text-gray-700 font-medium"></p>
+            <div id="status-message" class="mt-2 font-semibold"></div>
+            <p id="current-date-display" class="mt-4 text-lg text-gray-600"></p>
+            <div class="mt-2 text-2xl font-bold text-indigo-600 bg-white inline-block px-6 py-2 rounded-full shadow-md">
+                <i class="fa-regular fa-clock mr-2"></i><span id="realtime-clock"></span>
+            </div>
+        </div>
+
+        <div id="timeline-container" class="timeline-container max-w-4xl mx-auto">
+            <!-- Timeline items will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // --- CẤU HÌNH SỰ KIỆN ---
+        const eventDateStr = '2025-08-09'; // Định dạng YYYY-MM-DD
+        let hasScrolledToActive = false; // Cờ để đảm bảo chỉ cuộn 1 lần khi tải trang
+
+        const events = [
+            { time: '06:15', title: 'Chuẩn bị Sớm tại Sân', icon: 'fa-solid fa-sun', details: ['Nhân viên có mặt trên sân, đảm bảo đã ăn sáng xong.'] },
+            { time: '06:30', title: 'Vào Vị Trí & Đón Khách', icon: 'fa-solid fa-users', details: ['<strong>Toàn bộ nhân viên:</strong> Có mặt tại vị trí được phân công.', '<strong>Anh Thiết, Đạo, Thịnh:</strong> Có mặt tại khu vực sân 7, 8 để chụp hình với khách.', '<strong>Vương:</strong> Đón và hướng dẫn khách gửi xe.', '<strong>KD 1 & 2:</strong> Bắt tay, chào khách, mời vào nhận áo.', '<strong>Các đội phát áo:</strong> Quốc–Hiếu Trí (A), Khang–Lan Viên (B), Tới–Diễm Chi (C), Hưng–Uyên Nhi (D), Ngân-Trà My (E), An–Thanh Hằng (F) tại vị trí.'] },
+            { time: '07:30', title: 'Diễn Biến Giải Đấu (Trực Sân)', icon: 'fa-solid fa-table-tennis-paddle-ball', details: ['<strong>Thịnh:</strong> Giám sát khối Kinh Doanh.', '<strong>Đạo, Bảo:</strong> Giám sát chung.', '<strong>Bảo:</strong> Phụ trách Y tế và Ăn trưa VĐV.', '<strong>Đạo:</strong> Làm việc với trọng tài, ghi nhận ý kiến VĐV.', '<strong>Nhiệm vụ chung:</strong> Chụp hình các trận đấu, hỗ trợ VĐV (nước, thức ăn), nhặt bóng, thu bảng điểm, chuẩn bị hậu cần (trứng, chuối...).'] },
+            
+            // --- MỤC MỚI ĐƯỢC THÊM VÀO ---
+            { time: '14:30', title: 'Hỗ trợ Chuẩn bị Gala', icon: 'fa-solid fa-cogs', details: ['Thời gian dự kiến: 14:30 - 16:00.', '<strong>Nhóm hỗ trợ (Nam, Khang, Vương, An, An):</strong> Di chuyển qua sảnh Gala để hỗ trợ công tác chuẩn bị.'] },
+            // --- KẾT THÚC MỤC MỚI ---
+
+            { time: '17:30', title: 'Đón Khách Tiệc Gala (Sảnh CRYSTAL)', icon: 'fa-solid fa-handshake', details: ['<strong>Anh Thiết, Đạo:</strong> Chụp hình với khách tại backdrop.', '<strong>1 PG:</strong> Đón khách cùng Ban Giám Đốc.', '<strong>Nhóm Lễ tân (8 người):</strong> Bắt tay, chào, hướng dẫn khách đến khu vực chụp hình.', '<strong>Thịnh, Thanh:</strong> Phụ trách khu vực hút thuốc.', '<strong>1 PG + MKT An, Ngân:</strong> Chào và mời khách vào sảnh tiệc.'] },
+            { time: '18:30', title: 'Chương Trình Gala & Trao Giải', icon: 'fa-solid fa-trophy', details: ['<strong>Khối Kinh Doanh (16 người):</strong> Mời khách và ngồi cùng bàn để tiếp khách (mỗi KD một bàn).', '<strong>Anh Thiết:</strong> Phát biểu khai mạc.', '<strong>Anh Thiết, Đạo:</strong> Trao các giải: Phong Cách, Cống Hiến, Fairplay, Giải 3, 2, 1.', '<strong>Anh Thiết:</strong> Tổng kết tài trợ.', '<strong>Nam:</strong> Quay số may mắn (3 giải ba, 1 giải nhì, 1 giải nhất).'] },
+            { time: '20:30', title: 'Kết Thúc & Tiễn Khách', icon: 'fa-solid fa-door-open', details: ['<strong>Nhiệm vụ chung:</strong> Toàn bộ nhân viên đứng tiễn khách.', '<strong>Kinh Doanh:</strong> Mời VĐV & Nhà tài trợ ra quầy lễ tân nhận hộp, túi đựng cúp. Hẹn gặp lại.', '<strong>2 PG + 4 Marketing:</strong> Gửi hộp và túi đựng cúp cho khách.', '<strong>Thợ chụp ảnh:</strong> Ở lại cho đến khi khách về hết.'] }
+        ];
+
+        const timelineContainer = document.getElementById('timeline-container');
+        const clockElement = document.getElementById('realtime-clock');
+        const eventDateDisplay = document.getElementById('event-date-display');
+        const statusMessage = document.getElementById('status-message');
+        const currentDateElement = document.getElementById('current-date-display');
+
+        function displayEventDate() {
+            const dateObj = new Date(eventDateStr + 'T00:00:00');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            eventDateDisplay.innerHTML = `Ngày diễn ra: <span class="font-bold text-indigo-600">${dateObj.toLocaleDateString('vi-VN', options)}</span>`;
+        }
+        
+        function buildTimeline() {
+            let html = '';
+            events.forEach(event => {
+                const detailsList = event.details.map(detail => `<li>${detail}</li>`).join('');
+                html += `<div class="timeline-item" data-time="${event.time}"><div class="timeline-icon"><i class="${event.icon}"></i></div><div class="pl-8"><div class="timeline-time text-lg font-semibold mb-1">${event.time}</div><div class="timeline-card bg-white rounded-lg shadow-md p-6 border-l-4 border-gray-200"><h3 class="text-xl font-bold text-gray-900 mb-3">${event.title}</h3><ul class="text-gray-700 space-y-2">${detailsList}</ul></div></div></div>`;
+            });
+            timelineContainer.innerHTML = html;
+        }
+
+        function updateRealTimeDisplay() {
+            const now = new Date();
+            clockElement.textContent = now.toLocaleTimeString('vi-VN');
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            currentDateElement.innerHTML = `Hôm nay: <span class="font-semibold text-gray-800">${now.toLocaleDateString('vi-VN', dateOptions)}</span>`;
+        }
+
+        function updateTimelineStatus() {
+            const now = new Date();
+            const todayStr = now.toISOString().slice(0, 10);
+            const currentTime = now.toTimeString().slice(0, 5);
+            
+            const items = document.querySelectorAll('.timeline-item');
+            
+            items.forEach(item => item.classList.remove('is-complete', 'is-active', 'is-upcoming'));
+
+            if (todayStr < eventDateStr) {
+                items.forEach(item => item.classList.add('is-upcoming'));
+                statusMessage.textContent = 'Sự kiện chưa bắt đầu. Đây là kế hoạch dự kiến.';
+                statusMessage.className = 'mt-2 font-semibold text-blue-600';
+            } else if (todayStr > eventDateStr) {
+                items.forEach(item => item.classList.add('is-complete'));
+                statusMessage.textContent = 'Sự kiện đã kết thúc thành công!';
+                statusMessage.className = 'mt-2 font-semibold text-green-600';
+            } else {
+                statusMessage.textContent = 'Sự kiện đang diễn ra!';
+                statusMessage.className = 'mt-2 font-semibold text-red-600 animate-pulse';
+
+                let activeSet = false;
+                items.forEach(item => {
+                    if (currentTime > item.getAttribute('data-time')) {
+                        item.classList.add('is-complete');
+                    } else {
+                        if (!activeSet) {
+                            item.classList.add('is-active');
+                            activeSet = true;
+                        } else {
+                            item.classList.add('is-upcoming');
+                        }
+                    }
+                });
+                
+                if (!hasScrolledToActive) {
+                    const activeItem = document.querySelector('.timeline-item.is-active');
+                    if (activeItem) {
+                        activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        hasScrolledToActive = true;
+                    }
+                }
+            }
+        }
+
+        // --- KHỞI CHẠY ---
+        displayEventDate();
+        buildTimeline();
+        
+        updateRealTimeDisplay();
+        updateTimelineStatus(); 
+        
+        setInterval(updateRealTimeDisplay, 1000);
+
+        const todayStr = new Date().toISOString().slice(0, 10);
+        if (todayStr === eventDateStr) {
+            setInterval(updateTimelineStatus, 5000);
+        }
+    </script>
+</body>
+</html>

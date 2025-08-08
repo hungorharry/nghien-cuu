@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sự Kiện Pickleball</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sử dụng font Inter làm font chữ mặc định */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Màu nền xám nhạt */
+        }
+        /* Hiệu ứng chuyển động cho thẻ chủ đề */
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb; /* Thêm viền nhẹ */
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .card-icon {
+            font-size: 2rem;
+            color: #ef4444; /* Màu đỏ cho icon */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        
+        <!-- NÚT QUAY VỀ ĐÃ ĐƯỢC THÊM VÀO ĐÂY -->
+        <div class="mb-8">
+            <a href="/ke-hoach-theo-doi/ke-hoach-theo-doi.html" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Quay lại Kế Hoạch Theo Dõi
+            </a>
+        </div>
+
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3">Sự Kiện Pickleball</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">Tổng hợp thông tin, địa điểm và các sự kiện về Pickleball.</p>
+        </div>
+
+        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        </div>
+
+    </div>
+
+    <script>
+        // --- THAY ĐỔI 1: Thêm các file còn thiếu vào danh sách ---
+        // Sắp xếp lại thứ tự cho hợp lý
+        const products = [
+            'timeline.html',
+            'dia-chi-pickleball.html',
+            'chot-chinh.html',
+            'check-list.html',
+            'notebookllm.html'
+        ];
+        
+        // --- THAY ĐỔI 2: Thêm tiêu đề cho các file mới ---
+        const titleMap = {
+            'timeline.html': 'Thông Tin Về Gian Diễn',
+            'dia-chi-pickleball.html': 'Địa Điểm Chơi Pickleball',
+            'chot-chinh.html': 'Chốt Chính Danh Sách',
+            'check-list.html': 'Checklist Chuẩn Bị',
+            'notebookllm.html': 'Ghi Chú & Thảo Luận (LLM)'
+        };
+
+        // --- THAY ĐỔI 3: Thêm icon tương ứng cho các chủ đề mới ---
+        const icons = [
+            'fa-solid fa-table-tennis-paddle-ball', // icon cho pickleball
+            'fa-solid fa-map-location-dot',        // icon cho địa điểm
+            'fa-solid fa-gavel',                   // icon cho luật chơi, chốt chính
+            'fa-solid fa-list-check',              // icon cho check-list
+            'fa-solid fa-book-open'                // icon cho notebook
+        ];
+
+        const productsGrid = document.getElementById('productsGrid');
+
+        // Hàm lấy tiêu đề từ map
+        function getProperTitle(slug) {
+            return titleMap[slug] || slug.replace('.html', '').replace(/-/g, ' ');
+        }
+
+        // Tạo và hiển thị các thẻ
+        products.forEach((productSlug, index) => {
+            const productTitle = getProperTitle(productSlug); 
+            const productLink = `${productSlug}`; // Liên kết trực tiếp vì các file cùng cấp
+            const iconClass = icons[index % icons.length]; // Lấy icon theo thứ tự, nếu hết sẽ lặp lại
+
+            const card = document.createElement('div');
+            card.className = 'product-card bg-white rounded-2xl p-8 flex flex-col text-center items-center';
+            
+            card.innerHTML = `
+                <div class="card-icon mb-4">
+                    <i class="${iconClass}"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 flex-grow mb-6">${productTitle}</h3>
+                <a href="${productLink}" class="mt-auto w-full inline-block bg-red-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-300 transform hover:scale-105">
+                    Xem Chi Tiết
+                </a>
+            `;
+            
+            productsGrid.appendChild(card);
+        });
+
+    </script>
+</body>
+</html>

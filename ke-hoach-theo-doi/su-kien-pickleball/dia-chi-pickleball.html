@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉ đường đến The Dinker Pickleball Club</title>
+    <style>
+        /* CSS để làm cho trang đẹp hơn một chút */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .club-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 25px 30px;
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+        }
+        .club-card h1 {
+            color: #1a2a4c;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .club-card p {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+        }
+        /* Đây là CSS cho nút bấm */
+        .direction-button {
+            display: inline-block;
+            background-color: #007bff; /* Màu xanh dương */
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none; /* Bỏ gạch chân của liên kết */
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .direction-button:hover {
+            background-color: #0056b3; /* Màu xanh đậm hơn khi di chuột vào */
+        }
+        .phone-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .phone-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="club-card">
+        <h1>The Dinker Pickleball Club</h1>
+        <p>
+            Điện thoại: 
+            <!-- Khi bấm vào số điện thoại trên di động, nó sẽ gợi ý gọi -->
+            <a class="phone-link" href="tel:0909463388">0909 463 388</a>
+        </p>
+
+        <!-- NÚT BẤM DẪN TỚI SÂN -->
+        <!-- Thuộc tính href chứa link Google Maps của sân -->
+        <a class="direction-button" href="https://maps.app.goo.gl/2jVhsjfHRPVDiGWN6" target="_blank">
+            Chỉ đường đến sân
+        </a>
+    </div>
+
+</body>
+</html>

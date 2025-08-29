@@ -1,961 +1,3066 @@
-
-
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Danh Sách Vận Động Viên (Tương Tác Nâng Cao)</title>
-<style>
-:root {
---male-color: #1e88e5;
---female-color: #d81b60;
---neutral-color: #546e7a;
---highlight-bg: #fffde7;
---table-highlight-color-start: #ffca28;
---table-highlight-color-end: #fbc02d;
-}
-html { scroll-behavior: smooth; }
-body {
-font-family: 'Segoe UI', Arial, sans-serif;
-margin: 20px;
-background-color: #f0f2f5;
-color: #333;
-}
-.main-layout {
-display: grid;
-grid-template-columns: 1fr 320px;
-gap: 30px;
-align-items: start;
-max-width: 1600px;
-margin: 0 auto;
-}
-.content-area {
-/* Khu vực này chứa các bảng */
-}
-.controls-panel {
-position: sticky;
-top: 20px;
-display: flex;
-flex-direction: column;
-gap: 20px;
-}
-.container {
-display: grid;
-grid-template-columns: 1fr;
-gap: 30px;
-}
-.table-wrapper {
-position: relative; background-color: #fff; border-radius: 10px;
-box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;
-border: 1px solid #e0e0e0; transition: all 0.3s ease-in-out;
-display: flex; flex-direction: column;
-}
-.table-wrapper:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.12); }
-h2 {
-background: linear-gradient(90deg, #c62828, #b71c1c); color: white; padding: 15px 20px;
-margin: 0; font-size: 1.3em; text-align: center; text-transform: uppercase;
-letter-spacing: 1px; position: relative;
-transition: all 0.3s ease-in-out;
-}
-.table-content {
-flex-grow: 1; overflow-x: auto;
-transition: max-height 0.4s ease-out, opacity 0.3s ease-in-out, padding 0.4s ease-out;
-max-height: 1000px; opacity: 1;
-}
-table { width: 100%; border-collapse: collapse; }
-th, td { border-bottom: 1px solid #e9e9e9; padding: 14px 18px; text-align: left; font-size: 0.95em; white-space: nowrap; }
-th { background-color: #f8f9fa; font-weight: 600; color: #343a40; user-select: none; }
-tr:last-child td { border-bottom: none; }
-tr:nth-child(even) { background-color: #fdfdfd; }
-td:first-child { width: 45px; text-align: center; font-weight: bold; color: #c62828; }
-h1 { text-align: center; color: #b71c1c; font-weight: 700; text-transform: uppercase; margin-bottom: 25px; }
-.copy-btn {
-position: absolute; top: 12px; right: 15px; background-color: #fff; color: #c62828; border: 1px solid #c62828;
-border-radius: 5px; padding: 5px 12px; cursor: pointer; font-size: 0.85em; font-weight: 600;
-transition: all 0.2s ease-in-out; z-index: 2;
-}
-.copy-btn:hover { background-color: #c62828; color: #fff; }
-.stats-and-filter { padding: 10px 18px; background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0; }
-.stats-and-filter h4 { margin: 0 0 8px 0; font-size: 0.9em; color: #555; font-weight: 600; }
-.size-filter-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.size-tag {
-background-color: #e9ecef; color: #495057; padding: 4px 10px; border-radius: 15px; font-size: 0.85em;
-cursor: pointer; transition: all 0.2s ease; border: 1px solid #dee2e6; user-select: none;
-}
-.size-tag:hover { background-color: #ced4da; }
-.size-tag.active { background-color: #c62828; color: white; border-color: #b71c1c; font-weight: bold; }
-.summary-container { width: 100%; transition: all 0.5s ease-in-out; max-height: 1000px; opacity: 1; margin-bottom: 30px;}
-.summary-container.hidden { max-height: 0; opacity: 0; overflow: hidden; margin-bottom: 0; }
-.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-.summary-table-wrapper h2 { font-size: 1.1em; padding: 12px 15px; }
-.summary-table-wrapper td { cursor: pointer; transition: background-color 0.2s; }
-.summary-table-wrapper td:first-child { text-align: left; }
-.summary-table-wrapper td:last-child { font-weight: bold; text-align: center; }
-.summary-table-wrapper tbody tr:hover td { background-color: var(--highlight-bg); }
-#summary-male-wrapper h2 { background: linear-gradient(90deg, var(--male-color), #1565c0); }
-#summary-male-wrapper td:first-child { color: var(--male-color); }
-#summary-female-wrapper h2 { background: linear-gradient(90deg, var(--female-color), #c2185b); }
-#summary-female-wrapper td:first-child { color: var(--female-color); }
-#grand-total-wrapper h2 { background: linear-gradient(90deg, var(--neutral-color), #37474f); }
-#grand-total-tbody tr:last-child { font-size: 1.1em; background-color: #f1f8e9; }
-#search-input {
-width: 100%; padding: 12px 20px 12px 40px; font-size: 1.1em; border-radius: 25px;
-border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease; box-sizing: border-box;
-}
-#search-input:focus { border-color: var(--male-color); box-shadow: 0 2px 8px rgba(30, 136, 229, 0.2); outline: none; }
-.search-container { position: relative; width: 100%; }
-.search-container::before { content: '🔍'; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); font-size: 1.2em; color: #999; z-index: 1; }
-#toggle-summary-btn {
-background-color: var(--neutral-color); color: white; border: none; padding: 10px 25px; border-radius: 20px;
-cursor: pointer; font-weight: 600; font-size: 1em; transition: all 0.3s ease; width: 100%;
-}
-#toggle-summary-btn:hover { background-color: #37474f; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transform: translateY(-2px); }
-.gender-filter { display: flex; flex-direction: column; gap: 8px; background-color: #fff; border-radius: 10px; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.gender-filter button {
-border: none; background-color: #f1f3f5; padding: 10px 15px; border-radius: 8px;
-font-weight: 600; cursor: pointer; transition: all 0.3s ease;
-}
-.gender-filter button.active { color: white; }
-.gender-filter button#filter-all.active { background-color: var(--neutral-color); }
-.gender-filter button#filter-male.active { background-color: var(--male-color); }
-.gender-filter button#filter-female.active { background-color: var(--female-color); }
-.gender-icon { margin-right: 8px; }
-.quick-nav-bar {
-display: flex;
-flex-direction: column; gap: 8px;
-padding: 10px;
-background-color: #fff;
-border-radius: 10px;
-box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.quick-nav-bar a {
-padding: 10px 16px;
-background-color: #e9ecef;
-color: #495057;
-text-decoration: none;
-border-radius: 8px;
-font-weight: 600;
-font-size: 0.9em;
-transition: all 0.2s ease;
-text-align: center;
-}
-.quick-nav-bar a:hover {
-background-color: var(--neutral-color);
-color: white;
-}
-#back-to-top-btn {
-position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px;
-background-color: var(--neutral-color); color: white; border: none;
-border-radius: 50%; font-size: 24px; line-height: 50px; text-align: center;
-cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-opacity: 0; visibility: hidden;
-transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
-z-index: 1000; text-decoration: none;
-}
-#back-to-top-btn.visible { opacity: 1; visibility: visible; }
-#back-to-top-btn:hover { background-color: #37474f; transform: scale(1.1); }
-tr.highlight { background-color: var(--highlight-bg) !important; transition: background-color 0.3s; }
-tr.dimmed { opacity: 0.5; transition: opacity 0.3s; }
-.table-wrapper.table-has-match > h2 {
-background: linear-gradient(90deg, var(--table-highlight-color-start), var(--table-highlight-color-end));
-color: #333;
-box-shadow: 0 0 15px rgba(255, 202, 40, 0.7);
-}
-th.sortable {
-cursor: pointer;
-position: relative;
-}
-th.sortable:hover {
-background-color: #e9ecef;
-}
-.sort-icon {
-display: inline-block;
-width: 1em;
-text-align: center;
-margin-left: 5px;
-color: #999;
-transition: color 0.2s, transform 0.2s;
-}
-th.sort-asc .sort-icon, th.sort-desc .sort-icon {
-color: #333;
-}
-th.sort-asc .sort-icon::after {
-content: '▲';
-}
-th.sort-desc .sort-icon::after {
-content: '▼';
-transform: translateY(1px);
-}
-
-/* CSS cho tính năng focus vào bảng */
-.table-wrapper > h2 {
-    cursor: pointer;
-}
-.container.is-focused .table-wrapper:not(.focused) {
-    display: none;
-}
-.table-wrapper.focused {
-    transform: translateY(-5px) scale(1.01);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
-    z-index: 10;
-}
-.table-wrapper.focused > h2 {
-    background: linear-gradient(90deg, #f9a825, #f57f17);
-}
-.table-wrapper.focused > h2::after {
-    content: ' (Click lần nữa để xem tất cả)';
-    font-size: 0.8em;
-    font-weight: normal;
-    opacity: 0.9;
-    margin-left: 8px;
-}
-
-/* MỚI: CSS cho khu vực tìm kiếm khi được di chuyển */
-#search-focus-area {
-    margin-bottom: 0;
-    transition: margin-bottom 0.3s ease-in-out;
-}
-/* Chỉ thêm khoảng cách khi nó thật sự chứa thanh tìm kiếm */
-#search-focus-area:has(.search-container) {
-    margin-bottom: 30px;
-}
-/* Ẩn các nút điều khiển khác khi ở chế độ focus */
-.container.is-focused ~ .controls-panel .gender-filter,
-.container.is-focused ~ .controls-panel .quick-nav-bar,
-.container.is-focused ~ .controls-panel #toggle-summary-btn {
-    display: none;
-}
-
-
-/* CSS cho Responsive */
-@media (max-width: 1000px) {
-    .main-layout {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh Sách Vận Động Viên (Tương Tác Nâng Cao)</title>
+    <style>
+      :root {
+        --male-color: #1e88e5;
+        --female-color: #d81b60;
+        --neutral-color: #546e7a;
+        --highlight-bg: #fffde7;
+        --table-highlight-color-start: #ffca28;
+        --table-highlight-color-end: #fbc02d;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        margin: 20px;
+        background-color: #f0f2f5;
+        color: #333;
+      }
+      .main-layout {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 30px;
+        align-items: start;
+        max-width: 1600px;
+        margin: 0 auto;
+      }
+      .content-area {
+        /* Khu vực này chứa các bảng */
+      }
+      .controls-panel {
+        position: sticky;
+        top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .container {
+        display: grid;
         grid-template-columns: 1fr;
-    }
-    .controls-panel {
-        position: static;
-        order: -1;
+        gap: 30px;
+      }
+      .table-wrapper {
+        position: relative;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s ease-in-out;
+        display: flex;
+        flex-direction: column;
+      }
+      .table-wrapper:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+      h2 {
+        background: linear-gradient(90deg, #c62828, #b71c1c);
+        color: white;
+        padding: 15px 20px;
+        margin: 0;
+        font-size: 1.3em;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+      }
+      .table-content {
+        flex-grow: 1;
+        overflow-x: auto;
+        transition: max-height 0.4s ease-out, opacity 0.3s ease-in-out,
+          padding 0.4s ease-out;
+        max-height: 1000px;
+        opacity: 1;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #e9e9e9;
+        padding: 14px 18px;
+        text-align: left;
+        font-size: 0.95em;
+        white-space: nowrap;
+      }
+      th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #343a40;
+        user-select: none;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:nth-child(even) {
+        background-color: #fdfdfd;
+      }
+      td:first-child {
+        width: 45px;
+        text-align: center;
+        font-weight: bold;
+        color: #c62828;
+      }
+      h1 {
+        text-align: center;
+        color: #b71c1c;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+      }
+      .copy-btn {
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        background-color: #fff;
+        color: #c62828;
+        border: 1px solid #c62828;
+        border-radius: 5px;
+        padding: 5px 12px;
+        cursor: pointer;
+        font-size: 0.85em;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+        z-index: 2;
+      }
+      .copy-btn:hover {
+        background-color: #c62828;
+        color: #fff;
+      }
+      .stats-and-filter {
+        padding: 10px 18px;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      .stats-and-filter h4 {
+        margin: 0 0 8px 0;
+        font-size: 0.9em;
+        color: #555;
+        font-weight: 600;
+      }
+      .size-filter-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .size-tag {
+        background-color: #e9ecef;
+        color: #495057;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.85em;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid #dee2e6;
+        user-select: none;
+      }
+      .size-tag:hover {
+        background-color: #ced4da;
+      }
+      .size-tag.active {
+        background-color: #c62828;
+        color: white;
+        border-color: #b71c1c;
+        font-weight: bold;
+      }
+      .summary-container {
+        width: 100%;
+        transition: all 0.5s ease-in-out;
+        max-height: 1000px;
+        opacity: 1;
         margin-bottom: 30px;
-    }
-    /* MỚI: Xử lý responsive cho tính năng focus */
-    /* Khi focus, ẩn toàn bộ panel phải đi, vì search đã được đưa lên trên */
-    .main-layout.is-focused .controls-panel {
-        display: none;
-    }
-}
-</style>
-</head>
-<body>
-<h1>Danh Sách Vận Động Viên</h1>
-<div class="main-layout">
-<div class="content-area">
-    <!-- MỚI: Thêm vị trí giữ chỗ cho thanh tìm kiếm -->
-    <div id="search-focus-area"></div>
+      }
+      .summary-container.hidden {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        margin-bottom: 0;
+      }
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      .summary-table-wrapper h2 {
+        font-size: 1.1em;
+        padding: 12px 15px;
+      }
+      .summary-table-wrapper td {
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      .summary-table-wrapper td:first-child {
+        text-align: left;
+      }
+      .summary-table-wrapper td:last-child {
+        font-weight: bold;
+        text-align: center;
+      }
+      .summary-table-wrapper tbody tr:hover td {
+        background-color: var(--highlight-bg);
+      }
+      #summary-male-wrapper h2 {
+        background: linear-gradient(90deg, var(--male-color), #1565c0);
+      }
+      #summary-male-wrapper td:first-child {
+        color: var(--male-color);
+      }
+      #summary-female-wrapper h2 {
+        background: linear-gradient(90deg, var(--female-color), #c2185b);
+      }
+      #summary-female-wrapper td:first-child {
+        color: var(--female-color);
+      }
+      #grand-total-wrapper h2 {
+        background: linear-gradient(90deg, var(--neutral-color), #37474f);
+      }
+      #grand-total-tbody tr:last-child {
+        font-size: 1.1em;
+        background-color: #f1f8e9;
+      }
+      #search-input {
+        width: 100%;
+        padding: 12px 20px 12px 40px;
+        font-size: 1.1em;
+        border-radius: 25px;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+      }
+      #search-input:focus {
+        border-color: var(--male-color);
+        box-shadow: 0 2px 8px rgba(30, 136, 229, 0.2);
+        outline: none;
+      }
+      .search-container {
+        position: relative;
+        width: 100%;
+      }
+      .search-container::before {
+        content: "🔍";
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2em;
+        color: #999;
+        z-index: 1;
+      }
+      #toggle-summary-btn {
+        background-color: var(--neutral-color);
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+      #toggle-summary-btn:hover {
+        background-color: #37474f;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+      }
+      .gender-filter {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .gender-filter button {
+        border: none;
+        background-color: #f1f3f5;
+        padding: 10px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .gender-filter button.active {
+        color: white;
+      }
+      .gender-filter button#filter-all.active {
+        background-color: var(--neutral-color);
+      }
+      .gender-filter button#filter-male.active {
+        background-color: var(--male-color);
+      }
+      .gender-filter button#filter-female.active {
+        background-color: var(--female-color);
+      }
+      .gender-icon {
+        margin-right: 8px;
+      }
+      .quick-nav-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      }
+      .quick-nav-bar a {
+        padding: 10px 16px;
+        background-color: #e9ecef;
+        color: #495057;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9em;
+        transition: all 0.2s ease;
+        text-align: center;
+      }
+      .quick-nav-bar a:hover {
+        background-color: var(--neutral-color);
+        color: white;
+      }
+      #back-to-top-btn {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 50px;
+        height: 50px;
+        background-color: var(--neutral-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 24px;
+        line-height: 50px;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        z-index: 1000;
+        text-decoration: none;
+      }
+      #back-to-top-btn.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      #back-to-top-btn:hover {
+        background-color: #37474f;
+        transform: scale(1.1);
+      }
+      tr.highlight {
+        background-color: var(--highlight-bg) !important;
+        transition: background-color 0.3s;
+      }
+      tr.dimmed {
+        opacity: 0.5;
+        transition: opacity 0.3s;
+      }
+      .table-wrapper.table-has-match > h2 {
+        background: linear-gradient(
+          90deg,
+          var(--table-highlight-color-start),
+          var(--table-highlight-color-end)
+        );
+        color: #333;
+        box-shadow: 0 0 15px rgba(255, 202, 40, 0.7);
+      }
+      th.sortable {
+        cursor: pointer;
+        position: relative;
+      }
+      th.sortable:hover {
+        background-color: #e9ecef;
+      }
+      .sort-icon {
+        display: inline-block;
+        width: 1em;
+        text-align: center;
+        margin-left: 5px;
+        color: #999;
+        transition: color 0.2s, transform 0.2s;
+      }
+      th.sort-asc .sort-icon,
+      th.sort-desc .sort-icon {
+        color: #333;
+      }
+      th.sort-asc .sort-icon::after {
+        content: "▲";
+      }
+      th.sort-desc .sort-icon::after {
+        content: "▼";
+        transform: translateY(1px);
+      }
 
-    <div id="summary-container" class="summary-container">
-        <!-- Nội dung bảng tổng hợp -->
-        <div class="summary-grid">
-            <div id="summary-male-wrapper" class="table-wrapper summary-table-wrapper">
-                <h2>Tổng Hợp Áo Nam</h2>
-                <div class="table-content"><table><thead><tr><th>Size Áo</th><th>Số Lượng</th></tr></thead><tbody id="summary-male-tbody"></tbody></table></div>
+      /* CSS cho tính năng focus vào bảng */
+      .table-wrapper > h2 {
+        cursor: pointer;
+      }
+      .container.is-focused .table-wrapper:not(.focused) {
+        display: none;
+      }
+      .table-wrapper.focused {
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+      }
+      .table-wrapper.focused > h2 {
+        background: linear-gradient(90deg, #f9a825, #f57f17);
+      }
+      .table-wrapper.focused > h2::after {
+        content: " (Click lần nữa để xem tất cả)";
+        font-size: 0.8em;
+        font-weight: normal;
+        opacity: 0.9;
+        margin-left: 8px;
+      }
+
+      /* MỚI: CSS cho khu vực tìm kiếm khi được di chuyển */
+      #search-focus-area {
+        margin-bottom: 0;
+        transition: margin-bottom 0.3s ease-in-out;
+      }
+      /* Chỉ thêm khoảng cách khi nó thật sự chứa thanh tìm kiếm */
+      #search-focus-area:has(.search-container) {
+        margin-bottom: 30px;
+      }
+      /* Ẩn các nút điều khiển khác khi ở chế độ focus */
+      .container.is-focused ~ .controls-panel .gender-filter,
+      .container.is-focused ~ .controls-panel .quick-nav-bar,
+      .container.is-focused ~ .controls-panel #toggle-summary-btn {
+        display: none;
+      }
+
+      /* CSS cho Responsive */
+      @media (max-width: 1000px) {
+        .main-layout {
+          grid-template-columns: 1fr;
+        }
+        .controls-panel {
+          position: static;
+          order: -1;
+          margin-bottom: 30px;
+        }
+        /* MỚI: Xử lý responsive cho tính năng focus */
+        /* Khi focus, ẩn toàn bộ panel phải đi, vì search đã được đưa lên trên */
+        .main-layout.is-focused .controls-panel {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Danh Sách Vận Động Viên</h1>
+    <div class="main-layout">
+      <div class="content-area">
+        <!-- MỚI: Thêm vị trí giữ chỗ cho thanh tìm kiếm -->
+        <div id="search-focus-area"></div>
+
+        <div id="summary-container" class="summary-container">
+          <!-- Nội dung bảng tổng hợp -->
+          <div class="summary-grid">
+            <div
+              id="summary-male-wrapper"
+              class="table-wrapper summary-table-wrapper"
+            >
+              <h2>Tổng Hợp Áo Nam</h2>
+              <div class="table-content">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Size Áo</th>
+                      <th>Số Lượng</th>
+                    </tr>
+                  </thead>
+                  <tbody id="summary-male-tbody"></tbody>
+                </table>
+              </div>
             </div>
-            <div id="summary-female-wrapper" class="table-wrapper summary-table-wrapper">
-                <h2>Tổng Hợp Áo Nữ</h2>
-                <div class="table-content"><table><thead><tr><th>Size Áo</th><th>Số Lượng</th></tr></thead><tbody id="summary-female-tbody"></tbody></table></div>
+            <div
+              id="summary-female-wrapper"
+              class="table-wrapper summary-table-wrapper"
+            >
+              <h2>Tổng Hợp Áo Nữ</h2>
+              <div class="table-content">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Size Áo</th>
+                      <th>Số Lượng</th>
+                    </tr>
+                  </thead>
+                  <tbody id="summary-female-tbody"></tbody>
+                </table>
+              </div>
             </div>
-            <div id="grand-total-wrapper" class="table-wrapper summary-table-wrapper">
-                <h2>Tổng Cộng Chung</h2>
-                <div class="table-content"><table><thead><tr><th>Size Áo</th><th>Tổng Số Lượng</th></tr></thead><tbody id="grand-total-tbody"></tbody></table></div>
+            <div
+              id="grand-total-wrapper"
+              class="table-wrapper summary-table-wrapper"
+            >
+              <h2>Tổng Cộng Chung</h2>
+              <div class="table-content">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Size Áo</th>
+                      <th>Tổng Số Lượng</th>
+                    </tr>
+                  </thead>
+                  <tbody id="grand-total-tbody"></tbody>
+                </table>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    <div class="container">
-        <!-- NỘI DUNG CÁC BẢNG GIỮ NGUYÊN NHƯ CŨ -->
-        <div id="table-a" class="table-wrapper">
+        <div class="container">
+          <!-- NỘI DUNG CÁC BẢNG GIỮ NGUYÊN NHƯ CŨ -->
+          <div id="table-a" class="table-wrapper">
             <h2>Bảng A</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                <table><thead><tr><th>STT</th><th>Họ Và Tên</th><th class="sortable">Tên<span class="sort-icon"></span></th><th>Giới Tính</th><th>Tên Công Ty</th><th>Size Áo</th></tr></thead><tbody>
-<tr><td>1</td><td>Nguyễn Thọ Long</td><td>Long</td><td>Nam</td><td>Silicon Power</td><td>XXL</td></tr>
-<tr><td>2</td><td>Huỳnh Thanh Hải</td><td>Hải</td><td>Nam</td><td>Innotel</td><td>M</td></tr>
-<tr><td>3</td><td>Phan Trung Huân</td><td>Huân</td><td>Nam</td><td>Vinatech Nha Trang</td><td>XXL</td></tr>
-<tr><td>4</td><td>Hàng Tấn Nghĩa</td><td>Nghĩa</td><td>Nam</td><td>Nghĩa Thư</td><td>XL</td></tr>
-<tr><td>5</td><td>Hoàng Lan Anh</td><td>Anh</td><td>Nữ</td><td>CyberPower</td><td>M</td></tr>
-<tr><td>6</td><td>Phạm Anh Đức</td><td>Đức</td><td>Nam</td><td>Thành Trung</td><td>XL</td></tr>
-<tr><td>7</td><td>Nguyễn Văn Dũng</td><td>Dũng</td><td>Nam</td><td>Nguyễn Tuyết Nga</td><td>XXL</td></tr>
-<tr><td>8</td><td>Hứa Quốc Thái</td><td>Thái</td><td>Nam</td><td>Thái Mỹ Duyên</td><td>L</td></tr>
-<tr><td>9</td><td>Đỗ Khắc Sơn</td><td>Sơn</td><td>Nam</td><td>Vinh Hiển Lộc Tài</td><td>XXXL</td></tr>
-<tr><td>10</td><td>Lê Huy Hoàng</td><td>Hoàng</td><td>Nam</td><td>A.M.T</td><td>XXL</td></tr>
-<tr><td>11</td><td>Trần Viết Ý</td><td>Ý</td><td>Nam</td><td>Kỷ Nguyên</td><td>XXL</td></tr>
-<tr><td>12</td><td>Trần Thị Hoài Thu</td><td>Thu</td><td>Nữ</td><td>Silicon Power</td><td>M</td></tr>
-<tr><td>13</td><td>Vũ Văn Trực</td><td>Trực</td><td>Nam</td><td>Mytechsun</td><td>XL</td></tr>
-<tr><td>14</td><td>Trần Thế Anh</td><td>Anh</td><td>Nam</td><td>A.M.T</td><td>XL</td></tr>
-<tr><td>15</td><td>Đỗ Phạm Tính</td><td>Tính</td><td>Nam</td><td>Cửu Long Laptop</td><td>XL</td></tr>
-<tr><td>16</td><td>Phạm Trọng Khải</td><td>Khải</td><td>Nam</td><td>P&N</td><td>XL</td></tr>
-<tr><td>17</td><td>Nguyễn Đức Việt</td><td>Việt</td><td>Nam</td><td>ADG</td><td>L</td></tr>
-<tr><td>18</td><td>Huỳnh Hữu Trắc</td><td>Trắc</td><td>Nam</td><td>CTU</td><td>XXL</td></tr>
-<tr><td>19</td><td>Lưu Tuyết Kiều</td><td>Kiều</td><td>Nữ</td><td>Nguyễn Tuyết Nga</td><td>L</td></tr>
-<tr><td>20</td><td>Lê Quốc Truyền</td><td>Truyền</td><td>Nam</td><td>Minh Phát</td><td>XXL</td></tr>
-<tr><td>21</td><td>Nguyễn Trần Hoàn Vũ</td><td>Vũ</td><td>Nam</td><td>STS</td><td>L</td></tr>
-<tr><td>22</td><td>Zin Saigon</td><td>Saigon</td><td>Nam</td><td>STS</td><td>XXXXL</td></tr>
-<tr><td>23</td><td>Huỳnh Quốc Việt</td><td>Việt</td><td>Nam</td><td>Minh Phát</td><td>L</td></tr>
-<tr><td>24</td><td>Nguyễn Duy Phú</td><td>Phú</td><td>Nam</td><td>Alfa PNP</td><td>XXL</td></tr>
-<tr><td>25</td><td>Kevin Huy</td><td>Huy</td><td>Nam</td><td>STS</td><td>XL</td></tr>
-<tr><td>26</td><td>Nguyễn Hải Đăng</td><td>Đăng</td><td>Nam</td><td>HPT</td><td>XXL</td></tr>
-<tr><td>27</td><td>Hồ Duy Kiên</td><td>Kiên</td><td>Nam</td><td>Grandstream</td><td>XXL</td></tr>
-<tr><td>28</td><td>Phan Vũ Khánh Quỳnh</td><td>Quỳnh</td><td>Nữ</td><td>Synnex FPT</td><td>M</td></tr>
-<tr><td>29</td><td>Nguyễn Thị Lệ Trinh</td><td>Trinh</td><td>Nữ</td><td>Vmax</td><td>S</td></tr>
-<tr><td>30</td><td>Nguyễn Thị Xuân Hường</td><td>Hường</td><td>Nữ</td><td>Viễn Sơn</td><td>M</td></tr>
-</tbody></table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
-        </div>
-        <div id="table-b" class="table-wrapper">
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Tên Công Ty</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Nguyễn Thọ Long</td>
+                    <td>Long</td>
+                    <td>Nam</td>
+                    <td>Silicon Power</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Huỳnh Thanh Hải</td>
+                    <td>Hải</td>
+                    <td>Nam</td>
+                    <td>Innotel</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Phan Trung Huân</td>
+                    <td>Huân</td>
+                    <td>Nam</td>
+                    <td>Vinatech Nha Trang</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Hàng Tấn Nghĩa</td>
+                    <td>Nghĩa</td>
+                    <td>Nam</td>
+                    <td>Nghĩa Thư</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Hoàng Lan Anh</td>
+                    <td>Anh</td>
+                    <td>Nữ</td>
+                    <td>CyberPower</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Phạm Anh Đức</td>
+                    <td>Đức</td>
+                    <td>Nam</td>
+                    <td>Thành Trung</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Nguyễn Văn Dũng</td>
+                    <td>Dũng</td>
+                    <td>Nam</td>
+                    <td>Nguyễn Tuyết Nga</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Hứa Quốc Thái</td>
+                    <td>Thái</td>
+                    <td>Nam</td>
+                    <td>Thái Mỹ Duyên</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Đỗ Khắc Sơn</td>
+                    <td>Sơn</td>
+                    <td>Nam</td>
+                    <td>Vinh Hiển Lộc Tài</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Lê Huy Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>A.M.T</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Trần Viết Ý</td>
+                    <td>Ý</td>
+                    <td>Nam</td>
+                    <td>Kỷ Nguyên</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Trần Thị Hoài Thu</td>
+                    <td>Thu</td>
+                    <td>Nữ</td>
+                    <td>Silicon Power</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Vũ Văn Trực</td>
+                    <td>Trực</td>
+                    <td>Nam</td>
+                    <td>Mytechsun</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Trần Thế Anh</td>
+                    <td>Anh</td>
+                    <td>Nam</td>
+                    <td>A.M.T</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Đỗ Phạm Tính</td>
+                    <td>Tính</td>
+                    <td>Nam</td>
+                    <td>Cửu Long Laptop</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Phạm Trọng Khải</td>
+                    <td>Khải</td>
+                    <td>Nam</td>
+                    <td>P&N</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Nguyễn Đức Việt</td>
+                    <td>Việt</td>
+                    <td>Nam</td>
+                    <td>ADG</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Huỳnh Hữu Trắc</td>
+                    <td>Trắc</td>
+                    <td>Nam</td>
+                    <td>CTU</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Lưu Tuyết Kiều</td>
+                    <td>Kiều</td>
+                    <td>Nữ</td>
+                    <td>Nguyễn Tuyết Nga</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Lê Quốc Truyền</td>
+                    <td>Truyền</td>
+                    <td>Nam</td>
+                    <td>Minh Phát</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Nguyễn Trần Hoàn Vũ</td>
+                    <td>Vũ</td>
+                    <td>Nam</td>
+                    <td>STS</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Zin Saigon</td>
+                    <td>Saigon</td>
+                    <td>Nam</td>
+                    <td>STS</td>
+                    <td>XXXXL</td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Huỳnh Quốc Việt</td>
+                    <td>Việt</td>
+                    <td>Nam</td>
+                    <td>Minh Phát</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Nguyễn Duy Phú</td>
+                    <td>Phú</td>
+                    <td>Nam</td>
+                    <td>Alfa PNP</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>25</td>
+                    <td>Kevin Huy</td>
+                    <td>Huy</td>
+                    <td>Nam</td>
+                    <td>STS</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>26</td>
+                    <td>Nguyễn Hải Đăng</td>
+                    <td>Đăng</td>
+                    <td>Nam</td>
+                    <td>HPT</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>27</td>
+                    <td>Hồ Duy Kiên</td>
+                    <td>Kiên</td>
+                    <td>Nam</td>
+                    <td>Grandstream</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Phan Vũ Khánh Quỳnh</td>
+                    <td>Quỳnh</td>
+                    <td>Nữ</td>
+                    <td>Synnex FPT</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>29</td>
+                    <td>Nguyễn Thị Lệ Trinh</td>
+                    <td>Trinh</td>
+                    <td>Nữ</td>
+                    <td>Vmax</td>
+                    <td>S</td>
+                  </tr>
+                  <tr>
+                    <td>30</td>
+                    <td>Nguyễn Thị Xuân Hường</td>
+                    <td>Hường</td>
+                    <td>Nữ</td>
+                    <td>Viễn Sơn</td>
+                    <td>M</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="table-b" class="table-wrapper">
             <h2>Bảng B</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                 <table><thead><tr><th>STT</th><th>Họ Và Tên</th><th class="sortable">Tên<span class="sort-icon"></span></th><th>Giới Tính</th><th>Tên Công Ty</th><th>Size Áo</th></tr></thead><tbody>
-<tr><td>1</td><td>Hoàng Thanh Nhã</td><td>Nhã</td><td>Nam</td><td>Đông Nam Á</td><td>L</td></tr>
-<tr><td>2</td><td>Mai Hữu Huy</td><td>Huy</td><td>Nam</td><td>ACB</td><td>L</td></tr>
-<tr><td>3</td><td>Nguyễn Vĩnh Hiệp</td><td>Hiệp</td><td>Nam</td><td>Dell</td><td>XXL</td></tr>
-<tr><td>4</td><td>Le Thanh Binh</td><td>Binh</td><td>Nam</td><td>Xuân Vinh</td><td>XXL</td></tr>
-<tr><td>5</td><td>Trần Thanh Nguyên</td><td>Nguyên</td><td>Nam</td><td>HPE</td><td>M</td></tr>
-<tr><td>6</td><td>Nguyễn Thiên Ân</td><td>Ân</td><td>Nam</td><td>HPE</td><td>L</td></tr>
-<tr><td>7</td><td>Đào Anh Dũng</td><td>Dũng</td><td>Nam</td><td>Đông Nam Á</td><td>L</td></tr>
-<tr><td>8</td><td>Nguyễn Trọng Nguyễn</td><td>Nguyễn</td><td>Nam</td><td>ACBS</td><td>XXL</td></tr>
-<tr><td>9</td><td>Phạm Thúy Vy</td><td>Vy</td><td>Nữ</td><td>HPE</td><td>S</td></tr>
-<tr><td>10</td><td>Nguyễn Văn Phương</td><td>Phương</td><td>Nam</td><td>HPE</td><td>M</td></tr>
-<tr><td>11</td><td>Vo Thai Son</td><td>Son</td><td>Nam</td><td>Phan Bon</td><td>L</td></tr>
-<tr><td>12</td><td>Lâm Hương</td><td>Hương</td><td>Nữ</td><td>HPE</td><td>M</td></tr>
-<tr><td>13</td><td>Lê Bình</td><td>Bình</td><td>Nam</td><td>Thùy Minh</td><td>L</td></tr>
-<tr><td>14</td><td>Trần Quí Tuấn</td><td>Tuấn</td><td>Nam</td><td>ACT4</td><td>L</td></tr>
-<tr><td>15</td><td>Mai Trần Thanh Thế</td><td>Thế</td><td>Nam</td><td>Aztechnologies</td><td>M</td></tr>
-<tr><td>16</td><td>Hồ Tấn Hoàng</td><td>Hoàng</td><td>Nam</td><td>HPE</td><td>L</td></tr>
-<tr><td>17</td><td>Nguyễn Anh Tài</td><td>Tài</td><td>Nam</td><td>Avtech</td><td>L</td></tr>
-<tr><td>18</td><td>Lê Hương Ly</td><td>Ly</td><td>Nữ</td><td>Xuân Vinh</td><td>L</td></tr>
-<tr><td>19</td><td>Phan Tùng Linh</td><td>Linh</td><td>Nam</td><td>Phan Quang</td><td>XL</td></tr>
-<tr><td>20</td><td>Võ Đình Nam</td><td>Nam</td><td>Nam</td><td>ACB</td><td>XL</td></tr>
-<tr><td>21</td><td>Nguyễn Long Đỉnh</td><td>Đỉnh</td><td>Nam</td><td>ACB</td><td>XXL</td></tr>
-<tr><td>22</td><td>Tran Thi Kim Phuong</td><td>Phuong</td><td>Nữ</td><td>Xuân Vinh</td><td>S</td></tr>
-<tr><td>23</td><td>Ngo Thi Kim Dung</td><td>Dung</td><td>Nữ</td><td>PSD</td><td>XL</td></tr>
-<tr><td>24</td><td>Nguyễn Thị Minh Tâm</td><td>Tâm</td><td>Nữ</td><td>Tuấn Linh</td><td>XL</td></tr>
-<tr><td>25</td><td>Khuất Tuấn Cường</td><td>Cường</td><td>Nam</td><td>Synnex FPT</td><td>XXL</td></tr>
-<tr><td>26</td><td>Huỳnh Thanh Phước</td><td>Phước</td><td>Nam</td><td>Khai Phước</td><td>XXL</td></tr>
-<tr><td>27</td><td>Cao Đức Đoan</td><td>Đoan</td><td>Nam</td><td>Kết Nối Xanh</td><td>M</td></tr>
-<tr><td>28</td><td>Võ Thị Khánh</td><td>Khánh</td><td>Nữ</td><td>ACT4</td><td>M</td></tr>
-<tr><td>29</td><td>Trần Anh Tuấn</td><td>Tuấn</td><td>Nam</td><td>SAZ</td><td>XL</td></tr>
-<tr><td>30</td><td>Bùi Minh Công</td><td>Công</td><td>Nam</td><td>HPE</td><td>L</td></tr>
-</tbody></table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
-        </div>
-        <div id="table-c" class="table-wrapper">
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Tên Công Ty</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Hoàng Thanh Nhã</td>
+                    <td>Nhã</td>
+                    <td>Nam</td>
+                    <td>Đông Nam Á</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Mai Hữu Huy</td>
+                    <td>Huy</td>
+                    <td>Nam</td>
+                    <td>ACB</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Nguyễn Vĩnh Hiệp</td>
+                    <td>Hiệp</td>
+                    <td>Nam</td>
+                    <td>Dell</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Le Thanh Binh</td>
+                    <td>Binh</td>
+                    <td>Nam</td>
+                    <td>Xuân Vinh</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Trần Thanh Nguyên</td>
+                    <td>Nguyên</td>
+                    <td>Nam</td>
+                    <td>HPE</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Nguyễn Thiên Ân</td>
+                    <td>Ân</td>
+                    <td>Nam</td>
+                    <td>HPE</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Đào Anh Dũng</td>
+                    <td>Dũng</td>
+                    <td>Nam</td>
+                    <td>Đông Nam Á</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Nguyễn Trọng Nguyễn</td>
+                    <td>Nguyễn</td>
+                    <td>Nam</td>
+                    <td>ACBS</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Phạm Thúy Vy</td>
+                    <td>Vy</td>
+                    <td>Nữ</td>
+                    <td>HPE</td>
+                    <td>S</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Nguyễn Văn Phương</td>
+                    <td>Phương</td>
+                    <td>Nam</td>
+                    <td>HPE</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Vo Thai Son</td>
+                    <td>Son</td>
+                    <td>Nam</td>
+                    <td>Phan Bon</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Lâm Hương</td>
+                    <td>Hương</td>
+                    <td>Nữ</td>
+                    <td>HPE</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Lê Bình</td>
+                    <td>Bình</td>
+                    <td>Nam</td>
+                    <td>Thùy Minh</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Trần Quí Tuấn</td>
+                    <td>Tuấn</td>
+                    <td>Nam</td>
+                    <td>ACT4</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Mai Trần Thanh Thế</td>
+                    <td>Thế</td>
+                    <td>Nam</td>
+                    <td>Aztechnologies</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Hồ Tấn Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>HPE</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Nguyễn Anh Tài</td>
+                    <td>Tài</td>
+                    <td>Nam</td>
+                    <td>Avtech</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Lê Hương Ly</td>
+                    <td>Ly</td>
+                    <td>Nữ</td>
+                    <td>Xuân Vinh</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Phan Tùng Linh</td>
+                    <td>Linh</td>
+                    <td>Nam</td>
+                    <td>Phan Quang</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Võ Đình Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>ACB</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Nguyễn Long Đỉnh</td>
+                    <td>Đỉnh</td>
+                    <td>Nam</td>
+                    <td>ACB</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Tran Thi Kim Phuong</td>
+                    <td>Phuong</td>
+                    <td>Nữ</td>
+                    <td>Xuân Vinh</td>
+                    <td>S</td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Ngo Thi Kim Dung</td>
+                    <td>Dung</td>
+                    <td>Nữ</td>
+                    <td>PSD</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Nguyễn Thị Minh Tâm</td>
+                    <td>Tâm</td>
+                    <td>Nữ</td>
+                    <td>Tuấn Linh</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>25</td>
+                    <td>Khuất Tuấn Cường</td>
+                    <td>Cường</td>
+                    <td>Nam</td>
+                    <td>Synnex FPT</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>26</td>
+                    <td>Huỳnh Thanh Phước</td>
+                    <td>Phước</td>
+                    <td>Nam</td>
+                    <td>Khai Phước</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>27</td>
+                    <td>Cao Đức Đoan</td>
+                    <td>Đoan</td>
+                    <td>Nam</td>
+                    <td>Kết Nối Xanh</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Võ Thị Khánh</td>
+                    <td>Khánh</td>
+                    <td>Nữ</td>
+                    <td>ACT4</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>29</td>
+                    <td>Trần Anh Tuấn</td>
+                    <td>Tuấn</td>
+                    <td>Nam</td>
+                    <td>SAZ</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>30</td>
+                    <td>Bùi Minh Công</td>
+                    <td>Công</td>
+                    <td>Nam</td>
+                    <td>HPE</td>
+                    <td>L</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="table-c" class="table-wrapper">
             <h2>Bảng C</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                 <table><thead><tr><th>STT</th><th>Họ Và Tên</th><th class="sortable">Tên<span class="sort-icon"></span></th><th>Giới Tính</th><th>Tên Công Ty</th><th>Size Áo</th></tr></thead><tbody>
-<tr><td>1</td><td>Huỳnh Thế Thoại</td><td>Thoại</td><td>Nam</td><td>Sitek</td><td>L</td></tr>
-<tr><td>2</td><td>Phạm Xuân Quyền</td><td>Quyền</td><td>Nam</td><td>ISA</td><td>XL</td></tr>
-<tr><td>3</td><td>Võ Thành Bảo</td><td>Bảo</td><td>Nam</td><td>TDSouth</td><td>XL</td></tr>
-<tr><td>4</td><td>Ly The Hung</td><td>Hung</td><td>Nam</td><td>Solarwinds</td><td>XXXL</td></tr>
-<tr><td>5</td><td>Nguyễn Văn Tiến</td><td>Tiến</td><td>Nam</td><td>Nhất Chính Tâm</td><td>XXXL</td></tr>
-<tr><td>6</td><td>Trương Thái Việt Sô</td><td>Sô</td><td>Nam</td><td>CMC</td><td>L</td></tr>
-<tr><td>7</td><td>Trịnh Ngọc Phan</td><td>Phan</td><td>Nam</td><td>Dell</td><td>XL</td></tr>
-<tr><td>8</td><td>Trần Thị Thanh Tuyền</td><td>Tuyền</td><td>Nữ</td><td>CMC</td><td>M</td></tr>
-<tr><td>9</td><td>Nguyễn Phước Thắng</td><td>Thắng</td><td>Nam</td><td>PSD</td><td>XXXL</td></tr>
-<tr><td>10</td><td>Le Tan Hoa</td><td>Hoa</td><td>Nam</td><td>MSD</td><td>M</td></tr>
-<tr><td>11</td><td>Hồ Thái</td><td>Thái</td><td>Nam</td><td>CMC</td><td>L</td></tr>
-<tr><td>12</td><td>Hoàng Hưng</td><td>Hưng</td><td>Nam</td><td>Dass</td><td>L</td></tr>
-<tr><td>13</td><td>Đặng Lê Huy</td><td>Huy</td><td>Nam</td><td>Nhất Chính Tâm</td><td>XL</td></tr>
-<tr><td>14</td><td>Võ Đăng Khoa</td><td>Khoa</td><td>Nam</td><td>Aztechnologies</td><td>XXXL</td></tr>
-<tr><td>15</td><td>Trần Bật Phú</td><td>Phú</td><td>Nam</td><td>Nhất Chính Tâm</td><td>L</td></tr>
-<tr><td>16</td><td>Nguyễn Cao Sang</td><td>Sang</td><td>Nam</td><td>Cao Minh NT</td><td>L</td></tr>
-<tr><td>17</td><td>Ngô Đình Anh Vũ</td><td>Vũ</td><td>Nam</td><td>KST</td><td>XL</td></tr>
-<tr><td>18</td><td>Ngô Huy</td><td>Huy</td><td>Nam</td><td>Gia Lâm</td><td>XL</td></tr>
-<tr><td>19</td><td>Nguyễn Văn Hoàng</td><td>Hoàng</td><td>Nam</td><td>CMC</td><td>M</td></tr>
-<tr><td>20</td><td>Lê Thị Ngọc Thu</td><td>Thu</td><td>Nữ</td><td>Bảo Vinh</td><td>S</td></tr>
-<tr><td>21</td><td>Phùng Quốc Trạng</td><td>Trạng</td><td>Nam</td><td>Nhất Chính Tâm</td><td>L</td></tr>
-<tr><td>22</td><td>Huỳnh Tấn Đạt</td><td>Đạt</td><td>Nam</td><td>Dell</td><td>XL</td></tr>
-<tr><td>23</td><td>Bảo Danh</td><td>Danh</td><td>Nam</td><td>Bảo Vinh</td><td>L</td></tr>
-<tr><td>24</td><td>Ðinh Hoàng Minh Uyên</td><td>Uyên</td><td>Nữ</td><td>Dass</td><td>L</td></tr>
-<tr><td>25</td><td>Phùng Kim Bích Ngọc</td><td>Ngọc</td><td>Nữ</td><td>Liên Phát</td><td>S</td></tr>
-<tr><td>26</td><td>Đỗ Duy Tân</td><td>Tân</td><td>Nam</td><td>PSD</td><td>XXL</td></tr>
-<tr><td>27</td><td>Trần Thị Tuyển</td><td>Tuyển</td><td>Nữ</td><td>ViewSonic</td><td>XL</td></tr>
-<tr><td>28</td><td>Tạ Ngọc Mẫn</td><td>Mẫn</td><td>Nam</td><td>Viễn Sơn</td><td>XXL</td></tr>
-<tr><td>29</td><td>Nguyễn Danh</td><td>Danh</td><td>Nam</td><td>Vietgreen</td><td>XXL</td></tr>
-<tr><td>30</td><td>Thái Kim Bằng</td><td>Bằng</td><td>Nữ</td><td>Cao Minh NT</td><td>M</td></tr>
-</tbody></table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
-        </div>
-        <div id="table-d" class="table-wrapper">
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Tên Công Ty</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Huỳnh Thế Thoại</td>
+                    <td>Thoại</td>
+                    <td>Nam</td>
+                    <td>Sitek</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Phạm Xuân Quyền</td>
+                    <td>Quyền</td>
+                    <td>Nam</td>
+                    <td>ISA</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Võ Thành Bảo</td>
+                    <td>Bảo</td>
+                    <td>Nam</td>
+                    <td>TDSouth</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Ly The Hung</td>
+                    <td>Hung</td>
+                    <td>Nam</td>
+                    <td>Solarwinds</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Nguyễn Văn Tiến</td>
+                    <td>Tiến</td>
+                    <td>Nam</td>
+                    <td>Nhất Chính Tâm</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Trương Thái Việt Sô</td>
+                    <td>Sô</td>
+                    <td>Nam</td>
+                    <td>CMC</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Trịnh Ngọc Phan</td>
+                    <td>Phan</td>
+                    <td>Nam</td>
+                    <td>Dell</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Trần Thị Thanh Tuyền</td>
+                    <td>Tuyền</td>
+                    <td>Nữ</td>
+                    <td>CMC</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Nguyễn Phước Thắng</td>
+                    <td>Thắng</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Le Tan Hoa</td>
+                    <td>Hoa</td>
+                    <td>Nam</td>
+                    <td>MSD</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Hồ Thái</td>
+                    <td>Thái</td>
+                    <td>Nam</td>
+                    <td>CMC</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Hoàng Hưng</td>
+                    <td>Hưng</td>
+                    <td>Nam</td>
+                    <td>Dass</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Đặng Lê Huy</td>
+                    <td>Huy</td>
+                    <td>Nam</td>
+                    <td>Nhất Chính Tâm</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Võ Đăng Khoa</td>
+                    <td>Khoa</td>
+                    <td>Nam</td>
+                    <td>Aztechnologies</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Trần Bật Phú</td>
+                    <td>Phú</td>
+                    <td>Nam</td>
+                    <td>Nhất Chính Tâm</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Nguyễn Cao Sang</td>
+                    <td>Sang</td>
+                    <td>Nam</td>
+                    <td>Cao Minh NT</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Ngô Đình Anh Vũ</td>
+                    <td>Vũ</td>
+                    <td>Nam</td>
+                    <td>KST</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Ngô Huy</td>
+                    <td>Huy</td>
+                    <td>Nam</td>
+                    <td>Gia Lâm</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Nguyễn Văn Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>CMC</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Lê Thị Ngọc Thu</td>
+                    <td>Thu</td>
+                    <td>Nữ</td>
+                    <td>Bảo Vinh</td>
+                    <td>S</td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Phùng Quốc Trạng</td>
+                    <td>Trạng</td>
+                    <td>Nam</td>
+                    <td>Nhất Chính Tâm</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Huỳnh Tấn Đạt</td>
+                    <td>Đạt</td>
+                    <td>Nam</td>
+                    <td>Dell</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Bảo Danh</td>
+                    <td>Danh</td>
+                    <td>Nam</td>
+                    <td>Bảo Vinh</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Ðinh Hoàng Minh Uyên</td>
+                    <td>Uyên</td>
+                    <td>Nữ</td>
+                    <td>Dass</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>25</td>
+                    <td>Phùng Kim Bích Ngọc</td>
+                    <td>Ngọc</td>
+                    <td>Nữ</td>
+                    <td>Liên Phát</td>
+                    <td>S</td>
+                  </tr>
+                  <tr>
+                    <td>26</td>
+                    <td>Đỗ Duy Tân</td>
+                    <td>Tân</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>27</td>
+                    <td>Trần Thị Tuyển</td>
+                    <td>Tuyển</td>
+                    <td>Nữ</td>
+                    <td>ViewSonic</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Tạ Ngọc Mẫn</td>
+                    <td>Mẫn</td>
+                    <td>Nam</td>
+                    <td>Viễn Sơn</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>29</td>
+                    <td>Nguyễn Danh</td>
+                    <td>Danh</td>
+                    <td>Nam</td>
+                    <td>Vietgreen</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>30</td>
+                    <td>Thái Kim Bằng</td>
+                    <td>Bằng</td>
+                    <td>Nữ</td>
+                    <td>Cao Minh NT</td>
+                    <td>M</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="table-d" class="table-wrapper">
             <h2>Bảng D</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                 <table><thead><tr><th>STT</th><th>Họ Và Tên</th><th class="sortable">Tên<span class="sort-icon"></span></th><th>Giới Tính</th><th>Tên Công Ty</th><th>Size Áo</th></tr></thead><tbody>
-<tr><td>1</td><td>Vương Tiến Thông</td><td>Thông</td><td>Nam</td><td>Kết Nối Thông Minh</td><td>XXXXL</td></tr>
-<tr><td>2</td><td>Phạm Anh Đại</td><td>Đại</td><td>Nam</td><td>Vmax</td><td>XXL</td></tr>
-<tr><td>3</td><td>Anh 86</td><td>Anh 86</td><td>Nam</td><td>Gia Anh</td><td>XL</td></tr>
-<tr><td>4</td><td>Nguyễn Lê Thành Bão</td><td>Bão</td><td>Nam</td><td>Ti</td><td>XL</td></tr>
-<tr><td>5</td><td>Nguyễn Minh Duy</td><td>Duy</td><td>Nam</td><td>Newseal</td><td>L</td></tr>
-<tr><td>6</td><td>Đỗ Trí Dũng</td><td>Dũng</td><td>Nam</td><td>Silicon Power</td><td>XXL</td></tr>
-<tr><td>7</td><td>Hồ Phi Hải</td><td>Hải</td><td>Nam</td><td>Hoàng Mai</td><td>L</td></tr>
-<tr><td>8</td><td>Nguyễn Vũ</td><td>Vũ</td><td>Nam</td><td>Nguyễn Vũ</td><td>XL</td></tr>
-<tr><td>9</td><td>Hoàng Trung Thành</td><td>Thành</td><td>Nam</td><td>Thành Care</td><td>XL</td></tr>
-<tr><td>10</td><td>Lê Thiên Quang</td><td>Quang</td><td>Nam</td><td>Trà Giang</td><td>M</td></tr>
-<tr><td>11</td><td>Nguyễn Quốc Việt</td><td>Việt</td><td>Nam</td><td>Việt Thái Dương</td><td>L</td></tr>
-<tr><td>12</td><td>Đặng Hùng</td><td>Hùng</td><td>Nam</td><td>Gia Tuấn</td><td>L</td></tr>
-<tr><td>13</td><td>Trần Quốc Thịnh</td><td>Thịnh</td><td>Nam</td><td>Hòa Thành</td><td>XL</td></tr>
-<tr><td>14</td><td>Nguyễn Minh Tuệ</td><td>Tuệ</td><td>Nam</td><td>Kieslect</td><td>XL</td></tr>
-<tr><td>15</td><td>Nguyễn Dạ Hoàng Long</td><td>Long</td><td>Nam</td><td>HP</td><td>L</td></tr>
-<tr><td>16</td><td>Phạm Công Vinh</td><td>Vinh</td><td>Nam</td><td>Đồng Lợi</td><td>L</td></tr>
-<tr><td>17</td><td>Trần Xuân Chiến</td><td>Chiến</td><td>Nam</td><td>ADG</td><td>XL</td></tr>
-<tr><td>18</td><td>Lê Thị Mỹ Khánh</td><td>Khánh</td><td>Nữ</td><td>Phồn Vinh</td><td>S</td></tr>
-<tr><td>19</td><td>Đinh Minh Hoàng</td><td>Hoàng</td><td>Nam</td><td>Tech Data Advanced Solutions</td><td>M</td></tr>
-<tr><td>20</td><td>Hoàng Mạnh Hùng</td><td>Hùng</td><td>Nam</td><td>Hướng Quang Minh</td><td>XL</td></tr>
-<tr><td>21</td><td>Đồng Đức Tuyên</td><td>Tuyên</td><td>Nam</td><td>Gia Tuấn</td><td>XL</td></tr>
-<tr><td>22</td><td>Phạm Thị Thu Trang</td><td>Trang</td><td>Nữ</td><td>PSD</td><td>M</td></tr>
-<tr><td>23</td><td>Ngô Quốc Nam</td><td>Nam</td><td>Nam</td><td>NMS</td><td>XL</td></tr>
-<tr><td>24</td><td>Lê Thanh Tùng</td><td>Tùng</td><td>Nam</td><td>Tech Data Advanced Solutions</td><td>XL</td></tr>
-<tr><td>25</td><td>Nguyen Thi Thuy</td><td>Thuy</td><td>Nữ</td><td>Phuc Tri</td><td>M</td></tr>
-<tr><td>26</td><td>Nguyễn Loan</td><td>Loan</td><td>Nữ</td><td>PSD</td><td>L</td></tr>
-<tr><td>27</td><td>Trần Lương Mạnh Khang</td><td>Khang</td><td>Nam</td><td>Viễn Sơn</td><td>XL</td></tr>
-<tr><td>28</td><td>Phan Ngọc Huyền</td><td>Huyền</td><td>Nữ</td><td>AOC</td><td>XL</td></tr>
-<tr><td>29</td><td>Vũ Thị Thanh Miên</td><td>Miên</td><td>Nữ</td><td>PSD</td><td>XXL</td></tr>
-<tr><td>30</td><td>Lương Thị Hồng</td><td>Hồng</td><td>Nữ</td><td>ViewSonic</td><td>L</td></tr>
-</tbody></table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
-        </div>
-        <div id="table-e" class="table-wrapper">
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Tên Công Ty</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Vương Tiến Thông</td>
+                    <td>Thông</td>
+                    <td>Nam</td>
+                    <td>Kết Nối Thông Minh</td>
+                    <td>XXXXL</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Phạm Anh Đại</td>
+                    <td>Đại</td>
+                    <td>Nam</td>
+                    <td>Vmax</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Anh 86</td>
+                    <td>Anh 86</td>
+                    <td>Nam</td>
+                    <td>Gia Anh</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Nguyễn Lê Thành Bão</td>
+                    <td>Bão</td>
+                    <td>Nam</td>
+                    <td>Ti</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Nguyễn Minh Duy</td>
+                    <td>Duy</td>
+                    <td>Nam</td>
+                    <td>Newseal</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Đỗ Trí Dũng</td>
+                    <td>Dũng</td>
+                    <td>Nam</td>
+                    <td>Silicon Power</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Hồ Phi Hải</td>
+                    <td>Hải</td>
+                    <td>Nam</td>
+                    <td>Hoàng Mai</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Nguyễn Vũ</td>
+                    <td>Vũ</td>
+                    <td>Nam</td>
+                    <td>Nguyễn Vũ</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Hoàng Trung Thành</td>
+                    <td>Thành</td>
+                    <td>Nam</td>
+                    <td>Thành Care</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Lê Thiên Quang</td>
+                    <td>Quang</td>
+                    <td>Nam</td>
+                    <td>Trà Giang</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Nguyễn Quốc Việt</td>
+                    <td>Việt</td>
+                    <td>Nam</td>
+                    <td>Việt Thái Dương</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Đặng Hùng</td>
+                    <td>Hùng</td>
+                    <td>Nam</td>
+                    <td>Gia Tuấn</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Trần Quốc Thịnh</td>
+                    <td>Thịnh</td>
+                    <td>Nam</td>
+                    <td>Hòa Thành</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Nguyễn Minh Tuệ</td>
+                    <td>Tuệ</td>
+                    <td>Nam</td>
+                    <td>Kieslect</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Nguyễn Dạ Hoàng Long</td>
+                    <td>Long</td>
+                    <td>Nam</td>
+                    <td>HP</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Phạm Công Vinh</td>
+                    <td>Vinh</td>
+                    <td>Nam</td>
+                    <td>Đồng Lợi</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Trần Xuân Chiến</td>
+                    <td>Chiến</td>
+                    <td>Nam</td>
+                    <td>ADG</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Lê Thị Mỹ Khánh</td>
+                    <td>Khánh</td>
+                    <td>Nữ</td>
+                    <td>Phồn Vinh</td>
+                    <td>S</td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Đinh Minh Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>Tech Data Advanced Solutions</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Hoàng Mạnh Hùng</td>
+                    <td>Hùng</td>
+                    <td>Nam</td>
+                    <td>Hướng Quang Minh</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Đồng Đức Tuyên</td>
+                    <td>Tuyên</td>
+                    <td>Nam</td>
+                    <td>Gia Tuấn</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Phạm Thị Thu Trang</td>
+                    <td>Trang</td>
+                    <td>Nữ</td>
+                    <td>PSD</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Ngô Quốc Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>NMS</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Lê Thanh Tùng</td>
+                    <td>Tùng</td>
+                    <td>Nam</td>
+                    <td>Tech Data Advanced Solutions</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>25</td>
+                    <td>Nguyen Thi Thuy</td>
+                    <td>Thuy</td>
+                    <td>Nữ</td>
+                    <td>Phuc Tri</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>26</td>
+                    <td>Nguyễn Loan</td>
+                    <td>Loan</td>
+                    <td>Nữ</td>
+                    <td>PSD</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>27</td>
+                    <td>Trần Lương Mạnh Khang</td>
+                    <td>Khang</td>
+                    <td>Nam</td>
+                    <td>Viễn Sơn</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Phan Ngọc Huyền</td>
+                    <td>Huyền</td>
+                    <td>Nữ</td>
+                    <td>AOC</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>29</td>
+                    <td>Vũ Thị Thanh Miên</td>
+                    <td>Miên</td>
+                    <td>Nữ</td>
+                    <td>PSD</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>30</td>
+                    <td>Lương Thị Hồng</td>
+                    <td>Hồng</td>
+                    <td>Nữ</td>
+                    <td>ViewSonic</td>
+                    <td>L</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="table-e" class="table-wrapper">
             <h2>Bảng E</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                 <table><thead><tr><th>STT</th><th>Họ Và Tên</th><th class="sortable">Tên<span class="sort-icon"></span></th><th>Giới Tính</th><th>Tên Công Ty</th><th>Size Áo</th></tr></thead><tbody>
-<tr><td>1</td><td>Lê Quốc Thịnh</td><td>Thịnh</td><td>Nam</td><td>Đông Nam Á</td><td>L</td></tr>
-<tr><td>2</td><td>Nguyễn Anh Tú</td><td>Tú</td><td>Nam</td><td>Ti</td><td>L</td></tr>
-<tr><td>3</td><td>Trần Tuấn</td><td>Tuấn</td><td>Nam</td><td>TTC-Infotech</td><td>L</td></tr>
-<tr><td>4</td><td>Nguyễn Mạnh Lân</td><td>Lân</td><td>Nam</td><td>PSD</td><td>XL</td></tr>
-<tr><td>5</td><td>Lưu Thế Phong</td><td>Phong</td><td>Nam</td><td>Nhất Tiến Chung</td><td>XL</td></tr>
-<tr><td>6</td><td>Đoàn Bảo Lộc</td><td>Lộc</td><td>Nam</td><td>PSD</td><td>L</td></tr>
-<tr><td>7</td><td>Nguyễn Huy Dũng</td><td>Dũng</td><td>Nam</td><td>Elite</td><td>L</td></tr>
-<tr><td>8</td><td>Lâm Đặng Thành Diệp</td><td>Diệp</td><td>Nam</td><td>Lâm Gia Phúc</td><td>XXL</td></tr>
-<tr><td>9</td><td>Tăng Duy Thiện</td><td>Thiện</td><td>Nam</td><td>Lenovo</td><td>L</td></tr>
-<tr><td>10</td><td>Đặng Đức Thế Anh</td><td>Anh</td><td>Nam</td><td>TDSouth</td><td>XXXL</td></tr>
-<tr><td>11</td><td>Anh Pham</td><td>Pham</td><td>Nam</td><td>Lenovo</td><td>XL</td></tr>
-<tr><td>12</td><td>Trần Phương Thuỳ</td><td>Thuỳ</td><td>Nữ</td><td>Synnex FPT</td><td>S</td></tr>
-<tr><td>13</td><td>Đo Trung Thành</td><td>Thành</td><td>Nam</td><td>PSD</td><td>XXL</td></tr>
-<tr><td>14</td><td>Lê Lý Trọng Bách</td><td>Bách</td><td>Nam</td><td>Lenovo</td><td>XXL</td></tr>
-<tr><td>15</td><td>Trần Quốc Cường</td><td>Cường</td><td>Nam</td><td>Travellive</td><td>L</td></tr>
-<tr><td>16</td><td>Trần Hữu Lợi</td><td>Lợi</td><td>Nam</td><td>Viễn Sơn</td><td>XL</td></tr>
-<tr><td>17</td><td>Lê Thị Lệ Hằng</td><td>Hằng</td><td>Nữ</td><td>Nước Việt</td><td>L</td></tr>
-<tr><td>18</td><td>Huỳnh Tấn Nhơn</td><td>Nhơn</td><td>Nam</td><td>Lenovo</td><td>L</td></tr>
-<tr><td>19</td><td>Nguyễn Hoài Tranh</td><td>Tranh</td><td>Nam</td><td>PSD</td><td>XL</td></tr>
-<tr><td>20</td><td>Hoàng Thị Nguyệt</td><td>Nguyệt</td><td>Nữ</td><td>Synnex FPT</td><td>M</td></tr>
-<tr><td>21</td><td>Lê Thanh Hoàng</td><td>Hoàng</td><td>Nam</td><td>PSD</td><td>XXL</td></tr>
-<tr><td>22</td><td>Hà Thanh Toàn</td><td>Toàn</td><td>Nam</td><td>ADG</td><td>XXL</td></tr>
-<tr><td>23</td><td>Trịnh Bảo Chung</td><td>Chung</td><td>Nam</td><td>Lenovo</td><td>XXXL</td></tr>
-<tr><td>24</td><td>Phạm Nguyễn Duy Trường</td><td>Trường</td><td>Nam</td><td>Lenovo</td><td>XXXL</td></tr>
-<tr><td>25</td><td>Mai Thị Thu Quý</td><td>Quý</td><td>Nữ</td><td>Phan Quang</td><td>XXL</td></tr>
-<tr><td>26</td><td>Đàm Hoàng Cẩm Tiên</td><td>Tiên</td><td>Nữ</td><td>GSNET</td><td>M</td></tr>
-<tr><td>27</td><td>Nguyễn Tiến Hiệp</td><td>Hiệp</td><td>Nam</td><td>Avtech</td><td>XL</td></tr>
-<tr><td>28</td><td>Nguyễn Hoàng Nam</td><td>Nam</td><td>Nam</td><td>PSD</td><td>XL</td></tr>
-<tr><td>29</td><td>Lê Thị Hồng Nhung</td><td>Nhung</td><td>Nữ</td><td>GSNET</td><td>L</td></tr>
-<tr><td>30</td><td>Hoàng Thảo Nhung</td><td>Nhung</td><td>Nữ</td><td>GSNET</td><td>M</td></tr>
-</tbody></table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
-        </div>
-        <div id="table-f" class="table-wrapper">
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Tên Công Ty</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Lê Quốc Thịnh</td>
+                    <td>Thịnh</td>
+                    <td>Nam</td>
+                    <td>Đông Nam Á</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Nguyễn Anh Tú</td>
+                    <td>Tú</td>
+                    <td>Nam</td>
+                    <td>Ti</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Trần Tuấn</td>
+                    <td>Tuấn</td>
+                    <td>Nam</td>
+                    <td>TTC-Infotech</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Nguyễn Mạnh Lân</td>
+                    <td>Lân</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Lưu Thế Phong</td>
+                    <td>Phong</td>
+                    <td>Nam</td>
+                    <td>Nhất Tiến Chung</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Đoàn Bảo Lộc</td>
+                    <td>Lộc</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Nguyễn Huy Dũng</td>
+                    <td>Dũng</td>
+                    <td>Nam</td>
+                    <td>Elite</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Lâm Đặng Thành Diệp</td>
+                    <td>Diệp</td>
+                    <td>Nam</td>
+                    <td>Lâm Gia Phúc</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Tăng Duy Thiện</td>
+                    <td>Thiện</td>
+                    <td>Nam</td>
+                    <td>Lenovo</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Đặng Đức Thế Anh</td>
+                    <td>Anh</td>
+                    <td>Nam</td>
+                    <td>TDSouth</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Anh Pham</td>
+                    <td>Pham</td>
+                    <td>Nam</td>
+                    <td>Lenovo</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Trần Phương Thuỳ</td>
+                    <td>Thuỳ</td>
+                    <td>Nữ</td>
+                    <td>Synnex FPT</td>
+                    <td>S</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Đo Trung Thành</td>
+                    <td>Thành</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Lê Lý Trọng Bách</td>
+                    <td>Bách</td>
+                    <td>Nam</td>
+                    <td>Lenovo</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Trần Quốc Cường</td>
+                    <td>Cường</td>
+                    <td>Nam</td>
+                    <td>Travellive</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Trần Hữu Lợi</td>
+                    <td>Lợi</td>
+                    <td>Nam</td>
+                    <td>Viễn Sơn</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Lê Thị Lệ Hằng</td>
+                    <td>Hằng</td>
+                    <td>Nữ</td>
+                    <td>Nước Việt</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Huỳnh Tấn Nhơn</td>
+                    <td>Nhơn</td>
+                    <td>Nam</td>
+                    <td>Lenovo</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Nguyễn Hoài Tranh</td>
+                    <td>Tranh</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Hoàng Thị Nguyệt</td>
+                    <td>Nguyệt</td>
+                    <td>Nữ</td>
+                    <td>Synnex FPT</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Lê Thanh Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Hà Thanh Toàn</td>
+                    <td>Toàn</td>
+                    <td>Nam</td>
+                    <td>ADG</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Trịnh Bảo Chung</td>
+                    <td>Chung</td>
+                    <td>Nam</td>
+                    <td>Lenovo</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Phạm Nguyễn Duy Trường</td>
+                    <td>Trường</td>
+                    <td>Nam</td>
+                    <td>Lenovo</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>25</td>
+                    <td>Mai Thị Thu Quý</td>
+                    <td>Quý</td>
+                    <td>Nữ</td>
+                    <td>Phan Quang</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>26</td>
+                    <td>Đàm Hoàng Cẩm Tiên</td>
+                    <td>Tiên</td>
+                    <td>Nữ</td>
+                    <td>GSNET</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>27</td>
+                    <td>Nguyễn Tiến Hiệp</td>
+                    <td>Hiệp</td>
+                    <td>Nam</td>
+                    <td>Avtech</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Nguyễn Hoàng Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>29</td>
+                    <td>Lê Thị Hồng Nhung</td>
+                    <td>Nhung</td>
+                    <td>Nữ</td>
+                    <td>GSNET</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>30</td>
+                    <td>Hoàng Thảo Nhung</td>
+                    <td>Nhung</td>
+                    <td>Nữ</td>
+                    <td>GSNET</td>
+                    <td>M</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="table-f" class="table-wrapper">
             <h2>Bảng F</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                 <table><thead><tr><th>STT</th><th>Họ Và Tên</th><th class="sortable">Tên<span class="sort-icon"></span></th><th>Giới Tính</th><th>Tên Công Ty</th><th>Size Áo</th></tr></thead><tbody>
-<tr><td>1</td><td>Dương Ngọc Long Nam</td><td>Nam</td><td>Nam</td><td>FIS</td><td>XL</td></tr>
-<tr><td>2</td><td>Phạm Trung Hiếu</td><td>Hiếu</td><td>Nam</td><td>Ti</td><td>L</td></tr>
-<tr><td>3</td><td>Hoàng Tân Vĩnh Thụy</td><td>Thụy</td><td>Nam</td><td>Avtech</td><td>XL</td></tr>
-<tr><td>4</td><td>Nguyễn Toàn Thắng</td><td>Thắng</td><td>Nam</td><td>Logitech</td><td>XXXL</td></tr>
-<tr><td>5</td><td>Dean Nguyen</td><td>Nguyen</td><td>Nam</td><td>Avolta</td><td>XXXL</td></tr>
-<tr><td>6</td><td>Nguyễn Quang Lâm</td><td>Lâm</td><td>Nam</td><td>TTC-Infotech</td><td>XL</td></tr>
-<tr><td>7</td><td>Nguyễn Văn Hùng</td><td>Hùng</td><td>Nam</td><td>Hùng Dũng</td><td>XXL</td></tr>
-<tr><td>8</td><td>Trần Nam Thanh</td><td>Thanh</td><td>Nam</td><td>Thanh Hương</td><td>L</td></tr>
-<tr><td>9</td><td>Lý Thành Nam</td><td>Nam</td><td>Nam</td><td>E.Tech</td><td>XL</td></tr>
-<tr><td>10</td><td>Phạm Minh Thanh</td><td>Thanh</td><td>Nam</td><td>Techspace</td><td>L</td></tr>
-<tr><td>11</td><td>Nguyễn Văn Tường</td><td>Tường</td><td>Nam</td><td>Kiến Tường</td><td>L</td></tr>
-<tr><td>12</td><td>Nguyễn Bắc Hải</td><td>Hải</td><td>Nam</td><td>TTC-Infotech</td><td>XL</td></tr>
-<tr><td>13</td><td>Võ Hồ Khải Hoàn</td><td>Hoàn</td><td>Nam</td><td>Rapoo</td><td>XL</td></tr>
-<tr><td>14</td><td>Vũ Giang Nam</td><td>Nam</td><td>Nam</td><td>Mytechsun</td><td>XL</td></tr>
-<tr><td>15</td><td>Đặng Văn Hiếu</td><td>Hiếu</td><td>Nam</td><td>Thiên Phát Tiến</td><td>XXL</td></tr>
-<tr><td>16</td><td>Nguyễn Phi Hùng</td><td>Hùng</td><td>Nam</td><td>TTC-Infotech</td><td>XL</td></tr>
-<tr><td>17</td><td>Nguyễn Việt Hà</td><td>Hà</td><td>Nữ</td><td>Ti</td><td>M</td></tr>
-<tr><td>18</td><td>Nguyễn Công Lâm</td><td>Lâm</td><td>Nam</td><td>ADG</td><td>XXL</td></tr>
-<tr><td>19</td><td>Nguyễn Thị Ngọc Loan</td><td>Loan</td><td>Nữ</td><td>Nessar</td><td>L</td></tr>
-<tr><td>20</td><td>Nguyễn Trung Hiếu</td><td>Hiếu</td><td>Nam</td><td>PSD</td><td>L</td></tr>
-<tr><td>21</td><td>Nguyễn Trung Kiên</td><td>Kiên</td><td>Nam</td><td>Lenovo</td><td>XXXL</td></tr>
-<tr><td>22</td><td>Nguyễn Thị Nữ</td><td>Nữ</td><td>Nữ</td><td>MSI</td><td>M</td></tr>
-<tr><td>23</td><td>Phạm Kiều Linh</td><td>Linh</td><td>Nữ</td><td>ADG</td><td>M</td></tr>
-<tr><td>24</td><td>Nguyễn Tuấn Kiệt</td><td>Kiệt</td><td>Nam</td><td>Asus</td><td>XXXXXL</td></tr>
-<tr><td>25</td><td>Phạm Quang Nhật</td><td>Nhật</td><td>Nam</td><td>ViewSonic</td><td>XL</td></tr>
-<tr><td>26</td><td>Nguyễn Xuân Hoàng</td><td>Hoàng</td><td>Nam</td><td>Phồn Vinh</td><td>L</td></tr>
-<tr><td>27</td><td>Bùi Lê Vũ</td><td>Vũ</td><td>Nam</td><td>Asus</td><td>XXL</td></tr>
-<tr><td>28</td><td>Vũ Thị Liên</td><td>Liên</td><td>Nữ</td><td>Asus</td><td>M</td></tr>
-<tr><td>29</td><td>Kenny Chien</td><td>Chien</td><td>Nam</td><td>Asus</td><td>XXXL</td></tr>
-<tr><td>30</td><td>Cao Hằng Nga</td><td>Nga</td><td>Nữ</td><td>FIS</td><td>S</td></tr>
-</tbody></table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
-        </div>
-        <div id="table-reserve" class="table-wrapper">
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Tên Công Ty</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Dương Ngọc Long Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>FIS</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Phạm Trung Hiếu</td>
+                    <td>Hiếu</td>
+                    <td>Nam</td>
+                    <td>Ti</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Hoàng Tân Vĩnh Thụy</td>
+                    <td>Thụy</td>
+                    <td>Nam</td>
+                    <td>Avtech</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Nguyễn Toàn Thắng</td>
+                    <td>Thắng</td>
+                    <td>Nam</td>
+                    <td>Logitech</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Dean Nguyen</td>
+                    <td>Nguyen</td>
+                    <td>Nam</td>
+                    <td>Avolta</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Nguyễn Quang Lâm</td>
+                    <td>Lâm</td>
+                    <td>Nam</td>
+                    <td>TTC-Infotech</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Nguyễn Văn Hùng</td>
+                    <td>Hùng</td>
+                    <td>Nam</td>
+                    <td>Hùng Dũng</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Trần Nam Thanh</td>
+                    <td>Thanh</td>
+                    <td>Nam</td>
+                    <td>Thanh Hương</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Lý Thành Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>E.Tech</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Phạm Minh Thanh</td>
+                    <td>Thanh</td>
+                    <td>Nam</td>
+                    <td>Techspace</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Nguyễn Văn Tường</td>
+                    <td>Tường</td>
+                    <td>Nam</td>
+                    <td>Kiến Tường</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Nguyễn Bắc Hải</td>
+                    <td>Hải</td>
+                    <td>Nam</td>
+                    <td>TTC-Infotech</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Võ Hồ Khải Hoàn</td>
+                    <td>Hoàn</td>
+                    <td>Nam</td>
+                    <td>Rapoo</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Vũ Giang Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>Mytechsun</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Đặng Văn Hiếu</td>
+                    <td>Hiếu</td>
+                    <td>Nam</td>
+                    <td>Thiên Phát Tiến</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Nguyễn Phi Hùng</td>
+                    <td>Hùng</td>
+                    <td>Nam</td>
+                    <td>TTC-Infotech</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Nguyễn Việt Hà</td>
+                    <td>Hà</td>
+                    <td>Nữ</td>
+                    <td>Ti</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Nguyễn Công Lâm</td>
+                    <td>Lâm</td>
+                    <td>Nam</td>
+                    <td>ADG</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Nguyễn Thị Ngọc Loan</td>
+                    <td>Loan</td>
+                    <td>Nữ</td>
+                    <td>Nessar</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Nguyễn Trung Hiếu</td>
+                    <td>Hiếu</td>
+                    <td>Nam</td>
+                    <td>PSD</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Nguyễn Trung Kiên</td>
+                    <td>Kiên</td>
+                    <td>Nam</td>
+                    <td>Lenovo</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Nguyễn Thị Nữ</td>
+                    <td>Nữ</td>
+                    <td>Nữ</td>
+                    <td>MSI</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Phạm Kiều Linh</td>
+                    <td>Linh</td>
+                    <td>Nữ</td>
+                    <td>ADG</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Nguyễn Tuấn Kiệt</td>
+                    <td>Kiệt</td>
+                    <td>Nam</td>
+                    <td>Asus</td>
+                    <td>XXXXXL</td>
+                  </tr>
+                  <tr>
+                    <td>25</td>
+                    <td>Phạm Quang Nhật</td>
+                    <td>Nhật</td>
+                    <td>Nam</td>
+                    <td>ViewSonic</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>26</td>
+                    <td>Nguyễn Xuân Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>Phồn Vinh</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>27</td>
+                    <td>Bùi Lê Vũ</td>
+                    <td>Vũ</td>
+                    <td>Nam</td>
+                    <td>Asus</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Vũ Thị Liên</td>
+                    <td>Liên</td>
+                    <td>Nữ</td>
+                    <td>Asus</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>29</td>
+                    <td>Kenny Chien</td>
+                    <td>Chien</td>
+                    <td>Nam</td>
+                    <td>Asus</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>30</td>
+                    <td>Cao Hằng Nga</td>
+                    <td>Nga</td>
+                    <td>Nữ</td>
+                    <td>FIS</td>
+                    <td>S</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="table-reserve" class="table-wrapper">
             <h2>Bảng Dự Bị</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                 <table><thead><tr><th>STT</th><th>Họ Và Tên</th><th class="sortable">Tên<span class="sort-icon"></span></th><th>Giới Tính</th><th>Tên Công Ty</th><th>Size Áo</th></tr></thead><tbody>
-<tr><td>1</td><td>Lê Minh Hoàng</td><td>Hoàng</td><td>Nam</td><td>Kết Nối Thông Minh</td><td>XXXXL > 100kg</td></tr>
-<tr><td>2</td><td>Nguyễn Chí Đạo</td><td>Đạo</td><td>Nam</td><td>Nguyên Kim</td><td>XL</td></tr>
-<tr><td>3</td><td>Trịnh Đức Hiếu</td><td>Hiếu</td><td>Nam</td><td>T&H</td><td>L</td></tr>
-<tr><td>4</td><td>Nguyễn Anh Phong</td><td>Phong</td><td>Nam</td><td>Bạc Liêu</td><td>XL</td></tr>
-<tr><td>5</td><td>Hội</td><td>Hội</td><td>Nam</td><td>Tuấn Huy</td><td></td></tr>
-</tbody></table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
-        </div>
-        <div id="table-nkc" class="table-wrapper">
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Tên Công Ty</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Lê Minh Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>Kết Nối Thông Minh</td>
+                    <td>XXXXL > 100kg</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Nguyễn Chí Đạo</td>
+                    <td>Đạo</td>
+                    <td>Nam</td>
+                    <td>Nguyên Kim</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Trịnh Đức Hiếu</td>
+                    <td>Hiếu</td>
+                    <td>Nam</td>
+                    <td>T&H</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Nguyễn Anh Phong</td>
+                    <td>Phong</td>
+                    <td>Nam</td>
+                    <td>Bạc Liêu</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Hội</td>
+                    <td>Hội</td>
+                    <td>Nam</td>
+                    <td>Tuấn Huy</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="table-nkc" class="table-wrapper">
             <h2>Nhân Viên NKC</h2>
             <button class="copy-btn" title="Sao chép bảng này">Sao chép</button>
-            <div class="stats-and-filter"><h4>Thống kê & Lọc theo Size Áo:</h4><div class="size-filter-tags"></div></div>
-            <div class="table-content">
-                 <table>
-                     <thead>
-                         <tr>
-                             <th>STT</th>
-                             <th>Họ Và Tên</th>
-                             <th class="sortable">Tên<span class="sort-icon"></span></th>
-                             <th>Giới Tính</th>
-                             <th>Bộ Phận</th>
-                             <th>Size Áo</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                         <tr><td>1</td><td>Bảo</td><td>Bảo</td><td>Nam</td><td>MAR</td><td>XL</td></tr>
-                         <tr><td>2</td><td>Vương</td><td>Vương</td><td>Nam</td><td>MAR</td><td>XXXL</td></tr>
-                         <tr><td>3</td><td>Nam</td><td>Nam</td><td>Nam</td><td>MAR</td><td>XL</td></tr>
-                         <tr><td>4</td><td>Hưng</td><td>Hưng</td><td>Nam</td><td>MAR</td><td>XXL</td></tr>
-                         <tr><td>5</td><td>Khang</td><td>Khang</td><td>Nam</td><td>MAR</td><td>L</td></tr>
-                         <tr><td>6</td><td>Quốc</td><td>Quốc</td><td>Nam</td><td>MAR</td><td>XXL</td></tr>
-                         <tr><td>7</td><td>Tới</td><td>Tới</td><td>Nam</td><td>MAR</td><td>XXL</td></tr>
-                         <tr><td>8</td><td>Ngân</td><td>Ngân</td><td>Nữ</td><td>MAR</td><td>XL</td></tr>
-                         <tr><td>9</td><td>An</td><td>An</td><td>Nữ</td><td>MAR</td><td>L</td></tr>
-                         <tr><td>10</td><td>Phạm Minh Nhật</td><td>Nhật</td><td>Nam</td><td>PC</td><td>7XL</td></tr>
-                         <tr><td>11</td><td>Phạm Vũ Đức Huy</td><td>Huy</td><td>Nam</td><td>PC</td><td>L</td></tr>
-                         <tr><td>12</td><td>Nguyễn Thị Thanh Hằng</td><td>Hằng</td><td>Nữ</td><td>PC</td><td>L</td></tr>
-                         <tr><td>13</td><td>Nguyễn Thanh Chiến</td><td>Chiến</td><td>Nam</td><td>PC</td><td>L</td></tr>
-                         <tr><td>14</td><td>Nguyễn Đức Quang</td><td>Quang</td><td>Nam</td><td>NB</td><td>XXL</td></tr>
-                         <tr><td>15</td><td>Lê Đình Tiến</td><td>Tiến</td><td>Nam</td><td>NB</td><td>XL</td></tr>
-                         <tr><td>16</td><td>Võ Thị Nguyệt Thu</td><td>Thu</td><td>Nữ</td><td>NB</td><td>XXL</td></tr>
-                         <tr><td>17</td><td>Đỗ Minh Hùng</td><td>Hùng</td><td>Nam</td><td>NB</td><td>XXXL</td></tr>
-                         <tr><td>18</td><td>Huỳnh Thị Ngọc Sang</td><td>Sang</td><td>Nữ</td><td>NB</td><td>L</td></tr>
-                         <tr><td>19</td><td>Vũ Ngọc Nam</td><td>Nam</td><td>Nam</td><td>NB</td><td>XXL</td></tr>
-                         <tr><td>20</td><td>Đặng Hoàng Minh</td><td>Minh</td><td>Nam</td><td>Online</td><td>XXXL</td></tr>
-                         <tr><td>21</td><td>Đào Trí Thanh</td><td>Thanh</td><td>Nam</td><td>PTTT</td><td>L</td></tr>
-                         <tr><td>22</td><td>Phan Sĩ Phúc</td><td>Phúc</td><td>Nam</td><td>PTTT</td><td>XXL</td></tr>
-                         <tr><td>23</td><td>Huỳnh Thanh Phong</td><td>Phong</td><td>Nam</td><td>Kỹ Thuật</td><td>XXL</td></tr>
-                         <tr><td>24</td><td>Võ Minh Chương</td><td>Chương</td><td>Nam</td><td>PC</td><td>XL</td></tr>
-                         <tr><td>25</td><td>Lê Ngọc Thanh Vi</td><td>Vi</td><td>Nữ</td><td>PTKH2</td><td>M</td></tr>
-                         <tr><td>26</td><td>Đồng Thị Diễm Chi</td><td>Chi</td><td>Nữ</td><td>PTKH2</td><td>XL</td></tr>
-                         <tr><td>27</td><td>Phạm Đỗ Thanh Thế</td><td>Thế</td><td>Nam</td><td>PTKH2</td><td>XL</td></tr>
-                         <tr><td>28</td><td>Nguyễn Hoàng Nhật Thiên</td><td>Thiên</td><td>Nam</td><td>PTKH1</td><td>XL</td></tr>
-                         <tr><td>29</td><td>Nguyễn Trà My</td><td>My</td><td>Nữ</td><td>PTKH1</td><td>M</td></tr>
-                         <tr><td>30</td><td>Nguyễn Hữu Sinh</td><td>Sinh</td><td>Nam</td><td>PTKH1</td><td>L</td></tr>
-                         <tr><td>31</td><td>Trần Thị Ngọc Hiền</td><td>Hiền</td><td>Nữ</td><td>Máy In</td><td>L</td></tr>
-                         <tr><td>32</td><td>Nguyễn Thị Kiều Chinh</td><td>Chinh</td><td>Nữ</td><td>Máy In</td><td>L</td></tr>
-                         <tr><td>33</td><td>Phạm Quang Đăng Khoa</td><td>Khoa</td><td>Nam</td><td>Máy In</td><td></td></tr>
-                         <tr><td>34</td><td>Cao Đỗ Uyên Nhi</td><td>Nhi</td><td>Nữ</td><td>Máy In</td><td>XL</td></tr>
-                         <tr><td>35</td><td>Nguyễn Chí Đạo</td><td>Đạo</td><td>Nam</td><td>TP</td><td>L</td></tr>
-                         <tr><td>36</td><td>Phạm Năng Thiết</td><td>Thiết</td><td>Nam</td><td>BGĐ</td><td>XL</td></tr>
-                         <tr><td>37</td><td>Nguyễn Hữu Thịnh</td><td>Thịnh</td><td>Nam</td><td>BGĐ</td><td>XL</td></tr>
-                         <tr><td>38</td><td>Lê Nguyên Kim</td><td>Kim</td><td>Nam</td><td>BGĐ</td><td>XXL</td></tr>
-                         <tr><td>39</td><td>Hoàng</td><td>Hoàng</td><td>Nam</td><td>Hoàng</td><td>6XL</td></tr>
-                         <tr><td>40</td><td>DP1</td><td>DP1</td><td>Nam</td><td>BTC</td><td>XL</td></tr>
-                         <tr><td>41</td><td>DP2</td><td>DP2</td><td>Nam</td><td>BTC</td><td>XL</td></tr>
-                         <tr><td>42</td><td>DP3</td><td>DP3</td><td>Nam</td><td>BTC</td><td>L</td></tr>
-                         <tr><td>43</td><td>DP4</td><td>DP4</td><td>Nam</td><td>BTC</td><td>XL</td></tr>
-                         <tr><td>44</td><td>DP5</td><td>DP5</td><td>Nam</td><td></td><td>LL</td></tr>
-                         <tr><td>46</td><td>DP8</td><td>DP8</td><td>Nữ</td><td></td><td>XXXL</td></tr>
-                     </tbody>
-                 </table>
+            <div class="stats-and-filter">
+              <h4>Thống kê & Lọc theo Size Áo:</h4>
+              <div class="size-filter-tags"></div>
             </div>
+            <div class="table-content">
+              <table>
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Họ Và Tên</th>
+                    <th class="sortable">Tên<span class="sort-icon"></span></th>
+                    <th>Giới Tính</th>
+                    <th>Bộ Phận</th>
+                    <th>Size Áo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Bảo</td>
+                    <td>Bảo</td>
+                    <td>Nam</td>
+                    <td>MAR</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Vương</td>
+                    <td>Vương</td>
+                    <td>Nam</td>
+                    <td>MAR</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>MAR</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Hưng</td>
+                    <td>Hưng</td>
+                    <td>Nam</td>
+                    <td>MAR</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Khang</td>
+                    <td>Khang</td>
+                    <td>Nam</td>
+                    <td>MAR</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Quốc</td>
+                    <td>Quốc</td>
+                    <td>Nam</td>
+                    <td>MAR</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Tới</td>
+                    <td>Tới</td>
+                    <td>Nam</td>
+                    <td>MAR</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Ngân</td>
+                    <td>Ngân</td>
+                    <td>Nữ</td>
+                    <td>MAR</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>An</td>
+                    <td>An</td>
+                    <td>Nữ</td>
+                    <td>MAR</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Phạm Minh Nhật</td>
+                    <td>Nhật</td>
+                    <td>Nam</td>
+                    <td>PC</td>
+                    <td>7XL</td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Phạm Vũ Đức Huy</td>
+                    <td>Huy</td>
+                    <td>Nam</td>
+                    <td>PC</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Nguyễn Thị Thanh Hằng</td>
+                    <td>Hằng</td>
+                    <td>Nữ</td>
+                    <td>PC</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Nguyễn Thanh Chiến</td>
+                    <td>Chiến</td>
+                    <td>Nam</td>
+                    <td>PC</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Nguyễn Đức Quang</td>
+                    <td>Quang</td>
+                    <td>Nam</td>
+                    <td>NB</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Lê Đình Tiến</td>
+                    <td>Tiến</td>
+                    <td>Nam</td>
+                    <td>NB</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Võ Thị Nguyệt Thu</td>
+                    <td>Thu</td>
+                    <td>Nữ</td>
+                    <td>NB</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Đỗ Minh Hùng</td>
+                    <td>Hùng</td>
+                    <td>Nam</td>
+                    <td>NB</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Huỳnh Thị Ngọc Sang</td>
+                    <td>Sang</td>
+                    <td>Nữ</td>
+                    <td>NB</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Vũ Ngọc Nam</td>
+                    <td>Nam</td>
+                    <td>Nam</td>
+                    <td>NB</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Đặng Hoàng Minh</td>
+                    <td>Minh</td>
+                    <td>Nam</td>
+                    <td>Online</td>
+                    <td>XXXL</td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Đào Trí Thanh</td>
+                    <td>Thanh</td>
+                    <td>Nam</td>
+                    <td>PTTT</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Phan Sĩ Phúc</td>
+                    <td>Phúc</td>
+                    <td>Nam</td>
+                    <td>PTTT</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Huỳnh Thanh Phong</td>
+                    <td>Phong</td>
+                    <td>Nam</td>
+                    <td>Kỹ Thuật</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Võ Minh Chương</td>
+                    <td>Chương</td>
+                    <td>Nam</td>
+                    <td>PC</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>25</td>
+                    <td>Lê Ngọc Thanh Vi</td>
+                    <td>Vi</td>
+                    <td>Nữ</td>
+                    <td>PTKH2</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>26</td>
+                    <td>Đồng Thị Diễm Chi</td>
+                    <td>Chi</td>
+                    <td>Nữ</td>
+                    <td>PTKH2</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>27</td>
+                    <td>Phạm Đỗ Thanh Thế</td>
+                    <td>Thế</td>
+                    <td>Nam</td>
+                    <td>PTKH2</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>28</td>
+                    <td>Nguyễn Hoàng Nhật Thiên</td>
+                    <td>Thiên</td>
+                    <td>Nam</td>
+                    <td>PTKH1</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>29</td>
+                    <td>Nguyễn Trà My</td>
+                    <td>My</td>
+                    <td>Nữ</td>
+                    <td>PTKH1</td>
+                    <td>M</td>
+                  </tr>
+                  <tr>
+                    <td>30</td>
+                    <td>Nguyễn Hữu Sinh</td>
+                    <td>Sinh</td>
+                    <td>Nam</td>
+                    <td>PTKH1</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>31</td>
+                    <td>Trần Thị Ngọc Hiền</td>
+                    <td>Hiền</td>
+                    <td>Nữ</td>
+                    <td>Máy In</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>32</td>
+                    <td>Nguyễn Thị Kiều Chinh</td>
+                    <td>Chinh</td>
+                    <td>Nữ</td>
+                    <td>Máy In</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>33</td>
+                    <td>Phạm Quang Đăng Khoa</td>
+                    <td>Khoa</td>
+                    <td>Nam</td>
+                    <td>Máy In</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>34</td>
+                    <td>Cao Đỗ Uyên Nhi</td>
+                    <td>Nhi</td>
+                    <td>Nữ</td>
+                    <td>Máy In</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>35</td>
+                    <td>Nguyễn Chí Đạo</td>
+                    <td>Đạo</td>
+                    <td>Nam</td>
+                    <td>TP</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>36</td>
+                    <td>Phạm Năng Thiết</td>
+                    <td>Thiết</td>
+                    <td>Nam</td>
+                    <td>BGĐ</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>37</td>
+                    <td>Nguyễn Hữu Thịnh</td>
+                    <td>Thịnh</td>
+                    <td>Nam</td>
+                    <td>BGĐ</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>38</td>
+                    <td>Lê Nguyên Kim</td>
+                    <td>Kim</td>
+                    <td>Nam</td>
+                    <td>BGĐ</td>
+                    <td>XXL</td>
+                  </tr>
+                  <tr>
+                    <td>39</td>
+                    <td>Hoàng</td>
+                    <td>Hoàng</td>
+                    <td>Nam</td>
+                    <td>Hoàng</td>
+                    <td>6XL</td>
+                  </tr>
+                  <tr>
+                    <td>40</td>
+                    <td>DP1</td>
+                    <td>DP1</td>
+                    <td>Nam</td>
+                    <td>BTC</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>41</td>
+                    <td>DP2</td>
+                    <td>DP2</td>
+                    <td>Nam</td>
+                    <td>BTC</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>42</td>
+                    <td>DP3</td>
+                    <td>DP3</td>
+                    <td>Nam</td>
+                    <td>BTC</td>
+                    <td>L</td>
+                  </tr>
+                  <tr>
+                    <td>43</td>
+                    <td>DP4</td>
+                    <td>DP4</td>
+                    <td>Nam</td>
+                    <td>BTC</td>
+                    <td>XL</td>
+                  </tr>
+                  <tr>
+                    <td>44</td>
+                    <td>DP5</td>
+                    <td>DP5</td>
+                    <td>Nam</td>
+                    <td></td>
+                    <td>LL</td>
+                  </tr>
+                  <tr>
+                    <td>46</td>
+                    <td>DP8</td>
+                    <td>DP8</td>
+                    <td>Nữ</td>
+                    <td></td>
+                    <td>XXXL</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="controls-panel">
+        <div class="search-container">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Tìm kiếm theo Tên, Công ty..."
+          />
+        </div>
+        <button id="toggle-summary-btn">Ẩn Bảng Tổng Hợp</button>
+
+        <div class="gender-filter">
+          <button id="filter-all" class="active">
+            <span class="gender-icon">🚻</span>Tất cả
+          </button>
+          <button id="filter-male">
+            <span class="gender-icon">👨</span>Nam
+          </button>
+          <button id="filter-female">
+            <span class="gender-icon">👩</span>Nữ
+          </button>
+        </div>
+        <div class="quick-nav-bar">
+          <a href="#table-a">Đến Bảng A</a>
+          <a href="#table-b">Đến Bảng B</a>
+          <a href="#table-c">Đến Bảng C</a>
+          <a href="#table-d">Đến Bảng D</a>
+          <a href="#table-e">Đến Bảng E</a>
+          <a href="#table-f">Đến Bảng F</a>
+          <a href="#table-reserve">Đến Bảng Dự Bị</a>
+          <a href="#table-nkc">Đến Bảng Nhân Viên NKC</a>
+        </div>
+      </div>
     </div>
-</div>
-<div class="controls-panel">
-    <div class="search-container">
-        <input type="text" id="search-input" placeholder="Tìm kiếm theo Tên, Công ty...">
-    </div>
-    <button id="toggle-summary-btn">Ẩn Bảng Tổng Hợp</button>
+    <a href="#" id="back-to-top-btn" title="Lên đầu trang">↑</a>
 
-    <div class="gender-filter">
-        <button id="filter-all" class="active"><span class="gender-icon">🚻</span>Tất cả</button>
-        <button id="filter-male"><span class="gender-icon">👨</span>Nam</button>
-        <button id="filter-female"><span class="gender-icon">👩</span>Nữ</button>
-    </div>
-    <div class="quick-nav-bar">
-        <a href="#table-a">Đến Bảng A</a>
-        <a href="#table-b">Đến Bảng B</a>
-        <a href="#table-c">Đến Bảng C</a>
-        <a href="#table-d">Đến Bảng D</a>
-        <a href="#table-e">Đến Bảng E</a>
-        <a href="#table-f">Đến Bảng F</a>
-        <a href="#table-reserve">Đến Bảng Dự Bị</a>
-        <a href="#table-nkc">Đến Bảng Nhân Viên NKC</a>
-    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // =======================================================
+        // MỚI: Khai báo các biến để quản lý việc di chuyển thanh tìm kiếm
+        // =======================================================
+        let searchContainerElement,
+          originalSearchParent,
+          originalSearchNextSibling,
+          searchFocusArea;
 
-</div>
-</div>
-<a href="#" id="back-to-top-btn" title="Lên đầu trang">↑</a>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    // =======================================================
-    // MỚI: Khai báo các biến để quản lý việc di chuyển thanh tìm kiếm
-    // =======================================================
-    let searchContainerElement, originalSearchParent, originalSearchNextSibling, searchFocusArea;
-
-    // =======================================================
-    // Chức năng sắp xếp bảng
-    // =======================================================
-    function makeTablesSortable() {
-        document.querySelectorAll('.container table th.sortable').forEach(header => {
-            header.addEventListener('click', () => {
-                const table = header.closest('table');
-                const tbody = table.querySelector('tbody');
+        // =======================================================
+        // Chức năng sắp xếp bảng
+        // =======================================================
+        function makeTablesSortable() {
+          document
+            .querySelectorAll(".container table th.sortable")
+            .forEach((header) => {
+              header.addEventListener("click", () => {
+                const table = header.closest("table");
+                const tbody = table.querySelector("tbody");
                 const rows = Array.from(tbody.rows);
                 const colIndex = header.cellIndex;
-                const currentDirection = header.dataset.sortDirection || 'asc';
-                const newDirection = currentDirection === 'asc' ? 'desc' : 'asc';
-                table.querySelectorAll('thead th').forEach(th => {
-                    th.classList.remove('sort-asc', 'sort-desc');
-                    delete th.dataset.sortDirection;
+                const currentDirection = header.dataset.sortDirection || "asc";
+                const newDirection =
+                  currentDirection === "asc" ? "desc" : "asc";
+                table.querySelectorAll("thead th").forEach((th) => {
+                  th.classList.remove("sort-asc", "sort-desc");
+                  delete th.dataset.sortDirection;
                 });
                 header.dataset.sortDirection = newDirection;
-                header.classList.add(newDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+                header.classList.add(
+                  newDirection === "asc" ? "sort-asc" : "sort-desc"
+                );
                 rows.sort((a, b) => {
-                    const valA = a.cells[colIndex].textContent.trim();
-                    const valB = b.cells[colIndex].textContent.trim();
-                    if (newDirection === 'asc') {
-                        return valA.localeCompare(valB, 'vi', { sensitivity: 'base' });
-                    } else {
-                        return valB.localeCompare(valA, 'vi', { sensitivity: 'base' });
-                    }
+                  const valA = a.cells[colIndex].textContent.trim();
+                  const valB = b.cells[colIndex].textContent.trim();
+                  if (newDirection === "asc") {
+                    return valA.localeCompare(valB, "vi", {
+                      sensitivity: "base",
+                    });
+                  } else {
+                    return valB.localeCompare(valA, "vi", {
+                      sensitivity: "base",
+                    });
+                  }
                 });
-                rows.forEach(row => tbody.appendChild(row));
+                rows.forEach((row) => tbody.appendChild(row));
+              });
             });
-        });
-    }
+        }
 
-    // =======================================================
-    // Chức năng sao chép
-    // =======================================================
-    function addCopyFunctionality() {
-        document.querySelectorAll('.copy-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const table = e.target.closest('.table-wrapper').querySelector('table');
-                let textToCopy = '';
-                const headerCells = [];
-                table.querySelectorAll('thead th').forEach(th => headerCells.push(th.textContent.trim()));
-                textToCopy += headerCells.join('\t') + '\n';
-                table.querySelectorAll('tbody tr').forEach(row => {
-                    if (row.style.display !== 'none') {
-                        const rowData = [];
-                        row.querySelectorAll('td').forEach(cell => {
-                            rowData.push(cell.textContent.trim());
-                        });
-                        textToCopy += rowData.join('\t') + '\n';
-                    }
-                });
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    const originalText = button.textContent;
-                    button.textContent = 'Đã chép!';
-                    button.style.backgroundColor = '#4caf50';
-                    button.style.color = '#fff';
-                    setTimeout(() => {
-                        button.textContent = originalText;
-                        button.style.backgroundColor = '';
-                        button.style.color = '';
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Lỗi khi sao chép: ', err);
-                    alert('Không thể sao chép vào clipboard.');
+        // =======================================================
+        // Chức năng sao chép
+        // =======================================================
+        function addCopyFunctionality() {
+          document.querySelectorAll(".copy-btn").forEach((button) => {
+            button.addEventListener("click", (e) => {
+              const table = e.target
+                .closest(".table-wrapper")
+                .querySelector("table");
+              let textToCopy = "";
+              const headerCells = [];
+              table
+                .querySelectorAll("thead th")
+                .forEach((th) => headerCells.push(th.textContent.trim()));
+              textToCopy += headerCells.join("\t") + "\n";
+              table.querySelectorAll("tbody tr").forEach((row) => {
+                if (row.style.display !== "none") {
+                  const rowData = [];
+                  row.querySelectorAll("td").forEach((cell) => {
+                    rowData.push(cell.textContent.trim());
+                  });
+                  textToCopy += rowData.join("\t") + "\n";
+                }
+              });
+              navigator.clipboard
+                .writeText(textToCopy)
+                .then(() => {
+                  const originalText = button.textContent;
+                  button.textContent = "Đã chép!";
+                  button.style.backgroundColor = "#4caf50";
+                  button.style.color = "#fff";
+                  setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.backgroundColor = "";
+                    button.style.color = "";
+                  }, 2000);
+                })
+                .catch((err) => {
+                  console.error("Lỗi khi sao chép: ", err);
+                  alert("Không thể sao chép vào clipboard.");
                 });
             });
-        });
-    }
+          });
+        }
 
-    // =======================================================
-    // MỚI: Hàm di chuyển thanh tìm kiếm
-    // =======================================================
-    function moveSearchContainer(toFocusArea) {
-        if (toFocusArea) {
+        // =======================================================
+        // MỚI: Hàm di chuyển thanh tìm kiếm
+        // =======================================================
+        function moveSearchContainer(toFocusArea) {
+          if (toFocusArea) {
             // Di chuyển đến khu vực focus (phía trên bảng)
             searchFocusArea.appendChild(searchContainerElement);
-            document.querySelector('.main-layout').classList.add('is-focused');
-        } else {
+            document.querySelector(".main-layout").classList.add("is-focused");
+          } else {
             // Trả về vị trí ban đầu trong control panel
-            originalSearchParent.insertBefore(searchContainerElement, originalSearchNextSibling);
-            document.querySelector('.main-layout').classList.remove('is-focused');
+            originalSearchParent.insertBefore(
+              searchContainerElement,
+              originalSearchNextSibling
+            );
+            document
+              .querySelector(".main-layout")
+              .classList.remove("is-focused");
+          }
         }
-    }
 
-    // =======================================================
-    // Chức năng focus vào một bảng (ĐÃ CẬP NHẬT)
-    // =======================================================
-    function addTableFocusFunctionality() {
-        const container = document.querySelector('.container');
-        if (!container) return;
+        // =======================================================
+        // Chức năng focus vào một bảng (ĐÃ CẬP NHẬT)
+        // =======================================================
+        function addTableFocusFunctionality() {
+          const container = document.querySelector(".container");
+          if (!container) return;
 
-        container.addEventListener('click', (e) => {
-            const h2 = e.target.closest('h2');
-            const wrapper = e.target.closest('.table-wrapper');
-            
+          container.addEventListener("click", (e) => {
+            const h2 = e.target.closest("h2");
+            const wrapper = e.target.closest(".table-wrapper");
+
             if (h2 && wrapper && wrapper.parentElement === container) {
-                if (wrapper.classList.contains('focused')) {
-                    // Click lần nữa để bỏ focus
-                    wrapper.classList.remove('focused');
-                    container.classList.remove('is-focused');
-                    moveSearchContainer(false); // Trả search về chỗ cũ
-                } else {
-                    // Focus vào bảng mới
-                    container.querySelectorAll('.table-wrapper.focused').forEach(w => w.classList.remove('focused'));
-                    wrapper.classList.add('focused');
-                    container.classList.add('is-focused');
-                    wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    moveSearchContainer(true); // Di chuyển search lên trên
-                }
+              if (wrapper.classList.contains("focused")) {
+                // Click lần nữa để bỏ focus
+                wrapper.classList.remove("focused");
+                container.classList.remove("is-focused");
+                moveSearchContainer(false); // Trả search về chỗ cũ
+              } else {
+                // Focus vào bảng mới
+                container
+                  .querySelectorAll(".table-wrapper.focused")
+                  .forEach((w) => w.classList.remove("focused"));
+                wrapper.classList.add("focused");
+                container.classList.add("is-focused");
+                wrapper.scrollIntoView({ behavior: "smooth", block: "start" });
+                moveSearchContainer(true); // Di chuyển search lên trên
+              }
             }
-        });
-    }
-
-    function normalizeText(text) { if (!text) return ''; return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
-
-    function resetAllViews() { 
-        document.querySelectorAll('.container .table-wrapper').forEach(wrapper => { 
-            wrapper.classList.remove('table-has-match'); 
-            wrapper.style.display = ''; 
-        }); 
-        document.querySelectorAll('.container tbody tr').forEach(row => { 
-            row.classList.remove('highlight', 'dimmed'); 
-            row.style.display = ''; 
-        }); 
-    }
-
-    // =======================================================
-    // Hàm cập nhật filter (ĐÃ CẬP NHẬT)
-    // =======================================================
-    function updateAllFilters() { 
-        const container = document.querySelector('.container');
-        if (container.classList.contains('is-focused')) {
-            container.classList.remove('is-focused');
-            container.querySelectorAll('.table-wrapper.focused').forEach(w => w.classList.remove('focused'));
-            moveSearchContainer(false); // Trả search về chỗ cũ
+          });
         }
 
-        resetAllViews(); 
-        const searchTerm = normalizeText(document.getElementById('search-input').value); 
-        const activeGenderFilter = document.querySelector('.gender-filter button.active').id.replace('filter-', ''); 
-        
-        document.querySelectorAll('.container .table-wrapper').forEach(wrapper => { 
-            const activeSizeTag = wrapper.querySelector('.size-tag.active'); 
-            const filterSize = activeSizeTag ? activeSizeTag.dataset.size : 'all'; 
-            let hasVisibleRow = false; 
-            
-            wrapper.querySelectorAll('tbody tr').forEach(row => { 
-                const nameCell = row.cells[1]; 
-                const companyCell = row.cells[4]; 
-                const sizeCell = row.cells[5]; 
-                
-                if (!nameCell || !nameCell.textContent.trim()) { 
-                    row.style.display = 'none'; return; 
-                } 
-                
-                const sizeMatch = (filterSize === 'all' || (sizeCell && sizeCell.textContent.trim() === filterSize)); 
-                const searchMatch = normalizeText(nameCell.textContent + " " + (companyCell ? companyCell.textContent : '')).includes(searchTerm); 
-                const genderMatch = (activeGenderFilter === 'all' || row.dataset.gender === (activeGenderFilter === 'male' ? 'Nam' : 'Nữ')); 
-                
-                if (sizeMatch && searchMatch && genderMatch) { 
-                    row.style.display = ''; 
-                    hasVisibleRow = true; 
-                } else { 
-                    row.style.display = 'none'; 
-                } 
-            }); 
-            wrapper.style.display = hasVisibleRow ? '' : 'none'; 
-        }); 
-    }
+        function normalizeText(text) {
+          if (!text) return "";
+          return text
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase();
+        }
 
-    function highlightAthletes(size, gender) { 
-        updateAllFilters(); // Tắt chế độ focus trước khi highlight
-        resetAllViews(); 
-        let firstMatch = null; 
-        
-        document.querySelectorAll('.container .table-wrapper').forEach(wrapper => { 
-            let tableHasMatch = false; 
-            let tableHasVisibleRow = false; 
-            
-            wrapper.querySelectorAll('tbody tr').forEach(row => { 
-                const rowSize = row.cells[5]?.textContent.trim(); 
-                const rowGender = row.dataset.gender; 
-                const sizeMatch = (rowSize === size); 
-                const genderMatch = (gender === 'all' || rowGender === gender); 
-                
-                if (sizeMatch && genderMatch) { 
-                    row.classList.add('highlight'); 
-                    row.style.display = ''; 
-                    if (!firstMatch) { firstMatch = row; } 
-                    tableHasMatch = true; 
-                    tableHasVisibleRow = true; 
-                } else { 
-                    if (row.cells[1] && row.cells[1].textContent.trim()) { 
-                        row.classList.add('dimmed'); 
-                        row.style.display = ''; 
-                        tableHasVisibleRow = true; 
-                    } else { 
-                        row.style.display = 'none'; 
-                    } 
-                } 
-            }); 
-            
-            if (tableHasMatch) { wrapper.classList.add('table-has-match'); } 
-            wrapper.style.display = tableHasVisibleRow ? '' : 'none'; 
-        }); 
-        
-        if (firstMatch) { firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' }); } 
-    }
+        function resetAllViews() {
+          document
+            .querySelectorAll(".container .table-wrapper")
+            .forEach((wrapper) => {
+              wrapper.classList.remove("table-has-match");
+              wrapper.style.display = "";
+            });
+          document.querySelectorAll(".container tbody tr").forEach((row) => {
+            row.classList.remove("highlight", "dimmed");
+            row.style.display = "";
+          });
+        }
 
-    function generateAllSummaries() { 
-        const maleSizeCounts = {}, femaleSizeCounts = {}, allSizeCounts = {}; 
-        const sizeOrder = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL', 'XXXXL > 100kg','XXXXXL', '6XL', '7XL', 'LL']; 
-        
-        document.querySelectorAll('.container table tbody tr').forEach(row => { 
-            if (row.dataset.gender && row.cells[5] && row.cells[5].textContent.trim()) { 
-                const gender = row.dataset.gender; 
-                const size = row.cells[5].textContent.trim(); 
-                allSizeCounts[size] = (allSizeCounts[size] || 0) + 1; 
-                if (gender === 'Nữ') { 
-                    femaleSizeCounts[size] = (femaleSizeCounts[size] || 0) + 1; 
-                } else { 
-                    maleSizeCounts[size] = (maleSizeCounts[size] || 0) + 1; 
-                } 
-            } 
-        }); 
-        
-        const populateSummaryTable = (tbodyId, counts, genderFilter) => { 
-            const tbody = document.getElementById(tbodyId); 
-            tbody.innerHTML = ''; 
-            let subTotal = 0; 
-            const sortedSizes = Object.keys(counts).sort((a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b)); 
-            
-            sortedSizes.forEach(size => { 
-                const count = counts[size]; 
-                subTotal += count; 
-                const row = document.createElement('tr'); 
-                row.innerHTML = `<td>${size}</td><td>${count}</td>`; 
-                row.addEventListener('click', () => { highlightAthletes(size, genderFilter); }); 
-                tbody.appendChild(row); 
-            }); 
-            
-            const totalRow = `<tr style="background-color: #f8f9fa; font-weight: bold;"><td>TỔNG</td><td>${subTotal}</td></tr>`; 
-            tbody.innerHTML += totalRow; 
-        }; 
-        
-        populateSummaryTable('summary-male-tbody', maleSizeCounts, 'Nam'); 
-        populateSummaryTable('summary-female-tbody', femaleSizeCounts, 'Nữ'); 
-        populateSummaryTable('grand-total-tbody', allSizeCounts, 'all'); 
-    }
+        // =======================================================
+        // Hàm cập nhật filter (ĐÃ CẬP NHẬT)
+        // =======================================================
+        function updateAllFilters() {
+          const container = document.querySelector(".container");
+          if (container.classList.contains("is-focused")) {
+            container.classList.remove("is-focused");
+            container
+              .querySelectorAll(".table-wrapper.focused")
+              .forEach((w) => w.classList.remove("focused"));
+            moveSearchContainer(false); // Trả search về chỗ cũ
+          }
 
-    function initializeSizeFilterTags() { 
-        const allTableWrappersForInit = document.querySelectorAll('.container .table-wrapper'); 
-        const sizeOrderForFilter = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL', 'XXXXL > 100kg','XXXXXL', '6XL', '7XL', 'LL']; 
-        
-        allTableWrappersForInit.forEach(wrapper => { 
-            const sizeCounts = {}; 
-            wrapper.querySelectorAll('tbody tr').forEach(row => { 
-                const size = row.cells[5]?.textContent.trim(); 
-                if (size) sizeCounts[size] = (sizeCounts[size] || 0) + 1; 
-            }); 
-            
-            const tagsContainer = wrapper.querySelector('.size-filter-tags'); 
-            tagsContainer.innerHTML = `<span class="size-tag active" data-size="all">Tất cả</span>`; 
-            
-            Object.keys(sizeCounts).sort((a, b) => sizeOrderForFilter.indexOf(a) - sizeOrderForFilter.indexOf(b)).forEach(size => { 
-                tagsContainer.innerHTML += `<span class="size-tag" data-size="${size}">${size}: ${sizeCounts[size]}</span>`; 
-            }); 
-        }); 
-    }
+          resetAllViews();
+          const searchTerm = normalizeText(
+            document.getElementById("search-input").value
+          );
+          const activeGenderFilter = document
+            .querySelector(".gender-filter button.active")
+            .id.replace("filter-", "");
 
-    function bindEventListeners() { 
-        document.getElementById('search-input').addEventListener('input', updateAllFilters); 
-        
-        document.querySelector('.gender-filter').addEventListener('click', (e) => { 
-            const button = e.target.closest('button'); 
-            if (button) { 
-                document.querySelectorAll('.gender-filter button').forEach(btn => btn.classList.remove('active')); 
-                button.classList.add('active'); 
-                updateAllFilters(); 
-            } 
-        }); 
-        
-        document.querySelectorAll('.size-filter-tags').forEach(tagsContainer => { 
-            tagsContainer.addEventListener('click', (event) => { 
-                if (event.target.classList.contains('size-tag')) { 
-                    tagsContainer.querySelectorAll('.size-tag').forEach(tag => tag.classList.remove('active')); 
-                    event.target.classList.add('active'); 
-                    updateAllFilters(); 
-                } 
-            }); 
-        }); 
-        
-        document.getElementById('toggle-summary-btn').addEventListener('click', (e) => { 
-            const summaryContainer = document.getElementById('summary-container'); 
-            summaryContainer.classList.toggle('hidden'); 
-            e.target.textContent = summaryContainer.classList.contains('hidden') ? 'Hiện Bảng Tổng Hợp' : 'Ẩn Bảng Tổng Hợp'; 
-        }); 
-        
-        const backToTopBtn = document.getElementById('back-to-top-btn'); 
-        window.addEventListener('scroll', () => { 
-            if (window.scrollY > 300) { 
-                backToTopBtn.classList.add('visible'); 
-            } else { 
-                backToTopBtn.classList.remove('visible'); 
-            } 
-        }); 
-    }
+          document
+            .querySelectorAll(".container .table-wrapper")
+            .forEach((wrapper) => {
+              const activeSizeTag = wrapper.querySelector(".size-tag.active");
+              const filterSize = activeSizeTag
+                ? activeSizeTag.dataset.size
+                : "all";
+              let hasVisibleRow = false;
 
-    function init() { 
-        // Gán giá trị cho các biến quản lý vị trí search bar
-        searchContainerElement = document.querySelector('.search-container');
-        originalSearchParent = searchContainerElement.parentElement;
-        originalSearchNextSibling = searchContainerElement.nextElementSibling;
-        searchFocusArea = document.getElementById('search-focus-area');
+              wrapper.querySelectorAll("tbody tr").forEach((row) => {
+                const nameCell = row.cells[1];
+                const companyCell = row.cells[4];
+                const sizeCell = row.cells[5];
 
-        document.querySelectorAll('.container table tbody tr').forEach(row => { 
-            const genderCell = row.querySelector('td:nth-child(4)'); 
-            if (genderCell && genderCell.textContent.trim()) { 
-                row.dataset.gender = genderCell.textContent.trim(); 
-            } 
-        }); 
+                if (!nameCell || !nameCell.textContent.trim()) {
+                  row.style.display = "none";
+                  return;
+                }
 
-        makeTablesSortable(); 
-        addCopyFunctionality(); 
-        addTableFocusFunctionality();
-        initializeSizeFilterTags(); 
-        generateAllSummaries(); 
-        bindEventListeners(); 
-        updateAllFilters(); 
-    }
+                const sizeMatch =
+                  filterSize === "all" ||
+                  (sizeCell && sizeCell.textContent.trim() === filterSize);
+                const searchMatch = normalizeText(
+                  nameCell.textContent +
+                    " " +
+                    (companyCell ? companyCell.textContent : "")
+                ).includes(searchTerm);
+                const genderMatch =
+                  activeGenderFilter === "all" ||
+                  row.dataset.gender ===
+                    (activeGenderFilter === "male" ? "Nam" : "Nữ");
 
-    init();
-});
-</script>
-</body>
+                if (sizeMatch && searchMatch && genderMatch) {
+                  row.style.display = "";
+                  hasVisibleRow = true;
+                } else {
+                  row.style.display = "none";
+                }
+              });
+              wrapper.style.display = hasVisibleRow ? "" : "none";
+            });
+        }
+
+        function highlightAthletes(size, gender) {
+          updateAllFilters(); // Tắt chế độ focus trước khi highlight
+          resetAllViews();
+          let firstMatch = null;
+
+          document
+            .querySelectorAll(".container .table-wrapper")
+            .forEach((wrapper) => {
+              let tableHasMatch = false;
+              let tableHasVisibleRow = false;
+
+              wrapper.querySelectorAll("tbody tr").forEach((row) => {
+                const rowSize = row.cells[5]?.textContent.trim();
+                const rowGender = row.dataset.gender;
+                const sizeMatch = rowSize === size;
+                const genderMatch = gender === "all" || rowGender === gender;
+
+                if (sizeMatch && genderMatch) {
+                  row.classList.add("highlight");
+                  row.style.display = "";
+                  if (!firstMatch) {
+                    firstMatch = row;
+                  }
+                  tableHasMatch = true;
+                  tableHasVisibleRow = true;
+                } else {
+                  if (row.cells[1] && row.cells[1].textContent.trim()) {
+                    row.classList.add("dimmed");
+                    row.style.display = "";
+                    tableHasVisibleRow = true;
+                  } else {
+                    row.style.display = "none";
+                  }
+                }
+              });
+
+              if (tableHasMatch) {
+                wrapper.classList.add("table-has-match");
+              }
+              wrapper.style.display = tableHasVisibleRow ? "" : "none";
+            });
+
+          if (firstMatch) {
+            firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }
+
+        function generateAllSummaries() {
+          const maleSizeCounts = {},
+            femaleSizeCounts = {},
+            allSizeCounts = {};
+          const sizeOrder = [
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL",
+            "XXXL",
+            "XXXXL",
+            "XXXXL > 100kg",
+            "XXXXXL",
+            "6XL",
+            "7XL",
+            "LL",
+          ];
+
+          document
+            .querySelectorAll(".container table tbody tr")
+            .forEach((row) => {
+              if (
+                row.dataset.gender &&
+                row.cells[5] &&
+                row.cells[5].textContent.trim()
+              ) {
+                const gender = row.dataset.gender;
+                const size = row.cells[5].textContent.trim();
+                allSizeCounts[size] = (allSizeCounts[size] || 0) + 1;
+                if (gender === "Nữ") {
+                  femaleSizeCounts[size] = (femaleSizeCounts[size] || 0) + 1;
+                } else {
+                  maleSizeCounts[size] = (maleSizeCounts[size] || 0) + 1;
+                }
+              }
+            });
+
+          const populateSummaryTable = (tbodyId, counts, genderFilter) => {
+            const tbody = document.getElementById(tbodyId);
+            tbody.innerHTML = "";
+            let subTotal = 0;
+            const sortedSizes = Object.keys(counts).sort(
+              (a, b) => sizeOrder.indexOf(a) - sizeOrder.indexOf(b)
+            );
+
+            sortedSizes.forEach((size) => {
+              const count = counts[size];
+              subTotal += count;
+              const row = document.createElement("tr");
+              row.innerHTML = `<td>${size}</td><td>${count}</td>`;
+              row.addEventListener("click", () => {
+                highlightAthletes(size, genderFilter);
+              });
+              tbody.appendChild(row);
+            });
+
+            const totalRow = `<tr style="background-color: #f8f9fa; font-weight: bold;"><td>TỔNG</td><td>${subTotal}</td></tr>`;
+            tbody.innerHTML += totalRow;
+          };
+
+          populateSummaryTable("summary-male-tbody", maleSizeCounts, "Nam");
+          populateSummaryTable("summary-female-tbody", femaleSizeCounts, "Nữ");
+          populateSummaryTable("grand-total-tbody", allSizeCounts, "all");
+        }
+
+        function initializeSizeFilterTags() {
+          const allTableWrappersForInit = document.querySelectorAll(
+            ".container .table-wrapper"
+          );
+          const sizeOrderForFilter = [
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL",
+            "XXXL",
+            "XXXXL",
+            "XXXXL > 100kg",
+            "XXXXXL",
+            "6XL",
+            "7XL",
+            "LL",
+          ];
+
+          allTableWrappersForInit.forEach((wrapper) => {
+            const sizeCounts = {};
+            wrapper.querySelectorAll("tbody tr").forEach((row) => {
+              const size = row.cells[5]?.textContent.trim();
+              if (size) sizeCounts[size] = (sizeCounts[size] || 0) + 1;
+            });
+
+            const tagsContainer = wrapper.querySelector(".size-filter-tags");
+            tagsContainer.innerHTML = `<span class="size-tag active" data-size="all">Tất cả</span>`;
+
+            Object.keys(sizeCounts)
+              .sort(
+                (a, b) =>
+                  sizeOrderForFilter.indexOf(a) - sizeOrderForFilter.indexOf(b)
+              )
+              .forEach((size) => {
+                tagsContainer.innerHTML += `<span class="size-tag" data-size="${size}">${size}: ${sizeCounts[size]}</span>`;
+              });
+          });
+        }
+
+        function bindEventListeners() {
+          document
+            .getElementById("search-input")
+            .addEventListener("input", updateAllFilters);
+
+          document
+            .querySelector(".gender-filter")
+            .addEventListener("click", (e) => {
+              const button = e.target.closest("button");
+              if (button) {
+                document
+                  .querySelectorAll(".gender-filter button")
+                  .forEach((btn) => btn.classList.remove("active"));
+                button.classList.add("active");
+                updateAllFilters();
+              }
+            });
+
+          document
+            .querySelectorAll(".size-filter-tags")
+            .forEach((tagsContainer) => {
+              tagsContainer.addEventListener("click", (event) => {
+                if (event.target.classList.contains("size-tag")) {
+                  tagsContainer
+                    .querySelectorAll(".size-tag")
+                    .forEach((tag) => tag.classList.remove("active"));
+                  event.target.classList.add("active");
+                  updateAllFilters();
+                }
+              });
+            });
+
+          document
+            .getElementById("toggle-summary-btn")
+            .addEventListener("click", (e) => {
+              const summaryContainer =
+                document.getElementById("summary-container");
+              summaryContainer.classList.toggle("hidden");
+              e.target.textContent = summaryContainer.classList.contains(
+                "hidden"
+              )
+                ? "Hiện Bảng Tổng Hợp"
+                : "Ẩn Bảng Tổng Hợp";
+            });
+
+          const backToTopBtn = document.getElementById("back-to-top-btn");
+          window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+              backToTopBtn.classList.add("visible");
+            } else {
+              backToTopBtn.classList.remove("visible");
+            }
+          });
+        }
+
+        function init() {
+          // Gán giá trị cho các biến quản lý vị trí search bar
+          searchContainerElement = document.querySelector(".search-container");
+          originalSearchParent = searchContainerElement.parentElement;
+          originalSearchNextSibling = searchContainerElement.nextElementSibling;
+          searchFocusArea = document.getElementById("search-focus-area");
+
+          document
+            .querySelectorAll(".container table tbody tr")
+            .forEach((row) => {
+              const genderCell = row.querySelector("td:nth-child(4)");
+              if (genderCell && genderCell.textContent.trim()) {
+                row.dataset.gender = genderCell.textContent.trim();
+              }
+            });
+
+          makeTablesSortable();
+          addCopyFunctionality();
+          addTableFocusFunctionality();
+          initializeSizeFilterTags();
+          generateAllSummaries();
+          bindEventListeners();
+          updateAllFilters();
+        }
+
+        init();
+      });
+    </script>
+  </body>
 </html>

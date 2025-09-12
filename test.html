@@ -1,1783 +1,429 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sơ Đồ Tư Duy: Phân Tích & Chiến Lược Kinh Doanh</title>
+    <title>Phân Tích SWOT Máy In Nhãn Brother Tại Việt Nam</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <style>
-      /* Global reset & typography */
+    <style>      :root {
+        --bg-primary: #f8fafc; /* slate-50 */
+        --bg-secondary: #ffffff;
+        --border-color: #e2e8f0; /* slate-200 */
+        --text-primary: #1e293b; /* slate-800 */
+        --text-secondary: #475569; /* slate-600 */
+        --brand-primary: #4f46e5; /* indigo-600 */
+        --brand-primary-light: #e0e7ff; /* indigo-100 */
+        --brand-secondary: #10b981; /* emerald-500 */
+        --danger: #ef4444; /* red-500 */
+        --warning: #f97316; /* orange-500 */
+      }
+
       body {
         font-family: "Be Vietnam Pro", sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start; /* Align content to the top */
-        min-height: 100vh;
-        margin: 0;
-        padding: 20px;
-        box-sizing: border-box;
-        background-color: #f0f2f5; /* Light background */
-        color: #334155; /* Default text color */
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
       }
-
-      h1,
-      h2,
-      h3 {
-        font-weight: 700;
+      .sidebar a {
+        transition: all 0.2s ease-in-out;
+        border-left: 3px solid transparent;
       }
-
-      p {
-        line-height: 1.6;
+      .sidebar a:hover {
+        background-color: var(--brand-primary-light);
+        color: var(--brand-primary);
+        border-left-color: var(--brand-primary);
       }
-
-      .main-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 1200px; /* Constrain max width for better readability */
-      }
-
-      /* Tab System Styles - Clean & Intuitive */
-      .tab-system {
-        width: min(95vw, 1000px); /* Responsive width */
-        margin-bottom: 25px;
-        background-color: #ffffff;
-        border-radius: 16px; /* Rounded corners for the whole tab block */
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        overflow: hidden; /* Ensures child elements respect border-radius */
-      }
-      .tab-buttons {
-        display: flex;
-        flex-wrap: wrap; /* Allow buttons to wrap on small screens */
-        border-bottom: 1px solid #e2e8f0;
-        background-color: #f8fafc; /* Lighter background for buttons row */
-        padding: 10px;
-        gap: 8px; /* Spacing between buttons */
-      }
-      .tab-button {
-        padding: 12px 20px;
-        border: none;
-        background-color: transparent;
-        font-size: 1rem;
+      .sidebar a.active {
+        background-color: var(--brand-primary-light);
+        color: var(--brand-primary);
+        border-left-color: var(--brand-primary);
         font-weight: 600;
-        color: #64748b; /* Muted color for inactive tabs */
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border-radius: 8px;
-        flex-grow: 1; /* Allows buttons to share available space */
-        text-align: center;
-        white-space: nowrap; /* Prevent text wrapping inside button */
-        position: relative; /* For the active bottom line */
       }
-      .tab-button:hover {
-        background-color: #e2e8f0;
-        color: #1e293b;
+      .kpi-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
-      .tab-button.active {
-        background-color: #ffffff;
-        color: #2563eb; /* Active blue color */
-        font-weight: 700;
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05); /* Subtle lift for active tab */
+      .kpi-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
       }
-      /* Animated bottom border for active tab */
-      .tab-button.active::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 3px;
-        background-color: #2563eb;
-        transform: scaleX(1);
-        transition: transform 0.3s ease;
-      }
-      .tab-contents {
-        padding: 25px; /* Generous padding for content area */
-      }
-      .tab-content {
-        display: none; /* Hide by default */
-        animation: fadeIn 0.4s ease-out; /* Simple fade in */
-      }
-      .tab-content.active {
-        display: block;
-      }
-
-      /* Controls Grid - for checkboxes and radios */
-      .controls-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #1e293b;
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        text-align: center;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #e2e8f0;
-        padding-bottom: 10px;
-      }
-      .controls-grid {
-        display: grid;
-        grid-template-columns: repeat(
-          auto-fit,
-          minmax(200px, 1fr)
-        ); /* Auto-fit columns */
-        gap: 15px;
-        transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out,
-          margin 0.4s ease-in-out, padding 0.4s ease-in-out;
-        max-height: 1000px; /* Arbitrary large value for visible state */
-        opacity: 1;
-        overflow: hidden;
-      }
-      .controls-grid.hidden {
-        max-height: 0;
+      .content-card {
         opacity: 0;
-        margin-top: 0 !important; /* Important to remove any margin collapsing */
-        margin-bottom: 0 !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
       }
-      .control-item {
-        display: flex;
-        align-items: center;
-        background-color: #ffffff;
-        padding: 10px 15px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.2s, box-shadow 0.2s;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      }
-      .control-item:hover {
-        background-color: #f8fafc;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-      }
-      .controls-grid-radio .control-item {
-        flex-direction: column;
-        justify-content: center;
-        padding: 15px 10px; /* More padding for radio buttons */
-      }
-      .control-item input[type="checkbox"],
-      .control-item input[type="radio"] {
-        appearance: none; /* Hide default browser styling */
-        width: 20px;
-        height: 20px;
-        border: 2px solid #94a3b8;
-        border-radius: 4px;
-        position: relative;
-        cursor: pointer;
-        margin-right: 12px;
-        transition: border-color 0.2s, background-color 0.2s;
-        flex-shrink: 0; /* Prevent input from shrinking */
-      }
-      .control-item input[type="radio"] {
-        border-radius: 50%; /* Make radio circles */
-      }
-      .control-item input[type="checkbox"]:checked,
-      .control-item input[type="radio"]:checked {
-        border-color: #2563eb;
-        background-color: #2563eb;
-      }
-      /* Custom checkmark/dot */
-      .control-item input[type="checkbox"]:checked::after {
-        content: "✔";
-        color: white;
-        font-size: 14px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .control-item input[type="radio"]:checked::after {
-        content: "";
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: white;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-      .control-item label {
-        color: #334155;
-        font-weight: 600;
-        cursor: pointer;
-        flex-grow: 1; /* Allow label to take available space */
-      }
-      .controls-grid-radio .control-item label {
-        margin-top: 8px; /* Space between radio and label */
-        font-size: 0.95rem; /* Slightly smaller for compactness */
-      }
-
-      /* Diagram Container */
-      .diagram-container {
-        position: relative;
-        width: min(95vw, 900px); /* Adjust max width for diagram */
-        height: min(95vw, 900px); /* Maintain aspect ratio */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 30px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-        background-color: #ffffff;
-        margin-top: 25px; /* Add margin to separate from tabs */
-        transition: transform 0.3s ease-out;
-      }
-      canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none; /* Allows clicks to pass through to nodes */
-        transition: opacity 0.3s ease;
-      }
-      .circle-node {
-        position: absolute;
-        color: #ffffff;
-        border-radius: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        font-size: 0.9rem; /* Adjust font size for nodes */
-        padding: 8px; /* Reduced padding slightly for compactness */
-        box-sizing: border-box;
-        line-height: 1.3;
-        box-shadow: 0 6px 15px rgba(51, 65, 85, 0.35);
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        cursor: pointer;
-        word-break: break-word; /* Ensure text breaks within node */
-        z-index: 10;
-        border: 3px solid transparent; /* Border for better visibility on hover/highlight */
-        animation: nodeAppear 0.5s ease-out; /* Node appear animation */
-      }
-      .circle-node:hover {
-        transform: scale(1.08); /* Slightly smaller hover effect */
-        box-shadow: 0 8px 20px rgba(30, 41, 59, 0.5);
-      }
-      .circle-node .rank-label {
-        font-size: 0.65em; /* Smaller font for category label */
-        opacity: 0.9;
-        margin-bottom: 2px;
-        text-transform: uppercase;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-      }
-
-      /* Highlight/Dimming for Nodes */
-      .circle-node.highlight {
-        transform: scale(1.15) !important;
-        box-shadow: 0 10px 28px rgba(249, 115, 22, 0.6) !important; /* More intense highlight shadow */
-        z-index: 20 !important;
-        opacity: 1 !important;
-        border-color: #f97316 !important; /* Highlight border */
-      }
-      .circle-node.related {
-        opacity: 1 !important;
-        box-shadow: 0 8px 20px rgba(30, 41, 59, 0.4);
-        transform: scale(1.05);
-      }
-      .circle-node.dimmed {
-        opacity: 0.2; /* Dim more aggressively */
-        transform: scale(0.9); /* Slight shrink for dimmed */
-        pointer-events: none; /* No interaction for dimmed nodes */
-      }
-      .no-label .rank-label {
-        display: none; /* Hide rank label when toggled */
-      }
-
-      /* Responsive Adjustments for Diagram */
-      @media (min-width: 768px) {
-        .circle-node {
-          font-size: 1rem;
-          padding: 15px;
-        }
-        .circle-node .rank-label {
-          font-size: 0.75em;
-        }
-      }
-
-      /* Modal Styles */
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(
-          15,
-          23,
-          42,
-          0.75
-        ); /* Darker, slightly opaque backdrop */
-        backdrop-filter: blur(8px); /* Stronger blur */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-      }
-      .modal-overlay.show {
+      .content-card.is-visible {
         opacity: 1;
-        visibility: visible;
+        transform: translateY(0);
       }
-      .modal-content {
-        background-color: #ffffff;
-        padding: 35px 45px; /* More padding */
-        border-radius: 18px; /* Slightly larger radius */
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4); /* Deeper shadow */
-        max-width: 700px; /* Wider modal */
-        width: 90%;
-        position: relative;
-        transform: scale(0.9) translateY(-30px); /* Start further down */
-        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        max-height: 90vh; /* Allow it to be taller */
-        overflow-y: auto;
+      table {
+        width: 100%;
+        border-collapse: collapse;
       }
-      .modal-overlay.show .modal-content {
-        transform: scale(1) translateY(0);
-      }
-      .modal-title {
-        font-size: 2rem; /* Larger title */
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 15px;
-        text-align: center;
-      }
-      .modal-body {
-        font-size: 1.05rem; /* Slightly larger body text */
-        color: #334155;
-        line-height: 1.8; /* Improved line spacing */
+      th,
+      td {
+        padding: 12px 15px;
         text-align: left;
+        border-bottom: 1px solid var(--border-color);
       }
-
-      /* Styling for parsed Markdown content inside modal and static tabs */
-      .modal-body h3,
-      .modal-body h4,
-      .modal-body h5,
-      .modal-body p,
-      .modal-body ul,
-      .modal-body ol {
-        margin-top: 0.8em;
-        margin-bottom: 0.8em;
-      }
-      .modal-body h3:first-child,
-      .modal-body h4:first-child,
-      .modal-body h5:first-child,
-      .modal-body p:first-child {
-        margin-top: 0; /* Remove top margin for first elements */
-      }
-
-      /* Specific styles for clicked node's main content in modal */
-      .clicked-node-details > h3 {
-        font-size: 1.6rem !important; /* Make main h3 more prominent */
-        color: #1e293b !important;
-        text-align: center;
-        margin-top: 0 !important;
-        margin-bottom: 15px !important;
-      }
-
-      /* Section for related topics in modal */
-      .related-topics-section {
-        margin-top: 40px; /* More spacing */
-        padding-top: 30px; /* Padding for border-top */
-        border-top: 1px solid #e2e8f0;
-      }
-      .related-topics-section > h3 {
-        font-size: 1.5rem !important;
-        font-weight: 700 !important;
-        color: #475569 !important;
-        text-align: center;
-        margin-bottom: 25px !important;
-      }
-
-      /* Individual related topic item in modal */
-      .related-topic-item {
-        padding: 20px;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        background-color: #fcfdfe; /* Very light background */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        margin-bottom: 15px; /* Spacing between items */
-      }
-      .related-topic-item:last-child {
-        margin-bottom: 0; /* No margin on last one */
-      }
-      .related-topic-item h4 {
-        font-size: 1.25rem !important;
-        font-weight: 600 !important;
-        color: #334155 !important;
-        margin-bottom: 10px !important;
-        display: flex; /* Align category pill with text */
-        align-items: center;
-      }
-      /* Ensure h3 inside related topic item's markdown are also correctly sized */
-      .related-topic-item .text-base > h3 {
-        font-size: 1.15rem !important; /* Smaller than item title but larger than body */
-        color: #475569 !important;
-        margin-top: 15px !important;
-        margin-bottom: 8px !important;
-      }
-      .related-topic-item .text-base {
-        font-size: 1rem !important; /* Regular body font size within these sections */
-        color: #334155 !important;
-        line-height: 1.7 !important;
-      }
-      .related-topic-item ul {
-        list-style-type: disc;
-        padding-left: 20px;
-      }
-      .related-topic-item code {
-        background-color: #eff6ff; /* Lighter code background for readability */
-        color: #2563eb;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-family: "SFMono-Regular", Consolas, monospace;
-        font-size: 0.9em;
-      }
-
-      /* Category pill style (reusable for modal and static tabs) */
-      .category-pill {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 9999px; /* Pill shape */
-        font-size: 0.75em; /* Smaller relative to parent h4 */
-        font-weight: 700;
-        text-transform: uppercase;
-        margin-right: 12px;
-        color: white; /* Always white text for contrast */
-        white-space: nowrap;
-        flex-shrink: 0; /* Prevent pill from shrinking */
-        line-height: 1; /* Center text vertically */
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-      }
-
-      /* Styles for content blocks in static tabs */
-      .static-tab-node-content {
-        padding: 20px;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        background-color: #ffffff; /* Clear background */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        margin-bottom: 15px; /* Spacing between content blocks */
-      }
-      .static-tab-node-content h3 {
-        font-size: 1.3rem !important; /* Slightly smaller title than modal's h4 for balance */
-        font-weight: 600 !important;
-        color: #1e293b !important;
-        margin-bottom: 10px !important;
-        display: flex; /* For category pill alignment */
-        align-items: center;
-      }
-      .static-tab-node-content .text-base {
-        font-size: 1rem !important;
-        color: #334155 !important;
-        line-height: 1.7 !important;
-      }
-      /* Markdown elements inside static content */
-      .static-tab-node-content .text-base > h3,
-      .static-tab-node-content .text-base > h4 {
-        font-size: 1.15rem !important;
-        color: #475569 !important;
-        margin-top: 15px !important;
-        margin-bottom: 8px !important;
-      }
-      .static-tab-node-content .text-base ul {
-        list-style-type: disc;
-        padding-left: 20px;
-      }
-      .static-tab-node-content .text-base p {
-          margin-bottom: 1em;
-      }
-      .modal-close-btn {
-        background-color: #ef4444;
-        color: #ffffff;
-        padding: 12px 28px; /* Larger button */
-        border-radius: 10px; /* More rounded */
-        border: none;
-        cursor: pointer;
-        font-size: 1.1rem;
+      th {
+        background-color: #f1f5f9; /* slate-100 */
         font-weight: 600;
-        transition: background-color 0.2s ease, transform 0.2s ease;
-        display: block;
-        margin: 30px auto 0;
+        position: sticky;
+        top: 0;
       }
-      .modal-close-btn:hover {
-        background-color: #dc2626;
-        transform: translateY(-3px);
+      tbody tr:hover {
+        background-color: #f8fafc; /* slate-50 */
       }
-
-      /* Animations */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .table-container {
+        max-height: 600px;
+        overflow-y: auto;
+        border-radius: 0.5rem;
+        border: 1px solid var(--border-color);
       }
-
-      @keyframes nodeAppear {
-        from {
-          opacity: 0;
-          transform: scale(0.5);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
+      blockquote {
+        border-left: 4px solid var(--brand-primary);
+        background-color: #f7f8ff;
+        padding: 1rem 1.5rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+        color: #4338ca;
       }
+      blockquote ul {
+        list-style-type: disc;
+        margin-left: 1.25rem;
+      }
+      .recommendation-list li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 0.75rem;
+      }
+      .recommendation-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 1px;
+        font-weight: 800;
+        color: var(--brand-secondary);
+        background-color: #d1fae5;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-primary);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      details summary { cursor: pointer; }
     </style>
   </head>
-  <body>
-    <div class="main-container">
-      <h1
-        class="text-3xl md:text-4xl font-bold text-slate-800 text-center mb-3"
-      >
-        Sơ Đồ Tư Duy: Phân Tích & Chiến Lược Kinh Doanh
-      </h1>
-      <p class="text-slate-600 text-center mb-8 max-w-2xl text-lg">
-        Một phân tích trực quan về hiện trạng kinh doanh và các chiến lược đề
-        xuất. Dùng các checkbox để chọn chủ đề quan tâm, và radio để chuyển chế
-        độ xem (tất cả, vấn đề, giải pháp).
-      </p>
-
-      <!-- Tab System Container -->
-      <div class="tab-system">
-        <div class="tab-buttons">
-          <button class="tab-button active" data-tab="tabControls">
-            Điều Khiển Sơ Đồ
-          </button>
-          <button class="tab-button" data-tab="tabOverview">
-            Tổng Quan Chi Tiết
-          </button>
-          <button class="tab-button" data-tab="tabProblems">
-            Phân Tích Vấn Đề
-          </button>
-          <button class="tab-button" data-tab="tabSolutions">
-            Chiến Lược Giải Pháp
-          </button>
+  <body class="text-slate-700">
+    <div class="flex">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar hidden lg:block w-72 h-screen sticky top-0 bg-white border-r border-slate-200 py-8">
+        <div class="text-center mb-10 px-4">
+          <h1 class="text-xl font-bold text-indigo-600">MARKET ANALYSIS</h1>
+          <p class="text-xs text-slate-500">Máy In Nhãn Brother tại Việt Nam</p>
         </div>
+        <nav class="flex flex-col space-y-2 px-4">
+          <a href="#kpi-summary" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg><span>Tổng Quan Thị Trường</span></a>
+          <a href="#issue-analysis" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a1 1 0 001 1h12a1 1 0 100-2H5V3a1 1 0 00-2 0zm11 1a1 1 0 10-2 0v5a1 1 0 102 0V4zM8 8a1 1 0 00-1-1H5a1 1 0 000 2h2a1 1 0 001-1z" clip-rule="evenodd" /></svg><span>Phân Tích Sản Phẩm Chủ Lực</span></a>
+          <a href="#progress-and-pending" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a1 1 0 000 2c5.523 0 10 4.477 10 10a1 1 0 102 0C17 7.373 11.627 2 5 2a1 1 0 00-1 1z" /><path d="M13.13 8.87a1 1 0 00-1.414-1.414L8 11.172l-1.707-1.707a1 1 0 00-1.414 1.414l2.5 2.5a1 1 0 001.414 0l5.5-5.5z" /></svg><span>Phân Tích SWOT</span></a>
+          <a href="#conclusion" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Kết Luận & Hướng Đi</span></a>
+        </nav>
+      </aside>
 
-        <div class="tab-contents">
-          <!-- Tab 1: Điều Khiển Sơ Đồ -->
-          <div id="tabControls" class="tab-content active">
-            <h3 class="controls-title">Bộ Lọc Chủ Đề Sơ Đồ</h3>
-            <p class="text-sm text-slate-500 mb-4 text-center">
-              Chọn các chủ đề bạn muốn hiển thị trên sơ đồ tư duy.
-            </p>
-            <!-- Checkbox to hide/show topic controls -->
-            <div class="control-item mb-5 shadow-sm hover:shadow-md">
-              <input type="checkbox" id="toggleTopicControlsCheckbox" checked />
-              <label
-                for="toggleTopicControlsCheckbox"
-                class="font-bold text-slate-700"
-                >Ẩn/Hiện Bảng Điều Khiển Chủ Đề</label
-              >
+      <main class="w-full lg:w-[calc(100%-18rem)] p-4 sm:p-6 lg:p-10">
+        <!-- Header -->
+        <header class="mb-10">
+          <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Báo Cáo Phân Tích Thị Trường Máy In Nhãn Brother</h1>
+          <p class="mt-2 text-lg text-slate-600">Tổng quan vị thế, sản phẩm chủ lực, cơ hội và thách thức của Brother trong phân khúc in nhãn chuyên dụng tại Việt Nam.</p>
+        </header>
+
+        <!-- KPI Summary Section -->
+        <section id="kpi-summary" class="mb-12 scroll-mt-20">
+          <div class="mb-4"><h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3"><svg class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg>Tổng Quan Thị Trường & Vị Thế Của Brother</h2></div>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="kpi-card content-card bg-white p-6 rounded-2xl border border-slate-200 lg:col-span-2 lg:row-span-2 flex flex-col justify-between">
+                <h3 class="text-lg font-semibold text-slate-800">Thị Phần Phân Khúc Chủ Lực (Máy In Laser)</h3>
+                <div class="my-6"><p class="flex items-baseline"><span class="text-3xl font-bold text-emerald-500 mr-2">Trên</span><span class="animated-number text-7xl font-extrabold text-emerald-600" data-target="60">0</span><span class="text-5xl font-bold text-emerald-500">%</span></p><p class="text-slate-600 font-medium">Brother thống trị các phân khúc máy in <strong class="text-slate-800">Laser Đơn sắc (>60%)</strong> và <strong class="text-slate-800">Laser Màu (>70%)</strong>.</p></div>
+                <div><div class="w-full bg-slate-200 rounded-full h-2.5"><div class="bg-emerald-500 h-2.5 rounded-full" style="width: 65%; transition: width 1s ease-out"></div></div><p class="mt-2 text-sm text-slate-500 italic"><strong>Nhận định:</strong> Chiến lược tập trung vào thị trường ngách giá trị cao thay vì cạnh tranh thị phần tổng thể đã mang lại thành công vượt trội.</p></div>
             </div>
-            <div id="controlsGrid" class="controls-grid"></div>
-
-            <div class="mt-8 pt-6 border-t border-gray-200">
-              <h3 class="controls-title">Chế Độ Xem</h3>
-              <p class="text-sm text-slate-500 mb-4 text-center">
-                Lọc các chủ đề đang được chọn theo loại.
-              </p>
-              <div class="controls-grid controls-grid-radio">
-                <div class="control-item">
-                  <input
-                    type="radio"
-                    id="filterAll"
-                    name="viewFilter"
-                    value="all"
-                    checked
-                  />
-                  <label for="filterAll">Xem Tất Cả</label>
-                </div>
-                <div class="control-item">
-                  <input
-                    type="radio"
-                    id="filterProblems"
-                    name="viewFilter"
-                    value="problems"
-                  />
-                  <label for="filterProblems">Hiện Trạng & Vấn Đề</label>
-                </div>
-                <div class="control-item">
-                  <input
-                    type="radio"
-                    id="filterSolutions"
-                    name="viewFilter"
-                    value="solutions"
-                  />
-                  <label for="filterSolutions">Giải Pháp & Chiến Lược</label>
-                </div>
-                <div class="control-item">
-                  <input type="checkbox" id="toggleCategories" checked />
-                  <label for="toggleCategories"
-                    >Ẩn/Hiện Loại Chủ Đề (trên node)</label
-                  >
-                </div>
-              </div>
-            </div>
+            <div class="kpi-card content-card bg-white p-6 rounded-2xl border border-slate-200"><h3 class="font-semibold text-slate-800">Phân Khúc Khách Hàng Mục Tiêu</h3><ul class="space-y-2 text-sm mt-4"><li class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-red-500"></span>Ngành Chuyên Dụng (Điện, Viễn thông)</span><span class="font-bold text-slate-700">Chủ lực</span></li><li class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-blue-500"></span>Doanh Nghiệp Vừa & Lớn</span><span class="font-bold text-slate-700">Trọng tâm</span></li><li class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-amber-500"></span>Cá nhân & SOHO</span><span class="font-bold text-slate-700">Tiềm năng</span></li></ul></div>
+            <div class="kpi-card content-card bg-white p-6 rounded-2xl border border-slate-200"><h3 class="font-semibold text-slate-800">Dòng Sản Phẩm In Nhãn Chủ Lực</h3><p class="text-slate-600">Dòng <strong class="text-3xl font-bold text-orange-500">P-touch</strong> là thế mạnh cốt lõi, tạo ra phân khúc giá trị riêng biệt.</p><p class="mt-2 font-semibold text-center text-indigo-700 bg-indigo-50 py-2 px-4 rounded-lg">Sử dụng nhãn TZe siêu bền</p></div>
           </div>
-
-          <!-- Tab 2: Tổng Quan Chi Tiết -->
-          <div id="tabOverview" class="tab-content">
-            <h3 class="controls-title">Tổng Quan Kinh Doanh Chi Tiết</h3>
-            <!-- overviewContent will now directly contain parsed markdown, not a .modal-body parent, for consistent h3 styling -->
-            <div id="overviewContent" class="modal-body static-tab-node-content"></div>
-          </div>
-
-          <!-- Tab 3: Phân Tích Vấn Đề -->
-          <div id="tabProblems" class="tab-content">
-            <h3 class="controls-title">Phân Tích Vấn Đề Chính</h3>
-            <div id="problemsContent" class="mt-6"></div>
-          </div>
-
-          <!-- Tab 4: Chiến Lược Giải Pháp -->
-          <div id="tabSolutions" class="tab-content">
-            <h3 class="controls-title">Các Chiến Lược & Giải Pháp Đề Xuất</h3>
-            <div id="solutionsContent" class="mt-6"></div>
-          </div>
+        </section>
+        
+        <!-- Product Analysis Section -->
+      <section id="issue-analysis" class="mb-12 scroll-mt-20">
+  <div class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200">
+    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3 mb-2">
+      <svg class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a1 1 0 001 1h12a1 1 0 100-2H5V3a1 1 0 00-2 0zm11 1a1 1 0 10-2 0v5a1 1 0 102 0V4zM8 8a1 1 0 00-1-1H5a1 1 0 000 2h2a1 1 0 001-1z" clip-rule="evenodd" /></svg>
+      Phân Tích Sâu Dòng Sản Phẩm Chủ Lực: P-touch
+    </h2>
+    <p class="text-slate-600 mb-8">
+      Đánh giá chi tiết các ưu thế kỹ thuật và chiến lược sản phẩm của dòng P-touch, yếu tố tạo nên vị thế dẫn đầu của Brother trong thị trường ngách in nhãn chuyên dụng.
+    </p>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Card 1: Độ Bền -->
+      <div class="flex flex-col bg-red-50 border border-red-200 rounded-xl p-6 h-full">
+        <h3 class="font-bold text-lg text-red-800">Ưu Thế Cốt Lõi: Công Nghệ Nhãn TZe Siêu Bền</h3>
+        <p class="font-semibold text-red-600">Lợi thế cạnh tranh độc quyền</p>
+        <div class="w-full bg-red-200 rounded-full h-2 my-4"><div class="bg-red-500 h-2 rounded-full" style="width: 50%"></div></div>
+        <ul class="text-sm space-y-3 text-slate-700 flex-grow">
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Cấu trúc nhiều lớp:</strong> Nhãn TZe có cấu trúc độc đáo với lớp màng bảo vệ trong suốt (laminate) phủ lên trên lớp mực in, giúp bảo vệ nội dung khỏi các tác động vật lý và hóa học.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Chống chịu khắc nghiệt:</strong> Chống nước, chống phai màu, chống mài mòn, chịu được nhiệt độ cao và hóa chất công nghiệp, đảm bảo thông tin không bị hư hại.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Ứng dụng thực tế:</strong> Lý tưởng để dán nhãn tủ điện, dây cáp mạng trong data center, linh kiện máy móc, ống nghiệm trong phòng thí nghiệm, và tài sản ngoài trời.</span>
+          </li>
+        </ul>
+        <div class="mt-4 p-3 bg-white rounded-md border-l-4 border-red-400 text-xs">
+          <p class="font-semibold text-slate-800">Giá trị mang lại:</p>
+          <p class="italic">Tạo ra <strong class="text-emerald-600">sự tin cậy tuyệt đối</strong>, giảm thiểu chi phí bảo trì và thay thế nhãn trong môi trường công nghiệp đòi hỏi cao.</p>
+        </div>
+      </div>
+      
+      <!-- Card 2: Thiết Kế & Hiệu Suất -->
+      <div class="flex flex-col bg-indigo-50 border border-indigo-200 rounded-xl p-6 h-full">
+        <h3 class="font-bold text-lg text-indigo-800">Ưu Thế Vận Hành: Linh Hoạt & Hiệu Suất Cao</h3>
+        <p class="font-semibold text-indigo-600">Thiết kế hướng đến người dùng chuyên nghiệp</p>
+        <div class="w-full bg-indigo-200 rounded-full h-2 my-4"><div class="bg-indigo-500 h-2 rounded-full" style="width: 30%"></div></div>
+        <ul class="text-sm space-y-3 text-slate-700 flex-grow">
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Thiết kế di động:</strong> Các mẫu như <strong class="text-slate-800">PT-E110</strong> được thiết kế nhỏ gọn, cầm tay, cho phép kỹ sư, kỹ thuật viên làm việc và in nhãn trực tiếp tại hiện trường.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Nhập liệu tức thời:</strong> Tích hợp bàn phím QWERTY và màn hình LCD giúp người dùng tạo nhãn đơn giản một cách nhanh chóng mà không cần kết nối với máy tính.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Hiệu suất ổn định:</strong> Tốc độ in <strong>20 mm/giây</strong> và hỗ trợ khổ giấy rộng lên đến <strong>36mm</strong> đáp ứng hầu hết các nhu cầu dán nhãn từ cơ bản đến chuyên sâu.</span>
+          </li>
+        </ul>
+        <div class="mt-4 p-3 bg-white rounded-md border-l-4 border-indigo-400 text-xs">
+          <p class="font-semibold text-slate-800">Giá trị mang lại:</p>
+          <p class="italic"><strong class="text-sky-600">Tăng năng suất lao động</strong>, tiết kiệm thời gian và đáp ứng nhu cầu dán nhãn cá nhân hóa, tức thời ngay tại công trường.</p>
         </div>
       </div>
 
-      <div id="diagramContainer" class="diagram-container">
-        <canvas id="diagramCanvas"></canvas>
+      <!-- Card 3: Chiến Lược & Phân Khúc -->
+      <div class="flex flex-col bg-orange-50 border border-orange-200 rounded-xl p-6 h-full">
+        <h3 class="font-bold text-lg text-orange-800">Ưu Thế Chiến Lược: Phủ Sóng Đa Dạng Phân Khúc</h3>
+        <p class="font-semibold text-orange-600">Đáp ứng mọi quy mô và ngân sách</p>
+        <div class="w-full bg-orange-200 rounded-full h-2 my-4"><div class="bg-orange-500 h-2 rounded-full" style="width: 20%"></div></div>
+        <ul class="text-sm space-y-3 text-slate-700 flex-grow">
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Dải giá rộng:</strong> Với mức giá từ <strong class="text-slate-800">890.000₫</strong> cho mẫu cơ bản đến <strong class="text-slate-800">19.000.000₫</strong> cho mẫu cao cấp, Brother tiếp cận được từ SOHO đến các doanh nghiệp lớn.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Kết nối hiện đại:</strong> Các mẫu như <strong class="text-slate-800">PT-P710BT</strong> hỗ trợ Bluetooth và Wi-Fi, cho phép thiết kế và in nhãn chuyên nghiệp qua ứng dụng di động (Brother P-touch Design&Print).</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span>✓</span>
+            <span><strong>Hệ sinh thái sản phẩm:</strong> Từ máy cầm tay cho kỹ thuật (PT-E series) đến máy để bàn kết nối PC/mobile cho văn phòng, kho bãi (PT-P series), tạo thành một giải pháp toàn diện.</span>
+          </li>
+        </ul>
+        <div class="mt-4 p-3 bg-white rounded-md border-l-4 border-orange-400 text-xs">
+          <p class="font-semibold text-slate-800">Giá trị mang lại:</p>
+          <p class="italic">Tối đa hóa thị phần trong thị trường ngách, <strong class="text-violet-600">xây dựng lòng trung thành của khách hàng</strong> bằng cách cung cấp giải pháp cho mọi giai đoạn phát triển của họ.</p>
+        </div>
       </div>
     </div>
+  </div>
+</section>
+        
+        <!-- Opportunities & Challenges Section -->
+        <section id="progress-and-pending" class="mb-12 scroll-mt-20">
+            <div class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a1 1 0 000 2c5.523 0 10 4.477 10 10a1 1 0 102 0C17 7.373 11.627 2 5 2a1 1 0 00-1 1z" /><path d="M13.13 8.87a1 1 0 00-1.414-1.414L8 11.172l-1.707-1.707a1 1 0 00-1.414 1.414l2.5 2.5a1 1 0 001.414 0l5.5-5.5z" /></svg>Phân Tích SWOT Chuyên Sâu (Dữ Liệu & Số Liệu)</h2>
+                <p class="mt-2 text-slate-600">Đánh giá toàn diện vị thế của Brother dựa trên các số liệu thị phần, sản phẩm và xu hướng thị trường.</p>
+                
+                <!-- NEW 2x2 SWOT GRID -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  <div class="bg-emerald-50 border border-emerald-200 p-5 rounded-xl"><div class="text-2xl font-extrabold text-emerald-600">Thế Mạnh (Strengths)</div><p class="text-sm font-semibold text-slate-600 mt-1">Thống trị <strong class="text-emerald-800">>60%</strong> thị phần Laser và sở hữu công nghệ nhãn TZe độc quyền.</p></div>
+                  <div class="bg-amber-50 border border-amber-200 p-5 rounded-xl"><div class="text-2xl font-extrabold text-amber-600">Điểm Yếu (Weaknesses)</div><p class="text-sm font-semibold text-slate-600 mt-1">Thị phần tổng thể chỉ <strong class="text-amber-800">5-10%</strong>. Giá sản phẩm chuyên dụng lên tới <strong class="text-amber-800">19.000.000₫</strong>.</p></div>
+                  <div class="bg-sky-50 border border-sky-200 p-5 rounded-xl"><div class="text-2xl font-extrabold text-sky-600">Cơ Hội (Opportunities)</div><p class="text-sm font-semibold text-slate-600 mt-1">Nhu cầu nhãn bền cho Y tế, Logistics tăng cao. Xu hướng bao bì thân thiện môi trường bùng nổ.</p></div>
+                  <div class="bg-red-50 border border-red-200 p-5 rounded-xl"><div class="text-2xl font-extrabold text-red-600">Thách Thức (Threats)</div><p class="text-sm font-semibold text-slate-600 mt-1">Đối thủ (Canon, HP) dẫn đầu thị trường chung. Xu hướng <strong class="text-red-800">In phun +6%</strong>, <strong class="text-red-800">Laser -6%</strong>.</p></div>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="font-bold text-lg text-slate-800">Phân Tích Chi Tiết Dựa Trên Số Liệu</h3>
+                    <details open class="mt-4 border border-slate-200 rounded-lg"><summary class="p-4 bg-emerald-100 font-semibold text-base rounded-t-lg">I. THẾ MẠNH (STRENGTHS)</summary><div class="p-4"><ul class="list-disc pl-5 space-y-2 text-sm">
+                        <li><strong>Thống trị tuyệt đối thị trường Laser:</strong> Chiếm lĩnh thị phần vượt trội: <strong>Laser Đơn sắc (thường xuyên >60%)</strong> và <strong>Laser Màu (thường xuyên >70-80%)</strong>.</li>
+                        <li><strong>Dẫn đầu phân khúc Ink Tank:</strong> Giữ vững vị thế người chơi mạnh nhất với thị phần <strong>30-60%</strong> trong kênh IT.</li>
+                        <li><strong>Công nghệ nhãn TZe độc quyền:</strong> Cung cấp giải pháp nhãn nhiều lớp siêu bền, chống chịu khắc nghiệt, tạo ra lợi thế cạnh tranh cốt lõi không thể sao chép.</li>
+                        <li><strong>Dải sản phẩm P-touch rộng:</strong> Phủ sóng nhiều nhu cầu với mức giá từ <strong>890.000₫ đến 19.000.000₫</strong>, tốc độ <strong>20mm/giây</strong> và khổ giấy lên tới <strong>36mm</strong>.</li>
+                         <li><strong>Vị thế mạnh ở phân khúc Máy Quét:</strong> Thường xuyên chiếm thị phần lớn, khoảng <strong>30-50%</strong>.</li>
+                    </ul></div></details>
+                    
+                    <details class="mt-4 border border-slate-200 rounded-lg"><summary class="p-4 bg-amber-100 font-semibold text-base rounded-t-lg">II. ĐIỂM YẾU (WEAKNESSES)</summary><div class="p-4"><ul class="list-disc pl-5 space-y-2 text-sm">
+                        <li><strong>Thị phần tổng thể khiêm tốn:</strong> Chỉ chiếm khoảng <strong>5-10%</strong> thị trường máy in IT nói chung, ảnh hưởng đến nhận diện thương hiệu trên quy mô lớn.</li>
+                         <li><strong>Giá thành cao ở phân khúc chuyên dụng:</strong> Các mẫu máy cao cấp như MFC-L5900DW (<strong>17.440.000₫</strong>) và P-touch (lên đến <strong>19.000.000₫</strong>) có thể là rào cản cho các doanh nghiệp nhỏ hoặc khách hàng nhạy cảm về giá.</li>
+                         <li><strong>Chưa khai thác mạnh các ngành tiềm năng:</strong> Dữ liệu cho thấy thiếu thông tin cụ thể về ứng dụng sản phẩm trong các ngành Y tế, Logistics, Gia dụng, cho thấy đây là những thị trường chưa được tập trung.</li>
+                         <li><strong>Thị phần thấp hơn ở phân khúc phổ thông:</strong> Trong mảng All-in-one và Inkjet (chung), thị phần chỉ khoảng <strong>10-20%</strong>, lép vế so với các đối thủ như HP, Canon.</li>
+                    </ul></div></details>
 
-    <!-- Modal for Node Details -->
-    <div id="tooltipModal" class="modal-overlay">
-      <div class="modal-content">
-        <h2 id="modalTitle" class="modal-title"></h2>
-        <div id="modalBody" class="modal-body"></div>
-        <button id="closeModalBtn" class="modal-close-btn">Đóng</button>
-      </div>
+                    <details class="mt-4 border border-slate-200 rounded-lg"><summary class="p-4 bg-sky-100 font-semibold text-base rounded-t-lg">III. CƠ HỘI (OPPORTUNITIES)</summary><div class="p-4"><ul class="list-disc pl-5 space-y-2 text-sm">
+                        <li><strong>Tăng trưởng nhu cầu nhãn bền:</strong> Xu hướng tự động hóa và yêu cầu truy xuất nguồn gốc trong Y tế, Logistics, Công nghiệp sẽ thúc đẩy mạnh mẽ nhu cầu về nhãn TZe.</li>
+                        <li><strong>Mở rộng ứng dụng công nghiệp:</strong> Tận dụng độ bền nhãn TZe để thâm nhập các ngành sản xuất, cơ khí, kho bãi, xây dựng.</li>
+                        <li><strong>Xu hướng bao bì thân thiện môi trường:</strong> "Sự bùng nổ" của xu hướng này mở ra cơ hội phát triển các dòng vật liệu nhãn xanh, tạo lợi thế cạnh tranh mới.</li>
+                        <li><strong>Giải pháp cho SME/SOHO:</strong> Nhu cầu tự in nhãn mã vạch, vận chuyển của doanh nghiệp nhỏ ngày càng tăng để tối ưu chi phí và tăng tính linh hoạt.</li>
+                    </ul></div></details>
+
+                    <details class="mt-4 border border-slate-200 rounded-lg"><summary class="p-4 bg-red-100 font-semibold text-base rounded-t-lg">IV. THÁCH THỨC (THREATS)</summary><div class="p-4"><ul class="list-disc pl-5 space-y-2 text-sm">
+                        <li><strong>Áp lực từ các đối thủ dẫn đầu:</strong> Canon và HP thống trị thị phần máy in tổng thể, gây áp lực lớn về thương hiệu, giá cả và kênh phân phối.</li>
+                        <li><strong>Sự thay đổi trong hành vi người dùng:</strong> Đại dịch cho thấy sự dịch chuyển nhu cầu, với doanh số <strong>máy in phun tăng 6%</strong> trong khi <strong>máy in laser giảm 6%</strong>, đòi hỏi Brother phải linh hoạt trong chiến lược sản phẩm.</li>
+                        <li><strong>Cạnh tranh về giá:</strong> Trong một thị trường nhạy cảm về giá, các đối thủ có thể đưa ra các giải pháp in nhãn chi phí thấp hơn, dù độ bền không bằng.</li>
+                        <li><strong>Thói quen sử dụng dịch vụ in ngoài:</strong> Cần đầu tư vào marketing và giáo dục thị trường để thuyết phục khách hàng về lợi ích dài hạn của việc tự đầu tư máy in nhãn.</li>
+                    </ul></div></details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion Section -->
+      <section id="conclusion" class="mt-12 scroll-mt-20">
+  <div class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200">
+    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3"><svg class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Bảng Tổng Hợp Chiến Lược Dựa Trên Dữ Liệu Thị Phần</h2>
+    <p class="mt-2 text-slate-600 mb-6">
+      Phân tích dữ liệu 2022-2023 khẳng định chiến lược tập trung vào thị trường ngách của Brother là một thành công. Trong khi thị phần tổng thể kênh IT chỉ ở mức <strong>5-10%</strong>, Brother thống trị các phân khúc cốt lõi: <strong>Laser Đơn sắc (60-80%)</strong>, <strong>Laser Màu (70-80%)</strong>, và dẫn đầu <strong>Ink Tank (30-60% kênh IT)</strong>. Bảng dưới đây chi tiết hóa các hướng đi chiến lược dựa trên các con số này và bối cảnh cạnh tranh.
+    </p>
+
+    <div class="table-container border border-slate-200 rounded-lg">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-100">
+          <tr>
+            <th class="p-3 w-[25%] text-left">Luận Điểm Chiến Lược</th>
+            <th class="p-3 w-[45%] text-left">Dữ Liệu & Phân Tích (Cơ sở & Bối cảnh cạnh tranh)</th>
+            <th class="p-3 w-[30%] text-left">Hành Động Đề Xuất</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+          
+          <!-- Strategy 1: Cross-sell -->
+          <tr class="hover:bg-slate-50">
+            <td class="p-4 align-top">
+              <p class="font-semibold text-indigo-700">1. Tận dụng vị thế thống trị để bán chéo (Cross-sell)</p>
+            </td>
+            <td class="p-4 align-top">
+              <p>Thống trị tuyệt đối mảng Laser với thị phần <strong>60-80%</strong> (Đơn sắc) và <strong>70-80%</strong> (Màu), hoàn toàn áp đảo đối thủ cạnh tranh gần nhất là <strong>HP (thường chỉ chiếm 10-30%)</strong>. Tệp khách hàng B2B này có độ tin cậy cao với thương hiệu, tạo cơ sở "ấm" để giới thiệu sản phẩm mới.</p>
+            </td>
+            <td class="p-4 align-top">
+              <ul class="list-disc pl-4 space-y-2">
+                <li>Tăng cường truyền thông về vị thế dẫn đầu tuyệt đối so với HP ở mảng Laser.</li>
+                <li>Chủ động giới thiệu và bán chéo giải pháp nhãn P-touch cho tệp khách hàng doanh nghiệp hiện hữu.</li>
+              </ul>
+            </td>
+          </tr>
+
+          <!-- Strategy 2: Niche Replication -->
+          <tr class="hover:bg-slate-50">
+            <td class="p-4 align-top">
+              <p class="font-semibold text-indigo-700">2. Nhân rộng mô hình thành công ở thị trường ngách</p>
+            </td>
+            <td class="p-4 align-top">
+              <p>Chiến lược này hiệu quả khi so sánh với các phân khúc phổ thông, nơi Brother có thị phần thấp (ví dụ: All-in-one kênh TEL chỉ <strong>10-20%</strong>) và phải đối mặt với sự thống trị của <strong>HP</strong>. Điều này chứng tỏ thế mạnh của Brother là né tránh cạnh tranh trực diện và tập trung vào giải pháp chuyên sâu.</p>
+            </td>
+            <td class="p-4 align-top">
+              <ul class="list-disc pl-4 space-y-2">
+                <li>Tập trung nguồn lực R&D và marketing vào các ngành tiềm năng như Y tế, Logistics, Quản lý tài sản.</li>
+                <li>Phát triển các gói giải pháp (máy + nhãn TZe) chuyên biệt để tạo ra "sân chơi" riêng.</li>
+              </ul>
+            </td>
+          </tr>
+
+          <!-- Strategy 3: Defend & Expand -->
+          <tr class="hover:bg-slate-50">
+            <td class="p-4 align-top">
+              <p class="font-semibold text-indigo-700">3. Phòng thủ & Mở rộng từ phân khúc Ink Tank</p>
+            </td>
+            <td class="p-4 align-top">
+              <p>Đây là một mặt trận quan trọng nhưng đầy thách thức. Ở kênh bán lẻ (TEL), thị phần Ink Tank của Brother (<strong>20-30%</strong>) vẫn còn khoảng cách đáng kể so với người dẫn đầu là <strong>Epson (50-60%)</strong>. Cạnh tranh với Epson ở đây không chỉ để bán máy in mà còn để tiếp cận tệp khách hàng SOHO có nhu cầu về nhãn.</p>
+            </td>
+            <td class="p-4 align-top">
+              <ul class="list-disc pl-4 space-y-2">
+                <li>Củng cố vị thế ở kênh bán lẻ TEL để thu hẹp khoảng cách với Epson.</li>
+                <li>Nghiên cứu và giới thiệu các dòng P-touch giá cạnh tranh để bán kèm (bundle) hoặc bán chéo cho tệp khách hàng SOHO.</li>
+              </ul>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </div>
+</section>
+      </main>
+    </div>
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // --- DOM Elements ---
-        const container = document.getElementById("diagramContainer");
-        const canvas = document.getElementById("diagramCanvas");
-        const ctx = canvas.getContext("2d");
-        const controlsGrid = document.getElementById("controlsGrid");
-        const tooltipModal = document.getElementById("tooltipModal");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalBody = document.getElementById("modalBody");
-        const closeModalBtn = document.getElementById("closeModalBtn");
-        const tabButtons = document.querySelectorAll(".tab-button");
-        const tabContents = document.querySelectorAll(".tab-content");
-        const toggleTopicControlsCheckbox = document.getElementById(
-          "toggleTopicControlsCheckbox"
-        );
-        const toggleCategoriesCheckbox =
-          document.getElementById("toggleCategories");
-
-        // Content divs for static tabs
-        const overviewContentDiv = document.getElementById("overviewContent");
-        const problemsContentDiv = document.getElementById("problemsContent");
-        const solutionsContentDiv = document.getElementById("solutionsContent");
-
-        // --- State Variables ---
-        let renderedNodes = []; // Nodes currently drawn on canvas
-        let showCategories = toggleCategoriesCheckbox.checked; // State for category labels visibility
-        let filterMode = "all"; // 'all', 'problems', 'solutions' - from radio buttons
-
-        // --- Configuration Data ---
-        const categoryColors = {
-          OVERVIEW: "#334155", // Tổng Quan
-          STRENGTHS: "#16a34a", // Điểm Mạnh
-          ISSUES: "#ef4444", // Vấn Đề Chính
-          STRATEGY: "#2563eb", // Chiến Lược
-          CHALLENGES: "#f97316", // Thách Thức
-          DETAIL: "#475569", // Chi Tiết
-          SOLUTION: "#84cc16", // Giải Pháp
-        };
-
-        // Core data for nodes (topics) - Dữ liệu vẫn được giữ nguyên như bạn cung cấp
-        const nodeData = [
-          {
-            text: "Tổng Quan Kinh Doanh",
-            rank: 0,
-            category: "OVERVIEW",
-            connections: [
-              "Bài Trí Không Gian",
-              "Vấn Đề Chương Trình KM",
-              "Vấn Đề Nhân Lực & Đào Tạo",
-              "Tỷ Lệ Chuyển Đổi Thấp",
-              "Đề Xuất & Bước Tiếp Theo",
-            ],
-            tooltip: {
-              content:
-                "### Tổng Quan Hiện Trạng Kinh Doanh\n\nCuộc thảo luận cung cấp một cái nhìn sâu sắc về các khía cạnh khác nhau của hoạt động kinh doanh, tập trung vào tối ưu hóa hiệu quả bán hàng, đặc biệt là với các sản phẩm công nghệ như máy chiếu và laptop trong môi trường nhà sách. Các vấn đề được phân loại thành bốn trụ cột chính: bài trí không gian, chương trình khuyến mãi, năng lực nội tại của nhân viên, và tỷ lệ chuyển đổi. Trong đó, vấn đề marketing và hành trình khách hàng được nhận định là cốt lõi và thách thức lớn nhất, đặc biệt đối với sản phẩm laptop.",
-            },
-            isProblem: true,
-            isSolution: true,
-          },
-          {
-            text: "Bài Trí Không Gian",
-            rank: 1,
-            category: "STRENGTHS",
-            connections: ["Tổng Quan Kinh Doanh"],
-            tooltip: {
-              content:
-                "### 1. Bài trí không gian và trưng bày sản phẩm\n\n**Điểm mạnh:** Vấn đề này hiện đã được giải quyết một cách hiệu quả. Không gian trưng bày được sắp xếp hợp lý, giúp khách hàng dễ dàng nhìn thấy và tiếp cận sản phẩm khi di chuyển trong cửa hàng. Điều này được xem là một điểm cộng đã ổn định, không cần ưu tiên cải thiện thêm trong ngắn hạn.\n\n**Hạn chế (liên quan đến nhận thức khách hàng):** Mặc dù không gian tổng thể tốt, cách trưng bày một số sản phẩm mới như laptop chưa thực sự tạo được sự thu hút. Khách hàng có thể cảm nhận rằng các sản phẩm này chỉ được đặt ở đó để 'có mặt' trong nhà sách, chứ không phải để được trưng bày một cách hấp dẫn nhằm thúc đẩy việc bán hàng.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Vấn Đề Chương Trình KM",
-            rank: 1,
-            category: "ISSUES",
-            connections: [
-              "Tổng Quan Kinh Doanh",
-              "Chưa Hài Hòa Với Nhà Sách",
-              "Rào Cản Nhận Thức Giá",
-            ],
-            tooltip: {
-              content:
-                "### 2. Vấn đề Chương trình khuyến mãi\n\n**Tình hình hiện tại:** Các chương trình khuyến mãi cần được tích hợp chặt chẽ và hài hòa với các chương trình hiện có của nhà sách để tránh gây nhầm lẫn hoặc xung đột lợi ích. Nhà sách đang áp dụng chương trình tặng voucher giảm giá 50.000 VNĐ cho khách hàng mua hàng vào các ngày trong tuần có lượng khách thấp (Thứ Hai đến Thứ Năm) nhằm kích thích nhu cầu. Tuy nhiên, có những rào cản khiến chương trình chưa hiệu quả.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Chưa Hài Hòa Với Nhà Sách",
-            rank: 2,
-            category: "DETAIL",
-            connections: ["Vấn Đề Chương Trình KM"],
-            tooltip: {
-              content:
-                "### Chương Trình Khuyến Mãi Chưa Hài Hòa Với Nhà Sách\n\nCác chương trình khuyến mãi của sản phẩm cần được tích hợp chặt chẽ và hài hòa với các chương trình hiện có của nhà sách để tránh gây nhầm lẫn hoặc xung đột lợi ích, đảm bảo sự phối hợp đồng bộ và hiệu quả.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Rào Cản Nhận Thức Giá",
-            rank: 2,
-            category: "DETAIL",
-            connections: ["Vấn Đề Chương Trình KM"],
-            tooltip: {
-              content:
-                "### Rào Cản Nhận Thức Về Giá\n\nMột vấn đề đáng kể là khách hàng chưa nhận thấy giá trị tốt của sản phẩm do thiếu các dấu hiệu trực quan quen thuộc như 'gạch giá' (giá niêm yết ban đầu bị gạch ngang và thay bằng giá khuyến mãi). Điều này tạo cảm giác rằng không có chương trình khuyến mãi nào đang diễn ra, dù giá thực tế có thể đã tốt. Đây là một rào cản tâm lý cần được giải quyết bằng cách hiển thị rõ ràng và minh bạch các ưu đãi.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Vấn Đề Nhân Lực & Đào Tạo",
-            rank: 1,
-            category: "ISSUES",
-            connections: [
-              "Tổng Quan Kinh Doanh",
-              "Vấn Đề Bảo Hành & Kinh Nghiệm NV",
-            ],
-            tooltip: {
-              content:
-                "### 3. Vấn đề Nhân Lực & Đào Tạo\n\n**Đánh giá tổng thể:** Khía cạnh này được chấm 6/10 điểm, cho thấy có nhiều dư địa để cải thiện và nâng cao hiệu quả.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Vấn Đề Bảo Hành & Kinh Nghiệm NV",
-            rank: 2,
-            category: "DETAIL",
-            connections: ["Vấn Đề Nhân Lực & Đào Tạo"],
-            tooltip: {
-              content:
-                "### Vấn đề Bảo Hành & Kinh nghiệm Nhân viên\n\nNhân viên chưa được trang bị đầy đủ kiến thức hoặc chưa nắm rõ các chính sách bảo hành, dẫn đến thiếu tự tin khi tư vấn. Ngoài ra, nhân viên thiếu kinh nghiệm trong việc tư vấn các sản phẩm mới như laptop do chưa có nhiều nhu cầu phát sinh hoặc tình huống tư vấn thực tế. Quá trình học hỏi hiện tại chủ yếu thông qua quan sát.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Tỷ Lệ Chuyển Đổi Thấp",
-            rank: 1,
-            category: "ISSUES",
-            connections: [
-              "Tổng Quan Kinh Doanh",
-              "Sự Chênh Lệch Hiệu Suất",
-              "Laptop: Trưng Bày Vô Hồn",
-              "Thách Thức Nghiên Cứu & Dữ Liệu",
-            ],
-            tooltip: {
-              content:
-                "### II. Vấn đề trọng tâm: Tỷ lệ chuyển đổi và Hành trình khách hàng (Customer Journey)\n\nĐây là vấn đề cốt lõi nhất cần được giải quyết.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Sự Chênh Lệch Hiệu Suất",
-            rank: 2,
-            category: "DETAIL",
-            connections: ["Tỷ Lệ Chuyển Đổi Thấp"],
-            tooltip: {
-              content:
-                "### Sự Chênh Lệch Về Hiệu Suất Chuyển Đổi\n\n- **Máy chiếu:** Có tỷ lệ chuyển đổi khá tốt, khoảng 7%, nghĩa là cứ 100 khách hàng quan tâm thì có khoảng 7 người chốt mua hàng.\n- **Laptop:** Tỷ lệ này cực kỳ thấp, gần như 0% hoặc chỉ 1% (chốt được một đơn hàng duy nhất tính đến thời điểm đó). Đây là vấn đề nghiêm trọng và cấp bách nhất.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Laptop: Trưng Bày Vô Hồn",
-            rank: 2,
-            category: "ISSUES",
-            connections: ["Tỷ Lệ Chuyển Đổi Thấp"],
-            tooltip: {
-              content:
-                "### Laptop: Trưng Bày Vô Hồn & Thiếu Thu Hút\n\nLaptop đang gặp khó khăn ngay từ những bước đầu tiên của hành trình khách hàng. Không giống máy chiếu có yếu tố trực quan thu hút, laptop thiếu yếu tố 'kích thích' sự tò mò, trông 'vô hồn' như những cuốn sách thông thường. Các ý tưởng ban đầu như làm mũi tên hay dán hình ảnh chỉ thu hút sự 'để ý', nhưng không đủ tạo 'lưu tâm' sâu sắc.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Thách Thức Nghiên Cứu & Dữ Liệu",
-            rank: 2,
-            category: "CHALLENGES",
-            connections: ["Tỷ Lệ Chuyển Đổi Thấp"],
-            tooltip: {
-              content:
-                "### Thách Thức Nghiên Cứu & Dữ Liệu\n\nĐây là rào cản lớn nhất cần vượt qua để triển khai các chiến lược hiệu quả. Làm thế nào để triển khai các bước hiệu quả mà không 'thử và sai' mù quáng, vốn tốn kém chi phí, thời gian và nhân lực. Hiện tại, chưa có cơ chế thu thập dữ liệu hoặc hiểu rõ *tại sao* khách hàng không tương tác với laptop và *làm thế nào* để các phương pháp thu hút hiệu quả nhất.",
-            },
-            isProblem: true,
-            isSolution: false,
-          },
-          {
-            text: "Đề Xuất & Bước Tiếp Theo",
-            rank: 1,
-            category: "OVERVIEW",
-            connections: [
-              "Tổng Quan Kinh Doanh",
-              "Tối Ưu Chương Trình KM",
-              "Nâng Cao Năng Lực Nội Bộ",
-              "Tối Ưu Hành Trình KH",
-              "Xây Dựng Hệ Thống Dữ Liệu",
-            ],
-            tooltip: {
-              content:
-                "### III. Đề xuất chiến lược và các bước tiếp theo:\n\nĐể giải quyết các thách thức và thúc đẩy doanh số, cần tập trung vào các giải pháp sau:",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Tối Ưu Chương Trình KM",
-            rank: 2,
-            category: "STRATEGY",
-            connections: [
-              "Đề Xuất & Bước Tiếp Theo",
-              "Chưa Hài Hòa Với Nhà Sách",
-              "Rào Cản Nhận Thức Giá",
-              "Chiến Lược Tặng Voucher Giá Trị Cao",
-              "Hiển Thị Giá Trị KM Rõ Ràng",
-            ],
-            tooltip: {
-              content:
-                "### Tối Ưu Chương Trình Khuyến Mãi\n\nCác giải pháp tập trung vào việc tích hợp hài hòa các chương trình với nhà sách và cải thiện nhận thức về giá trị ưu đãi của khách hàng.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Chiến Lược Tặng Voucher Giá Trị Cao",
-            rank: 3,
-            category: "SOLUTION",
-            connections: ["Tối Ưu Chương Trình KM"],
-            tooltip: {
-              content:
-                "### Chiến Lược Tặng Voucher Giá Trị Cao\n\nCó tiềm năng để tận dụng chính sách khuyến mãi hiện tại của nhà sách (voucher 50.000 VNĐ cho ngày ít khách) bằng cách cung cấp voucher có giá trị cao hơn (ví dụ: 200.000 VNĐ) cho sản phẩm của mình. Điều này sẽ khuyến khích khách hàng mua hàng vào các ngày đầu tuần, phù hợp với mục tiêu tăng trưởng khách hàng của nhà sách.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Hiển Thị Giá Trị KM Rõ Ràng",
-            rank: 3,
-            category: "SOLUTION",
-            connections: ["Tối Ưu Chương Trình KM"],
-            tooltip: {
-              content:
-                "### Hiển Thị Giá Trị Khuyến Mãi Rõ Ràng\n\nKhắc phục rào cản nhận thức về giá bằng cách hiển thị rõ ràng các ưu đãi (ví dụ: sử dụng kỹ thuật 'gạch giá', biểu tượng giảm giá nổi bật) để khách hàng dễ dàng nhìn thấy và cảm nhận được giá trị thực của chương trình khuyến mãi, thay vì cảm giác không có ưu đãi.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Nâng Cao Năng Lực Nội Bộ",
-            rank: 2,
-            category: "STRATEGY",
-            connections: [
-              "Đề Xuất & Bước Tiếp Theo",
-              "Vấn Đề Bảo Hành & Kinh nghiệm NV",
-            ],
-            tooltip: {
-              content:
-                "### Nâng Cao Năng Lực Nội Bộ\n\nHoàn thiện và thống nhất chính sách bảo hành. Tăng cường đào tạo chuyên sâu về kiến thức sản phẩm (đặc biệt laptop) và kỹ năng tư vấn cho nhân viên, giúp họ tự tin và hiệu quả hơn trong giao tiếp với khách hàng.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Tối Ưu Hành Trình KH",
-            rank: 2,
-            category: "STRATEGY",
-            connections: [
-              "Đề Xuất & Bước Tiếp Theo",
-              "Laptop: Trưng Bày Vô Hồn", // Nối ngược về vấn đề
-              "Bước Để Ý & Thu Hút",
-              "Bước Kích Thích Lưu Tâm",
-              "Bước Đánh Giá & So Sánh GT",
-              "Bước Thúc Đẩy Quyết Định Mua",
-            ],
-            tooltip: {
-              content:
-                "### Tối Ưu Hành Trình Khách Hàng (4 bước)\n\nĐể giải quyết vấn đề tỷ lệ chuyển đổi cho laptop, cần tập trung vào việc dẫn dắt khách hàng qua 4 bước:\n1.  **Để ý (Attention):** Khách hàng nhận biết và chú ý đến sản phẩm.\n2.  **Lưu tâm/Tò mò (Interest/Curiosity):** Khách hàng phát sinh sự hứng thú, muốn tìm hiểu sâu hơn.\n3.  **So sánh giá trị (Evaluation/Comparison):** Khách hàng cân nhắc, so sánh giá trị sản phẩm.\n4.  **Quyết định mua (Decision/Closing):** Khách hàng đưa ra quyết định cuối cùng.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Xây Dựng Hệ Thống Dữ Liệu",
-            rank: 2,
-            category: "STRATEGY",
-            connections: [
-              "Đề Xuất & Bước Tiếp Theo",
-              "Thách Thức Nghiên Cứu & Dữ Liệu", // Nối ngược về thách thức
-            ],
-            tooltip: {
-              content:
-                "### Xây Dựng Hệ Thống Dữ Liệu & Nghiên Cứu\n\nĐây là bước quan trọng nhất để các chiến lược có cơ sở và hiệu quả. Cần tìm cách nghiên cứu, thu thập thông tin về hành vi và tâm lý khách hàng đối với laptop một cách gián tiếp (ví dụ: phân tích dữ liệu bán hàng, phản hồi online, nghiên cứu thị trường) nhằm xác định những lý do cốt lõi gây ra tỷ lệ chuyển đổi thấp và định hướng chiến lược.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Bước Để Ý & Thu Hút",
-            rank: 3,
-            category: "SOLUTION",
-            connections: [
-              "Tối Ưu Hành Trình KH",
-              "Trải Nghiệm Sản Phẩm Trực Tiếp",
-              "Trình Chiếu Hình Ảnh Sống Động",
-              "Kệ Trưng Bày Tương Tác",
-            ],
-            tooltip: {
-              content:
-                "### Bước 1: Để Ý & Thu Hút (Attention & Attraction)\n\nKhách hàng nhận biết và chú ý đến sản phẩm. Cần sáng tạo các chiến lược trưng bày và marketing độc đáo, đặc biệt cho laptop, để tạo ra sự 'để ý' ngay từ cái nhìn đầu tiên (ví dụ: tận dụng yếu tố trực quan như máy chiếu đã làm).",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Trải Nghiệm Sản Phẩm Trực Tiếp",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Để Ý & Thu Hút"],
-            tooltip: {
-              content:
-                "### Trải Nghiệm Sản Phẩm Trực Tiếp (Laptop)\n\nCung cấp khu vực cho phép khách hàng tự do chạm, mở, và thử nghiệm trực tiếp laptop (ví dụ: đặt máy ra khỏi tủ kính trưng bày, có sẵn máy demo hoạt động để khách hàng tương tác). Điều này giúp khách hàng có cảm nhận vật lý về sản phẩm, khác với việc chỉ nhìn qua tủ kính.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Trình Chiếu Hình Ảnh Sống Động",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Để Ý & Thu Hút"],
-            tooltip: {
-              content:
-                "### Trình Chiếu Hình Ảnh Sống Động (Laptop)\n\nSử dụng màn hình nhỏ hoặc máy chiếu kết hợp để hiển thị video demo hấp dẫn, hình ảnh chất lượng cao hoặc giao diện người dùng sống động của laptop. Mô phỏng yếu tố trực quan thu hút tương tự máy chiếu, nhưng tập trung vào trải nghiệm của laptop.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Kệ Trưng Bày Tương Tác",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Để Ý & Thu Hút"],
-            tooltip: {
-              content:
-                "### Kệ Trưng Bày Tương Tác (Laptop)\n\nThiết kế kệ trưng bày có đèn LED, màn hình cảm ứng nhỏ hoặc các yếu tố động khác để thu hút ánh nhìn và khuyến khích tương tác ban đầu. Có thể kết hợp với các câu hỏi gợi mở hoặc thông tin thú vị trên màn hình để tăng sự tò mò.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Bước Kích Thích Lưu Tâm",
-            rank: 3,
-            category: "SOLUTION",
-            connections: [
-              "Tối Ưu Hành Trình KH",
-              "Thẻ Thông Tin Gây Tò Mò",
-              "Chương Trình Demo Ngắn",
-              "Mã QR Xem Video Đánh Giá",
-            ],
-            tooltip: {
-              content:
-                "### Bước 2: Kích Thích Lưu Tâm/Tò Mò (Interest/Curiosity)\n\nKhách hàng phát sinh sự hứng thú, muốn tìm hiểu sâu hơn về sản phẩm. Cần triển khai các chương trình khuyến mãi nhỏ, ngắn hạn hoặc những 'động thái' sáng tạo khác (ví dụ: dán sticker thông tin gợi mở, đặt câu hỏi tại chỗ) để khơi gợi sự tò mò và giữ chân khách hàng.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Thẻ Thông Tin Gây Tò Mò",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Kích Thích Lưu Tâm"],
-            tooltip: {
-              content:
-                "### Thẻ Thông Tin Gây Tò Mò (Laptop)\n\nDán các sticker hoặc thẻ thông tin nhỏ trên laptop với các câu hỏi gợi mở hoặc lợi ích độc đáo, thay vì chỉ thông số kỹ thuật (ví dụ: 'Tăng năng suất 30%?', 'Học online không giật lag?', 'Giải quyết công việc trong nháy mắt?'). Mục tiêu là khơi gợi sự tò mò và khuyến khích khách hàng tìm hiểu sâu hơn.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Chương Trình Demo Ngắn",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Kích Thích Lưu Tâm"],
-            tooltip: {
-              content:
-                "### Chương Trình Demo Ngắn (Laptop)\n\nTổ chức các buổi demo ngắn (5-10 phút) tại chỗ về một tính năng nổi bật của laptop (ví dụ: tốc độ khởi động, khả năng xử lý đồ họa cơ bản, tính năng độc quyền). Điều này giúp thu hút sự chú ý và giải đáp thắc mắc ngay lập tức, biến sự tò mò thành sự quan tâm cụ thể.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Mã QR Xem Video Đánh Giá",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Kích Thích Lưu Tâm"],
-            tooltip: {
-              content:
-                "### Mã QR Xem Video Đánh Giá (Laptop)\n\nĐặt mã QR trên khu vực trưng bày laptop, dẫn đến các video đánh giá nhanh, so sánh sản phẩm hoặc video giải quyết vấn đề khách hàng thường gặp (ví dụ: 'Cách chọn laptop cho sinh viên', 'Laptop cho công việc văn phòng'). Video ngắn gọn, trực quan sẽ hấp dẫn hơn thông tin tĩnh.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Bước Đánh Giá & So Sánh GT",
-            rank: 3,
-            category: "SOLUTION",
-            connections: [
-              "Tối Ưu Hành Trình KH",
-              "Bảng So Sánh Lợi Ích Trực Quan",
-              "Gợi Ý Sử Dụng Theo Nhu Cầu",
-            ],
-            tooltip: {
-              content:
-                "### Bước 3: Đánh Giá & So Sánh Giá Trị (Evaluation/Comparison)\n\nKhách hàng cân nhắc, so sánh giá trị sản phẩm (lợi ích, tính năng, giá cả, bảo hành) với các lựa chọn khác hoặc với nhu cầu cá nhân của họ. Cần cung cấp thông tin rõ ràng và dễ tiếp cận để khách hàng có thể tự đánh giá và so sánh giá trị của laptop.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Bảng So Sánh Lợi Ích Trực Quan",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Đánh Giá & So Sánh GT"],
-            tooltip: {
-              content:
-                "### Bảng So Sánh Lợi Ích Trực Quan (Laptop)\n\nCung cấp các bảng so sánh trực quan các lợi ích chính của laptop so với các sản phẩm khác (ví dụ: so với máy tính bàn, máy chiếu, hoặc các mẫu laptop cạnh tranh). Tập trung vào giá trị mang lại (hiệu suất công việc, trải nghiệm giải trí, tính di động) chứ không chỉ đơn thuần là thông số kỹ thuật khô khan.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Gợi Ý Sử Dụng Theo Nhu Cầu",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Đánh Giá & So Sánh GT"],
-            tooltip: {
-              content:
-                "### Gợi Ý Sử Dụng Theo Nhu Cầu (Laptop)\n\nNhân viên chủ động đặt câu hỏi về nhu cầu cụ thể của khách hàng (ví dụ: học tập, làm việc, giải trí, gaming, đồ họa) và gợi ý mẫu laptop phù hợp nhất. Cần đưa ra ví dụ cụ thể về cách laptop đó sẽ giải quyết vấn đề hoặc nâng cao trải nghiệm của họ, thay vì chỉ giới thiệu chung chung.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Bước Thúc Đẩy Quyết Định Mua",
-            rank: 3,
-            category: "SOLUTION",
-            connections: [
-              "Tối Ưu Hành Trình KH",
-              "Ưu Đãi Gói Kèm (Bundle Offers)",
-              "Chính Sách Đổi Trả Dễ Dàng",
-              "Chiến Lược Khan Hiếm",
-            ],
-            tooltip: {
-              content:
-                "### Bước 4: Thúc Đẩy Quyết Định Mua (Decision/Closing)\n\nKhách hàng đưa ra quyết định cuối cùng và tiến hành mua hàng. Áp dụng chiến lược 'khan hiếm' như ưu đãi có giới hạn thời gian, số lượng sản phẩm nhất định, hoặc các gói hỗ trợ đặc biệt trong một khung thời gian ngắn để tạo áp lực tích cực, thúc đẩy khách hàng ra quyết định nhanh chóng.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Ưu Đãi Gói Kèm (Bundle Offers)",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Thúc Đẩy Quyết Định Mua"],
-            tooltip: {
-              content:
-                "### Ưu Đãi Gói Kèm (Bundle Offers) cho Laptop\n\nTạo các gói ưu đãi kèm phụ kiện (chuột, bàn phím, túi chống sốc, phần mềm diệt virus) hoặc phần mềm bản quyền với giá tốt khi mua laptop. Điều này không chỉ tăng giá trị cảm nhận cho khách hàng mà còn khuyến khích họ mua thêm, giảm chi phí ban đầu cho các phụ kiện cần thiết.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Chính Sách Đổi Trả Dễ Dàng",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Thúc Đẩy Quyết Định Mua"],
-            tooltip: {
-              content:
-                "### Chính Sách Đổi Trả Dễ Dàng (Laptop)\n\nNhấn mạnh chính sách đổi trả hoặc dùng thử sản phẩm (nếu có thể) để giảm rủi ro mua hàng cho khách. Sự đảm bảo về chất lượng và khả năng linh hoạt sẽ tăng cường sự tin tưởng và khuyến khích khách hàng đưa ra quyết định mua sắm cuối cùng.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-          {
-            text: "Chiến Lược Khan Hiếm",
-            rank: 4,
-            category: "SOLUTION",
-            connections: ["Bước Thúc Đẩy Quyết Định Mua"],
-            tooltip: {
-              content:
-                "### Chiến Lược Khan Hiếm (Laptop)\n\nÁp dụng các yếu tố khan hiếm như 'ưu đãi chỉ có trong tuần này', 'số lượng có hạn', 'chỉ áp dụng cho 50 khách hàng đầu tiên'. Điều này tạo cảm giác cấp bách và thúc đẩy khách hàng ra quyết định mua ngay lập tức để không bỏ lỡ cơ hội.",
-            },
-            isProblem: false,
-            isSolution: true,
-          },
-        ];
-
-        // --- Initial State Setup ---
-        nodeData.forEach((node, index) => {
-          node.selectedByCheckbox = true; // NEW: Controls explicit user selection
-          node.originalIndex = index; // Keep original index for referencing
-        });
-
-        // --- Core Diagram Functions ---
-
-        /**
-         * Handles mouseover event for nodes to highlight connections.
-         * @param {Event} event - The mouseover event.
-         */
-        const handleMouseOver = (event) => {
-          const hoveredNodeIndex = parseInt(
-            event.currentTarget.dataset.originalIndex
-          );
-          const hoveredNode = renderedNodes.find(
-            (n) => n.originalIndex === hoveredNodeIndex
-          );
-          if (!hoveredNode) return;
-
-          // Collect all connected node texts (both directions)
-          const relatedNodeTexts = new Set(hoveredNode.connections || []);
-          renderedNodes.forEach((node) => {
-            if (
-              node.connections &&
-              node.connections.includes(hoveredNode.text)
-            ) {
-              relatedNodeTexts.add(node.text);
-            }
-          });
-
-          renderedNodes.forEach((node) => {
-            const el = node.element;
-            el.classList.remove("highlight", "related", "dimmed"); // Reset all classes first
-
-            if (node.originalIndex === hoveredNode.originalIndex) {
-              el.classList.add("highlight");
-            } else if (relatedNodeTexts.has(node.text)) {
-              el.classList.add("related");
+        function animateCounter(element) {
+          const target = parseInt(element.dataset.target, 10);
+          let current = 0;
+          const increment = target / 100;
+          const update = () => {
+            current += increment;
+            if (current < target) {
+              element.textContent = Math.round(current);
+              requestAnimationFrame(update);
             } else {
-              el.classList.add("dimmed");
+              element.textContent = target;
             }
-          });
-          drawNetworkLines(hoveredNode); // Pass hoveredNode to draw specific lines
-        };
-
-        /**
-         * Handles mouseout event for nodes to clear highlighting.
-         */
-        const handleMouseOut = () => {
-          renderedNodes.forEach((node) => {
-            node.element.classList.remove("highlight", "related", "dimmed");
-          });
-          drawNetworkLines(); // Redraw lines without any highlight
-        };
-
-        /**
-         * Creates and appends checkboxes for each topic to the controls grid.
-         */
-        const createControls = () => {
-          controlsGrid.innerHTML = ""; // Clear existing controls
-          // Sort to display "Tổng Quan Kinh Doanh" at the top, then others alphabetically
-          const sortedNodes = [...nodeData].sort((a, b) => {
-            if (a.rank === 0) return -1;
-            if (b.rank === 0) return 1;
-            return a.text.localeCompare(b.text);
-          });
-
-          sortedNodes.forEach((node) => {
-            const controlItem = document.createElement("div");
-            controlItem.className = "control-item";
-
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = `check-${node.originalIndex}`;
-            checkbox.checked = node.selectedByCheckbox; // Use the new state
-            checkbox.dataset.index = node.originalIndex;
-            checkbox.style.accentColor =
-              categoryColors[node.category] || "#334155"; // Apply category color
-
-            const label = document.createElement("label");
-            label.htmlFor = `check-${node.originalIndex}`;
-            label.textContent = node.text;
-
-            controlItem.appendChild(checkbox);
-            controlItem.appendChild(label);
-            controlsGrid.appendChild(controlItem);
-
-            // Add event listener for each checkbox
-            checkbox.addEventListener("change", (e) => {
-              const index = parseInt(e.target.dataset.index);
-              // Update the node's `selectedByCheckbox` state
-              nodeData.find(
-                (n) => n.originalIndex === index
-              ).selectedByCheckbox = e.target.checked;
-              renderDiagram(); // Rerender diagram based on new filter
-            });
-          });
-        };
-
-        /**
-         * Filters node data and renders the diagram based on current filter mode and checkbox selections.
-         */
-        const renderDiagram = () => {
-          const containerSize = Math.min(
-            container.offsetWidth,
-            container.offsetHeight
-          );
-          canvas.width = containerSize;
-          canvas.height = containerSize;
-          // Clear previous nodes and canvas
-          container
-            .querySelectorAll(".circle-node")
-            .forEach((el) => el.remove());
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-          // Step 1: Filter nodes by user's checkbox selections
-          let filteredByCheckboxes = nodeData.filter(
-            (node) => node.selectedByCheckbox
-          );
-
-          // Step 2: Apply the view mode filter (Problems, Solutions, All)
-          let finalNodesToRender = [];
-          if (filterMode === "problems") {
-            finalNodesToRender = filteredByCheckboxes.filter(
-              (node) => node.isProblem
-            );
-          } else if (filterMode === "solutions") {
-            finalNodesToRender = filteredByCheckboxes.filter(
-              (node) => node.isSolution
-            );
-          } else {
-            finalNodesToRender = filteredByCheckboxes; // Show all selected
-          }
-
-          // Ensure "Tổng Quan Kinh Doanh" (central node) is always rendered IF its checkbox is selected,
-          // regardless of whether it explicitly fits the 'problem' or 'solution' category.
-          const centralNodeText = "Tổng Quan Kinh Doanh";
-          const centralNodeObject = nodeData.find(
-            (n) => n.text === centralNodeText
-          );
-
-          if (
-            centralNodeObject &&
-            centralNodeObject.selectedByCheckbox && // Only if checkbox is active for central node
-            !finalNodesToRender.some((n) => n.text === centralNodeText) // And if not already in final list
-          ) {
-            finalNodesToRender.unshift(centralNodeObject); // Add to the beginning to maintain rank-0 as first element
-          }
-
-          // Sort nodes by rank to ensure central node is first for positioning
-          finalNodesToRender.sort((a, b) => a.rank - b.rank);
-
-          if (finalNodesToRender.length > 0) {
-            createNodes(finalNodesToRender, containerSize);
-            drawNetworkLines();
-          }
-
-          // Toggle the "no-label" class on the container based on showCategories state
-          if (showCategories) {
-            container.classList.remove("no-label");
-          } else {
-            container.classList.add("no-label");
-          }
-        };
-
-        /**
-         * Creates DOM elements for each node and positions them.
-         * @param {Array<Object>} activeNodes - The array of nodes to be rendered.
-         * @param {number} containerSize - Size of the diagram container (width/height).
-         */
-        const createNodes = (activeNodes, containerSize) => {
-          const numNodes = activeNodes.length;
-
-          // Dynamic diameter and radius for better scaling
-          let nodeDiameter;
-          let radius;
-
-          if (numNodes <= 3) {
-            nodeDiameter = containerSize * 0.3;
-            radius = (containerSize / 2) * 0.4;
-          } else if (numNodes <= 7) {
-            nodeDiameter = containerSize * 0.22;
-            radius = (containerSize / 2) * 0.6;
-          } else if (numNodes <= 15) {
-            nodeDiameter = containerSize * 0.18;
-            radius = (containerSize / 2) * 0.7;
-          } else {
-            nodeDiameter = containerSize * 0.15;
-            radius = (containerSize / 2) * 0.78;
-          }
-
-          const centerX = containerSize / 2,
-            centerY = containerSize / 2;
-
-          renderedNodes = []; // Reset for new render cycle
-
-          // Determine central node and peripheral nodes
-          const centralNodeData = activeNodes.find((n) => n.rank === 0);
-          const peripheralNodes = activeNodes.filter((n) => n.rank !== 0);
-
-          if (centralNodeData) {
-            const currentCenterDiameter =
-              numNodes === 1 ? containerSize * 0.4 : nodeDiameter * 1.2;
-            const x = centerX - currentCenterDiameter / 2;
-            const y = centerY - currentCenterDiameter / 2;
-            renderedNodes.push(
-              createNodeElement(centralNodeData, x, y, currentCenterDiameter)
-            );
-          }
-
-          peripheralNodes.forEach((data, i) => {
-            const angle =
-              (i / peripheralNodes.length) * Math.PI * 2 - Math.PI / 2; // Start from top
-            const x = centerX + radius * Math.cos(angle) - nodeDiameter / 2;
-            const y = centerY + radius * Math.sin(angle) - nodeDiameter / 2;
-            renderedNodes.push(createNodeElement(data, x, y, nodeDiameter));
-          });
-        };
-
-        /**
-         * Creates a single HTML node element (div) for a diagram node.
-         * @param {Object} data - Node data.
-         * @param {number} x - X position.
-         * @param {number} y - Y position.
-         * @param {number} diameter - Diameter of the node.
-         * @returns {Object} Node data with element and computed position.
-         */
-        const createNodeElement = (data, x, y, diameter) => {
-          const nodeElement = document.createElement("div");
-          nodeElement.className = "circle-node";
-          nodeElement.style.width = `${diameter}px`;
-          nodeElement.style.height = `${diameter}px`;
-          nodeElement.style.left = `${x}px`;
-          nodeElement.style.top = `${y}px`;
-
-          const categoryColor = categoryColors[data.category] || "#334155";
-          nodeElement.style.backgroundColor = categoryColor;
-          nodeElement.style.borderColor = getDarkerColor(categoryColor); // Border for outline
-
-          // Add category label if `showCategories` is true
-          const rankLabel = document.createElement("span");
-          rankLabel.className = "rank-label";
-          rankLabel.textContent = (() => {
-            switch (data.category) {
-              case "OVERVIEW":
-                return "TỔNG QUAN";
-              case "STRENGTHS":
-                return "ĐIỂM MẠNH";
-              case "ISSUES":
-                return "VẤN ĐỀ CHÍNH";
-              case "STRATEGY":
-                return "CHIẾN LƯỢC";
-              case "CHALLENGES":
-                return "THÁCH THỨC";
-              case "DETAIL":
-                return "CHI TIẾT";
-              case "SOLUTION":
-                return "GIẢI PHÁP";
-              default:
-                return data.category;
-            }
-          })();
-          nodeElement.appendChild(rankLabel);
-
-          const textContent = document.createElement("span");
-          textContent.textContent = data.text;
-          nodeElement.appendChild(textContent);
-
-          nodeElement.dataset.originalIndex = data.originalIndex; // Store original index
-          container.appendChild(nodeElement);
-
-          // Event listener for modal click (IMPROVED)
-          nodeElement.addEventListener("click", () => {
-            const clickedIndex = parseInt(nodeElement.dataset.originalIndex);
-            const originalNodeData = nodeData.find(
-              (n) => n.originalIndex === clickedIndex
-            );
-
-            modalTitle.textContent = originalNodeData.text;
-
-            let modalContentHtml = `<div class="clicked-node-details">${marked.parse(
-              originalNodeData.tooltip.content
-            )}</div>`;
-
-            // Function to get related nodes for the modal (both directions)
-            const getRelatedNodesForModal = (mainNode) => {
-              const relatedTexts = new Set();
-              if (mainNode.connections) {
-                mainNode.connections.forEach((text) => relatedTexts.add(text));
-              }
-              nodeData.forEach((node) => {
-                if (
-                  node.connections &&
-                  node.connections.includes(mainNode.text)
-                ) {
-                  relatedTexts.add(node.text);
-                }
-              });
-              relatedTexts.delete(mainNode.text); // Remove the main node itself
-
-              // Only include related nodes that are currently active (selected by checkbox)
-              return nodeData
-                .filter(
-                  (node) => relatedTexts.has(node.text) && node.selectedByCheckbox
-                )
-                .sort((a, b) => a.text.localeCompare(b.text)); // Sort alphabetically
-            };
-
-            const relatedNodes = getRelatedNodesForModal(originalNodeData);
-
-            if (relatedNodes.length > 0) {
-              modalContentHtml += `
-                <div class="related-topics-section">
-                    <h3>Các chủ đề liên quan</h3>
-                    <div class="space-y-4">`; // Use div for flexibility with internal styling
-
-              relatedNodes.forEach((rNode) => {
-                const categoryLabel = (() => {
-                  switch (rNode.category) {
-                    case "OVERVIEW":
-                      return "TỔNG QUAN";
-                    case "STRENGTHS":
-                      return "ĐIỂM MẠNH";
-                    case "ISSUES":
-                      return "VẤN ĐỀ CHÍNH";
-                    case "STRATEGY":
-                      return "CHIẾN LƯỢC";
-                    case "CHALLENGES":
-                      return "THÁCH THỨC";
-                    case "DETAIL":
-                      return "CHI TIẾT";
-                    case "SOLUTION":
-                      return "GIẢI PHÁP";
-                    default:
-                      return rNode.category;
-                  }
-                })();
-                const categoryBgColor =
-                  categoryColors[rNode.category] || "#64748b";
-
-                modalContentHtml += `
-                    <div class="related-topic-item">
-                        <h4>
-                            <span class="category-pill" style="background-color: ${categoryBgColor};">${categoryLabel}</span>
-                            ${rNode.text}
-                        </h4>
-                        <div class="text-base">
-                            ${marked.parse(rNode.tooltip.content)}
-                        </div>
-                    </div>`;
-              });
-              modalContentHtml += `</div></div>`;
-            }
-
-            modalBody.innerHTML = modalContentHtml;
-            tooltipModal.classList.add("show");
-            tooltipModal.querySelector(".modal-content").scrollTop = 0; // Scroll to top on open
-          });
-
-          // Highlight events
-          nodeElement.addEventListener("mouseover", handleMouseOver);
-          nodeElement.addEventListener("mouseout", handleMouseOut);
-
-          const nodeRadius = diameter / 2;
-          return {
-            ...data, // Keep all data
-            x: x + nodeRadius, // Center X for drawing lines
-            y: y + nodeRadius, // Center Y for drawing lines
-            radius: nodeRadius,
-            element: nodeElement, // Reference to the DOM element
           };
-        };
-
-        /**
-         * Draws connection lines between nodes on the canvas.
-         * @param {Object|null} [highlightedNode=null] - The node to highlight connections for.
-         */
-        const drawNetworkLines = (highlightedNode = null) => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
-          // Map rendered nodes by text for quick lookup
-          const renderedNodeMap = new Map(
-            renderedNodes.map((node) => [node.text, node])
-          );
-          const defaultColor = "rgba(100, 116, 139, 0.6)"; // Muted default
-          const highlightColor = "#f97316"; // Bright orange for highlight
-
-          // Iterate through rendered nodes and their connections
-          for (const node1 of renderedNodes) {
-            if (node1.connections) {
-              for (const connectionName of node1.connections) {
-                const node2 = renderedNodeMap.get(connectionName);
-                if (node2) {
-                  // Only draw if connected node is also currently rendered
-                  ctx.beginPath();
-                  ctx.moveTo(node1.x, node1.y);
-                  ctx.lineTo(node2.x, node2.y);
-
-                  if (highlightedNode) {
-                    const isDirectlyConnected =
-                      (highlightedNode.text === node1.text &&
-                        highlightedNode.connections.includes(node2.text)) ||
-                      (highlightedNode.text === node2.text &&
-                        node2.connections &&
-                        node2.connections.includes(node1.text));
-
-                    ctx.strokeStyle = isDirectlyConnected
-                      ? highlightColor
-                      : "rgba(100, 116, 139, 0.15)"; // Dim non-highlighted lines
-                    ctx.lineWidth = isDirectlyConnected ? 4 : 2.5; // Thicker for highlighted
-                  } else {
-                    ctx.strokeStyle = defaultColor;
-                    ctx.lineWidth = 2.5;
-                  }
-                  ctx.stroke();
-                }
-              }
+          requestAnimationFrame(update);
+        }
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              const counter = entry.target.querySelector(".animated-number");
+              if (counter && counter.textContent === "0") animateCounter(counter);
+              observer.unobserve(entry.target);
             }
-          }
-        };
-
-        /**
-         * Calculates a slightly darker version of a hex color.
-         * @param {string} hex - Hex color string (e.g., "#RRGGBB").
-         * @returns {string} Darker hex color.
-         */
-        const getDarkerColor = (hex) => {
-          if (!hex) return "#000000";
-          let r = parseInt(hex.slice(1, 3), 16),
-            g = parseInt(hex.slice(3, 5), 16),
-            b = parseInt(hex.slice(5, 7), 16);
-          r = Math.max(0, r - 30); // Reduce R, G, B values
-          g = Math.max(0, g - 30);
-          b = Math.max(0, b - 30);
-          return `#${r.toString(16).padStart(2, "0")}${g
-            .toString(16)
-            .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-        };
-
-        // --- Tab System Logic ---
-        /**
-         * Shows a specific tab content and activates its button.
-         * @param {string} tabId - The ID of the tab content to show.
-         */
-        const showTab = (tabId) => {
-          tabContents.forEach((content) => {
-            content.classList.remove("active");
           });
-          tabButtons.forEach((button) => {
-            button.classList.remove("active");
-          });
-
-          document.getElementById(tabId).classList.add("active");
-          document
-            .querySelector(`.tab-button[data-tab="${tabId}"]`)
-            .classList.add("active");
-        };
-
-        tabButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            showTab(button.dataset.tab);
-          });
-        });
-
-        // --- Populate Static Tabs (Overview, Problems, Solutions) ---
-        const populateStaticTabs = () => {
-          // Populate Overview Tab - directly inside the content div
-          const overviewNode = nodeData.find(
-            (node) => node.text === "Tổng Quan Kinh Doanh"
-          );
-          if (overviewNode) {
-            overviewContentDiv.innerHTML = marked.parse(
-              overviewNode.tooltip.content
-            );
+        }, { threshold: 0.1 });
+        document.querySelectorAll(".content-card").forEach(card => revealObserver.observe(card));
+        const sectionObserver = new IntersectionObserver((entries) => {
+          document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active', 'font-semibold'));
+          const visible = entries.filter(e => e.isIntersecting);
+          if (visible.length > 0) {
+            const id = visible[0].target.id;
+            const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+            if (activeLink) activeLink.classList.add('active', 'font-semibold');
           }
-
-          // Populate Problems Tab
-          let problemsHtml = "";
-          nodeData
-            .filter(
-              (node) => node.isProblem && node.text !== "Tổng Quan Kinh Doanh"
-            ) // Exclude main node from problem list
-            .sort((a, b) => a.text.localeCompare(b.text)) // Sort alphabetically
-            .forEach((node) => {
-              const categoryLabel = (() => {
-                switch (node.category) {
-                  case "OVERVIEW":
-                    return "TỔNG QUAN";
-                  case "STRENGTHS":
-                    return "ĐIỂM MẠNH";
-                  case "ISSUES":
-                    return "VẤN ĐỀ CHÍNH";
-                  case "STRATEGY":
-                    return "CHIẾN LƯỢC";
-                  case "CHALLENGES":
-                    return "THÁCH THỨC";
-                  case "DETAIL":
-                    return "CHI TIẾT";
-                  case "SOLUTION":
-                    return "GIẢI PHÁP";
-                  default:
-                    return node.category;
-                }
-              })();
-              const categoryBgColor = categoryColors[node.category] || "#64748b";
-
-              problemsHtml += `
-            <div class="static-tab-node-content">
-                <h3>
-                    <span class="category-pill" style="background-color: ${categoryBgColor};">${categoryLabel}</span>
-                    ${node.text}
-                </h3>
-                <div class="text-base">
-                    ${marked.parse(node.tooltip.content)}
-                </div>
-            </div>`;
-            });
-          problemsContentDiv.innerHTML = problemsHtml;
-
-          // Populate Solutions Tab
-          let solutionsHtml = "";
-          nodeData
-            .filter(
-              (node) => node.isSolution && node.text !== "Tổng Quan Kinh Doanh"
-            ) // Exclude main node from solution list
-            .sort((a, b) => a.text.localeCompare(b.text)) // Sort alphabetically
-            .forEach((node) => {
-              const categoryLabel = (() => {
-                switch (node.category) {
-                  case "OVERVIEW":
-                    return "TỔNG QUAN";
-                  case "STRENGTHS":
-                    return "ĐIỂM MẠNH";
-                  case "ISSUES":
-                    return "VẤN ĐỀ CHÍNH";
-                  case "STRATEGY":
-                    return "CHIẾN LƯỢC";
-                  case "CHALLENGES":
-                    return "THÁCH THỨC";
-                  case "DETAIL":
-                    return "CHI TIẾT";
-                  case "SOLUTION":
-                    return "GIẢI PHÁP";
-                  default:
-                    return node.category;
-                }
-              })();
-              const categoryBgColor = categoryColors[node.category] || "#64748b";
-              solutionsHtml += `
-            <div class="static-tab-node-content">
-                <h3>
-                    <span class="category-pill" style="background-color: ${categoryBgColor};">${categoryLabel}</span>
-                    ${node.text}
-                </h3>
-                <div class="text-base">
-                    ${marked.parse(node.tooltip.content)}
-                </div>
-            </div>`;
-            });
-          solutionsContentDiv.innerHTML = solutionsHtml;
-        };
-
-        // --- Event Listeners ---
-        closeModalBtn.addEventListener("click", () =>
-          tooltipModal.classList.remove("show")
-        );
-        tooltipModal.addEventListener("click", (event) => {
-          if (event.target === tooltipModal) {
-            // Close if clicking outside modal content
-            tooltipModal.classList.remove("show");
-          }
-        });
-
-        // Toggle "Ẩn/Hiện Loại Chủ Đề" checkbox (category labels within nodes)
-        toggleCategoriesCheckbox.addEventListener("change", (e) => {
-          showCategories = e.target.checked;
-          renderDiagram(); // Rerender to apply visibility changes
-        });
-
-        // Toggle "Ẩn/Hiện Bảng Chủ Đề" checkbox (the controlsGrid itself)
-        toggleTopicControlsCheckbox.addEventListener("change", (e) => {
-          if (e.target.checked) {
-            controlsGrid.classList.remove("hidden");
-          } else {
-            controlsGrid.classList.add("hidden");
-          }
-        });
-
-        // Listeners for view filter radio buttons
-        document
-          .querySelectorAll('input[name="viewFilter"]')
-          .forEach((radio) => {
-            radio.addEventListener("change", (e) => {
-              filterMode = e.target.value; // Update filter mode
-              renderDiagram(); // Rerender diagram
-            });
-          });
-
-        // --- Initial Call & Setup ---
-        createControls(); // Generate checkboxes for topic control
-        populateStaticTabs(); // Fill static content tabs
-        renderDiagram(); // Draw the initial diagram
-        showTab("tabControls"); // Show controls tab by default
-
-        // Handle window resize to redraw diagram
-        window.addEventListener("resize", renderDiagram);
+        }, { rootMargin: '-40% 0px -60% 0px' });
+        document.querySelectorAll('section[id]').forEach(section => sectionObserver.observe(section));
       });
     </script>
-  </body>
+  </body> 
 </html>

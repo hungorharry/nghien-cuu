@@ -1,0 +1,3464 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phân Tích Toàn Diện Hệ Sinh Thái Máy In Nhãn Brother</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f1f5f9;
+        color: #334155;
+      }
+      .card {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
+        padding: 1.5rem;
+        border: 1px solid #e2e8f0;
+      }
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1e3a8a;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .content-section {
+        display: none;
+      }
+      .content-section.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        color: #475569;
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+      .sidebar-nav-link i {
+        width: 1.25rem;
+        text-align: center;
+        margin-right: 0.75rem;
+        color: #94a3b8;
+      }
+      .sidebar-nav-link:hover {
+        background-color: #e2e8f0;
+        color: #0f172a;
+      }
+      .sidebar-nav-link.active {
+        background-color: #3b82f6;
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 4px 6px -1px rgb(59 130 246 / 0.2),
+          0 2px 4px -2px rgb(59 130 246 / 0.2);
+      }
+      .sidebar-nav-link.active i {
+        color: white;
+      }
+      .content-body h3 {
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: #1e3a8a;
+      }
+      .content-body h4 {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-top: 1.25rem;
+        margin-bottom: 0.5rem;
+        color: #2563eb;
+      }
+      .content-body ul {
+        list-style-type: none;
+        padding-left: 0;
+        margin-bottom: 1rem;
+      }
+      .content-body > ul > li,
+      .content-body .top-level-li {
+        position: relative;
+        padding-left: 1.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .content-body > ul > li::before,
+      .content-body .top-level-li::before {
+        content: "\f111";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        color: #3b82f6;
+        font-size: 0.5rem;
+        position: absolute;
+        left: 0;
+        top: 0.45em;
+      }
+      .content-body ul ul {
+        margin-top: 0.5rem;
+        padding-left: 0;
+      }
+      .content-body ul ul li {
+        position: relative;
+        padding-left: 1.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .content-body ul ul li::before {
+        content: "\f10c";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 400;
+        color: #64748b;
+        font-size: 0.6rem;
+        position: absolute;
+        left: 0;
+        top: 0.4em;
+      }
+      .content-body p {
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+      .strategy-card {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-left-width: 4px;
+        border-radius: 0.5rem;
+        padding: 1.25rem;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+      }
+      .strategy-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+      .strategy-card h4 {
+        margin-top: 0;
+      }
+      .warning-details {
+        background-color: #fff1f2;
+        border-left: 4px solid #f43f5e;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .warning-details summary {
+        font-weight: 600;
+        color: #be123c;
+        cursor: pointer;
+      }
+      .warning-details p,
+      .warning-details ul {
+        margin-top: 0.75rem;
+        color: #881337;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100">
+    <div class="flex h-screen bg-gray-50">
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="hidden md:flex flex-col w-80 bg-white border-r border-slate-200 p-4 transition-transform transform md:translate-x-0 -translate-x-full"
+      >
+        <div class="flex items-center gap-3 mb-6 px-2">
+          <div class="bg-slate-800 p-2 rounded-lg">
+            <i class="fas fa-tag text-white text-xl"></i>
+          </div>
+          <h1 class="text-xl font-bold text-slate-800">Hệ Sinh Thái Brother</h1>
+        </div>
+        <nav id="main-nav" class="flex-1 space-y-1">
+          <a class="sidebar-nav-link active" data-target="section-tong-quan"
+            ><i class="fas fa-sitemap"></i
+            ><span>1. Tổng Quan Hệ Sinh Thái</span></a
+          >
+          <a class="sidebar-nav-link" data-target="section-cong-nghe-tze"
+            ><i class="fas fa-shield-alt"></i
+            ><span>2. Công Nghệ Nhãn TZe Siêu Bền</span></a
+          >
+          <a class="sidebar-nav-link" data-target="section-hieu-suat-ql-td"
+            ><i class="fas fa-shipping-fast"></i
+            ><span>3. Hiệu Suất Dòng QL & TD</span></a
+          >
+          <a class="sidebar-nav-link" data-target="section-phan-mem"
+            ><i class="fas fa-robot"></i
+            ><span>4. Sức Mạnh Phần Mềm & Tự Động Hóa</span></a
+          >
+          <a class="sidebar-nav-link" data-target="section-ban-can"
+            ><i class="fas fa-balance-scale"></i
+            ><span>5. Bàn Cân Quyết Định</span></a
+          >
+          <a class="sidebar-nav-link" data-target="section-ket-luan"
+            ><i class="fas fa-check-circle"></i
+            ><span>6. Kết Luận & Hướng Dẫn Lựa Chọn</span></a
+          >
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <header
+          class="flex justify-between items-center p-4 bg-white border-b border-slate-200 md:justify-center"
+        >
+          <button
+            id="mobile-menu-btn"
+            class="text-slate-600 focus:outline-none md:hidden"
+          >
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+          <div class="text-center">
+            <h1 class="text-2xl font-bold text-slate-800">
+              Phân Tích Toàn Diện Hệ Sinh Thái Máy In Nhãn Brother
+            </h1>
+            <p class="text-sm text-slate-500">
+              Từ độ bền vật liệu, hiệu suất phần cứng đến chi phí ẩn và chiến
+              lược lựa chọn
+            </p>
+          </div>
+          <div class="w-10 hidden md:block"></div>
+        </header>
+
+        <main
+          class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-100 p-4 sm:p-6 lg:p-8"
+        >
+          <div class="max-w-7xl mx-auto space-y-8">
+            <!-- 1. TỔNG QUAN HỆ SINH THÁI -->
+            <section id="section-tong-quan" class="content-section">
+              <div class="card">
+                <h2 class="card-title">
+                  <i class="fas fa-sitemap"></i>1. Tổng Quan Hệ Sinh Thái Ghi
+                  Nhãn Chuyên Nghiệp của Brother
+                </h2>
+                <div class="content-body">
+                  <p>
+                    Hệ sinh thái máy in nhãn của Brother được xây dựng dựa trên
+                    một chiến lược phân khúc thị trường có chủ đích, thay vì áp
+                    dụng phương pháp "một kích cỡ cho tất cả". Việc lựa chọn một
+                    sản phẩm Brother không đơn thuần là mua một thiết bị, mà là
+                    một quyết định đầu tư chiến lược vào một trong ba "hệ sinh
+                    thái con" với triết lý, công nghệ vật tư và
+                    <strong class="text-blue-600"
+                      >mô hình chi phí hoàn toàn riêng biệt: P-TOUCH, QL, và
+                      TD</strong
+                    >. Hiểu rõ sự khác biệt nền tảng này là bước quan trọng nhất
+                    để khai thác tối đa giá trị và tránh những chi phí không
+                    đáng có.
+                  </p>
+
+                  <h3 class="mt-8">
+                    Bảng 1: Phân Tích Chuyên Sâu Ba Hệ Sinh Thái Con
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Tiêu Chí</th>
+                          <th class="p-3 text-left font-semibold text-blue-600">
+                            Hệ Sinh Thái P-TOUCH
+                          </th>
+                          <th
+                            class="p-3 text-left font-semibold text-green-600"
+                          >
+                            Hệ Sinh Thái QL
+                          </th>
+                          <th class="p-3 text-left font-semibold text-gray-600">
+                            Hệ Sinh Thái TD
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">Triết Lý Cốt Lõi</td>
+                          <td class="p-3">
+                            <strong class="text-blue-700"
+                              >"Built to Last"</strong
+                            ><br /><span class="text-xs text-slate-500"
+                              >Thông tin phải tồn tại lâu hơn tài sản.</span
+                            >
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-green-700"
+                              >"Built for Speed"</strong
+                            ><br /><span class="text-xs text-slate-500"
+                              >Loại bỏ mọi rào cản trong quy trình.</span
+                            >
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-700"
+                              >"Built to Scale"</strong
+                            ><br /><span class="text-xs text-slate-500"
+                              >Hiệu suất tối đa, chi phí tối thiểu.</span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Công nghệ Vật tư</td>
+                          <td class="p-3">
+                            Nhãn ép màng
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >TZe 7 lớp</strong
+                            >, niêm phong nội dung in.
+                          </td>
+                          <td class="p-3">
+                            In nhiệt trực tiếp, cuộn nhãn
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >DK "drop-in"</strong
+                            >.
+                          </td>
+                          <td class="p-3">
+                            In nhiệt trực tiếp, tương thích
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >vật tư bên thứ ba</strong
+                            >.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Độ Bền Nhãn</td>
+                          <td class="p-3">
+                            <i class="fas fa-star text-yellow-400"></i
+                            ><i class="fas fa-star text-yellow-400"></i
+                            ><i class="fas fa-star text-yellow-400"></i
+                            ><br /><strong class="text-blue-700"
+                              >Vĩnh viễn</strong
+                            >
+                            (Chống hóa chất, UV, nhiệt độ).
+                          </td>
+                          <td class="p-3">
+                            <i class="fas fa-star text-yellow-400"></i
+                            ><i class="far fa-star text-yellow-400"></i
+                            ><i class="far fa-star text-yellow-400"></i
+                            ><br /><strong class="text-red-600"
+                              >Ngắn hạn</strong
+                            >
+                            (Phai màu sau 6-12 tháng).
+                          </td>
+                          <td class="p-3">
+                            <i class="fas fa-star text-yellow-400"></i
+                            ><i class="far fa-star text-yellow-400"></i
+                            ><i class="far fa-star text-yellow-400"></i
+                            ><br /><strong class="text-red-600"
+                              >Ngắn hạn</strong
+                            >
+                            (Phụ thuộc vào chất lượng vật tư).
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Chi phí mỗi nhãn</td>
+                          <td class="p-3">
+                            <strong class="text-red-600">Rất Cao</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-orange-600">Trung bình</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-green-600">Thấp nhất</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Hồ sơ Người dùng</td>
+                          <td class="p-3">
+                            Kỹ sư, IT, Bảo trì, Môi trường khắc nghiệt.
+                          </td>
+                          <td class="p-3">
+                            Văn phòng, Bán lẻ, Logistics, Thực phẩm.
+                          </td>
+                          <td class="p-3">
+                            Kho vận, Sản xuất hàng loạt, Y tế (>1,000
+                            nhãn/ngày).
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 2: Ma Trận So Sánh Chiến Lược & Hệ Quả Chi Tiết
+                  </h3>
+                  <p>
+                    Bảng dưới đây "mổ xẻ" sâu hơn về quyết định lựa chọn từng hệ
+                    sinh thái, giúp bạn hiểu rõ bạn sẽ "nhận được gì" và phải
+                    "đánh đổi những gì" một cách cụ thể.
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Khi bạn chọn...</th>
+                          <th class="p-3 text-left">
+                            Mục Tiêu Kinh Doanh Chính
+                          </th>
+                          <th class="p-3 text-left">
+                            "Tính Năng Sát Thủ" Tương Ứng
+                          </th>
+                          <th class="p-3 text-left">
+                            Sự Đánh Đổi & Chi Phí Ẩn
+                          </th>
+                          <th class="p-3 text-left">
+                            Kịch Bản Sử Dụng Lý Tưởng
+                          </th>
+                          <th class="p-3 text-left">
+                            "Cờ Đỏ" Cảnh Báo (Khi nào KHÔNG nên chọn)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <!-- P-TOUCH (TZe) Row -->
+                        <tr>
+                          <td class="p-3 font-semibold text-blue-600 align-top">
+                            P-TOUCH (TZe)
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-green-700"
+                              >Giảm thiểu rủi ro & Đảm bảo tuân thủ</strong
+                            >. Ưu tiên tuyệt đối cho sự an toàn và tính toàn vẹn
+                            của dữ liệu trong dài hạn.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i
+                                  class="fas fa-shield-alt text-blue-500 w-4"
+                                ></i
+                                ><strong class="bg-yellow-100 px-1 rounded"
+                                  >Công nghệ ép màng TZe</strong
+                                >
+                              </li>
+                              <li>
+                                <i class="fas fa-flask text-blue-500 w-4"></i
+                                >Chống hóa chất, UV, nhiệt độ
+                              </li>
+                              <li>
+                                <i class="fas fa-award text-blue-500 w-4"></i
+                                >Chứng nhận
+                                <strong class="text-blue-700">UL/IEC</strong>
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-wallet text-red-500 w-4"></i
+                                ><strong class="text-red-600"
+                                  >Chi phí vật tư cao</strong
+                                >
+                                (gấp 5-10 lần nhãn thường)
+                              </li>
+                              <li>
+                                <i class="fas fa-trash-alt text-red-500 w-4"></i
+                                ><strong class="text-red-600"
+                                  >Lãng phí ~2.5cm băng lề</strong
+                                >
+                                cho mỗi nhãn in đơn
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-bolt"></i>Dán nhãn tài sản IT,
+                                cảnh báo an toàn trong nhà máy, đánh dấu dây cáp
+                                vĩnh viễn, mẫu vật phòng thí nghiệm.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-ban text-red-500 w-4"></i>Khi
+                                cần in nhãn ngắn hạn với số lượng cực lớn (ví
+                                dụ: nhãn vận chuyển).
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                        <!-- QL (DK) Row -->
+                        <tr>
+                          <td
+                            class="p-3 font-semibold text-green-600 align-top"
+                          >
+                            QL (DK)
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-green-700"
+                              >Tăng tốc độ quy trình & Tối ưu hóa chi phí vận
+                              hành</strong
+                            >
+                            cho các công việc trong nhà.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i
+                                  class="fas fa-tint-slash text-green-500 w-4"
+                                ></i
+                                ><strong class="bg-yellow-100 px-1 rounded"
+                                  >In nhiệt trực tiếp (Không mực)</strong
+                                >
+                              </li>
+                              <li>
+                                <i
+                                  class="fas fa-tachometer-alt text-green-500 w-4"
+                                ></i
+                                >Tốc độ in cao (<strong class="text-green-700"
+                                  >110 nhãn/phút</strong
+                                >)
+                              </li>
+                              <li>
+                                <i class="fas fa-palette text-green-500 w-4"></i
+                                >Tính năng độc đáo: In 2 màu, "Barcode Crop"
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-sun text-red-500 w-4"></i
+                                ><strong class="text-red-600"
+                                  >Độ bền nhãn thấp</strong
+                                >
+                                (phai màu sau 6-12 tháng)
+                              </li>
+                              <li>
+                                <i class="fas fa-microchip text-red-500 w-4"></i
+                                >Đầu in nhiệt nhạy cảm hơn với bụi và nhãn kém
+                                chất lượng
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-shipping-fast"></i>Nhãn vận
+                                chuyển TMĐT, thẻ tên sự kiện, nhãn "HSD" trong
+                                bếp, nhãn hồ sơ văn phòng.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-ban text-red-500 w-4"></i>Khi
+                                nhãn cần tồn tại >1 năm, hoặc sử dụng ngoài
+                                trời, hoặc trong môi trường hóa chất.
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                        <!-- TD Row -->
+                        <tr>
+                          <td class="p-3 font-semibold text-gray-600 align-top">
+                            TD
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-green-700"
+                              >Giảm chi phí trên mỗi nhãn ở quy mô công
+                              nghiệp</strong
+                            >. Phá vỡ sự phụ thuộc vào vật tư độc quyền.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-globe text-gray-500 w-4"></i
+                                ><strong class="bg-yellow-100 px-1 rounded"
+                                  >Khả năng dùng vật tư bên thứ ba</strong
+                                >
+                              </li>
+                              <li>
+                                <i class="fas fa-rocket text-gray-500 w-4"></i
+                                >Tốc độ in công nghiệp (<strong
+                                  class="text-gray-700"
+                                  >8 inch/giây</strong
+                                >)
+                              </li>
+                              <li>
+                                <i class="fas fa-cogs text-gray-500 w-4"></i>Độ
+                                bền cơ học cao cho hoạt động 24/7
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i
+                                  class="fas fa-money-bill-wave text-red-500 w-4"
+                                ></i
+                                ><strong class="text-red-600"
+                                  >Chi phí đầu tư ban đầu (CAPEX) cao</strong
+                                >
+                              </li>
+                              <li>
+                                <i
+                                  class="fas fa-expand-arrows-alt text-red-500 w-4"
+                                ></i
+                                >Máy lớn và cồng kềnh, chiếm nhiều diện tích
+                              </li>
+                              <li>
+                                <i
+                                  class="fas fa-project-diagram text-red-500 w-4"
+                                ></i
+                                >Có thể yêu cầu chi phí tích hợp vào hệ thống
+                                ERP/WMS
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-warehouse"></i>Trung tâm hoàn
+                                tất đơn hàng (>1,000 nhãn/ngày), dây chuyền sản
+                                xuất, kho vận doanh nghiệp.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1">
+                              <li>
+                                <i class="fas fa-ban text-red-500 w-4"></i>Khi
+                                khối lượng in thấp (<200 nhãn/ngày), văn phòng
+                                nhỏ, hoặc ngân sách ban đầu eo hẹp.
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Khai Thác Sức Mạnh Hiệp Lực: Xây Dựng Hệ Sinh Thái Ghi Nhãn
+                    Toàn Diện
+                  </h3>
+                  <p>
+                    Đối với một doanh nghiệp, sức mạnh thực sự không nằm ở việc
+                    chọn một dòng sản phẩm duy nhất, mà là khả năng xây dựng một
+                    <strong class="text-blue-600"
+                      >hệ sinh thái ghi nhãn hỗn hợp và đồng bộ</strong
+                    >. Hãy tưởng tượng một công ty sản xuất:
+                  </p>
+                  <ul>
+                    <li class="top-level-li">
+                      <strong>Đội ngũ Kỹ sư Bảo trì:</strong> Được trang bị máy
+                      <strong
+                        class="bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                        >P-TOUCH</strong
+                      >
+                      cầm tay (PT-E560BTVP) để dán nhãn cảnh báo siêu bền lên
+                      máy móc, quấn nhãn ống co nhiệt cho dây điện trong tủ điều
+                      khiển.
+                    </li>
+                    <li class="top-level-li">
+                      <strong>Khối Văn phòng & Hành chính:</strong> Sử dụng máy
+                      <strong
+                        class="bg-green-100 text-green-800 px-2 py-1 rounded"
+                        >QL</strong
+                      >
+                      để bàn (QL-810W) để in nhãn địa chỉ cho thư từ, thẻ tên
+                      cho khách tham quan và nhãn dán hồ sơ một cách nhanh
+                      chóng.
+                    </li>
+                    <li class="top-level-li">
+                      <strong>Nhà kho & Bộ phận Vận chuyển:</strong> Vận hành
+                      các máy
+                      <strong
+                        class="bg-gray-100 text-gray-800 px-2 py-1 rounded"
+                        >TD</strong
+                      >
+                      công nghiệp để in hàng nghìn nhãn vận chuyển và mã vạch
+                      sản phẩm mỗi ngày với tốc độ tối đa và chi phí thấp nhất.
+                    </li>
+                  </ul>
+                  <p>
+                    Điều kỳ diệu nằm ở chỗ, tất cả các hoạt động này đều có thể
+                    được thiết kế, quản lý và tự động hóa trên cùng một nền tảng
+                    phần mềm duy nhất:
+                    <strong class="text-blue-600">P-touch Editor</strong>. Kỹ sư
+                    có thể tạo mẫu nhãn chuyên dụng, nhân viên văn phòng có thể
+                    liên kết với danh sách khách hàng trong Excel, và quản lý
+                    kho có thể tích hợp với hệ thống ERP. Sự hiệp lực này là một
+                    lợi thế chiến lược dài hạn, giúp
+                    <strong class="bg-yellow-100 px-1 rounded"
+                      >giảm chi phí đào tạo</strong
+                    >,
+                    <strong class="bg-yellow-100 px-1 rounded"
+                      >đơn giản hóa hỗ trợ IT</strong
+                    >, và
+                    <strong class="bg-yellow-100 px-1 rounded"
+                      >đảm bảo tính nhất quán</strong
+                    >
+                    về thương hiệu và dữ liệu trên toàn bộ tổ chức.
+                  </p>
+                </div>
+              </div>
+            </section>
+            <!-- 2. CÔNG NGHỆ NHÃN TZE -->
+            <section id="section-cong-nghe-tze" class="content-section">
+              <div class="card">
+                <h2 class="card-title">
+                  <i class="fas fa-shield-alt"></i>2. "Két Sắt" Cho Dữ Liệu:
+                  Công Nghệ Nhãn TZe Siêu Bền
+                </h2>
+                <div class="content-body">
+                  <p>
+                    Yếu tố cốt lõi tạo nên danh tiếng và sự khác biệt của hệ
+                    thống P-TOUCH không nằm ở phần cứng máy in, mà ở triết lý về
+                    sự bền vững của thông tin, được hiện thực hóa qua công nghệ
+                    nhãn ép màng (laminated) TZe. Đây không phải là một miếng
+                    dán thông thường, mà là một vật liệu composite phức hợp,
+                    được chế tạo với mục đích duy nhất: đảm bảo thông tin được
+                    in ra
+                    <strong class="text-blue-600"
+                      >tồn tại lâu hơn cả tài sản mà nó định danh</strong
+                    >, bất chấp mọi điều kiện môi trường.
+                  </p>
+
+                  <h3 class="mt-8">
+                    Bảng 1: Phân Tích Chuyên Sâu Công Nghệ In - TZe vs. Đối Thủ
+                    Non-Laminated
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Tiêu Chí</th>
+                          <th class="p-3 text-left font-semibold text-blue-600">
+                            Brother TZe (Laminated)
+                          </th>
+                          <th class="p-3 text-left font-semibold text-gray-600">
+                            Đối thủ (Non-Laminated, vd: Dymo D1)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <!-- Cấu trúc bảo vệ -->
+                        <tr class="bg-slate-50">
+                          <td class="p-3 font-medium" colspan="3">
+                            <strong class="text-slate-800"
+                              ><i class="fas fa-layer-group mr-2"></i>Cấu Trúc
+                              Bảo Vệ</strong
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3"><strong>Nguyên lý</strong></td>
+                          <td class="p-3">
+                            Nội dung in được
+                            <strong class="text-blue-700"
+                              >niêm phong an toàn</strong
+                            >
+                            giữa hai lớp phim PET, tạo thành một cấu trúc
+                            "sandwich" khép kín.
+                          </td>
+                          <td class="p-3">
+                            Nội dung in nằm
+                            <strong class="text-red-600"
+                              >trực tiếp trên bề mặt</strong
+                            >
+                            nhãn, tiếp xúc hoàn toàn với môi trường.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3"><strong>Hậu quả thực tế</strong></td>
+                          <td class="p-3">
+                            Thông tin được bảo vệ như trong một "két sắt", gần
+                            như miễn nhiễm với các tác động bên ngoài.
+                          </td>
+                          <td class="p-3">
+                            Nhãn cực kỳ dễ bị tổn thương bởi ma sát, hóa chất,
+                            và các yếu tố môi trường khác.
+                          </td>
+                        </tr>
+
+                        <!-- Chống mài mòn -->
+                        <tr class="bg-slate-50">
+                          <td class="p-3 font-medium" colspan="3">
+                            <strong class="text-slate-800"
+                              ><i class="fas fa-hand-rock mr-2"></i>Chống Mài
+                              Mòn & Va Chạm</strong
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3">
+                            <strong>Kết quả thử nghiệm</strong>
+                          </td>
+                          <td class="p-3">
+                            <i
+                              class="fas fa-check-circle text-green-500 mr-2"
+                            ></i
+                            ><strong>Xuất sắc</strong> (Chịu được vật nặng 1kg
+                            chà xát 50 lần).
+                          </td>
+                          <td class="p-3">
+                            <i class="fas fa-times-circle text-red-500 mr-2"></i
+                            ><strong>Kém</strong> (Chữ bắt đầu mờ chỉ sau vài
+                            lần chà xát nhẹ).
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3"><strong>Ví dụ định lượng</strong></td>
+                          <td class="p-3">
+                            Một tem tài sản trên laptop có thể chịu được
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >>1,000 lần</strong
+                            >
+                            cho vào/lấy ra khỏi cặp xách mà vẫn đọc được.
+                          </td>
+                          <td class="p-3">
+                            Chỉ sau
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >~50-100 lần</strong
+                            >, nhãn có thể bị mờ đến mức máy quét mã vạch không
+                            nhận dạng được.
+                          </td>
+                        </tr>
+
+                        <!-- Chống hóa chất/nước -->
+                        <tr class="bg-slate-50">
+                          <td class="p-3 font-medium" colspan="3">
+                            <strong class="text-slate-800"
+                              ><i class="fas fa-flask mr-2"></i>Chống Hóa Chất &
+                              Nước</strong
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3">
+                            <strong>Kết quả thử nghiệm</strong>
+                          </td>
+                          <td class="p-3">
+                            <i
+                              class="fas fa-check-circle text-green-500 mr-2"
+                            ></i
+                            ><strong>Xuất sắc</strong> (An toàn khi ngâm trong
+                            Aceton, Cồn... trong 2 giờ).
+                          </td>
+                          <td class="p-3">
+                            <i class="fas fa-times-circle text-red-500 mr-2"></i
+                            ><strong>Trung bình đến Kém</strong> (Bị hỏng bởi
+                            hóa chất mạnh, mực có thể bị nhòe khi tiếp xúc với
+                            cồn).
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3"><strong>Hậu quả thực tế</strong></td>
+                          <td class="p-3">
+                            Nhãn trên hộp thực phẩm
+                            <strong class="text-green-600"
+                              >an toàn với máy rửa chén</strong
+                            >. Nhãn trên ống nghiệm chịu được cồn khử trùng.
+                          </td>
+                          <td class="p-3">
+                            Nhãn trên dụng cụ bị dính dầu mỡ sẽ hỏng. Nhãn trong
+                            phòng thí nghiệm bị bay chữ khi lau bằng cồn,
+                            <strong class="text-red-600"
+                              >gây nguy cơ mất dữ liệu mẫu</strong
+                            >.
+                          </td>
+                        </tr>
+
+                        <!-- Độ bền ngoài trời -->
+                        <tr class="bg-slate-50">
+                          <td class="p-3 font-medium" colspan="3">
+                            <strong class="text-slate-800"
+                              ><i class="fas fa-sun mr-2"></i>Độ Bền Ngoài Trời
+                              (Tia UV)</strong
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3">
+                            <strong>Kết quả thử nghiệm</strong>
+                          </td>
+                          <td class="p-3">
+                            <i
+                              class="fas fa-check-circle text-green-500 mr-2"
+                            ></i
+                            ><strong>Tốt</strong> (Không phai màu đáng kể sau 1
+                            năm mô phỏng).
+                          </td>
+                          <td class="p-3">
+                            <i class="fas fa-times-circle text-red-500 mr-2"></i
+                            ><strong>Rất kém</strong> (Có thể phai màu rõ rệt
+                            chỉ sau 3-6 tháng).
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3"><strong>Hậu quả thực tế</strong></td>
+                          <td class="p-3">
+                            Nhãn cảnh báo an toàn, biển báo dán trên thiết bị
+                            ngoài trời
+                            <strong class="text-green-600"
+                              >vẫn đọc được sau nhiều năm</strong
+                            >.
+                          </td>
+                          <td class="p-3">
+                            Nhãn dán trên hộp công tơ điện, thiết bị viễn thông
+                            ngoài trời trở nên vô dụng,
+                            <strong class="text-red-600"
+                              >đòi hỏi phải đi thay thế định kỳ</strong
+                            >, tốn chi phí nhân công.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <h3 class="mt-8">
+                    Bảng 2: Ma Trận Ứng Dụng "Vũ Khí" Chuyên Dụng Của P-TOUCH
+                  </h3>
+                  <p>
+                    Hệ sinh thái P-TOUCH cung cấp một danh mục đa dạng các loại
+                    băng nhãn chuyên dụng. Việc lựa chọn đúng "vũ khí" cho từng
+                    "trận chiến" là chìa khóa để tối ưu hóa hiệu quả.
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Vấn Đề Cần Giải Quyết</th>
+                          <th class="p-3 text-left">Giải Pháp (Mã Nhãn)</th>
+                          <th class="p-3 text-left">Lợi Ích Cốt Lõi</th>
+                          <th class="p-3 text-left">
+                            Ứng Dụng Thực Tế (Ví dụ)
+                          </th>
+                          <th class="p-3 text-left">
+                            Model Máy Tương Thích Tiêu Biểu
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Nhãn bị bung mép khi quấn quanh dây cáp mạng.
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-cyan-600"
+                              >TZe-FX (Siêu Dẻo)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Ôm chặt bề mặt cong, tuân thủ tiêu chuẩn
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >ANSI/TIA-606</strong
+                            >.
+                          </td>
+                          <td class="p-3">
+                            Quấn nhãn cờ (flag) hoặc nhãn vòng (wrap) cho dây
+                            cáp CAT6 trong trung tâm dữ liệu, dây điện trong ô
+                            tô.
+                          </td>
+                          <td class="p-3">PT-E310BT, PT-E560BT</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Không dán được lên tủ rack sơn tĩnh điện, bề mặt
+                            nhám, bẩn.
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-rose-600"
+                              >TZe-S (Siêu Dính)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Keo dính mạnh hơn
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >~50%</strong
+                            >, bám dính vĩnh viễn.
+                          </td>
+                          <td class="p-3">
+                            Dán nhãn định danh lên tủ rack server, thùng nhựa gồ
+                            ghề trong nhà kho, các bề mặt kim loại có dầu mỡ
+                            nhẹ.
+                          </td>
+                          <td class="p-3">PT-E560BT, PT-P750W</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Cần đánh dấu dây điện vĩnh viễn, chuyên nghiệp trong
+                            tủ điều khiển.
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-violet-600"
+                              >HSe (Ống Co Nhiệt)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Co lại khi gia nhiệt, tạo lớp định danh không thể
+                            bong tróc.
+                          </td>
+                          <td class="p-3">
+                            Đánh dấu dây pha, dây trung tính trong tủ điện công
+                            nghiệp, bó dây trong các thiết bị điện tử.
+                          </td>
+                          <td class="p-3">PT-E310BT, PT-E560BT, PT-E850TKW</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Cần tem niêm phong bảo hành, chống tráo đổi linh
+                            kiện.
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-amber-600"
+                              >TZe-SE (Nhãn An Ninh)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Để lại họa tiết caro khi bị bóc, không thể dán lại.
+                          </td>
+                          <td class="p-3">
+                            Dán niêm phong lên vỏ case máy tính sau khi sửa
+                            chữa, niêm phong hộp đựng mẫu vật quan trọng, tem
+                            chống hàng giả.
+                          </td>
+                          <td class="p-3">PT-D610BT, PT-P710BT, PT-P900W</td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Dán nhãn tên lên đồng phục nhân viên, quần áo trẻ em
+                            ở trường.
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-teal-600"
+                              >TZe-FA (Nhãn Ủi)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Dùng bàn ủi để dán vĩnh viễn, chịu được giặt máy.
+                          </td>
+                          <td class="p-3">
+                            Ủi tên lên đồng phục nhà hàng, áo khoác của trẻ đi
+                            học, khăn trong khách sạn hoặc phòng gym.
+                          </td>
+                          <td class="p-3">PT-D210, PT-P300BT, PT-P710BT</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div
+                    class="mt-8 p-6 bg-slate-50 border-t-4 border-blue-500 rounded-b-lg shadow-inner"
+                  >
+                    <h4
+                      class="!text-lg !font-bold !text-blue-700 !mt-0 flex items-center gap-2"
+                    >
+                      <i class="fas fa-balance-scale-right"></i>Tư Duy Lại Chi
+                      Phí: Nhãn TZe Là Một Khoản Bảo Hiểm, Không Phải Chi Phí
+                    </h4>
+                    <p>
+                      Thoạt nhìn, chi phí của một cuộn băng nhãn TZe (ví dụ:
+                      ~350.000đ) có thể cao hơn so với một cuộn nhãn
+                      non-laminated (~150.000đ). Tuy nhiên, đây là một cách nhìn
+                      ngắn hạn và nguy hiểm. Cách tiếp cận thông minh là phân
+                      tích chi phí rủi ro (Cost of Failure). Bảng dưới đây định
+                      lượng hóa chi phí thực sự của một con nhãn bị hỏng.
+                    </p>
+
+                    <div class="overflow-x-auto rounded-lg border mt-4 text-sm">
+                      <table class="w-full">
+                        <thead class="bg-blue-100 text-blue-800">
+                          <tr>
+                            <th class="p-2 text-left">
+                              Kịch Bản Rủi Ro Vận Hành
+                            </th>
+                            <th class="p-2 text-left">
+                              Chi Phí Thiệt Hại Khi Nhãn Hỏng (Ước Tính)
+                            </th>
+                            <th class="p-2 text-left">
+                              Chi Phí Phòng Ngừa (1 Nhãn TZe)
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                          <!-- Kịch bản 1: An toàn -->
+                          <tr>
+                            <td class="p-2">
+                              <strong>Kịch bản An toàn:</strong> Nhãn cảnh báo
+                              <strong class="text-slate-700"
+                                >"Điện Áp Cao"</strong
+                              >
+                              trên tủ điện ngoài trời bị phai màu sau 1 năm. Kỹ
+                              sư mới không nhận ra và xảy ra tai nạn.
+                            </td>
+                            <td class="p-2 text-red-600 font-semibold">
+                              <ul class="list-disc pl-4">
+                                <li>
+                                  Chi phí y tế & bồi thường:
+                                  <strong>Rất Cao</strong>
+                                </li>
+                                <li>
+                                  Chi phí pháp lý & phạt an toàn lao động:
+                                  <strong>Rất Cao</strong>
+                                </li>
+                                <li>
+                                  Tổn thất uy tín:
+                                  <strong>Không thể đong đếm</strong>
+                                </li>
+                              </ul>
+                            </td>
+                            <td
+                              class="p-2 text-green-600 font-semibold text-center align-middle"
+                            >
+                              <span class="text-lg">~ 2.000 VNĐ</span><br />
+                              <span class="text-xs text-slate-500"
+                                >(Độ bền >10 năm)</span
+                              >
+                            </td>
+                          </tr>
+                          <!-- Kịch bản 2: Downtime -->
+                          <tr>
+                            <td class="p-2">
+                              <strong>Kịch bản Downtime:</strong> Nhãn định danh
+                              <strong class="text-slate-700">cáp quang</strong>
+                              trong trung tâm dữ liệu bị bong tróc. Kỹ sư phải
+                              mất
+                              <strong class="bg-yellow-100 px-1 rounded"
+                                >thêm 4 giờ</strong
+                              >
+                              để dò tìm đúng sợi cáp, gây downtime cho hệ thống
+                              TMĐT.
+                            </td>
+                            <td class="p-2 text-red-600 font-semibold">
+                              <ul class="list-disc pl-4">
+                                <li>
+                                  4 giờ lương kỹ sư senior:
+                                  <strong class="bg-yellow-100 px-1 rounded"
+                                    >~ 2.000.000 VNĐ</strong
+                                  >
+                                </li>
+                                <li>
+                                  4 giờ mất doanh thu TMĐT:
+                                  <strong class="bg-yellow-100 px-1 rounded"
+                                    >~ 40.000.000 VNĐ</strong
+                                  >
+                                </li>
+                                <li>
+                                  <strong
+                                    >Tổng thiệt hại: > 42.000.000 VNĐ</strong
+                                  >
+                                </li>
+                              </ul>
+                            </td>
+                            <td
+                              class="p-2 text-green-600 font-semibold text-center align-middle"
+                            >
+                              <span class="text-lg">~ 2.000 VNĐ</span><br />
+                              <span class="text-xs text-slate-500"
+                                >(Độ bền >20 năm)</span
+                              >
+                            </td>
+                          </tr>
+                          <!-- Kịch bản 3: Mất mát -->
+                          <tr>
+                            <td class="p-2">
+                              <strong>Kịch bản Mất Mát:</strong> Tem mã vạch
+                              trên một chiếc
+                              <strong class="text-slate-700"
+                                >laptop công ty</strong
+                              >
+                              (trị giá 30.000.000 VNĐ) bị mài mòn không thể quét
+                              được trong kỳ kiểm kê. Tài sản bị coi là thất lạc.
+                            </td>
+                            <td class="p-2 text-red-600 font-semibold">
+                              <ul class="list-disc pl-4">
+                                <li>
+                                  Giá trị tài sản:
+                                  <strong class="bg-yellow-100 px-1 rounded"
+                                    >30.000.000 VNĐ</strong
+                                  >
+                                </li>
+                                <li>
+                                  Chi phí thời gian điều tra, xử lý:
+                                  <strong class="bg-yellow-100 px-1 rounded"
+                                    >~ 500.000 VNĐ</strong
+                                  >
+                                </li>
+                                <li>
+                                  <strong
+                                    >Tổng thiệt hại: > 30.500.000 VNĐ</strong
+                                  >
+                                </li>
+                              </ul>
+                            </td>
+                            <td
+                              class="p-2 text-green-600 font-semibold text-center align-middle"
+                            >
+                              <span class="text-lg">~ 2.000 VNĐ</span><br />
+                              <span class="text-xs text-slate-500"
+                                >(Độ bền >5 năm)</span
+                              >
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p class="mt-4 font-semibold">
+                      Chi phí của một sai sót duy nhất có thể
+                      <strong class="text-red-600"
+                        >cao hơn gấp 20,000 lần</strong
+                      >
+                      so với chi phí của một con nhãn TZe. Do đó, việc đầu tư
+                      vào nhãn TZe là một hình thức
+                      <strong class="text-blue-600"
+                        >giảm thiểu rủi ro chủ động</strong
+                      >
+                      và là một quyết định tài chính khôn ngoan. Đó là một khoản
+                      bảo hiểm chi phí thấp cho tính toàn vẹn của dữ liệu và sự
+                      an toàn trong vận hành, tuân thủ các tiêu chuẩn quốc tế
+                      như
+                      <strong class="bg-yellow-100 px-1 rounded"
+                        >UL và IEC</strong
+                      >, đảm bảo thông tin của bạn là một tài sản bền vững.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 3. HIỆU SUẤT DÒNG QL & TD -->
+            <section id="section-hieu-suat-ql-td" class="content-section">
+              <div class="card">
+                <h2 class="card-title">
+                  <i class="fas fa-shipping-fast"></i>3. Hiệu Suất Tối Ưu: Dòng
+                  QL & TD Cho Văn phòng và Logistics
+                </h2>
+                <div class="content-body">
+                  <p>
+                    Nếu dòng P-TOUCH được xây dựng dựa trên triết lý về độ bền,
+                    thì dòng máy in để bàn QL và TD lại được thiết kế với một
+                    mục tiêu duy nhất:
+                    <strong class="text-green-600">tốc độ và hiệu quả</strong>.
+                    Chúng là những "cỗ máy làm việc" chuyên dụng cho các môi
+                    trường có nhịp độ nhanh như văn phòng, bán lẻ, vận chuyển và
+                    sản xuất, nơi mỗi giây tiết kiệm được đều có thể chuyển hóa
+                    thành lợi nhuận.
+                  </p>
+
+                  <h3 class="mt-8">
+                    Bảng 1: Phân Tích Lợi Ích Kinh Tế Của Công Nghệ "Không Mực,
+                    Không Toner"
+                  </h3>
+                  <p>
+                    Tất cả các mẫu máy QL và TD đều sử dụng công nghệ in nhiệt
+                    trực tiếp. Bảng dưới đây "mổ xẻ" các lợi ích chiến lược mà
+                    công nghệ này mang lại so với các phương pháp in truyền
+                    thống.
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Lợi Ích Chiến Lược</th>
+                          <th class="p-3 text-left">
+                            Phân Tích Chi Tiết & Lợi Ích
+                          </th>
+                          <th class="p-3 text-left">
+                            So sánh với In Laser/In Phun
+                          </th>
+                          <th class="p-3 text-left">
+                            Số liệu & Tác động định lượng
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <!-- Loại Bỏ Chi Phí Phụ Trợ -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i
+                              class="fas fa-dollar-sign text-green-500 mr-2"
+                            ></i
+                            >Loại Bỏ Chi Phí Phụ Trợ (OPEX)
+                          </td>
+                          <td class="p-3 align-top">
+                            Doanh nghiệp
+                            <strong class="text-green-700"
+                              >tiết kiệm 100% chi phí</strong
+                            >
+                            cho các vật tư tiêu hao phụ trợ như mực in, mực bột
+                            (toner), và ruy-băng mực.
+                          </td>
+                          <td class="p-3 align-top">
+                            In laser/phun đòi hỏi phải quản lý và mua sắm liên
+                            tục
+                            <strong class="text-red-600"
+                              >ít nhất 2 loại vật tư</strong
+                            >
+                            (giấy + mực/toner), làm tăng chi phí và độ phức tạp
+                            trong quản lý kho.
+                          </td>
+                          <td class="p-3 align-top">
+                            Một văn phòng nhỏ in 500 nhãn/tháng có thể tiết kiệm
+                            từ
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >2.000.000 - 5.000.000 VNĐ/năm</strong
+                            >
+                            chỉ riêng chi phí mực/toner.
+                          </td>
+                        </tr>
+                        <!-- Tăng Thời Gian Hoạt Động -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-tools text-blue-500 mr-2"></i>Tăng
+                            Thời Gian Hoạt Động (Uptime)
+                          </td>
+                          <td class="p-3 align-top">
+                            Loại bỏ các nguyên nhân gây hỏng hóc và gián đoạn
+                            phổ biến nhất: tắc đầu phun mực, kẹt ruy-băng, thay
+                            trống mực, lem mực.
+                            <strong class="text-blue-700"
+                              >Máy luôn sẵn sàng hoạt động.</strong
+                            >
+                          </td>
+                          <td class="p-3 align-top">
+                            Máy in laser/phun thường xuyên gặp sự cố, đòi hỏi
+                            nhân viên phải dừng công việc để xử lý, gọi IT hỗ
+                            trợ, làm
+                            <strong class="text-red-600"
+                              >giảm năng suất chung</strong
+                            >.
+                          </td>
+                          <td class="p-3 align-top">
+                            Giảm thời gian chết liên quan đến vật tư xuống gần
+                            <strong class="text-blue-700">0%</strong>. Một cửa
+                            hàng TMĐT có thể xử lý thêm
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >hàng trăm đơn hàng</strong
+                            >
+                            trong ngày sale lớn nhờ không bị gián đoạn.
+                          </td>
+                        </tr>
+                        <!-- Dự Đoán Chi Phí Dễ Dàng -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-calculator text-gray-500 mr-2"></i
+                            >Dự Đoán Chi Phí Dễ Dàng (TCO)
+                          </td>
+                          <td class="p-3 align-top">
+                            Tổng Chi Phí Sở Hữu (TCO) được rút gọn thành công
+                            thức đơn giản và minh bạch:
+                            <strong class="text-blue-700"
+                              >Chi phí = Máy + Nhãn</strong
+                            >.
+                          </td>
+                          <td class="p-3 align-top">
+                            TCO của in laser/phun là một phương trình phức tạp:
+                            <strong class="text-red-600"
+                              >Máy + Mực/Toner + Trống mực (drum) + Bảo trì +
+                              Giấy</strong
+                            >, rất khó để lập ngân sách chính xác.
+                          </td>
+                          <td class="p-3 align-top">
+                            Giúp bộ phận kế toán
+                            <strong class="text-blue-700"
+                              >lập ngân sách chính xác hơn 90%</strong
+                            >
+                            cho vật tư, tránh các chi phí phát sinh bất ngờ và
+                            tối ưu hóa dòng tiền.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 2: Ma Trận Các Tính Năng Tối Ưu Hóa Năng Suất Của Dòng
+                    QL
+                  </h3>
+                  <p>
+                    Ngoài công nghệ cốt lõi, dòng QL còn được trang bị những
+                    tính năng thông minh, được thiết kế để giải quyết các "nỗi
+                    đau" cụ thể trong quy trình làm việc hàng ngày.
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Tính Năng</th>
+                          <th class="p-3 text-left">
+                            "Nỗi Đau" Cần Giải Quyết
+                          </th>
+                          <th class="p-3 text-left">
+                            Cơ Chế Hoạt Động & Công Nghệ
+                          </th>
+                          <th class="p-3 text-left">
+                            Lợi Ích Định Lượng & Giá Trị Kinh Doanh
+                          </th>
+                          <th class="p-3 text-left">Ví dụ Theo Ngành Hàng</th>
+                          <th class="p-3 text-left">Model Tiêu Biểu</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <!-- In Hai Màu -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-palette mr-2 text-red-500"></i>In
+                            Hai Màu (Đen & Đỏ)
+                          </td>
+                          <td class="p-3 align-top">
+                            Các cảnh báo quan trọng in đơn sắc dễ bị bỏ qua, gây
+                            ra sai sót tốn kém.
+                          </td>
+                          <td class="p-3 align-top">
+                            Sử dụng cuộn nhãn
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >DK-22251</strong
+                            >
+                            có 2 lớp hóa chất nhạy nhiệt. Đầu in tác động nhiệt
+                            độ khác nhau để tạo ra màu đen hoặc đỏ.
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-red-700"
+                              >Giảm thiểu rủi ro vận hành</strong
+                            >
+                            bằng cách tăng khả năng nhận diện cảnh báo lên tới
+                            <strong class="text-red-700">75%</strong>. Bảo vệ
+                            sức khỏe khách hàng và tài sản.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1 text-xs">
+                              <li>
+                                <strong>Thực phẩm:</strong> In chữ
+                                <strong class="text-red-600"
+                                  >"DỊ ỨNG HẠT"</strong
+                                >.
+                              </li>
+                              <li>
+                                <strong>Logistics:</strong> In chữ
+                                <strong class="text-red-600"
+                                  >"HÀNG DỄ VỠ"</strong
+                                >.
+                              </li>
+                              <li>
+                                <strong>Y tế:</strong> In tên bệnh nhân có tiền
+                                sử dị ứng thuốc màu đỏ.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-gray-800"
+                              >QL-800, QL-810W, QL-820NWB</strong
+                            >
+                          </td>
+                        </tr>
+                        <!-- Dao Cắt Siêu Bền -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-cut mr-2 text-blue-500"></i>Dao Cắt
+                            Siêu Bền
+                          </td>
+                          <td class="p-3 align-top">
+                            Các máy in nhãn thông thường bị hỏng dao cắt sau 1-2
+                            năm sử dụng với khối lượng lớn, gây gián đoạn công
+                            việc và tốn chi phí sửa chữa.
+                          </td>
+                          <td class="p-3 align-top">
+                            Dao cắt được chế tạo từ vật liệu thép công nghiệp,
+                            tuổi thọ lên tới
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >300,000 lần cắt</strong
+                            >
+                            (nhãn bế) và 150,000 lần (nhãn liên tục).
+                          </td>
+                          <td class="p-3 align-top">
+                            Biến máy in thành
+                            <strong class="text-blue-700"
+                              >tài sản vốn dài hạn</strong
+                            >. Với 250 nhãn/ngày, dao cắt hoạt động
+                            <strong class="text-blue-700">~5 năm</strong>, giảm
+                            TCO và đảm bảo độ tin cậy.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1 text-xs">
+                              <li>
+                                <strong>Văn phòng:</strong> In hàng trăm nhãn hồ
+                                sơ mỗi ngày mà không lo hỏng hóc.
+                              </li>
+                              <li>
+                                <strong>Sự kiện:</strong> In thẻ tên liên tục
+                                trong nhiều giờ liền.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-gray-800"
+                              >Tất cả các mẫu QL</strong
+                            >
+                          </td>
+                        </tr>
+                        <!-- Tự Động Hóa TMĐT -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-magic mr-2 text-green-500"></i>Tự
+                            Động Hóa TMĐT
+                          </td>
+                          <td class="p-3 align-top">
+                            Người bán hàng Amazon FBA tốn rất nhiều thời gian để
+                            xử lý thủ công (chụp màn hình, cắt, dán) file PDF
+                            chứa nhiều mã vạch sản phẩm.
+                          </td>
+                          <td class="p-3 align-top">
+                            Tính năng độc quyền
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >"Barcode Crop & Print"</strong
+                            >
+                            (chỉ Windows) sử dụng driver thông minh để tự động
+                            phân tích và trích xuất từng mã vạch.
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-green-700"
+                              >Tiết kiệm >90% thời gian lao động</strong
+                            >
+                            cho quy trình này. Loại bỏ hoàn toàn sai sót do con
+                            người, tránh bị Amazon phạt do dán sai nhãn.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1 text-xs">
+                              <li>
+                                <strong>TMĐT:</strong> Xử lý lô hàng FBA một
+                                cách nhanh chóng.
+                              </li>
+                              <li>
+                                <strong>Kho vận:</strong> In lại các mã vạch bị
+                                hỏng từ một bảng tổng hợp.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-gray-800"
+                              >QL-1100, QL-1110NWB</strong
+                            >
+                          </td>
+                        </tr>
+                        <!-- Hoạt Động Độc Lập -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-server mr-2 text-purple-500"></i
+                            >Hoạt Động Độc Lập
+                          </td>
+                          <td class="p-3 align-top">
+                            Các môi trường như bếp, xưởng sản xuất không phù hợp
+                            để đặt PC, nhưng vẫn cần in nhãn tiêu chuẩn hóa và
+                            chính xác.
+                          </td>
+                          <td class="p-3 align-top">
+                            Trang bị màn hình LCD, bộ nhớ trong (<strong
+                              class="bg-yellow-100 px-1 rounded"
+                              >255 mẫu nhãn</strong
+                            >), đồng hồ thời gian thực và cổng USB Host để kết
+                            nối máy quét mã vạch.
+                          </td>
+                          <td class="p-3 align-top">
+                            Tạo trạm in nhãn chuyên dụng,
+                            <strong class="text-purple-700">không cần PC</strong
+                            >, tăng tính linh hoạt và giảm chi phí phần cứng.
+                            Đảm bảo tính nhất quán và chính xác 100%.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1 text-xs">
+                              <li>
+                                <strong>Nhà hàng:</strong> In nhãn "HSD" tự động
+                                cập nhật ngày giờ.
+                              </li>
+                              <li>
+                                <strong>Sản xuất:</strong> Công nhân quét mã
+                                vạch trên linh kiện, máy tự động in nhãn KCS
+                                tương ứng.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-gray-800">QL-820NWB</strong>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div
+                    class="mt-8 p-6 bg-slate-50 border-t-4 border-emerald-500 rounded-b-lg shadow-inner"
+                  >
+                    <h4
+                      class="!text-lg !font-bold !text-emerald-700 !mt-0 flex items-center gap-2"
+                    >
+                      <i class="fas fa-chart-line"></i>Từ Tính Năng Đến Hiệu Quả
+                      Kinh Doanh
+                    </h4>
+                    <p>
+                      Các tính năng của dòng QL không chỉ là những thông số kỹ
+                      thuật khô khan. Mỗi tính năng đều được thiết kế để tạo ra
+                      một tác động có thể đo lường được đối với hoạt động kinh
+                      doanh:
+                      <strong class="text-emerald-800"
+                        >giảm chi phí, tiết kiệm thời gian, và giảm thiểu rủi
+                        ro</strong
+                      >. Việc lựa chọn một máy in QL không chỉ là mua một công
+                      cụ, mà là đầu tư vào một giải pháp tối ưu hóa quy trình
+                      làm việc, mang lại lợi tức đầu tư (ROI) rõ ràng thông qua
+                      việc nâng cao năng suất và hiệu quả vận hành.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 4. SỨC MẠNH PHẦN MỀM -->
+            <section id="section-phan-mem" class="content-section">
+              <div class="card">
+                <h2 class="card-title">
+                  <i class="fas fa-robot"></i>4. Động Cơ Năng Suất: Sức Mạnh
+                  Phần Mềm & Tự Động Hóa
+                </h2>
+                <div class="content-body">
+                  <p>
+                    Nếu phần cứng là "thân xác" thì phần mềm chính là "bộ não"
+                    của hệ sinh thái Brother. Sức mạnh thực sự, và thường bị
+                    đánh giá thấp nhất, không nằm ở tốc độ in hay độ bền vật lý,
+                    mà ở hệ sinh thái phần mềm miễn phí đi kèm. Các ứng dụng này
+                    là yếu tố then chốt biến chiếc máy in nhãn từ một thiết bị
+                    ngoại vi đơn giản thành một
+                    <strong class="text-blue-600"
+                      >trung tâm tự động hóa quy trình làm việc</strong
+                    >, mang lại lợi tức đầu tư (ROI) khổng lồ thông qua việc
+                    tiết kiệm thời gian và loại bỏ sai sót.
+                  </p>
+
+                  <h3 class="mt-8">
+                    Bảng 1: Phân Tích "Vũ Khí Bí Mật" - P-touch Editor & Liên
+                    Kết Cơ Sở Dữ Liệu
+                  </h3>
+                  <p>
+                    P-touch Editor là một ứng dụng máy tính để bàn miễn phí,
+                    nhưng tính năng liên kết cơ sở dữ liệu của nó là một công cụ
+                    cấp doanh nghiệp thực thụ, giúp biến các công việc tẻ nhạt
+                    thành quy trình tự động hóa hiệu quả.
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Tiêu Chí</th>
+                          <th class="p-3 text-left">
+                            Phân Tích Chi Tiết & Lợi Ích
+                          </th>
+                          <th class="p-3 text-left">
+                            So sánh với Quy trình thủ công
+                          </th>
+                          <th class="p-3 text-left">
+                            Ví dụ thực tế theo ngành hàng
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <!-- Nguồn Dữ Liệu Hỗ Trợ -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-database text-green-500 mr-2"></i
+                            >Nguồn Dữ Liệu Hỗ Trợ
+                          </td>
+                          <td class="p-3 align-top">
+                            Hỗ trợ các định dạng phổ biến nhất:
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >Excel, CSV, MS Access, SQL Server</strong
+                            >. Đảm bảo tương thích với hầu hết các hệ thống dữ
+                            liệu của doanh nghiệp.
+                          </td>
+                          <td class="p-3 align-top">
+                            Quy trình thủ công đòi hỏi nhân viên phải
+                            <strong class="text-red-600">nhìn và gõ lại</strong>
+                            dữ liệu từ nhiều nguồn khác nhau, một quy trình cực
+                            kỳ chậm và dễ sai sót.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1 text-xs">
+                              <li>
+                                <strong>IT:</strong> Kéo dữ liệu từ file Excel
+                                quản lý tài sản.
+                              </li>
+                              <li>
+                                <strong>TMĐT:</strong> Kéo dữ liệu từ file CSV
+                                xuất ra từ Shopify.
+                              </li>
+                              <li>
+                                <strong>Sự kiện:</strong> Kéo dữ liệu từ file
+                                Access danh sách khách mời.
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                        <!-- Cơ Chế Tự Động Hóa -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i class="fas fa-cogs text-blue-500 mr-2"></i>Cơ Chế
+                            Tự Động Hóa
+                          </td>
+                          <td class="p-3 align-top">
+                            Hoạt động như một công cụ "trộn thư" cho nhãn. Thiết
+                            kế 1 mẫu, liên kết dữ liệu, và
+                            <strong class="text-blue-700"
+                              >in hàng nghìn nhãn độc nhất chỉ bằng 1 cú nhấp
+                              chuột.</strong
+                            >
+                          </td>
+                          <td class="p-3 align-top">
+                            Quy trình thủ công là một vòng lặp tẻ nhạt:
+                            <strong class="text-red-600"
+                              >Gõ -> In -> Gõ -> In...</strong
+                            >
+                            lặp lại hàng trăm, hàng nghìn lần.
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1 text-xs">
+                              <li>
+                                <strong>Thư viện:</strong> In mã vạch cho lô
+                                sách mới về.
+                              </li>
+                              <li>
+                                <strong>Phòng thí nghiệm:</strong> In nhãn cho
+                                hàng trăm mẫu xét nghiệm.
+                              </li>
+                              <li>
+                                <strong>Sản xuất:</strong> In số sê-ri cho một
+                                loạt sản phẩm.
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                        <!-- Tác Động Kinh Tế -->
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <i
+                              class="fas fa-chart-line text-purple-500 mr-2"
+                            ></i
+                            >Tác Động Kinh Tế
+                          </td>
+                          <td class="p-3 align-top">
+                            Tiết kiệm tới
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >95% thời gian lao động</strong
+                            >
+                            so với nhập tay. Loại bỏ gần như
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >100% lỗi sao chép dữ liệu</strong
+                            >. Hoàn vốn đầu tư máy in ngay trong lần sử dụng đầu
+                            tiên.
+                          </td>
+                          <td class="p-3 align-top">
+                            Quy trình thủ công không chỉ
+                            <strong class="text-red-600"
+                              >tốn chi phí nhân công</strong
+                            >, mà còn gây ra các
+                            <strong class="text-red-600"
+                              >chi phí ẩn do sai sót</strong
+                            >
+                            (gửi nhầm hàng, quản lý sai tài sản, làm lại nhãn).
+                          </td>
+                          <td class="p-3 align-top">
+                            <ul class="space-y-1 text-xs">
+                              <li>
+                                <strong>Kỹ sư mạng:</strong> Tiết kiệm hàng chục
+                                giờ công khi dán nhãn patch panel cho một trung
+                                tâm dữ liệu.
+                              </li>
+                              <li>
+                                <strong>Hành chính:</strong> In thiệp mời cho
+                                500 nhân viên trong 30 phút thay vì 2 ngày.
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div
+                    class="mt-8 p-6 bg-slate-50 border-t-4 border-green-500 rounded-b-lg shadow-inner"
+                  >
+                    <h4
+                      class="!text-lg !font-bold !text-green-700 !mt-0 flex items-center gap-2"
+                    >
+                      <i class="fas fa-tasks"></i>Ví dụ thực tế: Dán nhãn 1,000
+                      tài sản IT
+                    </h4>
+                    <ul class="mt-4 space-y-2 text-sm">
+                      <li>
+                        <strong>Vấn đề kinh điển:</strong> Một bộ phận IT cần
+                        dán nhãn 1,000 tài sản mới. Mỗi nhãn cần: Tên thiết bị,
+                        Mã tài sản, Mã vạch Code 128 tương ứng. Ước tính gõ tay
+                        tốn
+                        <strong class="text-red-600">hơn 40 giờ công</strong> và
+                        tỷ lệ sai sót <strong class="text-red-600">>5%</strong>.
+                      </li>
+                      <li>
+                        <strong>Giải pháp Tự động hóa của Brother:</strong> Kỹ
+                        sư chuẩn bị 1 file Excel (5 phút). Thiết kế và liên kết
+                        mẫu trong P-touch Editor (10 phút). Máy tự động in 1,000
+                        nhãn (1-2 giờ).
+                      </li>
+                      <li>
+                        <strong>Kết quả:</strong> Quy trình
+                        <strong class="text-green-700"
+                          >biến một công việc kéo dài cả tuần thành một buổi
+                          chiều</strong
+                        >. Lợi tức đầu tư (ROI) của chiếc máy in được hoàn trả
+                        ngay trong lần sử dụng đầu tiên này chỉ nhờ tiết kiệm
+                        chi phí lao động.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 2: Ma Trận Phần Mềm Di Động - Một Ứng Dụng Cho Mỗi Quy
+                    Trình
+                  </h3>
+                  <p>
+                    Thay vì tạo ra một ứng dụng "dùng cho tất cả" cồng kềnh,
+                    Brother áp dụng một chiến lược phân khúc hóa thông minh. Mỗi
+                    ứng dụng được tinh chỉnh để phục vụ hoàn hảo cho một nhóm
+                    người dùng và quy trình làm việc cụ thể.
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Ứng Dụng</th>
+                          <th class="p-3 text-left">Triết Lý & Đối Tượng</th>
+                          <th class="p-3 text-left">
+                            Ví dụ Sử Dụng Theo Ngành Hàng
+                          </th>
+                          <th class="p-3 text-left">Dòng Máy</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <strong class="text-pink-500"
+                              ><i class="fas fa-palette mr-2"></i>Design&Print
+                              2</strong
+                            >
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong>Thẩm mỹ & Sáng tạo</strong>. Dành cho người
+                            dùng gia đình, chủ cửa hàng nhỏ, người làm đồ thủ
+                            công.
+                          </td>
+                          <td class="p-3">
+                            <ul class="space-y-2">
+                              <li>
+                                <strong>Bán lẻ/Sáng tạo:</strong> In nhãn sản
+                                phẩm thủ công (nến thơm, xà phòng), tem giá cho
+                                cửa hàng thời trang, nhãn "Cảm ơn" dán lên túi
+                                hàng.
+                              </li>
+                              <li>
+                                <strong>Gia đình/Tổ chức cá nhân:</strong> Thiết
+                                kế nhãn dán lọ gia vị đồng bộ, dán nhãn hộp lưu
+                                trữ đồ dùng học tập cho con, tạo mã QR cho mật
+                                khẩu Wi-Fi.
+                              </li>
+                              <li>
+                                <strong>Dịch vụ/Sự kiện:</strong> In nhãn
+                                ruy-băng để gói quà cho khách hàng, dán tên
+                                khách mời lên quà tặng nhỏ trong tiệc cưới.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-gray-800">P-TOUCH CUBE</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <strong class="text-sky-500"
+                              ><i class="fas fa-briefcase mr-2"></i
+                              >iPrint&Label</strong
+                            >
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong>Chức năng & Hiệu quả</strong>. Dành cho nhân
+                            viên văn phòng, quản lý doanh nghiệp, bán lẻ.
+                          </td>
+                          <td class="p-3">
+                            <ul class="space-y-2">
+                              <li>
+                                <strong>Văn phòng/Hành chính:</strong> In nhanh
+                                nhãn địa chỉ gửi thư từ
+                                <strong class="bg-yellow-100 px-1 rounded"
+                                  >danh bạ điện thoại</strong
+                                >, dán nhãn gáy bìa hồ sơ, tủ tài liệu.
+                              </li>
+                              <li>
+                                <strong>Logistics/Bán lẻ:</strong> In nhãn mã
+                                vạch đơn giản để dán lên kệ hàng trong kho nhỏ,
+                                in nhãn giá hoặc nhãn ghi chú "Hàng mới về".
+                              </li>
+                              <li>
+                                <strong>Quản lý Sự kiện:</strong> In thẻ tên cho
+                                khách tham dự sự kiện, dán nhãn chỉ dẫn trong
+                                khu vực hội thảo.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-gray-800"
+                              >Dòng P/QL có Wi-Fi</strong
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium align-top">
+                            <strong class="text-orange-500"
+                              ><i class="fas fa-hard-hat mr-2"></i>Pro Label
+                              Tool</strong
+                            >
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong>Tiêu chuẩn & Tốc độ</strong>. Dành cho kỹ sư
+                            điện, kỹ thuật viên viễn thông, bảo trì công nghiệp.
+                          </td>
+                          <td class="p-3">
+                            <ul class="space-y-2">
+                              <li>
+                                <strong>Lắp đặt mạng:</strong> Chọn mẫu
+                                <strong class="bg-yellow-100 px-1 rounded"
+                                  >"Patch Panel"</strong
+                                >, nhập số cổng, máy tự động in hàng loạt nhãn
+                                theo chuẩn
+                                <strong class="text-orange-600"
+                                  >ANSI/TIA-606</strong
+                                >.
+                              </li>
+                              <li>
+                                <strong>Kỹ thuật điện:</strong> Tạo nhãn cho
+                                aptomat (circuit breaker) trong tủ điện tổng, in
+                                ống co nhiệt để đánh dấu dây pha/trung tính.
+                              </li>
+                              <li>
+                                <strong>Bảo trì Công nghiệp:</strong> In nhãn cờ
+                                (cable flag) để định danh dây cáp điều khiển máy
+                                móc, dán nhãn cảnh báo an toàn trên thiết bị.
+                              </li>
+                            </ul>
+                          </td>
+                          <td class="p-3 align-top">
+                            <strong class="text-gray-800">Dòng E-Series</strong>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-8 p-6 bg-slate-50 border-t-4 border-indigo-500 rounded-b-lg shadow-inner"
+                  >
+                    <h4
+                      class="!text-lg !font-bold !text-indigo-700 !mt-0 flex items-center gap-2"
+                    >
+                      <i class="fas fa-lightbulb"></i>Giá Trị Vô Hình của Phần
+                      Mềm Miễn Phí
+                    </h4>
+                    <p>
+                      Nhiều hệ thống ghi nhãn chuyên nghiệp khác yêu cầu khách
+                      hàng phải
+                      <strong class="text-red-600"
+                        >mua các gói phần mềm thiết kế</strong
+                      >
+                      hoặc trả phí đăng ký hàng năm (có thể lên tới hàng triệu
+                      đồng/năm) để có được các tính năng nâng cao. Brother cung
+                      cấp toàn bộ hệ sinh thái phần mềm này
+                      <strong class="text-green-700">hoàn toàn miễn phí</strong
+                      >. Đây là một giá trị gia tăng khổng lồ, giúp giảm đáng kể
+                      tổng chi phí sở hữu. Bằng cách đầu tư vào việc phát triển
+                      phần mềm mạnh mẽ, Brother không chỉ bán một chiếc máy in,
+                      họ đang cung cấp một giải pháp tự động hóa toàn diện, giúp
+                      khách hàng tiết kiệm tài sản quý giá nhất của họ:
+                      <strong class="text-blue-600">thời gian</strong>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- 5. BÀN CÂN QUYẾT ĐỊNH -->
+            <!-- 5. BÀN CÂN QUYẾT ĐỊNH -->
+            <section id="section-ban-can" class="content-section">
+              <div class="card">
+                <h2 class="card-title">
+                  <i class="fas fa-balance-scale"></i>5. Bàn Cân Quyết Định: Lợi
+                  Ích Vượt Trội vs. Chi Phí Ẩn
+                </h2>
+                <div class="content-body">
+                  <p>
+                    Quyết định đầu tư vào hệ sinh thái Brother không phải là một
+                    lựa chọn đơn giản giữa "tốt" và "xấu". Đó là một sự đánh đổi
+                    chiến lược. Các bảng phân tích dưới đây sẽ giúp bạn "mổ xẻ"
+                    từng khía cạnh để đưa ra quyết định phù hợp nhất.
+                  </p>
+
+                  <h3 class="mt-8">
+                    Bảng 1: Phân Tích Lợi Ích & Bất Lợi - Yếu Tố ĐỘ BỀN
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Tiêu Chí</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Lợi Ích Vượt
+                            Trội (Pro)
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Bất Lợi &
+                            Rủi Ro (Con)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">Công nghệ vật liệu</td>
+                          <td class="p-3">
+                            Nhãn ép màng
+                            <strong class="text-green-700">TZe 7 lớp</strong>,
+                            niêm phong nội dung in, chống chịu mọi điều kiện.
+                          </td>
+                          <td class="p-3">
+                            Công nghệ
+                            <strong class="text-red-700"
+                              >"bền hơn mức cần thiết"</strong
+                            >
+                            cho các ứng dụng văn phòng đơn giản.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">So sánh với đối thủ</td>
+                          <td class="p-3">
+                            Vượt trội so với nhãn giấy
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >Dymo D1</strong
+                            >
+                            về khả năng chống mài mòn, hóa chất.
+                          </td>
+                          <td class="p-3">
+                            Không có các vật liệu chuyên dụng cao cấp (chịu
+                            nhiệt hàn, chống tĩnh điện) như
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >Brady</strong
+                            >.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ứng dụng thực tế</td>
+                          <td class="p-3">
+                            <strong class="text-green-700">An toàn:</strong>
+                            Nhãn cảnh báo điện, hóa chất.
+                            <strong class="text-green-700">Bảo mật:</strong> Tem
+                            tài sản, niêm phong.
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-red-700">Lãng phí:</strong> Dán
+                            nhãn hồ sơ, lọ gia vị, hộp đồ chơi.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Nhãn TZe trên hộp cơm an toàn với máy rửa chén,
+                            dùng cả năm không hỏng."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "Trả 350k cho cuộn băng TZe chỉ để dán nhãn mấy cái
+                            bìa tài liệu trong phòng máy lạnh. Thấy phí tiền."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Nếu thông tin trên nhãn có
+                      <strong class="text-blue-600"
+                        >"sứ mệnh quan trọng" (mission-critical)</strong
+                      >, TZe là một khoản đầu tư xứng đáng. Nếu không, đó là một
+                      sự lãng phí tài chính.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 2: Phân Tích Lợi Ích & Bất Lợi - Yếu Tố HIỆU SUẤT
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Tiêu Chí</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Lợi Ích Vượt
+                            Trội (Pro)
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Bất Lợi &
+                            Rủi Ro (Con)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">Tính năng phần mềm</td>
+                          <td class="p-3">
+                            Kết nối
+                            <strong class="text-green-700"
+                              >cơ sở dữ liệu Excel</strong
+                            >, tự động hóa in hàng loạt, tiết kiệm 95% thời
+                            gian.
+                          </td>
+                          <td class="p-3">
+                            Giao diện
+                            <strong class="text-red-700"
+                              >P-touch Editor lỗi thời</strong
+                            >, "đường cong học tập" dốc cho người mới.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Tính năng phần cứng</td>
+                          <td class="p-3">
+                            Dao
+                            <strong class="text-green-700"
+                              >cắt bán phần (half-cut)</strong
+                            >
+                            trên các mẫu E-series/P-series giúp tăng tốc độ dán
+                            nhãn hàng loạt.
+                          </td>
+                          <td class="p-3">
+                            Tốc độ in thực tế khi dùng pin/Wi-Fi
+                            <strong class="text-red-700">giảm tới 50%</strong>
+                            so với quảng cáo.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ứng dụng thực tế</td>
+                          <td class="p-3">
+                            <strong class="text-green-700">Quy mô lớn:</strong>
+                            In 1,000 tem tài sản trong 1 buổi. In 500 nhãn patch
+                            panel chính xác.
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-red-700"
+                              >Sử dụng đơn giản:</strong
+                            >
+                            Loay hoay tìm cách in 1 nhãn đơn giản. Thiết lập
+                            Wi-Fi phức tạp.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Dùng PT-E560BT với half-cut dán 48 cổng mạng xong
+                            trong 10 phút thay vì 1 tiếng như trước."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "Mở P-touch Editor lên để in 1 cái nhãn mà cảm giác
+                            như đang chuẩn bị phóng tàu con thoi."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Nếu quy trình của bạn có
+                      <strong class="text-blue-600"
+                        >tính lặp lại và khối lượng lớn</strong
+                      >, các tính năng tự động hóa của Brother là một "cỗ máy
+                      kiếm tiền". Nếu không, sự phức tạp này có thể gây cản trở.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 3: Phân Tích Lợi Ích & Bất Lợi - Yếu Tố HỆ SINH THÁI
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Tiêu Chí</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Lợi Ích Vượt
+                            Trội (Pro)
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Bất Lợi &
+                            Rủi Ro (Con)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">Khả năng mở rộng</td>
+                          <td class="p-3">
+                            Lộ trình nâng cấp rõ ràng: từ máy văn phòng đến công
+                            nghiệp,
+                            <strong class="text-green-700"
+                              >dùng chung một phần mềm</strong
+                            >.
+                          </td>
+                          <td class="p-3">
+                            Hệ sinh thái
+                            <strong class="text-red-700"
+                              >không có khả năng in RFID</strong
+                            >, đi vào "ngõ cụt" khi cần nâng cấp công nghệ.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Chi phí vật tư</td>
+                          <td class="p-3">
+                            Rẻ hơn đáng kể so với các hãng công nghiệp cao cấp
+                            như
+                            <strong class="bg-yellow-100 px-1 rounded"
+                              >Brady</strong
+                            >.
+                          </td>
+                          <td class="p-3">
+                            Mô hình
+                            <strong class="text-red-700"
+                              >"dao cạo & lưỡi lam"</strong
+                            >, bị trói buộc vào vật tư độc quyền giá cao.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Lãng phí cố hữu</td>
+                          <td class="p-3">
+                            Tính năng
+                            <strong class="text-green-700"
+                              >"in chuỗi" (chain print)</strong
+                            >
+                            giúp giảm lãng phí khi in hàng loạt.
+                          </td>
+                          <td class="p-3">
+                            Đoạn băng lề lãng phí
+                            <strong class="text-red-700">2.5 cm</strong> mỗi lần
+                            in đơn, chiếm tới 31% chi phí cuộn băng.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Công ty trang bị cho IT máy PT-P750W, cho kỹ sư máy
+                            PT-E560BT. Đào tạo 1 lần dùng được cho cả hai, rất
+                            tiện."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "Tính ra tiền mua 3 cuộn băng TZe đã bằng tiền mua
+                            một cái máy in mới. Đúng là nuôi máy tốn hơn mua
+                            máy."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Nếu bạn ưu tiên sự
+                      <strong class="text-blue-600"
+                        >đồng bộ và dễ quản lý</strong
+                      >
+                      trên toàn công ty, hệ sinh thái của Brother là một lựa
+                      chọn thông minh. Tuy nhiên, bạn phải chấp nhận
+                      <strong class="bg-yellow-100 px-1 rounded"
+                        >chi phí độc quyền</strong
+                      >
+                      và các giới hạn công nghệ của nó.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 4: Phân Tích Lợi Ích & Bất Lợi - Yếu Tố CHI PHÍ (CAPEX
+                    vs. OPEX)
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Tiêu Chí</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Lợi Ích Vượt
+                            Trội (Pro)
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Bất Lợi &
+                            Rủi Ro (Con)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Chi phí Đầu tư ban đầu (CAPEX)
+                          </td>
+                          <td class="p-3">
+                            Các mẫu máy cấp thấp (<strong
+                              class="bg-yellow-100 px-1 rounded"
+                              >PT-E110, PT-D210</strong
+                            >) có giá rất phải chăng, là rào cản gia nhập thấp
+                            để tiếp cận hệ sinh thái chuyên nghiệp.
+                          </td>
+                          <td class="p-3">
+                            Chi phí vận hành dài hạn (OPEX) do vật tư đắt đỏ sẽ
+                            <strong class="text-red-700"
+                              >vượt xa chi phí ban đầu</strong
+                            >
+                            chỉ sau 1-2 năm sử dụng.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Chi phí Vật tư (OPEX)</td>
+                          <td class="p-3">
+                            Phần mềm P-touch Editor
+                            <strong class="text-green-700"
+                              >hoàn toàn miễn phí</strong
+                            >, không có phí bản quyền hay đăng ký hàng năm như
+                            một số đối thủ.
+                          </td>
+                          <td class="p-3">
+                            Chi phí mỗi mét băng TZe có thể cao hơn
+                            <strong class="text-red-700">gấp 5-10 lần</strong>
+                            so với các giải pháp nhãn giấy hoặc nhãn nhiệt thông
+                            thường.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Tổng Chi phí Sở hữu (TCO)
+                          </td>
+                          <td class="p-3">
+                            Đối với các ứng dụng yêu cầu độ bền cao, TCO có thể
+                            thấp hơn do
+                            <strong class="text-green-700"
+                              >không tốn chi phí làm lại</strong
+                            >
+                            nhãn bị hỏng.
+                          </td>
+                          <td class="p-3">
+                            Đối với các ứng dụng văn phòng, TCO sẽ
+                            <strong class="text-red-700"
+                              >cao hơn đáng kể</strong
+                            >
+                            so với việc dùng máy in laser và giấy nhãn A4.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Mua cái PT-E110 có triệu bạc mà xài được cả hệ sinh
+                            thái TZe, quá hời."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "Cái máy QL-820NWB 7 triệu, mà 2 năm sau tiền mua
+                            nhãn DK chắc gấp 3 lần tiền máy rồi."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Bạn đang tối ưu hóa cho
+                      <strong class="text-blue-600">chi phí ban đầu</strong> hay
+                      <strong class="text-blue-600">chi phí dài hạn</strong>?
+                      Brother hấp dẫn lúc đầu nhưng sẽ tốn kém về sau. Hãy tính
+                      toán TCO dựa trên khối lượng sử dụng dự kiến của bạn.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 5: Phân Tích Lợi Ích & Bất Lợi - Yếu Tố TRẢI NGHIỆM
+                    NGƯỜI DÙNG (UX)
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Tiêu Chí</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Lợi Ích Vượt
+                            Trội (Pro)
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Bất Lợi &
+                            Rủi Ro (Con)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">Đối với Chuyên gia</td>
+                          <td class="p-3">
+                            Phần mềm
+                            <strong class="text-green-700"
+                              >P-touch Editor</strong
+                            >
+                            cung cấp quyền kiểm soát và tự động hóa mạnh mẽ, đáp
+                            ứng các yêu cầu phức tạp.
+                          </td>
+                          <td class="p-3">
+                            Phần mềm P-touch Editor có
+                            <strong class="text-red-700"
+                              >giao diện lỗi thời</strong
+                            >, thiếu các tính năng UX hiện đại.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Đối với Người mới</td>
+                          <td class="p-3">
+                            Ứng dụng di động
+                            <strong class="text-green-700"
+                              >Design&Print 2</strong
+                            >
+                            cực kỳ trực quan và dễ sử dụng cho người không
+                            chuyên.
+                          </td>
+                          <td class="p-3">
+                            Sự phân mảnh của
+                            <strong class="text-red-700"
+                              >3 ứng dụng di động khác nhau</strong
+                            >
+                            gây nhầm lẫn và bất tiện cho người dùng sở hữu nhiều
+                            loại máy.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Quy trình làm việc</td>
+                          <td class="p-3">
+                            Các phím tắt chuyên dụng trên dòng E-series giúp
+                            <strong class="text-green-700"
+                              >tăng tốc các tác vụ lặp lại</strong
+                            >
+                            tại hiện trường.
+                          </td>
+                          <td class="p-3">
+                            Thiết lập kết nối Wi-Fi lần đầu
+                            <strong class="text-red-700"
+                              >không thân thiện</strong
+                            >, có thể gây nản lòng.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Dùng app Pro Label Tool trên điện thoại, đứng trên
+                            thang vẫn in được nhãn cáp ngon lành."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "IT đưa cho cái máy QL-810W, ngồi mò nửa tiếng đồng
+                            hồ mới kết nối được Wi-Fi vào mạng công ty."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Brother
+                      <strong class="text-blue-600"
+                        >ưu tiên chức năng hơn là hình thức</strong
+                      >. Nếu bạn sẵn sàng bỏ qua một giao diện không hoàn hảo để
+                      có được sức mạnh bên trong, đây là lựa chọn tốt. Nếu bạn
+                      đề cao trải nghiệm người dùng liền mạch và hiện đại, bạn
+                      có thể sẽ thất vọng.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 6: Phân Tích Lợi Ích & Bất Lợi - Yếu Tố TÍNH DI ĐỘNG &
+                    LINH HOẠT
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Tiêu Chí</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Lợi Ích Vượt
+                            Trội (Pro)
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Bất Lợi &
+                            Rủi Ro (Con)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">Nguồn Năng lượng</td>
+                          <td class="p-3">
+                            Nhiều mẫu (<strong
+                              class="bg-yellow-100 px-1 rounded"
+                              >PT-E310BT, PT-P710BT</strong
+                            >) đi kèm
+                            <strong class="text-green-700"
+                              >pin sạc Li-ion</strong
+                            >
+                            và cổng sạc USB-C tiện lợi.
+                          </td>
+                          <td class="p-3">
+                            Các mẫu cấp thấp vẫn dùng pin AA/AAA,
+                            <strong class="text-red-700">rất tốn kém</strong>
+                            khi sử dụng thường xuyên.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            Làm việc tại Hiện trường
+                          </td>
+                          <td class="p-3">
+                            Dòng
+                            <strong class="text-green-700"
+                              >E-series cầm tay</strong
+                            >
+                            được thiết kế chắc chắn, đi kèm hộp đựng, sẵn sàng
+                            cho công trường.
+                          </td>
+                          <td class="p-3">
+                            Không có mẫu nào đạt chuẩn độ bền quân sự
+                            <strong class="text-red-700">MIL-STD-810G</strong>,
+                            một cú rơi mạnh vẫn có thể gây hỏng hóc.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Làm việc Độc lập</td>
+                          <td class="p-3">
+                            Mẫu
+                            <strong class="text-green-700">QL-820NWB</strong> có
+                            thể hoạt động hoàn toàn độc lập, kết nối máy quét mã
+                            vạch mà không cần PC.
+                          </td>
+                          <td class="p-3">
+                            Hầu hết các mẫu máy vẫn cần kết nối với PC hoặc điện
+                            thoại để khai thác
+                            <strong class="text-red-700"
+                              >toàn bộ sức mạnh</strong
+                            >.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Brother cung cấp
+                      <strong class="text-blue-600"
+                        >giải pháp di động tốt cho các kịch bản cụ thể</strong
+                      >, nhưng không phải là lựa chọn bền bỉ nhất trên thị
+                      trường. Hãy xác định rõ môi trường làm việc của bạn trước
+                      khi quyết định.
+                    </p>
+                  </div>
+                  <h3 class="mt-8">
+                    Bảng 7: Phân Tích Độ Bền Nhãn Trong Môi Trường CÔNG NGHIỆP &
+                    CƠ KHÍ
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Yếu Tố Môi Trường</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Giải pháp &
+                            Điểm Mạnh của Brother
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Điểm Yếu &
+                            Cảnh Báo
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-oil-can mr-2"></i>Tiếp xúc Dầu mỡ,
+                            Dung môi
+                          </td>
+                          <td class="p-3">
+                            Nhãn ép màng
+                            <strong class="text-green-700">TZe</strong> chống
+                            chịu tốt với hầu hết các loại hóa chất công nghiệp
+                            nhẹ, đảm bảo nội dung không bị nhòe.
+                          </td>
+                          <td class="p-3">
+                            Không chịu được các hóa chất cực mạnh (vd: MEK). Lớp
+                            keo của nhãn
+                            <strong class="text-red-700"
+                              >TZe-S siêu dính</strong
+                            >
+                            là bắt buộc cho bề mặt dính dầu.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-hand-rock mr-2"></i>Va chạm & Mài
+                            mòn Cao
+                          </td>
+                          <td class="p-3">
+                            Lớp màng laminate bảo vệ nội dung in khỏi trầy xước,
+                            đảm bảo
+                            <strong class="text-green-700"
+                              >mã vạch vẫn quét được</strong
+                            >.
+                          </td>
+                          <td class="p-3">
+                            Bề mặt nhãn vẫn có thể bị
+                            <strong class="text-red-700"
+                              >trầy xước và mờ đi</strong
+                            >, ảnh hưởng đến tính thẩm mỹ dù thông tin không
+                            mất.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-temperature-high mr-2"></i>Nhiệt độ
+                            Cao (gần động cơ)
+                          </td>
+                          <td class="p-3">
+                            Nhãn TZe tiêu chuẩn chịu được tới
+                            <strong class="text-green-700">150°C</strong>, đủ
+                            cho hầu hết các ứng dụng trên vỏ máy.
+                          </td>
+                          <td class="p-3">
+                            Không chịu được nhiệt độ hàn mạch điện tử hay các bộ
+                            phận máy móc có nhiệt độ
+                            <strong class="text-red-700">>200°C</strong>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Dán nhãn TZe lên mấy cái máy phay CNC, dính dầu mỡ
+                            suốt mà lau đi chữ vẫn nét căng."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "Dán nhãn TZe thường lên cái thùng tôn ngoài xưởng,
+                            được mấy hôm là bong vì bề mặt nó nhám quá, phải mua
+                            loại TZe-S mới dính."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Brother là lựa chọn
+                      <strong class="text-blue-600"
+                        >rất tốt cho bảo trì công nghiệp nhẹ và trung
+                        bình</strong
+                      >, nhưng không phải là giải pháp cho các ứng dụng công
+                      nghiệp nặng và hóa chất khắc nghiệt nhất.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 8: Phân Tích Độ Bền Nhãn Trong Môi Trường LOGISTICS &
+                    NGOÀI TRỜI
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Yếu Tố Môi Trường</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Giải pháp &
+                            Điểm Mạnh của Brother
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Điểm Yếu &
+                            Cảnh Báo
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-sun mr-2"></i>Ánh nắng Mặt trời
+                            (Tia UV)
+                          </td>
+                          <td class="p-3">
+                            Nhãn
+                            <strong class="text-green-700">TZe</strong> không
+                            phai màu sau 1 năm mô phỏng, lý tưởng cho việc dán
+                            nhãn tài sản, biển báo ngoài trời.
+                          </td>
+                          <td class="p-3">
+                            Nhãn nhiệt
+                            <strong class="text-red-700">DK (dòng QL)</strong>
+                            sẽ bị phai hoàn toàn sau 6-12 tháng tiếp xúc trực
+                            tiếp với ánh nắng, không phù hợp cho sử dụng dài hạn
+                            ngoài trời.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-cloud-rain mr-2"></i>Mưa, Độ ẩm,
+                            Ngưng tụ
+                          </td>
+                          <td class="p-3">
+                            Nhãn
+                            <strong class="text-green-700">TZe</strong> chống
+                            nước 100%, không bị nhòe hay bong tróc khi dính mưa.
+                          </td>
+                          <td class="p-3">
+                            Lớp keo của nhãn có thể bị suy giảm nếu
+                            <strong class="text-red-700"
+                              >ngâm trong nước lâu ngày</strong
+                            >, đặc biệt là nước mặn.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-snowflake mr-2"></i>Nhiệt độ Thấp
+                            (Kho lạnh)
+                          </td>
+                          <td class="p-3">
+                            Cả nhãn TZe và DK đều hoạt động tốt ở nhiệt độ thấp,
+                            với TZe chịu được tới
+                            <strong class="text-green-700">-80°C</strong>.
+                          </td>
+                          <td class="p-3">
+                            Cần đảm bảo bề mặt khô và ở nhiệt độ phòng
+                            <strong class="text-red-700"
+                              >trước khi dán nhãn</strong
+                            >
+                            để lớp keo đạt độ bám dính tối đa.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Dán nhãn TZe lên mấy chậu cây ngoài ban công, 2 năm
+                            rồi mưa nắng mà chữ vẫn y nguyên."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "In nhãn DK dán lên thùng hàng để ngoài sân, được
+                            mấy tháng sau nhìn lại thấy chữ bay gần hết, phải
+                            dán lại."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Với các ứng dụng ngoài trời hoặc yêu cầu lưu trữ dài hạn,
+                      <strong class="text-blue-600"
+                        >chỉ có dòng P-TOUCH (TZe) là lựa chọn đáng tin
+                        cậy</strong
+                      >. Dòng QL (DK) chỉ nên dùng cho các mục đích ngắn hạn,
+                      trong nhà.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 9: Phân Tích Độ Bền Nhãn Trong Môi Trường Y TẾ & THỰC
+                    PHẨM
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Yếu Tố Môi Trường</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Giải pháp &
+                            Điểm Mạnh của Brother
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Điểm Yếu &
+                            Cảnh Báo
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-pump-medical mr-2"></i>Khử trùng
+                            (Cồn, Hóa chất)
+                          </td>
+                          <td class="p-3">
+                            Nhãn
+                            <strong class="text-green-700">TZe</strong> chống
+                            chịu tốt với cồn Isopropyl và các dung dịch khử
+                            trùng thông thường, bảo vệ thông tin bệnh nhân trên
+                            ống nghiệm.
+                          </td>
+                          <td class="p-3">
+                            Nhãn nhiệt
+                            <strong class="text-red-700">DK</strong> có thể bị
+                            hỏng nếu tiếp xúc trực tiếp và thường xuyên với hóa
+                            chất mạnh.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-utensils mr-2"></i>An toàn Thực
+                            phẩm
+                          </td>
+                          <td class="p-3">
+                            Khả năng in 2 màu
+                            <strong class="text-green-700">Đen-Đỏ</strong> của
+                            dòng QL-800 series là công cụ tuyệt vời để làm nổi
+                            bật cảnh báo dị ứng.
+                          </td>
+                          <td class="p-3">
+                            Nhãn DK không được khuyến nghị để
+                            <strong class="text-red-700"
+                              >dán trực tiếp lên bề mặt thực phẩm</strong
+                            >. Cần dán lên bao bì.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-tint mr-2"></i>Rửa & Hấp
+                          </td>
+                          <td class="p-3">
+                            Nhãn
+                            <strong class="text-green-700">TZe</strong> hoàn
+                            toàn an toàn với máy rửa chén, phù hợp để dán nhãn
+                            dụng cụ, hộp đựng.
+                          </td>
+                          <td class="p-3">
+                            Không chịu được quy trình hấp tiệt trùng trong nồi
+                            hấp y tế (autoclave) có nhiệt độ và áp suất rất cao.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">Ví dụ</td>
+                          <td class="p-3 italic text-xs">
+                            "Bên lab mình dùng nhãn TZe cho ống nghiệm, xịt cồn
+                            70 độ cả ngày mà không sao. Mấy loại khác bay hết
+                            chữ."
+                          </td>
+                          <td class="p-3 italic text-xs text-red-800">
+                            "Dùng máy QL-820NWB in tem HSD cho hộp salad rất
+                            tiện, nhưng có lần nhân viên lỡ tay làm đổ nước sốt
+                            dấm lên, chữ trên tem bị mờ đi một chút."
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Đối với các ứng dụng y tế đòi hỏi
+                      <strong class="text-blue-600"
+                        >tính toàn vẹn dữ liệu tuyệt đối</strong
+                      >
+                      và chống hóa chất, TZe là lựa chọn duy nhất. Đối với ghi
+                      nhãn thực phẩm ngắn hạn, dòng QL là một giải pháp hiệu quả
+                      về chi phí.
+                    </p>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bảng 10: Phân Tích Khả Năng Tích Hợp & Vị Thế Thương Hiệu
+                  </h3>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left w-1/4">Tiêu Chí</th>
+                          <th class="p-3 text-left text-green-700">
+                            <i class="fas fa-plus-circle mr-2"></i>Giải pháp &
+                            Điểm Mạnh của Brother
+                          </th>
+                          <th class="p-3 text-left text-red-700">
+                            <i class="fas fa-minus-circle mr-2"></i>Điểm Yếu &
+                            Cảnh Báo
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-cogs mr-2"></i>Tích hợp Hệ thống
+                            (SDK/API)
+                          </td>
+                          <td class="p-3">
+                            Brother cung cấp
+                            <strong class="text-green-700">b-PAC SDK</strong>
+                            cho phép các lập trình viên tích hợp chức năng in
+                            nhãn trực tiếp vào phần mềm của họ.
+                          </td>
+                          <td class="p-3">
+                            Hệ sinh thái API và cộng đồng phát triển
+                            <strong class="text-red-700"
+                              >kém sôi động hơn</strong
+                            >
+                            so với các ông lớn công nghiệp như Zebra.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-handshake mr-2"></i>Đối tác & Chứng
+                            nhận
+                          </td>
+                          <td class="p-3">
+                            Đạt các chứng nhận quan trọng như
+                            <strong class="text-green-700">UL, IEC</strong>,
+                            giúp sản phẩm tuân thủ các yêu cầu của dự án.
+                          </td>
+                          <td class="p-3">
+                            Hiếm khi là thương hiệu
+                            <strong class="text-red-700"
+                              >"được chỉ định"</strong
+                            >
+                            trong các bản vẽ kỹ thuật của các dự án lớn, không
+                            giống như Brady hay Panduit.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <i class="fas fa-star mr-2"></i>Định vị Thương hiệu
+                          </td>
+                          <td class="p-3">
+                            Là bậc thầy của phân khúc
+                            <strong class="text-green-700"
+                              >"bán chuyên" (prosumer)</strong
+                            >, cung cấp sự cân bằng tốt nhất giữa giá cả và hiệu
+                            suất.
+                          </td>
+                          <td class="p-3">
+                            Bị coi là
+                            <strong class="text-red-700">"chưa đủ tầm"</strong>
+                            cho các ứng dụng công nghiệp khắc nghiệt nhất, nơi
+                            độ tin cậy tuyệt đối là yêu cầu số một.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    class="mt-4 p-4 bg-slate-100 rounded-md text-sm border-t-2 border-slate-300"
+                  >
+                    <p class="font-semibold text-slate-700">
+                      ⚖️ Kết luận chiến lược:
+                    </p>
+                    <p class="text-slate-600">
+                      Brother là một lựa chọn
+                      <strong class="text-blue-600"
+                        >an toàn và hiệu quả về chi phí cho 90% nhu cầu chuyên
+                        nghiệp</strong
+                      >. Tuy nhiên, đối với 10% các ứng dụng chuyên dụng và tích
+                      hợp sâu, bạn có thể cần tìm đến các giải pháp công nghiệp
+                      hàng đầu.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- 6. KẾT LUẬN & HƯỚNG DẪN LỰA CHỌN -->
+            <section id="section-ket-luan" class="content-section">
+              <div class="card">
+                <h2 class="card-title">
+                  <i class="fas fa-check-circle"></i>6. Kết Luận & Hướng Dẫn Lựa
+                  Chọn Chiến Lược
+                </h2>
+                <div class="content-body">
+                  <p>
+                    Sau khi "mổ xẻ" toàn diện, có thể kết luận rằng hệ sinh thái
+                    máy in nhãn Brother là một ví dụ điển hình về
+                    <strong class="text-blue-600">sự cân bằng chiến lược</strong
+                    >. Nó không phải là lựa chọn rẻ nhất trên thị trường, cũng
+                    không phải là bền bỉ nhất trong mọi điều kiện khắc nghiệt.
+                    Tuy nhiên, đối với
+                    <strong class="bg-yellow-100 px-1 rounded"
+                      >đại đa số người dùng chuyên nghiệp (90% các ứng
+                      dụng)</strong
+                    >, nó cung cấp sự kết hợp tốt nhất giữa chi phí đầu tư, hiệu
+                    suất vận hành và độ tin cậy đã được chứng minh. Quyết định
+                    mua sắm thông minh không nằm ở việc chọn model có nhiều tính
+                    năng nhất, mà là việc xác định chính xác vấn đề lớn nhất cần
+                    giải quyết.
+                  </p>
+
+                  <h3 class="mt-8">
+                    Bước 1: Khung Phân Tích Vấn Đề (Problem-Solving Framework)
+                  </h3>
+                  <p>
+                    Trước khi nhìn vào bất kỳ sản phẩm nào, hãy trả lời câu hỏi
+                    cốt lõi:
+                    <strong
+                      >"Đâu là 'nỗi đau' lớn nhất trong quy trình làm việc của
+                      tôi?"</strong
+                    >
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-4">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">
+                            Nếu "Nỗi Đau" Chính Là...
+                          </th>
+                          <th class="p-3 text-left">Hệ Sinh Thái Phù Hợp</th>
+                          <th class="p-3 text-left">Lý Do Chiến Lược</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <strong class="text-red-600">"RỦI RO"</strong
+                            ><br /><span class="text-xs text-slate-500"
+                              >(Nhãn hỏng gây mất an toàn, downtime, mất dữ
+                              liệu)</span
+                            >
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-blue-600">P-TOUCH (TZe)</strong>
+                          </td>
+                          <td class="p-3">
+                            Công nghệ ép màng là một khoản "bảo hiểm" chi phí
+                            thấp, đảm bảo thông tin tồn tại trong môi trường
+                            khắc nghiệt.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <strong class="text-orange-600">"THỜI GIAN"</strong
+                            ><br /><span class="text-xs text-slate-500"
+                              >(Tốn quá nhiều giờ cho việc dán nhãn thủ
+                              công)</span
+                            >
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-blue-600"
+                              >P-TOUCH / QL (các mẫu cao cấp)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Các tính năng tự động hóa (kết nối CSDL, cắt bán
+                            phần) là những "cỗ máy nhân lên năng suất".
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <strong class="text-green-600"
+                              >"CHI PHÍ VẬN HÀNH"</strong
+                            ><br /><span class="text-xs text-slate-500"
+                              >(Cần in số lượng lớn với chi phí mỗi nhãn thấp
+                              nhất)</span
+                            >
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-600">TD / QL</strong>
+                          </td>
+                          <td class="p-3">
+                            Công nghệ nhiệt trực tiếp và khả năng dùng vật tư
+                            bên thứ ba (dòng TD) giúp giảm TCO dài hạn.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-medium">
+                            <strong class="text-purple-600"
+                              >"SỰ TIỆN LỢI & THẨM MỸ"</strong
+                            ><br /><span class="text-xs text-slate-500"
+                              >(Cần một giải pháp dễ dùng, đẹp mắt cho văn
+                              phòng/gia đình)</span
+                            >
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-blue-600"
+                              >P-TOUCH (Dòng CUBE & D-Series)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Các ứng dụng di động trực quan và thiết kế hiện đại,
+                            tập trung vào trải nghiệm người dùng không chuyên.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <h3 class="mt-8">
+                    Bước 2: Ma Trận Lựa Chọn Model Tối Ưu Theo Ngành Hàng & Quy
+                    Mô
+                  </h3>
+                  <p>
+                    Dựa trên việc xác định vấn đề, bảng dưới đây sẽ đề xuất các
+                    model cụ thể, phân tích lý do và chỉ ra các "tính năng sát
+                    thủ" (killer features) cho từng vai trò.
+                  </p>
+                  <div class="overflow-x-auto rounded-lg border mt-6">
+                    <table class="w-full text-sm">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                          <th class="p-3 text-left">Nếu bạn là...</th>
+                          <th class="p-3 text-left">Sản Phẩm Đề Xuất</th>
+                          <th class="p-3 text-left">"Tính Năng Sát Thủ"</th>
+                          <th class="p-3 text-left">Lý Do Chiến Lược</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-200">
+                        <!-- Electrical / Telecom Sector -->
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Kỹ sư (Ngân sách/Mới vào nghề)
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">PT-E110</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >Phím nóng ngành điện</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Chi phí đầu tư thấp nhất để tiếp cận hệ sinh thái
+                            TZe siêu bền. Tối ưu cho các công việc cơ bản tại
+                            hiện trường.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Kỹ sư Điện / Viễn thông (Năng suất cao)
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">PT-E560BTVP</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >Dao cắt bán phần (Half-cut)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Tăng năng suất lên tới 80% khi dán nhãn hàng loạt
+                            cho patch panel, aptomat. Tiết kiệm giờ công = Tiết
+                            kiệm tiền.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Nhà thầu điện quy mô lớn
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">PT-E850TKW</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >Động cơ kép (Twin Engine)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            In nhãn TZe và ống co nhiệt HSe mà không cần thay
+                            vật tư. Loại bỏ thời gian chết, tối đa hóa năng suất
+                            trong xưởng.
+                          </td>
+                        </tr>
+                        <!-- E-commerce / Logistics Sector -->
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Shop online nhỏ / SOHO
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">QL-800</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >In 2 màu Đen-Đỏ</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Chi phí hợp lý, in nhãn "DỄ VỠ" hoặc "CẢM ƠN" nổi
+                            bật để tạo ấn tượng và giảm rủi ro vận chuyển.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Doanh nghiệp TMĐT (Amazon FBA)
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">QL-1100</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >"Barcode Crop" & Khổ rộng 4"</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Tự động hóa hoàn toàn quy trình in nhãn sản phẩm
+                            FBA, in được nhãn vận chuyển tiêu chuẩn. Tăng tốc độ
+                            xử lý đơn hàng.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Kho vận / Logistics Doanh nghiệp
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">QL-1110NWB</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >Kết nối mạng toàn diện</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Tích hợp vào mạng công ty (LAN, Wi-Fi), cho phép
+                            nhiều người dùng cùng in, tăng hiệu quả cho cả nhà
+                            kho.
+                          </td>
+                        </tr>
+                        <!-- Office / IT Sector -->
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Quản lý Văn phòng (Nhóm làm việc)
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">PT-P750W</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >Kết nối 3 trong 1 (USB/Wi-Fi/NFC)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Máy in mạng đa năng, dễ dàng chia sẻ cho cả phòng
+                            ban để dán nhãn hồ sơ, thiết bị với độ bền TZe.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Quản lý IT (Dán nhãn tài sản hàng loạt)
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">PT-P900W</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >In hàng loạt từ Excel</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Kết hợp với nhãn TZe siêu bền để tự động in hàng
+                            nghìn tem tài sản chính xác, chuyên nghiệp chỉ trong
+                            vài giờ.
+                          </td>
+                        </tr>
+                        <!-- Retail / Restaurant Sector -->
+                        <tr>
+                          <td class="p-3 font-semibold">Bán lẻ / Nhà hàng</td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">QL-820NWB</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >Hoạt động độc lập & In 2 màu</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Không cần PC trong bếp/quầy, in cảnh báo dị
+                            ứng/khuyến mãi màu đỏ nổi bật. Tăng hiệu quả và an
+                            toàn.
+                          </td>
+                        </tr>
+                        <!-- Home / SOHO Sector -->
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Người dùng gia đình (Tổ chức cơ bản)
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800">PT-D210</strong>
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >Hoạt động độc lập, dễ dùng</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Máy in độc lập kinh điển, cực kỳ dễ sử dụng để dán
+                            nhãn hộp đựng, đồ dùng học tập cho con mà không cần
+                            máy tính.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="p-3 font-semibold">
+                            Gia đình / Văn phòng nhỏ (Hiện đại, Thẩm mỹ)
+                          </td>
+                          <td class="p-3">
+                            <strong class="text-gray-800"
+                              >PT-P710BT (P-TOUCH CUBE)</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            <strong
+                              class="text-green-600 bg-green-100 px-2 py-1 rounded-full"
+                              >App Design&Print 2 trực quan</strong
+                            >
+                          </td>
+                          <td class="p-3">
+                            Thiết kế đẹp, điều khiển hoàn toàn qua ứng dụng di
+                            động dễ dùng, kết hợp độ bền TZe. Cân bằng giữa thẩm
+                            mỹ và chức năng.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div
+                    class="mt-8 p-6 bg-blue-100 border-l-4 border-blue-600 rounded-r-md"
+                  >
+                    <h5 class="font-bold text-blue-800">
+                      <i class="fas fa-lightbulb"></i> Tư duy cốt lõi để thành
+                      công: Từ "Mua Công Cụ" đến "Xây Dựng Hệ Thống"
+                    </h5>
+                    <p class="text-sm text-blue-900">
+                      <strong
+                        >Đừng cố gắng "hack" hệ thống. Hãy "phục vụ" quy trình
+                        làm việc của bạn.</strong
+                      >
+                      Thay vì mua một chiếc máy rẻ nhất rồi tìm cách ép nó làm
+                      những việc không phù hợp, hãy đầu tư vào đúng hệ sinh thái
+                      (P-TOUCH, QL, TD) và đúng model giải quyết được "nỗi đau"
+                      lớn nhất của bạn. Khi bạn tạo ra những chiếc nhãn giải
+                      quyết được vấn đề thực sự—dù đó là đảm bảo an toàn, tiết
+                      kiệm 20 giờ công mỗi tuần, hay tổ chức hiệu quả—bạn đang
+                      khai thác giá trị thực sự của hệ sinh thái. Hãy kiên nhẫn,
+                      nhất quán và luôn đặt giá trị sử dụng lên hàng đầu.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll(".sidebar-nav-link");
+        const contentSections = document.querySelectorAll(".content-section");
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.querySelector("main");
+
+        function switchTab(targetId) {
+          contentSections.forEach((section) => {
+            section.classList.remove("active");
+          });
+          navLinks.forEach((link) => {
+            link.classList.remove("active");
+          });
+
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.classList.add("active");
+          }
+
+          const targetLink = document.querySelector(
+            `.sidebar-nav-link[data-target="${targetId}"]`
+          );
+          if (targetLink) {
+            targetLink.classList.add("active");
+          }
+          // Scroll to top of main content area on tab switch
+          mainContent.scrollTop = 0;
+        }
+
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.dataset.target;
+            switchTab(targetId);
+            // Hide sidebar on mobile after click
+            if (window.innerWidth < 768) {
+              sidebar.classList.add("-translate-x-full");
+              sidebar.classList.remove("translate-x-0");
+            }
+          });
+        });
+
+        mobileMenuBtn.addEventListener("click", () => {
+          sidebar.classList.toggle("-translate-x-full");
+          sidebar.classList.toggle("translate-x-0");
+        });
+
+        // Activate the first tab by default
+        switchTab("section-tong-quan");
+      });
+    </script>
+  </body>
+</html>

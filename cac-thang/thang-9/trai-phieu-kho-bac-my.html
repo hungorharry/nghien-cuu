@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân Tích Chuyên Sâu: Đường Cong Lợi Suất</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 55vh;
+            max-height: 550px;
+        }
+        .gs-header {
+            background-color: #003f5c;
+            color: white;
+        }
+        .gs-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="gs-header p-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl md:text-4xl font-bold">Phân Tích Chuyên Sâu: Đường Cong Lợi Suất</h1>
+            <p class="mt-2 text-lg text-gray-200">Chỉ Báo Hàng Đầu Về Rủi Ro Suy Thoái Kinh Tế</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section id="warning-indicators">
+            <div class="gs-card p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-[#003f5c]">Dự Báo Đường Cong Lợi Suất Trái Phiếu Kho Bạc Hoa Kỳ (2025-2035)</h2>
+                <div class="chart-container">
+                    <canvas id="triggerChart"></canvas>
+                </div>
+                 <p class="text-sm text-gray-600 mt-4 text-center max-w-4xl mx-auto">Biểu đồ mô phỏng một chu kỳ kinh tế đầy đủ trong 10 năm tới. <span class="font-bold text-[#ff6361]">Giai đoạn 1 (2026-2028):</span> Đường cong đảo ngược báo hiệu suy thoái. <span class="font-bold text-[#ffa600]">Giai đoạn 2 (2029-2031):</span> Nền kinh tế phục hồi, đường cong dốc lên trở lại. <span class="font-bold text-[#003f5c]">Giai đoạn 3 (2032+):</span> Kinh tế "cất cánh" và bước vào chu kỳ tăng trưởng mới.</p>
+                <hr class="my-6 md:my-8 border-t border-gray-200">
+                <div class="max-w-4xl mx-auto px-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#003f5c]">Bài Giảng Vỡ Lòng: Vì Sao Đường Cong Lợi Suất Lại Quan Trọng?</h3>
+                    <div class="space-y-6 text-gray-700 text-base md:text-lg">
+                        <p><strong>Quy tắc thông thường:</strong> Khi chính phủ vay tiền của bạn, họ phải trả lãi. Vay càng lâu (10 năm) thì lãi suất phải cao hơn vay ngắn hạn (2 năm). Đây là điều bình thường.</p>
+                        <div class="p-4 md:p-5 bg-red-50 border-l-4 border-red-500 rounded-lg">
+                           <p><strong class="text-red-800">Điểm Giao Cắt Bất Thường (Trigger):</strong> Vấn đề xảy ra khi lãi suất 2 năm SẮP CAO HƠN 10 năm. Điều này cho thấy các nhà đầu tư mất niềm tin vào kinh tế trong 2 năm tới. Họ thà nhận lãi suất thấp hơn để gửi tiền an toàn trong 10 năm, còn hơn là mạo hiểm ngắn hạn.</p>
+                        </div>
+                        
+                        <h4 class="text-xl md:text-2xl font-bold pt-4 text-[#58508d]">Phản Ứng Dây Chuyền Dẫn Đến Khủng Hoảng:</h4>
+                        <div class="flex items-start space-x-4">
+                            <span class="text-3xl font-bold text-gray-400">1.</span>
+                            <p><strong>Chính phủ "khát" tiền ngắn hạn:</strong> Vì không ai muốn cho vay 2 năm, chính phủ Mỹ buộc phải TĂNG LÃI SUẤT trái phiếu 2 năm lên để thu hút người mua.</p>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                             <span class="text-3xl font-bold text-gray-400">2.</span>
+                            <p><strong>Áp lực lên ngân sách:</strong> Trả lãi cao hơn tạo ra gánh nặng khổng lồ, khiến chính phủ cạn kiệt tiền mặt để vận hành.</p>
+                        </div>
+                         <div class="flex items-start space-x-4">
+                            <span class="text-3xl font-bold text-gray-400">3.</span>
+                            <p><strong>FED can thiệp:</strong> Khi chính phủ hết tiền, Cục Dự trữ Liên bang (FED) sẽ phải "cứu" bằng cách hạ lãi suất và in thêm tiền.</p>
+                        </div>
+                         <div class="flex items-start space-x-4">
+                             <span class="text-3xl font-bold text-gray-400">4.</span>
+                            <p><strong>Bong bóng và sụp đổ:</strong> Việc in tiền gây ra lạm phát cao, tạo ra các bong bóng tài sản (hiện tại là bong bóng AI, nơi giá trị đầu tư cao gấp 6 lần giá trị thực). Khi bong bóng quá lớn, nó sẽ NỔ, gây ra sụp đổ.</p>
+                        </div>
+                        <p class="pt-4 text-center font-semibold text-gray-800 bg-gray-100 p-4 rounded-lg">Lịch sử đã chứng minh: Năm 2006 và 2019, khi đường cong lợi suất đảo ngược, một cuộc suy thoái đã xảy ra sau đó 12-18 tháng.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-12 bg-gray-800 text-white p-6">
+        <div class="container mx-auto text-center">
+            <p class="text-sm text-gray-400">Báo cáo này chỉ mang tính chất tham khảo và minh họa, không phải là một khuyến nghị đầu tư.</p>
+        </div>
+    </footer>
+
+    <script>
+        const brilliantBluesPalette = {
+            deepBlue: '#003f5c',
+            purpleBlue: '#58508d',
+            magenta: '#bc5090',
+            coral: '#ff6361',
+            gold: '#ffa600',
+            lightGrey: '#f0f2f5',
+            darkGrey: '#333'
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: brilliantBluesPalette.darkGrey,
+                        font: {
+                            size: 14,
+                            family: 'Inter'
+                        },
+                        padding: 20
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    backgroundColor: '#fff',
+                    titleColor: '#333',
+                    bodyColor: '#666',
+                    borderColor: '#ddd',
+                    borderWidth: 1,
+                    padding: 10,
+                    titleFont: { weight: 'bold' },
+                    bodyFont: { family: 'Inter' },
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: { 
+                        color: brilliantBluesPalette.darkGrey,
+                        font: { family: 'Inter' },
+                        callback: function(value) {
+                           return value.toFixed(1) + '%'
+                        }
+                    },
+                    grid: {
+                        color: '#e0e0e0'
+                    }
+                },
+                x: {
+                    ticks: { 
+                        color: brilliantBluesPalette.darkGrey,
+                        font: { family: 'Inter' }
+                    },
+                     grid: {
+                        display: false
+                    }
+                }
+            }
+        };
+
+        const triggerCtx = document.getElementById('triggerChart').getContext('2d');
+        const triggerData = {
+            labels: ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035'],
+            datasets: [
+                {
+                    label: 'Lợi suất 10 năm (%)',
+                    data: [4.13, 3.8, 3.5, 3.2, 3.6, 3.9, 4.1, 4.3, 4.5, 4.6, 4.7],
+                    borderColor: brilliantBluesPalette.deepBlue,
+                    backgroundColor: 'rgba(0, 63, 92, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    borderWidth: 3
+                },
+                {
+                    label: 'Lợi suất 2 năm (%)',
+                    data: [3.6, 4.2, 3.0, 1.8, 2.2, 2.9, 3.5, 4.0, 4.2, 4.3, 4.4],
+                    borderColor: brilliantBluesPalette.gold,
+                    backgroundColor: 'rgba(255, 166, 0, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    borderWidth: 3
+                }
+            ]
+        };
+        new Chart(triggerCtx, {
+            type: 'line',
+            data: triggerData,
+            options: {
+                ...commonChartOptions,
+                plugins: {
+                    ...commonChartOptions.plugins,
+                    annotation: {
+                        annotations: {
+                            recessionBox: {
+                                type: 'box',
+                                xMin: '2027',
+                                xMax: '2028',
+                                backgroundColor: 'rgba(255, 99, 97, 0.1)',
+                                borderColor: 'rgba(255, 99, 97, 0.3)',
+                                borderWidth: 1
+                            },
+                            takeoffLine: {
+                                type: 'line',
+                                xMin: '2032',
+                                xMax: '2032',
+                                borderColor: brilliantBluesPalette.purpleBlue,
+                                borderWidth: 2,
+                                borderDash: [6, 6]
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

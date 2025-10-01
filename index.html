@@ -1,1 +1,178 @@
-<h1>kakaka</h1>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Việc của Hưng Nghiên Cứu Data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the Brutalist theme */
+        body {
+            font-family: 'Roboto Mono', monospace; /* Monospace font for a raw, technical feel */
+            background-color: #FFFFFF; /* stark white background */
+            color: #000000; /* black text */
+        }
+
+        /* Container for the main content */
+        .container {
+            max-width: 1200px;
+        }
+
+        /* Brutalist shadow utility */
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000000; /* Hard, blocky black shadow */
+        }
+        
+        .brutalist-shadow-orange {
+            box-shadow: 8px 8px 0px #F97316; /* Hard, blocky orange shadow (Tailwind orange-500) */
+        }
+
+        /* Header style */
+        .header-brutalist {
+            background-color: #F97316; /* Vibrant orange background */
+            color: #FFFFFF; /* White text for high contrast */
+            border: 4px solid #000000; /* Thick black border */
+            padding: 2rem;
+        }
+
+        /* Card styles */
+        .card-brutalist {
+            background-color: #FFFFFF;
+            border: 4px solid #000000;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card-brutalist:hover {
+            transform: translate(-4px, -4px); /* Shift position on hover */
+            box-shadow: 12px 12px 0px #000000; /* Increase shadow on hover for effect */
+        }
+
+        /* Button styles */
+        .btn-brutalist {
+            display: inline-block;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: 4px solid #000000;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .btn-brutalist:hover {
+            background-color: #000000; /* Invert colors on hover */
+            color: #FFFFFF;
+            transform: translate(-4px, -4px); /* Shift position */
+            box-shadow: 8px 8px 0px #F97316; /* Change shadow to orange on hover */
+        }
+
+        /* Title inside cards */
+        .card-title {
+            font-size: 1.75rem; /* 28px */
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 1rem;
+        }
+
+        /* Paragraph text */
+        .card-text {
+            color: #000000;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="p-6 sm:p-10">
+    <div class="container mx-auto">
+        <!-- Header Section -->
+        <header class="text-center mb-20">
+            <div class="header-brutalist brutalist-shadow">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold">
+                    Việc của Hưng Nghiên Cứu Data
+                </h1>
+            </div>
+            <p class="text-lg max-w-3xl mx-auto mt-6">
+                > Khám phá tổng quan các kế hoạch, dự án và phân tích dữ liệu quan trọng.
+            </p>
+        </header>
+
+        <!-- Grid for content cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+            
+            <!-- Card 1: Schedule -->
+            <div class="card-brutalist brutalist-shadow-orange">
+                <div>
+                    <h2 class="card-title">LỊCH TRÌNH 2025-2026</h2>
+                    <p class="card-text">
+                        Tổng quan hoạt động và mục tiêu hàng tháng. Theo dõi tiến độ.
+                    </p>
+                </div>
+                <a href="/cac-thang/cac-thang.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM LỊCH TRÌNH
+                </a>
+            </div>
+
+            <!-- Card 2: Product Classification -->
+            <div class="card-brutalist brutalist-shadow-orange">
+                <div>
+                    <h2 class="card-title">PHÂN LOẠI SẢN PHẨM</h2>
+                    <p class="card-text">
+                        Hệ thống phân loại và quản lý sản phẩm. Dữ liệu có cấu trúc.
+                    </p>
+                </div>
+                <a href="/phan-loai-san-pham/phan-loai-san-pham.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    ĐI TỚI PHÂN LOẠI
+                </a>
+            </div>
+
+            <!-- Card 3: Tracking Plan -->
+            <div class="card-brutalist brutalist-shadow-orange">
+                <div>
+                    <h2 class="card-title">KẾ HOẠCH THEO DÕI</h2>
+                    <p class="card-text">
+                        Chi tiết kế hoạch và tiến độ theo dõi dữ liệu. Đảm bảo đi đúng hướng.
+                    </p>
+                </div>
+                <a href="/ke-hoach-theo-doi/ke-hoach-theo-doi.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM KẾ HOẠCH
+                </a>
+            </div>
+
+            <!-- Card 4: Lessons -->
+            <div class="card-brutalist brutalist-shadow-orange">
+                <div>
+                    <h2 class="card-title">BÀI HỌC</h2>
+                    <p class="card-text">
+                        Ghi chép và tổng kết các bài học kinh nghiệm đã rút ra.
+                    </p>
+                </div>
+                <a href="/google/catalog-bai-hoc.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM BÀI HỌC
+                </a>
+            </div>
+
+            <!-- Card 5: Prompts Catalog -->
+            <div class="card-brutalist brutalist-shadow-orange">
+                <div>
+                    <h2 class="card-title">CATALOG PROMPTS</h2>
+                    <p class="card-text">
+                        Truy cập bộ sưu tập các prompts được tuyển chọn và sử dụng.
+                    </p>
+                </div>
+                <a href="prompts/catalog-prompts.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM PROMPTS
+                </a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

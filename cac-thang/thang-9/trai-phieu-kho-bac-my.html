@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phân Tích Chuyên Sâu: Đường Cong Lợi Suất</title>
+    <title>Phân Tích & Kịch Bản Suy Thoái: Lợi Suất & S&P 500</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
@@ -16,11 +16,11 @@
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 900px;
+            max-width: 1100px;
             margin-left: auto;
             margin-right: auto;
-            height: 55vh;
-            max-height: 550px;
+            height: 60vh;
+            max-height: 600px;
         }
         .gs-header {
             background-color: #003f5c;
@@ -37,46 +37,80 @@
 
     <header class="gs-header p-6 shadow-lg">
         <div class="container mx-auto text-center">
-            <h1 class="text-3xl md:text-4xl font-bold">Phân Tích Chuyên Sâu: Đường Cong Lợi Suất</h1>
-            <p class="mt-2 text-lg text-gray-200">Chỉ Báo Hàng Đầu Về Rủi Ro Suy Thoái Kinh Tế</p>
+            <h1 class="text-3xl md:text-4xl font-bold">Phân Tích & Kịch Bản Suy Thoái: Lợi Suất & S&P 500</h1>
+            <p class="mt-2 text-lg text-gray-200">Đối Chiếu Chỉ Báo & Mô Phỏng Phản Ứng Thị Trường (2001-2030)</p>
         </div>
     </header>
 
     <main class="container mx-auto p-4 md:p-8">
         <section id="warning-indicators">
             <div class="gs-card p-6 md:p-8">
-                <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-[#003f5c]">Dự Báo Đường Cong Lợi Suất Trái Phiếu Kho Bạc Hoa Kỳ (2025-2035)</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-center mb-4 text-[#003f5c]">Đối Chiếu Lợi Suất Trái Phiếu và S&P 500 (2001-2030)</h2>
                 <div class="chart-container">
-                    <canvas id="triggerChart"></canvas>
+                    <canvas id="mainChart"></canvas>
                 </div>
-                 <p class="text-sm text-gray-600 mt-4 text-center max-w-4xl mx-auto">Biểu đồ mô phỏng một chu kỳ kinh tế đầy đủ trong 10 năm tới. <span class="font-bold text-[#ff6361]">Giai đoạn 1 (2026-2028):</span> Đường cong đảo ngược báo hiệu suy thoái. <span class="font-bold text-[#ffa600]">Giai đoạn 2 (2029-2031):</span> Nền kinh tế phục hồi, đường cong dốc lên trở lại. <span class="font-bold text-[#003f5c]">Giai đoạn 3 (2032+):</span> Kinh tế "cất cánh" và bước vào chu kỳ tăng trưởng mới.</p>
+                 <p class="text-sm text-gray-600 mt-4 text-center max-w-5xl mx-auto">Biểu đồ tổng hợp: <strong>Lợi suất trái phiếu</strong> (đường, trục trái) và <strong>% Tăng trưởng năm</strong> của S&P 500 (cột, trục phải). Kịch bản dự báo mô phỏng S&P 500 sụt giảm mạnh sau khi tín hiệu suy thoái được xác nhận.</p>
                 <hr class="my-6 md:my-8 border-t border-gray-200">
                 <div class="max-w-4xl mx-auto px-4">
-                    <h3 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#003f5c]">Bài Giảng Vỡ Lòng: Vì Sao Đường Cong Lợi Suất Lại Quan Trọng?</h3>
+                    <h3 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#003f5c]">Diễn Giải Mối Tương Quan</h3>
                     <div class="space-y-6 text-gray-700 text-base md:text-lg">
-                        <p><strong>Quy tắc thông thường:</strong> Khi chính phủ vay tiền của bạn, họ phải trả lãi. Vay càng lâu (10 năm) thì lãi suất phải cao hơn vay ngắn hạn (2 năm). Đây là điều bình thường.</p>
-                        <div class="p-4 md:p-5 bg-red-50 border-l-4 border-red-500 rounded-lg">
-                           <p><strong class="text-red-800">Điểm Giao Cắt Bất Thường (Trigger):</strong> Vấn đề xảy ra khi lãi suất 2 năm SẮP CAO HƠN 10 năm. Điều này cho thấy các nhà đầu tư mất niềm tin vào kinh tế trong 2 năm tới. Họ thà nhận lãi suất thấp hơn để gửi tiền an toàn trong 10 năm, còn hơn là mạo hiểm ngắn hạn.</p>
+                        <p><strong>Khi đường cong lợi suất đảo ngược (đường vàng vượt lên đường xanh đậm), đó là một <strong class="text-red-600">tín hiệu cực mạnh</strong> dự báo suy thoái kinh tế sẽ đến trong 12-18 tháng tiếp theo vì:</strong></p>
+                        <ul class="list-disc list-inside space-y-3 pl-4">
+                            <li>Các nhà đầu tư lớn đang mất niềm tin vào nền kinh tế trong ngắn hạn.</li>
+                            <li>Họ chấp nhận lợi suất thấp hơn cho khoản vay 10 năm chỉ để "trú ẩn" an toàn, thay vì mạo hiểm trong 2 năm tới.</li>
+                        </ul>
+                        <div class="p-4 md:p-5 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
+                            <p><strong class="text-blue-800">Phản ứng của thị trường:</strong> Nhìn vào biểu đồ, bạn có thể thấy rõ sau các lần đảo ngược năm <strong>2006</strong> và <strong>2019</strong>, thị trường chứng khoán (S&P 500) đều trải qua những đợt sụt giảm mạnh (năm 2008, 2020, 2022).</p>
                         </div>
-                        
-                        <h4 class="text-xl md:text-2xl font-bold pt-4 text-[#58508d]">Phản Ứng Dây Chuyền Dẫn Đến Khủng Hoảng:</h4>
-                        <div class="flex items-start space-x-4">
-                            <span class="text-3xl font-bold text-gray-400">1.</span>
-                            <p><strong>Chính phủ "khát" tiền ngắn hạn:</strong> Vì không ai muốn cho vay 2 năm, chính phủ Mỹ buộc phải TĂNG LÃI SUẤT trái phiếu 2 năm lên để thu hút người mua.</p>
+                    </div>
+                </div>
+                 <hr class="my-6 md:my-8 border-t border-gray-200">
+                <div class="max-w-4xl mx-auto px-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#003f5c]">Kịch Bản Suy Thoái Giả Lập (2025-2028)</h3>
+                    <div class="space-y-6 text-gray-700 text-base md:text-lg">
+                        <p>Dựa trên các so sánh lịch sử, chúng ta có thể phác thảo một dòng thời gian giả lập nếu tín hiệu suy thoái được xác nhận vào năm 2025. Kịch bản này được mô phỏng trên biểu đồ với sự sụt giảm 30% của S&P 500 vào năm 2026.</p>
+                        <div class="p-4 md:p-5 bg-gray-50 border border-gray-200 rounded-lg">
+                            <h4 class="font-bold text-lg mb-2 text-[#003f5c]">Dòng Thời Gian Dự Kiến:</h4>
+                            <ul class="list-decimal list-inside space-y-3">
+                                <li><strong>T0 (Giữa 2025):</strong> Đường cong lợi suất hết đảo ngược (2y < 10y). Tín hiệu suy thoái được xác nhận. Thị trường bắt đầu điều chỉnh nhưng chưa chạm đáy.</li>
+                                <li><strong>T+6 đến 18 tháng (2026 - Đầu 2027):</strong> Giai đoạn tồi tệ nhất của nền kinh tế. Doanh nghiệp báo cáo lỗ, thất nghiệp tăng vọt. FED bắt đầu cắt giảm lãi suất mạnh và có thể tung ra gói cứu trợ (QE mới). Đây là <strong>vùng tạo đáy</strong> của thị trường chứng khoán.</li>
+                                <li><strong>Sau Đáy (2027-2028):</strong> Thị trường chứng khoán thường phục hồi trước nền kinh tế từ 6-9 tháng. Giai đoạn này có thể khởi đầu cho một chu kỳ tăng trưởng (bull cycle) mới.</li>
+                            </ul>
                         </div>
-                        <div class="flex items-start space-x-4">
-                             <span class="text-3xl font-bold text-gray-400">2.</span>
-                            <p><strong>Áp lực lên ngân sách:</strong> Trả lãi cao hơn tạo ra gánh nặng khổng lồ, khiến chính phủ cạn kiệt tiền mặt để vận hành.</p>
+                         <div class="p-4 md:p-5 bg-red-50 border-l-4 border-red-500 rounded-lg mt-4">
+                            <p><strong class="text-red-800">So sánh lịch sử:</strong> Cuộc suy thoái 2008 có đáy sau 15 tháng kể từ khi tín hiệu đảo ngược xuất hiện. Nếu lịch sử lặp lại, đáy của đợt suy thoái tới có thể rơi vào khoảng cuối năm 2026 đến giữa năm 2027.</p>
                         </div>
-                         <div class="flex items-start space-x-4">
-                            <span class="text-3xl font-bold text-gray-400">3.</span>
-                            <p><strong>FED can thiệp:</strong> Khi chính phủ hết tiền, Cục Dự trữ Liên bang (FED) sẽ phải "cứu" bằng cách hạ lãi suất và in thêm tiền.</p>
+                    </div>
+                </div>
+                <hr class="my-6 md:my-8 border-t border-gray-200">
+                 <div class="max-w-4xl mx-auto px-4">
+                    <h3 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#003f5c]">Phân Tích Xác Suất & Thời Điểm Suy Thoái</h3>
+                    <div class="space-y-6 text-gray-700 text-base md:text-lg">
+                        <p>Thời điểm chính xác một cuộc suy thoái bắt đầu là không thể đoán định, nhưng dựa vào dữ liệu lịch sử, chúng ta có thể ước tính một "cửa sổ rủi ro" với xác suất cao nhất.</p>
+                        <div class="p-4 md:p-5 bg-yellow-50 border-l-4 border-yellow-500 rounded-lg">
+                             <p><strong class="text-yellow-800">Tại sao là năm 2026?</strong> Chính sách tiền tệ của FED có độ trễ từ 12-24 tháng. Các đợt tăng lãi suất mạnh tay trong năm 2022-2023 cần thời gian để tác động đầy đủ lên nền kinh tế. Do đó, giai đoạn cuối 2025 đến 2026 là lúc các "vết nứt" có khả năng trở thành "đổ vỡ" thực sự.</p>
                         </div>
-                         <div class="flex items-start space-x-4">
-                             <span class="text-3xl font-bold text-gray-400">4.</span>
-                            <p><strong>Bong bóng và sụp đổ:</strong> Việc in tiền gây ra lạm phát cao, tạo ra các bong bóng tài sản (hiện tại là bong bóng AI, nơi giá trị đầu tư cao gấp 6 lần giá trị thực). Khi bong bóng quá lớn, nó sẽ NỔ, gây ra sụp đổ.</p>
+                        <div class="mt-6">
+                            <h4 class="font-bold text-lg mb-2 text-center text-[#003f5c]">Xác Suất Suy Thoái Nổ Ra (Ước Tính)</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                                <div class="p-4 bg-gray-100 rounded-lg">
+                                    <p class="font-bold text-lg">Q4 2025 - Q1 2026</p>
+                                    <p class="text-2xl font-bold text-green-600">15-25%</p>
+                                    <p class="text-sm text-gray-600">Rủi ro thấp. Giai đoạn "rạn nứt", FED mới cắt lãi nhẹ.</p>
+                                </div>
+                                <div class="p-4 bg-red-100 rounded-lg border border-red-300">
+                                    <p class="font-bold text-lg">Q2 2026 - Q3 2026</p>
+                                    <p class="text-2xl font-bold text-red-600">30-35%</p>
+                                    <p class="text-sm text-gray-600">Điểm nóng. Thời gian nguy hiểm nhất khi tác động trễ dồn lại.</p>
+                                </div>
+                                <div class="p-4 bg-gray-100 rounded-lg">
+                                    <p class="font-bold text-lg">Q4 2026 - 2027</p>
+                                    <p class="text-2xl font-bold text-yellow-600"><25%</p>
+                                    <p class="text-sm text-gray-600">Rủi ro giảm dần. FED có thể đã can thiệp mạnh, thị trường tìm đáy.</p>
+                                </div>
+                            </div>
                         </div>
-                        <p class="pt-4 text-center font-semibold text-gray-800 bg-gray-100 p-4 rounded-lg">Lịch sử đã chứng minh: Năm 2006 và 2019, khi đường cong lợi suất đảo ngược, một cuộc suy thoái đã xảy ra sau đó 12-18 tháng.</p>
+                         <p class="pt-4 text-center font-semibold text-gray-800 bg-gray-50 p-4 rounded-lg"><strong>Kết luận:</strong> Giai đoạn giữa năm 2026 có xác suất xảy ra suy thoái cao nhất. Do đó, 2027 nhiều khả năng sẽ là năm của sự phục hồi thay vì là khởi đầu của một cuộc khủng hoảng.</p>
                     </div>
                 </div>
             </div>
@@ -97,123 +131,144 @@
             coral: '#ff6361',
             gold: '#ffa600',
             lightGrey: '#f0f2f5',
-            darkGrey: '#333'
+            darkGrey: '#333',
+            sp500: '#58508d',
         };
 
         const tooltipTitleCallback = (tooltipItems) => {
             const item = tooltipItems[0];
             let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
-                return label.join(' ');
-            }
-            return label;
+            let status = parseInt(label) > 2025 ? " (Dự báo)" : "";
+            return `Năm ${label}${status}`;
         };
         
-        const commonChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        color: brilliantBluesPalette.darkGrey,
-                        font: {
-                            size: 14,
-                            family: 'Inter'
-                        },
-                        padding: 20
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        title: tooltipTitleCallback
-                    },
-                    backgroundColor: '#fff',
-                    titleColor: '#333',
-                    bodyColor: '#666',
-                    borderColor: '#ddd',
-                    borderWidth: 1,
-                    padding: 10,
-                    titleFont: { weight: 'bold' },
-                    bodyFont: { family: 'Inter' },
-                    mode: 'index',
-                    intersect: false,
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    ticks: { 
-                        color: brilliantBluesPalette.darkGrey,
-                        font: { family: 'Inter' },
-                        callback: function(value) {
-                           return value.toFixed(1) + '%'
-                        }
-                    },
-                    grid: {
-                        color: '#e0e0e0'
-                    }
-                },
-                x: {
-                    ticks: { 
-                        color: brilliantBluesPalette.darkGrey,
-                        font: { family: 'Inter' }
-                    },
-                     grid: {
-                        display: false
-                    }
-                }
-            }
-        };
-
-        const triggerCtx = document.getElementById('triggerChart').getContext('2d');
-        const triggerData = {
-            labels: ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035'],
+        const mainCtx = document.getElementById('mainChart').getContext('2d');
+        const mainData = {
+            labels: ['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
             datasets: [
                 {
+                    type: 'line',
                     label: 'Lợi suất 10 năm (%)',
-                    data: [4.13, 3.8, 3.5, 3.2, 3.6, 3.9, 4.1, 4.3, 4.5, 4.6, 4.7],
+                    data: [5.02, 4.61, 4.01, 4.27, 4.29, 4.80, 4.63, 3.66, 3.26, 3.22, 2.78, 1.80, 3.00, 2.17, 2.27, 2.45, 2.41, 2.68, 1.92, 0.93, 1.51, 3.87, 4.87, 4.25, 4.15, 3.9, 3.5, 3.2, 3.6, 4.0],
                     borderColor: brilliantBluesPalette.deepBlue,
-                    backgroundColor: 'rgba(0, 63, 92, 0.1)',
-                    fill: false,
                     tension: 0.4,
-                    borderWidth: 3
+                    borderWidth: 3,
+                    yAxisID: 'y',
                 },
                 {
+                    type: 'line',
                     label: 'Lợi suất 2 năm (%)',
-                    data: [3.6, 4.2, 3.0, 1.8, 2.2, 2.9, 3.5, 4.0, 4.2, 4.3, 4.4],
+                    data: [3.82, 2.92, 1.63, 2.26, 3.93, 4.90, 4.41, 2.24, 1.13, 0.84, 0.45, 0.28, 0.31, 0.67, 1.05, 1.20, 1.88, 2.49, 1.57, 0.12, 0.73, 4.29, 5.05, 4.30, 3.61, 3.8, 2.5, 2.0, 2.5, 3.2],
                     borderColor: brilliantBluesPalette.gold,
-                    backgroundColor: 'rgba(255, 166, 0, 0.1)',
-                    fill: false,
                     tension: 0.4,
-                    borderWidth: 3
+                    borderWidth: 3,
+                    yAxisID: 'y',
+                },
+                {
+                    type: 'bar',
+                    label: 'S&P 500 Tăng trưởng (%)',
+                    // Data including hypothetical recession scenario
+                    data: [-13.04, -23.37, 26.38, 8.99, 3.00, 13.62, 3.53, -38.49, 23.45, 12.78, 0.00, 13.41, 29.60, 11.39, -0.73, 9.54, 19.42, -6.24, 28.88, 16.26, 26.89, -19.44, 24.23, 15, 10, -30, 25, 18, 10, 12],
+                    backgroundColor: brilliantBluesPalette.sp500 + '80', // with transparency
+                    borderColor: brilliantBluesPalette.sp500,
+                    borderWidth: 1,
+                    yAxisID: 'y1',
                 }
             ]
         };
-        new Chart(triggerCtx, {
-            type: 'line',
-            data: triggerData,
+
+        new Chart(mainCtx, {
+            data: mainData,
             options: {
-                ...commonChartOptions,
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
                 plugins: {
-                    ...commonChartOptions.plugins,
-                    annotation: {
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Lợi Suất Trái Phiếu (%)'
+                        },
+                        ticks: {
+                            callback: value => value.toFixed(1) + '%'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Tăng Trưởng Năm (%)'
+                        },
+                        grid: {
+                            drawOnChartArea: false, // only show the grid for the primary axis
+                        },
+                        ticks: {
+                             callback: value => value + '%'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: brilliantBluesPalette.darkGrey,
+                            font: { family: 'Inter' }
+                        },
+                         grid: { display: false }
+                    }
+                },
+                plugins: {
+                     legend: {
+                        position: 'bottom',
+                        labels: { padding: 20 }
+                     },
+                     tooltip: {
+                        backgroundColor: '#fff',
+                        titleColor: '#333',
+                        bodyColor: '#666',
+                        borderColor: '#ddd',
+                        borderWidth: 1,
+                        padding: 10,
+                        callbacks: { title: tooltipTitleCallback }
+                     },
+                     annotation: {
                         annotations: {
-                            recessionBox: {
-                                type: 'box',
-                                xMin: '2027',
-                                xMax: '2028',
-                                backgroundColor: 'rgba(255, 99, 97, 0.1)',
-                                borderColor: 'rgba(255, 99, 97, 0.3)',
-                                borderWidth: 1
-                            },
-                            takeoffLine: {
+                            inversion2006: {
                                 type: 'line',
-                                xMin: '2032',
-                                xMax: '2032',
-                                borderColor: brilliantBluesPalette.purpleBlue,
-                                borderWidth: 2,
-                                borderDash: [6, 6]
+                                xMin: '2006', xMax: '2006',
+                                borderColor: 'rgba(255, 99, 97, 0.7)',
+                                borderWidth: 2, borderDash: [6, 6],
+                                label: { content: 'Đảo ngược #1', display: true, position: 'start', yAdjust: -10, font: {style: 'italic'} }
+                            },
+                             inversion2019: {
+                                type: 'line',
+                                xMin: '2019', xMax: '2019',
+                                borderColor: 'rgba(255, 99, 97, 0.7)',
+                                borderWidth: 2, borderDash: [6, 6],
+                                label: { content: 'Đảo ngược #2', display: true, position: 'start', yAdjust: 10, font: {style: 'italic'} }
+                            },
+                             inversion2022: {
+                                type: 'line',
+                                xMin: '2022', xMax: '2022',
+                                borderColor: 'rgba(255, 99, 97, 0.7)',
+                                borderWidth: 2, borderDash: [6, 6],
+                                label: { content: 'Đảo ngược #3', display: true, position: 'start', yAdjust: -10, font: {style: 'italic'} }
+                            },
+                            projectionLine: {
+                                type: 'line',
+                                xMin: '2025', xMax: '2025',
+                                borderColor: brilliantBluesPalette.darkGrey,
+                                borderWidth: 2, borderDash: [6, 6],
+                                label: { content: 'Dự báo', display: true, position: 'end', yAdjust: -15, color: brilliantBluesPalette.darkGrey, font: { style: 'italic' } }
                             }
                         }
                     }
@@ -223,3 +278,4 @@
     </script>
 </body>
 </html>
+

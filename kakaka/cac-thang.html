@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Việc của Hưng - Các Tháng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the Brutalist theme */
+        body {
+            font-family: 'Roboto Mono', monospace; /* Monospace font for a raw, technical feel */
+            background-color: #FFFFFF; /* stark white background */
+            color: #000000; /* black text */
+        }
+
+        /* Container for the main content */
+        .container {
+            max-width: 1200px;
+        }
+
+        /* Brutalist shadow utilities */
+        .brutalist-shadow {
+            box-shadow: 8px 8px 0px #000000; /* Hard, blocky black shadow */
+        }
+        
+        .brutalist-shadow-purple {
+            box-shadow: 8px 8px 0px #6A0DAD; /* Hard, blocky purple shadow */
+        }
+
+        /* Header style */
+        .header-brutalist {
+            background-color: #6A0DAD; /* Vibrant purple background */
+            color: #FFFFFF; /* White text for high contrast */
+            border: 4px solid #000000; /* Thick black border */
+            padding: 2rem;
+        }
+
+        /* Card styles */
+        .card-brutalist {
+            background-color: #FFFFFF;
+            border: 4px solid #000000;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .card-brutalist:hover {
+            transform: translate(-4px, -4px); /* Shift position on hover */
+            box-shadow: 12px 12px 0px #000000; /* Increase shadow on hover for effect */
+        }
+
+        /* Button styles */
+        .btn-brutalist {
+            display: inline-block;
+            background-color: #FFFFFF;
+            color: #000000;
+            border: 4px solid #000000;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .btn-brutalist:hover {
+            background-color: #000000; /* Invert colors on hover */
+            color: #FFFFFF;
+            transform: translate(-4px, -4px); /* Shift position */
+            box-shadow: 8px 8px 0px #6A0DAD; /* Change shadow to purple on hover */
+        }
+
+        /* Title inside cards */
+        .card-title {
+            font-size: 1.75rem; /* 28px */
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 2rem;
+        }
+        
+    </style>
+</head>
+<body class="p-6 sm:p-10">
+    <div class="container mx-auto">
+        
+        <!-- Back Button -->
+        <div class="mb-12">
+            <a href="/index.html" class="btn-brutalist brutalist-shadow">
+                &lt;-- Quay lại Danh Mục Chính
+            </a>
+        </div>
+
+        <!-- Main Title Section -->
+        <header class="text-center mb-20">
+            <div class="header-brutalist brutalist-shadow">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold">CÁC THÁNG</h1>
+            </div>
+            <p class="text-lg max-w-3xl mx-auto mt-6">
+                > Tổng quan các kế hoạch và phân tích dữ liệu quan trọng.
+            </p>
+        </header>
+
+        <!-- Grid for month cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-16">
+            
+            <!-- Card 1: May -->
+            <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 5</h2>
+                <a href="/nghien-cuu/cac-thang/thang-5/thang-5.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM
+                </a>
+            </div>
+
+            <!-- Card 2: June -->
+            <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 6</h2>
+                <a href="/nghien-cuu/cac-thang/thang-6/thang-6.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM
+                </a>
+            </div>
+
+            <!-- Card 3: July -->
+            <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 7</h2>
+                <a href="/nghien-cuu/cac-thang/thang-7/thang-7.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM
+                </a>
+            </div>
+                     <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 8</h2>
+                <a href="/nghien-cuu/cac-thang/thang-8/thang-8.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM
+                </a>
+            </div>
+                     <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 9</h2>
+                <a href="/nghien-cuu/cac-thang/thang-9/thang-9.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM
+                </a>
+            </div>
+                     <div class="card-brutalist brutalist-shadow-purple">
+                <h2 class="card-title">THÁNG 10</h2>
+                <a href="/nghien-cuu/cac-thang/thang-10/thang-10.html" class="btn-brutalist brutalist-shadow mt-auto">
+                    XEM
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

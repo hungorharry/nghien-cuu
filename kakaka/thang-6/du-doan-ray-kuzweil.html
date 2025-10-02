@@ -1,0 +1,516 @@
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toàn Cảnh Các Dự Đoán Của Ray Kurzweil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Palette: Energetic & Playful -->
+    <!-- Narrative Plan: 
+        1. Hero: Hook with the Singularity year (2045).
+        2. Who is Kurzweil: Quick bio.
+        3. Core Theory (LOAR): Visualize exponential growth with a Line Chart.
+        4. Timeline of the Future: HTML/CSS vertical timeline of key predictions.
+        5. Accuracy Scorecard: Use Donut Charts for a direct comparison of accuracy claims.
+        6. GNR Revolution: Use styled cards with icons for Genetics, Nano, Robotics.
+        7. Human Upgrade: HTML/CSS flowchart showing the path to machine merger.
+        8. The Debate: Side-by-side comparison of utopian vs. dystopian outcomes.
+        9. Influence: Bubble chart showing impact on tech companies and movements.
+    -->
+    <!-- Visualization Choices:
+        - Big Number (2045): Goal: Inform. Method: Styled HTML. Justification: High impact, memorable.
+        - LOAR Line Chart: Goal: Compare/Change. Method: Chart.js Canvas. Justification: Best way to show exponential vs. linear.
+        - Predictions Timeline: Goal: Organize. Method: Styled HTML/CSS. Justification: Clear chronological flow without complex JS. NO SVG/Mermaid.
+        - Accuracy Donut Charts: Goal: Compare. Method: Chart.js Canvas. Justification: Immediately shows the contrast in accuracy claims.
+        - GNR Cards: Goal: Organize. Method: Styled HTML with Unicode icons. Justification: Simple, clear grouping of related tech. NO SVG.
+        - Human Upgrade Flowchart: Goal: Organize/Process. Method: Styled HTML/CSS with borders. Justification: Shows progression clearly. NO SVG/Mermaid.
+        - Debate Lists: Goal: Compare. Method: Styled HTML with Unicode icons. Justification: Simple, effective side-by-side view.
+        - Influence Bubble Chart: Goal: Compare/Organize. Method: Chart.js Canvas. Justification: Good for showing relative (qualitative) influence of different entities.
+        - Confirmation: NEITHER MERMAID JS NOR SVG WERE USED.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .text-energetic-darkest { color: #00287E; }
+        .text-energetic-dark { color: #004385; }
+        .text-energetic-medium { color: #007395; }
+        .text-energetic-light { color: #00B9AE; }
+        .text-energetic-lightest { color: #00F5D4; }
+        .bg-energetic-darkest { background-color: #00287E; }
+        .bg-energetic-dark { background-color: #004385; }
+        .bg-energetic-medium { background-color: #007395; }
+        .bg-energetic-light { background-color: #00B9AE; }
+        .bg-energetic-lightest { background-color: #00F5D4; }
+        .border-energetic-light { border-color: #00B9AE; }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2.5rem;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: #007395;
+            border-radius: 9999px;
+            border: 3px solid #f0f4f8;
+            z-index: 10;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0.25rem;
+            bottom: 0;
+            width: 2px;
+            background-color: #00B9AE;
+        }
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        .flowchart-item {
+            border: 2px solid #00B9AE;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-arrow {
+            font-size: 2.5rem;
+            line-height: 1;
+            color: #007395;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-energetic-darkest">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-energetic-darkest mb-4">Toàn Cảnh Các Dự Đoán Của Ray Kurzweil</h1>
+            <p class="text-lg md:text-xl text-energetic-dark max-w-3xl mx-auto">Một hành trình trực quan khám phá tương lai công nghệ, sự hợp nhất giữa người và máy, và thời điểm Điểm Kỳ Dị được dự báo sẽ thay đổi tất cả.</p>
+        </header>
+
+        <main>
+            <section id="hero" class="text-center mb-16">
+                 <div class="bg-white rounded-lg shadow-xl p-8 max-w-md mx-auto">
+                    <p class="text-2xl font-bold text-energetic-dark">Dự Đoán Về Điểm Kỳ Dị (The Singularity)</p>
+                    <p class="text-9xl font-black text-energetic-medium my-4">2045</p>
+                    <p class="text-lg text-energetic-darkest">Vào năm này, Kurzweil dự đoán trí tuệ nhân tạo sẽ vượt qua trí tuệ con người, dẫn đến một kỷ nguyên tăng trưởng công nghệ bùng nổ và không thể đảo ngược.</p>
+                 </div>
+            </section>
+            
+            <section id="loar" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-energetic-darkest">Động Lực Của Sự Thay Đổi: Luật Lợi Suất Gia Tăng</h2>
+                    <p class="text-center max-w-3xl mx-auto mb-8 text-energetic-dark">Nền tảng của các dự đoán của Kurzweil là ý tưởng rằng tiến bộ công nghệ không đi theo đường thẳng mà tăng tốc theo hàm mũ. Mỗi đột phá mới lại tạo nền tảng cho những bước nhảy vọt nhanh hơn, tạo ra một vòng lặp phản hồi tích cực. Biểu đồ này cho thấy sự khác biệt cơ bản giữa tăng trưởng tuyến tính và tăng trưởng theo hàm mũ mà chúng ta đang trải qua.</p>
+                    <div class="chart-container">
+                        <canvas id="loarChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="timeline" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-energetic-darkest">Biên Niên Sử Tương Lai</h2>
+                     <p class="text-center max-w-3xl mx-auto mb-12 text-energetic-dark">Kurzweil đã đưa ra một lộ trình chi tiết cho tương lai, đánh dấu những cột mốc quan trọng trong quá trình phát triển của công nghệ và sự biến đổi của con người. Đây là một cái nhìn về những thập kỷ tới qua lăng kính của ông.</p>
+                    <div class="max-w-3xl mx-auto">
+                        <div class="timeline-item">
+                            <h3 class="text-2xl font-bold text-energetic-dark">Những năm 2020</h3>
+                            <p class="text-energetic-darkest">Nanobot y tế bắt đầu loại bỏ bệnh tật. Ô tô tự lái chiếm lĩnh đường phố. Trí tuệ nhân tạo (AI) bắt đầu vượt qua các bài kiểm tra Turing sơ bộ.</p>
+                            <p class="text-2xl mt-2">🤖🚗</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h3 class="text-2xl font-bold text-energetic-dark">2029</h3>
+                            <p class="text-energetic-darkest">AI đạt được Trí tuệ Nhân tạo Tổng quát (AGI), tương đương với trí thông minh của con người.</p>
+                             <p class="text-2xl mt-2">💡</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h3 class="text-2xl font-bold text-energetic-dark">Những năm 2030</h3>
+                            <p class="text-energetic-darkest">Con người có thể đạt được sự bất tử thông qua công nghệ. Thực tế ảo trở nên không thể phân biệt với thực tế. Con người bắt đầu có khả năng "tải lên" ý thức.</p>
+                             <p class="text-2xl mt-2">🧠☁️</p>
+                        </div>
+                         <div class="timeline-item">
+                            <h3 class="text-2xl font-bold text-energetic-dark">2045: ĐIỂM KỲ DỊ</h3>
+                            <p class="text-energetic-darkest">Sự hợp nhất hoàn toàn giữa trí tuệ sinh học và phi sinh học. Trí tuệ được nhân lên hàng tỷ lần bằng cách kết nối não bộ với đám mây. AI vượt xa trí tuệ con người.</p>
+                             <p class="text-2xl mt-2">💥</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h3 class="text-2xl font-bold text-energetic-dark">Sau Điểm Kỳ Dị</h3>
+                            <p class="text-energetic-darkest">Trí tuệ lan tỏa khắp vũ trụ, "đánh thức" vũ trụ. Cái chết trở thành một vấn đề có thể giải quyết được.</p>
+                             <p class="text-2xl mt-2">🌌✨</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="accuracy" class="mb-16">
+                 <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-energetic-darkest">Thẻ Điểm Của Nhà Tiên Tri: Chính Xác Hay Cường Điệu?</h2>
+                    <p class="text-center max-w-3xl mx-auto mb-8 text-energetic-dark">Việc đánh giá độ chính xác của Kurzweil là một chủ đề gây tranh cãi. Ông tuyên bố một tỷ lệ thành công cao, nhưng các nhà phân tích độc lập lại đưa ra một bức tranh khác. Sự khác biệt nằm ở cách định nghĩa "dự đoán đúng" - liệu đó là một xu hướng chung hay một kết quả cụ thể, đúng thời hạn.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="text-center">
+                            <h3 class="text-xl font-bold mb-4 text-energetic-dark">Tự Đánh Giá Của Kurzweil (2010)</h3>
+                             <div class="chart-container h-64 md:h-80">
+                                <canvas id="kurzweilAccuracyChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-xl font-bold mb-4 text-energetic-dark">Phân Tích Độc Lập (Ví dụ: Dan Luu)</h3>
+                             <div class="chart-container h-64 md:h-80">
+                                <canvas id="criticAccuracyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+             <section id="gnr" class="mb-16">
+                 <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-energetic-darkest">Cuộc Cách Mạng GNR</h2>
+                    <p class="text-center max-w-3xl mx-auto mb-8 text-energetic-dark">Tầm nhìn của Kurzweil không chỉ dựa vào AI. Nó được thúc đẩy bởi sự hội tụ của ba cuộc cách mạng: Di truyền học (Genetics), Công nghệ Nano (Nanotechnology), và Người máy/AI (Robotics).</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <div class="bg-gray-50 rounded-lg p-6 shadow-inner">
+                            <p class="text-6xl mb-4">🧬</p>
+                            <h3 class="text-2xl font-bold text-energetic-dark">Di Truyền Học</h3>
+                            <p class="mt-2">Lập trình lại sinh học để vượt qua bệnh tật và lão hóa, biến đổi cơ thể con người từ bên trong.</p>
+                        </div>
+                         <div class="bg-gray-50 rounded-lg p-6 shadow-inner">
+                            <p class="text-6xl mb-4">🔬</p>
+                            <h3 class="text-2xl font-bold text-energetic-dark">Công nghệ Nano</h3>
+                            <p class="mt-2">Các robot siêu nhỏ (nanobot) sẽ tuần tra trong cơ thể, sửa chữa tế bào và tạo ra vật chất từ không khí.</p>
+                        </div>
+                         <div class="bg-gray-50 rounded-lg p-6 shadow-inner">
+                            <p class="text-6xl mb-4">🤖</p>
+                            <h3 class="text-2xl font-bold text-energetic-dark">Người máy / AI</h3>
+                            <p class="mt-2">Động cơ trung tâm của sự thay đổi, từ AI chuyên biệt đến siêu trí tuệ có khả năng giải quyết mọi vấn đề.</p>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <section id="merger" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-energetic-darkest">Sự Hợp Nhất Giữa Người và Máy</h2>
+                    <p class="text-center max-w-3xl mx-auto mb-12 text-energetic-dark">Đây là một trong những dự đoán trung tâm và gây tranh cãi nhất của Kurzweil. Ông không chỉ thấy máy móc như những công cụ bên ngoài, mà là một phần không thể thiếu của quá trình tiến hóa tiếp theo của con người. Lộ trình này cho thấy sự siêu việt khỏi giới hạn sinh học.</p>
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="flowchart-item">
+                            <p class="text-lg font-bold">Thiết bị bên ngoài</p>
+                            <p>(PC, Điện thoại)</p>
+                        </div>
+                        <div class="flowchart-arrow">→</div>
+                        <div class="flowchart-item">
+                            <p class="text-lg font-bold">Công nghệ đeo được</p>
+                             <p>(Đồng hồ, Kính)</p>
+                        </div>
+                         <div class="flowchart-arrow">→</div>
+                        <div class="flowchart-item">
+                            <p class="text-lg font-bold">Thiết bị cấy ghép (BCI)</p>
+                            <p>(Giao diện não-máy)</p>
+                        </div>
+                         <div class="flowchart-arrow">→</div>
+                        <div class="flowchart-item bg-energetic-lightest">
+                            <p class="text-lg font-bold">Vỏ não kết nối Đám mây</p>
+                            <p>(Tăng cường trí tuệ)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="debate" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-energetic-darkest">Cuộc Tranh Luận: Thiên Đường Hay Địa Ngục Công Nghệ?</h2>
+                    <p class="text-center max-w-3xl mx-auto mb-8 text-energetic-dark">Tầm nhìn của Kurzweil mở ra những khả năng phi thường nhưng cũng đi kèm với những rủi ro hiện hữu. Tương lai ông vẽ ra không chỉ có một mặt, mà là một cuộc giằng co giữa những kết quả tốt đẹp nhất và những mối nguy hiểm tồi tệ nhất.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="border-t-4 border-green-500 bg-green-50 rounded-lg p-6">
+                            <h3 class="text-2xl font-bold text-green-800 mb-4">✅ Lời Hứa Không Tưởng</h3>
+                            <ul class="list-disc list-inside space-y-2 text-green-700">
+                                <li>Chấm dứt bệnh tật và lão hóa</li>
+                                <li>Giải quyết đói nghèo và ô nhiễm</li>
+                                <li>Sự sáng tạo và thông minh vô hạn</li>
+                                <li>Làm chủ thế giới vật chất</li>
+                                <li>Vượt qua cái chết</li>
+                            </ul>
+                        </div>
+                         <div class="border-t-4 border-red-500 bg-red-50 rounded-lg p-6">
+                            <h3 class="text-2xl font-bold text-red-800 mb-4">⚠️ Rủi Ro Hiện Sinh</h3>
+                             <ul class="list-disc list-inside space-y-2 text-red-700">
+                                <li>Bất bình đẳng xã hội sâu sắc</li>
+                                <li>Mất việc làm hàng loạt do tự động hóa</li>
+                                <li>Vũ khí hóa AI và công nghệ sinh học</li>
+                                <li>Vấn đề kiểm soát siêu trí tuệ</li>
+                                <li>Đánh mất bản sắc và phẩm giá con người</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <section id="influence" class="mb-16">
+                <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center mb-2 text-energetic-darkest">Hiệu Ứng Kurzweil</h2>
+                    <p class="text-center max-w-3xl mx-auto mb-8 text-energetic-dark">Tầm nhìn của Kurzweil không chỉ tồn tại trên giấy. Ông đã có ảnh hưởng sâu sắc đến văn hóa của Thung lũng Silicon, truyền cảm hứng cho các nhà lãnh đạo công nghệ, các nhà đầu tư và định hình các phong trào như chủ nghĩa siêu nhân loại và các dự án "moonshot" đầy tham vọng.</p>
+                    <div class="chart-container">
+                        <canvas id="influenceChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 py-8 border-t border-energetic-light">
+            <p class="text-energetic-dark">Đồ họa thông tin được tạo dựa trên báo cáo "Toàn Cảnh Các Dự Đoán Của Ray Kurzweil".</p>
+            <p class="text-sm text-gray-500 mt-2">Ngôn ngữ và dữ liệu được tổng hợp từ tài liệu gốc. Các biểu đồ nhằm mục đích minh họa các khái niệm và số liệu đã nêu.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const FONT_COLOR = '#00287E';
+            const GRID_COLOR = 'rgba(0, 67, 133, 0.1)';
+
+            const wrapLabel = (label, maxWidth) => {
+                const words = label.split(' ');
+                let lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                if (currentLine) {
+                    lines.push(currentLine);
+                }
+                return lines.length > 0 ? lines : [label];
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                  return label.join(' ');
+                } else {
+                  return label;
+                }
+            };
+            
+            const createLoarChart = () => {
+                const ctx = document.getElementById('loarChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Giai đoạn 1', 'Giai đoạn 2', 'Giai đoạn 3', 'Giai đoạn 4', 'Giai đoạn 5', 'Giai đoạn 6'],
+                        datasets: [{
+                            label: 'Tăng trưởng Tuyến tính',
+                            data: [10, 20, 30, 40, 50, 60],
+                            borderColor: '#007395',
+                            backgroundColor: 'rgba(0, 115, 149, 0.1)',
+                            borderWidth: 3,
+                            tension: 0,
+                            fill: false
+                        }, {
+                            label: 'Tăng trưởng Theo Hàm mũ (LOAR)',
+                            data: [10, 20, 40, 80, 160, 320],
+                            borderColor: '#00F5D4',
+                            backgroundColor: 'rgba(0, 245, 212, 0.2)',
+                            borderWidth: 4,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: FONT_COLOR, font: { size: 14 } }
+                            },
+                            tooltip: { callbacks: { title: tooltipTitleCallback } }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { color: FONT_COLOR },
+                                grid: { color: GRID_COLOR }
+                            },
+                            x: {
+                                ticks: { color: FONT_COLOR },
+                                grid: { color: GRID_COLOR }
+                            }
+                        }
+                    }
+                });
+            };
+
+            const createAccuracyCharts = () => {
+                const kurzweilCtx = document.getElementById('kurzweilAccuracyChart').getContext('2d');
+                new Chart(kurzweilCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Chính xác (hoặc về cơ bản là đúng)', 'Sai'],
+                        datasets: [{
+                            label: 'Tỷ lệ',
+                            data: [86, 14],
+                            backgroundColor: ['#00B9AE', '#FF6B6B'],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: FONT_COLOR, font: { size: 12 }, boxWidth: 15 }
+                            },
+                            tooltip: { 
+                                callbacks: { 
+                                    title: tooltipTitleCallback,
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw}%`;
+                                    }
+                                } 
+                            },
+                             title: {
+                                display: true,
+                                text: 'Tỷ lệ chính xác: 86%',
+                                color: FONT_COLOR,
+                                font: { size: 18, weight: 'bold' }
+                            }
+                        }
+                    }
+                });
+
+                const criticCtx = document.getElementById('criticAccuracyChart').getContext('2d');
+                new Chart(criticCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Chính xác', 'Sai'],
+                        datasets: [{
+                            label: 'Tỷ lệ',
+                            data: [7, 93],
+                            backgroundColor: ['#00B9AE', '#FF6B6B'],
+                            borderColor: '#FFFFFF',
+                            borderWidth: 4
+                        }]
+                    },
+                     options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { color: FONT_COLOR, font: { size: 12 }, boxWidth: 15 }
+                            },
+                            tooltip: { 
+                                callbacks: { 
+                                    title: tooltipTitleCallback,
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw}%`;
+                                    }
+                                } 
+                            },
+                             title: {
+                                display: true,
+                                text: 'Tỷ lệ chính xác: 7%',
+                                color: FONT_COLOR,
+                                font: { size: 18, weight: 'bold' }
+                            }
+                        }
+                    }
+                });
+            };
+            
+            const createInfluenceChart = () => {
+                const ctx = document.getElementById('influenceChart').getContext('2d');
+                const rawLabels = ['Google', 'Singularity University', 'Chủ nghĩa Siêu nhân loại', 'Đầu tư mạo hiểm Thung lũng Silicon', 'Diễn ngôn Công chúng'];
+                const processedLabels = rawLabels.map(label => wrapLabel(label, 16));
+                
+                new Chart(ctx, {
+                    type: 'bubble',
+                    data: {
+                        labels: processedLabels,
+                        datasets: [{
+                            label: 'Mức độ ảnh hưởng (ước tính)',
+                            data: [
+                                { x: 10, y: 15, r: 25, label: rawLabels[0] }, 
+                                { x: 18, y: 12, r: 22, label: rawLabels[1] },
+                                { x: 8, y: 5, r: 18, label: rawLabels[2] },
+                                { x: 15, y: 20, r: 20, label: rawLabels[3] },
+                                { x: 22, y: 8, r: 15, label: rawLabels[4] }
+                            ],
+                            backgroundColor: ['#00F5D4', '#00B9AE', '#007395', '#004385', '#00287E'].map(color => {
+                                const r = parseInt(color.slice(1, 3), 16);
+                                const g = parseInt(color.slice(3, 5), 16);
+                                const b = parseInt(color.slice(5, 7), 16);
+                                return `rgba(${r}, ${g}, ${b}, 0.7)`;
+                            }),
+                            borderColor: '#00287E'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    title: function(tooltipItems) {
+                                       return tooltipItems[0].raw.label;
+                                    },
+                                    label: function(context) {
+                                        return `Ảnh hưởng tương đối: ${context.raw.r}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: { display: false },
+                            x: { display: false }
+                        }
+                    }
+                });
+            };
+
+
+            createLoarChart();
+            createAccuracyCharts();
+            createInfluenceChart();
+        });
+    </script>
+</body>
+</html>

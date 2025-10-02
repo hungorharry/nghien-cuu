@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic AI Search: Khám Phá Tương Lai</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Sử dụng Roboto và Roboto Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #111827;
+            --bg-card: #1F2937;
+            --bg-card-hover: #374151;
+            --text-primary: #F3F4F6;
+            --text-secondary: #9CA3AF;
+            --text-heading: #E5E7EB;
+            --accent-blue: #3B82F6;
+            --accent-cyan: #22D3EE;
+            --accent-pink: #EC4899;
+            --accent-green: #4ADE80;
+            --border-color: #4B5563;
+
+            --accent-cyan-rgb: 34, 211, 238;
+            --accent-pink-rgb: 236, 72, 153;
+            --accent-green-rgb: 74, 222, 128;
+            --accent-blue-rgb: 59, 130, 246;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif; /* Đổi sang Roboto */
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .chart-container-wrapper {
+            background-color: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 0 25px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            margin-top: 1.5rem;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 420px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        .section-card {
+            background-color: var(--bg-card);
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3), 0 0 0 1px var(--border-color);
+            padding: 2.5rem 3rem;
+            margin-bottom: 3.5rem;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px -10px rgba(var(--accent-cyan-rgb),0.2), 0 0 0 1px var(--accent-cyan);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600; /* Roboto thường cần đậm hơn Poppins một chút cho tiêu đề */
+            color: var(--text-heading);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            letter-spacing: -0.02em;
+        }
+        .section-title .unicode-icon {
+            font-size: 2.8rem;
+            line-height: 1;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .flowchart-step {
+            background: linear-gradient(145deg, var(--bg-card-hover), var(--bg-card));
+            border: 1px solid var(--accent-blue);
+            color: var(--text-primary);
+            padding: 1rem 1.75rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-weight: 500;
+            min-width: 160px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.05);
+            transition: all 0.2s ease-in-out;
+        }
+        .flowchart-step:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 6px 15px rgba(var(--accent-cyan-rgb),0.3), inset 0 1px 2px rgba(255,255,255,0.05);
+        }
+        .flowchart-arrow {
+            font-size: 3rem;
+            color: var(--accent-blue);
+            margin: 0 1.25rem;
+            line-height: 1;
+            align-self: center;
+            opacity: 0.7;
+        }
+        .eeat-card {
+            background-color: transparent;
+            border: 1px solid var(--accent-green);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 0 15px rgba(var(--accent-green-rgb),0.15);
+            transition: all 0.3s ease;
+        }
+        .eeat-card:hover {
+            background-color: rgba(var(--accent-green-rgb), 0.05);
+            box-shadow: 0 0 25px rgba(var(--accent-green-rgb),0.3);
+        }
+        .eeat-card h4 {
+            color: var(--accent-green);
+            font-weight: 500; /* Roboto medium */
+            font-size: 1.375rem;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 0 5px rgba(var(--accent-green-rgb), 0.5);
+        }
+        .strategy-card {
+            background-color: var(--bg-card);
+            border-left: 5px solid var(--accent-pink);
+            padding: 1.75rem;
+            border-radius: 0.5rem 0.75rem 0.75rem 0.5rem;
+            margin-bottom: 1.75rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .strategy-card:hover {
+             border-left-color: var(--accent-cyan);
+             transform: translateX(5px);
+        }
+        .strategy-card h4 {
+            color: var(--accent-pink);
+            font-weight: 500; /* Roboto medium */
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        .strategy-card h4 .unicode-icon {
+             color: var(--accent-pink);
+             text-shadow: 0 0 8px var(--accent-pink);
+        }
+
+        .unicode-icon {
+            font-size: 1.75rem;
+            margin-right: 0.875rem;
+            line-height: 1;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .tech-seo-item {
+            padding: 1rem 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tech-seo-item:last-child {
+            border-bottom: none;
+        }
+        .tech-seo-item .font-semibold { /* Sẽ dùng font-weight: 500 hoặc 700 của Roboto */
+            color: var(--accent-cyan);
+            font-size: 1.25rem;
+        }
+        .tech-seo-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .table-container {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .table-header {
+            background-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+        .table-header th {
+            padding: 1rem 1.5rem;
+            font-weight: 500; /* Roboto medium */
+            text-align: left;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        tbody tr {
+            background-color: var(--bg-card);
+            transition: background-color 0.2s ease;
+        }
+        tbody tr:hover {
+            background-color: var(--bg-card-hover);
+        }
+        tbody td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+        tbody td code {
+             color: var(--accent-pink);
+        }
+
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(16px);
+            padding: 0.75rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500; /* Roboto medium */
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            transition: all 0.25s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-cyan);
+            transition: all 0.3s ease-out;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary);
+        }
+        .nav-link:hover::before, .nav-link.active::before {
+            width: 70%;
+        }
+        .nav-link.active {
+            text-shadow: 0 0 5px var(--accent-cyan);
+        }
+
+        .advice-card {
+            background: linear-gradient(135deg, rgba(var(--accent-pink-rgb), 0.1), rgba(var(--accent-cyan-rgb), 0.1));
+            border: 1px solid var(--accent-pink);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin-top: 2.5rem;
+            box-shadow: 0 0 20px rgba(var(--accent-pink-rgb),0.15);
+        }
+        .advice-card h4 {
+            color: var(--accent-pink);
+            font-weight: 500; /* Roboto medium */
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+         .advice-card h4 .unicode-icon {
+            color: var(--accent-pink);
+            text-shadow: 0 0 8px var(--accent-pink);
+        }
+        .advice-card ul li {
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+         .advice-card ul li:hover {
+            color: var(--text-primary);
+         }
+
+        .report-text {
+            text-align: left;
+            line-height: 1.85;
+            color: var(--text-secondary);
+        }
+        .report-text strong {
+            font-weight: 500; /* Roboto medium hoặc bold (700) tùy mức độ nhấn mạnh */
+            color: var(--text-primary);
+        }
+        .report-text h3 {
+            font-size: 1.75rem;
+            font-weight: 500; /* Roboto medium */
+            color: var(--text-heading);
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .report-text h4 {
+            font-size: 1.375rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+         .report-text h5 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--accent-blue);
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .report-text p, .report-text ul, .report-text ol {
+            margin-bottom: 1.5rem;
+        }
+        .report-text ul, .report-text ol {
+            padding-left: 1.75rem;
+        }
+        .report-text a {
+            color: var(--accent-cyan);
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--accent-cyan);
+            transition: all 0.2s ease;
+        }
+        .report-text a:hover {
+            color: var(--text-primary);
+            background-color: rgba(var(--accent-cyan-rgb), 0.1);
+            border-bottom-style: solid;
+        }
+
+        code {
+            font-family: 'Roboto Mono', monospace; /* Đảm bảo font cho code */
+            background-color: rgba(var(--accent-pink-rgb), 0.1);
+            color: var(--accent-pink);
+            padding: 0.3em 0.6em;
+            margin: 0 0.15em;
+            font-size: 0.9em;
+            border-radius: 0.375rem;
+            border: 1px solid rgba(var(--accent-pink-rgb), 0.3);
+        }
+        
+        .main-header {
+            padding: 4rem 0 3rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(17,24,39,0) 100%),
+                        radial-gradient(ellipse at top, rgba(var(--accent-blue-rgb), 0.2), transparent 60%);
+        }
+        .main-header h1 {
+             font-size: 3rem;
+             md:font-size: 4rem;
+             font-weight: 700; /* Roboto bold */
+             color: var(--text-heading);
+             letter-spacing: -0.03em;
+             text-shadow: 0 2px 15px rgba(var(--accent-blue-rgb), 0.3);
+             margin-bottom: 1rem;
+        }
+        .main-header p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            max-width: 45rem;
+            margin: 0 auto 2rem;
+        }
+        .stat-highlight {
+            margin: 3rem auto;
+            padding: 3rem;
+            border-radius: 1rem;
+            background-color: rgba(var(--accent-cyan-rgb), 0.05);
+            border: 1px solid rgba(var(--accent-cyan-rgb), 0.3);
+            max-width: 30rem;
+        }
+        .stat-highlight p.stat-number {
+            font-size: 6rem;
+            font-weight: 700; /* Roboto bold */
+            color: var(--accent-cyan);
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(var(--accent-cyan-rgb),0.5);
+        }
+        .stat-highlight p.stat-text {
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            font-size: 1.125rem;
+        }
+        
+        .info-box {
+            background-color: rgba(var(--accent-blue-rgb), 0.07);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(var(--accent-blue-rgb), 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .info-box h6 {
+            color: var(--accent-blue);
+            font-weight: 500; /* Roboto medium */
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .info-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        footer {
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 4rem 1rem;
+            margin-top: 4rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        footer p {
+             font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav id="navbar" class="sticky-nav hidden md:block">
+        <div class="container mx-auto px-6">
+            <ul class="flex justify-center space-x-2">
+                <li><a href="#section1" class="nav-link">Mở Đầu</a></li>
+                <li><a href="#section2" class="nav-link">Thấu Hiểu</a></li>
+                <li><a href="#section3" class="nav-link">Tối Ưu</a></li>
+                <li><a href="#section4" class="nav-link">Chỉ Mục</a></li>
+                <li><a href="#section5" class="nav-link">Cạnh Tranh</a></li>
+                <li><a href="#section6" class="nav-link">Nổi Bật</a></li>
+                <li><a href="#section7" class="nav-link">Bot & View</a></li>
+                <li><a href="#section8" class="nav-link">Kết Luận</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 md:px-6 py-8 md:py-12">
+        <header class="main-header">
+            <h1>Khám Phá AI Search</h1>
+            <p class="subtitle">Định Hướng Tương Lai Tìm Kiếm: AI Tái Định Hình Cách Chúng Ta Khám Phá Thông Tin và Xây Dựng Chiến Lược Nội Dung.</p>
+        </header>
+
+        <section id="section1" class="section-card">
+            <h2 class="section-title">
+                <span class="unicode-icon">🚀</span> Cách Mạng Tìm Kiếm AI
+            </h2>
+            <div class="report-text">
+                <p>Trí tuệ nhân tạo (AI) đang định hình lại cách chúng ta tương tác với thế giới số, đặc biệt trong lĩnh vực tìm kiếm thông tin. Các công cụ tìm kiếm truyền thống dựa trên từ khóa đang nhường bước cho những hệ thống AI thông minh, có khả năng thấu hiểu sâu sắc ý định người dùng và cung cấp kết quả ngày càng chính xác, mang tính ngữ cảnh cao. Infographic này sẽ đưa bạn vào hành trình khám phá cơ chế hoạt động của AI Search, cách tối ưu nội dung hiệu quả, và chiến lược cạnh tranh trong kỷ nguyên mới.</p>
+                <p>Chúng ta sẽ làm rõ liệu lượt truy cập của AI có được tính là "view" hay không, đồng thời cung cấp những hiểu biết cốt lõi để bạn đưa ra quyết định chiến lược sáng suốt.</p>
+            </div>
+            <div class="text-center stat-highlight">
+                 <p class="stat-number">90%</p>
+                 <p class="stat-text">Người dùng kỳ vọng AI mang lại trải nghiệm tìm kiếm vượt trội.</p>
+                 <p class="text-xs text-gray-500 mt-2">(Số liệu minh họa)</p>
+            </div>
+        </section>
+
+        <section id="section2" class="section-card">
+            <h2 class="section-title">
+                 <span class="unicode-icon">🧠</span> AI "Đọc Vị" Truy Vấn Của Bạn
+            </h2>
+            <div class="report-text">
+                <p>Công nghệ AI, với khả năng mô phỏng nhận thức con người, được lập trình để suy nghĩ, hành động và phản hồi như người thật trong thời gian thực. Khác biệt với thuật toán truyền thống, AI là một hệ thống học máy (machine learning), liên tục tự cải thiện từ dữ liệu đầu vào và có khả năng tự điều chỉnh khi phát hiện lỗi.</p>
+                <p>Trong tìm kiếm, Học Máy (ML) và Xử Lý Ngôn Ngữ Tự Nhiên (NLP) là trung tâm. ML giúp công cụ tìm kiếm phân tích các mẫu dữ liệu để cải thiện kết quả, trong khi NLP giúp chúng hiểu ý nghĩa thực sự đằng sau từ ngữ, thay vì chỉ khớp từ khóa đơn thuần.</p>
+            </div>
+
+            <div class="my-12">
+                <h3 class="text-2xl font-semibold mb-6 text-center" style="color: var(--text-heading);">Quy Trình Xử Lý Của AI Search</h3>
+                <div class="flex flex-col md:flex-row items-center justify-around space-y-6 md:space-y-0 md:space-x-4 mb-10">
+                    <div class="flowchart-step">1. Input (Đầu vào)</div>
+                    <div class="flowchart-arrow hidden md:block">→</div> <div class="flowchart-arrow md:hidden my-3">↓</div>
+                    <div class="flowchart-step">2. Processing (Xử lý)</div>
+                    <div class="flowchart-arrow hidden md:block">→</div> <div class="flowchart-arrow md:hidden my-3">↓</div>
+                    <div class="flowchart-step">3. Output (Kết quả)</div>
+                    <div class="flowchart-arrow hidden md:block">→</div> <div class="flowchart-arrow md:hidden my-3">↓</div>
+                    <div class="flowchart-step">4. Adjustment (Điều chỉnh)</div>
+                    <div class="flowchart-arrow hidden md:block">→</div> <div class="flowchart-arrow md:hidden my-3">↓</div>
+                    <div class="flowchart-step">5. Evaluation (Đánh giá)</div>
+                </div>
+                <div class="report-text bg-gray-900 p-6 rounded-lg border border-gray-700 text-sm">
+                    <p class="mb-2"><strong>1. Đầu vào:</strong> Thu thập dữ liệu (văn bản, hình ảnh, giọng nói) mà thuật toán AI có thể đọc.</p>
+                    <p class="mb-2"><strong>2. Xử lý:</strong> AI phân tích dữ liệu, diễn giải thông tin và nhận diện các mẫu tương tự trong dữ liệu thời gian thực.</p>
+                    <p class="mb-2"><strong>3. Trả kết quả:</strong> AI dự đoán kết quả dựa trên quá trình xử lý.</p>
+                    <p class="mb-2"><strong>4. Điều chỉnh:</strong> Nếu có lỗi, AI rút kinh nghiệm và có thể thay đổi quy trình hoặc thuật toán.</p>
+                    <p><strong>5. Đánh giá:</strong> AI phân tích, suy luận, dự đoán và phản hồi trước khi lặp lại thuật toán.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 report-text">
+                <div>
+                    <h4>A. Sức Mạnh Của Xử Lý Ngôn Ngữ Tự Nhiên (NLP)</h4>
+                    <p>NLP là cầu nối giữa máy tính và ngôn ngữ con người, cho phép máy móc hiểu, diễn giải và tạo ra ngôn ngữ một cách có ý nghĩa. Trong tìm kiếm, NLP giúp Google Scholar hiểu ý định sau truy vấn, phân tích văn bản học thuật và cung cấp kết quả chính xác. Google Research tập trung vào NLP đa ngôn ngữ, đa lĩnh vực, ảnh hưởng đến trải nghiệm tìm kiếm và nhiều sản phẩm khác, qua việc xác định và liên kết thực thể với Knowledge Graph.</p>
+                    <p>Khi bạn tìm <code>"laptop giá rẻ"</code>, NLP giúp AI hiểu bạn không chỉ tìm từ khóa. AI cố gắng nắm bắt <strong class="text-accent-cyan">ý định</strong> (search intent): tìm laptop phải chăng, bài đánh giá, hay khuyến mãi. NLP phân tích "laptop" (sản phẩm) và "giá rẻ" (thuộc tính) trong ngữ cảnh.</p>
+                     <ul class="list-none space-y-4 mt-6">
+                        <li class="flex items-start"><span class="unicode-icon" style="color: var(--accent-green);">🎯</span> Hiểu ý định (search intent) sâu sắc.</li>
+                        <li class="flex items-start"><span class="unicode-icon" style="color: var(--accent-green);">🔗</span> Phân tích ngữ nghĩa và mối quan hệ từ ngữ.</li>
+                        <li class="flex items-start"><span class="unicode-icon" style="color: var(--accent-green);">📌</span> Nhận diện thực thể (người, địa điểm, sản phẩm).</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>B. Thuật Toán Học Máy Trong Xếp Hạng</h4>
+                    <p>AI Search sử dụng nhiều thuật toán học máy để tối ưu thứ hạng, gọi là "Learning to Rank" (LTR). LTR bao gồm học có giám sát, học không giám sát, và học tăng cường.</p>
+                    <ul class="list-decimal pl-5 my-4 space-y-1 text-sm">
+                        <li><strong>Học có giám sát:</strong> Huấn luyện mô hình từ dữ liệu đã gán nhãn.</li>
+                        <li><strong>Học không giám sát:</strong> Máy tự tối ưu, giảm thiên vị con người.</li>
+                        <li><strong>Học tăng cường:</strong> Xếp hạng dựa trên phản hồi tích cực.</li>
+                    </ul>
+                    <p>Các phương pháp LTR có thể là Pointwise, Pairwise, hoặc Listwise. Thuật toán AI Search cũng chia thành tìm kiếm không thông tin và có thông tin (Heuristic Search).</p>
+                    
+                    <h5 class="font-semibold mt-8 mb-4 text-lg" style="color: var(--accent-blue);">Nổi Bật: RankBrain & BERT</h5>
+                    <div class="space-y-5">
+                        <div class="info-box">
+                            <h6>RankBrain (2015)</h6>
+                            <p>Hệ thống học máy giúp Google xử lý truy vấn phức tạp, xác định kết quả phù hợp qua phân tích mối quan hệ từ và hành vi người dùng.</p>
+                        </div>
+                        <div class="info-box">
+                            <h6>BERT (2019)</h6>
+                            <p>Kỹ thuật NLP giúp hiểu sắc thái và ngữ cảnh từ ngữ chính xác hơn, phân tích từ trong mối quan hệ với toàn bộ câu.</p>
+                        </div>
+                    </div>
+                     <p class="mt-5 text-sm">RankBrain và BERT tận dụng NLP và học máy để thấu hiểu ý định và ngữ cảnh, vượt xa khớp từ khóa đơn thuần.</p>
+                </div>
+            </div>
+
+            <div class="report-text mt-10">
+                <h4>C. Giải Mã Truy Vấn "Laptop Giá Rẻ"</h4>
+                <p>Khi bạn nhập <code>"laptop giá rẻ"</code>, hệ thống AI Search thực hiện các bước phức tạp:</p>
+                <div class="p-8 rounded-lg border border-gray-700 space-y-6 mt-5" style="background-color: #10101A;">
+                    <div>
+                        <p class="font-semibold text-xl mb-3" style="color: var(--accent-blue);">1. Phân Tích Ngôn Ngữ (NLP):</p>
+                        <ul class="list-disc list-inside text-sm space-y-1.5 pl-4">
+                            <li><strong>Phân đoạn (Tokenization):</strong> <code>"laptop"</code>, <code>"giá"</code>, <code>"rẻ"</code>.</li>
+                            <li><strong>Nhận dạng Thực thể (NER):</strong> "Laptop" (sản phẩm), "Giá rẻ" (thuộc tính giá).</li>
+                            <li><strong>Phân tích Ngữ nghĩa:</strong> "Giá rẻ" liên kết với "phải chăng", "tiết kiệm".</li>
+                            <li><strong>Hiểu Ý định:</strong> Giao dịch, thông tin, hay thương mại.</li>
+                        </ul>
+                    </div>
+                     <div class="mt-5">
+                         <p class="font-semibold text-xl mb-3" style="color: var(--accent-blue);">2. Truy Xuất & Học Máy:</p>
+                         <ul class="list-disc list-inside text-sm space-y-1.5 pl-4">
+                            <li><strong>Mở rộng Truy vấn:</strong> Thêm "máy tính xách tay giá tốt", "laptop sinh viên".</li>
+                            <li><strong>Đối sánh & Xếp hạng:</strong> LTR (RankBrain, BERT) đánh giá liên quan dựa trên từ khóa, E-E-A-T, tín hiệu người dùng.</li>
+                            <li><strong>Cá nhân hóa:</strong> Dựa trên lịch sử tìm kiếm, vị trí.</li>
+                        </ul>
+                    </div>
+                    <div class="mt-5">
+                        <p class="font-semibold text-xl mb-3" style="color: var(--accent-blue);">3. Trình Bày Kết Quả:</p>
+                        <p class="text-sm pl-4">Hiển thị kết quả phù hợp, snippets, hình ảnh, AI Overviews.</p>
+                    </div>
+                </div>
+                <p class="mt-5 text-sm">Hệ thống AI e-commerce có thể chủ động đặt câu hỏi làm rõ. Thách thức lớn là sự mơ hồ của ngôn ngữ (<code>"4g"</code> có thể là 4G hoặc 4GB RAM).</p>
+            </div>
+        </section>
+
+        <section id="section3" class="section-card">
+            <h2 class="section-title">
+                <span class="unicode-icon">🛠️</span> Tối Ưu Nội Dung Cho AI
+            </h2>
+            <div class="report-text">
+                 <p class="text-lg mb-6">Để AI "yêu thích" nội dung của bạn, việc tối ưu hóa cần vượt xa SEO truyền thống. Hãy tập trung vào chất lượng, đáp ứng sâu sắc ý định người dùng và cấu trúc rõ ràng.</p>
+            </div>
+
+            <div class="mb-12 report-text">
+                <h3>A. Nội Dung Chất Lượng Cao & Nguyên Tắc E-E-A-T</h3>
+                <p>E-E-A-T (Kinh nghiệm, Chuyên môn, Thẩm quyền, Tin cậy) là kim chỉ nam của Google, đặc biệt khi nội dung AI ngày càng nhiều.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8">
+                    <div class="eeat-card">
+                        <h4>Experience (Kinh nghiệm)</h4>
+                        <p class="text-sm">Thể hiện kiến thức trực tiếp, thực tế. Ví dụ: review sản phẩm phải cho thấy người viết đã dùng nó.</p>
+                    </div>
+                    <div class="eeat-card">
+                        <h4>Expertise (Chuyên môn)</h4>
+                        <p class="text-sm">Nội dung tạo bởi người có kiến thức chuyên sâu, đặc biệt với chủ đề YMYL.</p>
+                    </div>
+                    <div class="eeat-card">
+                        <h4>Authoritativeness (Thẩm quyền)</h4>
+                        <p class="text-sm">Website và tác giả cần được công nhận là nguồn có thẩm quyền. Xây dựng qua backlink, Knowledge Graph.</p>
+                    </div>
+                    <div class="eeat-card">
+                        <h4>Trustworthiness (Tin cậy)</h4>
+                        <p class="text-sm">Nội dung trung thực, website an toàn (HTTPS), thông tin liên hệ rõ ràng.</p>
+                    </div>
+                </div>
+                <p class="text-sm">AI hỗ trợ tạo nội dung cần giám sát của con người để đảm bảo E-E-A-T. AI có thể nghiên cứu, tạo dàn ý, nhưng con người bổ sung kinh nghiệm và đảm bảo chính xác.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 report-text">
+                <div>
+                    <h3>B. Semantic SEO & Từ Khóa Đuôi Dài</h3>
+                    <p>Semantic SEO tập trung vào ý nghĩa và ngữ cảnh, thay vì từ khóa riêng lẻ. Quan trọng vì AI Search (Google SGE, Bing AI) phân tích ý định, ngữ cảnh để cung cấp kết quả phù hợp.</p>
+                     <ul class="list-disc space-y-2.5 pl-5 my-5 text-sm">
+                        <li><strong>Hiểu ý định người dùng:</strong> Trả lời câu hỏi ngầm.</li>
+                        <li><strong>Từ khóa đuôi dài:</strong> Cụm từ dài, cụ thể, phản ánh ngôn ngữ tự nhiên (ví dụ: "laptop đồ họa giá rẻ cho sinh viên kiến trúc").</li>
+                        <li><strong>Nội dung giàu ngữ nghĩa:</strong> Dùng từ đồng nghĩa, thuật ngữ liên quan, trả lời câu hỏi toàn diện.</li>
+                        <li><strong>Mô hình hóa chủ đề:</strong> Xác định chủ đề cốt lõi và phụ, nhóm thành "pillar pages".</li>
+                    </ul>
+                    <div class="table-container my-6">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="table-header">
+                                    <th>Tiêu chí</th>
+                                    <th>Keyword SEO</th>
+                                    <th>Semantic SEO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Tập trung</td><td>Từ khóa cụ thể</td><td>Chủ đề, ý định</td></tr>
+                                <tr><td>Mục tiêu</td><td>Khớp từ khóa</td><td>Đáp ứng nhu cầu</td></tr>
+                                <tr><td>Từ khóa</td><td>Ngắn, chung</td><td>Đuôi dài, liên quan</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                 <div>
+                    <h3>C. Dữ Liệu Có Cấu Trúc & Schema Markup</h3>
+                    <p>Dữ liệu có cấu trúc (<code>Schema.org</code>) giúp AI hiểu rõ nội dung và ngữ cảnh trang web, cho phép "gắn thẻ" nội dung để AI đọc dễ dàng.</p>
+                     <ul class="list-disc space-y-2.5 pl-5 my-5 text-sm">
+                        <li><strong>Tăng hiển thị:</strong> Xuất hiện trong rich results, featured snippets.</li>
+                        <li><strong>Hỗ trợ AI Overviews:</strong> Cung cấp thông tin rõ ràng cho AI tổng hợp.</li>
+                        <li><strong>Tối ưu tìm kiếm giọng nói:</strong> Cung cấp thông tin dễ hiểu cho trợ lý ảo.</li>
+                    </ul>
+                    <div class="chart-container-wrapper">
+                        <h4 class="text-center text-lg font-medium text-gray-300 mb-3">Tác Động Của Schema (Minh Họa)</h4>
+                        <div class="chart-container">
+                            <canvas id="schemaImpactChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="report-text mt-10">
+                <h3>D. Tối Ưu Hóa Kỹ Thuật (Technical SEO) và Trải Nghiệm Người Dùng (UX)</h3>
+                <p>Các yếu tố kỹ thuật và trải nghiệm người dùng vẫn đóng vai trò quan trọng trong việc AI đánh giá và xếp hạng trang web.</p>
+                <ul class="list-none space-y-6 mt-6">
+                    <li class="tech-seo-item">
+                        <div class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">⚡</span> <span class="font-semibold">Tốc độ tải trang nhanh (Page Speed / Core Web Vitals).</span></div>
+                        <p class="pl-10">Các trang tải nhanh được ưu tiên vì chúng góp phần vào trải nghiệm người dùng tốt hơn. <strong>Ví dụ:</strong> Trang sản phẩm "laptop giá rẻ" phải tải trong vòng dưới 2.5 giây (LCP).</p>
+                    </li>
+                    <li class="tech-seo-item">
+                        <div class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">📱</span> <span class="font-semibold">Tối ưu hóa cho thiết bị di động (Mobile Optimization).</span></div>
+                        <p class="pl-10">Hầu hết các tìm kiếm được thực hiện trên thiết bị di động, vì vậy trang web phải thân thiện với di động.</p>
+                    </li>
+                    <li class="tech-seo-item">
+                        <div class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">🛡️</span> <span class="font-semibold">Bảo mật trang web (HTTPS).</span></div>
+                        <p class="pl-10">Là một yếu tố xếp hạng quan trọng. Địa chỉ trang web luôn là <code>https://</code>.</p>
+                    </li>
+                    <li class="tech-seo-item">
+                        <div class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">🧭</span> <span class="font-semibold">Cấu trúc trang web rõ ràng và điều hướng dễ dàng.</span></div>
+                        <p class="pl-10">Giúp cả người dùng và AI dễ dàng tìm thấy nội dung. Ví dụ: Menu rõ ràng, breadcrumbs, <code>sitemap.xml</code>.</p>
+                    </li>
+                    <li class="tech-seo-item">
+                        <div class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">👓</span> <span class="font-semibold">Nội dung dễ đọc, dễ hiểu.</span></div>
+                        <p class="pl-10">Sử dụng câu ngắn, đoạn văn rõ ràng, tiêu đề phụ, danh sách. Ví dụ: Bài viết "Top 5 laptop giá rẻ" dùng định dạng dễ đọc.</p>
+                    </li>
+                    <li class="tech-seo-item">
+                        <div class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">🖼️</span> <span class="font-semibold">Tối ưu hóa hình ảnh.</span></div>
+                        <p class="pl-10">Nén hình ảnh, sử dụng <code>alt text</code> mô tả. Ví dụ: Ảnh laptop Dell có <code>alt="Laptop Dell Inspiron 15 giá rẻ cho sinh viên"</code>.</p>
+                    </li>
+                </ul>
+                <p class="mt-6 text-sm">Việc tạo ra nội dung "thân thiện với AI" thực chất là tạo ra nội dung thân thiện với con người. Nội dung nên được cập nhật thường xuyên và gửi lại cho Google Search Console.</p>
+            </div>
+        </section>
+        
+        <section id="section4" class="section-card report-text">
+            <h2 class="section-title">
+                <span class="unicode-icon">⚙️</span> Hậu Trường: Chỉ Mục AI Của Google
+            </h2>
+            <p class="text-lg mb-6">Để một trang web xuất hiện trong kết quả tìm kiếm của Google, nó phải trải qua quá trình thu thập dữ liệu (crawling) và lập chỉ mục (indexing). AI ngày càng đóng vai trò quan trọng trong cả hai quá trình này.</p>
+            
+            <h3>A. Khám Phá URL (URL Discovery)</h3>
+            <p>Google khám phá các trang web mới và cập nhật thông qua nhiều cách: Theo dõi liên kết, Sơ đồ trang web (Sitemaps), và các trang đã biết.</p>
+            <p><code>Googlebot</code> sử dụng một quy trình thuật toán để xác định trang web nào cần thu thập, tần suất và số lượng trang cần lấy từ mỗi trang web.</p>
+
+            <h3>B. Quá Trình Thu Thập Dữ Liệu (Crawling)</h3>
+            <p>Sau khi phát hiện URL, <code>Googlebot</code> truy cập trang đó để tìm hiểu nội dung. <code>Googlebot</code> bao gồm <code>Googlebot Smartphone</code> (chủ yếu) và <code>Googlebot Desktop</code>. <code>Googlebot</code> có thể thu thập 15MB đầu tiên của tệp HTML hoặc văn bản. Tần suất thu thập thường không quá một lần mỗi vài giây. Quản lý tài nguyên hiệu quả ảnh hưởng đến ngân sách thu thập dữ liệu (crawl budget).</p>
+            <div class="my-12">
+                 <h4 class="text-xl font-semibold mb-8 text-center" style="color: var(--text-heading);">Quy Trình Thu Thập và Lập Chỉ Mục</h4>
+                <div class="flex flex-col md:flex-row items-stretch justify-between space-y-6 md:space-y-0 md:space-x-4">
+                    <div class="flex-1 flowchart-step flex flex-col justify-center p-4">Khám phá URL</div>
+                    <div class="flowchart-arrow hidden md:block">→</div> <div class="flowchart-arrow md:hidden my-3">↓</div>
+                    <div class="flex-1 flowchart-step flex flex-col justify-center p-4">Thu thập dữ liệu</div>
+                    <div class="flowchart-arrow hidden md:block">→</div> <div class="flowchart-arrow md:hidden my-3">↓</div>
+                    <div class="flex-1 flowchart-step flex flex-col justify-center p-4">Kết xuất & JS</div>
+                    <div class="flowchart-arrow hidden md:block">→</div> <div class="flowchart-arrow md:hidden my-3">↓</div>
+                    <div class="flex-1 flowchart-step flex flex-col justify-center p-4">Phân tích & Lập chỉ mục</div>
+                </div>
+            </div>
+
+            <h3>C. Kết Xuất (Rendering) và Thực Thi JavaScript</h3>
+            <p>Trong quá trình thu thập, Google kết xuất trang và chạy JavaScript bằng phiên bản Chrome gần đây. Web Rendering Service (WRS) của Google thực hiện việc này, và <code>Googlebot AI</code> của Gemini cũng sử dụng WRS. Google xem xét DOM cuối cùng để lập chỉ mục.</p>
+
+            <h3>D. Phân Tích Nội Dung và Lập Chỉ Mục (Indexing)</h3>
+            <p>Sau khi thu thập và kết xuất, Google cố gắng hiểu nội dung trang. Quá trình này bao gồm phân tích nội dung văn bản, thẻ, thuộc tính, hình ảnh, video. Google xác định trang chuẩn (canonical) nếu có bản sao. AI có thể giúp lọc nội dung trùng lặp. Thông tin được lưu trữ trong Google Index. Không phải mọi trang được xử lý đều được lập chỉ mục.</p>
+
+            <h3>E. Vai Trò Của AI Trong Thu Thập và Lập Chỉ Mục</h3>
+            <p>AI và học máy đang thay đổi cách Google thu thập và lập chỉ mục, hướng tới hiểu biết theo ngữ cảnh và phân tích ngữ nghĩa.</p>
+            <ul class="list-disc space-y-2.5 pl-5 my-5 text-sm">
+                <li><strong>Trình thu thập dữ liệu AI (AI Crawlers):</strong> Sử dụng thuật toán học máy và NLP tiên tiến để hiểu nội dung theo ngữ cảnh.</li>
+                <li><strong>Hiểu biết theo ngữ cảnh và phân tích ngữ nghĩa:</strong> AI giúp xác định mối quan hệ giữa các chủ đề và thực thể.</li>
+                <li><strong>Phân loại nội dung tự động:</strong> AI có thể tự động phân loại hoặc gắn thẻ nội dung.</li>
+                <li><strong>Xử lý nội dung động:</strong> Trình thu thập dữ liệu AI có khả năng kết xuất thông minh nội dung động.</li>
+                <li><strong>Mô hình học tập và điều chỉnh theo thời gian thực:</strong> Trình thu thập dữ liệu AI có thể học hỏi và điều chỉnh.</li>
+            </ul>
+            <p class="text-sm">Chủ sở hữu trang web có thể kiểm soát việc thu thập và lập chỉ mục qua <code>robots.txt</code> và thẻ <code>noindex</code>.</p>
+        </section>
+
+        <section id="section5" class="section-card report-text">
+             <h2 class="section-title">
+                <span class="unicode-icon">🏆</span> Chiến Lược Cạnh Tranh Chung
+            </h2>
+            <p class="text-lg mb-6">Trong bối cảnh AI định hình tìm kiếm, chiến lược cạnh tranh cần tập trung xây dựng uy tín thương hiệu, tạo nội dung độc đáo mà AI khó sao chép, và thích ứng với định dạng mới như AI Overviews. Mục tiêu là trở thành nguồn thông tin đáng tin cậy mà AI trích dẫn.</p>
+            
+            <h3>A. Xây Dựng Uy Tín Thương Hiệu (Brand Authority) và E-E-A-T</h3>
+            <p>Công cụ tìm kiếm AI, gồm Google AI Overviews, ưu tiên chuyên gia được công nhận và thương hiệu uy tín. Để được trích dẫn, thương hiệu cần chứng minh chuyên môn.</p>
+            <ul class="list-disc space-y-2.5 pl-5 my-5 text-sm">
+                <li><strong>Tối ưu hóa Sơ đồ Tri thức (Knowledge Graph):</strong> Đảm bảo Google thể hiện chính xác thương hiệu. Xác nhận thực thể và thiết lập schema.</li>
+                <li><strong>Trở thành nguồn thông tin chính:</strong> Tạo báo cáo dựa trên dữ liệu, khảo sát, nội dung có thẩm quyền. Xây dựng backlink uy tín.</li>
+                <li><strong>Tăng cường nhận diện thương hiệu:</strong> PR, blog nhất quán, tham gia cộng đồng. Lượt tìm kiếm thương hiệu là tín hiệu quan trọng.</li>
+                <li><strong>Tận dụng E-E-A-T:</strong> Tín hiệu E-E-A-T ảnh hưởng trực tiếp đến AI Overviews. Công cụ AI như Perplexity, ChatGPT dùng đề cập thương hiệu và tín hiệu tin cậy.</li>
+            </ul>
+
+            <h3>B. Tạo Nội Dung Độc Đáo, Giá Trị Cao Mà AI Khó Sao Chép</h3>
+            <p>Khi nội dung AI phổ biến, nội dung mang dấu ấn con người, kinh nghiệm thực tế và hiểu biết sâu sắc trở nên vô giá.</p>
+             <ul class="list-disc space-y-2.5 pl-5 my-5 text-sm">
+                <li><strong>Câu chuyện cá nhân và kinh nghiệm thực tế:</strong> AI không thể tái tạo trải nghiệm chân thực.</li>
+                <li><strong>Phỏng vấn chuyên gia:</strong> Tạo nội dung độc đáo từ người có chuyên môn.</li>
+                <li><strong>Nội dung chuyên sâu:</strong> AI gặp khó khăn với chủ đề phức tạp.</li>
+                <li><strong>Bài viết quan điểm (Opinion pieces):</strong> Vượt trội hơn AI.</li>
+                <li><strong>Nghiên cứu và dữ liệu gốc:</strong> Cung cấp dữ liệu, phân tích độc đáo.</li>
+                <li><strong>Nội dung do người dùng tạo (UGC):</strong> Diễn đàn, bình luận chứa kinh nghiệm thực tế được Google đánh giá cao.</li>
+            </ul>
+            <p class="text-sm">Nội dung chất lượng, hữu ích cho con người là then chốt. AI hỗ trợ, không thay thế sáng tạo và hiểu biết của con người.</p>
+
+            <h3>C. Thích Ứng Với AI Overviews và Định Dạng Mới</h3>
+            <p>AI Overviews (AIO) của Google, cung cấp câu trả lời tổng hợp do AI tạo ra, đang thay đổi tương tác tìm kiếm, có thể giảm CTR vào liên kết tự nhiên.</p>
+            <h5 class="font-semibold mt-6 mb-3 text-lg" style="color: var(--accent-blue);">Tối ưu hóa để được trích dẫn trong AIO:</h5>
+            <ul class="list-disc space-y-2.5 pl-5 my-5 text-sm">
+                <li><strong>Nội dung chất lượng và tối ưu hóa H.E.E.A.T:** AIO tập trung vào tính hữu ích (Helpfulness) bên cạnh E-E-A-T.</li>
+                <li><strong>Tập trung vào ý định người dùng:** Điều chỉnh nội dung đáp ứng cụ thể nhu cầu.</li>
+                <li><strong>Cấu trúc nội dung dễ đọc cho AI:** Đoạn giới thiệu/tóm tắt chất lượng, tiêu đề rõ ràng.</li>
+                <li><strong>Sử dụng đa phương tiện:** Hình ảnh, video, infographic được tối ưu hóa.</li>
+                <li><strong>Dữ liệu có cấu trúc:** Giúp AI hiểu và trích xuất thông tin chính xác.</li>
+            </ul>
+            <p class="text-sm"><strong>Theo dõi hiệu suất trong AIO:</strong> Dùng công cụ như Semrush hoặc ZipTie.</p>
+            <p class="text-sm"><strong>Chiến lược dài hạn:</strong> Được đề cập liên tục trong AIO có thể xây dựng nhận diện thương hiệu.</p>
+            <p class="text-sm">Việc thích ứng đòi hỏi sẵn sàng thử nghiệm, học hỏi và thay đổi chiến lược liên tục.</p>
+        </section>
+
+        <section id="section6" class="section-card">
+             <h2 class="section-title">
+                <span class="unicode-icon">🎯</span> Chiến Lược Chuyên Biệt Để Nổi Bật
+            </h2>
+            <p class="text-lg mb-10 report-text">Ngoài chiến lược chung, "Công Nghệ Chính Nhân" và "Vi Tính Nguyên Kim" cần áp dụng hướng đi chuyên biệt để tối đa hóa khả năng được tìm thấy và cạnh tranh hiệu quả.</p>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-semibold mb-6 text-center md:text-left" style="color: var(--text-heading);">
+                     <span class="unicode-icon" style="color: var(--accent-pink);">👤</span> 6.1. Dành Cho "Công Nghệ Chính Nhân"
+                </h3>
+                <p class="mb-6 report-text text-sm">Mục tiêu: khẳng định vị thế chuyên gia, xây dựng uy tín cá nhân, chia sẻ hiểu biết độc đáo mà AI khó sao chép.</p>
+                <div class="space-y-6">
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Xây Dựng E-E-A-T Cá Nhân</h4>
+                        <ul class="list-disc list-inside text-sm space-y-2 pl-4">
+                            <li>Chia sẻ kinh nghiệm thực tế qua blog, video, podcast.</li>
+                            <li>Thể hiện chuyên môn sâu qua phân tích xu hướng, đánh giá sản phẩm.</li>
+                            <li>Xây dựng thẩm quyền bằng cách xuất bản trên trang uy tín, phát biểu tại hội thảo.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Tạo Nội Dung Độc Đáo, Dấu Ấn Cá Nhân</h4>
+                         <ul class="list-disc list-inside text-sm space-y-2 pl-4">
+                            <li>Bài viết phân tích chuyên sâu, đi vào "tại sao" và "như thế nào".</li>
+                            <li>Thực hiện nghiên cứu/khảo sát cá nhân, chia sẻ kết quả.</li>
+                            <li>Đưa ra quan điểm, bình luận sắc sảo, dự đoán có cơ sở.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Tối Ưu Hóa "Thực Thể Được Đặt Tên"</h4>
+                        <ul class="list-disc list-inside text-sm space-y-2 pl-4">
+                            <li>Sử dụng tên thật/bút danh chuyên nghiệp nhất quán.</li>
+                            <li>Triển khai Schema Markup <code>Person</code>.</li>
+                            <li>Liên kết đến hồ sơ uy tín (LinkedIn, trang công ty).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-12">
+                <h3 class="text-2xl font-semibold mb-6 text-center md:text-left" style="color: var(--text-heading);">
+                    <span class="unicode-icon" style="color: var(--accent-pink);">🏢</span> 6.2. Dành Cho "Vi Tính Nguyên Kim"
+                </h3>
+                <p class="mb-6 report-text text-sm">Mục tiêu: xây dựng thương hiệu uy tín, cung cấp thông tin sản phẩm/dịch vụ rõ ràng, hữu ích, tối ưu trải nghiệm khách hàng.</p>
+                <div class="space-y-6">
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Xây Dựng E-E-A-T Thương Hiệu</h4>
+                        <ul class="list-disc list-inside text-sm space-y-2 pl-4">
+                            <li>Trang "Giới thiệu" chi tiết: câu chuyện thương hiệu, giá trị cốt lõi.</li>
+                            <li>Hiển thị đánh giá khách hàng (Schema <code>Review</code>, <code>AggregateRating</code>).</li>
+                            <li>Thông tin liên hệ rõ ràng, chính sách minh bạch, website an toàn.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Tối Ưu Thông Tin Sản Phẩm/Dịch Vụ</h4>
+                        <ul class="list-disc list-inside text-sm space-y-2 pl-4">
+                            <li>Mô tả sản phẩm chi tiết, độc đáo, nêu bật lợi ích.</li>
+                            <li>Sử dụng từ khóa đuôi dài (ví dụ: "mua laptop Dell XPS 13 giá rẻ TP.HCM").</li>
+                            <li>Triển khai Schema: <code>Product</code>, <code>Service</code>, <code>LocalBusiness</code>, <code>FAQPage</code>.</li>
+                        </ul>
+                    </div>
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Tạo Nội Dung Hữu Ích Cho Khách Hàng</h4>
+                        <ul class="list-disc list-inside text-sm space-y-2 pl-4">
+                            <li>Blog: hướng dẫn chọn mua, mẹo sử dụng, khắc phục lỗi.</li>
+                            <li>Video review, unbox, hướng dẫn kỹ thuật.</li>
+                            <li>Bài viết so sánh sản phẩm/dịch vụ.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-semibold mb-6 text-center md:text-left" style="color: var(--text-heading);">
+                     <span class="unicode-icon" style="color: var(--accent-pink);">🔗</span> 6.3. Hướng Đi Chung Quan Trọng
+                </h3>
+                 <p class="mb-6 report-text text-sm">Những yếu tố nền tảng này cần được cả chuyên gia và doanh nghiệp chú trọng để thành công bền vững.</p>
+                <div class="space-y-6">
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Nghiên Cứu Từ Khóa Ngữ Nghĩa & Thấu Hiểu Ý Định</h4>
+                        <p class="text-sm">Sử dụng công cụ, phân tích câu hỏi người dùng, tìm hiểu họ muốn gì.</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon"></span> Đảm Bảo Technical SEO Vững Chắc</h4>
+                        <p class="text-sm">Tốc độ tải trang, thân thiện di động, cấu trúc website, sitemap, <code>robots.txt</code>, HTTPS.</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h4><span class="unicode-icon">烙</span> Thích Ứng Với AI Overviews & Định Dạng Mới</h4>
+                        <p class="text-sm">Cấu trúc nội dung dễ đọc cho AI, cung cấp câu trả lời trực tiếp, dùng dữ liệu có cấu trúc.</p>
+                    </div>
+                </div>
+            </div>
+             <p class="mt-10 text-center text-lg font-medium text-gray-400">Chìa khóa: kiên trì, chất lượng, và luôn đặt người dùng làm trung tâm.</p>
+        </section>
+
+        <section id="section7" class="section-card report-text">
+            <h2 class="section-title">
+                <span class="unicode-icon">🤖</span> Bot AI và Lượt Xem: Hiểu Đúng "View"
+            </h2>
+            <p class="text-lg mb-6">Liệu AI Google "đọc" bài có tính là page view trong Google Analytics? Câu trả lời ngắn: <strong style="color: var(--accent-green);">KHÔNG</strong>, việc AI xử lý nội dung để lập chỉ mục/tóm tắt thường không tính là lượt xem của người dùng.</p>
+            
+            <h3>A. Định Nghĩa "Lượt Xem Trang" Trong Phân Tích Web</h3>
+            <p>"Page view" là hành động tải/tải lại trang web trong trình duyệt bởi người dùng. Nó đo mức độ phổ biến và tương tác. Cần phân biệt với "lượt đọc bài viết" (article reads) - phức tạp hơn, đo lường tương tác thực sự với nội dung.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 items-center mt-10">
+                <div>
+                    <h3>C. Tại Sao AI Xử Lý Nội Dung KHÔNG Là Lượt Xem Người Dùng</h3>
+                    <ul class="list-none space-y-4 text-sm">
+                        <li class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">🕹️</span> <strong class="mr-1">Bản chất tương tác:</strong> Page view ngụ ý người *thật* tương tác trực quan. Bot/AI là yêu cầu tự động.</li>
+                        <li class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">💻</span> <strong class="mr-1">Thực thi mã theo dõi:</strong> Google Analytics dựa vào JavaScript phía client. <code>Googlebot</code> không kích hoạt như người dùng.</li>
+                        <li class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">🛡️</span> <strong class="mr-1">Lọc Bot của GA:</strong> Google Analytics tự động loại trừ lưu lượng bot đã biết, gồm <code>Googlebot</code>.</li>
+                         <li class="flex items-start"><span class="unicode-icon" style="color:var(--accent-pink);">📊</span> <strong class="mr-1">Nhật ký server vs. GA:</strong> Nhật ký server ghi mọi yêu cầu, GA tập trung vào hành vi người dùng.</li>
+                    </ul>
+                </div>
+                <div class="chart-container-wrapper">
+                     <h4 class="text-center text-lg font-medium text-gray-300 mb-3">Hoạt Động Bot vs. Lượt Xem Người Dùng</h4>
+                    <div class="chart-container">
+                        <canvas id="botVsUserChart"></canvas>
+                    </div>
+                </div>
+            </div>
+             <p class="mt-8 text-sm">Tóm lại, AI Google xử lý bài viết không tính là "page view". Nhưng nếu AI (trong AI Overview) trích dẫn trang bạn và người dùng nhấp vào, lượt đó <strong style="color: var(--accent-green);">SẼ</strong> được tính.</p>
+            
+            <div class="advice-card mt-10">
+                <h4><span class="unicode-icon">💡</span>Bạn Nên Làm Gì?</h4>
+                <ul class="list-disc list-inside text-sm space-y-3 pl-4 mt-3">
+                    <li><strong>Tối ưu để được trích dẫn trong AI Overviews:</strong> Tập trung E-E-A-T, nội dung hữu ích, trả lời trực tiếp câu hỏi, dùng cấu trúc rõ ràng và Schema Markup.</li>
+                    <li><strong>Ưu tiên chất lượng lưu lượng và tương tác người dùng:</strong> Phân tích hành vi người dùng từ nguồn AI. Theo dõi tỷ lệ chuyển đổi, thời gian trên trang.</li>
+                    <li><strong>Đo lường và phân tích thông minh:</strong> Dùng Google Search Console. Theo dõi KPIs phản ánh giá trị thực.</li>
+                    <li><strong>Không bỏ qua nền tảng SEO vững chắc:</strong> Yếu tố SEO cơ bản (kỹ thuật, nội dung, backlink) vẫn cực kỳ quan trọng.</li>
+                    <li><strong>Thử nghiệm và thích ứng:</strong> Theo dõi thay đổi trong cách AI hiển thị kết quả và điều chỉnh chiến lược.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="section8" class="section-card report-text">
+             <h2 class="section-title">
+                <span class="unicode-icon">🏁</span> Kết Luận: Con Đường Phía Trước
+            </h2>
+            <p class="text-lg mb-4">Sự trỗi dậy của AI đã tạo ra cuộc cách mạng trong cách công cụ tìm kiếm hoạt động và người dùng tương tác với thông tin. Chuyển đổi từ tìm kiếm từ khóa sang tìm kiếm dựa trên ý định, ngữ cảnh do AI điều khiển đòi hỏi thay đổi cơ bản trong chiến lược SEO.</p>
+            <p class="text-lg mb-4">Trụ cột thành công trong kỷ nguyên AI Search: nội dung chất lượng cao, tuân thủ E-E-A-T, tập trung liên quan ngữ nghĩa, triển khai dữ liệu có cấu trúc hiệu quả, và đảm bảo trải nghiệm người dùng xuất sắc. Những yếu tố này giúp AI "hiểu" nội dung và xây dựng nền tảng tin cậy.</p>
+            <p class="text-lg mb-4">AI xử lý nội dung không phải là lượt xem trang của người dùng. Hệ thống phân tích web đo lường tương tác của con người.</p>
+            <p class="text-lg mb-4">Trong bối cảnh AI phát triển, giá trị của tính xác thực và độc đáo của con người càng quan trọng. AI là công cụ mạnh mẽ, nhưng không thay thế hoàn toàn kinh nghiệm thực tế, chuyên môn sâu và tư duy sáng tạo của con người. Đây là yếu tố tạo khác biệt và lợi thế cạnh tranh.</p>
+            <p class="text-lg mb-4">Tương lai tìm kiếm là hệ sinh thái hợp tác giữa người và AI. Chuyên gia SEO và người tạo nội dung cần liên tục học hỏi, thử nghiệm, điều chỉnh chiến lược. Hiểu cơ chế AI là chìa khóa để phát triển. Cuối cùng, cung cấp giá trị thực cho người dùng, xây dựng thương hiệu đáng tin cậy và tạo nội dung chất lượng cao luôn là nguyên tắc bất biến.</p>
+        </section>
+
+    </div>
+
+    <footer class="text-center">
+        <p>© 2025 Infographic AI Search Tương Lai. Thiết kế với ❤️ và 🤖.</p>
+    </footer>
+
+    <script>
+        function wrapLabels(label, maxWidth) {
+            if (typeof label !== 'string') return label;
+            if (label.length <= maxWidth) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            if (currentLine.trim().length > 0) lines.push(currentLine.trim());
+            return lines.length > 0 ? lines : [label]; 
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+        
+        const style = getComputedStyle(document.body);
+        const accentCyan = style.getPropertyValue('--accent-cyan').trim();
+        const accentPink = style.getPropertyValue('--accent-pink').trim();
+        const accentGreen = style.getPropertyValue('--accent-green').trim();
+        const accentBlue = style.getPropertyValue('--accent-blue').trim();
+        const textSecondary = style.getPropertyValue('--text-secondary').trim();
+        const textPrimary = style.getPropertyValue('--text-primary').trim();
+        const borderColor = style.getPropertyValue('--border-color').trim();
+        const bgCard = style.getPropertyValue('--bg-card').trim();
+
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { family: 'Roboto', size: 13, weight: '400' }, // Đổi sang Roboto
+                        color: textSecondary,
+                        padding: 25,
+                        boxWidth: 14,
+                        usePointStyle: true,
+                        pointStyle: 'rectRounded'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(17, 24, 39, 0.9)', 
+                    titleFont: { family: 'Roboto', size: 14, weight: '500' }, // Đổi sang Roboto
+                    bodyFont: { family: 'Roboto', size: 12, weight: '400' }, // Đổi sang Roboto
+                    titleColor: accentCyan, 
+                    bodyColor: textPrimary, 
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: true,
+                    boxPadding: 4,
+                    borderColor: borderColor,
+                    borderWidth: 1,
+                    callbacks: { title: tooltipTitleCallback }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        font: { family: 'Roboto', size: 11, weight: '400' }, // Đổi sang Roboto
+                        color: textSecondary,
+                        maxRotation: 0, 
+                        autoSkipPadding: 10, 
+                        callback: function(value) {
+                            const label = this.getLabelForValue(value);
+                            return wrapLabels(label, 10);
+                        }
+                    },
+                    grid: { 
+                        display: false 
+                    },
+                    border: { color: borderColor }
+                },
+                y: {
+                    ticks: {
+                        font: { family: 'Roboto', size: 11, weight: '400' }, // Đổi sang Roboto
+                        color: textSecondary,
+                        padding: 10,
+                    },
+                    grid: { 
+                        color: borderColor, 
+                        drawBorder: false,
+                        lineWidth: 0.5, 
+                        borderDash: [3, 3] 
+                    },
+                    border: { display: false }, 
+                    beginAtZero: true
+                }
+            },
+            elements: {
+                bar: {
+                    borderRadius: {topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0}, 
+                    borderSkipped: 'bottom'
+                }
+            }
+        };
+        
+        const schemaImpactCtx = document.getElementById('schemaImpactChart');
+        if (schemaImpactCtx) {
+            new Chart(schemaImpactCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Product', 'Review', 'FAQPage', 'Article', 'LocalBiz'], 
+                    datasets: [{
+                        label: 'Tác Động Schema (Ước Tính)',
+                        data: [85, 75, 80, 70, 65],
+                        backgroundColor: [accentBlue, accentGreen, accentPink, accentCyan, '#A78BFA'],
+                        hoverBackgroundColor: [
+                            Chart.helpers.color(accentBlue).alpha(0.8).rgbString(),
+                            Chart.helpers.color(accentGreen).alpha(0.8).rgbString(),
+                            Chart.helpers.color(accentPink).alpha(0.8).rgbString(),
+                            Chart.helpers.color(accentCyan).alpha(0.8).rgbString(),
+                            Chart.helpers.color('#A78BFA').alpha(0.8).rgbString()
+                        ],
+                        borderWidth: 0,
+                        barThickness: 'flex',
+                        maxBarThickness: 40,
+                    }]
+                },
+                options: { ...commonChartOptions }
+            });
+        }
+
+        const botVsUserCtx = document.getElementById('botVsUserChart');
+        if (botVsUserCtx) {
+            new Chart(botVsUserCtx, {
+                type: 'doughnut', 
+                data: {
+                    labels: ['Hoạt Động Bot', 'Lượt Xem Người Dùng'],
+                    datasets: [{
+                        label: 'Lưu Lượng Truy Cập (Tương đối)',
+                        data: [1500, 300],
+                        backgroundColor: [accentPink, accentCyan],
+                        hoverBackgroundColor: [
+                             Chart.helpers.color(accentPink).alpha(0.8).rgbString(),
+                             Chart.helpers.color(accentCyan).alpha(0.8).rgbString()
+                        ],
+                        borderColor: bgCard, 
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    cutout: '70%', 
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        legend: { 
+                            position: 'right',
+                            align: 'center',
+                            labels: {
+                                ...commonChartOptions.plugins.legend.labels,
+                                font: { family: 'Roboto', size: 13, weight: '400' }, // Đổi sang Roboto
+                                boxWidth: 12,
+                                padding: 15,
+                            }
+                        }
+                    },
+                    scales: { x: { display: false }, y: { display: false } } 
+                }
+            });
+        }
+
+        const navbar = document.getElementById('navbar');
+        const navHeight = navbar ? navbar.offsetHeight : 70;
+        const allNavLinks = document.querySelectorAll('#navbar a.nav-link');
+        const allSections = document.querySelectorAll('section[id]');
+
+        allNavLinks.forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - navHeight - 20, 
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        function updateActiveNavLink() {
+            let currentSectionId = '';
+            const scrollBuffer = navHeight + 40;
+
+            allSections.forEach(section => {
+                const sectionTop = section.offsetTop - scrollBuffer;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                    currentSectionId = section.id;
+                }
+            });
+            
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) { 
+                const lastSection = allSections[allSections.length -1];
+                if (lastSection) currentSectionId = lastSection.id;
+            }
+
+            allNavLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        if (allNavLinks.length > 0 && allSections.length > 0) {
+            window.addEventListener('scroll', updateActiveNavLink);
+            updateActiveNavLink(); 
+        }
+    </script>
+</body>
+</html>

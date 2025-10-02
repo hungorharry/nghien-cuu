@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quy trình Xây dựng Cẩm nang Tư vấn Sale bằng AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;
+            color: #334155;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .step {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        
+        .step-start {
+            border-color: #1e293b;
+            background: #1e293b;
+            color: white;
+            border-radius: 50px;
+            text-align: center;
+        }
+        
+        .step-process {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #1e40af;
+        }
+        
+        .step-input {
+            border-color: #8b5cf6;
+            background: #f5f3ff;
+            color: #6b21a8;
+        }
+        
+        .step-storage {
+            border-color: #ef4444;
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+        
+        .step-end {
+            border-color: #059669;
+            background: #059669;
+            color: white;
+            border-radius: 50px;
+            text-align: center;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -12px;
+            left: 16px;
+            background: #3b82f6;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        
+        .arrow {
+            width: 2px;
+            height: 30px;
+            background: #64748b;
+            position: relative;
+            margin: 0.5rem 0;
+        }
+        
+        .arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 10px solid #64748b;
+        }
+        
+        .parallel-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+            max-width: 600px;
+            margin: 1rem 0;
+        }
+        
+        .parallel-step {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .connector {
+            width: 40px;
+            height: 2px;
+            background: #64748b;
+            position: relative;
+        }
+        
+        .connector::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #64748b;
+        }
+        
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+        
+        p {
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .parallel-section {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .connector {
+                transform: rotate(90deg);
+                width: 30px;
+            }
+            
+            .step {
+                padding: 1.25rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .step {
+                padding: 1rem 1.25rem;
+            }
+            
+            .step-number {
+                width: 20px;
+                height: 20px;
+                font-size: 0.625rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Quy trình Xây dựng Cẩm nang Tư vấn Sale bằng AI</h1>
+            <p class="subtitle">Flowchart mô tả quy trình từ phân tích nhu cầu đến triển khai cẩm nang hoàn chỉnh</p>
+        </div>
+        
+        <div class="flowchart">
+            <!-- Bắt đầu -->
+            <div class="step step-start">
+                <h3>BẮT ĐẦU</h3>
+                <p>Nhân viên KD phụ thuộc A.Chương, A.Chương quá tải. Cần thông tin cơ bản cho Sale.</p>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Bước 1 -->
+            <div class="step step-process">
+                <div class="step-number">1</div>
+                <h3>Phân tích & Lên kế hoạch</h3>
+                <p>Đội Marketing nhận yêu cầu. Phân tích nhu cầu kiến thức cơ bản cho Sale (Poly, Server...). Xác định các chủ đề, câu hỏi cần hỏi AI.</p>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Bước 2 -->
+            <div class="step step-process">
+                <div class="step-number">2</div>
+                <h3>Tạo Prompt cho AI</h3>
+                <p>Marketing soạn thảo Prompt chi tiết, rõ ràng cho AI, xác định mục đích, đối tượng & cấu trúc câu trả lời mong muốn.</p>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Bước 3 -->
+            <div class="step step-process">
+                <div class="step-number">3</div>
+                <h3>Sử dụng Công cụ AI</h3>
+                <p>Marketing nhập Prompt đã tạo vào công cụ AI (ChatGPT, Claude, Gemini...).</p>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Luồng song song -->
+            <div class="parallel-section">
+                <div class="parallel-step">
+                    <div class="step step-input">
+                        <div class="step-number">4</div>
+                        <h3>Nhận Output từ AI</h3>
+                        <p>AI xử lý Prompt và tạo ra câu trả lời dạng văn bản có cấu trúc.</p>
+                    </div>
+                </div>
+                
+                <div class="connector"></div>
+                
+                <div class="parallel-step">
+                    <div class="step step-storage">
+                        <div class="step-number">5</div>
+                        <h3>Lưu trữ Dữ liệu</h3>
+                        <p>Lưu lại toàn bộ Prompt và câu trả lời để tham khảo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Bước 6 -->
+            <div class="step step-process">
+                <div class="step-number">6</div>
+                <h3>Biên tập & Tối ưu hóa</h3>
+                <p>Marketing xem xét, chỉnh sửa nội dung. Bổ sung thông tin nội bộ, hình ảnh, ví dụ thực tế của công ty.</p>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Bước 7 -->
+            <div class="step step-input">
+                <div class="step-number">7</div>
+                <h3>Tạo Cẩm nang Hoàn chỉnh</h3>
+                <p>Tài liệu "Cẩm nang Tư vấn Cơ bản" được hoàn thiện với format chuyên nghiệp.</p>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Bước 8 -->
+            <div class="step step-process">
+                <div class="step-number">8</div>
+                <h3>Triển khai & Đào tạo</h3>
+                <p>Phân phát cẩm nang cho đội KD. Tổ chức buổi hướng dẫn sử dụng và thu thập feedback.</p>
+            </div>
+            <div class="arrow"></div>
+
+            <!-- Kết thúc -->
+            <div class="step step-end">
+                <h3>HOÀN THÀNH</h3>
+                <p>Nhân viên KD có công cụ hỗ trợ chuyên nghiệp, nâng cao hiệu quả tư vấn, giảm tải cho A.Chương.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

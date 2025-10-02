@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo Cáo So Sánh Hiệu Suất Tư Vấn: Trước & Sau Khi Fix Lỗi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>      :root {
+        --bg-primary: #f8fafc; /* slate-50 */
+        --bg-secondary: #ffffff;
+        --border-color: #e2e8f0; /* slate-200 */
+        --text-primary: #1e293b; /* slate-800 */
+        --text-secondary: #475569; /* slate-600 */
+        --brand-primary: #4f46e5; /* indigo-600 */
+        --brand-primary-light: #e0e7ff; /* indigo-100 */
+        --brand-secondary: #10b981; /* emerald-500 */
+        --danger: #ef4444; /* red-500 */
+        --warning: #f97316; /* orange-500 */
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+      }
+      .sidebar a {
+        transition: all 0.2s ease-in-out;
+        border-left: 3px solid transparent;
+      }
+      .sidebar a:hover {
+        background-color: var(--brand-primary-light);
+        color: var(--brand-primary);
+        border-left-color: var(--brand-primary);
+      }
+      .sidebar a.active {
+        background-color: var(--brand-primary-light);
+        color: var(--brand-primary);
+        border-left-color: var(--brand-primary);
+        font-weight: 600;
+      }
+      .kpi-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .kpi-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .content-card {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+      .content-card.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+      }
+      th {
+        background-color: #f1f5f9; /* slate-100 */
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+      }
+      tbody tr:hover {
+        background-color: #f8fafc; /* slate-50 */
+      }
+      .table-container {
+        max-height: 600px;
+        overflow-y: auto;
+        border-radius: 0.5rem;
+        border: 1px solid var(--border-color);
+      }
+      blockquote {
+        border-left: 4px solid var(--brand-primary);
+        background-color: #f7f8ff;
+        padding: 1rem 1.5rem;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+        color: #4338ca;
+      }
+      blockquote ul {
+        list-style-type: disc;
+        margin-left: 1.25rem;
+      }
+      .recommendation-list li {
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 0.75rem;
+      }
+      .recommendation-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 1px;
+        font-weight: 800;
+        color: var(--brand-secondary);
+        background-color: #d1fae5;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-primary);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      :root {
+        --bg-primary: #f8fafc;
+        --brand-primary: #4f46e5;
+        --brand-primary-light: #e0e7ff;
+      }
+      body { font-family: "Be Vietnam Pro", sans-serif; background-color: var(--bg-primary); }
+      .sidebar a { transition: all 0.2s ease-in-out; border-left: 3px solid transparent; }
+      .sidebar a:hover, .sidebar a.active { background-color: var(--brand-primary-light); color: var(--brand-primary); border-left-color: var(--brand-primary); }
+      .kpi-card:hover { transform: translateY(-5px); }
+      .content-card { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+      .content-card.is-visible { opacity: 1; transform: translateY(0); }
+      details summary { cursor: pointer; }
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: var(--bg-primary); }
+      ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+  </head>
+  <body class="text-slate-700">
+    <div class="flex">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar hidden lg:block w-72 h-screen sticky top-0 bg-white border-r border-slate-200 py-8">
+        <div class="text-center mb-10 px-4">
+          <h1 class="text-xl font-bold text-indigo-600">SALES ANALYTICS</h1>
+          <p class="text-xs text-slate-500">Báo Cáo Hiệu Suất Trước & Sau Fix</p>
+        </div>
+        <nav class="flex flex-col space-y-2 px-4">
+          <a href="#kpi-summary" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg><span>Tổng Quan Ban Đầu</span></a>
+          <a href="#issue-analysis" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a1 1 0 001 1h12a1 1 0 100-2H5V3a1 1 0 00-2 0zm11 1a1 1 0 10-2 0v5a1 1 0 102 0V4zM8 8a1 1 0 00-1-1H5a1 1 0 000 2h2a1 1 0 001-1z" clip-rule="evenodd" /></svg><span>Phân Tích Gốc Rễ Vấn Đề</span></a>
+          <a href="#tester-validation" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Xác Thực của Tester</span></a>
+          <a href="#progress-and-pending" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a1 1 0 000 2c5.523 0 10 4.477 10 10a1 1 0 102 0C17 7.373 11.627 2 5 2a1 1 0 00-1 1z" /><path d="M13.13 8.87a1 1 0 00-1.414-1.414L8 11.172l-1.707-1.707a1 1 0 00-1.414 1.414l2.5 2.5a1 1 0 001.414 0l5.5-5.5z" /></svg><span>Tiến Độ & Lỗi Tồn Đọng</span></a>
+          <a href="#conclusion" class="nav-link flex items-center gap-3 p-3 rounded-lg text-slate-600"><svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Kết Luận & Giải Pháp</span></a>
+        </nav>
+      </aside>
+
+      <main class="w-full lg:w-[calc(100%-18rem)] p-4 sm:p-6 lg:p-10">
+        <!-- Header -->
+        <header class="mb-10">
+          <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Báo Cáo Toàn Diện Hiệu Suất Tư Vấn Sales</h1>
+          <p class="mt-2 text-lg text-slate-600">Phân tích vòng đời của 261 báo cáo lỗi: từ tình trạng ban đầu, qua xác thực, đến tiến độ xử lý và các vấn đề còn tồn đọng.</p>
+        </header>
+<!-- Issue Analysis Section -->
+    
+        <!-- KPI Summary Section (BEFORE FIX) -->
+        <section id="kpi-summary" class="mb-12 scroll-mt-20">
+          <div class="mb-4"><h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3"><svg class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg>Tình Hình Ban Đầu (Trước Khi Fix)</h2></div>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="kpi-card content-card bg-white p-6 rounded-2xl border border-slate-200 lg:col-span-2 lg:row-span-2 flex flex-col justify-between">
+                <h3 class="text-lg font-semibold text-slate-800">Tỷ Lệ Hội Thoại Có Vấn Đề (Theo báo cáo của Sales)</h3>
+                <div class="my-6"><p class="flex items-baseline"><span class="animated-number text-7xl font-extrabold text-red-500" data-target="58">0</span><span class="text-5xl font-bold text-red-400">%</span></p><p class="text-slate-600 font-medium">Tương đương <strong class="text-slate-800">261</strong> trong <strong class="text-slate-800">447</strong> phiên hội thoại được phân tích.</p></div>
+                <div><div class="w-full bg-slate-200 rounded-full h-2.5"><div class="bg-red-500 h-2.5 rounded-full" style="width: 58%; transition: width 1s ease-out"></div></div><p class="mt-2 text-sm text-slate-500 italic"><strong>Nhận định:</strong> Mức độ sai sót ban đầu rất cao, cho thấy sự cấp thiết phải rà soát và cải thiện hệ thống.</p></div>
+            </div>
+            <div class="kpi-card content-card bg-white p-6 rounded-2xl border border-slate-200"><h3 class="font-semibold text-slate-800">Phân Loại Vấn Đề Chính</h3><ul class="space-y-2 text-sm mt-4"><li class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-red-500"></span>Sai/Thiếu Dữ Liệu</span><span class="font-bold text-slate-700">127 (48.7%)</span></li><li class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-blue-500"></span>Kỹ Năng Tư Vấn Yếu</span><span class="font-bold text-slate-700">85 (32.6%)</span></li><li class="flex justify-between items-center"><span class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-amber-500"></span>Lỗi Hệ Thống/Logic</span><span class="font-bold text-slate-700">49 (18.8%)</span></li></ul></div>
+            <div class="kpi-card content-card bg-white p-6 rounded-2xl border border-slate-200"><h3 class="font-semibold text-slate-800">"Điểm Nóng" Về Sai Sót</h3><p class="text-slate-600">Gần <strong class="text-3xl font-bold text-orange-500">80%</strong> sai sót về dữ liệu tập trung chủ yếu vào 2 nhóm:</p><p class="mt-2 font-semibold text-center text-indigo-700 bg-indigo-50 py-2 px-4 rounded-lg">Linh Kiện PC & Laptop</p></div>
+          </div>
+        </section>
+  <section id="issue-analysis" class="mb-12 scroll-mt-20">
+          <!-- Bắt đầu khối mã mới, siêu chi tiết và đầy đủ -->
+          <div
+            class="kpi-card content-card bg-white p-6 rounded-2xl border border-slate-200"
+            style="transition-delay: 200ms"
+          >
+            <!-- Section Header -->
+            <div
+              class="flex items-center gap-3 mb-4 border-b border-slate-200 pb-3"
+            >
+              <div class="bg-orange-100 p-3 rounded-full">
+                <svg
+                  class="h-6 w-6 text-orange-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM13 11a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-semibold text-slate-800">
+                  "Điểm Nóng" Về Sai Sót Dữ Liệu
+                </h3>
+                <p class="text-xs text-slate-500">
+                  Phân tích 127 lỗi dữ liệu theo từng ngành hàng.
+                </p>
+              </div>
+            </div>
+
+            <!-- Detailed Breakdown -->
+            <div class="flex flex-col gap-5 text-sm">
+              <!-- Linh Kiện PC -->
+              <div class="border-b border-slate-100 pb-3">
+                <div class="flex justify-between items-center">
+                  <span
+                    class="font-semibold text-red-600 flex items-center gap-2"
+                  >
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                    Linh Kiện PC
+                  </span>
+                  <span class="font-bold text-slate-700">133 (51.2%)</span>
+                </div>
+                <div class="w-full bg-red-200 rounded-full h-1.5 mt-1.5">
+                  <div
+                    class="bg-red-500 h-1.5 rounded-full"
+                    style="width: 51.2%"
+                  ></div>
+                </div>
+                <p class="text-xs text-slate-600 mt-2">
+                  <span class="font-semibold">Lỗi phổ biến:</span> Sai tính
+                  tương thích. <br />
+                  <span class="italic text-slate-500"
+                    >→ Ví dụ: Tư vấn
+                    <strong class="text-red-700">RAM DDR5</strong> cho mainboard
+                    chỉ hỗ trợ <strong class="text-red-700">DDR4</strong>.</span
+                  >
+                </p>
+              </div>
+              <!-- Laptop -->
+              <div class="border-b border-slate-100 pb-3">
+                <div class="flex justify-between items-center">
+                  <span
+                    class="font-semibold text-orange-600 flex items-center gap-2"
+                  >
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                    Laptop
+                  </span>
+                  <span class="font-bold text-slate-700">72 (27.6%)</span>
+                </div>
+                <div class="w-full bg-orange-200 rounded-full h-1.5 mt-1.5">
+                  <div
+                    class="bg-orange-500 h-1.5 rounded-full"
+                    style="width: 27.6%"
+                  ></div>
+                </div>
+                <p class="text-xs text-slate-600 mt-2">
+                  <span class="font-semibold">Lỗi phổ biến:</span> Sai tính năng
+                  & cấu hình. <br />
+                  <span class="italic text-slate-500"
+                    >→ Ví dụ: Khẳng định laptop có
+                    <strong class="text-orange-700">webcam tích hợp</strong>,
+                    trong khi thực tế model đó không có.</span
+                  >
+                </p>
+              </div>
+              <!-- Màn hình -->
+              <div class="border-b border-slate-100 pb-3">
+                <div class="flex justify-between items-center">
+                  <span
+                    class="font-semibold text-amber-600 flex items-center gap-2"
+                  >
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      ></path>
+                    </svg>
+                    Màn Hình
+                  </span>
+                  <span class="font-bold text-slate-700">31 (11.8%)</span>
+                </div>
+                <div class="w-full bg-amber-200 rounded-full h-1.5 mt-1.5">
+                  <div
+                    class="bg-amber-500 h-1.5 rounded-full"
+                    style="width: 11.8%"
+                  ></div>
+                </div>
+                <p class="text-xs text-slate-600 mt-2">
+                  <span class="font-semibold">Lỗi phổ biến:</span> Sai thông số
+                  kỹ thuật. <br />
+                  <span class="italic text-slate-500"
+                    >→ Ví dụ: Tư vấn màn hình
+                    <strong class="text-amber-700">60Hz</strong> cho game thủ
+                    cần tối thiểu
+                    <strong class="text-amber-700">144Hz</strong>.</span
+                  >
+                </p>
+              </div>
+              <!-- Thiết bị mạng & Phụ kiện -->
+              <div>
+                <div class="flex justify-between items-center">
+                  <span
+                    class="font-semibold text-sky-600 flex items-center gap-2"
+                  >
+                    <svg
+                      class="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 21v-1.5m0 0a4.5 4.5 0 005.625 0M12 18a4.5 4.5 0 00-5.625 0m11.25 0a4.5 4.5 0 00-5.625 0M12 4.5a4.5 4.5 0 00-5.625 0m11.25 0a4.5 4.5 0 00-5.625 0"
+                      ></path>
+                    </svg>
+                    Thiết bị mạng & Phụ kiện
+                  </span>
+                  <span class="font-bold text-slate-700">25 (9.4%)</span>
+                </div>
+                <div class="w-full bg-sky-200 rounded-full h-1.5 mt-1.5">
+                  <div
+                    class="bg-sky-500 h-1.5 rounded-full"
+                    style="width: 9.4%"
+                  ></div>
+                </div>
+                <p class="text-xs text-slate-600 mt-2">
+                  <span class="font-semibold">Lỗi phổ biến:</span> Sai tương
+                  thích & thông tin dịch vụ. <br />
+                  <span class="italic text-slate-500"
+                    >→ Ví dụ: Gợi ý mã
+                    <strong class="text-sky-700"
+                      >mực in không tương thích</strong
+                    >
+                    với model máy in của khách.</span
+                  >
+                </p>
+              </div>
+            </div>
+
+            <!-- Key Takeaway / Conclusion -->
+            <div class="mt-5 pt-4 border-t border-slate-200">
+              <h4 class="font-bold text-sm text-slate-800">
+                Kết luận & Hành động đề xuất:
+              </h4>
+              <p class="text-xs text-slate-600 mt-1">
+                Gần <strong class="text-slate-800">80%</strong> sai sót dữ liệu
+                tập trung ở 2 nhóm ngành hàng phức tạp nhất. Cần ưu tiên
+                <strong class="text-indigo-600"
+                  >rà soát và kiểm toán (audit) dữ liệu</strong
+                >
+                cho <strong>Linh Kiện PC & Laptop</strong> trước tiên để giải
+                quyết phần lớn vấn đề.
+              </p>
+            </div>
+          </div>
+          <!-- Kết thúc khối mã mới -->
+        </section>
+
+        <!-- Detailed Analysis Section -->
+        <section id="issue-details" class="scroll-mt-20">
+          <div
+            class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200"
+          >
+            <h2
+              class="text-3xl font-extrabold text-slate-900 flex items-center gap-3 mb-2"
+            >
+              <svg
+                class="h-8 w-8 text-indigo-600"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                <path
+                  fill-rule="evenodd"
+                  d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Phân Tích Chi Tiết Gốc Rễ Vấn Đề
+            </h2>
+            <p class="text-slate-600 mb-8">
+              Tóm tắt trực quan các nhóm vấn đề, lỗi cụ thể và ví dụ điển hình.
+            </p>
+
+            <div class="space-y-8">
+              <!-- Visual Summary Dashboard -->
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Card 1: Data Errors -->
+                 <!-- Card 1: Data Errors -->
+    <div class="flex flex-col bg-red-50 border border-red-200 rounded-xl p-6 h-full">
+        <div class="flex items-start gap-3">
+            <div class="bg-red-200 p-2 rounded-lg">
+                <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg text-red-800">Lỗi Về Dữ Liệu</h3>
+                <p class="font-semibold text-red-600">127 Vấn đề - Chiếm 48.7%</p>
+            </div>
+        </div>
+        <div class="w-full bg-red-200 rounded-full h-2 my-4">
+            <div class="bg-red-500 h-2 rounded-full" style="width: 48.7%"></div>
+        </div>
+        <ul class="text-sm space-y-2 text-slate-700 flex-grow">
+            <li class="flex justify-between"><span>Tư vấn SP hết hàng</span> <span class="font-bold">34</span></li>
+            <li class="flex justify-between"><span>Sai thông tin kỹ thuật</span> <span class="font-bold">23</span></li>
+            <li class="flex justify-between"><span>Sai chính sách (BH, đổi trả)</span> <span class="font-bold">18</span></li>
+            <li class="flex justify-between"><span>Thiếu/Sai thông tin dịch vụ</span> <span class="font-bold">15</span></li>
+            <li class="flex justify-between"><span>Sai thông tin tương thích</span> <span class="font-bold">13</span></li>
+            <li class="flex justify-between"><span>Thiếu/Sai thông tin cơ bản</span> <span class="font-bold">12</span></li>
+             <li class="flex justify-between"><span>Thiếu dữ liệu chuyên sâu</span> <span class="font-bold">12</span></li>
+        </ul>
+        <div class="mt-4 p-3 bg-white rounded-md border-l-4 border-red-400 text-xs">
+            <p class="font-semibold text-slate-800">Tác động chính:</p>
+            <p class="text-slate-600 italic">
+                Phá vỡ <strong class="text-emerald-600">niềm tin</strong> của khách hàng và gây ra các quyết định mua hàng sai lầm.
+            </p>
+        </div>
+    </div>
+
+    <!-- Card 2: Skill Errors -->
+    <div class="flex flex-col bg-indigo-50 border border-indigo-200 rounded-xl p-6 h-full">
+        <div class="flex items-start gap-3">
+            <div class="bg-indigo-200 p-2 rounded-lg">
+                <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h2m6-4v2m-6-2v2m0-6v2m6 2V3"></path>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg text-indigo-800">Lỗi Kỹ Năng Tư Vấn</h3>
+                <p class="font-semibold text-indigo-600">85 Vấn đề - Chiếm 32.6%</p>
+            </div>
+        </div>
+        <div class="w-full bg-indigo-200 rounded-full h-2 my-4">
+            <div class="bg-indigo-500 h-2 rounded-full" style="width: 32.6%"></div>
+        </div>
+        <ul class="text-sm space-y-2 text-slate-700 flex-grow">
+            <li class="flex justify-between"><span>Không khai thác nhu cầu</span> <span class="font-bold">22</span></li>
+            <li class="flex justify-between"><span>Liệt kê SP không phù hợp</span> <span class="font-bold">18</span></li>
+            <li class="flex justify-between"><span>Hiểu sai ý định/ngữ cảnh</span> <span class="font-bold">17</span></li>
+            <li class="flex justify-between"><span>Bỏ lỡ cơ hội (Upsell,...)</span> <span class="font-bold">14</span></li>
+            <li class="flex justify-between"><span>Trả lời chung chung</span> <span class="font-bold">14</span></li>
+        </ul>
+        <div class="mt-4 p-3 bg-white rounded-md border-l-4 border-indigo-400 text-xs">
+            <p class="font-semibold text-slate-800">Tác động chính:</p>
+            <p class="text-slate-600 italic">
+                <strong class="text-sky-600">Bỏ lỡ doanh thu</strong> tiềm năng do tư vấn thụ động và không tối ưu được giá trị đơn hàng.
+            </p>
+        </div>
+    </div>
+
+    <!-- Card 3: System/Logic Errors -->
+    <div class="flex flex-col bg-orange-50 border border-orange-200 rounded-xl p-6 h-full">
+        <div class="flex items-start gap-3">
+            <div class="bg-orange-200 p-2 rounded-lg">
+                <svg class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.096 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-bold text-lg text-orange-800">Lỗi Hệ Thống & Logic</h3>
+                <p class="font-semibold text-orange-600">49 Vấn đề - Chiếm 18.8%</p>
+            </div>
+        </div>
+        <div class="w-full bg-orange-200 rounded-full h-2 my-4">
+            <div class="bg-orange-500 h-2 rounded-full" style="width: 18.8%"></div>
+        </div>
+        <ul class="text-sm space-y-2 text-slate-700 flex-grow">
+            <li class="flex justify-between"><span>Hạn chế chức năng (So sánh,...)</span> <span class="font-bold">14</span></li>
+            <li class="flex justify-between"><span>Không nhận diện từ khóa</span> <span class="font-bold">13</span></li>
+            <li class="flex justify-between"><span>Không duy trì ngữ cảnh</span> <span class="font-bold">9</span></li>
+            <li class="flex justify-between"><span>Lỗi hệ thống/Không phản hồi</span> <span class="font-bold">6</span></li>
+            <li class="flex justify-between"><span>Lỗi xử lý ngôn ngữ khác</span> <span class="font-bold">2</span></li>
+        </ul>
+        <div class="mt-4 p-3 bg-white rounded-md border-l-4 border-orange-400 text-xs">
+            <p class="font-semibold text-slate-800">Tác động chính:</p>
+            <p class="text-slate-600 italic">
+                Gây ra <strong class="text-violet-600">trải nghiệm người dùng kém</strong>, làm gián đoạn và gây khó chịu cho khách hàng.
+            </p>
+        </div>
+    </div>
+</div>
+              <!-- Full details table -->
+              <div class="pt-4">
+                <h3 class="font-bold text-lg text-slate-800">
+                  Bảng Tra Cứu Chi Tiết Toàn Bộ Vấn Đề
+                </h3>
+                <p class="mt-1 text-sm text-slate-500">
+                  Sử dụng bảng này để xem xét từng lỗi cụ thể và ví dụ chi tiết.
+                </p>
+                <div class="table-container mt-4">
+                  <table>
+                    <thead>
+               <tr>
+    <td>Tư vấn sản phẩm đã hết hàng / không có sẵn</td>
+    <td class="text-center font-semibold">34</td>
+    <td>
+      <strong>Khách:</strong> "Tư vấn giúp mình laptop chơi
+      game."<br /><strong>Bot:</strong> Tự tin liệt kê 3 mẫu
+      laptop đã ngừng kinh doanh từ lâu.
+    </td>
+  </tr>
+  <tr>
+    <td>Sai thông tin kỹ thuật / tính năng sản phẩm</td>
+    <td class="text-center font-semibold">23</td>
+    <td>
+      <strong>Khách:</strong> "Máy in HP 4103fdn có WiFi
+      không?"<br /><strong>Bot:</strong> Khẳng định 'Có',
+      trong khi model này chỉ có cổng LAN.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Không chủ động khai thác/hỏi lại nhu cầu khách hàng
+    </td>
+    <td class="text-center font-semibold">22</td>
+    <td>
+      <strong>Khách:</strong> "Có màn hình cảm ứng 22 inch
+      không?"<br /><strong>Bot:</strong> Liệt kê sản phẩm mà
+      không hỏi "Anh/chị dùng cho mục đích gì?".
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Sai thông tin về chính sách (bảo hành, đổi trả, vv.)
+    </td>
+    <td class="text-center font-semibold">18</td>
+    <td>
+      <strong>Khách:</strong> "Máy in lỗi có được đổi máy
+      khác không?"<br /><strong>Bot:</strong> 'Được đổi
+      trong 7 ngày', trong khi chính sách là chỉ bảo hành.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Liệt kê sản phẩm không phù hợp/không tối ưu cho nhu
+      cầu
+    </td>
+    <td class="text-center font-semibold">18</td>
+    <td>
+      <strong>Khách:</strong> "Tư vấn PC dựng phim 4K."<br /><strong>Bot:</strong>
+      Gợi ý cấu hình máy văn phòng với card đồ họa yếu.
+    </td>
+  </tr>
+  <tr>
+    <td>Hiểu sai ý định/ngữ cảnh câu hỏi</td>
+    <td class="text-center font-semibold">17</td>
+    <td>
+      <strong>Khách:</strong> "Tôi cần một bộ PC ráp."<br /><strong>Bot:</strong>
+      Gửi link về máy tính bộ (NUC, All-in-One).
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Thiếu/Sai thông tin về dịch vụ (cho thuê, sửa chữa,
+      vv.)
+    </td>
+    <td class="text-center font-semibold">15</td>
+    <td>
+      <strong>Khách:</strong> "Bên mình có cho thuê laptop
+      không?"<br /><strong>Bot:</strong> 'Dạ không ạ', trong
+      khi công ty có cung cấp dịch vụ này.
+    </td>
+  </tr>
+    <tr>
+    <td>Bỏ lỡ cơ hội (gợi ý sản phẩm thay thế, upsell)</td>
+    <td class="text-center font-semibold">14</td>
+    <td>
+      <strong>Khách:</strong> "Có bàn phím nào chống nước
+      không?"<br /><strong>Bot:</strong> 'Dạ không có' rồi
+      kết thúc.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Trả lời chung chung, thiếu tính thuyết phục
+    </td>
+    <td class="text-center font-semibold">14</td>
+    <td>
+      <strong>Khách:</strong> "So sánh Dell Latitude và
+      ThinkPad?"<br /><strong>Bot:</strong> Đưa ra mô tả
+      chung chung, không có kết luận.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Hạn chế về chức năng (so sánh, build PC, báo giá)
+    </td>
+    <td class="text-center font-semibold">14</td>
+    <td>
+      <strong>Khách:</strong> "So sánh giúp tôi máy in A và
+      máy in B."<br /><strong>Bot:</strong> Chỉ gửi link 2
+      sản phẩm riêng lẻ.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Sai thông tin tương thích sản phẩm (mực in, RAM, vv.)
+    </td>
+    <td class="text-center font-semibold">13</td>
+    <td>
+      <strong>Khách:</strong> "Máy in HP 136A dùng mực
+      nào?"<br /><strong>Bot:</strong> Gợi ý một mã mực hoàn
+      toàn không tương thích.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Không nhận diện được từ khóa, từ đồng nghĩa
+    </td>
+    <td class="text-center font-semibold">13</td>
+    <td>
+      <strong>Khách:</strong> "Tôi cần mua main Giga cho thế
+      hệ 13."<br /><strong>Bot:</strong> Không hiểu "Main"
+      là "Mainboard".
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Thiếu/Sai thông tin cơ bản (địa chỉ, giờ làm việc)
+    </td>
+    <td class="text-center font-semibold">12</td>
+    <td>
+      <strong>Khách:</strong> "Tôi muốn đến showroom xem
+      máy?"<br /><strong>Bot:</strong> "Bạn vui lòng liên hệ
+      hotline" thay vì cung cấp địa chỉ.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Thiếu dữ liệu kỹ thuật chuyên sâu / thông tin chi tiết
+    </td>
+    <td class="text-center font-semibold">12</td>
+    <td>
+      <strong>Khách:</strong> "Mainboard ASUS B760 có bao
+      nhiêu khe M.2?"<br /><strong>Bot:</strong> Trả lời
+      vòng vo, không vào con số cụ thể.
+    </td>
+  </tr>
+  <tr>
+    <td>Không duy trì được mạch/ngữ cảnh hội thoại</td>
+    <td class="text-center font-semibold">9</td>
+    <td>
+      <strong>Khách:</strong> "Bên mình có máy bộ HP không?"
+      Bot: "Dạ có ạ." Khách: "Vậy có sẵn hàng không?" Bot:
+      "Bạn cần hỏi về sản phẩm nào ạ?".
+    </td>
+  </tr>
+  <tr>
+    <td>Lỗi hệ thống / Không phản hồi</td>
+    <td class="text-center font-semibold">6</td>
+    <td>
+      <strong>Khách:</strong> "Các loại kích thước màn hình
+      laptop?"<br /><strong>Bot:</strong> Bị lỗi và không
+      thể đưa ra câu trả lời.
+    </td>
+  </tr>
+  <tr>
+    <td>Lỗi xử lý ngôn ngữ khác (Tiếng Anh)</td>
+    <td class="text-center font-semibold">2</td>
+    <td>
+      <strong>Khách:</strong> "Cartridge HP for printer
+      M404DN?"<br /><strong>Bot:</strong> Gặp khó khăn xử lý
+      câu hỏi nửa Anh nửa Việt.
+    </td>
+  </tr>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Issue Analysis Section -->
+        <section id="issue-analysis" class="mb-12 scroll-mt-20">
+          <div class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200">
+            <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3 mb-6"><svg class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a1 1 0 001 1h12a1 1 0 100-2H5V3a1 1 0 00-2 0zm11 1a1 1 0 10-2 0v5a1 1 0 102 0V4zM8 8a1 1 0 00-1-1H5a1 1 0 000 2h2a1 1 0 001-1z" clip-rule="evenodd" /></svg>Phân Tích Chi Tiết Gốc Rễ Vấn Đề (Ban Đầu)</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <!-- Cards for Data, Skill, System Errors -->
+              <div class="flex flex-col bg-red-50 border border-red-200 rounded-xl p-6 h-full"><h3 class="font-bold text-lg text-red-800">Lỗi Về Dữ Liệu</h3><p class="font-semibold text-red-600">127 Vấn đề - 48.7%</p><div class="w-full bg-red-200 rounded-full h-2 my-4"><div class="bg-red-500 h-2 rounded-full" style="width: 48.7%"></div></div><ul class="text-sm space-y-2 text-slate-700 flex-grow"><li class="flex justify-between"><span>Tư vấn SP hết hàng</span> <span class="font-bold">34</span></li><li class="flex justify-between"><span>Sai thông tin kỹ thuật</span> <span class="font-bold">23</span></li><li class="flex justify-between"><span>Sai chính sách</span> <span class="font-bold">18</span></li><li class="flex justify-between"><span>Thiếu/Sai dịch vụ</span> <span class="font-bold">15</span></li></ul><div class="mt-4 p-3 bg-white rounded-md border-l-4 border-red-400 text-xs"><p class="font-semibold">Tác động:</p><p class="italic">Phá vỡ <strong class="text-emerald-600">niềm tin</strong> và gây quyết định mua hàng sai lầm.</p></div></div>
+              <div class="flex flex-col bg-indigo-50 border border-indigo-200 rounded-xl p-6 h-full"><h3 class="font-bold text-lg text-indigo-800">Lỗi Kỹ Năng Tư Vấn</h3><p class="font-semibold text-indigo-600">85 Vấn đề - 32.6%</p><div class="w-full bg-indigo-200 rounded-full h-2 my-4"><div class="bg-indigo-500 h-2 rounded-full" style="width: 32.6%"></div></div><ul class="text-sm space-y-2 text-slate-700 flex-grow"><li class="flex justify-between"><span>Không khai thác nhu cầu</span> <span class="font-bold">22</span></li><li class="flex justify-between"><span>Liệt kê SP không phù hợp</span> <span class="font-bold">18</span></li><li class="flex justify-between"><span>Hiểu sai ý định</span> <span class="font-bold">17</span></li><li class="flex justify-between"><span>Bỏ lỡ cơ hội bán hàng</span> <span class="font-bold">14</span></li></ul><div class="mt-4 p-3 bg-white rounded-md border-l-4 border-indigo-400 text-xs"><p class="font-semibold">Tác động:</p><p class="italic"><strong class="text-sky-600">Bỏ lỡ doanh thu</strong> và không tối ưu được giá trị đơn hàng.</p></div></div>
+              <div class="flex flex-col bg-orange-50 border border-orange-200 rounded-xl p-6 h-full"><h3 class="font-bold text-lg text-orange-800">Lỗi Hệ Thống & Logic</h3><p class="font-semibold text-orange-600">49 Vấn đề - 18.8%</p><div class="w-full bg-orange-200 rounded-full h-2 my-4"><div class="bg-orange-500 h-2 rounded-full" style="width: 18.8%"></div></div><ul class="text-sm space-y-2 text-slate-700 flex-grow"><li class="flex justify-between"><span>Hạn chế chức năng</span> <span class="font-bold">14</span></li><li class="flex justify-between"><span>Không nhận diện từ khóa</span> <span class="font-bold">13</span></li><li class="flex justify-between"><span>Không duy trì ngữ cảnh</span> <span class="font-bold">9</span></li><li class="flex justify-between"><span>Lỗi hệ thống</span> <span class="font-bold">6</span></li></ul><div class="mt-4 p-3 bg-white rounded-md border-l-4 border-orange-400 text-xs"><p class="font-semibold">Tác động:</p><p class="italic">Gây ra <strong class="text-violet-600">trải nghiệm người dùng kém</strong>, gián đoạn và khó chịu.</p></div></div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Tester Validation Section -->
+        <section id="tester-validation" class="mb-12 scroll-mt-20">
+            <div class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Xác Thực Báo Cáo của Tester</h2>
+                <p class="mt-2 text-slate-600">Kết quả đánh giá <strong>175 trường hợp</strong> tiêu biểu để xác định số lượng lỗi thực sự.</p>
+                <div class="mt-6 max-h-96 overflow-y-auto rounded-lg border border-slate-200"><table class="w-full text-sm"><thead><tr class="sticky top-0 bg-slate-100"><th class="w-[20%] text-left p-3">Trạng Thái</th><th class="w-[50%] text-left p-3">Diễn Giải</th><th class="text-center w-[15%] p-3">Số Lượng</th><th class="text-right w-[15%] p-3">Tỷ Lệ</th></tr></thead><tbody><tr><td class="font-semibold text-emerald-600 p-3">ĐÚNG</td><td class="p-3">Lỗi được xác nhận, cần ưu tiên sửa.</td><td class="text-center p-3">71</td><td class="text-right font-semibold p-3">40.6%</td></tr><tr><td class="font-semibold text-amber-600 p-3">XEM XÉT</td><td class="p-3">AI trả lời chưa tốt, cần tinh chỉnh dữ liệu.</td><td class="text-center p-3">41</td><td class="text-right font-semibold p-3">23.4%</td></tr><tr><td class="font-semibold text-red-600 p-3">SAI</td><td class="p-3">Báo cáo không chính xác, AI đã hoạt động đúng.</td><td class="text-center p-3">55</td><td class="text-right font-semibold p-3">31.4%</td></tr><tr><td class="font-semibold text-slate-500 p-3">LOẠI</td><td class="p-3">Câu hỏi/báo cáo không hợp lệ.</td><td class="text-center p-3">8</td><td class="text-right font-semibold p-3">4.6%</td></tr></tbody><tfoot class="font-bold text-base bg-slate-50"><tr class="border-t-2 border-slate-300"><td colspan="2" class="p-3">TỔNG LỖI THỰC TẾ CẦN XỬ LÝ (ĐÚNG + XEM XÉT)</td><td class="text-center text-indigo-600 p-3">119</td><td class="text-right text-indigo-600 p-3">64%</td></tr></tfoot></table></div>
+            </div>
+        </section>
+
+        <!-- Progress & Pending Issues Section (AFTER FIX) -->
+        <section id="progress-and-pending" class="mb-12 scroll-mt-20">
+            <div class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a1 1 0 000 2c5.523 0 10 4.477 10 10a1 1 0 102 0C17 7.373 11.627 2 5 2a1 1 0 00-1 1z" /><path d="M13.13 8.87a1 1 0 00-1.414-1.414L8 11.172l-1.707-1.707a1 1 0 00-1.414 1.414l2.5 2.5a1 1 0 001.414 0l5.5-5.5z" /></svg>Tiến Độ Xử Lý & Các Vấn Đề Tồn Đọng</h2>
+                <p class="mt-2 text-slate-600">Tổng quan tình hình sau đợt xử lý lỗi đầu tiên, dựa trên <strong>119 lỗi thực tế</strong> đã được xác thực.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                  <div class="bg-indigo-50 p-5 rounded-xl text-center"><div class="text-4xl font-extrabold text-indigo-600">119</div><div class="text-sm font-semibold text-slate-600">Tổng Lỗi Thực Tế</div></div>
+                  <div class="bg-emerald-50 p-5 rounded-xl text-center"><div class="text-4xl font-extrabold text-emerald-600">54</div><div class="text-sm font-semibold text-slate-600">Vấn Đề Đã Fix</div></div>
+                  <div class="bg-red-50 p-5 rounded-xl text-center"><div class="text-4xl font-extrabold text-red-600">65</div><div class="text-sm font-semibold text-slate-600">Vấn Đề Tồn Đọng</div></div>
+                </div>
+                <div class="mt-6"><div class="text-sm font-medium mb-1">Tiến độ xử lý lỗi: 45.4%</div><div class="w-full bg-slate-200 rounded-full h-4"><div class="bg-emerald-500 h-4 rounded-full text-center text-white text-xs font-bold leading-4" style="width: 45.4%">45.4%</div></div></div>
+                
+                <!-- Detailed table for pending issues -->
+                <div class="mt-8">
+                    <h3 class="font-bold text-lg text-slate-800">Chi Tiết 65 Vấn Đề Tồn Đọng Cần Xử Lý</h3>
+                    <!-- I. LỖI VỀ DỮ LIỆU -->
+                    <details open class="mt-4 border border-slate-200 rounded-lg"><summary class="p-4 bg-slate-100 font-semibold text-base rounded-t-lg">I. LỖI VỀ DỮ LIỆU (52 vấn đề)</summary><div class="p-4"><div class="max-h-96 overflow-y-auto"><table class="w-full text-sm"><thead><tr class="sticky top-0 bg-slate-50"><th class="text-left p-2 w-12">STT</th><th class="text-left p-2">Vấn Đề/Lỗi</th></tr></thead><tbody>
+                        <tr><td class="p-2 font-bold text-center">1</td><td class="p-2">"Laptop có AI" - Đưa kết quả những dòng không có hàng.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">2</td><td class="p-2">"Laptop đồ họa" - Vừa đề xuất laptop, vừa đề xuất màn hình không phù hợp.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">3</td><td class="p-2">"Qua showroom coi" - Không kiểm tra được tình trạng còn hàng.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">20</td><td class="p-2">"Màn hình bảo hành bao lâu" - Trả lời sai thời gian bảo hành.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">22</td><td class="p-2">"Máy in đơn năng/đa năng bền hơn" - Trả lời sai về độ bền.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">35</td><td class="p-2">"Router có VPN" - Liệt kê cả router không có VPN.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">37</td><td class="p-2">"Máy in MFP 139fnw có in 2 mặt không" - Trả lời sai.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">38</td><td class="p-2">"Brother B7620DW có copy/scan 2 mặt tự động" - Trả lời sai.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">42</td><td class="p-2">"Phí vận chuyển bảo hành" - Trả lời sai chính sách.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">43</td><td class="p-2">"Bảo hành mở rộng cho pin" - Trả lời sai chính sách.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">44</td><td class="p-2">"Laptop lỗi đổi máy khác" - Trả lời thiếu quy trình.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">45</td><td class="p-2">"Bảo hành tận nơi cho laptop" - Trả lời chưa đúng.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">46</td><td class="p-2">"Mực máy in có bảo hành" - Trả lời sai.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">47</td><td class="p-2">"Màn hình bảo hành tận nơi" - Trả lời chưa đúng phạm vi.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">48</td><td class="p-2">"Máy in đổi mới bao nhiêu ngày" - Trả lời sai chính sách.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">49</td><td class="p-2">"Máy in/mực in có đổi trả" - Trả lời sai.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">50</td><td class="p-2">"Máy in HP lỗi 7 ngày đổi mới" - Trả lời sai.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">51</td><td class="p-2">"Máy in/mực in lỗi đổi trả" - Trả lời sai.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">52</td><td class="p-2">"Bảo hành card đồ họa ở đâu" - Thiếu thông tin.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">53-66</td><td class="p-2">19 lỗi về Thiếu/Sai thông tin dịch vụ (cho thuê, sửa chữa, bảo trì...).</td></tr>
+                        <tr><td class="p-2 font-bold text-center">74-77</td><td class="p-2">4 lỗi về Sai thông tin tương thích (linh kiện, PC ráp...).</td></tr>
+                        <tr><td class="p-2 font-bold text-center">80-103</td><td class="p-2">8 lỗi về Thiếu/Sai thông tin cơ bản (khuyến mãi, mã mực, địa chỉ...).</td></tr>
+                        <tr><td class="p-2 font-bold text-center">109-115</td><td class="p-2">2 lỗi về Thiếu dữ liệu chuyên sâu (so sánh card, gói bảo trì).</td></tr>
+                    </tbody></table></div></div></details>
+                    <!-- II. LỖI KỸ NĂNG TƯ VẤN -->
+                    <details class="mt-4 border border-slate-200 rounded-lg"><summary class="p-4 bg-slate-100 font-semibold text-base rounded-t-lg">II. LỖI KỸ NĂNG TƯ VẤN (12 vấn đề)</summary><div class="p-4"><div class="max-h-96 overflow-y-auto"><table class="w-full text-sm"><thead><tr class="sticky top-0 bg-slate-50"><th class="text-left p-2 w-12">STT</th><th class="text-left p-2">Vấn Đề/Lỗi</th></tr></thead><tbody>
+                        <tr><td class="p-2 font-bold text-center">123-138</td><td class="p-2">5 lỗi về Không khai thác nhu cầu khách hàng.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">144-146</td><td class="p-2">2 lỗi về Liệt kê sản phẩm không phù hợp.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">150</td><td class="p-2">1 lỗi về Hiểu sai ý định/ngữ cảnh.</td></tr>
+                        <tr><td class="p-2 font-bold text-center">151-159</td><td class="p-2">4 lỗi về Bỏ lỡ cơ hội bán hàng (Upsell/Cross-sell).</td></tr>
+                    </tbody></table></div></div></details>
+                    <!-- III. LỖI HỆ THỐNG & LOGIC -->
+                    <details class="mt-4 border border-slate-200 rounded-lg"><summary class="p-4 bg-slate-100 font-semibold text-base rounded-t-lg">III. LỖI HỆ THỐNG & LOGIC (1 vấn đề)</summary><div class="p-4"><table class="w-full text-sm"><thead><tr class="sticky top-0 bg-slate-50"><th class="text-left p-2 w-12">STT</th><th class="text-left p-2">Vấn Đề/Lỗi</th></tr></thead><tbody><tr><td class="p-2 font-bold text-center">173</td><td class="p-2">Không duy trì được ngữ cảnh hội thoại.</td></tr></tbody></table></div></details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion Section -->
+<section id="conclusion" class="mt-12 scroll-mt-20">
+  <div class="content-card bg-white p-6 sm:p-8 rounded-2xl border border-slate-200">
+    <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3"><svg class="h-6 w-6 text-indigo-600" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>Kết Luận và Lộ Trình Hành Động</h2>
+    
+    <!-- === ĐOẠN ĐÃ ĐƯỢỢC CẬP NHẬT === -->
+    <p class="mt-2 text-slate-600">
+      Sau khi xử lý <strong>24.90% (65/261 vấn đề)</strong> số lỗi đã được xác thực, hiện còn <strong>65 vấn đề</strong> cần giải quyết (tương đương <strong>14.54%</strong> trên tổng số 447 hội thoại ban đầu). Phân tích cho thấy gốc rễ vấn đề vẫn tập trung ở <span class="font-bold text-red-600">chất lượng dữ liệu hoặc thiếu ở trên website</span> (chiếm 52/65 lỗi tồn đọng) và <span class="font-bold text-indigo-600">kỹ năng tư vấn</span>.
+    </p>
+    <!-- === KẾT THÚC ĐOẠN CẬP NHẬT === -->
+    
+    </div>
+  </div>
+</section>  
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        function animateCounter(element) {
+          const target = parseInt(element.dataset.target, 10);
+          let current = 0;
+          const increment = target / 100;
+          const update = () => {
+            current += increment;
+            if (current < target) {
+              element.textContent = Math.round(current);
+              requestAnimationFrame(update);
+            } else {
+              element.textContent = target;
+            }
+          };
+          requestAnimationFrame(update);
+        }
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              const counter = entry.target.querySelector(".animated-number");
+              if (counter && counter.textContent === "0") animateCounter(counter);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        document.querySelectorAll(".content-card").forEach(card => revealObserver.observe(card));
+        const sectionObserver = new IntersectionObserver((entries) => {
+          document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active', 'font-semibold'));
+          const visible = entries.filter(e => e.isIntersecting);
+          if (visible.length > 0) {
+            const id = visible[0].target.id;
+            const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+            if (activeLink) activeLink.classList.add('active', 'font-semibold');
+          }
+        }, { rootMargin: '-40% 0px -60% 0px' });
+        document.querySelectorAll('section[id]').forEach(section => sectionObserver.observe(section));
+      });
+    </script>
+  </body> 
+</html>

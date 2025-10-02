@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chủ Đề Tháng 9</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* Sử dụng font Inter làm font chữ mặc định */
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8f9fa; /* Màu nền xám nhạt */
+      }
+      /* Hiệu ứng chuyển động cho thẻ chủ đề */
+      .topic-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e5e7eb; /* Thêm viền nhẹ */
+      }
+      .topic-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
+      }
+      .card-icon {
+        font-size: 2rem;
+        color: #3b82f6; /* Màu xanh của icon */
+      }
+    </style>
+  </head>
+  <body class="text-gray-800">
+    <div class="container mx-auto px-4 py-8 md:py-16">
+      <div class="mb-8">
+        <a
+          href="cac-thang.html"
+          class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <i class="fas fa-arrow-left mr-2"></i>
+          Quay lại Danh Mục Chính
+        </a>
+      </div>
+
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-3">
+          Chủ Đề Tháng 9
+        </h1>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Khám phá các bài viết, phân tích và hướng dẫn chi tiết được biên soạn
+          trong tháng 9.
+        </p>
+      </div>
+
+      <div
+        id="topicsGrid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
+        </div>
+    </div>
+
+    <script>
+      // Danh sách các chủ đề của Tháng 9
+      const topics = [
+        "bong-bong-AI.html",
+        "gia-dong-san-chung-cu.html",
+        "gop-y-thiet-ke-vuong.html",
+        "may-in-nhan-brother.html",
+        "trai-phieu-kho-bac-my.html",
+      ];
+
+      // Ánh xạ từ slug sang tiêu đề hoàn chỉnh và icon
+      const titleMap = {
+        "bong-bong-AI.html": { 
+            title: "Phân Tích Bong Bóng AI", 
+            icon: "fa-solid fa-brain" 
+        },
+        "gia-dong-san-chung-cu.html": {
+            title: "Giá Bất Động Sản & Chung Cư",
+            icon: "fa-solid fa-building-columns"
+        },
+        "gop-y-thiet-ke-vuong.html": {
+            title: "Góp Ý Thiết Kế Sản Phẩm",
+            icon: "fa-solid fa-palette"
+        },
+        "may-in-nhan-brother.html": {
+            title: "Phân Tích Máy In Nhãn Brother",
+            icon: "fa-solid fa-print"
+        },
+        "trai-phieu-kho-bac-my.html": {
+            title: "Phân Tích Trái Phiếu Kho Bạc Mỹ",
+            icon: "fa-solid fa-chart-line"
+        },
+      };
+
+      const topicsGrid = document.getElementById("topicsGrid");
+      const basePath = ""; // Để trống nếu các file html nằm cùng thư mục
+
+      // Hàm lấy thông tin chủ đề từ map
+      function getTopicInfo(slug) {
+        if (titleMap[slug]) {
+          return titleMap[slug];
+        }
+        // Fallback nếu không có trong map
+        return {
+          title: slug.replace(".html", "").replace(/-/g, " "),
+          icon: "fa-solid fa-file-alt" // Icon mặc định
+        };
+      }
+
+      // Tạo và hiển thị các thẻ chủ đề
+      topics.forEach((topicSlug) => {
+        const topicInfo = getTopicInfo(topicSlug);
+        const topicLink = `${basePath}${topicSlug}`;
+
+        const card = document.createElement("div");
+        card.className =
+          "topic-card bg-white rounded-2xl p-8 flex flex-col text-center items-center";
+
+        card.innerHTML = `
+                <div class="card-icon mb-4">
+                    <i class="${topicInfo.icon}"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 flex-grow mb-6">${topicInfo.title}</h3>
+                <a href="${topicLink}" class="mt-auto w-full inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
+                    Xem Chi Tiết
+                </a>
+            `;
+
+        topicsGrid.appendChild(card);
+      });
+    </script>
+  </body>
+</html>

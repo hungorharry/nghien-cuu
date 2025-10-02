@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Tư Duy: Lộ Trình Học SQL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .controls-container {
+            background-color: #e6e9ef;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 
+                inset -6px -6px 12px rgba(255, 255, 255, 0.9),
+                inset 6px 6px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            width: min(95vw, 1000px);
+        }
+        .controls-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #334155;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .control-item {
+            display: flex;
+            align-items: center;
+            background: #f0f2f5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .control-item:hover { background-color: #dde1e7; }
+        .control-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .control-item label {
+            color: #475569;
+            font-weight: 600;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+        .diagram-container {
+            position: relative;
+            width: min(95vw, 1000px);
+            height: min(95vw, 1000px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e6e9ef;
+            border-radius: 30px;
+            box-shadow: 
+                -12px -12px 24px rgba(255, 255, 255, 0.9),
+                12px 12px 24px rgba(0, 0, 0, 0.1);
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .circle-node {
+            position: absolute;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.8rem;
+            padding: 10px;
+            box-sizing: border-box;
+            line-height: 1.3;
+            box-shadow: 0 6px 12px rgba(51, 65, 85, 0.35);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+            cursor: pointer;
+            word-break: break-word;
+            z-index: 10;
+            border: 3px solid transparent;
+        }
+        .circle-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5);
+        }
+
+        /* --- HIGHLIGHT STYLES --- */
+        .circle-node.highlight {
+            transform: scale(1.15) !important; 
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.5) !important; 
+            z-index: 20 !important; 
+            opacity: 1 !important; 
+        }
+        .circle-node.related {
+            opacity: 1 !important; 
+            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.5); 
+            transform: scale(1.05); 
+        }
+        .circle-node.dimmed {
+            opacity: 0.2; 
+            transform: scale(0.95); 
+        }
+        /* --- END NEW STYLES --- */
+
+        @media (min-width: 768px) {
+            .circle-node { font-size: 1rem; padding: 15px; }
+            .rank-label { font-size: 0.75em; }
+        }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content {
+            background-color: #ffffff; padding: 30px 40px; border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            max-width: 650px;
+            width: 90%; position: relative;
+            transform: scale(0.95) translateY(-20px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 85vh; overflow-y: auto;
+        }
+        .modal-overlay.show .modal-content { transform: scale(1) translateY(0); }
+        .modal-title { font-size: 1.8rem; font-weight: 700; color: #1e293b; margin-bottom: 10px; text-align: center; }
+        .modal-body { font-size: 1rem; color: #334155; line-height: 1.7; text-align: left; }
+        .modal-body h3 { 
+            font-size: 1.2rem; 
+            font-weight: 600; 
+            color: #f97316; /* Consistent orange for headings */
+            margin-top: 20px; 
+            margin-bottom: 10px; 
+        }
+        .modal-body ul { list-style-type: disc; padding-left: 20px; }
+        .modal-body code { background-color: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
+        .modal-close-btn { background-color: #ef4444; color: #ffffff; padding: 10px 24px; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; font-weight: 600; transition: background-color 0.2s ease, transform 0.2s ease; display: block; margin: 25px auto 0; }
+        .modal-close-btn:hover { background-color: #dc2626; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-800 text-center mb-2">Sơ Đồ Tư Duy: Lộ Trình Học SQL</h1>
+        <p class="text-slate-600 text-center mb-6 max-w-2xl">Một lộ trình trực quan cho người mới bắt đầu. Click vào các nút để xem chi tiết và dùng checkbox để lọc các chủ đề bạn muốn tập trung.</p>
+
+        <div class="controls-container">
+            <h3 class="controls-title">Bảng điều khiển chủ đề</h3>
+            <div id="controlsGrid" class="controls-grid"></div>
+        </div>
+
+        <div id="diagramContainer" class="diagram-container">
+            <canvas id="diagramCanvas"></canvas>
+        </div>
+    </div>
+
+    <div id="tooltipModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <div id="modalBody" class="modal-body"></div>
+            <button id="closeModalBtn" class="modal-close-btn">Đóng</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('diagramContainer');
+        const canvas = document.getElementById('diagramCanvas');
+        const ctx = canvas.getContext('2d');
+        const controlsGrid = document.getElementById('controlsGrid');
+        const tooltipModal = document.getElementById('tooltipModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        
+        let renderedNodes = [];
+
+        const categoryColors = {
+            CORE: '#334155',
+            FUNDAMENTAL: '#2563eb',
+            DML: '#16a34a',
+            QUERYING: '#f97316',
+            STRUCTURE: '#7c3aed',
+            ADVANCED: '#dc2626'
+        };
+
+        const nodeData = [
+            { text: "Lộ Trình Học SQL", rank: 0, category: 'CORE', connections: ["Cơ Sở SQL", "Thao Tác Dữ Liệu", "Truy Vấn Nâng Cao", "Cấu Trúc Database"], tooltip: { content: "### Điểm Bắt Đầu: Lộ Trình Học SQL\n\nĐây là trung tâm của sơ đồ, đại diện cho toàn bộ hành trình học SQL của bạn. Từ đây, bạn sẽ tỏa ra các nhánh kiến thức chính, từ những lệnh cơ bản nhất đến các kỹ thuật phức tạp." } },
+            { text: "Cơ Sở SQL", rank: 1, category: 'FUNDAMENTAL', connections: ["SELECT", "WHERE", "ORDER BY", "Lộ Trình Học SQL"], tooltip: { content: "### Nhóm 1: Cơ Sở SQL\n\nĐây là những viên gạch nền tảng đầu tiên. Nắm vững nhóm này, bạn có thể bắt đầu **lấy dữ liệu** theo ý muốn từ cơ sở dữ liệu." } },
+            { text: "SELECT", rank: 2, category: 'FUNDAMENTAL', connections: ["Cơ Sở SQL", "WHERE", "Hàm Tổng Hợp"], tooltip: { content: "### SELECT: Lấy Dữ Liệu\n\nLà câu lệnh quan trọng và được sử dụng nhiều nhất. Dùng để chọn và lấy dữ liệu từ một hoặc nhiều bảng.\n\n`SELECT ten_cot FROM ten_bang;`" } },
+            { text: "WHERE", rank: 3, category: 'FUNDAMENTAL', connections: ["SELECT", "AND, OR, NOT", "Thao Tác Dữ Liệu"], tooltip: { content: "### WHERE: Lọc Dữ Liệu\n\nĐi kèm với `SELECT`, `UPDATE`, `DELETE` để lọc các hàng dữ liệu dựa trên một điều kiện cụ thể.\n\n*Ví dụ: chỉ lấy các sản phẩm có giá > 100.000đ.*\n\n`SELECT * FROM SanPham WHERE Gia > 100000;`" } },
+            { text: "AND, OR, NOT", rank: 4, category: 'FUNDAMENTAL', connections: ["WHERE"], tooltip: { content: "### AND, OR, NOT: Kết Hợp Điều Kiện\n\nCác toán tử logic dùng trong mệnh đề `WHERE` để kết hợp nhiều điều kiện lọc, giúp truy vấn trở nên chính xác và mạnh mẽ hơn." } },
+            { text: "ORDER BY", rank: 5, category: 'FUNDAMENTAL', connections: ["Cơ Sở SQL"], tooltip: { content: "### ORDER BY: Sắp Xếp Kết Quả\n\nDùng để sắp xếp bộ kết quả trả về theo một hoặc nhiều cột, theo thứ tự tăng dần (`ASC`) hoặc giảm dần (`DESC`)." } },
+            { text: "Thao Tác Dữ Liệu", rank: 6, category: 'DML', connections: ["INSERT INTO", "UPDATE", "DELETE", "Lộ Trình Học SQL", "WHERE"], tooltip: { content: "### Nhóm 2: Thao Tác Dữ Liệu (DML)\n\nSau khi biết cách lấy dữ liệu, bạn sẽ học cách **thay đổi** nó: thêm dữ liệu mới, cập nhật dữ liệu cũ và xóa dữ liệu không cần thiết." } },
+            { text: "INSERT INTO", rank: 7, category: 'DML', connections: ["Thao Tác Dữ Liệu"], tooltip: { content: "### INSERT INTO: Thêm Dữ Liệu Mới\n\nDùng để chèn một hoặc nhiều dòng dữ liệu mới vào một bảng." } },
+            { text: "UPDATE", rank: 8, category: 'DML', connections: ["Thao Tác Dữ Liệu"], tooltip: { content: "### UPDATE: Cập Nhật Dữ Liệu\n\nDùng để chỉnh sửa, cập nhật các giá trị trong các dòng dữ liệu đã tồn tại. **Luôn dùng `WHERE`** để tránh cập nhật nhầm toàn bộ bảng!" } },
+            { text: "DELETE", rank: 9, category: 'DML', connections: ["Thao Tác Dữ Liệu"], tooltip: { content: "### DELETE: Xóa Dữ Liệu\n\nDùng để xóa một hoặc nhiều dòng dữ liệu khỏi bảng. **Cực kỳ cẩn thận và luôn dùng `WHERE`**!" } },
+            { text: "Truy Vấn Nâng Cao", rank: 10, category: 'QUERYING', connections: ["Lộ Trình Học SQL", "JOINs", "GROUP BY", "Hàm Tổng Hợp", "Kỹ Thuật Nâng Cao"], tooltip: { content: "### Nhóm 3: Truy Vấn Nâng Cao\n\nNâng tầm khả năng truy vấn của bạn. Nhóm này giúp bạn **kết hợp thông tin từ nhiều nơi** và **tổng hợp dữ liệu** để tạo ra các báo cáo có giá trị." } },
+            { text: "JOINs", rank: 11, category: 'QUERYING', connections: ["Truy Vấn Nâng Cao", "Khóa Chính & Ngoại"], tooltip: { content: "### JOINs: Kết Nối Các Bảng\n\nLà kỹ thuật **cực kỳ quan trọng** để kết hợp các dòng từ hai hoặc nhiều bảng dựa trên một cột liên quan giữa chúng (thường là khóa chính/ngoại). Có nhiều loại: `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`." } },
+            { text: "Hàm Tổng Hợp", rank: 12, category: 'QUERYING', connections: ["SELECT", "GROUP BY", "Truy Vấn Nâng Cao"], tooltip: { content: "### Hàm Tổng Hợp (Aggregate Functions)\n\nBao gồm `COUNT()`, `SUM()`, `AVG()`, `MIN()`, `MAX()`. Các hàm này thực hiện một phép tính trên một tập hợp các giá trị và trả về một giá trị duy nhất. Thường được sử dụng với `GROUP BY`." } },
+            { text: "GROUP BY", rank: 13, category: 'QUERYING', connections: ["Truy Vấn Nâng Cao", "Hàm Tổng Hợp", "HAVING"], tooltip: { content: "### GROUP BY: Nhóm Dữ Liệu\n\nNhóm các hàng có cùng giá trị trong các cột được chỉ định thành các hàng tóm tắt. Thường dùng để kết hợp với các hàm tổng hợp.\n\n*Ví dụ: Tính tổng doanh thu cho **mỗi** thành phố.*" } },
+            { text: "HAVING", rank: 14, category: 'QUERYING', connections: ["GROUP BY"], tooltip: { content: "### HAVING: Lọc Theo Nhóm\n\nGiống như `WHERE` nhưng dùng để lọc dữ liệu **sau khi** đã được nhóm bởi `GROUP BY`. `WHERE` lọc từng dòng, `HAVING` lọc cả nhóm." } },
+            { text: "Cấu Trúc Database", rank: 15, category: 'STRUCTURE', connections: ["Lộ Trình Học SQL", "Tạo & Xóa Bảng", "Constraints"], tooltip: { content: "### Nhóm 4: Cấu Trúc Database (DDL)\n\nTìm hiểu cách **thiết kế và xây dựng** nên bộ khung của cơ sở dữ liệu: tạo bảng, định nghĩa các cột và thiết lập các quy tắc cho dữ liệu." } },
+            { text: "Tạo & Xóa Bảng", rank: 16, category: 'STRUCTURE', connections: ["Cấu Trúc Database", "Constraints"], tooltip: { content: "### CREATE, ALTER, DROP TABLE\n\n- **CREATE TABLE**: Tạo một bảng mới.\n- **ALTER TABLE**: Sửa đổi cấu trúc của một bảng đã có (thêm, xóa, sửa cột).\n- **DROP TABLE**: Xóa hoàn toàn một bảng." } },
+            { text: "Constraints", rank: 17, category: 'STRUCTURE', connections: ["Tạo & Xóa Bảng", "Khóa Chính & Ngoại"], tooltip: { content: "### Constraints: Ràng Buộc Dữ Liệu\n\nLà các quy tắc được áp dụng cho các cột của bảng để đảm bảo tính chính xác và toàn vẹn của dữ liệu. Ví dụ: `NOT NULL` (không được rỗng), `UNIQUE` (không trùng lặp), `DEFAULT` (giá trị mặc định)..." } },
+            { text: "Khóa Chính & Ngoại", rank: 18, category: 'STRUCTURE', connections: ["Constraints", "JOINs"], tooltip: { content: "### Primary & Foreign Key\n\n- **Primary Key (Khóa chính)**: Một ràng buộc để xác định duy nhất mỗi bản ghi trong bảng.\n- **Foreign Key (Khóa ngoại)**: Một khóa được sử dụng để liên kết hai bảng lại với nhau. Đây là nền tảng cho `JOINs`." } },
+            { text: "Kỹ Thuật Nâng Cao", rank: 19, category: 'ADVANCED', connections: ["Truy Vấn Nâng Cao", "CASE", "Views", "UNION", "Subqueries", "CTEs (WITH Clause)", "Window Functions"], tooltip: { content: "### Nhóm 5: Kỹ Thuật Nâng Cao\n\nNhững công cụ mạnh mẽ giúp bạn giải quyết các bài toán phức tạp, làm cho câu lệnh SQL của bạn linh hoạt và có tổ chức hơn." } },
+            { text: "CASE", rank: 20, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao"], tooltip: { content: "### CASE: Logic Điều Kiện\n\nGiống như câu lệnh `if-then-else` trong lập trình. Cho phép bạn thêm logic điều kiện vào trong câu lệnh SQL.\n\n*Ví dụ: Phân loại khách hàng là 'VIP' hoặc 'Thường' dựa trên tổng chi tiêu.*" } },
+            { text: "UNION", rank: 21, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao"], tooltip: { content: "### UNION: Gộp Kết Quả\n\nDùng để kết hợp tập kết quả của hai hoặc nhiều câu lệnh `SELECT` thành một tập kết quả duy nhất. Lưu ý `UNION` sẽ loại bỏ các dòng trùng lặp, trong khi `UNION ALL` sẽ giữ lại tất cả." } },
+            { text: "Views", rank: 22, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao"], tooltip: { content: "### Views: Bảng Ảo\n\nMột View là một bảng ảo dựa trên tập kết quả của một câu lệnh SQL. Bạn có thể lưu một câu lệnh `SELECT` phức tạp thành một View và sau đó truy vấn nó như một bảng thông thường, giúp đơn giản hóa và tái sử dụng code." } },
+            { text: "Subqueries", rank: 23, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao", "WHERE", "SELECT"], tooltip: { content: "### Subqueries (Truy vấn con)\n\nLà một câu lệnh `SELECT` được lồng bên trong một câu lệnh SQL khác. Chúng có thể được sử dụng trong mệnh đề `SELECT`, `FROM`, `WHERE` và rất hữu ích để thực hiện các phép lọc hoặc tính toán phức tạp." } },
+            { text: "CTEs (WITH Clause)", rank: 24, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao", "Subqueries"], tooltip: { content: "### CTEs (Common Table Expressions)\n\nSử dụng mệnh đề `WITH`, CTEs cho phép bạn định nghĩa một tập kết quả tạm thời mà bạn có thể tham chiếu đến trong câu lệnh `SELECT`, `INSERT`, `UPDATE` hoặc `DELETE`. Chúng giúp chia nhỏ các truy vấn phức tạp, làm cho code dễ đọc và bảo trì hơn so với Subqueries dài dòng." } },
+            { text: "Window Functions", rank: 25, category: 'ADVANCED', connections: ["Kỹ Thuật Nâng Cao", "Hàm Tổng Hợp"], tooltip: { content: "### Window Functions\n\nLà các hàm thực hiện tính toán trên một tập hợp các hàng liên quan đến hàng hiện tại. Khác với hàm tổng hợp (tổng hợp thành một hàng), Window Functions trả về một giá trị cho mỗi hàng.\n\n*Các hàm phổ biến: `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `LEAD()`, `LAG()`.*" } }
+        ];
+
+        // Highlight functions (kept from previous version)
+        const handleMouseOver = (event) => {
+            const hoveredNodeIndex = parseInt(event.currentTarget.dataset.originalIndex);
+            const hoveredNode = renderedNodes.find(n => n.originalIndex === hoveredNodeIndex);
+            if (!hoveredNode) return;
+
+            const connectedNodeNames = new Set(hoveredNode.connections);
+            renderedNodes.forEach(node => {
+                if (node.connections && node.connections.includes(hoveredNode.text)) {
+                    connectedNodeNames.add(node.text);
+                }
+            });
+            
+            renderedNodes.forEach(node => {
+                const el = node.element;
+                el.classList.remove('highlight', 'related', 'dimmed'); 
+                if (node.originalIndex === hoveredNode.originalIndex) {
+                    el.classList.add('highlight');
+                } else if (connectedNodeNames.has(node.text)) {
+                    el.classList.add('related');
+                } else {
+                    el.classList.add('dimmed');
+                }
+            });
+            drawNetworkLines(hoveredNode); 
+        };
+
+        const handleMouseOut = () => {
+            renderedNodes.forEach(node => {
+                node.element.classList.remove('highlight', 'related', 'dimmed');
+            });
+            drawNetworkLines(); 
+        };
+
+        nodeData.forEach((node, index) => { node.isActive = true; node.originalIndex = index; });
+        
+        const createControls = () => {
+            controlsGrid.innerHTML = '';
+            const sortedNodes = [...nodeData].sort((a, b) => {
+                if (a.rank === 0) return -1;
+                if (b.rank === 0) return 1;
+                return a.text.localeCompare(b.text);
+            });
+
+            sortedNodes.forEach(node => {
+                const controlItem = document.createElement('div');
+                controlItem.className = 'control-item';
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `check-${node.originalIndex}`;
+                checkbox.checked = node.isActive;
+                checkbox.dataset.index = node.originalIndex;
+                const categoryColor = categoryColors[node.category] || '#334155';
+                checkbox.style.accentColor = categoryColor;
+                const label = document.createElement('label');
+                label.htmlFor = `check-${node.originalIndex}`;
+                label.textContent = node.text;
+                controlItem.appendChild(checkbox);
+                controlItem.appendChild(label);
+                controlsGrid.appendChild(controlItem);
+                checkbox.addEventListener('change', (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    nodeData.find(n => n.originalIndex === index).isActive = e.target.checked;
+                    renderDiagram();
+                });
+            });
+        };
+
+        const renderDiagram = () => {
+            const containerSize = Math.min(container.offsetWidth, container.offsetHeight);
+            canvas.width = containerSize; canvas.height = containerSize;
+            container.querySelectorAll('.circle-node').forEach(el => el.remove());
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const activeNodesData = nodeData.filter(node => node.isActive).sort((a,b) => a.rank - b.rank);
+            if (activeNodesData.length > 0) {
+                createNodes(activeNodesData, containerSize);
+                drawNetworkLines();
+            }
+        };
+        
+        const createNodes = (activeNodes, containerSize) => {
+            const numNodes = activeNodes.length;
+            const nodeDiameterRatio = numNodes > 12 ? 0.15 : (numNodes > 6 ? 0.18 : 0.22);
+            const radius = containerSize / 2 * (numNodes > 5 ? 0.78 : (numNodes > 1 ? 0.65 : 0)); 
+            const centerX = containerSize / 2, centerY = containerSize / 2;
+            let nodeDiameter = containerSize * nodeDiameterRatio;
+
+            if (numNodes <= 4) nodeDiameter = containerSize * 0.25; 
+            
+            renderedNodes = [];
+            const centerNodeData = activeNodes.find(n => n.rank === 0);
+            const peripheralNodes = activeNodes.filter(n => n.rank !== 0);
+
+            if (centerNodeData) {
+                const centerNodeDiameter = numNodes === 1 ? containerSize * 0.4 : nodeDiameter * 1.2; 
+                const x = centerX - centerNodeDiameter / 2; 
+                const y = centerY - centerNodeDiameter / 2;
+                renderedNodes.push(createNodeElement(centerNodeData, x, y, centerNodeDiameter));
+            }
+            peripheralNodes.forEach((data, i) => {
+                const angle = (i / peripheralNodes.length) * Math.PI * 2 - Math.PI / 2;
+                const x = centerX + radius * Math.cos(angle) - nodeDiameter / 2;
+                const y = centerY + radius * Math.sin(angle) - nodeDiameter / 2;
+                renderedNodes.push(createNodeElement(data, x, y, nodeDiameter));
+            });
+        };
+
+        // --- NEW: Function to populate modal content ---
+        const populateModalContent = (nodeToDisplay) => {
+            modalTitle.textContent = nodeToDisplay.text;
+            modalBody.innerHTML = marked.parse(nodeToDisplay.tooltip.content); 
+
+            // Add related topics to modal
+            const relatedTopicsContainer = document.createElement('div');
+            // Using inline style for h3 here to ensure it applies inside the dynamic content
+            relatedTopicsContainer.innerHTML = '<h3 style="font-size: 1.2rem; font-weight: 600; color: #f97316; margin-top: 20px; margin-bottom: 10px;">Các chủ đề liên quan:</h3>';
+            const relatedList = document.createElement('ul');
+            relatedList.style.listStyleType = 'none';
+            relatedList.style.paddingLeft = '0';
+
+            const relatedNodesSet = new Set();
+            // Find nodes that current node connects to (current node is a prerequisite for them)
+            if (nodeToDisplay.connections) {
+                nodeToDisplay.connections.forEach(connectedNodeName => {
+                    const connectedNode = nodeData.find(n => n.text === connectedNodeName);
+                    if (connectedNode) {
+                        relatedNodesSet.add(connectedNode);
+                    }
+                });
+            }
+            // Find nodes that connect to current node (current node is a dependency for them)
+            nodeData.forEach(potentialParentNode => {
+                if (potentialParentNode.connections && potentialParentNode.connections.includes(nodeToDisplay.text) && potentialParentNode.originalIndex !== nodeToDisplay.originalIndex) {
+                    relatedNodesSet.add(potentialParentNode);
+                }
+            });
+
+            if (relatedNodesSet.size > 0) {
+                const sortedRelatedNodes = Array.from(relatedNodesSet).sort((a, b) => a.text.localeCompare(b.text));
+
+                sortedRelatedNodes.forEach(relatedNode => {
+                    const listItem = document.createElement('li');
+                    listItem.style.marginBottom = '5px';
+                    listItem.style.display = 'flex';
+                    listItem.style.alignItems = 'center';
+
+                    // Category color dot
+                    const colorDot = document.createElement('span');
+                    colorDot.style.display = 'inline-block';
+                    colorDot.style.width = '10px';
+                    colorDot.style.height = '10px';
+                    colorDot.style.borderRadius = '50%';
+                    colorDot.style.backgroundColor = categoryColors[relatedNode.category] || '#ccc';
+                    colorDot.style.marginRight = '8px';
+                    listItem.appendChild(colorDot);
+
+                    const topicText = document.createElement('span');
+                    topicText.textContent = `${relatedNode.text} (${relatedNode.category.replace(/([A-Z])/g, ' $1').trim()})`;
+                    topicText.style.fontWeight = '600';
+                    topicText.style.color = '#2563eb'; // A clickable link color
+                    topicText.style.cursor = 'pointer';
+                    topicText.style.textDecoration = 'underline';
+                    topicText.style.transition = 'color 0.2s ease'; // Smooth color transition
+                    topicText.style.userSelect = 'none'; // Prevent text selection on click/hover
+
+                    topicText.onmouseover = () => topicText.style.color = '#f97316'; // Hover color
+                    topicText.onmouseout = () => topicText.style.color = '#2563eb'; // Default color
+
+                    topicText.addEventListener('click', (e) => {
+                        e.preventDefault(); 
+                        e.stopPropagation(); // Prevent modal from closing if this click triggers event bubbling
+                        populateModalContent(relatedNode); // Recursively call for the new node
+                        tooltipModal.querySelector('.modal-content').scrollTop = 0; // Scroll to top for new content
+                    });
+
+                    listItem.appendChild(topicText);
+                    relatedList.appendChild(listItem);
+                });
+                relatedTopicsContainer.appendChild(relatedList);
+                modalBody.appendChild(relatedTopicsContainer);
+            } else {
+                const noRelated = document.createElement('p');
+                noRelated.textContent = "Không có chủ đề liên quan nào được liệt kê trực tiếp.";
+                noRelated.style.color = '#64748b';
+                noRelated.style.fontStyle = 'italic';
+                noRelated.style.marginTop = '20px'; 
+                modalBody.appendChild(noRelated);
+            }
+        };
+        // --- END NEW function ---
+
+
+        const createNodeElement = (data, x, y, diameter) => {
+            const nodeElement = document.createElement('div');
+            nodeElement.className = 'circle-node';
+            nodeElement.style.width = `${diameter}px`; nodeElement.style.height = `${diameter}px`;
+            nodeElement.style.left = `${x}px`; nodeElement.style.top = `${y}px`;
+            const categoryColor = categoryColors[data.category] || '#334155';
+            nodeElement.style.backgroundColor = categoryColor;
+            nodeElement.style.borderColor = getDarkerColor(categoryColor);
+            const rankLabel = document.createElement('span');
+            rankLabel.className = 'rank-label'; 
+            rankLabel.textContent = data.category === 'CORE' ? 'Tổng quan' : data.category.replace(/([A-Z])/g, ' $1').trim().toUpperCase(); 
+            nodeElement.appendChild(rankLabel);
+            const textContent = document.createElement('span');
+            textContent.textContent = data.text;
+            nodeElement.appendChild(textContent);
+            nodeElement.dataset.originalIndex = data.originalIndex;
+            container.appendChild(nodeElement);
+            
+            // --- MODIFIED: Use populateModalContent for click event ---
+            nodeElement.addEventListener('click', () => {
+                const clickedIndex = parseInt(nodeElement.dataset.originalIndex);
+                const originalNodeData = nodeData.find(n => n.originalIndex === clickedIndex);
+                populateModalContent(originalNodeData); // Call the new function
+                tooltipModal.classList.add('show');
+                tooltipModal.querySelector('.modal-content').scrollTop = 0;
+            });
+            // --- END MODIFIED ---
+
+            nodeElement.addEventListener('mouseover', handleMouseOver);
+            nodeElement.addEventListener('mouseout', handleMouseOut);
+            
+            const nodeRadius = diameter / 2;
+            return { ...data, x: x + nodeRadius, y: y + nodeRadius, radius: nodeRadius, element: nodeElement };
+        };
+        
+        const drawNetworkLines = (highlightedNode = null) => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const renderedNodeMap = new Map(renderedNodes.map(node => [node.text, node]));
+            const defaultColor = 'rgba(100, 116, 139, 0.6)';
+            const highlightColor = '#f97316'; 
+            
+            for (const node1 of renderedNodes) {
+                if (node1.connections) {
+                    for (const connectionName of node1.connections) {
+                         const node2 = renderedNodeMap.get(connectionName);
+                         if (node2 && node1.isActive && node2.isActive) { 
+                            const isHighlighted = highlightedNode && (
+                                (highlightedNode.text === node1.text && highlightedNode.connections.includes(node2.text)) ||
+                                (highlightedNode.text === node2.text && node2.connections && node2.connections.includes(node1.text))
+                            );
+
+                            ctx.beginPath();
+                            ctx.moveTo(node1.x, node1.y);
+                            ctx.lineTo(node2.x, node2.y);
+                            
+                            if (highlightedNode) {
+                                ctx.strokeStyle = isHighlighted ? highlightColor : 'rgba(100, 116, 139, 0.1)'; 
+                                ctx.lineWidth = isHighlighted ? 4 : 2.5;
+                            } else {
+                                ctx.strokeStyle = defaultColor;
+                                ctx.lineWidth = 2.5;
+                            }
+                            ctx.stroke();
+                         }
+                    }
+                }
+            }
+        };
+        
+        const getDarkerColor = (hex) => {
+            if (!hex) return '#000000';
+            let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+            r = Math.max(0, r - 30); g = Math.max(0, g - 30); b = Math.max(0, b - 30);
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        };
+
+        closeModalBtn.addEventListener('click', () => tooltipModal.classList.remove('show'));
+        // Ensure clicking on the overlay closes the modal but clicking inside content does not
+        tooltipModal.addEventListener('click', (event) => {
+            if (event.target === tooltipModal) { tooltipModal.classList.remove('show'); }
+        });
+        
+        createControls();
+        renderDiagram();
+        window.addEventListener('resize', renderDiagram);
+    });
+    </script>
+
+</body>
+</html>

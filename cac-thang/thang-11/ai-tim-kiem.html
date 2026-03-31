@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo Cáo Chiến Lược: Kiến Trúc AI Doanh Nghiệp 2025-2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+      }
+      .card {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05),
+          0 2px 4px -2px rgb(0 0 0 / 0.05);
+        padding: 1.5rem;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 2rem;
+      }
+      
+      /* --- SCROLLBAR TÙY CHỈNH (FIX LỖI HIỂN THỊ CODE) --- */
+      .custom-scrollbar::-webkit-scrollbar {
+        height: 8px; /* Chiều cao thanh cuộn ngang */
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      /* Scrollbar cho nền tối (Phần Blueprint) */
+      .bg-slate-900 .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .bg-slate-900 .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* --- ANIMATION (FIX LỖI ICON QUAY) --- */
+      @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .animate-spin-slow {
+        animation: spin-slow 3s linear infinite;
+      }
+      
+      /* --- TAB TRANSITION --- */
+      .content-section {
+        display: none;
+        animation: fadeIn 0.4s ease-out;
+      }
+      .content-section.active {
+        display: block;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f1f5f9;
+      }
+
+      /* Sidebar Styles */
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        color: #64748b;
+        transition: all 0.2s;
+        cursor: pointer;
+        margin-bottom: 0.5rem;
+      }
+      .sidebar-link:hover {
+        background-color: #f1f5f9;
+        color: #0f172a;
+      }
+      .sidebar-link.active {
+        background-color: #1e40af; /* AI Blue */
+        color: white;
+        font-weight: 600;
+      }
+      .sidebar-link i {
+        width: 1.5rem;
+        text-align: center;
+        margin-right: 0.75rem;
+      }
+
+      /* Typography */
+      h3 {
+        color: #1e40af;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      h4 {
+        color: #1e293b;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Custom Components */
+      .highlight-box {
+        padding: 1.25rem;
+        border-radius: 0.5rem;
+        border-left: 4px solid;
+        margin-bottom: 1.5rem;
+      }
+      .highlight-box.blue {
+        background-color: #eff6ff;
+        border-color: #3b82f6;
+      }
+      .highlight-box.green {
+        background-color: #f0fdf4;
+        border-color: #22c55e;
+      }
+      .highlight-box.orange {
+        background-color: #fff7ed;
+        border-color: #f97316;
+      }
+      
+      /* Code Block Styling */
+      pre {
+        white-space: pre-wrap;       /* Cho phép xuống dòng */
+        word-wrap: break-word;       /* Ngắt từ nếu quá dài */
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50">
+    <div class="flex h-screen overflow-hidden">
+      
+      <!-- SIDEBAR -->
+      <aside class="hidden md:flex flex-col w-72 bg-white border-r border-slate-200 h-full">
+        <div class="p-6 border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-800 rounded flex items-center justify-center text-white font-bold text-xl"><i class="fas fa-robot"></i></div>
+            <div>
+              <h1 class="font-bold text-slate-800 leading-tight">AI STRATEGY</h1>
+              <p class="text-xs text-slate-500">2025-2026 Analysis</p>
+            </div>
+          </div>
+        </div>
+        <nav class="flex-1 p-4 overflow-y-auto">
+            <div class="text-xs font-semibold text-slate-400 uppercase mb-2 px-2">Phân Tích Tổng Quan</div>
+            <a class="sidebar-link active" onclick="switchTab('tab-overview')">
+                <i class="fas fa-chart-pie"></i> Tóm Tắt Điều Hành
+            </a>
+            
+            <div class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-2">Phân Tích Kỹ Thuật</div>
+            <a class="sidebar-link" onclick="switchTab('tab-architecture')">
+                <i class="fas fa-microchip"></i> Kiến Trúc Gemini 3
+            </a>
+            <a class="sidebar-link" onclick="switchTab('tab-comparison')">
+                <i class="fas fa-balance-scale"></i> Tại Sao Là GEO?
+            </a>
+            
+            <div class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-2">Chiến Lược Tìm Kiếm</div>
+            <a class="sidebar-link" onclick="switchTab('tab-geo')">
+                <i class="fas fa-search-dollar"></i> Chiến Lược GEO
+            </a>
+            <a class="sidebar-link" onclick="switchTab('tab-recommendation')">
+                <i class="fas fa-chess-king"></i> Kết Luận & Khuyến Nghị
+            </a>
+        </nav>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-50">
+        <!-- Header Mobile -->
+        <header class="md:hidden bg-white p-4 border-b flex justify-between items-center sticky top-0 z-10">
+            <h1 class="font-bold text-blue-900">AI STRATEGY REPORT</h1>
+            <button class="text-slate-600"><i class="fas fa-bars"></i></button>
+        </header>
+
+        <div class="max-w-6xl mx-auto p-4 md:p-8">
+            
+            <!-- TAB 1: TỔNG QUAN -->
+            <section id="tab-overview" class="content-section active">
+                <!-- Header Section -->
+              <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+                        <span class="bg-green-100 text-green-700 p-2 rounded-lg text-xl"><i class="fas fa-search-dollar"></i></span>
+                        Chiến Lược GEO: Quy Trình Tối Ưu Hóa Cho AI Tìm Kiếm
+                    </h2>
+                    <p class="text-slate-500 mt-2 text-sm border-l-4 border-green-500 pl-4">
+                        "Trong kỷ nguyên AI (Gemini, DeepSeek), mục tiêu không còn là lọt vào Top 10 đường link xanh (SEO), mà là trở thành <strong>nguồn trích dẫn duy nhất (Single Source of Truth)</strong> trong câu trả lời của AI."
+                    </p>
+                </div>
+
+                <!-- PHẦN 1: TƯ DUY CỐT LÕI -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- SEO vs GEO -->
+                    <div class="card !mb-0 border-t-4 border-t-slate-400">
+                        <h4 class="text-slate-700 font-bold text-lg mb-4 flex items-center gap-2">
+                            <i class="fas fa-history text-slate-400"></i> SEO Truyền Thống
+                        </h4>
+                        <ul class="space-y-3 text-sm text-slate-600">
+                            <li class="flex gap-3">
+                                <span class="text-red-500"><i class="fas fa-times"></i></span>
+                                <span>Nhồi nhét từ khóa (Keywords Stuffing).</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-500"><i class="fas fa-times"></i></span>
+                                <span>Viết bài dài lê thê để giữ chân người dùng (Time on site).</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-red-500"><i class="fas fa-times"></i></span>
+                                <span>Định nghĩa lại những thứ hiển nhiên (VD: "AI là gì?").</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 bg-slate-100 p-3 rounded text-xs text-slate-500 text-center font-bold">
+                            AI ĐÃ BIẾT HẾT NHỮNG ĐIỀU NÀY -> BẠN SẼ BỊ BỎ QUA.
+                        </div>
+                    </div>
+
+                    <!-- GEO Strategy -->
+                    <div class="card !mb-0 border-t-4 border-t-green-500 bg-green-50/30">
+                        <h4 class="text-green-800 font-bold text-lg mb-4 flex items-center gap-2">
+                            <i class="fas fa-robot text-green-600"></i> GEO (Tối Ưu Cho AI)
+                        </h4>
+                        <ul class="space-y-3 text-sm text-slate-700">
+                            <li class="flex gap-3">
+                                <span class="text-green-600"><i class="fas fa-check"></i></span>
+                                <span><strong>Information Gain:</strong> Cung cấp thông tin mới mà AI chưa biết.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-green-600"><i class="fas fa-check"></i></span>
+                                <span><strong>Cấu trúc dữ liệu:</strong> Bảng biểu, Số liệu, Schema Markup.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="text-green-600"><i class="fas fa-check"></i></span>
+                                <span><strong>Chain-of-Thought:</strong> Viết theo logic suy luận (A -> B -> C).</span>
+                            </li>
+                        </ul>
+                        <div class="mt-4 bg-green-100 p-3 rounded text-xs text-green-800 text-center font-bold border border-green-200">
+                            AI CẦN DỮ LIỆU ĐỂ SUY LUẬN -> BẠN SẼ ĐƯỢC TRÍCH DẪN.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHẦN 2: QUY TRÌNH 3 BƯỚC CỤ THỂ -->
+                <h3 class="text-xl font-bold text-slate-800 mb-6">Quy Trình 3 Bước Để "Dạy" AI Đọc Nội Dung Của Bạn</h3>
+                
+                <div class="space-y-8">
+                    
+                    <!-- BƯỚC 1: INFORMATION GAIN -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="w-full md:w-1/4">
+                            <div class="bg-blue-600 text-white rounded-xl p-6 text-center shadow-lg h-full flex flex-col justify-center items-center">
+                                <span class="text-5xl font-bold opacity-20 mb-2">01</span>
+                                <i class="fas fa-fingerprint text-3xl mb-3"></i>
+                                <h4 class="font-bold">Information Gain</h4>
+                                <p class="text-xs opacity-80 mt-2">Gia tăng thông tin</p>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-3/4 card !mb-0">
+                            <h5 class="text-blue-800 font-bold text-lg mb-2">Viết cái gì? (What to write)</h5>
+                            <p class="text-sm text-slate-600 mb-4">
+                                Các mô hình LLM được huấn luyện trên toàn bộ Internet. Nó đã biết kiến thức phổ thông. Để nó trích dẫn bạn, bạn phải cung cấp "mảnh ghép còn thiếu".
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                                    <span class="text-xs font-bold text-red-500 uppercase">Đừng viết:</span>
+                                    <p class="text-sm font-semibold text-slate-700">"Táo là một loại trái cây có nhiều vitamin..."</p>
+                                    <p class="text-xs text-slate-500 mt-1">(AI đã biết điều này từ Wikipedia)</p>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                                    <span class="text-xs font-bold text-green-600 uppercase">Hãy viết:</span>
+                                    <p class="text-sm font-semibold text-slate-700">"Khảo sát 2025: 60% người Việt thích táo Envy hơn táo Fuji vì độ giòn..."</p>
+                                    <p class="text-xs text-slate-500 mt-1">(Dữ liệu gốc, Số liệu mới, Quan điểm chuyên gia)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BƯỚC 2: CHAIN-OF-THOUGHT -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="w-full md:w-1/4">
+                            <div class="bg-purple-600 text-white rounded-xl p-6 text-center shadow-lg h-full flex flex-col justify-center items-center">
+                                <span class="text-5xl font-bold opacity-20 mb-2">02</span>
+                                <i class="fas fa-project-diagram text-3xl mb-3"></i>
+                                <h4 class="font-bold">Chain of Thought</h4>
+                                <p class="text-xs opacity-80 mt-2">Mô phỏng suy luận</p>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-3/4 card !mb-0">
+                            <h5 class="text-purple-800 font-bold text-lg mb-2">Cấu trúc thế nào? (Structure)</h5>
+                            <p class="text-sm text-slate-600 mb-4">
+                                Các mô hình suy luận (DeepSeek R1, OpenAI o1) suy nghĩ theo từng bước (Step-by-step). Hãy cấu trúc bài viết của bạn để AI dễ dàng "gắp" thông tin vào luồng suy nghĩ của nó.
+                            </p>
+                            
+                            <!-- Blueprint -->
+                            <div class="border border-purple-200 rounded-lg overflow-hidden">
+                                <div class="bg-purple-50 px-4 py-2 border-b border-purple-200 text-xs font-bold text-purple-800 uppercase">
+                                    Blueprint bài viết chuẩn GEO
+                                </div>
+                                <div class="p-4 bg-white space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">1</span>
+                                        <div class="text-sm text-slate-700"><strong>Vấn đề & Bối cảnh:</strong> Nêu rõ ngữ cảnh cụ thể (Context).</div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">2</span>
+                                        <div class="text-sm text-slate-700"><strong>Dữ liệu so sánh (Table):</strong> <span class="text-purple-600 font-bold">QUAN TRỌNG!</span> Sử dụng bảng Markdown để so sánh. AI đọc bảng biểu cực tốt.</div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">3</span>
+                                        <div class="text-sm text-slate-700"><strong>Phân tích chuyên sâu:</strong> Tại sao A tốt hơn B? (Logic suy luận).</div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">4</span>
+                                        <div class="text-sm text-slate-700"><strong>Kết luận & Trích dẫn:</strong> Nguồn dữ liệu xác thực (Authority).</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BƯỚC 3: TECHNICAL & VIBE -->
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="w-full md:w-1/4">
+                            <div class="bg-indigo-600 text-white rounded-xl p-6 text-center shadow-lg h-full flex flex-col justify-center items-center">
+                                <span class="text-5xl font-bold opacity-20 mb-2">03</span>
+                                <i class="fas fa-code text-3xl mb-3"></i>
+                                <h4 class="font-bold">Tech & Vibe</h4>
+                                <p class="text-xs opacity-80 mt-2">Kỹ thuật & Ý định</p>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-3/4 card !mb-0">
+                            <h5 class="text-indigo-800 font-bold text-lg mb-2">Giao tiếp với máy (Machine Readable)</h5>
+                            <p class="text-sm text-slate-600 mb-4">
+                                Giúp AI hiểu nội dung của bạn mà không cần "đoán".
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Schema -->
+                                <div class="border border-slate-200 p-4 rounded-lg">
+                                    <h6 class="font-bold text-slate-800 text-sm mb-2"><i class="fas fa-tags text-indigo-500"></i> Schema Markup (JSON-LD)</h6>
+                                    <p class="text-xs text-slate-600 mb-2">Đừng chỉ viết văn bản. Hãy gắn thẻ dữ liệu:</p>
+                                    <div class="bg-slate-900 text-green-400 p-2 rounded text-[10px] font-mono">
+                                        "type": "Article",<br>
+                                        "author": { "@type": "Person", "name": "Chuyên gia A" },<br>
+                                        "knowsAbout": ["AI", "GEO", "Tech"]
+                                    </div>
+                                </div>
+                                <!-- Vibe -->
+                                <div class="border border-slate-200 p-4 rounded-lg">
+                                    <h6 class="font-bold text-slate-800 text-sm mb-2"><i class="fas fa-magic text-pink-500"></i> Optimizing for "Vibe"</h6>
+                                    <p class="text-xs text-slate-600 mb-2">Người dùng ngày càng tìm kiếm theo cảm xúc:</p>
+                                    <ul class="text-xs list-disc pl-4 space-y-1 text-slate-600">
+                                        <li>Dùng tính từ mô tả phong cách ("Tối giản", "Chuyên nghiệp").</li>
+                                        <li>Tập trung vào <strong>User Intent</strong> (Giải quyết vấn đề) thay vì Keyword Matching.</li>
+                                        <li>Đoạn văn ngắn, Scannable (Dễ đọc lướt).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: KIẾN TRÚC KỸ THUẬT -->
+            <section id="tab-architecture" class="content-section">
+                <div class="card">
+                    <div class="card">
+    <h3 class="card-title flex items-center gap-3">
+        <span class="bg-blue-100 text-blue-700 p-2 rounded-lg"><i class="fas fa-layer-group"></i></span>
+        Giải Mã Công Nghệ: "Bình Dân Hóa" 3 Khái Niệm Cốt Lõi
+    </h3>
+    <p class="text-slate-500 mb-8 italic border-l-4 border-blue-300 pl-4 py-2 bg-slate-50 rounded-r text-sm">
+        Bỏ qua các thuật ngữ kỹ thuật phức tạp, dưới đây là cách giải thích đơn giản nhất về việc tại sao Gemini 3 và DeepSeek lại thông minh hơn, và điều này <strong>tiết kiệm tiền</strong> cho doanh nghiệp nhỏ như thế nào.
+    </p>
+
+    <div class="space-y-10">
+        
+        <!-- TRỤ CỘT 1: GROUNDING -->
+        <div>
+            <h4 class="text-blue-800 font-bold text-lg mb-4 flex items-center gap-2 border-b border-slate-200 pb-2">
+                <span class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                Neo Đậu Thông Tin (Grounding) = "Thi Mở Sách"
+            </h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Giải thích dễ hiểu -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h5 class="font-bold text-slate-700 text-sm mb-2">📖 Dễ hiểu là gì?</h5>
+                    <p class="text-xs text-slate-600 mb-2">
+                        Các AI cũ giống như sinh viên đi thi <strong>"Đóng sách"</strong>: Chỉ được trả lời dựa trên trí nhớ (dữ liệu cũ). Nếu quên, nó sẽ tự bịa ra cho xong chuyện (Ảo giác).
+                    </p>
+                    <p class="text-xs text-slate-600">
+                        Gemini 3 giống như đi thi <strong>"Mở sách"</strong>: Khi bạn hỏi, nó được phép mở Google ra tra cứu ngay lập tức để lấy thông tin mới nhất rồi mới trả lời bạn.
+                    </p>
+                </div>
+
+                <!-- Lợi ích SME -->
+                <div class="bg-green-50 p-4 rounded-xl border border-green-200 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 opacity-10"><i class="fas fa-money-bill-wave text-4xl text-green-600"></i></div>
+                    <h5 class="font-bold text-green-800 text-sm mb-2"><i class="fas fa-gift mr-1"></i> Lợi ích cho Doanh nghiệp nhỏ:</h5>
+                    <ul class="text-xs text-slate-700 space-y-2">
+                        <li><strong>✅ Tiết kiệm chi phí mua dữ liệu:</strong> Không cần thuê bên thứ 3 làm báo cáo thị trường. Bạn có thể hỏi Gemini: <em>"Tìm giá bán của 5 đối thủ cạnh tranh tại Quận 1 hôm nay"</em> -> Nó sẽ tra Google và báo cáo cho bạn.</li>
+                        <li><strong>✅ Tránh rủi ro pháp lý:</strong> AI không bịa đặt các điều luật cũ. Nó tra cứu văn bản luật mới nhất.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRỤ CỘT 2: LONG CONTEXT -->
+        <div>
+            <h4 class="text-purple-800 font-bold text-lg mb-4 flex items-center gap-2 border-b border-slate-200 pb-2">
+                <span class="bg-purple-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                Cửa Sổ Ngữ Cảnh Lớn = "Trí Nhớ Siêu Phàm"
+            </h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Giải thích dễ hiểu -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h5 class="font-bold text-slate-700 text-sm mb-2">📚 Dễ hiểu là gì?</h5>
+                    <p class="text-xs text-slate-600 mb-2">
+                        AI cũ (GPT-4 đời đầu) giống như nhân viên có trí nhớ ngắn hạn, chỉ nhớ được khoảng 50 trang tài liệu. Nếu đưa 500 trang, nó sẽ quên đoạn đầu.
+                    </p>
+                    <p class="text-xs text-slate-600">
+                        Gemini 3 có thể nhớ cùng lúc <strong>hàng ngàn trang tài liệu, video dài 2 tiếng, hoặc hàng vạn dòng code</strong> mà không quên một dấu chấm phẩy nào.
+                    </p>
+                </div>
+
+                <!-- Lợi ích SME -->
+                <div class="bg-green-50 p-4 rounded-xl border border-green-200 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 opacity-10"><i class="fas fa-user-clock text-4xl text-green-600"></i></div>
+                    <h5 class="font-bold text-green-800 text-sm mb-2"><i class="fas fa-gift mr-1"></i> Lợi ích cho Doanh nghiệp nhỏ:</h5>
+                    <ul class="text-xs text-slate-700 space-y-2">
+                        <li><strong>✅ "Chat" với kho hồ sơ:</strong> Bạn có thể ném toàn bộ hóa đơn, hợp đồng, feedback khách hàng của cả năm 2024 vào và hỏi: <em>"Tìm ra 3 tháng nào doanh thu thấp nhất và nguyên nhân từ feedback khách hàng là gì?"</em>.</li>
+                        <li><strong>✅ Không cần thuê Data Analyst:</strong> AI tự tổng hợp số liệu từ mớ tài liệu lộn xộn của bạn.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRỤ CỘT 3: MOE -->
+        <div>
+            <h4 class="text-indigo-800 font-bold text-lg mb-4 flex items-center gap-2 border-b border-slate-200 pb-2">
+                <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                Kiến Trúc Chuyên Gia (MoE) = "Thuê Team Specialist Giá Rẻ"
+            </h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Giải thích dễ hiểu -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h5 class="font-bold text-slate-700 text-sm mb-2">👥 Dễ hiểu là gì?</h5>
+                    <p class="text-xs text-slate-600 mb-2">
+                        Thay vì thuê một ông Giám đốc lương cao (AI cũ) để làm tất cả mọi việc từ quét nhà đến tính toán (vừa đắt vừa chậm).
+                    </p>
+                    <p class="text-xs text-slate-600">
+                        Công nghệ MoE (của DeepSeek/Gemini) giống như bạn có một đội 100 chuyên gia: 1 ông giỏi Toán, 1 ông giỏi Văn, 1 ông giỏi Code. Khi bạn hỏi Toán, hệ thống chỉ gọi ông giỏi Toán dậy làm việc.
+                    </p>
+                </div>
+
+                <!-- Lợi ích SME -->
+                <div class="bg-green-50 p-4 rounded-xl border border-green-200 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-2 opacity-10"><i class="fas fa-tags text-4xl text-green-600"></i></div>
+                    <h5 class="font-bold text-green-800 text-sm mb-2"><i class="fas fa-gift mr-1"></i> Lợi ích cho Doanh nghiệp nhỏ:</h5>
+                    <ul class="text-xs text-slate-700 space-y-2">
+                        <li><strong>✅ Chi phí siêu rẻ (DeepSeek):</strong> Vì chỉ "gọi" đúng chuyên gia cần thiết, tốn ít điện hơn, nên giá rẻ hơn 10 lần. Doanh nghiệp nhỏ có thể tích hợp AI vào web bán hàng với chi phí chỉ vài đô la/tháng.</li>
+                        <li><strong>✅ Chuyên môn hóa cao:</strong> Nhờ chia nhỏ, AI viết code sẽ chuyên viết code, AI viết văn sẽ chuyên viết văn. Chất lượng đầu ra tốt hơn hẳn.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+            </section>
+
+            <!-- TAB 3: SO SÁNH DOANH NGHIỆP -->
+            <section id="tab-comparison" class="content-section">
+     <!-- PHẦN MỞ RỘNG: CHIẾN LƯỢC TRIỂN KHAI & 5-WHY -->
+<div class="mt-12">
+    <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+        <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 text-xl font-bold">
+            <i class="fas fa-search-plus"></i>
+        </div>
+        <div>
+            <h3 class="text-2xl font-bold text-slate-800">Phân Tích 5-Why: Tại Sao Phải Đổi Mới Nội Dung Ngay?</h3>
+            <p class="text-slate-500 text-sm">Truy tìm nguyên nhân gốc rễ của việc sụt giảm lưu lượng tìm kiếm (Traffic) trong kỷ nguyên AI.</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        
+        <!-- CỘT 1: 5-WHY (TÌM NGUYÊN NHÂN) -->
+        <div class="relative">
+            <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-200"></div>
+
+            <!-- Why 1 -->
+            <div class="relative pl-12 mb-6 group">
+                <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-slate-100 border-2 border-slate-300 flex items-center justify-center font-bold text-xs group-hover:bg-orange-500 group-hover:text-white group-hover:border-orange-500 transition">1</div>
+                <h5 class="font-bold text-slate-700 text-sm">Tại sao Traffic từ Google Search truyền thống đang giảm?</h5>
+                <p class="text-xs text-slate-500 mt-1"><i class="fas fa-arrow-right text-orange-500 mr-1"></i> Vì người dùng chuyển sang hỏi Gemini/ChatGPT để có câu trả lời trực tiếp thay vì tự tìm link.</p>
+            </div>
+
+            <!-- Why 2 -->
+            <div class="relative pl-12 mb-6 group">
+                <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-slate-100 border-2 border-slate-300 flex items-center justify-center font-bold text-xs group-hover:bg-orange-500 group-hover:text-white group-hover:border-orange-500 transition">2</div>
+                <h5 class="font-bold text-slate-700 text-sm">Tại sao AI trả lời trực tiếp mà không dẫn link về web tôi?</h5>
+                <p class="text-xs text-slate-500 mt-1"><i class="fas fa-arrow-right text-orange-500 mr-1"></i> Vì AI (như Gemini) hoạt động theo cơ chế "Zero-click". Nó đọc nội dung của bạn, tổng hợp lại và trả lời người dùng ngay tại chỗ.</p>
+            </div>
+
+            <!-- Why 3 -->
+            <div class="relative pl-12 mb-6 group">
+                <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-slate-100 border-2 border-slate-300 flex items-center justify-center font-bold text-xs group-hover:bg-orange-500 group-hover:text-white group-hover:border-orange-500 transition">3</div>
+                <h5 class="font-bold text-slate-700 text-sm">Tại sao AI lại bỏ qua nội dung của tôi khi tổng hợp?</h5>
+                <p class="text-xs text-slate-500 mt-1"><i class="fas fa-arrow-right text-orange-500 mr-1"></i> Vì nội dung của bạn mang tính "Generic" (chung chung), giống hệt 100 trang web khác. AI chỉ chọn nguồn có <strong>Information Gain (Thông tin mới)</strong> để trích dẫn.</p>
+            </div>
+
+            <!-- Why 4 -->
+            <div class="relative pl-12 mb-6 group">
+                <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-slate-100 border-2 border-slate-300 flex items-center justify-center font-bold text-xs group-hover:bg-orange-500 group-hover:text-white group-hover:border-orange-500 transition">4</div>
+                <h5 class="font-bold text-slate-700 text-sm">Tại sao nội dung tôi bị coi là "Generic" dù chuẩn SEO?</h5>
+                <p class="text-xs text-slate-500 mt-1"><i class="fas fa-arrow-right text-orange-500 mr-1"></i> Vì SEO cũ tập trung vào "Từ khóa" (Keywords) để máy tìm kiếm xếp hạng. Còn AI hiện đại đọc hiểu bằng "Ngữ nghĩa" (Semantics) và "Logic suy luận". Nó cần dữ liệu, không cần từ khóa.</p>
+            </div>
+
+            <!-- Root Cause -->
+            <div class="relative pl-12">
+                <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-orange-500 border-2 border-orange-600 flex items-center justify-center text-white font-bold text-xs animate-pulse">5</div>
+                <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                    <h5 class="font-bold text-orange-800 text-sm uppercase mb-2"><i class="fas fa-bullseye mr-1"></i> Nguyên nhân gốc rễ</h5>
+                    <p class="text-sm text-slate-700 font-semibold leading-relaxed">
+                        Doanh nghiệp đang viết nội dung cho <strong>Robot tìm kiếm (Crawler)</strong> của năm 2010, chứ không phải viết dữ liệu cho <strong>AI Suy luận (Reasoning Engine)</strong> của năm 2025.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CỘT 2: CHIẾN LƯỢC TRIỂN KHAI (HOW) -->
+        <div>
+            <div class="bg-blue-900 rounded-xl p-6 text-white shadow-lg h-full relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fas fa-chess-board text-9xl"></i></div>
+                
+                <h4 class="text-yellow-400 font-bold text-lg mb-6 relative z-10">Kế Hoạch Hành Động (Action Plan)</h4>
+
+                <div class="space-y-6 relative z-10">
+                    <!-- Step 1 -->
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded bg-white/10 flex items-center justify-center font-bold text-yellow-400 border border-white/20 flex-shrink-0">B1</div>
+                        <div>
+                            <h5 class="font-bold text-white text-sm">Chuyển đổi sang "Data Provider"</h5>
+                            <p class="text-xs text-slate-300 mt-1">
+                                Ngừng viết bài định nghĩa ("X là gì"). Bắt đầu công bố dữ liệu nội bộ: Báo cáo thị trường, Kết quả khảo sát khách hàng, Số liệu thực tế.
+                                <br><span class="text-green-400 italic">-> Để Gemini dùng bạn làm nguồn số liệu.</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded bg-white/10 flex items-center justify-center font-bold text-yellow-400 border border-white/20 flex-shrink-0">B2</div>
+                        <div>
+                            <h5 class="font-bold text-white text-sm">Cấu trúc lại bằng Markdown</h5>
+                            <p class="text-xs text-slate-300 mt-1">
+                                AI cực thích Bảng biểu (Table) và Danh sách (List). Hãy chuyển các đoạn văn dài dòng thành bảng so sánh Ưu/Nhược điểm.
+                                <br><span class="text-green-400 italic">-> Giúp DeepSeek R1 dễ dàng "đọc" và so sánh logic.</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded bg-white/10 flex items-center justify-center font-bold text-yellow-400 border border-white/20 flex-shrink-0">B3</div>
+                        <div>
+                            <h5 class="font-bold text-white text-sm">Tối ưu cho "Vibe Coding"</h5>
+                            <p class="text-xs text-slate-300 mt-1">
+                                Sử dụng ngôn ngữ tự nhiên, giàu cảm xúc và mô tả ngữ cảnh sử dụng (Use-case) thay vì chỉ liệt kê thông số kỹ thuật khô khan.
+                                <br><span class="text-green-400 italic">-> Để khớp với ý định tìm kiếm trừu tượng của người dùng.</span>
+                            </p>
+                        </div>
+                    </div>
+
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            </section>
+
+           <!-- TAB 4: CHIẾN LƯỢC GEO (ĐÃ CĂN CHỈNH "FIT" GIAO DIỆN) -->
+            <section id="tab-geo" class="content-section">
+                <!-- Wrapper giới hạn chiều rộng để không bị dính lề -->
+                <div class="max-w-5xl mx-auto space-y-10">
+
+                    <!-- 1. Header Section -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+                                    <span class="bg-gradient-to-br from-green-500 to-emerald-700 text-white w-10 h-10 rounded-lg flex items-center justify-center text-xl shadow-lg shadow-green-200">
+                                        <i class="fas fa-search-dollar"></i>
+                                    </span>
+                                    Chiến Lược GEO: Tối Ưu Hóa Tìm Kiếm AI
+                                </h2>
+                                <p class="text-slate-500 mt-2 text-sm max-w-2xl">
+                                    Generative Engine Optimization (GEO) - Cuộc đua giành vị trí "Câu trả lời duy nhất" (Single Source of Truth).
+                                </p>
+                            </div>
+                            <div class="hidden md:block text-right">
+                                <span class="inline-block px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-bold border border-green-100 mb-1">
+                                    <i class="fas fa-check-circle mr-1"></i> New Standard
+                                </span>
+                                <p class="text-xs text-slate-400">Updated: Q4/2025</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Concept Comparison: SEO vs GEO -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- SEO Card -->
+                        <div class="group relative bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+                            <div class="absolute top-4 left-0 w-1 h-12 bg-slate-300 rounded-r-lg"></div>
+                            <h3 class="text-slate-500 font-bold text-lg mb-4 flex items-center gap-2 pl-2">
+                                <i class="fas fa-history"></i> SEO Truyền Thống
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3 text-sm text-slate-500">
+                                    <i class="fas fa-times text-red-400 mt-1 flex-shrink-0"></i>
+                                    <span><strong>Mục tiêu:</strong> Top 10 đường link xanh.</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-sm text-slate-500">
+                                    <i class="fas fa-times text-red-400 mt-1 flex-shrink-0"></i>
+                                    <span><strong>Cách làm:</strong> Nhồi nhét từ khóa, viết dài dòng.</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-sm text-slate-500">
+                                    <i class="fas fa-times text-red-400 mt-1 flex-shrink-0"></i>
+                                    <span><strong>Kết quả:</strong> Người dùng phải tự đọc & tổng hợp.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- GEO Card -->
+                        <div class="group relative bg-green-50 p-6 rounded-xl border border-green-200 shadow-sm hover:shadow-lg transition-all duration-300">
+                            <div class="absolute top-4 left-0 w-1 h-12 bg-green-500 rounded-r-lg"></div>
+                            <h3 class="text-green-800 font-bold text-lg mb-4 flex items-center gap-2 pl-2">
+                                <i class="fas fa-robot"></i> GEO Hiện Đại
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3 text-sm text-slate-800">
+                                    <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+                                    <span><strong>Mục tiêu:</strong> Được AI trích dẫn làm nguồn.</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-sm text-slate-800">
+                                    <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+                                    <span><strong>Cách làm:</strong> Cung cấp "Information Gain" & Logic.</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-sm text-slate-800">
+                                    <i class="fas fa-check-circle text-green-600 mt-1 flex-shrink-0"></i>
+                                    <span><strong>Kết quả:</strong> Trả lời trực tiếp (Zero-click).</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3. The 3 Pillars of GEO (Grid Fit) -->
+           <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-6 border-l-4 border-blue-600 pl-3 flex items-center justify-between">
+                            <span>Ba Trụ Cột Kỹ Thuật (The 3 Pillars)</span>
+                            <span class="text-xs font-normal text-slate-500 bg-slate-100 px-2 py-1 rounded hidden md:block">Core Algorithm Factors</span>
+                        </h3>
+                        
+                        <!-- Grid Layout: Tự động điều chỉnh theo màn hình -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                            
+                            <!-- PILLAR 1: INFORMATION GAIN (CHI TIẾT) -->
+                            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:-translate-y-1 transition duration-300 flex flex-col h-full group">
+                                <div class="h-1 bg-blue-500 w-full rounded-t-xl group-hover:h-2 transition-all"></div>
+                                <div class="p-6 flex-1 flex flex-col">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 font-bold text-xl border border-blue-100 shadow-sm">
+                                            1
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 text-lg">Information Gain</h4>
+                                            <p class="text-[10px] uppercase font-bold text-blue-500 tracking-wider">Gia tăng thông tin gốc</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-sm text-slate-600 mb-4 leading-relaxed flex-1 space-y-3">
+                                        <p>
+                                            <strong>Nguyên lý:</strong> AI được huấn luyện trên hàng tỷ trang web. Nó đã biết những kiến thức phổ thông ("Táo là trái cây"). Nếu bạn viết lại điều đó, bạn có giá trị thông tin = 0.
+                                        </p>
+                                        <p>
+                                            Để được trích dẫn, nội dung của bạn phải làm giảm "Entropy" (độ hỗn loạn) bằng cách cung cấp dữ liệu mới mà bộ dữ liệu huấn luyện của AI chưa có.
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 mt-auto">
+                                        <p class="text-xs font-bold text-blue-800 mb-2 flex items-center gap-2">
+                                            <i class="fas fa-tools"></i> Triển khai kỹ thuật:
+                                        </p>
+                                        <ul class="text-xs text-slate-700 space-y-2">
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-blue-500 mt-0.5"></i>
+                                                <span><strong>Original Data:</strong> Công bố số liệu nội bộ (VD: Tỷ lệ hoàn hàng, Doanh số theo vùng).</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-blue-500 mt-0.5"></i>
+                                                <span><strong>Expert Quotes:</strong> Phỏng vấn chuyên gia có tên tuổi (Authority Entity).</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-blue-500 mt-0.5"></i>
+                                                <span><strong>Gap Analysis:</strong> Viết về những chủ đề ngách chưa ai khai thác.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PILLAR 2: CHAIN-OF-THOUGHT (CHI TIẾT) -->
+                            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:-translate-y-1 transition duration-300 flex flex-col h-full group">
+                                <div class="h-1 bg-purple-500 w-full rounded-t-xl group-hover:h-2 transition-all"></div>
+                                <div class="p-6 flex-1 flex flex-col">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 font-bold text-xl border border-purple-100 shadow-sm">
+                                            2
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 text-lg">Chain-of-Thought</h4>
+                                            <p class="text-[10px] uppercase font-bold text-purple-500 tracking-wider">Tối ưu mạch suy luận</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-sm text-slate-600 mb-4 leading-relaxed flex-1 space-y-3">
+                                        <p>
+                                            <strong>Nguyên lý:</strong> Các model mới (DeepSeek R1, OpenAI o1) tư duy theo chuỗi (Step-by-step). Chúng ưu tiên nội dung có cấu trúc logic rõ ràng để dễ dàng "tiêu hóa".
+                                        </p>
+                                        <p>
+                                            Nội dung văn xuôi dài dòng (Wall of text) sẽ bị bỏ qua. Nội dung có cấu trúc (Structured Content) sẽ được ưu tiên.
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-purple-50/50 p-4 rounded-lg border border-purple-100 mt-auto">
+                                        <p class="text-xs font-bold text-purple-800 mb-2 flex items-center gap-2">
+                                            <i class="fas fa-tools"></i> Triển khai kỹ thuật:
+                                        </p>
+                                        <ul class="text-xs text-slate-700 space-y-2">
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-purple-500 mt-0.5"></i>
+                                                <span><strong>Markdown Tables:</strong> Chuyển dữ liệu so sánh thành bảng biểu.</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-purple-500 mt-0.5"></i>
+                                                <span><strong>Lists & Bullet points:</strong> Chia nhỏ quy trình thành các bước 1, 2, 3.</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-purple-500 mt-0.5"></i>
+                                                <span><strong>Schema (JSON-LD):</strong> Gắn thẻ <code>HowTo</code>, <code>FAQPage</code> cho bài viết.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PILLAR 3: VIBE & INTENT (CHI TIẾT) -->
+                            <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:-translate-y-1 transition duration-300 flex flex-col h-full group md:col-span-2 xl:col-span-1">
+                                <div class="h-1 bg-orange-500 w-full rounded-t-xl group-hover:h-2 transition-all"></div>
+                                <div class="p-6 flex-1 flex flex-col">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600 font-bold text-xl border border-orange-100 shadow-sm">
+                                            3
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 text-lg">Vibe & Intent</h4>
+                                            <p class="text-[10px] uppercase font-bold text-orange-500 tracking-wider">Ngữ nghĩa & Cảm xúc</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-sm text-slate-600 mb-4 leading-relaxed flex-1 space-y-3">
+                                        <p>
+                                            <strong>Nguyên lý:</strong> Tìm kiếm không còn dựa trên từ khóa chính xác (Keyword Matching) mà dựa trên ý định (Intent) và ngữ cảnh (Context).
+                                        </p>
+                                        <p>
+                                            Người dùng hỏi: <em>"Tìm quán cafe để làm việc nhóm yên tĩnh"</em> (Vibe) chứ không hỏi <em>"Quán cafe có bàn lớn quận 1"</em> (Keyword).
+                                        </p>
+                                    </div>
+
+                                    <div class="bg-orange-50/50 p-4 rounded-lg border border-orange-100 mt-auto">
+                                        <p class="text-xs font-bold text-orange-800 mb-2 flex items-center gap-2">
+                                            <i class="fas fa-tools"></i> Triển khai kỹ thuật:
+                                        </p>
+                                        <ul class="text-xs text-slate-700 space-y-2">
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-orange-500 mt-0.5"></i>
+                                                <span><strong>Semantic Keywords:</strong> Dùng từ đồng nghĩa, từ chỉ cảm xúc (Chill, Chuyên nghiệp).</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-orange-500 mt-0.5"></i>
+                                                <span><strong>Use-Case Focus:</strong> Viết cho tình huống sử dụng cụ thể.</span>
+                                            </li>
+                                            <li class="flex items-start gap-2">
+                                                <i class="fas fa-check text-orange-500 mt-0.5"></i>
+                                                <span><strong>Scannable:</strong> Định dạng dễ đọc lướt để AI nắm bắt ý chính nhanh.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- 4. Deep Dive: Technical Implementation -->
+                    <div class="bg-slate-900 rounded-2xl p-6 md:p-8 text-white relative shadow-2xl overflow-hidden">
+                        <!-- Decor -->
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-green-500 rounded-full blur-[100px] opacity-10"></div>
+
+                        <div class="relative z-10">
+                            <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 border-b border-slate-700 pb-4 gap-4">
+                                <h3 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                                    <i class="fas fa-code text-green-400"></i> Kỹ Thuật: Cấu Trúc Bài Viết Chuẩn GEO
+                                </h3>
+                                <span class="text-[10px] font-mono bg-slate-800 px-3 py-1 rounded text-green-400 border border-slate-700 uppercase tracking-wider">
+                                    Machine-Readable
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                                <!-- Left: Content Structure -->
+                                <div>
+                                    <h4 class="text-green-400 font-bold text-sm uppercase mb-4">1. Cấu Trúc Khuyên Dùng</h4>
+                                    <div class="space-y-3">
+                                        <!-- Block 1 -->
+                                        <div class="bg-slate-800/50 p-3 rounded border-l-4 border-green-500 flex gap-3">
+                                            <div class="text-xs font-bold text-slate-500 w-10 pt-1">ĐẦU</div>
+                                            <div>
+                                                <p class="text-sm font-bold text-white">Direct Answer (Trả lời ngay)</p>
+                                                <p class="text-xs text-slate-400">Đưa kết luận lên đầu. AI lấy 50 từ đầu làm snippet.</p>
+                                            </div>
+                                        </div>
+                                        <!-- Block 2 -->
+                                        <div class="bg-slate-800/50 p-3 rounded border-l-4 border-blue-500 flex gap-3">
+                                            <div class="text-xs font-bold text-slate-500 w-10 pt-1">THÂN</div>
+                                            <div>
+                                                <p class="text-sm font-bold text-white">Data Tables (Bảng dữ liệu)</p>
+                                                <p class="text-xs text-slate-400">Dùng Markdown Table so sánh A vs B. AI cực thích.</p>
+                                            </div>
+                                        </div>
+                                        <!-- Block 3 -->
+                                        <div class="bg-slate-800/50 p-3 rounded border-l-4 border-purple-500 flex gap-3">
+                                            <div class="text-xs font-bold text-slate-500 w-10 pt-1">CUỐI</div>
+                                            <div>
+                                                <p class="text-sm font-bold text-white">Expert Verification (Xác thực)</p>
+                                                <p class="text-xs text-slate-400">Tên tác giả, kinh nghiệm, nguồn trích dẫn.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right: Code Example -->
+                                <div>
+                                    <h4 class="text-blue-400 font-bold text-sm uppercase mb-4">2. Mã Schema (JSON-LD)</h4>
+                                    <div class="bg-black/50 p-4 rounded-lg border border-slate-700 font-mono text-xs overflow-x-auto custom-scrollbar">
+<pre class="text-slate-300">
+&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "<span class="text-pink-400">@type</span>": "<span class="text-yellow-300">TechArticle</span>",
+  "headline": "So sánh AI cho Doanh nghiệp",
+  "author": {
+    "@type": "Person",
+    "name": "<span class="text-green-400">Nguyễn Văn A (Expert)</span>"
+  },
+  "proficiencyLevel": "Expert"
+}
+&lt;/script&gt;
+</pre>
+                                        <div class="mt-2 text-[10px] text-slate-500 italic">
+                                            *Giúp AI hiểu ngữ cảnh bài viết ngay lập tức.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+           <!-- TAB 5: KẾT LUẬN & QUY TRÌNH TRIỂN KHAI (ACTIONABLE DASHBOARD) -->
+            <section id="tab-recommendation" class="content-section">
+                <div class="max-w-5xl mx-auto space-y-10">
+                    
+                    <!-- 1. HERO: TỔNG KẾT CHIẾN LƯỢC -->
+                    <div class="bg-gradient-to-r from-slate-800 to-blue-900 rounded-2xl p-8 text-white shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                            <i class="fas fa-chess-king text-9xl"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <h2 class="text-3xl font-bold text-white mb-4 flex items-center gap-3">
+                                <span class="bg-white/20 p-2 rounded-lg"><i class="fas fa-clipboard-check"></i></span>
+                                Tổng Kết & Kế Hoạch Hành Động
+                            </h2>
+                            <p class="text-slate-200 text-lg leading-relaxed max-w-3xl">
+                                Kỷ nguyên AI không còn là cuộc đua "Ai viết hay hơn", mà là <strong>"Ai cung cấp dữ liệu tốt hơn"</strong>. Dưới đây là quyết định về Công nghệ và Quy trình sản xuất nội dung cần áp dụng ngay.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 2. QUYẾT ĐỊNH CÔNG NGHỆ (GIỮ NGUYÊN ĐỂ SO SÁNH) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Chọn Google -->
+                        <div class="bg-white rounded-xl border-l-4 border-blue-500 shadow-sm p-5 hover:shadow-md transition">
+                            <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2">
+                                <i class="fab fa-google text-blue-500"></i> Chọn Gemini Enterprise Khi:
+                            </h3>
+                            <ul class="text-sm text-slate-600 space-y-2 pl-6 list-disc">
+                                <li>Đang dùng hệ sinh thái <strong>Google Workspace</strong>.</li>
+                                <li>Cần bảo mật chuẩn <strong>SOC2 / HIPAA</strong>.</li>
+                                <li>Nhân viên không chuyên cần dùng <strong>Vibe Coding</strong>.</li>
+                            </ul>
+                        </div>
+                        <!-- Chọn DeepSeek -->
+                        <div class="bg-white rounded-xl border-l-4 border-purple-600 shadow-sm p-5 hover:shadow-md transition">
+                            <h3 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2">
+                                <i class="fas fa-bolt text-purple-600"></i> Chọn DeepSeek (Self-Host) Khi:
+                            </h3>
+                            <ul class="text-sm text-slate-600 space-y-2 pl-6 list-disc">
+                                <li>Muốn cắt giảm <strong>90% chi phí</strong> vận hành.</li>
+                                <li>Có đội IT mạnh để tự dựng Server (Giữ dữ liệu nội bộ).</li>
+                                <li>Cần AI chuyên sâu về <strong>Code & Logic</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 3. QUY TRÌNH TRIỂN KHAI NỘI DUNG (CHI TIẾT HÓA) -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-6 border-b border-slate-200 pb-4">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-xl">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-slate-800">Quy Trình Sản Xuất Nội Dung Chuẩn AI (AI-First Workflow)</h3>
+                                <p class="text-slate-500 text-sm">Hướng dẫn từng bước cho đội ngũ Content/Marketing.</p>
+                            </div>
+                        </div>
+
+                        <!-- 3 BƯỚC TRIỂN KHAI -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            
+                            <!-- BƯỚC 1: INPUT (Sourcing) -->
+                            <div class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-full relative group">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-blue-500 rounded-t-xl"></div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="font-bold text-blue-800 text-lg">B1. Gom Nguyên Liệu</h4>
+                                        <span class="text-xs font-bold bg-blue-100 text-blue-600 px-2 py-1 rounded">Sourcing</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mb-4 italic">"Đừng Google. Hãy tìm trong nhà."</p>
+                                    
+                                    <ul class="space-y-3 text-sm text-slate-700">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-square text-blue-500 mt-1"></i>
+                                            <span><strong>File Chat CSKH:</strong> Lọc ra các câu hỏi khó/lạ mà khách hay hỏi.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-square text-blue-500 mt-1"></i>
+                                            <span><strong>Nhật ký kỹ thuật:</strong> Các lỗi hay gặp, tỷ lệ bảo hành thực tế.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-check-square text-blue-500 mt-1"></i>
+                                            <span><strong>Review nội bộ:</strong> Cảm nhận thật của nhân viên khi dùng thử sản phẩm.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- BƯỚC 2: PROCESS (Formatting) -->
+                            <div class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-full relative group">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-purple-500 rounded-t-xl"></div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="font-bold text-purple-800 text-lg">B2. Chế Biến (Logic)</h4>
+                                        <span class="text-xs font-bold bg-purple-100 text-purple-600 px-2 py-1 rounded">Format</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mb-4 italic">"Đừng viết văn. Hãy kẻ bảng."</p>
+                                    
+                                    <ul class="space-y-3 text-sm text-slate-700">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-table text-purple-500 mt-1"></i>
+                                            <span><strong>Bảng so sánh:</strong> A vs B (Ưu/Nhược). AI cực thích đọc bảng.</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-list-ol text-purple-500 mt-1"></i>
+                                            <span><strong>Quy trình Step-by-step:</strong> Bước 1, Bước 2, Bước 3 (Rõ ràng).</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-code-branch text-purple-500 mt-1"></i>
+                                            <span><strong>Logic Nếu-Thì:</strong> "Nếu nhu cầu là X -> Thì chọn máy Y".</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- BƯỚC 3: OUTPUT (Vibe) -->
+                            <div class="bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-full relative group">
+                                <div class="absolute top-0 left-0 w-full h-1 bg-green-500 rounded-t-xl"></div>
+                                <div class="p-6">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <h4 class="font-bold text-green-800 text-lg">B3. Đóng Gói (Vibe)</h4>
+                                        <span class="text-xs font-bold bg-green-100 text-green-600 px-2 py-1 rounded">Semantics</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mb-4 italic">"Đừng máy móc. Hãy cảm xúc."</p>
+                                    
+                                    <ul class="space-y-3 text-sm text-slate-700">
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-tag text-green-500 mt-1"></i>
+                                            <span><strong>Đặt tên theo Vibe:</strong> "Laptop cho dân Cú Đêm" (thay vì Laptop pin trâu).</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-user-check text-green-500 mt-1"></i>
+                                            <span><strong>Xác thực chuyên gia:</strong> "Bài viết được kiểm duyệt bởi Kỹ thuật trưởng".</span>
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <i class="fas fa-code text-green-500 mt-1"></i>
+                                            <span><strong>Schema JSON-LD:</strong> Gắn thẻ để AI hiểu cấu trúc bài.</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. LỜI NHẮN CUỐI CÙNG -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-center">
+                        <p class="text-slate-600 text-sm font-medium">
+                            <i class="fas fa-quote-left text-slate-300 mr-2"></i>
+                            Mục tiêu cuối cùng: Biến Website của bạn thành một cuốn <strong>Wiki chuyên ngành</strong> mà Gemini/DeepSeek bắt buộc phải tham khảo khi trả lời người dùng.
+                            <i class="fas fa-quote-right text-slate-300 ml-2"></i>
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function switchTab(tabId) {
+        // Hide all sections
+        document.querySelectorAll('.content-section').forEach(el => {
+            el.classList.remove('active');
+        });
+        
+        // Deactivate all sidebar links
+        document.querySelectorAll('.sidebar-link').forEach(el => {
+            el.classList.remove('active');
+        });
+
+        // Show target section
+        document.getElementById(tabId).classList.add('active');
+
+        // Activate sidebar link
+        const activeLink = Array.from(document.querySelectorAll('.sidebar-link')).find(link => link.getAttribute('onclick').includes(tabId));
+        if(activeLink) activeLink.classList.add('active');
+      }
+      
+      // Mobile menu toggle logic
+      document.querySelector('header button').addEventListener('click', () => {
+          const sidebar = document.querySelector('aside');
+          sidebar.classList.toggle('hidden');
+          sidebar.classList.toggle('absolute');
+          sidebar.classList.toggle('z-50');
+          sidebar.classList.toggle('w-full');
+      });
+    </script>
+  </body>
+</html>

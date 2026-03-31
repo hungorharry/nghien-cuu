@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo Cáo Chiến Lược: Giải Pháp Hiển Thị Epson B2B & B2C</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8fafc;
+        color: #334155;
+      }
+      .card {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05),
+          0 2px 4px -2px rgb(0 0 0 / 0.05);
+        padding: 1.5rem;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 2rem;
+      }
+      /* Tùy chỉnh thanh cuộn ngang cho đẹp */
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px; /* Chiều cao thanh cuộn mỏng lại */
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1; /* Màu xám nhạt */
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8; /* Màu đậm hơn khi di chuột vào */
+}
+      .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f1f5f9;
+      }
+      .content-section {
+        display: none;
+        animation: fadeIn 0.4s ease-out;
+      }
+      .content-section.active {
+        display: block;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      /* Sidebar Styles */
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        color: #64748b;
+        transition: all 0.2s;
+        cursor: pointer;
+        margin-bottom: 0.5rem;
+      }
+      .sidebar-link:hover {
+        background-color: #f1f5f9;
+        color: #0f172a;
+      }
+      .sidebar-link.active {
+        background-color: #003399; /* Epson Blue */
+        color: white;
+        font-weight: 600;
+      }
+      .sidebar-link i {
+        width: 1.5rem;
+        text-align: center;
+        margin-right: 0.75rem;
+      }
+      /* Typography */
+      h3 {
+        color: #003399; /* Epson Blue */
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      h4 {
+        color: #1e293b;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      /* Custom Components */
+      .highlight-box {
+        padding: 1.25rem;
+        border-radius: 0.5rem;
+        border-left: 4px solid;
+        margin-bottom: 1.5rem;
+      }
+      .highlight-box.blue {
+        background-color: #eff6ff;
+        border-color: #3b82f6;
+      }
+      .highlight-box.green {
+        background-color: #f0fdf4;
+        border-color: #22c55e;
+      }
+      .highlight-box.orange {
+        background-color: #fff7ed;
+        border-color: #f97316;
+      }
+      .nash-matrix td {
+        border: 1px solid #e2e8f0;
+        padding: 1rem;
+        vertical-align: top;
+      }
+      /* Chat Bubble Style for Brainstorm */
+      .chat-bubble {
+        position: relative;
+        padding: 1rem;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+      .chat-bubble.consumer {
+        background-color: #f1f5f9;
+        border-bottom-left-radius: 0;
+        margin-right: 2rem;
+      }
+      .chat-bubble.epson-reply {
+        background-color: #eff6ff;
+        border: 1px solid #dbeafe;
+        border-bottom-right-radius: 0;
+        margin-left: 2rem;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50">
+    <div class="flex h-screen overflow-hidden">
+      
+      <!-- SIDEBAR -->
+      <aside class="hidden md:flex flex-col w-72 bg-white border-r border-slate-200 h-full">
+        <div class="p-6 border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-900 rounded flex items-center justify-center text-white font-bold text-xl">E</div>
+            <div>
+              <h1 class="font-bold text-slate-800 leading-tight">EPSON STRATEGY</h1>
+              <p class="text-xs text-slate-500">Vietnam Market Analysis</p>
+            </div>
+          </div>
+        </div>
+        <nav class="flex-1 p-4 overflow-y-auto">
+            <div class="text-xs font-semibold text-slate-400 uppercase mb-2 px-2">Phân Tích Chiến Lược</div>
+            <a class="sidebar-link active" onclick="switchTab('tab-overview')">
+                <i class="fas fa-chart-pie"></i> Tổng Quan Thị Trường
+            </a>
+            <a class="sidebar-link" onclick="switchTab('tab-brainstorm')">
+                <i class="fas fa-brain"></i> Góc Nhìn Người Tiêu Dùng
+            </a>
+            <a class="sidebar-link" onclick="switchTab('tab-5why')">
+                <i class="fas fa-search-plus"></i> Phân Tích 5-Why
+            </a>
+            
+            <div class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-2">Công Nghệ & Giải Pháp</div>
+            <a class="sidebar-link" onclick="switchTab('tab-technology')">
+                <i class="fas fa-microchip"></i> Công Nghệ & TCO
+            </a>
+            <a class="sidebar-link" onclick="switchTab('tab-strategy')">
+                <i class="fas fa-chess"></i> Điểm Cân Bằng Nash
+            </a>
+            <a class="sidebar-link" onclick="switchTab('tab-products')">
+                <i class="fas fa-box-open"></i> Danh Mục Chiến Lược
+            </a>
+            
+            <div class="text-xs font-semibold text-slate-400 uppercase mt-6 mb-2 px-2">Hệ Thống</div>
+            <a class="sidebar-link" onclick="switchTab('tab-partner')">
+                <i class="fas fa-handshake"></i> Hành Vi Người Dùng
+            </a>
+        </nav>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="flex-1 overflow-y-auto overflow-x-hidden bg-slate-50">
+        <!-- Header Mobile -->
+        <header class="md:hidden bg-white p-4 border-b flex justify-between items-center sticky top-0 z-10">
+            <h1 class="font-bold text-blue-900">EPSON REPORT</h1>
+            <button class="text-slate-600"><i class="fas fa-bars"></i></button>
+        </header>
+
+        <div class="max-w-6xl mx-auto p-4 md:p-8">
+            
+            <!-- TAB 1: TỔNG QUAN -->
+            <section id="tab-overview" class="content-section active">
+                <!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-slate-200 pb-4">
+    <div>
+        <h2 class="text-3xl font-bold text-slate-800 mb-2">Tóm Tắt Điều Hành & Chỉ Số Cốt Lõi</h2>
+        <p class="text-slate-500 text-sm max-w-2xl">
+            Báo cáo tổng hợp hiện trạng kinh doanh 2024 và định hướng chiến lược 2025-2029. 
+            Dữ liệu cho thấy sự chuyển dịch tất yếu từ "Số lượng" sang "Chất lượng".
+        </p>
+    </div>
+    <div class="mt-4 md:mt-0">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100">
+            <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+            Dữ liệu cập nhật: Q4/2024
+        </span>
+    </div>
+</div>
+
+<!-- Detailed Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+    
+    <!-- CARD 1: TĂNG TRƯỞNG -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition relative overflow-hidden group">
+        <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <i class="fas fa-chart-line text-6xl text-green-600"></i>
+        </div>
+        <div class="relative z-10">
+            <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Tiềm Năng Tăng Trưởng</div>
+            <div class="flex items-baseline gap-2 mb-3">
+                <span class="text-4xl font-extrabold text-green-600">15-20%</span>
+                <span class="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded">CAGR</span>
+            </div>
+            <div class="border-t border-slate-100 pt-3 mt-2">
+                <p class="text-xs text-slate-600 font-semibold mb-1">Động lực chính (Drivers):</p>
+                <p class="text-xs text-slate-500 leading-snug">
+                    Sự bùng nổ của phân khúc <strong>Smart Laser B2C</strong> (EpiqVision) và nhu cầu nâng cấp <strong>4K Gaming</strong>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 2: THỊ PHẦN VOLUME -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition relative overflow-hidden group">
+        <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <i class="fas fa-exclamation-triangle text-6xl text-orange-500"></i>
+        </div>
+        <div class="relative z-10">
+            <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Vị Thế Volume</div>
+            <div class="flex items-baseline gap-2 mb-3">
+                <span class="text-4xl font-extrabold text-orange-500">Top 3</span>
+                <span class="text-xs font-bold text-orange-700 bg-orange-100 px-2 py-0.5 rounded">Thách thức</span>
+            </div>
+            <div class="border-t border-slate-100 pt-3 mt-2">
+                <p class="text-xs text-slate-600 font-semibold mb-1">Nguyên nhân gốc rễ:</p>
+                <p class="text-xs text-slate-500 leading-snug">
+                    Áp lực từ máy chiếu <strong>DLP giá rẻ</strong> (Optoma/BenQ) và làn sóng máy chiếu <strong>LED mini</strong> trên E-commerce.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 3: CÔNG NGHỆ LÕI -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition relative overflow-hidden group">
+        <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <i class="fas fa-layer-group text-6xl text-blue-600"></i>
+        </div>
+        <div class="relative z-10">
+            <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Vũ Khí Cạnh Tranh</div>
+            <div class="flex items-baseline gap-2 mb-3">
+                <span class="text-4xl font-extrabold text-blue-900">3LCD</span>
+                <span class="text-xs font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Độc quyền</span>
+            </div>
+            <div class="border-t border-slate-100 pt-3 mt-2">
+                <p class="text-xs text-slate-600 font-semibold mb-1">Giá trị mang lại:</p>
+                <ul class="text-xs text-slate-500 space-y-1 list-disc pl-3">
+                    <li><strong>CLO cao:</strong> Màu sắc trung thực.</li>
+                    <li><strong>No Rainbow:</strong> Bảo vệ mắt & trải nghiệm.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 4: XU HƯỚNG TƯƠNG LAI -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition relative overflow-hidden group">
+        <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+            <i class="fas fa-rocket text-6xl text-indigo-600"></i>
+        </div>
+        <div class="relative z-10">
+            <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2">Chiến Lược Tương Lai</div>
+            <div class="flex items-baseline gap-2 mb-3">
+                <span class="text-4xl font-extrabold text-indigo-600">Laser</span>
+                <span class="text-xs font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">TCO Optimization</span>
+            </div>
+            <div class="border-t border-slate-100 pt-3 mt-2">
+                <p class="text-xs text-slate-600 font-semibold mb-1">Mục tiêu chuyển đổi:</p>
+                <p class="text-xs text-slate-500 leading-snug">
+                    Thay thế hoàn toàn bóng đèn. Cam kết tuổi thọ <strong>20.000 - 30.000 giờ</strong> để chiếm lĩnh dự án B2B.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+               <div class="card">
+                    <h3 class="card-title"><i class="fas fa-globe-asia"></i> Bối Cảnh Thị Trường Máy Chiếu Việt Nam 2024</h3>
+                    
+                    <div class="space-y-6 text-slate-600">
+                        <!-- Phân hóa thị trường -->
+                        <div>
+                            <h4 class="text-slate-800 font-bold text-lg mb-2">1. Sự Phân Hóa Cực Đoan Của Thị Trường</h4>
+                            <p class="mb-4">
+                                Thị trường máy chiếu Việt Nam đang trải qua một giai đoạn chuyển đổi cấu trúc sâu sắc, hình thành nên hai "thế giới" song song với tốc độ và động lực tăng trưởng hoàn toàn trái ngược nhau:
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Thế giới 1: Volume -->
+                                <div class="bg-orange-50 p-4 rounded-lg border border-orange-100">
+                                    <h5 class="font-bold text-orange-800 mb-2 flex items-center gap-2">
+                                        <i class="fas fa-fire"></i> Thế Giới 1: Cuộc Đua Volume Giá Rẻ
+                                    </h5>
+                                    <ul class="text-sm space-y-2 list-disc pl-4">
+                                        <li><strong>Phân khúc:</strong> Máy chiếu Mini LED/LCD đơn chip giá rẻ (2 - 5 triệu VNĐ).</li>
+                                        <li><strong>Kênh chủ đạo:</strong> Thương mại điện tử (Shopee, Lazada, TikTok Shop). Doanh thu E-commerce tăng trưởng đột phá <strong>64.39%</strong>.</li>
+                                        <li><strong>Đặc điểm:</strong> Cạnh tranh khốc liệt về giá, vòng đời sản phẩm ngắn, chất lượng hình ảnh và độ bền thấp.</li>
+                                        <li><strong>Thách thức cho Epson:</strong> Đây là nơi Epson <em>vắng mặt</em> do rào cản giá thành sản xuất cao của công nghệ 3LCD chuẩn mực.</li>
+                                    </ul>
+                                </div>
+                                <!-- Thế giới 2: Value -->
+                                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                    <h5 class="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                                        <i class="fas fa-gem"></i> Thế Giới 2: Tăng Trưởng Giá Trị Bền Vững
+                                    </h5>
+                                    <ul class="text-sm space-y-2 list-disc pl-4">
+                                        <li><strong>Phân khúc:</strong> Máy chiếu Doanh nghiệp, Giáo dục và Giải trí cao cấp (>11 triệu VNĐ).</li>
+                                        <li><strong>Động lực:</strong> Nhu cầu chuyển đổi số trong giáo dục và xu hướng giải trí màn hình lớn (>100 inch) tại gia.</li>
+                                        <li><strong>Đặc điểm:</strong> Khách hàng ưu tiên độ tin cậy, thương hiệu uy tín và chất lượng trải nghiệm lâu dài.</li>
+                                        <li><strong>Vị thế Epson:</strong> Dẫn đầu nhờ công nghệ lõi 3LCD và hệ sinh thái sản phẩm hoàn thiện.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chiến lược của Epson -->
+                        <div>
+                            <h4 class="text-slate-800 font-bold text-lg mb-2">2. Phản Ứng Chiến Lược Của Epson: "Không Tham Gia Cuộc Đua Xuống Đáy"</h4>
+                            <p class="mb-3">
+                                Thay vì pha loãng thương hiệu để cạnh tranh trong "biển đỏ" giá rẻ, Epson kiên định thực hiện <strong>Chiến Lược Kép (Dual Strategy)</strong> nhằm tối đa hóa lợi nhuận và định vị thương hiệu:
+                            </p>
+                            
+                            <div class="space-y-4">
+                                <!-- Chiến lược B2B -->
+                                <div class="flex gap-4">
+                                    <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-building text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-slate-700">Trụ Cột B2B: Chuyển Dịch Sang TCO (Tổng Chi Phí Sở Hữu)</h5>
+                                        <p class="text-sm mt-1">
+                                            Trong mảng Giáo dục & Văn phòng, Epson không chỉ bán máy chiếu, mà bán <strong>giải pháp tiết kiệm dài hạn</strong>. Bằng việc thúc đẩy dòng Laser (EB-L Series), Epson thuyết phục khách hàng nhìn xa hơn mức giá mua ban đầu (CAPEX) để thấy lợi ích khổng lồ từ việc loại bỏ chi phí bảo trì và thay bóng đèn (OPEX).
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Chiến lược B2C -->
+                                <div class="flex gap-4">
+                                    <div class="w-12 h-12 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-couch text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-slate-700">Trụ Cột B2C: Định Nghĩa Lại Phong Cách Sống (Lifestyle)</h5>
+                                        <p class="text-sm mt-1">
+                                            Với dòng EpiqVision Mini và Home Cinema 4K, Epson đánh vào <strong>trải nghiệm cảm xúc</strong>. Không chỉ là thiết bị phát hình, đó là một phần của nội thất thông minh (Google TV tích hợp), mang lại trải nghiệm điện ảnh chuẩn mực mà các máy chiếu giá rẻ không thể sao chép (Màu sắc chính xác, Không hiệu ứng cầu vồng).
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Highlight Box -->
+                        <div class="highlight-box blue mt-2">
+                            <h4 class="!mt-0 text-blue-900 font-bold text-base"><i class="fas fa-lightbulb mr-2 text-yellow-500"></i>Nhận Định Cốt Lõi 2024</h4>
+                            <p class="mb-0 text-sm text-blue-800">
+                                "Trong bối cảnh thị trường nhiễu loạn bởi hàng ngàn lựa chọn giá rẻ, giá trị lớn nhất của Epson không nằm ở việc có mức giá thấp nhất, mà ở khả năng cung cấp <strong>Sự An Tâm Tuyệt Đối</strong> (về độ bền, chất lượng hình ảnh và dịch vụ hậu mãi) cho những khách hàng hiểu rõ giá trị thực sự của đầu tư."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: BRAINSTORM (NEW) -->
+            <section id="tab-brainstorm" class="content-section">
+  <div class="card">
+    <h3 class="card-title flex items-center gap-3">
+        <span class="bg-blue-100 text-blue-700 p-2 rounded-lg"><i class="fas fa-brain"></i></span>
+        Góc Nhìn Người Tiêu Dùng: Hành Trình Từ "Sốc" Đến "Chốt"
+    </h3>
+    <p class="text-slate-500 mb-8 italic border-l-4 border-slate-300 pl-4 py-2 bg-slate-50 rounded-r text-sm">
+        "Để bán được hàng giá cao, ta phải nghe thấy tiếng thì thầm trong đầu khách hàng. Dưới đây là mô phỏng chân thực những rào cản tâm lý của người mua Việt Nam và cách Epson vượt qua nó."
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 relative">
+        <!-- Đường kẻ dọc phân chia trên màn hình lớn -->
+        <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-slate-200 -ml-px"></div>
+
+        <!-- CỘT 1: RÀO CẢN & CÚ SỐC (PAIN POINTS) -->
+        <div class="relative">
+            <div class="sticky top-4">
+                <h4 class="text-red-700 font-bold text-lg mb-6 flex items-center gap-2 border-b-2 border-red-100 pb-2">
+                    <i class="fas fa-exclamation-triangle"></i> Giai Đoạn 1: Cú Sốc & Nghi Ngờ
+                </h4>
+                
+                <!-- Tình huống 1: B2C -->
+                <div class="mb-8 group">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-slate-200 text-slate-600 text-xs font-bold px-2 py-1 rounded uppercase">Khách hàng Cá nhân (B2C)</span>
+                        <span class="text-xs text-slate-400">Đang lướt Shopee/TikTok</span>
+                    </div>
+                    <div class="chat-bubble consumer shadow-sm border border-slate-100 bg-white p-4 rounded-xl rounded-tl-none relative transition-transform transform group-hover:-translate-y-1">
+                        <div class="absolute -top-2 -left-2 text-4xl text-slate-200 opacity-50">"</div>
+                        <p class="font-bold text-slate-800 text-lg mb-2">Hơn 11 triệu cho cái máy rẻ nhất á? Đùa nhau à?</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Tôi vừa thấy cái máy Beecube hay XGimi gì đó trên TikTok có 3-4 triệu thôi. Nó nhỏ xíu, màu pastel xinh xắn, có sẵn Android TV. <br><br>
+                            Nhìn sang ông Epson này: To đùng, thiết kế nhìn như đồ văn phòng từ năm 2010, mà giá thì gấp 3 lần? Tôi chỉ muốn xem phim cuối tuần thôi, đâu cần chuyên nghiệp thế này. <strong>Epson đang bán thương hiệu hay bán máy vậy?</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tình huống 2: B2B -->
+                <div class="group">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-orange-100 text-orange-800 text-xs font-bold px-2 py-1 rounded uppercase">Hiệu Trưởng / IT Manager (B2B)</span>
+                        <span class="text-xs text-slate-400">Đang so sánh báo giá</span>
+                    </div>
+                    <div class="chat-bubble consumer shadow-sm border border-slate-100 bg-white p-4 rounded-xl rounded-tl-none relative transition-transform transform group-hover:-translate-y-1">
+                        <div class="absolute -top-2 -left-2 text-4xl text-slate-200 opacity-50">"</div>
+                        <p class="font-bold text-slate-800 text-lg mb-2">Tại sao tôi phải trả nhiều tiền hơn cho cái máy tối hơn?</p>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Bên đại lý A chào con <strong>Optoma PX390+ (4,100 Lumens)</strong> giá 10 triệu. <br>
+                            Bên đại lý B chào con <strong>Epson EB-E01 (3,300 Lumens)</strong> giá hơn 11 triệu. <br><br>
+                            Logic thông thường là 'Số to hơn = Tốt hơn' mà? Mua máy tối hơn về, học sinh ngồi cuối lớp không nhìn thấy thì tôi bị khiển trách à? Rõ ràng con Optoma kia hời hơn về mặt thông số!
+                        </p>
+                        <div class="mt-3 pt-3 border-t border-dashed border-red-200">
+                            <p class="text-xs font-bold text-red-600 flex items-center gap-1">
+                                <i class="fas fa-frown"></i> Điểm đau: "Bẫy Lumens Trắng" (White Brightness Trap)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CỘT 2: GIẢI MÃ & THUYẾT PHỤC (GAIN POINTS) -->
+        <div>
+            <h4 class="text-green-700 font-bold text-lg mb-6 flex items-center gap-2 border-b-2 border-green-100 pb-2">
+                <i class="fas fa-lightbulb"></i> Giai Đoạn 2: Khoảnh Khắc "Aha!"
+            </h4>
+
+            <!-- Giải mã B2C -->
+            <div class="mb-8 group">
+                <div class="flex items-center justify-end gap-2 mb-2">
+                    <span class="text-xs text-slate-400">Sau khi trải nghiệm thực tế</span>
+                    <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded uppercase">Cinephile / Game thủ</span>
+                </div>
+                <div class="chat-bubble epson-reply shadow-md bg-green-50 border border-green-100 p-4 rounded-xl rounded-tr-none text-right relative transition-transform transform group-hover:-translate-y-1">
+                    <div class="absolute -top-2 -right-2 text-4xl text-green-200 opacity-50">"</div>
+                    <p class="font-bold text-green-900 text-lg mb-2">Hóa ra tiền nào của nấy! Mắt mình không nói dối.</p>
+                    <p class="text-slate-700 text-sm leading-relaxed">
+                        Hôm nọ sang nhà bạn xem thử cái máy mini 3 triệu, tắt hết đèn tối om mà màu vẫn nhợt nhạt, xem phim hành động thì thấy vệt màu cầu vồng chớp chớp đau cả mắt. <br><br>
+                        Nay ra showroom xem con Epson, bật đèn phòng mà hình vẫn nét căng, màu da nhân vật hồng hào tự nhiên. Cái <strong>3LCD</strong> này đúng là 'đắt xắt ra miếng'. Thà mua một lần dùng sướng 5 năm còn hơn mua đồ rẻ về vứt xó sau 3 tháng.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Giải mã B2B -->
+            <div class="group">
+                <div class="flex items-center justify-end gap-2 mb-2">
+                    <span class="text-xs text-slate-400">Sau khi nghe tư vấn TCO</span>
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded uppercase">Giám đốc Tài chính</span>
+                </div>
+                <div class="chat-bubble epson-reply shadow-md bg-indigo-50 border border-indigo-100 p-4 rounded-xl rounded-tr-none text-right relative transition-transform transform group-hover:-translate-y-1">
+                    <div class="absolute -top-2 -right-2 text-4xl text-indigo-200 opacity-50">"</div>
+                    <p class="font-bold text-indigo-900 text-lg mb-2">Bài toán không nằm ở giá mua, mà ở giá dùng.</p>
+                    <p class="text-slate-700 text-sm leading-relaxed">
+                        Nếu mua máy bóng đèn rẻ kia, cứ 2 năm lại tốn 2-3 triệu thay bóng, chưa kể tiền công thợ và thời gian lớp học bị gián đoạn. <br><br>
+                        Chuyển sang <strong>Epson Laser</strong>, tuổi thọ 20,000 giờ coi như dùng 10 năm không cần đụng vào. Tính ra chi phí mỗi năm rẻ hơn hẳn. Lại còn thương hiệu Nhật, bảo hành chính hãng tận nơi. Duyệt phương án này là an toàn nhất cho ngân sách trường.
+                    </p>
+                    <div class="mt-3 pt-3 border-t border-dashed border-indigo-200">
+                        <p class="text-xs font-bold text-indigo-700 flex items-center justify-end gap-1">
+                            Điểm thắng: "Tư duy đầu tư TCO" <i class="fas fa-chart-line"></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section: Kết luận -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-slate-100 to-white rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-start gap-4">
+            <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1 shadow-lg shadow-blue-200">
+                <i class="fas fa-bullseye text-lg"></i>
+            </div>
+            <div>
+                <h5 class="font-bold text-blue-900 text-lg mb-1">Bài Học Chiến Lược</h5>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Khách hàng không ghét giá cao, họ ghét cảm giác bị "mua hớ". Nhiệm vụ của Epson không phải là giảm giá để cạnh tranh với hàng chợ, mà là <strong>giáo dục khách hàng</strong> nhìn thấy những giá trị ẩn (Màu sắc thực 3LCD, Không cầu vồng, TCO Laser) để họ tự tin rằng mức giá cao hơn là hoàn toàn xứng đáng.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+            </section>
+
+            <!-- TAB 3: 5-WHY (NEW) -->
+            <section id="tab-5why" class="content-section">
+                <div class="card">
+    <h3 class="card-title flex items-center gap-3">
+        <span class="bg-indigo-100 text-indigo-700 p-2 rounded-lg"><i class="fas fa-search-plus"></i></span>
+        Phân Tích 5-Why: Truy Tìm Gốc Rễ Vấn Đề
+    </h3>
+    <p class="text-slate-500 mb-8 italic">Phương pháp truy nguyên nguồn gốc để giải thích nghịch lý: Tại sao Epson mất thị phần Volume nhưng lại thắng về Value?</p>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <!-- CỘT 1: VẤN ĐỀ TIÊU CỰC (VOLUME) -->
+        <div class="relative">
+            <!-- Header -->
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-orange-100">
+                <div class="bg-orange-100 text-orange-600 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">1</div>
+                <div>
+                    <h4 class="text-orange-700 font-bold text-lg m-0">Nghịch Lý Volume</h4>
+                    <p class="text-xs text-orange-600 font-medium">Tại sao thương hiệu số 1 thế giới chỉ xếp thứ 3 về lượng nhập khẩu tại VN?</p>
+                </div>
+            </div>
+
+            <!-- Flow -->
+            <div class="space-y-0 relative pl-4 border-l-2 border-slate-100 ml-5">
+                
+                <!-- Why 1 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-orange-200 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 1?</span>
+                        <p class="text-sm font-semibold text-slate-800">Đối thủ cạnh tranh đang xả hàng ồ ạt vào thị trường.</p>
+                        <p class="text-xs text-slate-500 mt-2">Dữ liệu nhập khẩu HSN 9002 cho thấy các lô hàng giá rẻ từ Trung Quốc và các thương hiệu DLP (Optoma, BenQ) đang chiếm áp đảo về số lượng container.</p>
+                    </div>
+                </div>
+
+                <!-- Why 2 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-orange-300 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 2?</span>
+                        <p class="text-sm font-semibold text-slate-800">Phân khúc "Đại dương đỏ" 2-5 triệu VNĐ đang thống trị kênh Online.</p>
+                        <p class="text-xs text-slate-500 mt-2">Doanh thu E-commerce tăng 64%, nhưng chủ yếu là máy chiếu mini LED đơn chip. Epson hoàn toàn vắng mặt ở đây do rào cản chi phí sản xuất 3LCD (Giá min ~11tr).</p>
+                    </div>
+                </div>
+
+                <!-- Why 3 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-orange-400 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 3?</span>
+                        <p class="text-sm font-semibold text-slate-800">Khách hàng B2B bị sập bẫy "Lumens trắng thô".</p>
+                        <p class="text-xs text-slate-500 mt-2">Người mua hàng (Procurement) thường so sánh thông số trên giấy: Optoma PX390+ (4100lm) > Epson EB-E01 (3300lm). Họ chưa hiểu rằng độ sáng màu Epson cao gấp 3 lần DLP.</p>
+                    </div>
+                </div>
+
+                <!-- Why 4 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-orange-500 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 4?</span>
+                        <p class="text-sm font-semibold text-slate-800">Thị trường thiếu giáo dục về TCO (Tổng chi phí sở hữu).</p>
+                        <p class="text-xs text-slate-500 mt-2">Khách hàng chỉ nhìn thấy giá mua máy (CAPEX) rẻ hơn 1-2 triệu, mà quên mất chi phí thay bóng đèn (OPEX) 2.3 triệu/lần trong tương lai.</p>
+                    </div>
+                </div>
+
+                <!-- Root Cause -->
+                <div class="relative pl-8">
+                    <div class="absolute -left-[11px] top-0 bg-orange-500 border-4 border-orange-100 w-5 h-5 rounded-full animate-pulse"></div>
+                    <div class="bg-orange-50 p-5 rounded-lg border-l-4 border-orange-500 shadow-sm">
+                        <span class="text-xs font-bold text-orange-800 uppercase mb-1 block tracking-wider"><i class="fas fa-bullseye mr-1"></i> Nguyên Nhân Gốc Rễ</span>
+                        <p class="text-sm font-bold text-slate-800 leading-relaxed">
+                            Xung đột Định vị: Epson kiên quyết bảo vệ chuẩn mực chất lượng (3LCD/Color Brightness) và biên lợi nhuận, chấp nhận từ bỏ thị phần giá rẻ - nơi khách hàng chưa đủ trưởng thành để hiểu giá trị thực.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CỘT 2: CƠ HỘI TÍCH CỰC (VALUE) -->
+        <div class="relative">
+            <!-- Header -->
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-green-100">
+                <div class="bg-green-100 text-green-600 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">2</div>
+                <div>
+                    <h4 class="text-green-700 font-bold text-lg m-0">Tiềm Năng Giá Trị</h4>
+                    <p class="text-xs text-green-600 font-medium">Tại sao dự báo tăng trưởng giá trị lại lạc quan (CAGR 15-20%)?</p>
+                </div>
+            </div>
+
+            <!-- Flow -->
+            <div class="space-y-0 relative pl-4 border-l-2 border-slate-100 ml-5">
+                
+                <!-- Why 1 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-green-200 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 1?</span>
+                        <p class="text-sm font-semibold text-slate-800">Làn sóng chuyển dịch công nghệ sang Laser đang tăng tốc.</p>
+                        <p class="text-xs text-slate-500 mt-2">Thị trường đang ở điểm uốn (inflection point) khi công nghệ Laser trở nên phổ biến, thay thế dần bóng đèn halogen lỗi thời.</p>
+                    </div>
+                </div>
+
+                <!-- Why 2 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-green-300 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 2?</span>
+                        <p class="text-sm font-semibold text-slate-800">Laser giải quyết triệt để "nỗi đau" vận hành (OPEX).</p>
+                        <p class="text-xs text-slate-500 mt-2">Tuổi thọ 20,000 giờ loại bỏ hoàn toàn việc bảo trì. Đây là yếu tố "chốt hạ" đối với các khách hàng B2B/Giáo dục muốn tối ưu ngân sách dài hạn.</p>
+                    </div>
+                </div>
+
+                <!-- Why 3 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-green-400 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 3?</span>
+                        <p class="text-sm font-semibold text-slate-800">Epson tạo ra sản phẩm "All-in-One" hoàn hảo.</p>
+                        <p class="text-xs text-slate-500 mt-2">EpiqVision Mini không chỉ là máy chiếu. Nó kết hợp Laser TCO + Google TV thông minh + Thiết kế Lifestyle, tạo ra giá trị vượt trội so với các đối thủ lắp ghép rời rạc.</p>
+                    </div>
+                </div>
+
+                <!-- Why 4 -->
+                <div class="relative pb-8 pl-8">
+                    <div class="absolute -left-[9px] top-0 bg-white border-2 border-green-500 w-4 h-4 rounded-full"></div>
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-400 uppercase mb-1 block">Why 4?</span>
+                        <p class="text-sm font-semibold text-slate-800">Trải nghiệm người dùng trở thành yếu tố quyết định.</p>
+                        <p class="text-xs text-slate-500 mt-2">Khi đời sống cao lên, người dùng B2C (Game thủ/Cinephile) không chấp nhận lỗi "Hiệu ứng cầu vồng" của DLP. 3LCD trở thành lựa chọn duy nhất cho trải nghiệm cao cấp.</p>
+                    </div>
+                </div>
+
+                <!-- Root Cause -->
+                <div class="relative pl-8">
+                    <div class="absolute -left-[11px] top-0 bg-green-500 border-4 border-green-100 w-5 h-5 rounded-full animate-pulse"></div>
+                    <div class="bg-green-50 p-5 rounded-lg border-l-4 border-green-500 shadow-sm">
+                        <span class="text-xs font-bold text-green-800 uppercase mb-1 block tracking-wider"><i class="fas fa-seedling mr-1"></i> Nguyên Nhân Gốc Rễ</span>
+                        <p class="text-sm font-bold text-slate-800 leading-relaxed">
+                            Sự trưởng thành của thị trường: Khách hàng Việt Nam đang dần thoát khỏi tư duy "ham rẻ". Họ bắt đầu biết tính toán bài toán TCO và đòi hỏi trải nghiệm thị giác khắt khe hơn - đúng những giá trị cốt lõi mà Epson nắm giữ.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            </section>
+
+            <!-- TAB 4: CÔNG NGHỆ & TCO -->
+            <section id="tab-technology" class="content-section">
+                <div class="card">
+    <h3 class="card-title flex items-center gap-3">
+        <span class="bg-blue-100 text-blue-700 p-2 rounded-lg"><i class="fas fa-microchip"></i></span>
+        Phân Tích Kỹ Thuật Chuyên Sâu & Bài Toán Tài Chính (TCO)
+    </h3>
+    
+    <!-- PHẦN 1: SO SÁNH CÔNG NGHỆ HIỂN THỊ -->
+    <div class="mb-10">
+        <h4 class="text-slate-800 font-bold text-lg mb-4 border-l-4 border-blue-500 pl-3">1. Cuộc Chiến Chất Lượng Hình Ảnh: 3LCD vs DLP 1-Chip</h4>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Cột 1: Color Light Output -->
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-blue-700 flex items-center gap-2 mb-3">
+                    <i class="fas fa-palette"></i> Độ Sáng Màu (CLO)
+                </h5>
+                <p class="text-sm text-slate-600 mb-4">
+                    Khách hàng thường bị nhầm lẫn bởi thông số "Lumens Trắng". Thực tế, hình ảnh (Video, Powerpoint) cần độ sáng màu.
+                </p>
+                
+                <!-- Biểu đồ so sánh -->
+                <div class="space-y-4 mb-4">
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1 text-slate-700">
+                            <span>Epson 3LCD</span>
+                            <span>100% CLO</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-4 relative overflow-hidden">
+                            <div class="bg-gradient-to-r from-blue-500 to-green-400 h-4 rounded-full" style="width: 100%"></div>
+                            <div class="absolute top-0 left-0 w-full h-full flex text-[10px] text-white font-bold items-center px-2">Độ sáng Màu = Độ sáng Trắng</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1 text-slate-700">
+                            <span>DLP 1-Chip Thông Thường</span>
+                            <span class="text-red-500">~30% - 50% CLO</span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-4 relative overflow-hidden">
+                            <div class="bg-red-400 h-4 rounded-full" style="width: 40%"></div>
+                            <div class="absolute top-0 right-2 h-full flex text-[10px] text-slate-500 font-bold items-center">Mất ~60% Độ sáng Màu</div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="text-sm space-y-2 mt-4 bg-white p-3 rounded border border-slate-100">
+                    <li class="flex items-start gap-2">
+                        <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                        <span class="text-slate-700"><strong>Hệ quả B2B:</strong> Biểu đồ, logo thương hiệu hiển thị đúng màu chuẩn, không bị tối hoặc sai lệch.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                        <span class="text-slate-700"><strong>Hệ quả Giáo dục:</strong> Hình ảnh bài giảng sinh học/địa lý rõ ràng ngay cả trong phòng sáng.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Cột 2: Rainbow Effect -->
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
+                <h5 class="font-bold text-indigo-700 flex items-center gap-2 mb-3">
+                    <i class="fas fa-eye"></i> Hiệu Ứng Cầu Vồng (Rainbow Effect)
+                </h5>
+                <p class="text-sm text-slate-600 mb-4">
+                    Hiện tượng "vệt màu loé sáng" gây mỏi mắt, chỉ xuất hiện trên công nghệ chiếu lần lượt (DLP), không có trên công nghệ chiếu đồng thời (3LCD).
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="bg-white p-3 rounded border border-indigo-100 text-center">
+                        <div class="text-xs text-slate-400 uppercase font-bold mb-1">Cơ chế DLP</div>
+                        <div class="flex justify-center gap-1 mb-1">
+                            <span class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500 animate-pulse delay-75"></span>
+                            <span class="w-3 h-3 rounded-full bg-blue-500 animate-pulse delay-150"></span>
+                        </div>
+                        <p class="text-[10px] text-red-500 font-bold">Chiếu MÀU LẦN LƯỢT</p>
+                        <p class="text-[10px] text-slate-500 mt-1">-> Não bộ phải tự ghép màu -> Mỏi mắt</p>
+                    </div>
+                    <div class="bg-white p-3 rounded border border-green-100 text-center">
+                        <div class="text-xs text-slate-400 uppercase font-bold mb-1">Cơ chế 3LCD</div>
+                        <div class="flex justify-center gap-1 mb-1">
+                            <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                        </div>
+                        <p class="text-[10px] text-green-600 font-bold">Chiếu MÀU ĐỒNG THỜI</p>
+                        <p class="text-[10px] text-slate-500 mt-1">-> Hình ảnh mượt mà -> Thoải mái</p>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 p-3 rounded border border-indigo-100">
+                    <p class="text-xs font-bold text-indigo-800 mb-1">Tại sao quan trọng?</p>
+                    <p class="text-xs text-slate-600">Với game thủ (120Hz) hoặc người xem phim hành động, 3LCD là lựa chọn bắt buộc để tránh chóng mặt/đau đầu.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHẦN 2: BÀI TOÁN TÀI CHÍNH TCO -->
+    <div>
+        <h4 class="text-slate-800 font-bold text-lg mb-4 border-l-4 border-green-500 pl-3">2. Phân Tích TCO: Cái Giá Của "Giá Rẻ"</h4>
+        
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+            <div class="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
+                <span class="font-bold text-slate-700">Mô hình so sánh chi phí qua 5 Năm (Giả định trường học)</span>
+                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded font-bold">Sử dụng: 6h/ngày x 200 ngày/năm</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-slate-50 text-slate-600">
+                        <tr>
+                            <th class="p-4 border-b">Hạng Mục Chi Phí</th>
+                            <th class="p-4 border-b w-1/3">Máy Bóng Đèn (EB-E01)</th>
+                            <th class="p-4 border-b w-1/3 bg-green-50 text-green-800">Máy Laser (EB-L Series)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <!-- Giá máy -->
+                        <tr>
+                            <td class="p-4 font-medium text-slate-700">1. Chi phí đầu tư (CAPEX)</td>
+                            <td class="p-4 text-slate-600">~11.390.000 VNĐ</td>
+                            <td class="p-4 bg-green-50 text-slate-600 font-bold">~25.000.000 VNĐ <span class="text-red-500 text-xs font-normal">(Cao hơn)</span></td>
+                        </tr>
+                        <!-- Tuổi thọ -->
+                        <tr>
+                            <td class="p-4 font-medium text-slate-700">2. Tuổi thọ nguồn sáng</td>
+                            <td class="p-4 text-red-500 font-bold">~6.000h (Normal) - 12.000h (Eco)</td>
+                            <td class="p-4 bg-green-50 text-green-600 font-bold">20.000h - 30.000h</td>
+                        </tr>
+                        <!-- Thay bóng -->
+                        <tr>
+                            <td class="p-4 font-medium text-slate-700">
+                                3. Chi phí thay bóng (5 năm)<br>
+                                <span class="text-xs text-slate-400 font-normal">Giả sử thay 1 lần + Nhân công</span>
+                            </td>
+                            <td class="p-4 text-red-600">
+                                + 2.300.000 (Bóng)<br>
+                                + 500.000 (Công)<br>
+                                <strong>= 2.800.000 VNĐ</strong>
+                            </td>
+                            <td class="p-4 bg-green-50 text-green-600 font-bold">
+                                0 VNĐ<br>
+                                <span class="text-xs font-normal text-slate-500">Không cần thay thế</span>
+                            </td>
+                        </tr>
+                        <!-- Bảo trì -->
+                        <tr>
+                            <td class="p-4 font-medium text-slate-700">4. Chi phí bảo trì (Vệ sinh/Filter)</td>
+                            <td class="p-4 text-slate-600">~1.500.000 VNĐ (Cao do bụi)</td>
+                            <td class="p-4 bg-green-50 text-green-600 font-bold">~500.000 VNĐ (Thấp)</td>
+                        </tr>
+                        <!-- Tổng cộng -->
+                        <tr class="bg-slate-50">
+                            <td class="p-4 font-bold text-slate-800">TỔNG CHI PHÍ SAU 5 NĂM</td>
+                            <td class="p-4">
+                                <span class="block text-lg font-bold text-slate-700">~15.690.000 VNĐ</span>
+                                <span class="text-xs text-red-500">Rủi ro tăng giá linh kiện</span>
+                            </td>
+                            <td class="p-4 bg-green-100 border-t border-green-200">
+                                <span class="block text-lg font-bold text-green-700">~25.500.000 VNĐ</span>
+                                <span class="text-xs text-green-600">Giá trị thanh lý máy cao hơn</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Kết luận TCO -->
+            <div class="p-5 bg-green-50 border-t border-green-100">
+                <div class="flex items-start gap-3">
+                    <i class="fas fa-coins text-green-600 text-xl mt-1"></i>
+                    <div>
+                        <h5 class="font-bold text-green-800 mb-1">Kết Luận Tài Chính:</h5>
+                        <p class="text-sm text-green-700 mb-2">
+                            Mặc dù Laser đắt hơn ban đầu, khoảng cách chi phí thu hẹp đáng kể theo thời gian. Nếu xét đến <strong>năm thứ 7-10</strong> (khi máy bóng đèn phải thay bóng lần 2, lần 3), máy Laser sẽ trở thành lựa chọn RẺ HƠN.
+                        </p>
+                        <p class="text-xs text-slate-500 italic">
+                            *Chưa tính đến chi phí vô hình: Thời gian chết của lớp học khi máy hỏng, chi phí quản lý mua sắm vật tư thay thế.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            </section>
+
+            <!-- TAB 5: ĐIỂM CÂN BẰNG NASH -->
+            <section id="tab-strategy" class="content-section">
+    <!-- Header Section -->
+   <!-- Header Section -->
+        <div class="bg-gradient-to-r from-slate-900 to-blue-900 rounded-xl p-6 text-white mb-8 shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none"><i class="fas fa-briefcase text-9xl"></i></div>
+            <div class="relative z-10">
+                <h3 class="text-2xl font-bold flex items-center gap-3 mb-2"><i class="fas fa-handshake"></i> Điểm Cân Bằng Nash: B2B SME Focus</h3>
+                <p class="text-blue-100 text-sm max-w-4xl leading-relaxed opacity-90">
+                    <strong>Bối cảnh:</strong> Tier 1 giữ chặt mảng Dự án Công (Giáo dục/Chính phủ). Chúng ta không bán lẻ (Home).<br>
+                    <strong>Chiến lược:</strong> Tấn công tổng lực vào <strong>Khối Doanh Nghiệp Tư Nhân & FDI</strong>. Đây là nơi cần hóa đơn đỏ, cần dịch vụ kỹ thuật nhanh, và quan trọng nhất: <strong>Cần tính năng cao cấp (Wireless/Laser) hơn là giá rẻ.</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- 3 KỊCH BẢN CHIẾN LƯỢC B2B -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch mb-10">
+            
+            <!-- KỊCH BẢN 1: ĐÂM ĐẦU VÀO ĐÁ (Government Bidding) -->
+            <div class="bg-white rounded-xl border-t-4 border-red-500 shadow-sm flex flex-col relative opacity-70 hover:opacity-100 transition">
+                <div class="p-6 flex-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-red-600 font-bold text-lg"><i class="fas fa-gavel mr-2"></i>Đấu Thầu Công</span>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">HÀNH ĐỘNG:</p>
+                        <p class="text-sm text-slate-700 font-bold">Cố chào EB-E01 / EB-982W vào các Sở, Trường công lập.</p>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-3 border border-red-100">
+                        <p class="text-xs text-red-800"><strong>Kết cục:</strong> Bị Tier 1 "đì" giá. Bị hãng soi Profile. Tốn công làm hồ sơ thầu mà tỷ lệ thắng = 0%.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KỊCH BẢN 2: LẠC HƯỚNG (Selling Retail) -->
+            <div class="bg-white rounded-xl border-t-4 border-yellow-500 shadow-sm flex flex-col relative opacity-70 hover:opacity-100 transition">
+                <div class="p-6 flex-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-yellow-600 font-bold text-lg"><i class="fas fa-couch mr-2"></i>Bán Sai Đối Tượng</span>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">HÀNH ĐỘNG:</p>
+                        <p class="text-sm text-slate-700 font-bold">Mang máy Home Cinema (CO-FH02) đi chào Doanh nghiệp.</p>
+                    </div>
+                    <div class="bg-yellow-50 rounded-lg p-3 border border-yellow-100">
+                        <p class="text-xs text-yellow-800"><strong>Kết cục:</strong> Khách B2B chê thiếu cổng VGA/HDMI, khó treo trần, không chuyên nghiệp. Mất uy tín nhà cung cấp giải pháp.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KỊCH BẢN 3: ĐIỂM CÂN BẰNG NASH (OPTIMAL B2B) -->
+            <div class="bg-white rounded-xl border-t-4 border-indigo-600 shadow-2xl transform md:-translate-y-4 z-10 flex flex-col relative overflow-hidden">
+                <div class="absolute top-0 right-0"><div class="bg-indigo-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg shadow">PROFIT</div></div>
+                <div class="p-6 flex-1 bg-gradient-to-b from-indigo-50/50 to-white">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-indigo-800 font-bold text-lg"><i class="fas fa-building mr-2"></i>Private Corporate</span>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-[10px] text-indigo-600 font-bold uppercase tracking-wider mb-1">HÀNH ĐỘNG:</p>
+                        <p class="text-sm text-slate-800 font-bold leading-snug">
+                            Tập trung vào <span class="text-blue-600">Wireless Meeting (EB-FH52)</span> và <span class="text-green-600">SME Laser (EB-L200W)</span>.
+                        </p>
+                    </div>
+                    <div class="bg-white rounded-lg p-3 border border-indigo-200 shadow-sm">
+                        <p class="text-xs text-indigo-800"><strong>Kết cục:</strong> Khách tư nhân chốt nhanh (1-3 ngày). Cần tính năng xịn để họp. Không đụng hàng dự án giá rẻ.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRỌNG TÂM SẢN PHẨM B2B (THE B2B CORE) -->
+        <div class="mb-12">
+            <h4 class="text-2xl font-bold text-slate-800 border-l-8 border-indigo-600 pl-4 mb-6">
+                3 Mũi Nhọn Tấn Công Doanh Nghiệp (B2B Focus)
+            </h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- MODEL 1: KHỐI VĂN PHÒNG HIỆN ĐẠI -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-lg hover:shadow-xl transition group relative overflow-hidden">
+                    <div class="h-2 w-full bg-indigo-600 absolute top-0"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="text-xl font-bold text-slate-800">1. EB-FH52</h5>
+                            <span class="text-xs font-bold bg-indigo-100 text-indigo-700 px-2 py-1 rounded">Chủ Lực</span>
+                        </div>
+                        <ul class="text-sm text-slate-600 space-y-3 mb-4">
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Target:</strong> Cty Thiết kế, BĐS, Văn phòng hạng A/B.</span></li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Pain Point:</strong> Sếp ghét dây nhợ lằng nhằng trên bàn họp.</span></li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Giải pháp:</strong> Full HD + <strong>Miracast</strong> (Chiếu không dây chuẩn doanh nghiệp).</span></li>
+                        </ul>
+                        <div class="mt-auto pt-4 border-t border-slate-100 text-center">
+                            <span class="text-indigo-700 font-bold text-sm">Phân bổ: 50% Vốn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODEL 2: KHỐI SẢN XUẤT / KCN (FACTORY) -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-lg hover:shadow-xl transition group relative overflow-hidden">
+                    <div class="h-2 w-full bg-green-600 absolute top-0"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="text-xl font-bold text-slate-800">2. EB-L200W</h5>
+                            <span class="text-xs font-bold bg-green-100 text-green-700 px-2 py-1 rounded">Bền Bỉ</span>
+                        </div>
+                        <ul class="text-sm text-slate-600 space-y-3 mb-4">
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Target:</strong> Nhà máy FDI, Phòng đào tạo nhân sự, KCN.</span></li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Pain Point:</strong> Môi trường bụi, dùng nhiều, sợ tốn tiền thay bóng.</span></li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Giải pháp:</strong> <strong>Laser 20.000h</strong>. Chạy 24/7. Giá rẻ hơn bản Full HD dự án.</span></li>
+                        </ul>
+                        <div class="mt-auto pt-4 border-t border-slate-100 text-center">
+                            <span class="text-green-700 font-bold text-sm">Phân bổ: 30% Vốn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODEL 3: KHỐI SME & STARTUP (BUDGET) -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-lg hover:shadow-xl transition group relative overflow-hidden">
+                    <div class="h-2 w-full bg-slate-500 absolute top-0"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h5 class="text-xl font-bold text-slate-800">3. EB-W51</h5>
+                            <span class="text-xs font-bold bg-slate-100 text-slate-700 px-2 py-1 rounded">Phổ Thông</span>
+                        </div>
+                        <ul class="text-sm text-slate-600 space-y-3 mb-4">
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Target:</strong> Co-working space, Văn phòng nhỏ, Startup.</span></li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Pain Point:</strong> Ngân sách hạn hẹp nhưng cần máy mới chính hãng.</span></li>
+                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Giải pháp:</strong> WXGA (Màn rộng) xem Excel tốt hơn XGA. Giá nhập cực tốt.</span></li>
+                        </ul>
+                        <div class="mt-auto pt-4 border-t border-slate-100 text-center">
+                            <span class="text-slate-700 font-bold text-sm">Phân bổ: 20% Vốn</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- BÍ KÍP SALES B2B -->
+        <div class="bg-slate-800 text-slate-300 p-6 rounded-xl border-l-4 border-blue-500 flex flex-col md:flex-row gap-6">
+            <div class="flex-1">
+                <h5 class="text-white font-bold text-lg mb-2 flex items-center gap-2"><i class="fas fa-user-tie text-blue-500"></i> Mindset Sales B2B</h5>
+                <p class="text-sm leading-relaxed mb-2">
+                    "Doanh nghiệp Tư nhân (SME) khác hoàn toàn Nhà nước. Họ tiêu tiền túi của họ, nên họ cần <strong>Hiệu Quả Thực Tế</strong>."
+                </p>
+                <ul class="text-sm list-disc pl-4 space-y-1 text-slate-400">
+                    <li>Đừng bán EB-E01 (XGA) -> Hãy bán <strong>EB-W51 (WXGA)</strong> vì nhân viên giờ toàn dùng Laptop màn hình rộng.</li>
+                    <li>Đừng bán EB-982W (Dây rợ) -> Hãy bán <strong>EB-FH52 (Wireless)</strong> để phòng họp sang trọng hơn.</li>
+                </ul>
+            </div>
+            <div class="md:w-1/3 bg-slate-700/50 p-4 rounded-lg border border-slate-600">
+                <h6 class="text-blue-400 font-bold text-xs uppercase mb-2">Key Selling Point (KSP)</h6>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-xs border-b border-slate-600 pb-1">
+                        <span>Họp Online:</span>
+                        <span class="text-white font-bold">Zoom/Teams rõ nét</span>
+                    </div>
+                    <div class="flex justify-between text-xs border-b border-slate-600 pb-1">
+                        <span>Kết nối:</span>
+                        <span class="text-white font-bold">Không dây (Miracast)</span>
+                    </div>
+                    <div class="flex justify-between text-xs">
+                        <span>Vận hành:</span>
+                        <span class="text-white font-bold">Bền bỉ 24/7 (SME cần)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+            <!-- TAB 6: DANH MỤC SẢN PHẨM -->
+            <section id="tab-products" class="content-section">
+                <div class="max-w-7xl mx-auto">
+            
+            <!-- Intro Header -->
+            <div class="bg-white p-6 rounded-xl border border-indigo-100 shadow-sm mb-8 flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-slate-700 to-slate-900 rounded-xl flex items-center justify-center text-white text-4xl shadow-lg shadow-slate-300 flex-shrink-0">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Chiến Thuật "B2B Du Kích" (SME Guerilla)</h2>
+                    <p class="text-slate-600 text-sm leading-relaxed max-w-3xl">
+                        Loại bỏ hoàn toàn mảng Bán lẻ/Gia đình. Tập trung 100% vào tệp khách hàng <strong>Doanh nghiệp Tư nhân, Nhà máy FDI, và Văn phòng SME</strong>. <br>
+                        Sử dụng các mã "Thương mại" (Commercial) có sẵn hàng để thay thế mã "Dự án" (Project) bị khóa.
+                    </p>
+                </div>
+            </div>
+
+            <!-- PHẦN 1: BẢNG ĐỐI CHIẾU & LÁI KHÁCH B2B -->
+            <div class="mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
+                    <h3 class="text-xl font-bold text-slate-800">Bảng Chuyển Đổi Mã (Project to Commercial)</h3>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left tier-table">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="w-1/4 p-4 text-xs font-bold text-red-600 uppercase tracking-wider bg-red-50/50">
+                                        <i class="fas fa-lock mr-2"></i> Tier 1 (Dự Án Giáo Dục/Công)<br>
+                                        <span class="text-[10px] font-normal text-red-500 normal-case">Bị khóa giá / Yêu cầu hồ sơ</span>
+                                    </th>
+                                    <th class="w-1/4 p-4 text-xs font-bold text-indigo-700 uppercase tracking-wider bg-indigo-50/50 border-l-4 border-indigo-500">
+                                        <i class="fas fa-check-circle mr-2"></i> Tier 2 (Thương Mại SME)<br>
+                                        <span class="text-[10px] font-normal text-indigo-600 normal-case">Sẵn kho / Bán doanh nghiệp</span>
+                                    </th>
+                                    <th class="w-1/2 p-4 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                                        <i class="fas fa-comment-dots mr-2"></i> Kịch Bản Lái Khách Doanh Nghiệp (B2B Script)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                                <!-- NHÓM VĂN PHÒNG CƠ BẢN -->
+                                <tr class="bg-slate-100/50"><td colspan="3" class="p-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-4">-- Nhóm Văn Phòng Cơ Bản (Meeting Room) --</td></tr>
+                                
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-E01 / E10</div>
+                                        <div class="text-xs text-slate-500">XGA, 3.300lm</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-W06</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">WXGA (HD), 3.700lm</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Nhân viên bên anh toàn dùng Laptop đời mới màn hình rộng (16:10). Mua con E01 hình vuông cũ kỹ làm gì? Lấy con <strong>W06</strong> này chuẩn HD, hiển thị Excel full cột, sáng hơn hẳn."</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-X06</div>
+                                        <div class="text-xs text-slate-500">XGA, 3.600lm</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-972</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">XGA, 4.100lm, Loa 16W</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Phòng họp bên anh rộng, con X06 loa bé quá. Lấy con <strong>972</strong> này loa 16W to rõ, họp trực tuyến nghe tiếng đối tác ầm ầm không cần loa ngoài."</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-982W</div>
+                                        <div class="text-xs text-slate-500">WXGA, 4.200lm</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-FH52</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">Full HD, 4.000lm, Miracast</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Văn phòng hiện đại ai lại đi dây nhợ lằng nhằng? <strong>FH52</strong> có sẵn Miracast, khách đến rút điện thoại ra chiếu không dây luôn, cực chuyên nghiệp."</td>
+                                </tr>
+
+                                <!-- NHÓM DOANH NGHIỆP CAO CẤP (LASER) -->
+                                <tr class="bg-blue-50/50"><td colspan="3" class="p-2 text-[10px] font-bold text-blue-500 uppercase tracking-widest pl-4">-- Nhóm Doanh Nghiệp Cao Cấp (Laser/KCN) --</td></tr>
+
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-L200F</div>
+                                        <div class="text-xs text-slate-500">Laser Full HD (Hot Project)</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-L200W</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">Laser WXGA</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Nhà máy bụi bặm dùng Laser là chuẩn rồi (kín quang). Nhưng ngân sách duyệt hơi thấp thì anh lấy bản WXGA này, vẫn bền 20.000h y hệt, rẻ hơn 20%."</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-L200SW</div>
+                                        <div class="text-xs text-slate-500">Laser Gần WXGA</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-535W</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">Lamp Gần WXGA</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Phòng họp nhỏ bắt buộc chiếu gần, nhưng Laser chát quá sếp không duyệt? Quay về dòng <strong>535W</strong> bóng đèn huyền thoại, siêu bền, giá rẻ một nửa."</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-725W / 735F</div>
+                                        <div class="text-xs text-slate-500">UST Laser (Treo tường)</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-800F / 805F</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">UST Laser Signage</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Lắp phòng sếp hoặc sảnh lễ tân thì dùng dòng <strong>800F</strong> này đi anh. Nó thiết kế chuyên dụng để chạy 24/7 (Digital Signage), chiếu quảng cáo công ty cực đẹp."</td>
+                                </tr>
+
+                                <!-- NHÓM HỘI TRƯỜNG & SỰ KIỆN -->
+                                <tr class="bg-orange-50/50"><td colspan="3" class="p-2 text-[10px] font-bold text-orange-500 uppercase tracking-widest pl-4">-- Nhóm Hội Trường & Sự Kiện (Sảnh Tiệc) --</td></tr>
+
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-L510U</div>
+                                        <div class="text-xs text-slate-500">Laser 5.000lm</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-2255U</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">Lamp 5.000lm (Huyền thoại)</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Doanh nghiệp tư nhân cần hiệu quả vốn. <strong>2255U</strong> bóng đèn nhưng sáng ngang Laser, giá rẻ hơn 15 triệu. Tiền thừa đó anh đầu tư màn chiếu điện xịn."</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-2265U</div>
+                                        <div class="text-xs text-slate-500">Full HD 5.500lm</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-2065</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">XGA 5.500lm</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Hội trường công ty chỉ để họp toàn thể, cần sáng để nhìn rõ mặt nhau chứ không cần nét như rạp phim. Lấy bản XGA <strong>2065</strong> siêu sáng, siêu rẻ."</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-4 opacity-75">
+                                        <div class="font-bold text-slate-800">EB-L730U</div>
+                                        <div class="text-xs text-slate-500">Laser 7.000lm (Cố định)</div>
+                                    </td>
+                                    <td class="p-4 bg-indigo-50/20 border-l-4 border-indigo-500">
+                                        <div class="font-bold text-indigo-800 text-lg">👉 EB-PU1007B</div>
+                                        <div class="text-xs text-indigo-700 font-semibold">Body Only (Thay Lens)</div>
+                                    </td>
+                                    <td class="p-4 text-slate-600 italic">"Hội trường này trần cao/xa quá, máy ống kính cố định không lắp vừa đâu. Dùng dòng <strong>PU</strong> thay ống kính này em mới chỉnh được cự ly chuẩn."</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHẦN 2: DANH MỤC 16 MÃ CHIẾN LƯỢC B2B (THƯƠNG MẠI SẴN HÀNG) -->
+            <div class="mb-12">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
+                    <h3 class="text-xl font-bold text-slate-800">Danh Mục "Vùng Xanh" B2B: Mã Thương Mại An Toàn</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    
+                    <!-- NHÓM VĂN PHÒNG HIỆN ĐẠI (SME OFFICE) -->
+                    <div class="col-span-full mb-2">
+                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-200">SME OFFICE & WIRELESS</span>
+                    </div>
+
+                    <!-- 1 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-FH52</span> <i class="fas fa-star text-yellow-400 text-xs"></i></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Full HD + Miracast</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Chiếu không dây từ Laptop/Mobile. Best cho phòng họp.</p>
+                    </div>
+                    <!-- 2 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-982W</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">WXGA 4200lm</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Siêu sáng cho phòng nhiều kính. Nồi đồng cối đá.</p>
+                    </div>
+                    <!-- 3 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-W51</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">WXGA Compact</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Nhỏ gọn, mang đi lại dễ. Bán cho Sales BĐS.</p>
+                    </div>
+                    <!-- 4 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-1795F</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Siêu Mỏng Full HD</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Mỏng như Laptop. Dành cho Sếp đi công tác.</p>
+                    </div>
+                    <!-- 5 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-W06</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">WXGA 3700lm</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Chuẩn màn hình rộng cơ bản. Thay thế E01.</p>
+                    </div>
+                    <!-- 6 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-972</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">XGA Loa 16W</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Âm thanh to. Phòng họp không cần loa ngoài.</p>
+                    </div>
+                    <!-- 7 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-FH06</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Full HD Basic</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Bản giá rẻ của FH52 (Cắt Miracast). Kinh tế.</p>
+                    </div>
+                    <!-- 8 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-blue-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-E10</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">XGA Entry</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Rẻ nhất. Bán cho kho bãi, bảo vệ soi camera.</p>
+                    </div>
+
+                    <!-- NHÓM DOANH NGHIỆP ĐẶC THÙ (LASER/SPECIAL) -->
+                    <div class="col-span-full mt-4 mb-2">
+                        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded border border-green-200">KCN - NHÀ MÁY - HỘI TRƯỜNG</span>
+                    </div>
+
+                    <!-- 9 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-L200W</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Laser WXGA</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Bền bỉ 24/7 cho nhà máy. TCO thấp.</p>
+                    </div>
+                    <!-- 10 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-L210W</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Laser WXGA+ (High)</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Độ sáng cao hơn L200W. Phòng họp lớn.</p>
+                    </div>
+                    <!-- 11 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-L260F</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Laser FHD 21:9</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Hỗ trợ họp Microsoft Teams khung hình rộng.</p>
+                    </div>
+                    <!-- 12 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-535W</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Short Throw Lamp</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Chiếu gần giá rẻ. Phòng họp chật hẹp.</p>
+                    </div>
+                    <!-- 13 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-2255U</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">WUXGA 5000lm</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Huyền thoại hội trường. Sáng và rẻ.</p>
+                    </div>
+                    <!-- 14 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-2065</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">XGA 5500lm</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Siêu sáng cho hội trường Cty ngân sách thấp.</p>
+                    </div>
+                    <!-- 15 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-PU1007B</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Laser 7000lm (Body)</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Hội trường lớn, thay ống kính tùy biến.</p>
+                    </div>
+                    <!-- 16 -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:border-green-400 hover:-translate-y-1 transition">
+                        <div class="flex justify-between items-center mb-1"><span class="font-bold text-slate-800">EB-U50</span></div>
+                        <p class="text-[10px] text-slate-500 mb-2">Signage Design</p>
+                        <p class="text-[11px] text-indigo-600 font-medium">Thiết kế như đèn rọi. Showroom/Cửa hàng.</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+            </section>
+
+            <!-- TAB 7: ĐỐI TÁC -->
+            <section id="tab-partner" class="content-section">
+                <div class="card">
+    <h3 class="card-title flex items-center gap-3">
+        <span class="bg-purple-100 text-purple-700 p-2 rounded-lg"><i class="fas fa-users-viewfinder"></i></span>
+        Giải Mã Hành Vi Người Dùng & Bản Đồ Tác Chiến Miền Nam
+    </h3>
+    
+    <div class="mb-8 text-sm border-l-4 border-purple-500 pl-4 bg-purple-50 py-3 rounded-r shadow-sm">
+        <p class="text-slate-700 leading-relaxed">
+            <strong class="text-purple-800 uppercase">Thực tế thị trường:</strong> Báo cáo E-commerce 2023 từ <strong>Metric.vn</strong> cho thấy doanh thu máy chiếu tăng trưởng <strong>64%</strong>, nhưng phân khúc giá rẻ (<5 triệu) chiếm tới <strong>70% thị phần</strong>. <br>
+            => <em>Thách thức của Sales Epson không phải là "không có cầu", mà là thuyết phục khách hàng "nâng cấp tiêu chuẩn" từ hàng giá rẻ lên hàng chính hãng.</em>
+        </p>
+    </div>
+
+    <!-- PHẦN 1: SO SÁNH HÀNH VI & SỐ LIỆU CHỨNG MINH -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+        
+        <!-- B2B: DOANH NGHIỆP & GIÁO DỤC -->
+        <div class="border border-slate-200 rounded-xl overflow-hidden group hover:border-blue-400 transition">
+            <div class="bg-slate-100 p-4 border-b border-slate-200 flex justify-between items-center">
+                <h4 class="font-bold text-slate-800 m-0 flex items-center gap-2">
+                    <i class="fas fa-briefcase text-blue-600"></i> Khách Hàng B2B
+                </h4>
+                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-bold">Thực Dụng & An Toàn</span>
+            </div>
+            <div class="p-5 space-y-4">
+                <div>
+                    <p class="text-xs text-slate-400 uppercase font-bold mb-1">Dữ liệu hành vi (PwC Vietnam)</p>
+                    <p class="text-sm text-slate-700 font-medium">
+                        62% CEO Việt Nam ưu tiên "Hiệu quả vận hành" hơn là cắt giảm chi phí ngắn hạn trong 2024.
+                    </p>
+                    <p class="text-xs text-slate-500 mt-1 italic">-> Họ sợ máy hỏng làm gián đoạn công việc hơn là sợ máy đắt.</p>
+                </div>
+                <div class="bg-blue-50 p-3 rounded border border-blue-100">
+                    <p class="text-xs font-bold text-blue-800 mb-1 flex items-center gap-1"><i class="fas fa-chart-pie"></i> Sales Insight:</p>
+                    <p class="text-xs text-slate-700">
+                        Đừng chỉ báo giá. Hãy gửi kèm bảng <strong>TCO (Tổng chi phí sở hữu)</strong>. Chứng minh rằng sau 3 năm, máy Laser Epson rẻ hơn máy bóng đèn 30% nhờ không tốn phí bảo trì. Đánh trúng tâm lý "Hiệu quả vận hành".
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- B2C: GIẢI TRÍ & GEN Z -->
+        <div class="border border-slate-200 rounded-xl overflow-hidden group hover:border-pink-400 transition">
+            <div class="bg-slate-100 p-4 border-b border-slate-200 flex justify-between items-center">
+                <h4 class="font-bold text-slate-800 m-0 flex items-center gap-2">
+                    <i class="fas fa-gamepad text-pink-600"></i> Khách Hàng B2C
+                </h4>
+                <span class="text-xs bg-pink-100 text-pink-800 px-2 py-1 rounded font-bold">Cảm Xúc & Tiện Lợi</span>
+            </div>
+            <div class="p-5 space-y-4">
+                <div>
+                    <p class="text-xs text-slate-400 uppercase font-bold mb-1">Dữ liệu hành vi (Decision Lab)</p>
+                    <p class="text-sm text-slate-700 font-medium">
+                        Gen Z chi tiêu cho giải trí số tăng <strong>15%/năm</strong>. 73% ưu tiên thiết bị có kết nối thông minh (Smart/Connected TV).
+                    </p>
+                    <p class="text-xs text-slate-500 mt-1 italic">-> Họ không mua "máy chiếu", họ mua "Smart TV màn hình to".</p>
+                </div>
+                <div class="bg-pink-50 p-3 rounded border border-pink-100">
+                    <p class="text-xs font-bold text-pink-800 mb-1 flex items-center gap-1"><i class="fas fa-lightbulb"></i> Sales Insight:</p>
+                    <p class="text-xs text-slate-700">
+                        Đừng nói về Lumens. Hãy nói về <strong>Google TV & Netflix</strong>. Bán Epson EF-21/22 như một món đồ decor phòng ngủ "chill" hơn TV truyền thống.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHẦN 2: CHIẾN LƯỢC ĐÁNH CHIẾM MIỀN NAM (CÓ SỐ LIỆU) -->
+    <div class="bg-indigo-900 text-white p-6 rounded-xl shadow-lg mb-8 relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-5 rounded-full blur-3xl"></div>
+        
+        <h4 class="text-yellow-400 font-bold text-lg mb-6 flex items-center gap-2 relative z-10">
+            <i class="fas fa-map-marker-alt"></i> Chiến Lược Trọng Điểm: Bán Cho Ai? Ở Đâu?
+        </h4>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+            <!-- Mũi nhọn 1: KCN -->
+            <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20 hover:bg-white/20 transition flex flex-col h-full">
+                <div class="text-yellow-300 font-bold mb-2 text-sm border-b border-white/10 pb-2">1. Khu Công Nghiệp (B2B)</div>
+                <div class="mb-3 flex-grow">
+                    <span class="text-[10px] text-slate-300 uppercase font-bold">Địa bàn:</span>
+                    <p class="text-xs text-white mt-1 mb-2">VSIP 1-2 (Bình Dương), Amata (Đồng Nai), KCN Tân Thuận (Q7).</p>
+                    <span class="text-[10px] text-slate-300 uppercase font-bold">Khách hàng mục tiêu:</span>
+                    <p class="text-xs text-white mt-1">Nhà máy Nhật/Hàn (cần họp online, đào tạo công nhân). Các công ty Logistics trong KCN.</p>
+                </div>
+                <p class="text-xs font-bold text-indigo-100 bg-indigo-800/50 p-2 rounded border border-indigo-500/30 mt-auto">
+                    👉 <strong>Bán gì:</strong> Epson EB-L200F (Laser). Chống bụi, bật tắt nhanh không chờ đợi.
+                </p>
+            </div>
+
+            <!-- Mũi nhọn 2: F&B -->
+            <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20 hover:bg-white/20 transition flex flex-col h-full">
+                <div class="text-yellow-300 font-bold mb-2 text-sm border-b border-white/10 pb-2">2. Chuỗi F&B / Giải Trí (SME)</div>
+                <div class="mb-3 flex-grow">
+                    <span class="text-[10px] text-slate-300 uppercase font-bold">Địa bàn:</span>
+                    <p class="text-xs text-white mt-1 mb-2">Khu Phan Xích Long, Bờ kè Trường Sa, Khu tên lửa (Bình Tân), Phố đi bộ.</p>
+                    <span class="text-[10px] text-slate-300 uppercase font-bold">Khách hàng mục tiêu:</span>
+                    <p class="text-xs text-white mt-1">Quán Cafe bóng đá K+, Beer Club, Quán nhậu sân vườn (cần màn hình 150 inch).</p>
+                </div>
+                <p class="text-xs font-bold text-indigo-100 bg-indigo-800/50 p-2 rounded border border-indigo-500/30 mt-auto">
+                    👉 <strong>Bán gì:</strong> Epson EB-FH52 (Độ sáng cao). Chiếu rõ nét ban ngày/dưới ánh đèn quán.
+                </p>
+            </div>
+
+            <!-- Mũi nhọn 3: Căn Hộ Dịch Vụ -->
+            <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20 hover:bg-white/20 transition flex flex-col h-full">
+                <div class="text-yellow-300 font-bold mb-2 text-sm border-b border-white/10 pb-2">3. Căn Hộ & Lưu Trú (B2C+)</div>
+                <div class="mb-3 flex-grow">
+                    <span class="text-[10px] text-slate-300 uppercase font-bold">Địa bàn:</span>
+                    <p class="text-xs text-white mt-1 mb-2">Vinhomes Central Park, Masteri Thảo Điền, Khu tây ba lô (Bùi Viện).</p>
+                    <span class="text-[10px] text-slate-300 uppercase font-bold">Khách hàng mục tiêu:</span>
+                    <p class="text-xs text-white mt-1">Chủ Airbnb/Homestay (cần decor phòng), Gia đình trẻ ở chung cư cao cấp.</p>
+                </div>
+                <p class="text-xs font-bold text-indigo-100 bg-indigo-800/50 p-2 rounded border border-indigo-500/30 mt-auto">
+                    👉 <strong>Bán gì:</strong> EpiqVision Mini (EF-21/22). Tạo điểm nhấn "Smart Room" để tăng giá thuê phòng.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHẦN 3: LỜI KHUYÊN CHO SALES MIỀN NAM -->
+    <div class="flex items-start gap-4 p-5 border-2 border-green-500 rounded-xl bg-green-50 border-dashed shadow-sm">
+        <div class="bg-green-600 text-white w-14 h-14 flex items-center justify-center rounded-full flex-shrink-0 font-bold text-2xl shadow-lg shadow-green-200">
+            <i class="fas fa-check-double"></i>
+        </div>
+        <div>
+            <h5 class="font-bold text-green-900 text-lg mb-1">Vũ Khí Chốt Sale Tại Miền Nam</h5>
+            <p class="text-sm text-green-800 mb-3 leading-relaxed">
+                "Người miền Nam rất 'thoáng' nhưng ghét bị vẽ vời. Đừng nói thông số kỹ thuật dài dòng. Hãy nói ngôn ngữ lợi ích thực tế:"
+            </p>
+            <ul class="space-y-2 text-sm text-slate-700">
+                <li class="flex items-center gap-2">
+                    <i class="fas fa-arrow-right text-green-600"></i>
+                    <span><strong>Với chủ quán Cafe (Q. Gò Vấp/Tân Bình):</strong> "Anh bật con Epson này lên, khách đi ngang thấy màu cỏ K+ xanh mướt là ghé vào liền. Đầu tư một lần dùng 5 năm, còn hơn mua máy rẻ vài tháng mờ tịt khách bỏ đi hết."</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <i class="fas fa-arrow-right text-green-600"></i>
+                    <span><strong>Với quản lý nhà máy (Bình Dương):</strong> "Bên em (Đồng Nam) có xe kỹ thuật chạy xuống đây trong ngày. Máy này của Nhật, chạy 24/7 không nóng, sếp anh ký duyệt là yên tâm không bao giờ bị la."</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+            </section>
+
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function switchTab(tabId) {
+        // Hide all sections
+        document.querySelectorAll('.content-section').forEach(el => {
+            el.classList.remove('active');
+        });
+        
+        // Deactivate all sidebar links
+        document.querySelectorAll('.sidebar-link').forEach(el => {
+            el.classList.remove('active');
+        });
+
+        // Show target section
+        document.getElementById(tabId).classList.add('active');
+
+        // Activate sidebar link
+        const activeLink = Array.from(document.querySelectorAll('.sidebar-link')).find(link => link.getAttribute('onclick').includes(tabId));
+        if(activeLink) activeLink.classList.add('active');
+      }
+      
+      // Mobile menu toggle logic
+      document.querySelector('header button').addEventListener('click', () => {
+          const sidebar = document.querySelector('aside');
+          sidebar.classList.toggle('hidden');
+          sidebar.classList.toggle('absolute');
+          sidebar.classList.toggle('z-50');
+          sidebar.classList.toggle('w-full');
+      });
+    </script>
+  </body>
+</html>

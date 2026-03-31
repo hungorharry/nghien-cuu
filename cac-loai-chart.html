@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue 72 Câu Lệnh Mẫu Tạo Biểu Đồ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles with Brutalist theme */
+        body {
+            background-color: #FFFFFF; /* White background */
+            color: #000000; /* Black text */
+            font-family: 'Space Mono', monospace; /* Monospace font for the whole page */
+        }
+        .font-space-mono { 
+            font-family: 'Space Mono', monospace; 
+        }
+
+        /* Brutalist shadow for interactive elements */
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px #000000;
+            transition: all 0.1s ease-in-out;
+        }
+        .brutalist-shadow:active {
+            box-shadow: 1px 1px 0px #000000;
+            transform: translate(3px, 3px);
+        }
+
+        /* High-contrast highlight for searched card */
+        .highlight-card {
+           border: 4px solid #0000FF; /* A strong, solid blue border */
+        }
+        
+        /* Brutalist popup for copy notification */
+        #copy-popup {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #00FFFF; /* Bright Cyan accent */
+            color: #000000;
+            padding: 1rem 1.5rem;
+            border: 2px solid #000000;
+            font-family: 'Space Mono', monospace;
+            box-shadow: 4px 4px 0px #000000;
+            z-index: 9999;
+            display: none; /* Initially hidden */
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-white text-black font-space-mono">
+
+    <div class="container mx-auto px-4 py-12">
+        <header class="text-center mb-16">
+             <!-- Navigation Button -->
+            <div class="mb-8">
+                <a href="/index.html" class="inline-block bg-cyan-400 hover:bg-cyan-500 text-black font-bold py-2 px-4 border-2 border-black brutalist-shadow">
+                    ‹ Trở về Catalogue Chính
+                </a>
+            </div>
+            
+            <h1 class="text-5xl md:text-6xl font-bold text-black">Catalogue Prompt Tạo Biểu Đồ</h1>
+            <p class="mt-4 text-lg text-black max-w-3xl mx-auto">72 loại biểu đồ và câu lệnh gợi ý để giúp bạn trực quan hóa dữ liệu một cách hiệu quả.</p>
+        </header>
+
+        <!-- Search Bar -->
+        <div id="search-container" class="mb-12 max-w-2xl mx-auto relative">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm biểu đồ, ví dụ: 'cột', 'bản đồ'..." class="w-full p-4 pl-12 bg-white border-2 border-black text-black focus:outline-none focus:border-blue-500 font-space-mono">
+                <svg class="w-6 h-6 text-black absolute left-4 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+            </div>
+            <div id="suggestionsContainer" class="absolute top-full left-0 right-0 bg-white border-x-2 border-b-2 border-black z-10 hidden max-h-72 overflow-y-auto">
+                <!-- Suggestions will be populated here by JS -->
+            </div>
+        </div>
+
+        <!-- Grid Layout for Catalog -->
+        <div id="card-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Cards will be populated here by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Brutalist Popup element -->
+    <div id="copy-popup">PROMPT<br>COPIED!</div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg>`;
+            
+            const cardsData = [
+                { color: 'blue', title: "1. Biểu đồ Cột (Bar)", description: "So sánh giá trị giữa các danh mục khác nhau.", illustration: `<div class="w-full h-full flex items-end justify-center p-4 space-x-2"><div class="w-1/4 h-1/3 bg-blue-500"></div><div class="w-1/4 h-3/4 bg-blue-500"></div><div class="w-1/4 h-1/2 bg-blue-500"></div><div class="w-1/4 h-2/3 bg-blue-500"></div></div>`, prompt: "Tạo một biểu đồ cột so sánh doanh thu (tính bằng tỷ VNĐ) của 4 sản phẩm A, B, C, D trong quý 1." },
+                { color: 'blue', title: "2. Biểu đồ Đường (Line)", description: "Hiển thị xu hướng dữ liệu theo thời gian.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 40 L 20 30 L 40 35 L 60 10 L 80 15 L 100 5" stroke="#0000FF" stroke-width="3" fill="none"/></svg></div>`, prompt: "Vẽ biểu đồ đường thể hiện sự thay đổi giá cổ phiếu VNM trong 6 tháng qua." },
+                { color: 'blue', title: "3. Biểu đồ Tròn (Pie)", description: "Hiển thị tỷ lệ phần trăm của các phần trong một tổng thể.", illustration: `<div class="w-32 h-32 border-2 border-black" style="background: conic-gradient(#00FFFF 0% 40%, #0088FF 40% 75%, #FF00FF 75% 100%);"></div>`, prompt: "Tạo biểu đồ tròn thể hiện cơ cấu thị phần của các hãng xe máy tại Việt Nam năm 2023." },
+                { color: 'blue', title: "4. Biểu đồ Miền (Area)", description: "Tương tự biểu đồ đường, nhưng tô màu khu vực bên dưới.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><polygon points="0,50 0,40 20,30 40,35 60,10 80,15 100,5 100,50" fill="#0000FF" opacity="0.6"/></svg></div>`, prompt: "Vẽ biểu đồ miền thể hiện lượng truy cập website qua từng tháng trong năm qua." },
+                { color: 'blue', title: "5. Biểu đồ Phân tán (Scatter)", description: "Hiển thị mối quan hệ giữa hai biến số.", illustration: `<div class="w-full h-full relative"><div class="absolute w-3 h-3 bg-blue-600" style="left: 10%; top: 40%;"></div><div class="absolute w-3 h-3 bg-blue-600" style="left: 25%; top: 60%;"></div><div class="absolute w-3 h-3 bg-blue-600" style="left: 40%; top: 30%;"></div><div class="absolute w-3 h-3 bg-blue-600" style="left: 65%; top: 20%;"></div><div class="absolute w-3 h-3 bg-blue-600" style="left: 80%; top: 50%;"></div></div>`, prompt: "Tạo biểu đồ phân tán thể hiện mối liên quan giữa chiều cao và cân nặng của một nhóm 50 người." },
+                { color: 'blue', title: "6. Biểu đồ Vành khuyên (Donut)", description: "Tương tự biểu đồ tròn nhưng có một khoảng trống ở giữa.", illustration: `<div class="relative w-32 h-32"><div class="absolute w-full h-full" style="background: conic-gradient(#00FFFF 0% 60%, #0088FF 60% 90%, #0044FF 90% 100%);"></div><div class="absolute w-20 h-20 bg-gray-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div></div>`, prompt: "Tạo biểu đồ vành khuyên để thể hiện tỷ lệ các hệ điều hành di động đang được sử dụng." },
+                { color: 'blue', title: "7. Bản đồ Nhiệt (Heatmap)", description: "Biểu diễn dữ liệu dạng ma trận bằng màu sắc.", illustration: `<div class="w-full h-full p-4 grid grid-cols-4 gap-1"><div class="bg-blue-200"></div><div class="bg-blue-400"></div><div class="bg-blue-600"></div><div class="bg-blue-800"></div><div class="bg-blue-300"></div><div class="bg-blue-500"></div><div class="bg-blue-700"></div><div class="bg-blue-900"></div></div>`, prompt: "Tạo một bản đồ nhiệt 7x7 thể hiện mức độ tương quan giữa các tính năng của sản phẩm." },
+                { color: 'blue', title: "8. Biểu đồ Bong bóng (Bubble)", description: "Biểu đồ phân tán với biến thứ ba là kích thước bong bóng.", illustration: `<div class="w-full h-full relative"><div class="absolute w-8 h-8 bg-blue-400/70 border border-black" style="left: 15%; top: 50%;"></div><div class="absolute w-12 h-12 bg-blue-400/70 border border-black" style="left: 40%; top: 25%;"></div><div class="absolute w-6 h-6 bg-blue-400/70 border border-black" style="left: 70%; top: 60%;"></div></div>`, prompt: "Vẽ biểu đồ bong bóng so sánh các quốc gia theo 3 tiêu chí: GDP, Tuổi thọ trung bình và Dân số." },
+                { color: 'fuchsia', title: "9. Biểu đồ Radar", description: "So sánh nhiều biến số trên một biểu đồ 2D.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><polygon points="50,5 95,35 80,90 20,90 5,35" stroke="#FF00FF" fill="none" stroke-width="2"/><polygon points="50,20 80,45 70,80 30,80 20,45" fill="#FF00FF" opacity="0.5"/></svg>`, prompt: "Tạo biểu đồ radar để so sánh bộ kỹ năng (5 kỹ năng) của 2 ứng viên." },
+                { color: 'blue', title: "10. Biểu đồ Gantt", description: "Minh họa tiến độ và lịch trình của một dự án.", illustration: `<div class="w-full h-full p-4 space-y-2"><div class="w-3/4 h-6 bg-blue-500 border border-black"></div><div class="w-1/2 h-6 bg-blue-500 border border-black ml-6"></div><div class="w-2/3 h-6 bg-blue-500 border border-black ml-2"></div></div>`, prompt: "Xây dựng biểu đồ Gantt cho một dự án phát triển phần mềm có 4 giai đoạn chính." },
+                { color: 'blue', title: "11. Biểu đồ Cây (Treemap)", description: "Hiển thị dữ liệu phân cấp dưới dạng các hình chữ nhật lồng nhau.", illustration: `<div class="w-full h-full p-4 flex gap-1"><div class="w-2/3 h-full flex flex-col gap-1"><div class="h-1/2 w-full bg-blue-500"></div><div class="h-1/2 w-full bg-blue-600"></div></div><div class="w-1/3 h-full bg-blue-400"></div></div>`, prompt: "Tạo một treemap thể hiện ngân sách phân bổ cho các phòng ban của một công ty." },
+                { color: 'blue', title: "12. Biểu đồ Nến (Candlestick)", description: "Sử dụng trong tài chính để mô tả biến động giá.", illustration: `<div class="w-full h-full p-4 flex justify-around items-center"><div class="w-4 h-full relative"><div class="absolute h-full w-px bg-black left-1/2 -translate-x-1/2"></div><div class="absolute w-full h-1/2 top-1/4 bg-red-500 border border-black"></div></div><div class="w-4 h-full relative"><div class="absolute h-2/3 w-px bg-black left-1/2 -translate-x-1/2 top-1/4"></div><div class="absolute w-full h-1/3 top-1/3 bg-green-500 border border-black"></div></div></div>`, prompt: "Vẽ biểu đồ nến cho giá Bitcoin trong 7 ngày qua, bao gồm giá mở, đóng, cao, và thấp." },
+                { color: 'blue', title: "13. Biểu đồ Phễu (Funnel)", description: "Hiển thị các giai đoạn trong một quy trình và sự sụt giảm.", illustration: `<div class="w-full h-full p-4 flex flex-col items-center justify-center gap-1"><div class="w-full h-6 bg-cyan-400 border border-black"></div><div class="w-4/5 h-6 bg-cyan-500 border border-black"></div><div class="w-3/5 h-6 bg-cyan-600 border border-black"></div><div class="w-2/5 h-6 bg-cyan-700 border border-black"></div></div>`, prompt: "Tạo biểu đồ phễu thể hiện các bước trong quy trình tuyển dụng, từ nộp CV đến nhận việc." },
+                { color: 'blue', title: "14. Biểu đồ Đồng hồ đo (Gauge)", description: "Hiển thị một giá trị trong một thang đo.", illustration: `<div class="w-32 h-16 border-4 border-black border-b-0 relative" style="border-top-left-radius: 9999px; border-top-right-radius: 9999px;"><div class="absolute w-px h-14 bg-red-600 top-0 left-1/2 origin-bottom" style="transform: rotate(30deg);"></div></div>`, prompt: "Thiết kế một biểu đồ đồng hồ đo để hiển thị điểm hài lòng của khách hàng (KPI), giá trị hiện tại là 75/100." },
+                { color: 'blue', title: "15. Biểu đồ Thác nước (Waterfall)", description: "Cho thấy tác động tích lũy của các giá trị dương và âm.", illustration: `<div class="w-full h-full p-4 flex items-end justify-around"><div class="h-1/3 w-8 bg-green-500 border border-black"></div><div class="h-1/4 w-8 bg-red-500 border border-black" style="margin-bottom: 33.33%"></div><div class="h-1/2 w-8 bg-green-500 border border-black" style="margin-bottom: 58.33%"></div></div>`, prompt: "Vẽ biểu đồ thác nước phân tích lợi nhuận của công ty, bắt đầu từ doanh thu và trừ đi các chi phí." },
+                { color: 'fuchsia', title: "16. Biểu đồ Hộp (Box Plot)", description: "Mô tả phân phối dữ liệu qua các tứ phân vị.", illustration: `<div class="w-16 h-24 border-2 border-fuchsia-400 relative"><div class="h-px w-full bg-fuchsia-400 absolute top-1/2"></div><div class="h-10 w-px bg-fuchsia-400 absolute left-1/2 -top-10"></div><div class="h-10 w-px bg-fuchsia-400 absolute left-1/2 -bottom-10"></div></div>`, prompt: "Tạo biểu đồ hộp so sánh phân phối điểm thi của 3 lớp học khác nhau." },
+                { color: 'blue', title: "17. Histogram", description: "Biểu diễn phân phối tần suất của một tập dữ liệu.", illustration: `<div class="w-full h-full flex items-end justify-center p-4 space-x-px"><div class="w-1/6 h-1/4 bg-blue-500"></div><div class="w-1/6 h-1/2 bg-blue-500"></div><div class="w-1/6 h-full bg-blue-500"></div><div class="w-1/6 h-2/3 bg-blue-500"></div><div class="w-1/6 h-1/3 bg-blue-500"></div></div>`, prompt: "Tạo một histogram thể hiện phân phối độ tuổi của người dùng trong một ứng dụng." },
+                { color: 'blue', title: "18. Sankey Diagram", description: "Minh họa dòng chảy hoặc luồng giữa các nút.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 5 10 C 50 10, 50 40, 95 40" stroke="#00FF00" stroke-width="8" fill="none"/></svg></div>`, prompt: "Vẽ biểu đồ Sankey mô tả dòng năng lượng từ các nguồn (than, mặt trời) đến các nơi tiêu thụ." },
+                { color: 'blue', title: "19. Word Cloud", description: "Hiển thị tần suất của các từ trong một văn bản.", illustration: `<div class="w-full h-full p-4 flex items-center justify-center gap-x-3 gap-y-1 flex-wrap"><span class="text-2xl font-bold">Data</span><span class="text-lg">AI</span><span class="text-4xl font-bold">Chart</span><span class="text-md">Visual</span><span class="text-xl">Prompt</span></div>`, prompt: "Tạo một đám mây từ từ các từ khóa chính trong một bài báo về trí tuệ nhân tạo." },
+                { color: 'fuchsia', title: "20. Sunburst Chart", description: "Hiển thị dữ liệu phân cấp theo dạng các vòng tròn đồng tâm.", illustration: `<div class="w-32 h-32 border-4 border-black relative"><div class="absolute w-20 h-20 border-4 border-black top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div><div class="absolute w-10 h-10 bg-fuchsia-400 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div></div>`, prompt: "Tạo biểu đồ sunburst thể hiện cấu trúc file của một dự án, từ thư mục gốc đến các file con." },
+                { color: 'fuchsia', title: "21. Choropleth Map", description: "Bản đồ địa lý với các vùng được tô màu theo dữ liệu.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 60"><path d="M10 50 L30 10 L80 20 L90 50 L60 55 z" fill="#FF00FF" opacity="0.4" stroke="black" stroke-width="1"/><path d="M30 10 L40 5 L80 20" fill="#FF00FF" opacity="0.6" stroke="black" stroke-width="1"/></svg></div>`, prompt: "Tạo bản đồ choropleth của Việt Nam, tô màu các tỉnh thành theo mật độ dân số." },
+                { color: 'blue', title: "22. Network Diagram", description: "Hiển thị mối quan hệ giữa các thực thể (nút và cạnh).", illustration: `<div class="w-full h-full relative p-4"><div class="absolute w-4 h-4 bg-blue-500 border border-black top-4 left-4"></div><div class="absolute w-4 h-4 bg-blue-500 border border-black bottom-4 left-1/2"></div><div class="absolute w-4 h-4 bg-blue-500 border border-black top-8 right-4"></div><svg class="absolute w-full h-full top-0 left-0"><line x1="24" y1="24" x2="50%" y2="85%" stroke="black" stroke-width="2"/><line x1="24" y1="24" x2="85%" y2="40" stroke="black" stroke-width="2"/></svg></div>`, prompt: "Vẽ biểu đồ mạng lưới thể hiện mối quan hệ bạn bè giữa 5 người trong một nhóm." },
+                { color: 'blue', title: "23. Nightingale Rose", description: "Kết hợp biểu đồ tròn và cột trên hệ tọa độ cực.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><path d="M 50 50 L 50 10 A 40 40 0 0 1 84.6 30.5 Z" fill="#00FFFF" stroke="black" stroke-width="1.5"/><path d="M 50 50 L 84.6 30.5 A 40 40 0 0 1 94 69 Z" fill="#0088FF" stroke="black" stroke-width="1.5"/></svg>`, prompt: "Tạo biểu đồ hoa hồng Nightingale thể hiện số ca bệnh theo từng tháng trong một năm." },
+                { color: 'blue', title: "24. Streamgraph", description: "Biểu đồ miền xếp chồng với trục cơ sở biến thiên.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 0 25 C 20 10, 80 40, 100 25 L 100 35 C 80 50, 20 20, 0 35 Z" fill="#0000FF" opacity="0.6"></path></svg></div>`, prompt: "Vẽ một streamgraph thể hiện sự phổ biến của 3 thể loại nhạc khác nhau qua các thập kỷ." },
+                { color: 'fuchsia', title: "25. Bullet Chart", description: "So sánh một giá trị với mục tiêu và các khoảng hiệu suất.", illustration: `<div class="w-full h-full flex items-center p-4"><div class="w-full h-8 bg-gray-300 border-2 border-black relative"><div class="absolute h-full w-2/3 bg-gray-500"></div><div class="absolute h-full w-1/2 bg-fuchsia-500 border-r-2 border-black"></div><div class="absolute h-full w-px bg-red-600 left-3/4"></div></div></div>`, prompt: "Tạo biểu đồ viên đạn thể hiện doanh số thực tế so với mục tiêu doanh số tháng." },
+                { color: 'blue', title: "26. Pictorial Chart", description: "Sử dụng icon hoặc hình ảnh để biểu diễn dữ liệu.", illustration: `<div class="w-full h-full flex items-center justify-center p-4 gap-2 text-5xl"><span class="text-black">😀</span><span class="text-black">😀</span><span class="text-black">😀</span><span class="text-gray-300">😀</span></div>`, prompt: "Tạo một biểu đồ hình ảnh sử dụng icon người để thể hiện 3 trên 5 người dùng thích sản phẩm A." },
+                { color: 'blue', title: "27. Marimekko Chart", description: "Biểu đồ cột 100% với chiều rộng cột thay đổi.", illustration: `<div class="w-full h-full p-4 flex items-stretch border-2 border-black"><div class="w-1/3 h-full flex flex-col"><div class="h-1/3 bg-cyan-200 border border-black"></div><div class="h-2/3 bg-blue-300 border border-black"></div></div><div class="w-2/3 h-full flex flex-col"><div class="h-1/2 bg-cyan-400 border border-black"></div><div class="h-1/2 bg-blue-500 border border-black"></div></div></div>`, prompt: "Tạo biểu đồ Marimekko phân tích thị trường smartphone theo hãng và phân khúc giá." },
+                { color: 'fuchsia', title: "28. Chord Diagram", description: "Hiển thị mối quan hệ giữa các nút trong một vòng tròn.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><path d="M 50 5 A 45 45 0 0 1 95 50" fill="none" stroke-width="8" stroke="#FF00FF"/><path d="M 50 95 A 45 45 0 0 1 5 50" fill="none" stroke-width="8" stroke="#00FFFF"/><path d="M 95 50 C 50 50, 50 50, 5 50" fill="none" stroke-width="2" stroke="black"/></svg>`, prompt: "Vẽ biểu đồ dây cung thể hiện luồng di chuyển của người dân giữa 4 thành phố lớn." },
+                { color: 'blue', title: "29. Horizontal Bar", description: "Biểu đồ cột nhưng các thanh nằm ngang.", illustration: `<div class="w-full h-full p-4 flex flex-col justify-around space-y-2"><div class="w-1/3 h-6 bg-blue-500 border border-black"></div><div class="w-3/4 h-6 bg-blue-500 border border-black"></div><div class="w-1/2 h-6 bg-blue-500 border border-black"></div></div>`, prompt: "Tạo một biểu đồ cột ngang so sánh thời gian hoàn thành của 3 vận động viên." },
+                { color: 'blue', title: "30. Parallel Coordinates", description: "So sánh nhiều biến trên các trục song song.", illustration: `<div class="w-full h-full p-4 flex justify-around relative"><div class="w-px h-full bg-black"></div><div class="w-px h-full bg-black"></div><div class="w-px h-full bg-black"></div><svg class="absolute w-full h-full top-0 left-0"><path d="M 16% 20% L 50% 80% L 84% 30%" stroke="blue" stroke-width="2" fill="none"/><path d="M 16% 50% L 50% 10% L 84% 60%" stroke="fuchsia" stroke-width="2" fill="none"/></svg></div>`, prompt: "Vẽ biểu đồ tọa độ song song để so sánh các mẫu xe ô tô dựa trên các tiêu chí: giá, mã lực, mức tiêu thụ nhiên liệu." },
+                { color: 'blue', title: "31. Biểu đồ Violin", description: "Kết hợp biểu đồ hộp và biểu đồ mật độ hạt nhân.", illustration: `<svg class="w-24 h-full" viewBox="0 0 50 100"><path d="M 25 10 C 5 25, 45 75, 25 90 C 5 75, 45 25, 25 10 Z" stroke="#0000FF" stroke-width="2" fill="#0000FF" opacity="0.4" /></svg>`, prompt: "Tạo một biểu đồ violin để so sánh sự phân phối giá nhà ở hai quận khác nhau." },
+                { color: 'blue', title: "32. Dendrogram", description: "Hiển thị sự sắp xếp phân cấp của các cụm dữ liệu.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 60"><path d="M10 10h20M10 30h20M10 50h20 M30 20v-10h10 M30 40v10h10 M40 30v-10h20 M60 20v-10h20" stroke="black" stroke-width="2" fill="none"/></svg>`, prompt: "Vẽ một dendrogram thể hiện kết quả phân cụm phân cấp của một tập dữ liệu khách hàng." },
+                { color: 'blue', title: "33. Ridgeline Plot", description: "Hiển thị sự phân phối của nhiều nhóm dữ liệu chồng lên nhau.", illustration: `<div class="w-full h-full relative p-4"><svg class="absolute w-full h-16 top-0 left-0" viewBox="0 0 100 20"><path d="M0 15 C 20 0, 80 0, 100 15" stroke="black" fill="#0000FF" opacity="0.2"/></svg><svg class="absolute w-full h-16 top-6 left-0" viewBox="0 0 100 20"><path d="M0 15 C 30 5, 70 5, 100 15" stroke="black" fill="#0000FF" opacity="0.3"/></svg></div>`, prompt: "Tạo một ridgeline plot để trực quan hóa sự thay đổi phân phối nhiệt độ hàng tháng trong một năm." },
+                { color: 'fuchsia', title: "34. Waffle Chart", description: "Hiển thị tỷ lệ phần trăm bằng một lưới các ô vuông.", illustration: `<div class="grid grid-cols-10 gap-1 w-32 h-32 p-1 border-2 border-black">${Array(100).fill(0).map((_,i) => `<div class="w-full h-full ${i < 65 ? 'bg-fuchsia-500' : 'bg-gray-300'} border border-gray-400"></div>`).join('')}</div>`, prompt: "Sử dụng một waffle chart 10x10 để thể hiện rằng 65% người dùng đã hoàn thành một cuộc khảo sát." },
+                { color: 'blue', title: "35. Spiral Plot", description: "Hiển thị dữ liệu theo thời gian trên một đường xoắn ốc.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><path d="M 50 50 m -40, 0 a 40,40 0 1,1 0,0.1" stroke="#0000FF" stroke-width="4" fill="none"/></svg>`, prompt: "Vẽ biểu đồ xoắn ốc để hiển thị dữ liệu nhiệt độ trung bình trong nhiều năm, với mỗi vòng xoắn là một năm." },
+                { color: 'blue', title: "36. Connected Scatter Plot", description: "Hiển thị sự tiến triển của dữ liệu qua các điểm được nối.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M10 40 L30 20 L60 30 L80 10" stroke="black" fill="none" stroke-dasharray="4 4"/><circle cx="10" cy="40" r="3" fill="blue" stroke="black" stroke-width="1"/><circle cx="30" cy="20" r="3" fill="blue" stroke="black" stroke-width="1"/><circle cx="60" cy="30" r="3" fill="blue" stroke="black" stroke-width="1"/><circle cx="80" cy="10" r="3" fill="blue" stroke="black" stroke-width="1"/></svg></div>`, prompt: "Tạo một biểu đồ phân tán có nối điểm để theo dõi sự thay đổi của GDP và tỷ lệ thất nghiệp của một quốc gia qua các năm." },
+                { color: 'fuchsia', title: "37. Calendar Heatmap", description: "Hiển thị hoạt động hoặc cường độ dữ liệu theo ngày.", illustration: `<div class="grid grid-cols-7 gap-1 w-40 p-1 border border-black">${Array(31).fill(0).map((_,i) => `<div class="w-4 h-4 border border-black bg-fuchsia-${300 + (i%5)*100}"></div>`).join('')}</div>`, prompt: "Tạo một calendar heatmap thể hiện số lượng đóng góp code trên GitHub của một người dùng trong 3 tháng qua." },
+                { color: 'blue', title: "38. Timeline Chart", description: "Trình bày một chuỗi các sự kiện theo trình tự thời gian.", illustration: `<div class="w-full h-full p-4 relative"><div class="absolute h-0.5 w-full bg-black top-1/2"></div><div class="absolute w-3 h-3 bg-cyan-400 border-2 border-black top-1/2 -translate-y-1/2 left-[20%]"></div><div class="absolute w-3 h-3 bg-cyan-400 border-2 border-black top-1/2 -translate-y-1/2 left-[50%]"></div><div class="absolute w-3 h-3 bg-cyan-400 border-2 border-black top-1/2 -translate-y-1/2 left-[80%]"></div></div>`, prompt: "Xây dựng một biểu đồ dòng thời gian (timeline) liệt kê các cột mốc quan trọng trong lịch sử của Apple Inc." },
+                { color: 'fuchsia', title: "39. Slope Chart", description: "So sánh sự thay đổi của các mục giữa hai điểm thời gian.", illustration: `<div class="w-full h-full p-4 flex justify-around relative"><div class="w-px h-full bg-gray-400"></div><div class="w-px h-full bg-gray-400"></div><svg class="absolute w-full h-full top-0 left-0"><line x1="16.67%" y1="20%" x2="83.33%" y2="40%" stroke="#FF00FF" stroke-width="2" /><line x1="16.67%" y1="60%" x2="83.33%" y2="50%" stroke="#FF00FF" stroke-width="2" /></svg></div>`, prompt: "Tạo một slope chart để so sánh thứ hạng của các đội bóng Ngoại hạng Anh ở đầu và cuối mùa giải." },
+                { color: 'blue', title: "40. Dumbbell Plot", description: "So sánh hai điểm dữ liệu cho mỗi danh mục.", illustration: `<div class="w-full h-full p-4 flex flex-col justify-around relative"><svg class="w-full h-full absolute top-0 left-0"><line x1="20%" y1="25%" x2="80%" y2="25%" stroke="black" /><line x1="30%" y1="75%" x2="70%" y2="75%" stroke="black" /></svg><div class="w-4 h-4 bg-cyan-400 border-2 border-black absolute left-[20%] top-[25%] -translate-x-1/2 -translate-y-1/2"></div><div class="w-4 h-4 bg-cyan-400 border-2 border-black absolute left-[80%] top-[25%] -translate-x-1/2 -translate-y-1/2"></div><div class="w-4 h-4 bg-cyan-400 border-2 border-black absolute left-[30%] top-[75%] -translate-x-1/2 -translate-y-1/2"></div><div class="w-4 h-4 bg-cyan-400 border-2 border-black absolute left-[70%] top-[75%] -translate-x-1/2 -translate-y-1/2"></div></div>`, prompt: "Sử dụng dumbbell plot để so sánh mức độ hài lòng của khách hàng trước và sau khi triển khai một tính năng mới." },
+                { color: 'blue', title: "41. Tháp Dân số", description: "Biểu diễn phân bố dân số theo độ tuổi và giới tính.", illustration: `<div class="w-full h-full p-4 flex"><div class="w-1/2 h-full flex flex-col-reverse items-end space-y-1"><div class="h-4 w-1/3 bg-blue-400 border border-black"></div><div class="h-4 w-2/3 bg-blue-400 border border-black"></div><div class="h-4 w-1/2 bg-blue-400 border border-black"></div></div><div class="w-1/2 h-full flex flex-col-reverse items-start space-y-1"><div class="h-4 w-1/4 bg-fuchsia-400 border border-black"></div><div class="h-4 w-1/2 bg-fuchsia-400 border border-black"></div><div class="h-4 w-2/5 bg-fuchsia-400 border border-black"></div></div></div>`, prompt: "Vẽ tháp dân số của Nhật Bản năm 2024." },
+                { color: 'blue', title: "42. Alluvial Diagram", description: "Tương tự Sankey, thể hiện sự thay đổi cấu trúc theo thời gian.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M 5 10 C 25 10, 75 40, 95 40" stroke="#0000FF" stroke-width="8" fill="none" opacity="0.6"/><path d="M 5 20 C 25 20, 75 10, 95 10" stroke="#00FFFF" stroke-width="8" fill="none" opacity="0.6"/></svg></div>`, prompt: "Tạo biểu đồ Alluvial để minh họa sự thay đổi trong lựa chọn chuyên ngành của sinh viên qua các năm." },
+                { color: 'fuchsia', title: "43. Biểu đồ Venn", description: "Hiển thị tất cả các mối quan hệ logic có thể có giữa các tập hợp.", illustration: `<div class="w-full h-full p-4 relative flex justify-center items-center"><div class="absolute w-20 h-20 border-2 border-black bg-blue-500/50 -translate-x-5"></div><div class="absolute w-20 h-20 border-2 border-black bg-fuchsia-500/50 translate-x-5"></div></div>`, prompt: "Vẽ biểu đồ Venn 3 vòng tròn thể hiện mối quan hệ giữa các nhóm khách hàng sử dụng Sản phẩm A, Sản phẩm B, và Sản phẩm C." },
+                { color: 'blue', title: "44. Cây Quyết định", description: "Mô hình hóa các quyết định và kết quả có thể xảy ra.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 60"><path d="M50 5 L25 30 M50 5 L75 30 M25 30 L10 55 M25 30 L40 55" stroke="black" stroke-width="2" fill="none"/><circle cx="50" cy="5" r="3" fill="cyan" stroke="black"/><circle cx="25" cy="30" r="3" fill="cyan" stroke="black"/><circle cx="75" cy="30" r="3" fill="cyan" stroke="black"/></svg>`, prompt: "Tạo một sơ đồ cây quyết định đơn giản cho việc lựa chọn nên đi làm hay đi học tiếp." },
+                { color: 'blue', title: "45. Biểu đồ Xương cá", description: "Sơ đồ nguyên nhân và kết quả để xác định nguồn gốc vấn đề.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 60"><path d="M10 30 h80 M70 15 L90 30 M70 45 L90 30 M30 15 L50 30 M30 45 L50 30" stroke="black" stroke-width="2" fill="none"/></svg>`, prompt: "Xây dựng một biểu đồ xương cá (Ishikawa) để phân tích các nguyên nhân gây ra sự cố 'website chạy chậm'." },
+                { color: 'blue', title: "46. Biểu đồ Thứ hạng (Bump)", description: "Hiển thị sự thay đổi thứ hạng của các danh mục theo thời gian.", illustration: `<div class="w-full h-full p-4"><svg class="w-full h-full" viewBox="0 0 100 50"><path d="M0 10 C 50 10, 50 40, 100 40" stroke="blue" stroke-width="3" fill="none"/><path d="M0 30 C 50 30, 50 10, 100 10" stroke="fuchsia" stroke-width="3" fill="none"/></svg></div>`, prompt: "Vẽ một bump chart để theo dõi sự thay đổi vị trí xếp hạng của 4 đội tuyển qua các vòng đấu." },
+                { color: 'fuchsia', title: "47. Biểu đồ Khảm (Mosaic)", description: "Trực quan hóa dữ liệu cho hai hoặc nhiều biến định tính.", illustration: `<div class="w-full h-full p-4 flex gap-px border-2 border-black"><div class="w-1/3 bg-blue-400"></div><div class="w-2/3 flex flex-col gap-px"><div class="h-1/2 bg-fuchsia-600"></div><div class="h-1/2 bg-fuchsia-800"></div></div></div>`, prompt: "Tạo một mosaic plot để thể hiện mối quan hệ giữa loại vé (hạng nhất, phổ thông) và tình trạng sống sót trên tàu Titanic." },
+                { color: 'blue', title: "48. Sơ đồ Tổ chức", description: "Hiển thị cấu trúc của một tổ chức.", illustration: `<div class="text-center w-full h-full p-4 text-xs flex flex-col items-center"><div class="p-2 border-2 border-black">CEO</div><svg class="w-full h-8" viewBox="0 0 100 20"><path d="M50 0 v10 M25 10 h50 M25 10 v10 M75 10 v10" stroke="black" stroke-width="2"/></svg><div class="flex justify-around w-full"><div class="p-2 border-2 border-black">CTO</div><div class="p-2 border-2 border-black">CMO</div></div></div>`, prompt: "Vẽ sơ đồ tổ chức cho một công ty khởi nghiệp với các vị trí CEO, CTO, và CMO." },
+                { color: 'blue', title: "49. Flowchart", description: "Sơ đồ luồng, biểu diễn một quy trình hoặc thuật toán.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 80"><rect x="30" y="5" width="40" height="20" stroke="black" fill="cyan" stroke-width="2"/><path d="M50 25 V 45"/><rect x="20" y="45" width="60" height="20" stroke="black" fill="cyan" stroke-width="2"/></svg>`, prompt: "Vẽ một sơ đồ luồng đơn giản cho quy trình đăng nhập người dùng." },
+                { color: 'fuchsia', title: "50. Arc Diagram", description: "Hiển thị các kết nối giữa các nút trên một đường thẳng.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 50"><path d="M20 40 A 30 30 0 0 1 80 40" stroke="#FF00FF" stroke-width="2" fill="none"/><path d="M10 40 A 20 20 0 0 1 50 40" stroke="#FF00FF" stroke-width="2" fill="none"/></svg>`, prompt: "Tạo một arc diagram thể hiện các nhân vật xuất hiện cùng nhau trong một chương truyện." },
+                { color: 'blue', title: "51. Matrix Chart", description: "Biểu đồ ma trận, so sánh mối quan hệ giữa các mục.", illustration: `<div class="grid grid-cols-4 grid-rows-4 gap-1 p-4 border border-black w-32 h-32"><div class="bg-blue-800"></div><div class="col-start-2 row-start-2 bg-blue-600"></div><div class="col-start-3 row-start-3 bg-blue-400"></div><div class="col-start-4 row-start-4 bg-blue-200"></div></div>`, prompt: "Tạo một ma trận 4x4 để đánh giá mức độ ưu tiên của các công việc dựa trên độ khẩn cấp và tầm quan trọng." },
+                { color: 'blue', title: "52. Dot Plot", description: "Biểu diễn phân phối dữ liệu bằng các điểm trên một thang đo.", illustration: `<div class="relative w-full h-full p-4 border-b-2 border-black"><div class="absolute w-2 h-2 bg-blue-600 bottom-0 left-1/4"></div><div class="absolute w-2 h-2 bg-blue-600 bottom-0 left-1/2"></div><div class="absolute w-2 h-2 bg-blue-600 bottom-2 left-1/2"></div></div>`, prompt: "Vẽ một dot plot thể hiện số lượng vật nuôi của mỗi học sinh trong một lớp học." },
+                { color: 'fuchsia', title: "53. Ternary Plot", description: "Hiển thị mối quan hệ giữa ba biến trong một tam giác.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><polygon points="50,10 95,80 5,80" stroke="black" fill="none" stroke-width="2"/><circle cx="50" cy="50" r="3" fill="fuchsia"/></svg>`, prompt: "Tạo một biểu đồ tam giác để phân loại các mẫu đất dựa trên tỷ lệ cát, bùn và sét." },
+                { color: 'blue', title: "54. Lollipop Chart", description: "Một biến thể của biểu đồ cột, thay thế thanh bằng một đường và một điểm.", illustration: `<div class="w-full h-full p-4 flex justify-around"><div class="flex flex-col items-center"><div class="w-3 h-3 bg-blue-600 border-2 border-black"></div><div class="w-px h-16 bg-black"></div></div><div class="flex flex-col items-center"><div class="w-3 h-3 bg-blue-600 border-2 border-black"></div><div class="w-px h-24 bg-black"></div></div></div>`, prompt: "Tạo một biểu đồ lollipop so sánh GDP bình quân đầu người của các nước Đông Nam Á." },
+                { color: 'blue', title: "55. Heatmap (Categorical)", description: "Bản đồ nhiệt cho dữ liệu phân loại.", illustration: `<div class="w-full h-full p-4 grid grid-cols-4 gap-1"><div class="bg-cyan-300"></div><div class="bg-blue-500"></div><div class="bg-cyan-300"></div><div class="bg-blue-800"></div></div>`, prompt: "Tạo một heatmap thể hiện sự ưa thích của khách hàng đối với các loại sản phẩm (A, B, C) theo nhóm tuổi." },
+                { color: 'fuchsia', title: "56. Packed Bubble Chart", description: "Hiển thị dữ liệu phân cấp bằng các vòng tròn được đóng gói.", illustration: `<div class="relative w-32 h-32"><div class="absolute w-12 h-12 bg-fuchsia-400/70 border border-black top-2 left-2"></div><div class="absolute w-16 h-16 bg-fuchsia-400/70 border border-black top-10 left-10"></div></div>`, prompt: "Tạo một biểu đồ bong bóng đóng gói thể hiện dung lượng các thư mục trên ổ cứng." },
+                { color: 'blue', title: "57. Error Bars", description: "Thanh lỗi, biểu thị sự không chắc chắn hoặc biến thiên của dữ liệu.", illustration: `<div class="w-full h-full p-4 flex justify-around"><div class="relative w-4 h-16 bg-blue-500"><div class="absolute h-px w-8 bg-black top-0 left-1/2 -translate-x-1/2"></div><div class="absolute h-px w-8 bg-black bottom-0 left-1/2 -translate-x-1/2"></div></div></div>`, prompt: "Vẽ một biểu đồ cột với thanh lỗi thể hiện sai số đo lường cho mỗi lần thí nghiệm." },
+                { color: 'blue', title: "58. Event-based Timeline", description: "Dòng thời gian tập trung vào các sự kiện cụ thể.", illustration: `<div class="relative w-full h-full p-4"><div class="absolute w-px h-full bg-black left-1/2"></div><div class="absolute left-1/2 -translate-x-1/2 top-1/4 p-1 border border-black bg-cyan-200">Event 1</div></div>`, prompt: "Tạo một dòng thời gian các sự kiện chính trong cuộc Nội chiến Hoa Kỳ." },
+                { color: 'fuchsia', title: "59. Circle Packing", description: "Biểu diễn dữ liệu phân cấp bằng cách lồng các vòng tròn.", illustration: `<div class="relative w-32 h-32 border-2 border-black"><div class="absolute w-16 h-16 border-2 border-black top-2 left-2"></div></div>`, prompt: "Sử dụng circle packing để trực quan hóa ngân sách của một quốc gia, phân chia theo các bộ ngành." },
+                { color: 'blue', title: "60. Isotype Chart", description: "Biểu đồ sử dụng các biểu tượng lặp lại để biểu diễn số lượng.", illustration: `<div class="grid grid-cols-5 gap-2 w-full h-full p-4">` + '<span>👤</span>'.repeat(7) + `</div>`, prompt: "Tạo một biểu đồ isotype để thể hiện 7 trong 10 người được khảo sát thích cà phê." },
+                { color: 'blue', title: "61. Profile Plot", description: "Biểu đồ hồ sơ, tương tự biểu đồ đường, so sánh các mục.", illustration: `<div class="w-full h-full p-4"><svg viewBox="0 0 100 50"><path d="M10 20 L 90 20" stroke="blue" stroke-width="2"/><path d="M10 40 L 90 40" stroke="fuchsia" stroke-width="2"/></svg></div>`, prompt: "Vẽ một biểu đồ hồ sơ để so sánh điểm đánh giá của hai nhà hàng trên 5 tiêu chí khác nhau." },
+                { color: 'fuchsia', title: "62. Hexbin Plot", description: "Một biến thể của biểu đồ phân tán, nhóm các điểm vào các thùng lục giác.", illustration: `<svg class="w-32 h-32" viewBox="0 0 100 100"><polygon points="30,15 40,15 45,23 40,31 30,31 25,23" fill="#FF00FF" opacity="0.8"/></svg>`, prompt: "Tạo một hexbin plot cho dữ liệu tọa độ GPS của các vụ tai nạn giao thông trong một thành phố." },
+                { color: 'blue', title: "63. Paired Bar Chart", description: "Biểu đồ cột ghép cặp, so sánh hai nhóm dữ liệu cạnh nhau.", illustration: `<div class="w-full h-full p-4 flex flex-col justify-around"><div class="flex"><div class="w-1/3 h-6 bg-blue-500"></div><div class="w-1/2 h-6 bg-fuchsia-500"></div></div></div>`, prompt: "Tạo một biểu đồ cột ghép cặp so sánh doanh số bán hàng của nam và nữ cho từng loại sản phẩm." },
+                { color: 'blue', title: "64. Area Spline Chart", description: "Biểu đồ miền với các đường cong mượt mà.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 50"><path d="M0 40 C 20 10, 80 10, 100 40 V 50 H 0 Z" fill="#0000FF" opacity="0.6"/></svg>`, prompt: "Vẽ một biểu đồ area spline thể hiện sự biến động dân số của một thành phố trong 50 năm." },
+                { color: 'fuchsia', title: "65. Mind Map", description: "Sơ đồ tư duy, thể hiện các ý tưởng và mối liên kết.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 60"><circle cx="50" cy="30" r="10" fill="fuchsia"/><path d="M50 30 L 20 15 M50 30 L 80 45" stroke="black"/></svg>`, prompt: "Tạo một sơ đồ tư duy cho chủ đề 'Trí tuệ Nhân tạo'." },
+                { color: 'blue', title: "66. Variable Width Bar Chart", description: "Biểu đồ cột có chiều rộng thay đổi, mã hóa một biến khác.", illustration: `<div class="w-full h-full flex items-end"><div class="w-1/4 h-1/2 bg-blue-500"></div><div class="w-1/2 h-3/4 bg-blue-500"></div></div>`, prompt: "Vẽ một biểu đồ cột có chiều rộng thay đổi, trong đó chiều cao là doanh thu và chiều rộng là số lượng bán ra." },
+                { color: 'blue', title: "67. Stacked Area Chart", description: "Biểu đồ miền xếp chồng, thể hiện các phần của một tổng thể.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 50"><path d="M0 50 L0 30 L100 10 V50 Z" fill="#0088FF"/><path d="M0 30 L100 10 L100 0 L0 20 Z" fill="#00FFFF"/></svg>`, prompt: "Tạo biểu đồ miền xếp chồng thể hiện cơ cấu doanh thu từ 3 khu vực khác nhau qua các quý." },
+                { color: 'fuchsia', title: "68. Correlogram", description: "Biểu đồ tương quan, hiển thị ma trận tương quan.", illustration: `<div class="grid grid-cols-3 gap-1 p-2 w-24 h-24 border border-black"><div class="bg-blue-800"></div><div class="bg-fuchsia-400"></div><div class="bg-gray-200"></div></div>`, prompt: "Tạo một correlogram để trực quan hóa ma trận tương quan giữa 5 biến số kinh tế." },
+                { color: 'blue', title: "69. Step Line Chart", description: "Biểu đồ đường bậc thang, các điểm được nối bằng các đoạn thẳng đứng và ngang.", illustration: `<svg class="w-full h-full p-4" viewBox="0 0 100 50"><path d="M0 40 H 20 V 20 H 40 V 30 H 100" stroke="#0000FF" stroke-width="3" fill="none"/></svg>`, prompt: "Vẽ biểu đồ đường bậc thang thể hiện số dư tài khoản ngân hàng thay đổi theo từng giao dịch." },
+                { color: 'blue', title: "70. Population Pyramid", description: "Tháp dân số, một dạng biểu đồ cột ngang kép.", illustration: `<div class="w-full h-full p-4 flex"><div class="w-1/2 h-full flex flex-col-reverse items-end space-y-1"><div class="h-4 w-1/3 bg-blue-400 border border-black"></div></div><div class="w-1/2 h-full flex flex-col-reverse items-start space-y-1"><div class="h-4 w-1/4 bg-fuchsia-400 border border-black"></div></div></div>`, prompt: "Tạo một tháp dân số so sánh cơ cấu tuổi của Việt Nam và Nhật Bản." },
+                { color: 'fuchsia', title: "71. Voronoi Diagram", description: "Sơ đồ Voronoi, phân chia không gian thành các vùng dựa trên khoảng cách đến các điểm.", illustration: `<svg class="w-full h-full" viewBox="0 0 100 100"><path d="M0 0 L 40 50 L 0 100 Z" stroke="black" fill="#FF00FF" opacity="0.3"/><path d="M100 0 L 40 50 L 100 100 Z" stroke="black" fill="#00FFFF" opacity="0.3"/></svg>`, prompt: "Tạo một sơ đồ Voronoi để xác định vùng phủ sóng của các trạm phát sóng di động." },
+                { color: 'blue', title: "72. Trellis Chart", description: "Biểu đồ lưới, hiển thị một loạt các biểu đồ nhỏ có cùng thang đo.", illustration: `<div class="grid grid-cols-2 gap-2 w-full h-full p-2 border border-black"><div class="border border-black"><svg class="w-full h-full" viewBox="0 0 50 25"><path d="M0 20 L 50 5" stroke="blue" fill="none"/></svg></div><div class="border border-black"></div></div>`, prompt: "Tạo một biểu đồ lưới gồm các biểu đồ đường nhỏ, mỗi biểu đồ thể hiện doanh số của một sản phẩm qua các năm." }
+            ];
+
+            const cardGrid = document.getElementById('card-grid');
+            
+            function renderCards(dataToRender) {
+                cardGrid.innerHTML = '';
+                dataToRender.forEach((card, index) => {
+                    const cardElement = document.createElement('article');
+                    cardElement.id = `card-${index + 1}`;
+                    // Brutalist card style: hard borders, no rounded corners
+                    cardElement.className = 'bg-white flex flex-col border-2 border-black';
+                    
+                    const accentColorClass = card.color === 'blue' ? 'text-blue-600' : 'text-fuchsia-600';
+
+                    cardElement.innerHTML = `
+                        <div class="p-4 border-b-2 border-black">
+                            <h2 class="font-bold text-lg ${accentColorClass}">${card.title}</h2>
+                            <p class="text-black text-sm h-12">${card.description}</p>
+                        </div>
+                        <div class="flex-grow flex items-center justify-center p-4 bg-gray-100 border-b-2 border-black min-h-[160px]">
+                            ${card.illustration}
+                        </div>
+                        <div class="p-4 bg-white">
+                            <pre class="bg-gray-100 p-3 border border-black text-xs font-space-mono whitespace-pre-wrap"><code>${card.prompt}</code></pre>
+                            <div class="text-right mt-3">
+                                <button class="copy-btn brutalist-shadow inline-block p-2 bg-cyan-400 hover:bg-cyan-500 border-2 border-black text-black" title="Sao chép"></button>
+                            </div>
+                        </div>
+                    `;
+                    cardGrid.appendChild(cardElement);
+                });
+                
+                initializeCopyButtons();
+            }
+
+            function initializeCopyButtons() {
+                const popup = document.getElementById('copy-popup');
+
+                // Use event delegation on the grid container for efficiency
+                cardGrid.addEventListener('click', function(event) {
+                    const button = event.target.closest('.copy-btn');
+                    if (!button) return;
+
+                    const preElement = button.closest('.p-4').querySelector('pre');
+
+                    if (preElement) {
+                        const codeText = preElement.querySelector('code').innerText;
+                        navigator.clipboard.writeText(codeText).then(() => {
+                            // Show the brutalist popup
+                            popup.style.display = 'block';
+                            setTimeout(() => { popup.style.display = 'none'; }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                            // Fallback for older browsers
+                            const textArea = document.createElement('textarea');
+                            textArea.value = codeText;
+                            textArea.style.position = 'fixed';
+                            textArea.style.opacity = '0';
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            try {
+                                document.execCommand('copy');
+                                popup.style.display = 'block';
+                                setTimeout(() => { popup.style.display = 'none'; }, 2000);
+                            } catch (fallbackErr) {
+                                console.error('Fallback copy failed: ', fallbackErr);
+                            }
+                            document.body.removeChild(textArea);
+                        });
+                    }
+                });
+
+                // Set icon for all buttons initially
+                document.querySelectorAll('.copy-btn').forEach(button => {
+                    button.innerHTML = copyIconSvg;
+                });
+            }
+
+            // Initial render
+            renderCards(cardsData);
+
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const suggestionsContainer = document.getElementById('suggestionsContainer');
+
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                
+                if (!query) {
+                    suggestionsContainer.classList.add('hidden');
+                    renderCards(cardsData); // Show all cards if query is empty
+                    return;
+                }
+
+                const filteredCards = cardsData.filter(card => 
+                    card.title.toLowerCase().includes(query) || 
+                    card.description.toLowerCase().includes(query) ||
+                    card.prompt.toLowerCase().includes(query)
+                );
+                
+                renderCards(filteredCards); // Re-render the grid with filtered cards
+            });
+
+
+            document.addEventListener('click', (e) => {
+                if (!document.getElementById('search-container').contains(e.target)) {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -170,7 +170,7 @@
         const suggestionsList = document.getElementById("suggestionsList");
         const cardGrid = document.getElementById("card-grid");
 
-        // Updated Data to include the missing link
+        // Data based on your screenshot
         const hubData = [
           {
             title: "GIAO DIỆN & UX",
@@ -219,14 +219,6 @@
             color: "red",
             desc: "Mẫu câu lệnh soạn thảo nội dung báo chí, blog, email và truyền thông.",
             icon: "✍️"
-          },
-          {
-            title: "KHO LINK CHIA SẺ",
-            file: "luu-tru-link-ai.html",
-            category: "STORAGE",
-            color: "blue",
-            desc: "Lưu trữ các liên kết chia sẻ trực tiếp từ Gemini (Mascot, Studio, Debate...).",
-            icon: "🔗"
           }
         ];
 
@@ -274,6 +266,7 @@
         }
 
         function initFunctions() {
+          // Copy Functionality
           document.querySelectorAll(".copy-btn").forEach(btn => {
             btn.onclick = (e) => {
               e.stopPropagation();
@@ -291,6 +284,7 @@
           });
         }
 
+        // Search logic
         searchInput.oninput = () => {
           const val = searchInput.value.toLowerCase().trim();
           const filtered = hubData.filter(i => 
@@ -300,6 +294,7 @@
           );
           renderCards(filtered);
 
+          // Suggestions
           suggestionsList.innerHTML = "";
           if (val) {
             const matches = hubData.filter(i => i.title.toLowerCase().includes(val)).slice(0, 4);
@@ -323,14 +318,16 @@
           }
         };
 
+        // Scroll to top
         window.onscroll = () => {
           if (window.pageYOffset > 200) scrollToTopBtn.style.display = "block";
           else scrollToTopBtn.style.display = "none";
         };
         scrollToTopBtn.onclick = () => window.scrollTo({top: 0, behavior: 'smooth'});
 
+        // Initial render
         renderCards(hubData);
       });
     </script>
   </body>
-</html>\
+</html>

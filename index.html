@@ -118,7 +118,7 @@
           <input
             type="text"
             id="searchInput"
-            placeholder="Tìm nhanh danh mục (VD: chart, file, ux...)"
+            placeholder="Tìm nhanh danh mục (VD: chart, file, link...)"
             class="w-full p-5 pl-14 bg-white border-4 border-black text-black focus:outline-none focus:bg-yellow-50 font-bold text-xl brutalist-shadow"
           />
           <svg
@@ -170,7 +170,7 @@
         const suggestionsList = document.getElementById("suggestionsList");
         const cardGrid = document.getElementById("card-grid");
 
-        // Data based on your screenshot
+        // Hub Database
         const hubData = [
           {
             title: "GIAO DIỆN & UX",
@@ -219,6 +219,14 @@
             color: "red",
             desc: "Mẫu câu lệnh soạn thảo nội dung báo chí, blog, email và truyền thông.",
             icon: "✍️"
+          },
+          {
+            title: "LƯU TRỮ LINK AI",
+            file: "luu-tru-link-ai.html",
+            category: "RESOURCES",
+            color: "orange",
+            desc: "Tổng hợp các đường dẫn quan trọng, công cụ AI và tài nguyên hữu ích cho công việc.",
+            icon: "🔗"
           }
         ];
 
@@ -234,7 +242,8 @@
               purple: "bg-purple-400",
               yellow: "bg-yellow-400",
               cyan: "bg-cyan-400",
-              red: "bg-red-400"
+              red: "bg-red-400",
+              orange: "bg-orange-400"
             };
 
             card.innerHTML = `

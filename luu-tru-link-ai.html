@@ -10,14 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Base styles with Brutalist theme */
         body {
             background-color: #FFFFFF;
             color: #000000;
             font-family: 'Space Mono', monospace;
         }
         
-        /* Brutalist shadow */
         .brutalist-shadow {
             box-shadow: 4px 4px 0px #000000;
             transition: all 0.1s ease-in-out;
@@ -27,9 +25,8 @@
             transform: translate(3px, 3px);
         }
 
-        /* Popup thông báo */
         #copySuccessPopup > div {
-            background-color: #00FF00; /* Green accent for success */
+            background-color: #00FF00;
             color: #000000;
             padding: 1rem 1.5rem;
             border: 4px solid #000000;
@@ -60,7 +57,7 @@
                 Cập nhật: 2026 / AI RESOURCE
             </div>
             <p class="mt-6 text-lg text-black max-w-2xl mx-auto border-l-4 border-black pl-4">
-                Danh sách tổng hợp các tài nguyên AI, prompt tạo Mascot, Studio và các công cụ phân tích từ Gemini.
+                Danh sách tổng hợp các tài nguyên AI, prompt tạo Mascot, Studio và các công cụ chuyên biệt từ Gemini.
             </p>
         </header>
 
@@ -88,6 +85,13 @@
 
             const linksData = [
                 {
+                    title: "THÚ Y CATALOG",
+                    category: "RESOURCES",
+                    color: "bg-rose-400",
+                    desc: "Tổng hợp tài liệu và danh mục chuyên ngành thú y, tối ưu hóa bởi AI.",
+                    url: "https://gemini.google.com/share/506faaab1e10"
+                },
+                {
                     title: "MASCOT 3D",
                     category: "3D DESIGN",
                     color: "bg-blue-400",
@@ -97,14 +101,14 @@
                 {
                     title: "STUDIO HÀNG GIA DỤNG",
                     category: "STUDIO",
-                    color: "bg-[#4ade80]", // Màu xanh lá từ ảnh
+                    color: "bg-[#4ade80]",
                     desc: "Thiết lập bối cảnh studio chuyên nghiệp để chụp và quảng bá sản phẩm gia dụng.",
                     url: "https://gemini.google.com/share/cb275b654a51"
                 },
                 {
                     title: "MASCOT AI",
                     category: "MASCOT",
-                    color: "bg-[#c084fc]", // Màu tím từ ảnh
+                    color: "bg-[#c084fc]",
                     desc: "Hệ thống tạo và tối ưu hóa nhân vật đại diện (mascot) bằng trí tuệ nhân tạo.",
                     url: "https://gemini.google.com/share/580fa8c9095d"
                 },
@@ -165,26 +169,14 @@
             }
 
             window.copyLink = (url) => {
-                try {
-                    const textArea = document.createElement("textarea");
-                    textArea.value = url;
-                    textArea.style.position = "fixed";
-                    textArea.style.left = "-9999px";
-                    textArea.style.top = "0";
-                    document.body.appendChild(textArea);
-                    textArea.focus();
-                    textArea.select();
-                    
-                    const successful = document.execCommand('copy');
-                    document.body.removeChild(textArea);
-
-                    if (successful) {
-                        popup.classList.remove('hidden');
-                        setTimeout(() => popup.classList.add('hidden'), 2000);
-                    }
-                } catch (err) {
-                    console.error('Không thể sao chép văn bản: ', err);
-                }
+                const textArea = document.createElement("textarea");
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                popup.classList.remove('hidden');
+                setTimeout(() => popup.classList.add('hidden'), 2000);
             };
 
             searchInput.addEventListener('input', (e) => {
